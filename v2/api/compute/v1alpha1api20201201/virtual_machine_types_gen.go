@@ -785,9 +785,7 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property ‘Owner’:
-	machine.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	machine.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Plan’:
 	if typedInput.Plan != nil {

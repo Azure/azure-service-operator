@@ -13,7 +13,7 @@ typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 rootUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/
 
 # samplesPath is the relative path to 'v2/azure-arm.yaml' file, used for walking through to samples when we generate a list of supported resources
-samplesPath: config/samples
+samplesPath: samples
 
 # emitDocFiles bool is used as a signal to create doc.go files for packages
 emitDocFiles: true
@@ -788,6 +788,8 @@ objectModelConfiguration:
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
+        PrincipalId:
+          $importConfigMapMode: optional
   batch:
     2021-01-01:
       BatchAccount:
@@ -1056,6 +1058,9 @@ objectModelConfiguration:
       DatabaseAccounts_SqlRoleAssignment:
         $exportAs: SqlRoleAssignment
         $supportedFrom: v2.0.0-beta.3
+      SqlRoleAssignmentResource:
+        PrincipalId:
+          $importConfigMapMode: optional
       SqlTriggerResource:
         Id:
           $armReference: false
@@ -1136,6 +1141,11 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      Identity_STATUS:
+        ClientId:
+          $exportAsConfigMapPropertyName: ClientId
+        PrincipalId:
+          $exportAsConfigMapPropertyName: PrincipalId
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:

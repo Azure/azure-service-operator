@@ -252,10 +252,10 @@ func (server *FlexibleServer) validateSecretDestinations() error {
 	if server.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -651,9 +651,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	server.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	server.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PointInTimeUTC’:
 	// copying flattened property:

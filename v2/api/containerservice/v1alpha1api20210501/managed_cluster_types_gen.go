@@ -265,11 +265,11 @@ func (cluster *ManagedCluster) validateSecretDestinations() error {
 	if cluster.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		cluster.Spec.OperatorSpec.Secrets.AdminCredentials,
 		cluster.Spec.OperatorSpec.Secrets.UserCredentials,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -868,9 +868,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	cluster.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	cluster.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PodIdentityProfile’:
 	// copying flattened property:

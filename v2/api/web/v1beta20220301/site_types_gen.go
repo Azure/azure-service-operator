@@ -869,9 +869,7 @@ func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘Owner’:
-	site.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	site.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

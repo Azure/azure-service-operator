@@ -214,7 +214,7 @@ func (assignment *SqlRoleAssignment) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (assignment *SqlRoleAssignment) createValidations() []func() error {
-	return []func() error{assignment.validateResourceReferences}
+	return []func() error{assignment.validateResourceReferences, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,7 +228,20 @@ func (assignment *SqlRoleAssignment) updateValidations() []func(old runtime.Obje
 		func(old runtime.Object) error {
 			return assignment.validateResourceReferences()
 		},
-		assignment.validateWriteOnceProperties}
+		assignment.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return assignment.validateOptionalConfigMapReferences()
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (assignment *SqlRoleAssignment) validateOptionalConfigMapReferences() error {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&assignment.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -334,7 +347,12 @@ type DatabaseAccounts_SqlRoleAssignment_Spec struct {
 
 	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
 	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+
+	// PrincipalIdFromConfig: The unique identifier for the associated AAD principal in the AAD graph to which access is being
+	// granted through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the
+	// subscription.
+	PrincipalIdFromConfig *genruntime.ConfigMapReference `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// RoleDefinitionId: The unique identifier for the associated Role Definition.
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
@@ -360,12 +378,21 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 
 	// Set property ‘Properties’:
 	if assignment.PrincipalId != nil ||
+		assignment.PrincipalIdFromConfig != nil ||
 		assignment.RoleDefinitionId != nil ||
 		assignment.Scope != nil {
 		result.Properties = &SqlRoleAssignmentResource_ARM{}
 	}
 	if assignment.PrincipalId != nil {
 		principalId := *assignment.PrincipalId
+		result.Properties.PrincipalId = &principalId
+	}
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.PrincipalIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property PrincipalId")
+		}
+		principalId := principalIdValue
 		result.Properties.PrincipalId = &principalId
 	}
 	if assignment.RoleDefinitionId != nil {
@@ -395,9 +422,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 	assignment.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	assignment.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	assignment.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PrincipalId’:
 	// copying flattened property:
@@ -407,6 +432,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) PopulateFromARM(owner
 			assignment.PrincipalId = &principalId
 		}
 	}
+
+	// no assignment for property ‘PrincipalIdFromConfig’
 
 	// Set property ‘RoleDefinitionId’:
 	// copying flattened property:
@@ -497,6 +524,14 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_From
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
+	// PrincipalIdFromConfig
+	if source.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := source.PrincipalIdFromConfig.Copy()
+		assignment.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		assignment.PrincipalIdFromConfig = nil
+	}
+
 	// RoleDefinitionId
 	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
 
@@ -528,6 +563,14 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_To_D
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
+
+	// PrincipalIdFromConfig
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := assignment.PrincipalIdFromConfig.Copy()
+		destination.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		destination.PrincipalIdFromConfig = nil
+	}
 
 	// RoleDefinitionId
 	destination.RoleDefinitionId = genruntime.ClonePointerToString(assignment.RoleDefinitionId)

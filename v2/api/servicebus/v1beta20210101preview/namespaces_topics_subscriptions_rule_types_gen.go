@@ -474,9 +474,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Owner’:
-	rule.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘SqlFilter’:
 	// copying flattened property:

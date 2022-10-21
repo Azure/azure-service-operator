@@ -14,6 +14,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
+// IndexRegistrationFunction is a function for registering an index for a given property chain. The leaf of the property chain
+// is expected to implement the genruntime.Indexer interface
 type IndexRegistrationFunction struct {
 	name             string
 	resourceTypeName astmodel.TypeName
@@ -126,10 +128,9 @@ func (f *IndexRegistrationFunction) singleValue(selector *dst.SelectorExpr) []ds
 		nilGuards = append(nilGuards, astbuilder.ReturnIfNil(intermediateSelector, astbuilder.Nil()))
 	}
 
-	// return []string{obj.Spec.<property>}
-	propNames = append(propNames, "Name") // Add the ".Name" selector to select the secrets name field
+	// return obj.spec.<property>.Index()
 	finalSelector := astbuilder.Selector(selector, propNames...)
-	ret := astbuilder.Returns(astbuilder.SliceLiteral(dst.NewIdent("string"), finalSelector))
+	ret := astbuilder.Returns(astbuilder.CallExpr(finalSelector, "Index"))
 
 	return astbuilder.Statements(
 		nilGuards,
@@ -162,7 +163,7 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) [
 
 func (f *IndexRegistrationFunction) makeStatements(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition, nilHandler dst.Stmt) []dst.Stmt {
 	if len(remainingChain) == 0 {
-		return astbuilder.Statements(astbuilder.AppendItemToSlice(result, astbuilder.Selector(ident, "Name")))
+		return astbuilder.Statements(astbuilder.AppendSliceToSlice(result, astbuilder.CallExpr(ident, "Index")))
 	}
 
 	p := remainingChain[0]

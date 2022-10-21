@@ -17,6 +17,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -27,6 +28,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/merger"
 )
 
 type azureDeploymentReconcilerInstance struct {
@@ -197,8 +199,8 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Log.V(Status).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
-	deleter := extensions.CreateDeleter(r.Extension, deleteResource, r.Log)
-	result, err := deleter(ctx, r.ResourceResolver, r.ARMClient, r.Obj)
+	deleter := extensions.CreateDeleter(r.Extension, deleteResource)
+	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMClient, r.Obj)
 	return result, err
 }
 
@@ -335,7 +337,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 	err = r.saveAssociatedKubernetesResources(ctx)
 	if err != nil {
 		if _, ok := core.AsNotOwnedError(err); ok {
-			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSecretWriteFailure)
+			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
 		}
 
 		return ctrl.Result{}, err
@@ -475,24 +477,44 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) er
 // saveAssociatedKubernetesResources retrieves Kubernetes resources to create and saves them to Kubernetes.
 // If there are no resources to save this method is a no-op.
 func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ctx context.Context) error {
+	// Check if this resource has a handcrafted extension for exporting
 	retriever := extensions.CreateKubernetesExporter(ctx, r.Extension, r.ARMClient, r.Log)
 	resources, err := retriever(r.Obj)
-	//_, err := retriever(r.Obj)
+	if err != nil {
+		return errors.Wrap(err, "extension failed to produce resources for export")
+	}
+
+	// Also check if the resource itself implements KubernetesExporter
+	exporter, ok := r.Obj.(genruntime.KubernetesExporter)
+	if ok {
+		var additionalResources []client.Object
+		additionalResources, err = exporter.ExportKubernetesResources(ctx, r.Obj, r.ARMClient, r.Log)
+		if err != nil {
+			return errors.Wrap(err, "failed to produce resources for export")
+		}
+
+		resources = append(resources, additionalResources...)
+	}
+
+	// We do a bit of duplicate work here because each handler also does merging of its own, but then we
+	// have to merge the merges. Technically we could allow each handler to just export a list of secrets (with
+	// duplicate entries) and then merge once.
+	merged, err := merger.MergeObjects(resources)
+	if err != nil {
+		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonAdditionalKubernetesObjWriteFailure)
+	}
+
+	results, err := genruntime.ApplyObjsAndEnsureOwner(ctx, r.KubeClient, r.Obj, merged)
 	if err != nil {
 		return err
 	}
 
-	results, err := genruntime.ApplyObjsAndEnsureOwner(ctx, r.KubeClient, r.Obj, resources)
-	if err != nil {
-		return err
-	}
-
-	if len(results) != len(resources) {
+	if len(results) != len(merged) {
 		return errors.Errorf("unexpected results len %d not equal to Kuberentes resources length %d", len(results), len(resources))
 	}
 
-	for i := 0; i < len(resources); i++ {
-		resource := resources[i]
+	for i := 0; i < len(merged); i++ {
+		resource := merged[i]
 		result := results[i]
 
 		r.Log.V(Debug).Info("Successfully created resource",
@@ -574,34 +596,37 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 // have its behavior modified by resources implementing the genruntime.Deleter extension
 func deleteResource(
 	ctx context.Context,
-	resourceResolver *resolver.Resolver,
+	log logr.Logger,
+	_ *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject) (ctrl.Result, error) {
 
 	// If we have no resourceID to begin with, the Azure resource was never created
 	resourceID := genruntime.GetResourceIDOrDefault(obj)
 	if resourceID == "" {
+		log.V(Status).Info("Not issuing delete as resource had no ResourceID annotation")
 		return ctrl.Result{}, nil
 	}
 
-	// Check that this objects owner still exists
-	// This is an optimization to avoid excess requests to Azure.
-	_, err := resourceResolver.ResolveResourceHierarchy(ctx, obj)
-	if err != nil {
-		var typedErr *resolver.ReferenceNotFound
-		if errors.As(err, &typedErr) {
-			return ctrl.Result{}, nil
-		}
-		return ctrl.Result{}, err
-	}
+	// Optimizations or complications of this delete path should be undertaken with care.
+	// Be especially cautious of relying on the controller-runtime SharedInformer cache
+	// as a source of truth about if this resource or its parents have already been deleted, as
+	// the SharedInformer cache is not read-through and will return NotFound if it just hasn't been
+	// populated yet.
+	// Generally speaking the safest thing we can do is just issue the DELETE to Azure.
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
 	pollerResp, err := armClient.BeginDeleteByID(ctx, resourceID, obj.GetAPIVersion())
 	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			log.V(Info).Info("Successfully issued DELETE to Azure - resource was already gone")
+			return ctrl.Result{}, nil
+		}
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
+	log.V(Info).Info("Successfully issued DELETE to Azure")
 
-	// If we are done here it means the delete succeeded immediately. It can't have failed because if it did
+	// If we are done here it means delete succeeded immediately. It can't have failed because if it did
 	// we would have taken the err path above.
 	if pollerResp.Poller.Done() {
 		return ctrl.Result{}, nil

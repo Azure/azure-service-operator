@@ -386,9 +386,7 @@ func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘Owner’:
-	zone.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	zone.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil

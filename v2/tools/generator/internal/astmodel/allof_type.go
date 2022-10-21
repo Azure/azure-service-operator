@@ -178,3 +178,17 @@ func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, currentP
 	})
 	builder.WriteString("]")
 }
+
+// AsAllOfType unwraps any wrappers around the provided type and returns either the underlying AllOfType and true,
+// or nil and false.
+func AsAllOfType(t Type) (*AllOfType, bool) {
+	if all, ok := t.(*AllOfType); ok {
+		return all, true
+	}
+
+	if wrapper, ok := t.(MetaType); ok {
+		return AsAllOfType(wrapper.Unwrap())
+	}
+
+	return nil, false
+}

@@ -556,9 +556,7 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘Owner’:
-	service.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘RestorePolicy’:
 	// copying flattened property:

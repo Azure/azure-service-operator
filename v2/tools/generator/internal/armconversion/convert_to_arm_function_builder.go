@@ -60,12 +60,14 @@ func newConvertToARMFunctionBuilder(
 	result.typeConversionBuilder.AddConversionHandlers(
 		result.convertReferenceProperty,
 		result.convertSecretProperty,
+		result.convertConfigMapProperty,
 		result.convertComplexTypeNameProperty)
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
 		// Handlers for specific properties come first
 		result.namePropertyHandler,
 		result.operatorSpecPropertyHandler,
+		result.configMapReferencePropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.flattenedPropertyHandler,
@@ -159,6 +161,85 @@ func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
 
 	// Do nothing with this property, it exists for the operator only and is not sent to Azure
 	return nil, true
+}
+
+func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	// This is just an optimization to avoid scanning excess properties collections
+	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
+	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
+
+	// TODO: Do we support slices or maps? Skipped for now
+	//isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
+	//isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+
+	if !isString && !isOptionalString {
+		return nil, false
+	}
+
+	fromProps := fromType.FindAllPropertiesWithTagValue(astmodel.OptionalConfigMapPairTag, string(toProp.PropertyName()))
+	if len(fromProps) == 0 {
+		return nil, false
+	}
+
+	if len(fromProps) != 2 {
+		// We expect exactly 2 paired properties
+		return nil, false
+	}
+
+	// Figure out which property is which type. There should be 1 string and 1 genruntime.ConfigMapReference
+	var strProp *astmodel.PropertyDefinition
+	var refProp *astmodel.PropertyDefinition
+	if propType, ok := astmodel.AsPrimitiveType(fromProps[0].PropertyType()); ok && propType == astmodel.StringType {
+		strProp = fromProps[0]
+		refProp = fromProps[1]
+	} else {
+		strProp = fromProps[1]
+		refProp = fromProps[0]
+	}
+
+	if !astmodel.TypeEquals(strProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType)) {
+		return nil, false
+	}
+	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
+		// We expect the other type to be a string
+		return nil, false
+	}
+
+	strPropSource := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(strProp.PropertyName()))
+	refPropSource := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(refProp.PropertyName()))
+
+	destination := astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toProp.PropertyName()))
+
+	strStmts := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            strPropSource,
+			SourceType:        strProp.PropertyType(),
+			Destination:       destination,
+			DestinationType:   toProp.PropertyType(),
+			NameHint:          string(strProp.PropertyName()),
+			ConversionContext: nil,
+			Locals:            builder.locals,
+		},
+	)
+	refStmts := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            refPropSource,
+			SourceType:        refProp.PropertyType(),
+			Destination:       destination,
+			DestinationType:   toProp.PropertyType(),
+			NameHint:          string(strProp.PropertyName()),
+			ConversionContext: nil,
+			Locals:            builder.locals,
+		},
+	)
+
+	return astbuilder.Statements(
+		strStmts,
+		refStmts,
+	), true
 }
 
 func (builder *convertToARMBuilder) referencePropertyHandler(
@@ -446,6 +527,47 @@ func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.Conversion
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
 	return []dst.Stmt{secretLookup, returnIfNotNil, result}
+}
+
+// convertConfigMapProperty handles conversion of configMap properties.
+// This function generates code that looks like this:
+//	<namehint>Value, err := resolved.ResolvedConfigMaps.Lookup(<source>)
+//	if err != nil {
+//		return nil, errors.Wrap(err, "looking up config map value for <source>")
+//	}
+//	<destination> = <namehint>Value
+//
+func (builder *convertToARMBuilder) convertConfigMapProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
+	if !isString {
+		return nil
+	}
+
+	isConfigMapReference := astmodel.TypeEquals(params.SourceType, astmodel.ConfigMapReferenceType)
+	if !isConfigMapReference {
+		return nil
+	}
+
+	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+
+	localVarName := params.Locals.CreateLocal(params.NameHint + "Value")
+	configMapLookup := astbuilder.SimpleAssignmentWithErr(
+		dst.NewIdent(localVarName),
+		token.DEFINE,
+		astbuilder.CallExpr(
+			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedConfigMaps"),
+			"Lookup",
+			params.Source))
+
+	wrappedError := astbuilder.WrapError(
+		errorsPackage,
+		"err",
+		fmt.Sprintf("looking up configmap for property %s", params.NameHint))
+	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), astbuilder.Nil(), wrappedError)
+
+	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
+
+	return []dst.Stmt{configMapLookup, returnIfNotNil, result}
 }
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.

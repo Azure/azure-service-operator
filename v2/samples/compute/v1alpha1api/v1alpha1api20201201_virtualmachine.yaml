@@ -1,0 +1,29 @@
+apiVersion: compute.azure.com/v1alpha1api20201201
+kind: VirtualMachine
+metadata:
+  name: samplevm
+  namespace: default
+spec:
+  hardwareProfile:
+    vmSize: Standard_A1_v2
+  location: westus3
+  networkProfile:
+    networkInterfaces:
+      - reference:
+          group: network.azure.com
+          kind: NetworkInterface
+          name: samplenic
+  osProfile:
+    adminPassword:
+      key: password
+      name: aso-sample-vmsecret
+    adminUsername: bloom
+    computerName: poppy
+  owner:
+    name: aso-sample-rg
+  storageProfile:
+    imageReference:
+      publisher: Canonical
+      offer: 0001-com-ubuntu-server-jammy
+      sku: 22_04-lts
+      version: latest

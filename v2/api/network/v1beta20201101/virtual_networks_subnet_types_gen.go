@@ -598,9 +598,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Owner’:
-	subnet.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	subnet.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PrivateEndpointNetworkPolicies’:
 	// copying flattened property:

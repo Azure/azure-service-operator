@@ -31,6 +31,12 @@ type SecretReference struct {
 	// here and default it to Kubernetes if it's not set. See the secrets design for more details.
 }
 
+var _ Indexer = SecretReference{}
+
+func (c SecretReference) Index() []string {
+	return []string{c.Name}
+}
+
 // Copy makes an independent copy of the SecretReference
 func (s SecretReference) Copy() SecretReference {
 	return s

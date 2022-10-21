@@ -409,9 +409,7 @@ func (database *FlexibleServers_Database_Spec) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Owner’:
-	database.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil

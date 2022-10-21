@@ -220,10 +220,11 @@ type RoleAssignment_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
 	// extension resource, which means that any other Azure resource can be its owner.
-	Owner         *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-	PrincipalId   *string                             `json:"principalId,omitempty"`
-	PrincipalType *string                             `json:"principalType,omitempty"`
-	PropertyBag   genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
+	Owner                 *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	PrincipalId           *string                             `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalIdFromConfig *genruntime.ConfigMapReference      `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalType         *string                             `json:"principalType,omitempty"`
+	PropertyBag           genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 
 	// +kubebuilder:validation:Required
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
@@ -313,6 +314,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
+	// PrincipalIdFromConfig
+	if source.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := source.PrincipalIdFromConfig.Copy()
+		assignment.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		assignment.PrincipalIdFromConfig = nil
+	}
+
 	// PrincipalType
 	assignment.PrincipalType = genruntime.ClonePointerToString(source.PrincipalType)
 
@@ -368,6 +377,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
+
+	// PrincipalIdFromConfig
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := assignment.PrincipalIdFromConfig.Copy()
+		destination.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		destination.PrincipalIdFromConfig = nil
+	}
 
 	// PrincipalType
 	destination.PrincipalType = genruntime.ClonePointerToString(assignment.PrincipalType)

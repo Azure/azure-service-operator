@@ -523,9 +523,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘Owner’:
-	account.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PoolAllocationMode’:
 	// copying flattened property:

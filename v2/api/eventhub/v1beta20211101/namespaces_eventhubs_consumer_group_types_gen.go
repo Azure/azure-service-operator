@@ -380,9 +380,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) PopulateFromARM(ow
 	consumergroup.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	consumergroup.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	consumergroup.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘UserMetadata’:
 	// copying flattened property:

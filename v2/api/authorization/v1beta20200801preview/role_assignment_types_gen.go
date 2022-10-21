@@ -213,7 +213,7 @@ func (assignment *RoleAssignment) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (assignment *RoleAssignment) createValidations() []func() error {
-	return []func() error{assignment.validateResourceReferences}
+	return []func() error{assignment.validateResourceReferences, assignment.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +227,20 @@ func (assignment *RoleAssignment) updateValidations() []func(old runtime.Object)
 		func(old runtime.Object) error {
 			return assignment.validateResourceReferences()
 		},
-		assignment.validateWriteOnceProperties}
+		assignment.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return assignment.validateOptionalConfigMapReferences()
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (assignment *RoleAssignment) validateOptionalConfigMapReferences() error {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&assignment.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -350,9 +363,11 @@ type RoleAssignment_Spec struct {
 	// extension resource, which means that any other Azure resource can be its owner.
 	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// PrincipalId: The principal ID.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+
+	// PrincipalIdFromConfig: The principal ID.
+	PrincipalIdFromConfig *genruntime.ConfigMapReference `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
@@ -383,6 +398,7 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		assignment.DelegatedManagedIdentityResourceId != nil ||
 		assignment.Description != nil ||
 		assignment.PrincipalId != nil ||
+		assignment.PrincipalIdFromConfig != nil ||
 		assignment.PrincipalType != nil ||
 		assignment.RoleDefinitionReference != nil {
 		result.Properties = &RoleAssignmentProperties_ARM{}
@@ -405,6 +421,14 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	if assignment.PrincipalId != nil {
 		principalId := *assignment.PrincipalId
+		result.Properties.PrincipalId = &principalId
+	}
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdValue, err := resolved.ResolvedConfigMaps.Lookup(*assignment.PrincipalIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property PrincipalId")
+		}
+		principalId := principalIdValue
 		result.Properties.PrincipalId = &principalId
 	}
 	if assignment.PrincipalType != nil {
@@ -484,6 +508,8 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 			assignment.PrincipalId = &principalId
 		}
 	}
+
+	// no assignment for property ‘PrincipalIdFromConfig’
 
 	// Set property ‘PrincipalType’:
 	// copying flattened property:
@@ -579,6 +605,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
+	// PrincipalIdFromConfig
+	if source.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := source.PrincipalIdFromConfig.Copy()
+		assignment.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		assignment.PrincipalIdFromConfig = nil
+	}
+
 	// PrincipalType
 	if source.PrincipalType != nil {
 		principalType := RoleAssignmentProperties_PrincipalType(*source.PrincipalType)
@@ -632,6 +666,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
+
+	// PrincipalIdFromConfig
+	if assignment.PrincipalIdFromConfig != nil {
+		principalIdFromConfig := assignment.PrincipalIdFromConfig.Copy()
+		destination.PrincipalIdFromConfig = &principalIdFromConfig
+	} else {
+		destination.PrincipalIdFromConfig = nil
+	}
 
 	// PrincipalType
 	if assignment.PrincipalType != nil {

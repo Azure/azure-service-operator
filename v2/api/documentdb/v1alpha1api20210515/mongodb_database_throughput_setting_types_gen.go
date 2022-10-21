@@ -414,9 +414,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Populat
 	}
 
 	// Set property ‘Owner’:
-	setting.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	setting.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

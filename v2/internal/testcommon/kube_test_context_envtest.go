@@ -29,6 +29,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
@@ -172,7 +173,9 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 				// Use appropriate backoff for mode.
 				RateLimiter: controllers.NewRateLimiter(minBackoff, maxBackoff),
 
-				Log: ctrl.Log,
+				LogConstructor: func(request *reconcile.Request) logr.Logger {
+					return ctrl.Log
+				},
 			},
 		}
 		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())

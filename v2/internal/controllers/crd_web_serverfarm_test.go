@@ -8,11 +8,12 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/onsi/gomega"
+
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/onsi/gomega"
 )
 
 func Test_Web_ServerFarm_CRUD(t *testing.T) {
@@ -22,17 +23,20 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	serverfarm := newServerFarm(tc, rg)
+	// Our default region (West US 2) is capacity constrained for web at the moment.
+	// location := tc.AzureRegion
+	location := "westus"
+	serverFarm := newServerFarm(tc, rg, location)
 
-	tc.CreateResourceAndWait(serverfarm)
+	tc.CreateResourceAndWait(serverFarm)
 
-	armId := *serverfarm.Status.Id
-	old := serverfarm.DeepCopy()
-	serverfarm.Spec.PerSiteScaling = to.BoolPtr(true)
-	tc.PatchResourceAndWait(old, serverfarm)
-	tc.Expect(serverfarm.Status.PerSiteScaling).To(gomega.Equal(to.BoolPtr(true)))
+	armId := *serverFarm.Status.Id
+	old := serverFarm.DeepCopy()
+	serverFarm.Spec.PerSiteScaling = to.BoolPtr(true)
+	tc.PatchResourceAndWait(old, serverFarm)
+	tc.Expect(serverFarm.Status.PerSiteScaling).To(gomega.Equal(to.BoolPtr(true)))
 
-	tc.DeleteResourcesAndWait(serverfarm)
+	tc.DeleteResourcesAndWait(serverFarm)
 
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
@@ -43,16 +47,16 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 
 }
 
-func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *v1beta20220301.ServerFarm {
-	serverfarm := &v1beta20220301.ServerFarm{
+func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, location string) *v1beta20220301.ServerFarm {
+	serverFarm := &v1beta20220301.ServerFarm{
 		ObjectMeta: tc.MakeObjectMeta("appservice"),
 		Spec: v1beta20220301.Serverfarm_Spec{
-			Location: tc.AzureRegion,
+			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &v1beta20220301.SkuDescription{
 				Name: to.StringPtr("P1v2"),
 			},
 		},
 	}
-	return serverfarm
+	return serverFarm
 }

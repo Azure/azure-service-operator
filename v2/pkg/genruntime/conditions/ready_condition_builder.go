@@ -8,12 +8,13 @@ package conditions
 const (
 	// Precondition reasons
 	ReasonSecretNotFound    = "SecretNotFound"
+	ReasonConfigMapNotFound = "ConfigMapNotFound"
 	ReasonReferenceNotFound = "ReferenceNotFound"
 	ReasonWaitingForOwner   = "WaitingForOwner"
 
 	// Post-ARM PUT reasons
-	ReasonAzureResourceNotFound = "AzureResourceNotFound"
-	ReasonSecretWriteFailure    = "FailedWritingSecret"
+	ReasonAzureResourceNotFound               = "AzureResourceNotFound"
+	ReasonAdditionalKubernetesObjWriteFailure = "FailedWritingAdditionalKubernetesObjects"
 
 	// Other reasons
 	ReasonReconciling                     = "Reconciling"

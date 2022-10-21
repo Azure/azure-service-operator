@@ -8,9 +8,10 @@ package functions
 import (
 	"go/token"
 
+	"github.com/dave/dst"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/dave/dst"
 )
 
 func NewValidateResourceReferencesFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
@@ -29,6 +30,15 @@ func NewValidateWriteOncePropertiesFunction(resource *astmodel.ResourceType, idF
 		idFactory,
 		validateWriteOncePropertiesFunction,
 		astmodel.NewPackageReferenceSet())
+}
+
+func NewValidateOptionalConfigMapReferenceFunction(resource *astmodel.ResourceType, idFactory astmodel.IdentifierFactory) *ResourceFunction {
+	return NewResourceFunction(
+		"validateOptionalConfigMapReferences",
+		resource,
+		idFactory,
+		validateOptionalConfigMapReferences,
+		astmodel.NewPackageReferenceSet(astmodel.GenRuntimeReference, astmodel.ReflectHelpersReference))
 }
 
 func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
@@ -140,4 +150,59 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 		cast,
 		checkAssert,
 		returnStmt)
+}
+
+func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
+	receiverType := receiver.AsType(codeGenerationContext)
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType: &dst.StarExpr{
+			X: receiverType,
+		},
+		Returns: []*dst.Field{
+			{
+				Type: dst.NewIdent("error"),
+			},
+		},
+		Body: validateOptionalConfigMapReferencesBody(codeGenerationContext, receiverIdent),
+	}
+
+	fn.AddComments("validates all optional configmap reference pairs to ensure that at most 1 is set")
+	return fn.DefineFunc()
+}
+
+// validateOptionalConfigMapReferencesBody helps generate the body of the validateResourceReferences function:
+// 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&<resource>.Spec)
+//	if err != nil {
+//		return err
+//	}
+//	return genruntime.ValidateOptionalConfigMapReferences(refs)
+func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
+	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
+
+	var body []dst.Stmt
+
+	body = append(
+		body,
+		astbuilder.SimpleAssignmentWithErr(
+			dst.NewIdent("refs"),
+			token.DEFINE,
+			astbuilder.CallQualifiedFunc(
+				reflectHelpers,
+				"FindOptionalConfigMapReferences",
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))))
+	body = append(body, astbuilder.CheckErrorAndReturn())
+	body = append(
+		body,
+		astbuilder.Returns(
+			astbuilder.CallQualifiedFunc(
+				genRuntime,
+				"ValidateOptionalConfigMapReferences",
+				dst.NewIdent("refs"))))
+
+	return body
 }

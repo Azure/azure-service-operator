@@ -264,14 +264,14 @@ func (account *DatabaseAccount) validateSecretDestinations() error {
 	if account.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		account.Spec.OperatorSpec.Secrets.DocumentEndpoint,
 		account.Spec.OperatorSpec.Secrets.PrimaryMasterKey,
 		account.Spec.OperatorSpec.Secrets.PrimaryReadonlyMasterKey,
 		account.Spec.OperatorSpec.Secrets.SecondaryMasterKey,
 		account.Spec.OperatorSpec.Secrets.SecondaryReadonlyMasterKey,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -868,9 +868,7 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	account.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	account.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:

@@ -517,9 +517,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘Owner’:
-	workspace.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	workspace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘ProvisioningState’:
 	// copying flattened property:

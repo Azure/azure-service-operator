@@ -532,7 +532,7 @@ func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 // leave resources around or they will continue to attempt to log to a closed test logger. To avoid this we
 // carefully delete resources starting with the root and working our way down one rank at a time. This shouldn't be much
 // slower than just deleting everything all at once. Once the root resources are deleted (first) each child resource will delete immediately
-// as it realizes that its parent is already gone: No request to Azure will be issued for these deletions so they'll complete quickly.
+// as it realizes that its parent is already gone.
 func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 	ranks := objectRanksByOwner(objs...)
 
@@ -579,6 +579,51 @@ func (tc *KubePerTestContext) ExpectSecretHasKeys(name string, expectedKeys ...s
 	tc.Expect(secret.Data).To(gomega.HaveLen(len(expectedKeys)))
 	for _, k := range expectedKeys {
 		tc.Expect(secret.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+	}
+}
+
+// ExpectConfigMapHasKeys checks if the config map with the given name has the expected keys.
+// If the config map does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectConfigMapHasKeys(name string, expectedKeys ...string) {
+	tc.T.Helper()
+	configMapName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var configMap corev1.ConfigMap
+	tc.GetResource(configMapName, &configMap)
+
+	// We could make the below a gomega matcher, but it doesn't seem that worth it because
+	// a lot of the boilerplate code is actually getting the configMap
+	tc.Expect(configMap.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for _, k := range expectedKeys {
+		tc.Expect(configMap.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+	}
+}
+
+// ExpectConfigMapHasKeysAndValues checks if the config map with the given name has the expected keys with the expected
+// values. The keys and values should be alternating
+// If the config map does not exist, or it is missing keys, the test fails.
+func (tc *KubePerTestContext) ExpectConfigMapHasKeysAndValues(name string, expectedKeysAndValues ...string) {
+	tc.T.Helper()
+	configMapName := types.NamespacedName{Namespace: tc.Namespace, Name: name}
+	var configMap corev1.ConfigMap
+	tc.GetResource(configMapName, &configMap)
+
+	tc.Expect(len(expectedKeysAndValues)%2).To(gomega.Equal(0), "keys and values collection must have an even number of elements")
+
+	expectedKeys := make([]string, 0, len(expectedKeysAndValues)/2)
+	expectedValues := make([]string, 0, len(expectedKeysAndValues)/2)
+
+	for i, val := range expectedKeysAndValues {
+		if i%2 == 0 {
+			expectedKeys = append(expectedKeys, val)
+		} else {
+			expectedValues = append(expectedValues, val)
+		}
+	}
+
+	tc.Expect(configMap.Data).To(gomega.HaveLen(len(expectedKeys)))
+	for i, k := range expectedKeys {
+		tc.Expect(configMap.Data[k]).ToNot(gomega.BeEmpty(), "key %s missing", k)
+		tc.Expect(configMap.Data[k]).To(gomega.Equal(expectedValues[i]))
 	}
 }
 

@@ -639,9 +639,7 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	a.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	a.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
@@ -902,9 +900,7 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	b.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	b.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {

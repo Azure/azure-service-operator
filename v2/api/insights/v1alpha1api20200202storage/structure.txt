@@ -1,8 +1,8 @@
 github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2020-02-02"
 └── Component: Resource
-    ├── Spec: 
+    ├── Spec: Object (22 properties)
     │   ├── Application_Type: *string
     │   ├── AzureName: string
     │   ├── DisableIpMasking: *bool
@@ -23,13 +23,13 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202stora
     │   ├── Request_Source: *string
     │   ├── RetentionInDays: *int
     │   ├── SamplingPercentage: *float64
-    │   ├── Tags: Map[string]string
+    │   ├── Tags: map[string]string
     │   └── WorkspaceResourceReference: *genruntime.ResourceReference
-    └── Status: 
+    └── Status: Object (34 properties)
         ├── AppId: *string
         ├── ApplicationId: *string
         ├── Application_Type: *string
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── ConnectionString: *string
         ├── CreationDate: *string
         ├── DisableIpMasking: *bool
@@ -47,7 +47,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202stora
         ├── LaMigrationDate: *string
         ├── Location: *string
         ├── Name: *string
-        ├── PrivateLinkScopedResources: 
+        ├── PrivateLinkScopedResources: Object (3 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── ResourceId: *string
         │   └── ScopeId: *string

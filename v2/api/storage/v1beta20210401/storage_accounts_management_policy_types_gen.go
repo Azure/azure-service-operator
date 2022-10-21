@@ -384,9 +384,7 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) PopulateFromARM(owner genru
 	policy.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	policy.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Policy’:
 	// copying flattened property:

@@ -19,6 +19,7 @@ type ReadOnlyPropertySet interface {
 	ContainsProperty(name PropertyName) bool
 	Get(name PropertyName) (*PropertyDefinition, bool)
 	Find(predicate func(*PropertyDefinition) bool) (*PropertyDefinition, bool)
+	FindAll(predicate func(*PropertyDefinition) bool) []*PropertyDefinition
 	Copy() PropertySet
 	Equals(other ReadOnlyPropertySet, overrides EqualityOverrides) bool
 	First() *PropertyDefinition
@@ -60,6 +61,17 @@ func (p PropertySet) Find(predicate func(*PropertyDefinition) bool) (*PropertyDe
 	}
 
 	return nil, false
+}
+
+func (p PropertySet) FindAll(predicate func(*PropertyDefinition) bool) []*PropertyDefinition {
+	var result []*PropertyDefinition
+	for _, prop := range p {
+		if predicate(prop) {
+			result = append(result, prop)
+		}
+	}
+
+	return result
 }
 
 func (p PropertySet) Get(name PropertyName) (*PropertyDefinition, bool) {

@@ -1,13 +1,13 @@
 github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
-│   │   ├── Encryption: 
+│   │   ├── Encryption: Object (4 properties)
 │   │   │   ├── KeySource: *string
-│   │   │   ├── KeyVaultProperties: 
-│   │   │   │   ├── Identity: 
+│   │   │   ├── KeyVaultProperties: Object (5 properties)
+│   │   │   │   ├── Identity: Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   │   │   ├── KeyName: *string
@@ -16,32 +16,32 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
 │   │   ├── Location: *string
-│   │   ├── OperatorSpec: 
+│   │   ├── OperatorSpec: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: 
+│   │   │   └── Secrets: Object (2 properties)
 │   │   │       ├── Endpoint: *genruntime.SecretDestination
 │   │   │       └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (4 properties)
 │   │   │   ├── Capacity: *int
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
-│   │   ├── Tags: Map[string]string
+│   │   ├── Tags: map[string]string
 │   │   └── ZoneRedundant: *bool
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   └── Status: Object (19 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── CreatedAt: *string
-│       ├── Encryption: 
+│       ├── Encryption: Object (4 properties)
 │       │   ├── KeySource: *string
-│       │   ├── KeyVaultProperties: 
-│       │   │   ├── Identity: 
+│       │   ├── KeyVaultProperties: Object (5 properties)
+│       │   │   ├── Identity: Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── UserAssignedIdentity: *string
 │       │   │   ├── KeyName: *string
@@ -51,22 +51,22 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── RequireInfrastructureEncryption: *bool
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (3 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── PropertyBag: genruntime.PropertyBag
 │       ├── Location: *string
 │       ├── MetricId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (3 properties)
 │       │   ├── Id: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── SystemData: 
+│       │   └── SystemData: Object (7 properties)
 │       │       ├── CreatedAt: *string
 │       │       ├── CreatedBy: *string
 │       │       ├── CreatedByType: *string
@@ -77,13 +77,13 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── ServiceBusEndpoint: *string
-│       ├── Sku: 
+│       ├── Sku: Object (4 properties)
 │       │   ├── Capacity: *int
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
 │       ├── Status: *string
-│       ├── SystemData: 
+│       ├── SystemData: Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -91,14 +91,15 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       │   ├── LastModifiedBy: *string
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       ├── Type: *string
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
 ├── NamespacesQueue: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (20 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated[string]
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -116,12 +117,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── RequiresDuplicateDetection: *bool
 │   │   ├── RequiresSession: *bool
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (27 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── CountDetails: 
+│       ├── Conditions: conditions.Condition[]
+│       ├── CountDetails: Object (6 properties)
 │       │   ├── ActiveMessageCount: *int
 │       │   ├── DeadLetterMessageCount: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -148,7 +149,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       ├── RequiresSession: *bool
 │       ├── SizeInBytes: *int
 │       ├── Status: *string
-│       ├── SystemData: 
+│       ├── SystemData: Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -159,9 +160,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 └── NamespacesTopic: Resource
-    ├── Spec: 
+    ├── Spec: Object (15 properties)
     │   ├── AutoDeleteOnIdle: *string
-    │   ├── AzureName: Validated[string]
+    │   ├── AzureName: Validated<string> (1 rule)
+    │   │   └── Rule 0: {MinLength %!s(int64=1)}
     │   ├── DefaultMessageTimeToLive: *string
     │   ├── DuplicateDetectionHistoryTimeWindow: *string
     │   ├── EnableBatchedOperations: *bool
@@ -174,12 +176,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── RequiresDuplicateDetection: *bool
     │   ├── SupportOrdering: *bool
-    │   └── Tags: Map[string]string
-    └── Status: 
+    │   └── Tags: map[string]string
+    └── Status: Object (22 properties)
         ├── AccessedAt: *string
         ├── AutoDeleteOnIdle: *string
-        ├── Conditions: Array[conditions.Condition]
-        ├── CountDetails: 
+        ├── Conditions: conditions.Condition[]
+        ├── CountDetails: Object (6 properties)
         │   ├── ActiveMessageCount: *int
         │   ├── DeadLetterMessageCount: *int
         │   ├── PropertyBag: genruntime.PropertyBag
@@ -201,7 +203,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
         ├── Status: *string
         ├── SubscriptionCount: *int
         ├── SupportOrdering: *bool
-        ├── SystemData: 
+        ├── SystemData: Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string

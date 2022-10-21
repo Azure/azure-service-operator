@@ -1,5 +1,5 @@
 github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations
-├── FlexibleServerExtension: 
-├── FlexibleServersConfigurationExtension: 
-├── FlexibleServersDatabaseExtension: 
-└── FlexibleServersFirewallRuleExtension: 
+├── FlexibleServerExtension: Object (0 properties)
+├── FlexibleServersConfigurationExtension: Object (0 properties)
+├── FlexibleServersDatabaseExtension: Object (0 properties)
+└── FlexibleServersFirewallRuleExtension: Object (0 properties)

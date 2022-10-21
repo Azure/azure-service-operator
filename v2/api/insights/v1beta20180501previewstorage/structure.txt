@@ -1,10 +1,10 @@
 github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2018-05-01-preview"
 └── Webtest: Resource
-    ├── Spec: 
+    ├── Spec: Object (18 properties)
     │   ├── AzureName: string
-    │   ├── Configuration: 
+    │   ├── Configuration: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── WebTest: *string
     │   ├── Description: *string
@@ -12,16 +12,16 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewsto
     │   ├── Frequency: *int
     │   ├── Kind: *string
     │   ├── Location: *string
-    │   ├── Locations: 
+    │   ├── Locations: Object (2 properties)
     │   │   ├── Id: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── Name: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Request: 
+    │   ├── Request: Object (7 properties)
     │   │   ├── FollowRedirects: *bool
-    │   │   ├── Headers: 
+    │   │   ├── Headers: Object (3 properties)
     │   │   │   ├── Key: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Value: *string
@@ -32,10 +32,10 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewsto
     │   │   └── RequestUrl: *string
     │   ├── RetryEnabled: *bool
     │   ├── SyntheticMonitorId: *string
-    │   ├── Tags: Map[string]string
+    │   ├── Tags: map[string]string
     │   ├── Timeout: *int
-    │   └── ValidationRules: 
-    │       ├── ContentValidation: 
+    │   └── ValidationRules: Object (6 properties)
+    │       ├── ContentValidation: Object (4 properties)
     │       │   ├── ContentMatch: *string
     │       │   ├── IgnoreCase: *bool
     │       │   ├── PassIfTextFound: *bool
@@ -45,9 +45,9 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewsto
     │       ├── PropertyBag: genruntime.PropertyBag
     │       ├── SSLCertRemainingLifetimeCheck: *int
     │       └── SSLCheck: *bool
-    └── Status: 
-        ├── Conditions: Array[conditions.Condition]
-        ├── Configuration: 
+    └── Status: Object (20 properties)
+        ├── Conditions: conditions.Condition[]
+        ├── Configuration: Object (2 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── WebTest: *string
         ├── Description: *string
@@ -56,16 +56,16 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewsto
         ├── Id: *string
         ├── Kind: *string
         ├── Location: *string
-        ├── Locations: 
+        ├── Locations: Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Name: *string
         ├── PropertiesName: *string
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
-        ├── Request: 
+        ├── Request: Object (7 properties)
         │   ├── FollowRedirects: *bool
-        │   ├── Headers: 
+        │   ├── Headers: Object (3 properties)
         │   │   ├── Key: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Value: *string
@@ -79,8 +79,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewsto
         ├── Tags: *v1.JSON
         ├── Timeout: *int
         ├── Type: *string
-        └── ValidationRules: 
-            ├── ContentValidation: 
+        └── ValidationRules: Object (6 properties)
+            ├── ContentValidation: Object (4 properties)
             │   ├── ContentMatch: *string
             │   ├── IgnoreCase: *bool
             │   ├── PassIfTextFound: *bool

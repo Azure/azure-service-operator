@@ -9,6 +9,7 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -96,6 +97,9 @@ type ResourceWithReferencesSpec struct {
 	RefMap   map[string]genruntime.ResourceReference `armReference:"RefMap" json:"refMap,omitempty"`
 
 	Secret *genruntime.SecretReference `json:"secret,omitempty"`
+
+	PropertyWithTag           *string                        `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTag"`
+	PropertyWithTagFromConfig *genruntime.ConfigMapReference `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTagFromConfig"`
 
 	Location string `json:"location,omitempty"`
 }
@@ -188,6 +192,103 @@ func Test_FindSecrets(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
 	g.Expect(refs).To(HaveKey(ref))
+}
+
+func Test_FindPropertiesWithTag(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ref1 := genruntime.ResourceReference{ARMID: "test1"}
+	ref2 := genruntime.ResourceReference{ARMID: "test2"}
+	ref3 := genruntime.ResourceReference{ARMID: "test3"}
+	ref4 := genruntime.ResourceReference{ARMID: "test4"}
+	ref5 := genruntime.ResourceReference{ARMID: "test5"}
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+			Location:  "westus",
+			Owner: genruntime.KnownResourceReference{
+				Name: "myrg",
+			},
+			Ref: &ResourceReference{
+				Reference: ref1,
+			},
+			RefSlice: []genruntime.ResourceReference{
+				ref2,
+				ref3,
+			},
+			RefMap: map[string]genruntime.ResourceReference{
+				"a": ref4,
+				"b": ref5,
+			},
+			PropertyWithTag: to.StringPtr("hello"),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindPropertiesWithTag(res, "optionalConfigMapPair")
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(results).To(HaveLen(2))
+	g.Expect(results).To(HaveKey("Spec.PropertyWithTag"))
+	g.Expect(results["Spec.PropertyWithTag"]).To(Equal([]any{to.StringPtr("hello")}))
+	g.Expect(results).To(HaveKey("Spec.PropertyWithTagFromConfig"))
+	g.Expect(results["Spec.PropertyWithTagFromConfig"]).To(Equal([]any{(*genruntime.ConfigMapReference)(nil)}))
+
+	// Now try finding all the JSON tags
+	results, err = reflecthelpers.FindPropertiesWithTag(res.Spec, "json")
+	g.Expect(err).ToNot(HaveOccurred())
+	// This is the number of properties and child properties on this object. It's fragile to structural changes
+	// in the object so may need to be changed in the future
+	g.Expect(results).To(HaveLen(23))
+}
+
+func Test_FindOptionalConfigMapReferences(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ref1 := genruntime.ResourceReference{ARMID: "test1"}
+	ref2 := genruntime.ResourceReference{ARMID: "test2"}
+	ref3 := genruntime.ResourceReference{ARMID: "test3"}
+	ref4 := genruntime.ResourceReference{ARMID: "test4"}
+	ref5 := genruntime.ResourceReference{ARMID: "test5"}
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+			Location:  "westus",
+			Owner: genruntime.KnownResourceReference{
+				Name: "myrg",
+			},
+			Ref: &ResourceReference{
+				Reference: ref1,
+			},
+			RefSlice: []genruntime.ResourceReference{
+				ref2,
+				ref3,
+			},
+			RefMap: map[string]genruntime.ResourceReference{
+				"a": ref4,
+				"b": ref5,
+			},
+			PropertyWithTag: to.StringPtr("hello"),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalConfigMapReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(results).To(HaveLen(1))
+	g.Expect(results[0].Name).To(Equal("Spec.PropertyWithTag"))
+	g.Expect(results[0].Value).To(Equal(to.StringPtr("hello")))
+	g.Expect(results[0].RefName).To(Equal("Spec.PropertyWithTagFromConfig"))
+	g.Expect(results[0].Ref).To(Equal((*genruntime.ConfigMapReference)(nil)))
 }
 
 // defaultResourceReferencesName exists to showcase an example where ReflectVisitor is used to modify the object in question

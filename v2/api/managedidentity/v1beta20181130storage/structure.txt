@@ -1,22 +1,28 @@
 github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2018-11-30"
 └── UserAssignedIdentity: Resource
-    ├── Spec: 
+    ├── Spec: Object (7 properties)
     │   ├── AzureName: string
     │   ├── Location: *string
+    │   ├── OperatorSpec: Object (2 properties)
+    │   │   ├── ConfigMaps: Object (3 properties)
+    │   │   │   ├── ClientId: *genruntime.ConfigMapDestination
+    │   │   │   ├── PrincipalId: *genruntime.ConfigMapDestination
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: Map[string]string
-    └── Status: 
+    │   └── Tags: map[string]string
+    └── Status: Object (10 properties)
         ├── ClientId: *string
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── Id: *string
         ├── Location: *string
         ├── Name: *string
         ├── PrincipalId: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── Tags: Map[string]string
+        ├── Tags: map[string]string
         ├── TenantId: *string
         └── Type: *string

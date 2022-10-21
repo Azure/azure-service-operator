@@ -456,9 +456,7 @@ func (compute *Workspaces_Compute_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Owner’:
-	compute.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	compute.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {

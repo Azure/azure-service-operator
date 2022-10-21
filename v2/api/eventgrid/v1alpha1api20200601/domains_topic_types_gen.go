@@ -376,9 +376,7 @@ func (topic *Domains_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	topic.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	topic.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// No error
 	return nil

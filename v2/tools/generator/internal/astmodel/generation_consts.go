@@ -18,4 +18,11 @@ const (
 
 	// ARMReferenceTag is the tag ID used for specifying references to other ARM resources on properties.
 	ARMReferenceTag = "armReference"
+
+	// OptionalConfigMapPairTag is the tag ID used for specifying an optional configMap reference pair.
+	// There will be 2 of these tags on two different properties, each pointing to the ARM property they apply to.
+	// For example:
+	// PrincipalId *string `optionalConfigMapPair:"PrincipalId"`
+	// PrincipalIdRef *genruntime.ConfigMapReference `optionalConfigMapPair:"PrincipalId"`
+	OptionalConfigMapPairTag = "optionalConfigMapPair"
 )

@@ -596,9 +596,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property ‘Owner’:
-	network.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	network.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// no assignment for property ‘Reference’
 

@@ -1021,10 +1021,129 @@ func (description *CaptureDescription) PopulateFromARM(owner genruntime.Arbitrar
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CaptureDescription_ARM, got %T", armInput)
 	}
 
+<<<<<<< HEAD
 	// Set property ‘Destination’:
 	if typedInput.Destination != nil {
 		var destination1 Destination
 		err := destination1.PopulateFromARM(owner, *typedInput.Destination)
+=======
+	// Set property ‘AzureName’:
+	eventhub.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘CaptureDescription’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CaptureDescription != nil {
+			var captureDescription1 Namespaces_Eventhub_Properties_CaptureDescription_Spec
+			err := captureDescription1.PopulateFromARM(owner, *typedInput.Properties.CaptureDescription)
+			if err != nil {
+				return err
+			}
+			captureDescription := captureDescription1
+			eventhub.CaptureDescription = &captureDescription
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		eventhub.Location = &location
+	}
+
+	// Set property ‘MessageRetentionInDays’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MessageRetentionInDays != nil {
+			messageRetentionInDays := *typedInput.Properties.MessageRetentionInDays
+			eventhub.MessageRetentionInDays = &messageRetentionInDays
+		}
+	}
+
+	// Set property ‘Owner’:
+	eventhub.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘PartitionCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PartitionCount != nil {
+			partitionCount := *typedInput.Properties.PartitionCount
+			eventhub.PartitionCount = &partitionCount
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		eventhub.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			eventhub.Tags[key] = value
+		}
+	}
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &Namespaces_Eventhub_Spec{}
+
+// ConvertSpecFrom populates our Namespaces_Eventhub_Spec from the provided source
+func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20211101s.Namespaces_Eventhub_Spec)
+	if ok {
+		// Populate our instance from source
+		return eventhub.AssignProperties_From_Namespaces_Eventhub_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20211101s.Namespaces_Eventhub_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = eventhub.AssignProperties_From_Namespaces_Eventhub_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Namespaces_Eventhub_Spec
+func (eventhub *Namespaces_Eventhub_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20211101s.Namespaces_Eventhub_Spec)
+	if ok {
+		// Populate destination from our instance
+		return eventhub.AssignProperties_To_Namespaces_Eventhub_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20211101s.Namespaces_Eventhub_Spec{}
+	err := eventhub.AssignProperties_To_Namespaces_Eventhub_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Namespaces_Eventhub_Spec populates our Namespaces_Eventhub_Spec from the provided source Namespaces_Eventhub_Spec
+func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Eventhub_Spec(source *alpha20211101s.Namespaces_Eventhub_Spec) error {
+
+	// AzureName
+	eventhub.AzureName = source.AzureName
+
+	// CaptureDescription
+	if source.CaptureDescription != nil {
+		var captureDescription Namespaces_Eventhub_Properties_CaptureDescription_Spec
+		err := captureDescription.AssignProperties_From_Namespaces_Eventhub_Properties_CaptureDescription_Spec(source.CaptureDescription)
+>>>>>>> main
 		if err != nil {
 			return err
 		}

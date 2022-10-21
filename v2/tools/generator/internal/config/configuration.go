@@ -223,6 +223,16 @@ func (config *Configuration) VerifyIsResourceLifecycleOwnedByParentConsumed() er
 	return config.ObjectModelConfiguration.VerifyIsResourceLifecycleOwnedByParentConsumed()
 }
 
+// ImportConfigMapMode looks up a property to determine its import configMap mode.
+func (config *Configuration) ImportConfigMapMode(name astmodel.TypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
+	return config.ObjectModelConfiguration.ImportConfigMapMode(name, property)
+}
+
+// VerifyImportConfigMapModeConsumed returns an error if any configured ImportConfigMapMode values were not consumed
+func (config *Configuration) VerifyImportConfigMapModeConsumed() error {
+	return config.ObjectModelConfiguration.VerifyImportConfigMapModeConsumed()
+}
+
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {

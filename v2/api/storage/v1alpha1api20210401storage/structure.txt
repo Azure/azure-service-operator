@@ -1,14 +1,14 @@
 github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage
-├── APIVersion: enum
+├── APIVersion: Enum (1 value)
 │   └── "2021-04-01"
 ├── StorageAccount: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (27 properties)
 │   │   ├── AccessTier: *string
 │   │   ├── AllowBlobPublicAccess: *bool
 │   │   ├── AllowCrossTenantReplication: *bool
 │   │   ├── AllowSharedKeyAccess: *bool
-│   │   ├── AzureFilesIdentityBasedAuthentication: 
-│   │   │   ├── ActiveDirectoryProperties: 
+│   │   ├── AzureFilesIdentityBasedAuthentication: Object (4 properties)
+│   │   │   ├── ActiveDirectoryProperties: Object (7 properties)
 │   │   │   │   ├── AzureStorageSid: *string
 │   │   │   │   ├── DomainGuid: *string
 │   │   │   │   ├── DomainName: *string
@@ -19,77 +19,79 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   │   ├── DefaultSharePermission: *string
 │   │   │   ├── DirectoryServiceOptions: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: Validated[string]
-│   │   ├── CustomDomain: 
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
+│   │   ├── CustomDomain: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UseSubDomainName: *bool
-│   │   ├── Encryption: 
-│   │   │   ├── Identity: 
+│   │   ├── Encryption: Object (6 properties)
+│   │   │   ├── Identity: Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   │   ├── KeySource: *string
-│   │   │   ├── Keyvaultproperties: 
+│   │   │   ├── Keyvaultproperties: Object (4 properties)
 │   │   │   │   ├── Keyname: *string
 │   │   │   │   ├── Keyvaulturi: *string
 │   │   │   │   ├── Keyversion: *string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── RequireInfrastructureEncryption: *bool
-│   │   │   └── Services: 
-│   │   │       ├── Blob: 
+│   │   │   └── Services: Object (5 properties)
+│   │   │       ├── Blob: Object (3 properties)
 │   │   │       │   ├── Enabled: *bool
 │   │   │       │   ├── KeyType: *string
 │   │   │       │   └── PropertyBag: genruntime.PropertyBag
-│   │   │       ├── File: 
+│   │   │       ├── File: Object (3 properties)
 │   │   │       │   ├── Enabled: *bool
 │   │   │       │   ├── KeyType: *string
 │   │   │       │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │       ├── Queue: 
+│   │   │       ├── Queue: Object (3 properties)
 │   │   │       │   ├── Enabled: *bool
 │   │   │       │   ├── KeyType: *string
 │   │   │       │   └── PropertyBag: genruntime.PropertyBag
-│   │   │       └── Table: 
+│   │   │       └── Table: Object (3 properties)
 │   │   │           ├── Enabled: *bool
 │   │   │           ├── KeyType: *string
 │   │   │           └── PropertyBag: genruntime.PropertyBag
-│   │   ├── ExtendedLocation: 
+│   │   ├── ExtendedLocation: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
-│   │   ├── Identity: 
+│   │   ├── Identity: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
 │   │   ├── IsHnsEnabled: *bool
 │   │   ├── IsNfsV3Enabled: *bool
-│   │   ├── KeyPolicy: 
+│   │   ├── KeyPolicy: Object (2 properties)
 │   │   │   ├── KeyExpirationPeriodInDays: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Kind: *string
 │   │   ├── LargeFileSharesState: *string
 │   │   ├── Location: *string
 │   │   ├── MinimumTlsVersion: *string
-│   │   ├── NetworkAcls: 
+│   │   ├── NetworkAcls: Object (6 properties)
 │   │   │   ├── Bypass: *string
 │   │   │   ├── DefaultAction: *string
-│   │   │   ├── IpRules: 
+│   │   │   ├── IpRules: Object (3 properties)
 │   │   │   │   ├── Action: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Value: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── ResourceAccessRules: 
+│   │   │   ├── ResourceAccessRules: Object (3 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── ResourceReference: *genruntime.ResourceReference
 │   │   │   │   └── TenantId: *string
-│   │   │   └── VirtualNetworkRules: 
+│   │   │   └── VirtualNetworkRules: Object (4 properties)
 │   │   │       ├── Action: *string
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── Reference: *genruntime.ResourceReference
 │   │   │       └── State: *string
-│   │   ├── OperatorSpec: 
+│   │   ├── OperatorSpec: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: 
+│   │   │   └── Secrets: Object (9 properties)
 │   │   │       ├── BlobEndpoint: *genruntime.SecretDestination
 │   │   │       ├── DfsEndpoint: *genruntime.SecretDestination
 │   │   │       ├── FileEndpoint: *genruntime.SecretDestination
@@ -102,28 +104,28 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── RoutingPreference: 
+│   │   ├── RoutingPreference: Object (4 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PublishInternetEndpoints: *bool
 │   │   │   ├── PublishMicrosoftEndpoints: *bool
 │   │   │   └── RoutingChoice: *string
-│   │   ├── SasPolicy: 
+│   │   ├── SasPolicy: Object (3 properties)
 │   │   │   ├── ExpirationAction: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── SasExpirationPeriod: *string
-│   │   ├── Sku: 
+│   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
 │   │   ├── SupportsHttpsTrafficOnly: *bool
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (41 properties)
 │       ├── AccessTier: *string
 │       ├── AllowBlobPublicAccess: *bool
 │       ├── AllowCrossTenantReplication: *bool
 │       ├── AllowSharedKeyAccess: *bool
-│       ├── AzureFilesIdentityBasedAuthentication: 
-│       │   ├── ActiveDirectoryProperties: 
+│       ├── AzureFilesIdentityBasedAuthentication: Object (4 properties)
+│       │   ├── ActiveDirectoryProperties: Object (7 properties)
 │       │   │   ├── AzureStorageSid: *string
 │       │   │   ├── DomainGuid: *string
 │       │   │   ├── DomainName: *string
@@ -134,10 +136,10 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       │   ├── DefaultSharePermission: *string
 │       │   ├── DirectoryServiceOptions: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── BlobRestoreStatus: 
+│       ├── BlobRestoreStatus: Object (5 properties)
 │       │   ├── FailureReason: *string
-│       │   ├── Parameters: 
-│       │   │   ├── BlobRanges: 
+│       │   ├── Parameters: Object (3 properties)
+│       │   │   ├── BlobRanges: Object (3 properties)
 │       │   │   │   ├── EndRange: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── StartRange: *string
@@ -146,18 +148,18 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── RestoreId: *string
 │       │   └── Status: *string
-│       ├── Conditions: Array[conditions.Condition]
+│       ├── Conditions: conditions.Condition[]
 │       ├── CreationTime: *string
-│       ├── CustomDomain: 
+│       ├── CustomDomain: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── UseSubDomainName: *bool
-│       ├── Encryption: 
-│       │   ├── Identity: 
+│       ├── Encryption: Object (6 properties)
+│       │   ├── Identity: Object (2 properties)
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── UserAssignedIdentity: *string
 │       │   ├── KeySource: *string
-│       │   ├── Keyvaultproperties: 
+│       │   ├── Keyvaultproperties: Object (6 properties)
 │       │   │   ├── CurrentVersionedKeyIdentifier: *string
 │       │   │   ├── Keyname: *string
 │       │   │   ├── Keyvaulturi: *string
@@ -166,55 +168,55 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── RequireInfrastructureEncryption: *bool
-│       │   └── Services: 
-│       │       ├── Blob: 
+│       │   └── Services: Object (5 properties)
+│       │       ├── Blob: Object (4 properties)
 │       │       │   ├── Enabled: *bool
 │       │       │   ├── KeyType: *string
 │       │       │   ├── LastEnabledTime: *string
 │       │       │   └── PropertyBag: genruntime.PropertyBag
-│       │       ├── File: 
+│       │       ├── File: Object (4 properties)
 │       │       │   ├── Enabled: *bool
 │       │       │   ├── KeyType: *string
 │       │       │   ├── LastEnabledTime: *string
 │       │       │   └── PropertyBag: genruntime.PropertyBag
 │       │       ├── PropertyBag: genruntime.PropertyBag
-│       │       ├── Queue: 
+│       │       ├── Queue: Object (4 properties)
 │       │       │   ├── Enabled: *bool
 │       │       │   ├── KeyType: *string
 │       │       │   ├── LastEnabledTime: *string
 │       │       │   └── PropertyBag: genruntime.PropertyBag
-│       │       └── Table: 
+│       │       └── Table: Object (4 properties)
 │       │           ├── Enabled: *bool
 │       │           ├── KeyType: *string
 │       │           ├── LastEnabledTime: *string
 │       │           └── PropertyBag: genruntime.PropertyBag
-│       ├── ExtendedLocation: 
+│       ├── ExtendedLocation: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
 │       ├── FailoverInProgress: *bool
-│       ├── GeoReplicationStats: 
+│       ├── GeoReplicationStats: Object (4 properties)
 │       │   ├── CanFailover: *bool
 │       │   ├── LastSyncTime: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Status: *string
 │       ├── Id: *string
-│       ├── Identity: 
+│       ├── Identity: Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: 
+│       │   └── UserAssignedIdentities: Object (3 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── PropertyBag: genruntime.PropertyBag
 │       ├── IsHnsEnabled: *bool
 │       ├── IsNfsV3Enabled: *bool
-│       ├── KeyCreationTime: 
+│       ├── KeyCreationTime: Object (3 properties)
 │       │   ├── Key1: *string
 │       │   ├── Key2: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── KeyPolicy: 
+│       ├── KeyPolicy: Object (2 properties)
 │       │   ├── KeyExpirationPeriodInDays: *int
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Kind: *string
@@ -223,34 +225,34 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       ├── Location: *string
 │       ├── MinimumTlsVersion: *string
 │       ├── Name: *string
-│       ├── NetworkAcls: 
+│       ├── NetworkAcls: Object (6 properties)
 │       │   ├── Bypass: *string
 │       │   ├── DefaultAction: *string
-│       │   ├── IpRules: 
+│       │   ├── IpRules: Object (3 properties)
 │       │   │   ├── Action: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── Value: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ResourceAccessRules: 
+│       │   ├── ResourceAccessRules: Object (3 properties)
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── ResourceId: *string
 │       │   │   └── TenantId: *string
-│       │   └── VirtualNetworkRules: 
+│       │   └── VirtualNetworkRules: Object (4 properties)
 │       │       ├── Action: *string
 │       │       ├── Id: *string
 │       │       ├── PropertyBag: genruntime.PropertyBag
 │       │       └── State: *string
-│       ├── PrimaryEndpoints: 
+│       ├── PrimaryEndpoints: Object (9 properties)
 │       │   ├── Blob: *string
 │       │   ├── Dfs: *string
 │       │   ├── File: *string
-│       │   ├── InternetEndpoints: 
+│       │   ├── InternetEndpoints: Object (5 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── Web: *string
-│       │   ├── MicrosoftEndpoints: 
+│       │   ├── MicrosoftEndpoints: Object (7 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
@@ -263,31 +265,31 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       │   ├── Table: *string
 │       │   └── Web: *string
 │       ├── PrimaryLocation: *string
-│       ├── PrivateEndpointConnections: 
+│       ├── PrivateEndpointConnections: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
-│       ├── RoutingPreference: 
+│       ├── RoutingPreference: Object (4 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── PublishInternetEndpoints: *bool
 │       │   ├── PublishMicrosoftEndpoints: *bool
 │       │   └── RoutingChoice: *string
-│       ├── SasPolicy: 
+│       ├── SasPolicy: Object (3 properties)
 │       │   ├── ExpirationAction: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── SasExpirationPeriod: *string
-│       ├── SecondaryEndpoints: 
+│       ├── SecondaryEndpoints: Object (9 properties)
 │       │   ├── Blob: *string
 │       │   ├── Dfs: *string
 │       │   ├── File: *string
-│       │   ├── InternetEndpoints: 
+│       │   ├── InternetEndpoints: Object (5 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   └── Web: *string
-│       │   ├── MicrosoftEndpoints: 
+│       │   ├── MicrosoftEndpoints: Object (7 properties)
 │       │   │   ├── Blob: *string
 │       │   │   ├── Dfs: *string
 │       │   │   ├── File: *string
@@ -300,43 +302,43 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       │   ├── Table: *string
 │       │   └── Web: *string
 │       ├── SecondaryLocation: *string
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
 │       ├── StatusOfPrimary: *string
 │       ├── StatusOfSecondary: *string
 │       ├── SupportsHttpsTrafficOnly: *bool
-│       ├── Tags: Map[string]string
+│       ├── Tags: map[string]string
 │       └── Type: *string
 ├── StorageAccountsBlobService: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (14 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   │   ├── ChangeFeed: 
+│   │   ├── ChangeFeed: Object (3 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── RetentionInDays: *int
-│   │   ├── ContainerDeleteRetentionPolicy: 
+│   │   ├── ContainerDeleteRetentionPolicy: Object (3 properties)
 │   │   │   ├── Days: *int
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Cors: 
-│   │   │   ├── CorsRules: 
-│   │   │   │   ├── AllowedHeaders: Array[string]
-│   │   │   │   ├── AllowedMethods: Array[string]
-│   │   │   │   ├── AllowedOrigins: Array[string]
-│   │   │   │   ├── ExposedHeaders: Array[string]
+│   │   ├── Cors: Object (2 properties)
+│   │   │   ├── CorsRules: Object (6 properties)
+│   │   │   │   ├── AllowedHeaders: string[]
+│   │   │   │   ├── AllowedMethods: string[]
+│   │   │   │   ├── AllowedOrigins: string[]
+│   │   │   │   ├── ExposedHeaders: string[]
 │   │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── DefaultServiceVersion: *string
-│   │   ├── DeleteRetentionPolicy: 
+│   │   ├── DeleteRetentionPolicy: Object (3 properties)
 │   │   │   ├── Days: *int
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── IsVersioningEnabled: *bool
-│   │   ├── LastAccessTimeTrackingPolicy: 
-│   │   │   ├── BlobType: Array[string]
+│   │   ├── LastAccessTimeTrackingPolicy: Object (5 properties)
+│   │   │   ├── BlobType: string[]
 │   │   │   ├── Enable: *bool
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -345,74 +347,76 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── RestorePolicy: 
+│   │   ├── RestorePolicy: Object (3 properties)
 │   │   │   ├── Days: *int
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: Map[string]string
-│   └── Status: 
+│   │   └── Tags: map[string]string
+│   └── Status: Object (15 properties)
 │       ├── AutomaticSnapshotPolicyEnabled: *bool
-│       ├── ChangeFeed: 
+│       ├── ChangeFeed: Object (3 properties)
 │       │   ├── Enabled: *bool
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── RetentionInDays: *int
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── ContainerDeleteRetentionPolicy: 
+│       ├── Conditions: conditions.Condition[]
+│       ├── ContainerDeleteRetentionPolicy: Object (3 properties)
 │       │   ├── Days: *int
 │       │   ├── Enabled: *bool
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Cors: 
-│       │   ├── CorsRules: 
-│       │   │   ├── AllowedHeaders: Array[string]
-│       │   │   ├── AllowedMethods: Array[string]
-│       │   │   ├── AllowedOrigins: Array[string]
-│       │   │   ├── ExposedHeaders: Array[string]
+│       ├── Cors: Object (2 properties)
+│       │   ├── CorsRules: Object (6 properties)
+│       │   │   ├── AllowedHeaders: string[]
+│       │   │   ├── AllowedMethods: string[]
+│       │   │   ├── AllowedOrigins: string[]
+│       │   │   ├── ExposedHeaders: string[]
 │       │   │   ├── MaxAgeInSeconds: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── DefaultServiceVersion: *string
-│       ├── DeleteRetentionPolicy: 
+│       ├── DeleteRetentionPolicy: Object (3 properties)
 │       │   ├── Days: *int
 │       │   ├── Enabled: *bool
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Id: *string
 │       ├── IsVersioningEnabled: *bool
-│       ├── LastAccessTimeTrackingPolicy: 
-│       │   ├── BlobType: Array[string]
+│       ├── LastAccessTimeTrackingPolicy: Object (5 properties)
+│       │   ├── BlobType: string[]
 │       │   ├── Enable: *bool
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── TrackingGranularityInDays: *int
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── RestorePolicy: 
+│       ├── RestorePolicy: Object (5 properties)
 │       │   ├── Days: *int
 │       │   ├── Enabled: *bool
 │       │   ├── LastEnabledTime: *string
 │       │   ├── MinRestoreTime: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Sku: 
+│       ├── Sku: Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
-│   ├── Spec: 
-│   │   ├── AzureName: Validated[string]
+│   ├── Spec: Object (11 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
-│   │   ├── ImmutableStorageWithVersioning: 
+│   │   ├── ImmutableStorageWithVersioning: Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Location: *string
-│   │   ├── Metadata: Map[string]string
+│   │   ├── Metadata: map[string]string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── PublicAccess: *string
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (23 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── DefaultEncryptionScope: *string
 │       ├── Deleted: *bool
 │       ├── DeletedTime: *string
@@ -421,13 +425,13 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       ├── HasImmutabilityPolicy: *bool
 │       ├── HasLegalHold: *bool
 │       ├── Id: *string
-│       ├── ImmutabilityPolicy: 
+│       ├── ImmutabilityPolicy: Object (6 properties)
 │       │   ├── AllowProtectedAppendWrites: *bool
 │       │   ├── Etag: *string
 │       │   ├── ImmutabilityPeriodSinceCreationInDays: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── State: *string
-│       │   └── UpdateHistory: 
+│       │   └── UpdateHistory: Object (7 properties)
 │       │       ├── ImmutabilityPeriodSinceCreationInDays: *int
 │       │       ├── ObjectIdentifier: *string
 │       │       ├── PropertyBag: genruntime.PropertyBag
@@ -435,7 +439,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       │       ├── Timestamp: *string
 │       │       ├── Update: *string
 │       │       └── Upn: *string
-│       ├── ImmutableStorageWithVersioning: 
+│       ├── ImmutableStorageWithVersioning: Object (4 properties)
 │       │   ├── Enabled: *bool
 │       │   ├── MigrationState: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -444,17 +448,17 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       ├── LeaseDuration: *string
 │       ├── LeaseState: *string
 │       ├── LeaseStatus: *string
-│       ├── LegalHold: 
+│       ├── LegalHold: Object (3 properties)
 │       │   ├── HasLegalHold: *bool
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Tags: 
+│       │   └── Tags: Object (6 properties)
 │       │       ├── ObjectIdentifier: *string
 │       │       ├── PropertyBag: genruntime.PropertyBag
 │       │       ├── Tag: *string
 │       │       ├── TenantId: *string
 │       │       ├── Timestamp: *string
 │       │       └── Upn: *string
-│       ├── Metadata: Map[string]string
+│       ├── Metadata: map[string]string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── PublicAccess: *string
@@ -462,60 +466,60 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       ├── Type: *string
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
-│   ├── Spec: 
+│   ├── Spec: Object (5 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Policy: 
+│   │   ├── Policy: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Rules: 
-│   │   │       ├── Definition: 
-│   │   │       │   ├── Actions: 
-│   │   │       │   │   ├── BaseBlob: 
-│   │   │       │   │   │   ├── Delete: 
+│   │   │   └── Rules: Object (5 properties)
+│   │   │       ├── Definition: Object (3 properties)
+│   │   │       │   ├── Actions: Object (4 properties)
+│   │   │       │   │   ├── BaseBlob: Object (5 properties)
+│   │   │       │   │   │   ├── Delete: Object (3 properties)
 │   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
 │   │   │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *int
 │   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
 │   │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   │   ├── TierToArchive: 
+│   │   │       │   │   │   ├── TierToArchive: Object (3 properties)
 │   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
 │   │   │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *int
 │   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   │   └── TierToCool: 
+│   │   │       │   │   │   └── TierToCool: Object (3 properties)
 │   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *int
 │   │   │       │   │   │       ├── DaysAfterModificationGreaterThan: *int
 │   │   │       │   │   │       └── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   ├── Snapshot: 
-│   │   │       │   │   │   ├── Delete: 
+│   │   │       │   │   ├── Snapshot: Object (4 properties)
+│   │   │       │   │   │   ├── Delete: Object (2 properties)
 │   │   │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *int
 │   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   │   ├── TierToArchive: 
+│   │   │       │   │   │   ├── TierToArchive: Object (2 properties)
 │   │   │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *int
 │   │   │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   │   └── TierToCool: 
+│   │   │       │   │   │   └── TierToCool: Object (2 properties)
 │   │   │       │   │   │       ├── DaysAfterCreationGreaterThan: *int
 │   │   │       │   │   │       └── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   └── Version: 
-│   │   │       │   │       ├── Delete: 
+│   │   │       │   │   └── Version: Object (4 properties)
+│   │   │       │   │       ├── Delete: Object (2 properties)
 │   │   │       │   │       │   ├── DaysAfterCreationGreaterThan: *int
 │   │   │       │   │       │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │       ├── TierToArchive: 
+│   │   │       │   │       ├── TierToArchive: Object (2 properties)
 │   │   │       │   │       │   ├── DaysAfterCreationGreaterThan: *int
 │   │   │       │   │       │   └── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │       └── TierToCool: 
+│   │   │       │   │       └── TierToCool: Object (2 properties)
 │   │   │       │   │           ├── DaysAfterCreationGreaterThan: *int
 │   │   │       │   │           └── PropertyBag: genruntime.PropertyBag
-│   │   │       │   ├── Filters: 
-│   │   │       │   │   ├── BlobIndexMatch: 
+│   │   │       │   ├── Filters: Object (4 properties)
+│   │   │       │   │   ├── BlobIndexMatch: Object (4 properties)
 │   │   │       │   │   │   ├── Name: *string
 │   │   │       │   │   │   ├── Op: *string
 │   │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │       │   │   │   └── Value: *string
-│   │   │       │   │   ├── BlobTypes: Array[string]
-│   │   │       │   │   ├── PrefixMatch: Array[string]
+│   │   │       │   │   ├── BlobTypes: string[]
+│   │   │       │   │   ├── PrefixMatch: string[]
 │   │   │       │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       │   └── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── Enabled: *bool
@@ -523,63 +527,63 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       └── Type: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
 │       ├── LastModifiedTime: *string
 │       ├── Name: *string
-│       ├── Policy: 
+│       ├── Policy: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Rules: 
-│       │       ├── Definition: 
-│       │       │   ├── Actions: 
-│       │       │   │   ├── BaseBlob: 
-│       │       │   │   │   ├── Delete: 
+│       │   └── Rules: Object (5 properties)
+│       │       ├── Definition: Object (3 properties)
+│       │       │   ├── Actions: Object (4 properties)
+│       │       │   │   ├── BaseBlob: Object (5 properties)
+│       │       │   │   │   ├── Delete: Object (3 properties)
 │       │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │       │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *float64
 │       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
 │       │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │       │   │   │   ├── TierToArchive: 
+│       │       │   │   │   ├── TierToArchive: Object (3 properties)
 │       │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │       │       │   │   │   │   ├── DaysAfterModificationGreaterThan: *float64
 │       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │       │   │   │   └── TierToCool: 
+│       │       │   │   │   └── TierToCool: Object (3 properties)
 │       │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *float64
 │       │       │   │   │       ├── DaysAfterModificationGreaterThan: *float64
 │       │       │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │       │   │   ├── Snapshot: 
-│       │       │   │   │   ├── Delete: 
+│       │       │   │   ├── Snapshot: Object (4 properties)
+│       │       │   │   │   ├── Delete: Object (2 properties)
 │       │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *float64
 │       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │       │   │   │   ├── TierToArchive: 
+│       │       │   │   │   ├── TierToArchive: Object (2 properties)
 │       │       │   │   │   │   ├── DaysAfterCreationGreaterThan: *float64
 │       │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │       │   │   │   └── TierToCool: 
+│       │       │   │   │   └── TierToCool: Object (2 properties)
 │       │       │   │   │       ├── DaysAfterCreationGreaterThan: *float64
 │       │       │   │   │       └── PropertyBag: genruntime.PropertyBag
-│       │       │   │   └── Version: 
-│       │       │   │       ├── Delete: 
+│       │       │   │   └── Version: Object (4 properties)
+│       │       │   │       ├── Delete: Object (2 properties)
 │       │       │   │       │   ├── DaysAfterCreationGreaterThan: *float64
 │       │       │   │       │   └── PropertyBag: genruntime.PropertyBag
 │       │       │   │       ├── PropertyBag: genruntime.PropertyBag
-│       │       │   │       ├── TierToArchive: 
+│       │       │   │       ├── TierToArchive: Object (2 properties)
 │       │       │   │       │   ├── DaysAfterCreationGreaterThan: *float64
 │       │       │   │       │   └── PropertyBag: genruntime.PropertyBag
-│       │       │   │       └── TierToCool: 
+│       │       │   │       └── TierToCool: Object (2 properties)
 │       │       │   │           ├── DaysAfterCreationGreaterThan: *float64
 │       │       │   │           └── PropertyBag: genruntime.PropertyBag
-│       │       │   ├── Filters: 
-│       │       │   │   ├── BlobIndexMatch: 
+│       │       │   ├── Filters: Object (4 properties)
+│       │       │   │   ├── BlobIndexMatch: Object (4 properties)
 │       │       │   │   │   ├── Name: *string
 │       │       │   │   │   ├── Op: *string
 │       │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │       │   │   │   └── Value: *string
-│       │       │   │   ├── BlobTypes: Array[string]
-│       │       │   │   ├── PrefixMatch: Array[string]
+│       │       │   │   ├── BlobTypes: string[]
+│       │       │   │   ├── PrefixMatch: string[]
 │       │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │       │   └── PropertyBag: genruntime.PropertyBag
 │       │       ├── Enabled: *bool
@@ -589,13 +593,13 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
-│   ├── Spec: 
-│   │   ├── Cors: 
-│   │   │   ├── CorsRules: 
-│   │   │   │   ├── AllowedHeaders: Array[string]
-│   │   │   │   ├── AllowedMethods: Array[string]
-│   │   │   │   ├── AllowedOrigins: Array[string]
-│   │   │   │   ├── ExposedHeaders: Array[string]
+│   ├── Spec: Object (6 properties)
+│   │   ├── Cors: Object (2 properties)
+│   │   │   ├── CorsRules: Object (6 properties)
+│   │   │   │   ├── AllowedHeaders: string[]
+│   │   │   │   ├── AllowedMethods: string[]
+│   │   │   │   ├── AllowedOrigins: string[]
+│   │   │   │   ├── ExposedHeaders: string[]
 │   │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -603,15 +607,15 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: Map[string]string
-│   └── Status: 
-│       ├── Conditions: Array[conditions.Condition]
-│       ├── Cors: 
-│       │   ├── CorsRules: 
-│       │   │   ├── AllowedHeaders: Array[string]
-│       │   │   ├── AllowedMethods: Array[string]
-│       │   │   ├── AllowedOrigins: Array[string]
-│       │   │   ├── ExposedHeaders: Array[string]
+│   │   └── Tags: map[string]string
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Cors: Object (2 properties)
+│       │   ├── CorsRules: Object (6 properties)
+│       │   │   ├── AllowedHeaders: string[]
+│       │   │   ├── AllowedMethods: string[]
+│       │   │   ├── AllowedOrigins: string[]
+│       │   │   ├── ExposedHeaders: string[]
 │       │   │   ├── MaxAgeInSeconds: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   └── PropertyBag: genruntime.PropertyBag
@@ -620,19 +624,21 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── StorageAccountsQueueServicesQueue: Resource
-    ├── Spec: 
-    │   ├── AzureName: Validated[string]
+    ├── Spec: Object (7 properties)
+    │   ├── AzureName: Validated<string> (2 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+    │   │   └── Rule 1: {MinLength %!s(int64=3)}
     │   ├── Location: *string
-    │   ├── Metadata: Map[string]string
+    │   ├── Metadata: map[string]string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: Map[string]string
-    └── Status: 
+    │   └── Tags: map[string]string
+    └── Status: Object (7 properties)
         ├── ApproximateMessageCount: *int
-        ├── Conditions: Array[conditions.Condition]
+        ├── Conditions: conditions.Condition[]
         ├── Id: *string
-        ├── Metadata: Map[string]string
+        ├── Metadata: map[string]string
         ├── Name: *string
         ├── PropertyBag: genruntime.PropertyBag
         └── Type: *string

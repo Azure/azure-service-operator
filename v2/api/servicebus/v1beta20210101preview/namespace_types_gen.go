@@ -252,10 +252,10 @@ func (namespace *Namespace) validateSecretDestinations() error {
 	if namespace.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
-	secrets := []*genruntime.SecretDestination{
+	toValidate := []*genruntime.SecretDestination{
 		namespace.Spec.OperatorSpec.Secrets.Endpoint,
 	}
-	return genruntime.ValidateSecretDestinations(secrets)
+	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -508,9 +508,7 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// no assignment for property ‘OperatorSpec’
 
 	// Set property ‘Owner’:
-	namespace.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	namespace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PrivateEndpointConnections’:
 	// copying flattened property:

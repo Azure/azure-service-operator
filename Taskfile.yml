@@ -216,7 +216,7 @@ tasks:
     desc: Verify that a sample exists for each supported resource
     deps: [ controller:generate-crds ]
     cmds:
-      - "{{.SCRIPTS_ROOT}}/check_samples.py v2/config/"
+      - "{{.SCRIPTS_ROOT}}/check_samples.py v2/"
 
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
@@ -339,9 +339,14 @@ tasks:
   # This target is intended for local use only
   controller:test-integration-envtest-record:
     desc: Run integration tests with envtest with a longer timeout suitable for recording the tests.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:run-kustomize-for-envtest]
     cmds:
-      - task: controller:test-integration-envtest
-        vars: {TIMEOUT: '{{.LIVE_TEST_TIMEOUT}}'}
+       - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -args -live
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{.LIVE_TEST_TIMEOUT}}'
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
@@ -387,7 +392,7 @@ tasks:
       # to keep CI fast
       # TODO: Below pattern was taken from https://github.com/go-task/task/pull/474 to ensure cleanup runs after the test.
       - |
-        (go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./test); # Run the tests in a subshell
+        (go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test); # Run the tests in a subshell
         TEST_EXIT=$?;
         kind delete cluster --name=asov2
         exit $TEST_EXIT
@@ -402,7 +407,7 @@ tasks:
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
-      - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+      - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
 
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.

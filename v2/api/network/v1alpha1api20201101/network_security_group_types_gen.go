@@ -422,9 +422,7 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Owner’:
-	group.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// no assignment for property ‘Reference’
 

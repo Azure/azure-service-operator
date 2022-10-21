@@ -39,8 +39,8 @@ func NewClient(client client.Client) Client {
 	}
 }
 
-func (c *clientHelper) Get(ctx context.Context, key client.ObjectKey, obj client.Object) error {
-	return c.client.Get(ctx, key, obj)
+func (c *clientHelper) Get(ctx context.Context, key client.ObjectKey, obj client.Object, opts ...client.GetOption) error {
+	return c.client.Get(ctx, key, obj, opts...)
 }
 
 func (c *clientHelper) List(ctx context.Context, list client.ObjectList, opts ...client.ListOption) error {

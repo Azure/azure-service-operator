@@ -6,8 +6,6 @@
 package genruntime
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 
 	"github.com/pkg/errors"
@@ -22,11 +20,17 @@ type ConfigMapReference struct {
 	// Name is the name of the Kubernetes configmap being referenced.
 	// The configmap must be in the same namespace as the resource
 	// +kubebuilder:validation:Required
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 
 	// Key is the key in the Kubernetes configmap being referenced
 	// +kubebuilder:validation:Required
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
+}
+
+var _ Indexer = ConfigMapReference{}
+
+func (c ConfigMapReference) Index() []string {
+	return []string{c.Name}
 }
 
 // Copy makes an independent copy of the ConfigMapReference
@@ -54,60 +58,6 @@ type NamespacedConfigMapReference struct {
 
 func (s NamespacedConfigMapReference) String() string {
 	return fmt.Sprintf("Namespace: %q, %s", s.Namespace, s.ConfigMapReference)
-}
-
-// OptionalConfigMapReference is an optional ConfigMapReference. The value can be specified in one of two ways:
-// 1. By passing the raw value (as Value).
-// 2. By passing a ConfigMapReference pointing at a config map containing the value.
-// Note that while this structure as a Ref and Value field, they are not serialized to JSON. Instead, whichever
-// field is specified is serialized directly. The MarshalJSON and UnmarshalJSON behavior of this type is similar
-// to a OneOf type. The output will either be a string or a ConfigMapReference.
-type OptionalConfigMapReference struct {
-	// Ref is a reference to a config map containing a value. This field is mutually exclusive with Value.
-	Ref *ConfigMapReference `json:"ref,omitempty"`
-
-	// Value is the string value. This field is mutually exclusive with Ref.
-	Value *string `json:"value,omitempty"`
-}
-
-func (ref *OptionalConfigMapReference) UnmarshalJSON(data []byte) error {
-	var value string
-	strErr := json.Unmarshal(data, &value)
-	if strErr == nil {
-		// Format was string, set and return
-		ref.Value = &value
-		return nil
-	}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-
-	var innerRef ConfigMapReference
-	refErr := decoder.Decode(&innerRef)
-	if refErr == nil {
-		// Format was ref, set and return
-		ref.Ref = &innerRef
-		return nil
-	}
-
-	// We wrap refErr here rather than strErr because with the string option it either is or isn't a string, there's not
-	// a lot of variability. With a complex object there are a lot more possible problems.
-	return errors.Wrap(refErr, "unexpected OptionalConfigMapReference format. Expected string or ConfigMapReference")
-}
-
-// We use value receiver here so that both ptr and non-ptr types get same Marshal behavior
-
-func (ref OptionalConfigMapReference) MarshalJSON() ([]byte, error) {
-	if ref.Value != nil {
-		return json.Marshal(ref.Value)
-	}
-
-	if ref.Ref != nil {
-		return json.Marshal(ref.Ref)
-	}
-
-	// If we've just got an empty object, serialize that
-	return []byte("{}"), nil
 }
 
 // ConfigMapDestination describes the location to store a single configmap value
@@ -163,6 +113,45 @@ func ValidateConfigMapDestinations(destinations []*ConfigMapDestination) error {
 		}
 
 		locations.Add(pair)
+	}
+
+	return nil
+}
+
+// LookupOptionalConfigMapReferenceValue looks up a ConfigMapReference if it's not nil, or else returns the provided value
+func LookupOptionalConfigMapReferenceValue(resolved Resolved[ConfigMapReference], ref *ConfigMapReference, value *string) (string, error) {
+	if ref == nil && value == nil {
+		return "", errors.Errorf("ref and value are both nil")
+	}
+
+	if ref != nil && value != nil {
+		return "", errors.Errorf("ref and value cannot both be set")
+	}
+
+	if ref == nil {
+		return *value, nil
+	} else {
+		return resolved.LookupFromPtr(ref)
+	}
+}
+
+// OptionalConfigMapReferencePair represents an optional configmap pair. Each pair has two optional fields, a
+// string and a ConfigMapReference.
+// This type is used purely for validation. The actual user supplied types are inline on the objects themselves as
+// two properties: Foo and FooFromConfig
+type OptionalConfigMapReferencePair struct {
+	Value   *string
+	Ref     *ConfigMapReference
+	Name    string
+	RefName string
+}
+
+// ValidateOptionalConfigMapReferences checks that only one of Foo and FooFromConfig are set
+func ValidateOptionalConfigMapReferences(pairs []*OptionalConfigMapReferencePair) error {
+	for _, pair := range pairs {
+		if pair.Value != nil && pair.Ref != nil {
+			return errors.Errorf("cannot specify both %s and %s", pair.Name, pair.RefName)
+		}
 	}
 
 	return nil

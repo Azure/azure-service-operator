@@ -2649,6 +2649,11 @@ func (in *DatabaseAccounts_SqlRoleAssignment_Spec) DeepCopyInto(out *DatabaseAcc
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrincipalIdFromConfig != nil {
+		in, out := &in.PrincipalIdFromConfig, &out.PrincipalIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

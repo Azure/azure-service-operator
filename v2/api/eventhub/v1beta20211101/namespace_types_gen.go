@@ -583,9 +583,7 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘Owner’:
-	namespace.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	namespace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PrivateEndpointConnections’:
 	// copying flattened property:

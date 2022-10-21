@@ -707,9 +707,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘Owner’:
-	scaleSet.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	scaleSet.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Plan’:
 	if typedInput.Plan != nil {

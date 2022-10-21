@@ -256,7 +256,7 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 	return nil
 }
 
-// DeleteByID - Deletes a resource by ID.
+// BeginDeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
 func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse[GenericDeleteResponse], error) {
 	// The linter doesn't realize that the response is closed in the course of
@@ -302,7 +302,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 	}
 	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
-	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent, http.StatusNotFound) {
+	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent) {
 		return nil, runtime.NewResponseError(resp)
 	}
 	return resp, nil

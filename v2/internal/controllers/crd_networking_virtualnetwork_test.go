@@ -15,6 +15,7 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {

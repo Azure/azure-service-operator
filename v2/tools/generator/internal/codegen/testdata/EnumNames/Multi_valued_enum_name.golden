@@ -360,9 +360,7 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	resource.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Type’:
 	resource.Type = typedInput.Type

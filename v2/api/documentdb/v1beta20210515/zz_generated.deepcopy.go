@@ -4241,6 +4241,11 @@ func (in *DatabaseAccounts_SqlRoleAssignment_Spec) DeepCopyInto(out *DatabaseAcc
 		*out = new(string)
 		**out = **in
 	}
+	if in.PrincipalIdFromConfig != nil {
+		in, out := &in.PrincipalIdFromConfig, &out.PrincipalIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.RoleDefinitionId != nil {
 		in, out := &in.RoleDefinitionId, &out.RoleDefinitionId
 		*out = new(string)

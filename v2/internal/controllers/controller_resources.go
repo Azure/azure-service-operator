@@ -251,20 +251,32 @@ func GetResourceExtensions(scheme *runtime.Scheme) (map[schema.GroupVersionKind]
 // watchSecretsFactory is used to register an EventHandlerFactory for watching secret mutations.
 func watchSecretsFactory(keys []string, objList client.ObjectList) registration.EventHandlerFactory {
 	return func(client client.Client, log logr.Logger) handler.EventHandler {
-		return handler.EnqueueRequestsFromMapFunc(watchSecrets(client, log, keys, objList))
+		return handler.EnqueueRequestsFromMapFunc(watchEntity(client, log, keys, objList, &corev1.Secret{}))
+	}
+}
+
+// watchSecretsFactory is used to register an EventHandlerFactory for watching secret mutations.
+func watchConfigMapsFactory(keys []string, objList client.ObjectList) registration.EventHandlerFactory {
+	return func(client client.Client, log logr.Logger) handler.EventHandler {
+		return handler.EnqueueRequestsFromMapFunc(watchEntity(client, log, keys, objList, &corev1.ConfigMap{}))
 	}
 }
 
 // TODO: It may be possible where we construct the ctrl.Manager to limit what secrets we watch with
 // TODO: this feature: https://github.com/kubernetes-sigs/controller-runtime/blob/master/designs/use-selectors-at-cache.md,
 // TODO: likely scoped by a label selector?
-func watchSecrets(c client.Client, log logr.Logger, keys []string, objList client.ObjectList) handler.MapFunc {
+func watchEntity(c client.Client, log logr.Logger, keys []string, objList client.ObjectList, entity client.Object) handler.MapFunc {
 	listType := reflect.TypeOf(objList).Elem()
 
 	return func(o client.Object) []reconcile.Request {
-		// Safety check that we're looking at a secret
-		if _, ok := o.(*corev1.Secret); !ok {
-			log.V(Status).Info("Unexpected non-secret", "namespace", o.GetNamespace(), "name", o.GetName(), "actual", fmt.Sprintf("%T", o))
+		// Safety check that we're looking at the right kind of entity
+		if reflect.TypeOf(o) != reflect.TypeOf(entity) {
+			log.V(Status).Info(
+				"Unexpected watch entity type",
+				"namespace", o.GetNamespace(),
+				"name", o.GetName(),
+				"actual", fmt.Sprintf("%T", o),
+				"expected", fmt.Sprintf("%T", entity))
 			return nil
 		}
 

@@ -438,9 +438,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘Owner’:
-	resource.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Type’:
 	resource.Type = typedInput.Type

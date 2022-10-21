@@ -433,9 +433,7 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Owner’:
-	database.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	database.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

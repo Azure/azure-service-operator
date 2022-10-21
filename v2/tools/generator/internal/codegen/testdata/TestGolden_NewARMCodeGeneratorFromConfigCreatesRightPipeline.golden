@@ -26,6 +26,7 @@ stripUnreferenced                                            Strip unreferenced 
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON
 addCrossResourceReferences                        azure      Replace cross-resource references with genruntime.ResourceReference
 addSecrets                                        azure      Replace properties flagged as secret with genruntime.SecretReference
+addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 createTypesForBackwardCompatibility               azure      Create clones of types for backward compatibility with prior ASO versions
 reportTypesAndVersions                            azure      Generate reports on types and versions in each package
 createArmTypes                                    azure      Create types for interaction with ARM
@@ -37,6 +38,7 @@ flattenProperties                                            Apply flattening to
 stripUnreferenced                                            Strip unreferenced types
 addStatusConditions                               azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 addOperatorSpec                                   azure      Adds the property 'OperatorSpec' to all Spec types that require it
+addKubernetesExporter                             azure      Adds the KubernetesExporter interface to resources that need it
 applyDefaulterAndValidatorInterfaces              azure      Add the admission.Defaulter and admission.Validator interfaces to each resource that requires them
 injectOriginalVersionFunction                     azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                                azure      Create storage versions of CRD types

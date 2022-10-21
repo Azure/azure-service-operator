@@ -8,6 +8,8 @@ package main
 import (
 	"context"
 	"io/ioutil"
+	"strings"
+	"unicode"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -38,10 +40,8 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			}
 
 			if debugMode != nil && *debugMode != "" {
-				// Create a temporary folder for the debug output
-				// and set the output path to that.
 				var tmpDir string
-				tmpDir, err = ioutil.TempDir("", "aso-gen-debug-")
+				tmpDir, err = ioutil.TempDir("", createDebugPrefix(*debugMode))
 				if err != nil {
 					klog.Errorf("Error creating temporary directory: %s\n", err)
 					return err
@@ -82,11 +82,36 @@ type stackTracer interface {
 // down the chain that has one. We can't just use errors.Cause(err)
 // here because the innermost error may not have been created by
 // pkg/errors (gasp).
-func findDeepestTrace(err error) errors.StackTrace {
-	var tracer stackTracer
-	if errors.As(err, &tracer) {
-		return tracer.StackTrace()
+func findDeepestTrace(err error) (errors.StackTrace, bool) {
+	nested := errors.Unwrap(err)
+	if nested != nil {
+		if tr, ok := findDeepestTrace(nested); ok {
+			// We've found the deepest trace, ,return it
+			return tr, true
+		}
 	}
 
-	return nil
+	// No stack trace found (yet), see if we have it at this level
+	//nolint:errorlint // We're walking wrapped errors ourselves
+	if tracer, ok := err.(stackTracer); ok {
+		return tracer.StackTrace(), true
+	}
+
+	// No stack found at this, or any deeper, level
+	return nil, false
+}
+
+func createDebugPrefix(debugMode string) string {
+	var builder strings.Builder
+	builder.WriteString("aso-gen-debug-")
+
+	for _, r := range debugMode {
+		if unicode.IsLetter(r) || unicode.IsNumber(r) {
+			builder.WriteRune(unicode.ToLower(r))
+		}
+	}
+
+	builder.WriteRune('-')
+
+	return builder.String()
 }

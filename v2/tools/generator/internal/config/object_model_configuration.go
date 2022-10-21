@@ -191,6 +191,33 @@ func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error
 	return visitor.Visit(omc)
 }
 
+// AzureGeneratedConfigs looks up a type to determine if it has any Azure generated configs
+func (omc *ObjectModelConfiguration) AzureGeneratedConfigs(name astmodel.TypeName) ([]string, error) {
+	var result []string
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			var err error
+			result, err = configuration.AzureGeneratedConfigs()
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// VerifyAzureGeneratedConfigsConsumed returns an error if Azure generated configs were not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyAzureGeneratedConfigsConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyAzureGeneratedConfigsConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // IsSecret looks up a property to determine whether it is a secret.
 func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	var result bool
@@ -261,6 +288,35 @@ func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsu
 	return visitor.Visit(omc)
 }
 
+// ExportAsConfigMapPropertyName looks up a property to determine the name of its ConfigMap export property (if one exists).
+func (omc *ObjectModelConfiguration) ExportAsConfigMapPropertyName(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
+	var result string
+	visitor := newSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			exportAsConfigMapPropertyName, err := configuration.ExportAsConfigMapPropertyName()
+			result = exportAsConfigMapPropertyName
+			return err
+		})
+
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
+// VerifyExportAsConfigMapPropertyNameConsumed returns an error if any ExportAsConfigMapPropertyName configuration was not consumed
+func (omc *ObjectModelConfiguration) VerifyExportAsConfigMapPropertyNameConsumed() error {
+	visitor := newEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyExportAsConfigMapPropertyNameConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // LookupSupportedFrom checks to see whether a specified type has its first ASO release configured, returning either
 // that release or a NotConfiguredError.
 func (omc *ObjectModelConfiguration) LookupSupportedFrom(name astmodel.TypeName) (string, error) {
@@ -285,6 +341,35 @@ func (omc *ObjectModelConfiguration) VerifySupportedFromConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifySupportedFromConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// ImportConfigMapMode looks up a property to determine its ImportConfigMapMode.
+// Returns the ImportConfigMapMode, or a NotConfiguredError if not configured.
+func (omc *ObjectModelConfiguration) ImportConfigMapMode(name astmodel.TypeName, property astmodel.PropertyName) (ImportConfigMapMode, error) {
+	var result ImportConfigMapMode
+	visitor := newSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			mode, err := configuration.ImportConfigMapMode()
+			result = mode
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
+// VerifyImportConfigMapModeConsumed returns an error if any ImportConfigMapMode configuration was not consumed
+func (omc *ObjectModelConfiguration) VerifyImportConfigMapModeConsumed() error {
+	visitor := newEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyImportConfigMapModeConsumed()
 		})
 	return visitor.Visit(omc)
 }

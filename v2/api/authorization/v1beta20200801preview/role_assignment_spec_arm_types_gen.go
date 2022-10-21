@@ -46,7 +46,7 @@ type RoleAssignmentProperties_ARM struct {
 	Description *string `json:"description,omitempty"`
 
 	// PrincipalId: The principal ID.
-	PrincipalId *string `json:"principalId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 
 	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType    *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`

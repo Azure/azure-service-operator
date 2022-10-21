@@ -641,9 +641,7 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘Owner’:
-	snapshot.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	snapshot.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘PurchasePlan’:
 	// copying flattened property:

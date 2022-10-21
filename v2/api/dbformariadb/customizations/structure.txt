@@ -1,4 +1,4 @@
 github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations
-├── ConfigurationExtension: 
-├── DatabaseExtension: 
-└── ServerExtension: 
+├── ConfigurationExtension: Object (0 properties)
+├── DatabaseExtension: Object (0 properties)
+└── ServerExtension: Object (0 properties)

@@ -441,9 +441,7 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Owner’:
-	enterprise.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	enterprise.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {

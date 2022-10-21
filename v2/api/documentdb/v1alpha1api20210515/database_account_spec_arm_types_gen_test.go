@@ -428,8 +428,19 @@ func BackupPolicy_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+<<<<<<< HEAD
 	AddIndependentPropertyGeneratorsForBackupPolicy_ARM(generators)
 	backupPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(BackupPolicy_ARM{}), generators)
+=======
+	AddRelatedPropertyGeneratorsForBackupPolicy_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	backupPolicy_ARMGenerator = gen.OneGenOf(gens...)
+>>>>>>> main
 
 	return backupPolicy_ARMGenerator
 }

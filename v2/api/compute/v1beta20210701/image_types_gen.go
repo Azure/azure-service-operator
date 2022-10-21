@@ -484,9 +484,7 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	}
 
 	// Set property ‘Owner’:
-	image.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	image.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘SourceVirtualMachine’:
 	// copying flattened property:

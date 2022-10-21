@@ -437,9 +437,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	}
 
 	// Set property ‘Owner’:
-	function.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	function.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
 	// Set property ‘Resource’:
 	// copying flattened property:

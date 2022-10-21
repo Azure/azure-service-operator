@@ -22,7 +22,7 @@ The [Microsoft CLA](https://cla.microsoft.com/) must be signed by all contributo
 See the [Azure Service Operator v1 Developer Guide](/docs/v1/howto/development.md) for instructions on how to build ASO v1 and test your code.
 
 ## Contributing to Azure Service Operator v2
-See [Contributing to Azure Service Operator v2](https://azure.github.io/azure-service-operator/contributing/contributing/) for instructions on how to build ASO v2 and test your code.
+See [Contributing to Azure Service Operator v2](https://azure.github.io/azure-service-operator/contributing/) for instructions on how to build ASO v2 and test your code.
 
 ## Reporting Security Issues
 
