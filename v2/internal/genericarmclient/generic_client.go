@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -39,17 +40,18 @@ type GenericClient struct {
 	creds          azcore.TokenCredential
 	opts           *arm.ClientOptions
 	metrics        metrics.ARMClientMetrics
+	credentialFrom types.NamespacedName
 }
 
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
-	return NewGenericClientFromHTTPClient(cloudCfg, creds, nil, subscriptionID, metrics)
+func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics, credentialFrom types.NamespacedName) (*GenericClient, error) {
+	return NewGenericClientFromHTTPClient(cloudCfg, creds, nil, subscriptionID, metrics, credentialFrom)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics, credentialFrom types.NamespacedName) (*GenericClient, error) {
 	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
 	if !ok {
 		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
@@ -101,6 +103,7 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 		subscriptionID: subscriptionID,
 		opts:           opts,
 		metrics:        metrics,
+		credentialFrom: credentialFrom,
 	}, nil
 }
 
@@ -112,6 +115,11 @@ func (client *GenericClient) SubscriptionID() string {
 // Creds returns the credentials used by this client
 func (client *GenericClient) Creds() azcore.TokenCredential {
 	return client.creds
+}
+
+// CredentialFrom returns the NamespacedName for the secret used by this client
+func (client *GenericClient) CredentialFrom() types.NamespacedName {
+	return client.credentialFrom
 }
 
 // ClientOptions returns the arm.ClientOptions used by this client. These options include

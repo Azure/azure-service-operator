@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -104,6 +105,8 @@ func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder 
 	if err != nil {
 		return nil, err
 	}
+
+	eventRecorder.Eventf(typedObj, v1.EventTypeNormal, "credentialFrom", "Using credential from '%q'", armClient.CredentialFrom().String())
 
 	resourceID, ok := genruntime.GetResourceID(typedObj)
 	// TODO: do we need to check for !ok here? As resource will be always claimed and annotation would be added when we reach here.

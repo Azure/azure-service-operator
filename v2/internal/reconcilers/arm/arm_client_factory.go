@@ -119,7 +119,7 @@ func (c ARMClients) newClientFromSecret(secret *v1.Secret, nsName types.Namespac
 		return nil, errors.Wrap(err, errors.Errorf("Invalid Client Secret Credential for %q encountered", nsName.String()).Error())
 	}
 
-	client, err := genericarmclient.NewGenericClient(cloud, credential, string(subscriptionID), metrics.NewARMClientMetrics())
+	client, err := genericarmclient.NewGenericClient(cloud, credential, string(subscriptionID), metrics.NewARMClientMetrics(), nsName)
 	if err != nil {
 		return nil, err
 	}
