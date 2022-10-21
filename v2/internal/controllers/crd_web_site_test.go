@@ -8,10 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
 func Test_Web_Site_CRUD(t *testing.T) {
@@ -21,7 +22,11 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	serverfarm := newServerFarm(tc, rg)
+	// Our default region (West US 2) is capacity constrained for web at the moment.
+	// location := tc.AzureRegion
+	location := "westus"
+
+	serverFarm := newServerFarm(tc, rg, location)
 
 	// TODO: We need to add support for dynamically building siteConfig.appSettings.
 	// TODO: See https://github.com/Azure/azure-service-operator/pull/2465#discussion_r956475563 for more info
@@ -30,12 +35,12 @@ func Test_Web_Site_CRUD(t *testing.T) {
 		Spec: v1beta20220301.Site_Spec{
 			Enabled:             to.BoolPtr(true),
 			Owner:               testcommon.AsOwner(rg),
-			Location:            tc.AzureRegion,
-			ServerFarmReference: tc.MakeReferenceFromResource(serverfarm),
+			Location:            &location,
+			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),
 		},
 	}
 
-	tc.CreateResourcesAndWait(serverfarm, site)
+	tc.CreateResourcesAndWait(serverFarm, site)
 
 	armId := *site.Status.Id
 	old := site.DeepCopy()

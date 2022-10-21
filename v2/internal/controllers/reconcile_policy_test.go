@@ -14,6 +14,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 )
 
 func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipped(t *testing.T) {
@@ -79,6 +80,49 @@ func Test_ReconcilePolicy_DetachOnDelete_SkipsDelete(t *testing.T) {
 func Test_ReconcilePolicy_Skip_SkipsDelete(t *testing.T) {
 	t.Parallel()
 	testDeleteSkipped(t, "skip")
+}
+
+func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	// Create a resource group
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	tc.Expect(rg.Status.ID).ToNot(BeNil())
+	rgResourceId := *rg.Status.ID
+
+	// Update the tags to skip reconcile
+	old := rg.DeepCopy()
+	rg.Spec.Tags["tag1"] = "value1"
+	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
+	tc.PatchResourceAndWait(old, rg)
+
+	// Create a child resource in this RG
+	acct := newStorageAccount(tc, rg)
+	tc.CreateResourceAndWait(acct)
+
+	tc.Expect(acct.Status.Id).ToNot(BeNil())
+	resourceId := *acct.Status.Id
+
+	// Delete the resource group that has reconcile-policy skip set
+	defer func() {
+		resp, err := tc.AzureClient.BeginDeleteByID(tc.Ctx, rgResourceId, rg.GetAPIVersion())
+		tc.Expect(err).ToNot(HaveOccurred())
+		_, err = resp.Poller.PollUntilDone(tc.Ctx, nil)
+		tc.Expect(err).ToNot(HaveOccurred())
+	}()
+	tc.DeleteResourceAndWait(rg) // This doesn't do anything in Azure because of the skip policy
+
+	tc.DeleteResourceAndWait(acct)
+	// Ensure that the account was really deleted in Azure
+	exists, _, err := tc.AzureClient.HeadByID(
+		tc.Ctx,
+		resourceId,
+		string(storage.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
 }
 
 func testDeleteSkipped(t *testing.T, policy string) {

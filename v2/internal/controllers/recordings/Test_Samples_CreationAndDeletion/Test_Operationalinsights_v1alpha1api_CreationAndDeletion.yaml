@@ -80,7 +80,45 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj?api-version=2021-06-01
     method: PUT
   response:
-    body: '{"properties":{"customerId":"23c936a1-ccd6-48df-88a9-029f0dd6b341","provisioningState":"Succeeded","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj","name":"asotestsilfoj","type":"Microsoft.OperationalInsights/workspaces","etag":"\"1a00314f-0000-0600-0000-62f3bdc00000\""}'
+    body: '{"properties":{"customerId":"bc7e637e-def6-46d0-bced-00715f6e9c97","provisioningState":"Creating","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj","name":"asotestsilfoj","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "841"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj?api-version=2021-06-01
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"customerId":"bc7e637e-def6-46d0-bced-00715f6e9c97","provisioningState":"Succeeded","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj","name":"asotestsilfoj","type":"Microsoft.OperationalInsights/workspaces"}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -96,12 +134,10 @@ interactions:
       - no-cache
       Request-Context:
       - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
-      Server:
-      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
-      - Accept-Encoding,Accept-Encoding
+      - Accept-Encoding,Accept-Encoding,Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Powered-By:
@@ -116,11 +152,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj?api-version=2021-06-01
     method: GET
   response:
-    body: '{"properties":{"customerId":"23c936a1-ccd6-48df-88a9-029f0dd6b341","provisioningState":"Succeeded","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj","name":"asotestsilfoj","type":"Microsoft.OperationalInsights/workspaces","etag":"\"1a00314f-0000-0600-0000-62f3bdc00000\""}'
+    body: '{"properties":{"customerId":"bc7e637e-def6-46d0-bced-00715f6e9c97","provisioningState":"Succeeded","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj","name":"asotestsilfoj","type":"Microsoft.OperationalInsights/workspaces"}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -136,12 +172,10 @@ interactions:
       - no-cache
       Request-Context:
       - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
-      Server:
-      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
-      - Accept-Encoding,Accept-Encoding
+      - Accept-Encoding,Accept-Encoding,Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Powered-By:
@@ -326,4 +360,37 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bdhhwo/providers/Microsoft.OperationalInsights/workspaces/asotestsilfoj?api-version=2021-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-bdhhwo''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

@@ -83,17 +83,17 @@ interactions:
     body: '{"operation":"UpsertElasticServer","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/81ab0b8c-9ff5-4d79-858d-74966e0d8b42?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/ccc08d86-4603-465a-8c2e-7cb22d3f7cbb?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "74"
+      - "73"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/81ab0b8c-9ff5-4d79-858d-74966e0d8b42?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/ccc08d86-4603-465a-8c2e-7cb22d3f7cbb?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -113,10 +113,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/81ab0b8c-9ff5-4d79-858d-74966e0d8b42?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/ccc08d86-4603-465a-8c2e-7cb22d3f7cbb?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"81ab0b8c-9ff5-4d79-858d-74966e0d8b42","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"ccc08d86-4603-465a-8c2e-7cb22d3f7cbb","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -145,10 +145,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/81ab0b8c-9ff5-4d79-858d-74966e0d8b42?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/ccc08d86-4603-465a-8c2e-7cb22d3f7cbb?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"81ab0b8c-9ff5-4d79-858d-74966e0d8b42","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"ccc08d86-4603-465a-8c2e-7cb22d3f7cbb","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -180,7 +180,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv?api-version=2018-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"hellouser","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestehjndv.mariadb.database.azure.com","earliestRestoreDate":"2022-08-17T21:20:39.857+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv","name":"asotestehjndv","type":"Microsoft.DBforMariaDB/servers"}'
+    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"hellouser","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestehjndv.mariadb.database.azure.com","earliestRestoreDate":"2022-10-19T18:42:22.797+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv","name":"asotestehjndv","type":"Microsoft.DBforMariaDB/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -212,7 +212,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv?api-version=2018-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"hellouser","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestehjndv.mariadb.database.azure.com","earliestRestoreDate":"2022-08-17T21:20:39.857+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv","name":"asotestehjndv","type":"Microsoft.DBforMariaDB/servers"}'
+    body: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"hellouser","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"10.2","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"asotestehjndv.mariadb.database.azure.com","earliestRestoreDate":"2022-10-19T18:42:22.797+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","infrastructureEncryption":"Disabled","privateEndpointConnections":[],"publicNetworkAccess":"Enabled"},"location":"eastus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv","name":"asotestehjndv","type":"Microsoft.DBforMariaDB/servers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -232,48 +232,6 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: '{"location":"eastus","name":"asotestctpcct"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "44"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv/databases/asotestctpcct?api-version=2018-06-01
-    method: PUT
-  response:
-    body: '{"operation":"UpsertElasticServerDatabase","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/f3d2ce5f-ea1b-4b02-97ca-0335d09fb13f?api-version=2018-06-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "81"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/f3d2ce5f-ea1b-4b02-97ca-0335d09fb13f?api-version=2018-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
     duration: ""
 - request:
     body: '{"location":"eastus","name":"query_cache_size","properties":{"value":"102400"}}'
@@ -293,17 +251,59 @@ interactions:
     body: '{"operation":"UpdateElasticServerConfig","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/adb89c06-4d72-413f-842a-ab6be34b16eb?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/e00fbd5e-b968-41b5-b1ad-698aaf04c6ed?api-version=2018-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "78"
+      - "80"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/adb89c06-4d72-413f-842a-ab6be34b16eb?api-version=2018-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/e00fbd5e-b968-41b5-b1ad-698aaf04c6ed?api-version=2018-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"location":"eastus","name":"asotestctpcct"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "44"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv/databases/asotestctpcct?api-version=2018-06-01
+    method: PUT
+  response:
+    body: '{"operation":"UpsertElasticServerDatabase","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/9454feae-295c-4235-a593-9c88bf3a6f31?api-version=2018-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "82"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/operationResults/9454feae-295c-4235-a593-9c88bf3a6f31?api-version=2018-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -323,10 +323,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/f3d2ce5f-ea1b-4b02-97ca-0335d09fb13f?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/9454feae-295c-4235-a593-9c88bf3a6f31?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"f3d2ce5f-ea1b-4b02-97ca-0335d09fb13f","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"9454feae-295c-4235-a593-9c88bf3a6f31","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -355,10 +355,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/adb89c06-4d72-413f-842a-ab6be34b16eb?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMariaDB/locations/eastus/azureAsyncOperation/e00fbd5e-b968-41b5-b1ad-698aaf04c6ed?api-version=2018-06-01
     method: GET
   response:
-    body: '{"name":"adb89c06-4d72-413f-842a-ab6be34b16eb","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"e00fbd5e-b968-41b5-b1ad-698aaf04c6ed","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -684,4 +684,105 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv?api-version=2018-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-kzergm''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv/databases/asotestctpcct?api-version=2018-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforMariaDB/servers/asotestehjndv''
+      under resource group ''asotest-rg-kzergm'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "233"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-kzergm/providers/Microsoft.DBforMariaDB/servers/asotestehjndv/configurations/query_cache_size?api-version=2018-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforMariaDB/servers/asotestehjndv''
+      under resource group ''asotest-rg-kzergm'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "233"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

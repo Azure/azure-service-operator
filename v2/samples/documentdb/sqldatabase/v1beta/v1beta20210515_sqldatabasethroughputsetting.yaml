@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: sample-sql-db
+    name: sample-sql-db-beta
   resource:
     autoscaleSettings:
       maxThroughput: 4000

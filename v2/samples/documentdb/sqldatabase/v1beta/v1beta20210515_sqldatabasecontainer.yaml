@@ -8,7 +8,7 @@ metadata:
 spec:
   location: eastus
   owner:
-    name: sample-sql-db
+    name: sample-sql-db-beta
   options:
     throughput: 400
   resource:

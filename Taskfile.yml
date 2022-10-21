@@ -339,9 +339,14 @@ tasks:
   # This target is intended for local use only
   controller:test-integration-envtest-record:
     desc: Run integration tests with envtest with a longer timeout suitable for recording the tests.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:run-kustomize-for-envtest]
     cmds:
-      - task: controller:test-integration-envtest
-        vars: {TIMEOUT: '{{.LIVE_TEST_TIMEOUT}}'}
+       - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -args -live
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{.LIVE_TEST_TIMEOUT}}'
 
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
