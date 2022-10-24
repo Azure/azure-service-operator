@@ -18,8 +18,8 @@ spec:
     storageProfile:
       imageReference:
         publisher: Canonical
-        offer: UbuntuServer
-        sku: 22.04-lts
+        offer: 0001-com-ubuntu-server-jammy
+        sku: 22_04-lts
         version: latest
     osProfile:
       computerNamePrefix: computer

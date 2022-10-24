@@ -532,7 +532,7 @@ func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 // leave resources around or they will continue to attempt to log to a closed test logger. To avoid this we
 // carefully delete resources starting with the root and working our way down one rank at a time. This shouldn't be much
 // slower than just deleting everything all at once. Once the root resources are deleted (first) each child resource will delete immediately
-// as it realizes that its parent is already gone: No request to Azure will be issued for these deletions so they'll complete quickly.
+// as it realizes that its parent is already gone.
 func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 	ranks := objectRanksByOwner(objs...)
 

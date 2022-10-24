@@ -89,7 +89,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vmygaf/providers/Microsoft.Batch/batchAccounts/asotestodlvhi/operationResults/da772058-8993-490f-875c-b93359b0862c?api-version=2021-01-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vmygaf/providers/Microsoft.Batch/batchAccounts/asotestodlvhi/operationResults/7b0f21a9-94ff-4bf2-9b1b-01f3dfbab048?api-version=2021-01-01
       Pragma:
       - no-cache
       Retry-After:
@@ -109,7 +109,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vmygaf/providers/Microsoft.Batch/batchAccounts/asotestodlvhi/operationResults/da772058-8993-490f-875c-b93359b0862c?api-version=2021-01-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vmygaf/providers/Microsoft.Batch/batchAccounts/asotestodlvhi/operationResults/7b0f21a9-94ff-4bf2-9b1b-01f3dfbab048?api-version=2021-01-01
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vmygaf/providers/Microsoft.Batch/batchAccounts/asotestodlvhi","name":"asotestodlvhi","type":"Microsoft.Batch/batchAccounts","location":"westcentralus","properties":{"accountEndpoint":"asotestodlvhi.westcentralus.batch.azure.com","provisioningState":"Succeeded","dedicatedCoreQuota":0,"dedicatedCoreQuotaPerVMFamily":[{"name":"standardAv2Family","coreQuota":0},{"name":"standardDv2Family","coreQuota":0},{"name":"standardDv3Family","coreQuota":0},{"name":"standardEv3Family","coreQuota":0},{"name":"standardDSv2Family","coreQuota":0},{"name":"standardDSv3Family","coreQuota":0},{"name":"standardESv3Family","coreQuota":0},{"name":"standardFSv2Family","coreQuota":0},{"name":"standardNCFamily","coreQuota":0},{"name":"standardNVFamily","coreQuota":0},{"name":"standardDDv4Family","coreQuota":0},{"name":"standardDDSv4Family","coreQuota":0},{"name":"standardEDv4Family","coreQuota":0},{"name":"standardEDSv4Family","coreQuota":0},{"name":"standardA0_A7Family","coreQuota":0},{"name":"standardA8_A11Family","coreQuota":0},{"name":"standardDFamily","coreQuota":0},{"name":"standardGFamily","coreQuota":0},{"name":"basicAFamily","coreQuota":0},{"name":"standardFFamily","coreQuota":0},{"name":"standardNVPromoFamily","coreQuota":0},{"name":"standardNCPromoFamily","coreQuota":0},{"name":"standardHFamily","coreQuota":0},{"name":"standardHPromoFamily","coreQuota":0},{"name":"standardMSFamily","coreQuota":0},{"name":"standardDSFamily","coreQuota":0},{"name":"standardFSFamily","coreQuota":0},{"name":"standardGSFamily","coreQuota":0},{"name":"standardLSFamily","coreQuota":0},{"name":"standardLSv2Family","coreQuota":0},{"name":"standardNCSv2Family","coreQuota":0},{"name":"standardNDSFamily","coreQuota":0},{"name":"standardNCSv3Family","coreQuota":0},{"name":"standardHBSFamily","coreQuota":0},{"name":"standardHCSFamily","coreQuota":0},{"name":"standardNVSv3Family","coreQuota":0},{"name":"standardHBrsv2Family","coreQuota":0},{"name":"standardDAv4Family","coreQuota":0},{"name":"standardDASv4Family","coreQuota":0},{"name":"standardEAv4Family","coreQuota":0},{"name":"standardEASv4Family","coreQuota":0},{"name":"standardMSv2Family","coreQuota":0},{"name":"standardEIv3Family","coreQuota":0},{"name":"standardNVSv4Family","coreQuota":0},{"name":"Standard
@@ -121,11 +121,11 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"0x8DA809A51CB2CC5"'
+      - '"0x8DAB202D7A85A7A"'
       Expires:
       - "-1"
       Last-Modified:
-      - Wed, 17 Aug 2022 21:49:11 GMT
+      - Wed, 19 Oct 2022 18:50:50 GMT
       Pragma:
       - no-cache
       Server:
@@ -159,11 +159,11 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"0x8DA809A512A3534"'
+      - '"0x8DAB202D72E4EAD"'
       Expires:
       - "-1"
       Last-Modified:
-      - Wed, 17 Aug 2022 21:49:10 GMT
+      - Wed, 19 Oct 2022 18:50:49 GMT
       Pragma:
       - no-cache
       Server:
@@ -474,4 +474,37 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vmygaf/providers/Microsoft.Batch/batchAccounts/asotestodlvhi?api-version=2021-01-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-vmygaf''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

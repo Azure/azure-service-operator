@@ -81,20 +81,20 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow","name":"asotestdbiosaow","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{"scratchcard":"lanyard"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Updating","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"f5f1c837-bebf-4493-9360-c5e5978f1c06","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{"scratchcard":"lanyard"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Updating","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"4969f9cd-8aa7-4c2c-a036-4a7b7d124a28","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/20cab4d4-f29e-424a-bd8c-814a112237b8?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/e97b1c92-7409-4ace-886d-68b73158573c?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/operationResults/20cab4d4-f29e-424a-bd8c-814a112237b8?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/operationResults/e97b1c92-7409-4ace-886d-68b73158573c?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -116,7 +116,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/20cab4d4-f29e-424a-bd8c-814a112237b8?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/e97b1c92-7409-4ace-886d-68b73158573c?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -146,7 +146,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/20cab4d4-f29e-424a-bd8c-814a112237b8?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/e97b1c92-7409-4ace-886d-68b73158573c?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -176,7 +176,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/20cab4d4-f29e-424a-bd8c-814a112237b8?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/e97b1c92-7409-4ace-886d-68b73158573c?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -206,7 +206,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/20cab4d4-f29e-424a-bd8c-814a112237b8?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/e97b1c92-7409-4ace-886d-68b73158573c?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -240,7 +240,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow","name":"asotestdbiosaow","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"f5f1c837-bebf-4493-9360-c5e5978f1c06","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"4969f9cd-8aa7-4c2c-a036-4a7b7d124a28","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbiosaow-westus2","locationName":"West
@@ -277,7 +277,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow","name":"asotestdbiosaow","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"f5f1c837-bebf-4493-9360-c5e5978f1c06","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"4969f9cd-8aa7-4c2c-a036-4a7b7d124a28","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbiosaow-westus2","locationName":"West
@@ -320,7 +320,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/0e0258a6-1df7-4026-8bfe-c22ee318d135?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/28c6e181-d54d-4d51-8be1-732b63158b18?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -328,7 +328,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/operationResults/0e0258a6-1df7-4026-8bfe-c22ee318d135?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/operationResults/28c6e181-d54d-4d51-8be1-732b63158b18?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -348,7 +348,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/0e0258a6-1df7-4026-8bfe-c22ee318d135?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/28c6e181-d54d-4d51-8be1-732b63158b18?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -450,20 +450,20 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow","name":"asotestdbiosaow","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Updating","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"f5f1c837-bebf-4493-9360-c5e5978f1c06","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Updating","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"4969f9cd-8aa7-4c2c-a036-4a7b7d124a28","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","failoverPriority":0}],"cors":[],"capabilities":[{"name":"EnableMongo"}],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/85c86ba6-a208-4af2-9b74-a304b45e8bca?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3d1b4cad-f631-4e70-9bc0-a4c3fba21930?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/operationResults/85c86ba6-a208-4af2-9b74-a304b45e8bca?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/operationResults/3d1b4cad-f631-4e70-9bc0-a4c3fba21930?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -485,7 +485,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/85c86ba6-a208-4af2-9b74-a304b45e8bca?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3d1b4cad-f631-4e70-9bc0-a4c3fba21930?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -515,7 +515,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/85c86ba6-a208-4af2-9b74-a304b45e8bca?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3d1b4cad-f631-4e70-9bc0-a4c3fba21930?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -545,7 +545,37 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/85c86ba6-a208-4af2-9b74-a304b45e8bca?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3d1b4cad-f631-4e70-9bc0-a4c3fba21930?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3d1b4cad-f631-4e70-9bc0-a4c3fba21930?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -579,7 +609,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow","name":"asotestdbiosaow","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{"scratchcard":"lanyard"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"f5f1c837-bebf-4493-9360-c5e5978f1c06","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{"scratchcard":"lanyard"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"4969f9cd-8aa7-4c2c-a036-4a7b7d124a28","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbiosaow-westus2","locationName":"West
@@ -616,7 +646,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow","name":"asotestdbiosaow","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{"scratchcard":"lanyard"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"f5f1c837-bebf-4493-9360-c5e5978f1c06","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"MongoDB","tags":{"scratchcard":"lanyard"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbiosaow.documents.azure.com:443/","mongoEndpoint":"https://asotestdbiosaow.mongo.cosmos.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"MongoDB","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"FullFidelity"},"instanceId":"4969f9cd-8aa7-4c2c-a036-4a7b7d124a28","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"apiProperties":{"serverVersion":"3.6"},"configurationOverrides":{"EnableBsonSchema":"True"},"writeLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbiosaow-westus2","locationName":"West
       US 2","documentEndpoint":"https://asotestdbiosaow-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbiosaow-westus2","locationName":"West
@@ -659,7 +689,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/74e64243-be55-4426-86ab-764d07fcef23?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/31d38259-3571-4c35-90e6-48f7d0bf1142?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -667,7 +697,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/operationResults/74e64243-be55-4426-86ab-764d07fcef23?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/operationResults/31d38259-3571-4c35-90e6-48f7d0bf1142?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -680,36 +710,6 @@ interactions:
       - version=2.14.0
     status: 202 Accepted
     code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/74e64243-be55-4426-86ab-764d07fcef23?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"status":"Dequeued"}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
     duration: ""
 - request:
     body: '{"name":"default","properties":{"resource":{"autoscaleSettings":{"maxThroughput":5000}}}}'
@@ -729,7 +729,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/552fd94c-5dec-4585-8779-1480e4fe569e?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/40b87e80-449e-48b0-98a1-4fac73711064?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -737,7 +737,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default/operationResults/552fd94c-5dec-4585-8779-1480e4fe569e?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default/operationResults/40b87e80-449e-48b0-98a1-4fac73711064?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -757,7 +757,37 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/552fd94c-5dec-4585-8779-1480e4fe569e?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/31d38259-3571-4c35-90e6-48f7d0bf1142?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/40b87e80-449e-48b0-98a1-4fac73711064?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -787,7 +817,37 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/74e64243-be55-4426-86ab-764d07fcef23?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/31d38259-3571-4c35-90e6-48f7d0bf1142?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/40b87e80-449e-48b0-98a1-4fac73711064?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -845,6 +905,68 @@ interactions:
     body: ""
     form: {}
     headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"yaO8","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":5000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"yaO8","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":5000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
       Accept:
       - application/json
       Test-Request-Attempt:
@@ -853,168 +975,6 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections","name":"asotest-collection-xdhvub","properties":{"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]}}]}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"asotest-collection-xdhvub","properties":{"options":{"throughput":400},"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]},"options":{"unique":true}},{"key":{"keys":["col1"]}}]}}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "236"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub?api-version=2021-05-15
-    method: PUT
-  response:
-    body: '{"status":"Enqueued"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/0e7436b7-6de0-4a06-8721-22a11efa0d9d?api-version=2021-05-15
-      Cache-Control:
-      - no-store, no-cache
-      Content-Length:
-      - "21"
-      Content-Type:
-      - application/json
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/operationResults/0e7436b7-6de0-4a06-8721-22a11efa0d9d?api-version=2021-05-15
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/552fd94c-5dec-4585-8779-1480e4fe569e?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"status":"Succeeded"}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"Grd6","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":5000},"minimumThroughput":"1000"}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"Grd6","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":5000},"minimumThroughput":"1000"}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/0e7436b7-6de0-4a06-8721-22a11efa0d9d?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"status":"Dequeued"}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1053,7 +1013,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/f87bc3a0-e1c2-45d9-8298-2c1ba8c7b6e9?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/dee1199b-5f2c-4eba-baf2-43549fff49b9?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -1061,7 +1021,47 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default/operationResults/f87bc3a0-e1c2-45d9-8298-2c1ba8c7b6e9?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default/operationResults/dee1199b-5f2c-4eba-baf2-43549fff49b9?api-version=2021-05-15
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-collection-xdhvub","properties":{"options":{"throughput":400},"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]},"options":{"unique":true}},{"key":{"keys":["col1"]}}]}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "236"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub?api-version=2021-05-15
+    method: PUT
+  response:
+    body: '{"status":"Enqueued"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/984e17ac-6aee-46a7-8df9-dcc68c42f7ac?api-version=2021-05-15
+      Cache-Control:
+      - no-store, no-cache
+      Content-Length:
+      - "21"
+      Content-Type:
+      - application/json
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/operationResults/984e17ac-6aee-46a7-8df9-dcc68c42f7ac?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1081,7 +1081,37 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/f87bc3a0-e1c2-45d9-8298-2c1ba8c7b6e9?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/dee1199b-5f2c-4eba-baf2-43549fff49b9?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"status":"Dequeued"}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/984e17ac-6aee-46a7-8df9-dcc68c42f7ac?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -1111,72 +1141,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/0e7436b7-6de0-4a06-8721-22a11efa0d9d?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/dee1199b-5f2c-4eba-baf2-43549fff49b9?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections","name":"asotest-collection-xdhvub","properties":{"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]}},{"key":{"keys":["col1"]}}]}}}'
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Content-Type:
-      - application/json
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Gatewayversion:
-      - version=2.14.0
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub?api-version=2021-05-15
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections","name":"asotest-collection-xdhvub","properties":{"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]}},{"key":{"keys":["col1"]}}]}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1203,7 +1171,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/f87bc3a0-e1c2-45d9-8298-2c1ba8c7b6e9?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/984e17ac-6aee-46a7-8df9-dcc68c42f7ac?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -1236,7 +1204,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"Grd6","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":6000},"minimumThroughput":"1000"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"yaO8","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":6000},"minimumThroughput":"1000"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1268,7 +1236,69 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"Grd6","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":6000},"minimumThroughput":"1000"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings","name":"yaO8","properties":{"resource":{"throughput":400,"autoscaleSettings":{"maxThroughput":6000},"minimumThroughput":"1000"}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections","name":"asotest-collection-xdhvub","properties":{"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]}},{"key":{"keys":["col1"]}}]}}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections","name":"asotest-collection-xdhvub","properties":{"resource":{"id":"asotest-collection-xdhvub","indexes":[{"key":{"keys":["_id"]}},{"key":{"keys":["col1"]}}]}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1307,7 +1337,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/12f5cdb3-407d-4e69-bb1b-dec2ed8b8a7b?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3570abf6-7623-4295-9281-e498e3f9d487?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -1315,7 +1345,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default/operationResults/12f5cdb3-407d-4e69-bb1b-dec2ed8b8a7b?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default/operationResults/3570abf6-7623-4295-9281-e498e3f9d487?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1335,7 +1365,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/12f5cdb3-407d-4e69-bb1b-dec2ed8b8a7b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3570abf6-7623-4295-9281-e498e3f9d487?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -1365,7 +1395,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/12f5cdb3-407d-4e69-bb1b-dec2ed8b8a7b?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/3570abf6-7623-4295-9281-e498e3f9d487?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -1398,7 +1428,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZPfE","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZbXv","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1430,7 +1460,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZPfE","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZbXv","properties":{"resource":{"throughput":500,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1469,7 +1499,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/5b7b152d-5b5b-48ef-9ca6-e920680a6e45?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/5f9477f8-41a0-416e-b321-1f4afba9ffad?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -1477,7 +1507,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default/operationResults/5b7b152d-5b5b-48ef-9ca6-e920680a6e45?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default/operationResults/5f9477f8-41a0-416e-b321-1f4afba9ffad?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1497,7 +1527,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/5b7b152d-5b5b-48ef-9ca6-e920680a6e45?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/5f9477f8-41a0-416e-b321-1f4afba9ffad?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -1527,7 +1557,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/5b7b152d-5b5b-48ef-9ca6-e920680a6e45?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/5f9477f8-41a0-416e-b321-1f4afba9ffad?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -1560,7 +1590,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZPfE","properties":{"resource":{"throughput":600,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZbXv","properties":{"resource":{"throughput":600,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1592,7 +1622,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default?api-version=2021-05-15
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZPfE","properties":{"resource":{"throughput":600,"minimumThroughput":"400"}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default","type":"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings","name":"ZbXv","properties":{"resource":{"throughput":600,"minimumThroughput":"400"}}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1627,7 +1657,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/c6b5d37b-3416-4dbf-aaf6-a4ee4244dc29?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/232db1fa-19b7-47b4-8439-2787a174b7c8?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -1635,7 +1665,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/operationResults/c6b5d37b-3416-4dbf-aaf6-a4ee4244dc29?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/operationResults/232db1fa-19b7-47b4-8439-2787a174b7c8?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -1655,7 +1685,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/c6b5d37b-3416-4dbf-aaf6-a4ee4244dc29?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/232db1fa-19b7-47b4-8439-2787a174b7c8?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Dequeued"}'
@@ -1685,7 +1715,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/c6b5d37b-3416-4dbf-aaf6-a4ee4244dc29?api-version=2021-05-15
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/232db1fa-19b7-47b4-8439-2787a174b7c8?api-version=2021-05-15
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -3048,6 +3078,486 @@ interactions:
       - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "44"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "45"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "46"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "47"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "48"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "49"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "50"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "51"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "52"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "53"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "54"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "55"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "56"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "57"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "58"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "59"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRHU0NNVkQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -3056,4 +3566,139 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow?api-version=2021-05-15
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-gscmvd''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf?api-version=2021-05-15
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow''
+      under resource group ''asotest-rg-gscmvd'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "242"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/throughputSettings/default?api-version=2021-05-15
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow''
+      under resource group ''asotest-rg-gscmvd'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "242"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gscmvd/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow/mongodbDatabases/asotest-mongo-jgswsf/collections/asotest-collection-xdhvub/throughputSettings/default?api-version=2021-05-15
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestdbiosaow''
+      under resource group ''asotest-rg-gscmvd'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "242"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""

@@ -1,7 +1,7 @@
 apiVersion: authorization.azure.com/v1beta20200801preview
 kind: RoleAssignment
 metadata:
-  name: b5ce4677-d53d-4532-aa18-ac32aecb1117 # Should be UUID
+  name: fee8b6b1-fe6e-481d-8330-0e950e4e6b86 # Should be UUID
   namespace: default
 spec:
   location: westcentralus
@@ -11,7 +11,7 @@ spec:
     group: resources.azure.com
     kind: ResourceGroup
   # This is the Principal ID of the AAD identity to which the role will be assigned
-  principalId: a6626b87-de45-43a6-8ed2-24fb1cfe7022
+  principalId: 2142e8d5-3c60-4a2f-8b93-ebb0d04622ce
   roleDefinitionReference:
     # This ARM ID represents "Contributor" - you can read about other built in roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
     armId: /subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c

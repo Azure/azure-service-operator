@@ -294,7 +294,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc","name":"asotestlcbfhc","type":"Microsoft.EventHub/Namespaces/EventHubs","location":"westcentralus","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","partitionIds":["0"]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc","name":"asotestlcbfhc","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westcentralus","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","partitionIds":["0"]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -326,7 +326,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc?api-version=2021-11-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc","name":"asotestlcbfhc","type":"Microsoft.EventHub/Namespaces/EventHubs","location":"westcentralus","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2022-08-17T21:12:55.543","updatedAt":"2022-08-17T21:12:55.72","partitionIds":["0"]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc","name":"asotestlcbfhc","type":"Microsoft.EventHub/namespaces/eventhubs","location":"westcentralus","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2022-10-19T17:56:48.2","updatedAt":"2022-10-19T17:56:49.383","partitionIds":["0"]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -430,7 +430,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationRules/asotesttwaxkn?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationRules/asotesttwaxkn","name":"asotesttwaxkn","type":"Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules","properties":{"rights":["Listen","Send"]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationRules/asotesttwaxkn","name":"asotesttwaxkn","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","properties":{"rights":["Listen","Send"]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -462,7 +462,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationRules/asotesttwaxkn?api-version=2021-11-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationrules/asotesttwaxkn","name":"asotesttwaxkn","type":"Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules","location":"westcentralus","properties":{"rights":["Listen","Send"]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationrules/asotesttwaxkn","name":"asotesttwaxkn","type":"Microsoft.EventHub/namespaces/eventhubs/authorizationrules","location":"westcentralus","properties":{"rights":["Listen","Send"]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -499,7 +499,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy?api-version=2021-11-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy","name":"asotestibmocy","type":"Microsoft.EventHub/Namespaces/EventHubs/ConsumerGroups","location":"westcentralus","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"Some
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy","name":"asotestibmocy","type":"Microsoft.EventHub/namespaces/eventhubs/consumergroups","location":"westcentralus","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"Some
       interesting metadata"}}'
     headers:
       Cache-Control:
@@ -532,7 +532,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy?api-version=2021-11-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy","name":"asotestibmocy","type":"Microsoft.EventHub/Namespaces/EventHubs/ConsumerGroups","location":"westcentralus","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"Some
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy","name":"asotestibmocy","type":"Microsoft.EventHub/namespaces/eventhubs/consumergroups","location":"westcentralus","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"Some
       interesting metadata"}}'
     headers:
       Cache-Control:
@@ -693,6 +693,36 @@ interactions:
       - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZVEVIV0ctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZVEVIV0ctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -701,4 +731,171 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ytehwg''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/authorizationRules/asotestgpziqi?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestnfueiq'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "154"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestnfueiq'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "154"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/authorizationRules/asotesttwaxkn?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestnfueiq/asotestlcbfhc''
+      not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "168"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ytehwg/providers/Microsoft.EventHub/namespaces/asotestnfueiq/eventhubs/asotestlcbfhc/consumergroups/asotestibmocy?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''asotestnfueiq/asotestlcbfhc''
+      not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "168"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
