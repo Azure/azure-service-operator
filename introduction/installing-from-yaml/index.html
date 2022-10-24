@@ -24,19 +24,19 @@
 You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step.
 You have the …">
 <meta property="og:title" content="Installation: From YAML" />
-<meta property="og:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as." />
+<meta property="og:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/" /><meta property="article:section" content="introduction" />
 
 
 
 <meta itemprop="name" content="Installation: From YAML">
-<meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.">
+<meta itemprop="description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.">
 
 <meta itemprop="wordCount" content="119">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Installation: From YAML"/>
-<meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.0.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as."/>
+<meta name="twitter:description" content="Prerequisites  You have installed Cert Manager as per the installation instructions up to the &ldquo;install from Helm&rdquo; step. You have the AZURE_SUBSCRIPTION_ID, AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET environment variables set from the installation instructions.  Installation  Install the latest v2&#43; release of Azure Service Operator. kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml  Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as."/>
 
 
 
@@ -147,14 +147,20 @@ You have the …">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
   <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
+  <a href="/azure-service-operator/introduction/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionfrequently-asked-questions"><span class="">FAQ</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionsecrets-li">
   <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
   <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="td-sidebar-nav-active-item">Installation: From YAML</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
   <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconfigmaps-li">
+  <a href="/azure-service-operator/introduction/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
+  <a href="/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
   <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconditions-li">
@@ -564,7 +570,7 @@ You have the …">
 <h3 id="installation">Installation</h3>
 <ol>
 <li>Install <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator.
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.0.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml
 </code></pre></div></li>
 <li>Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as.
 Make sure that you have the 4 environment variables from the <a href="https://azure.github.io/azure-service-operator/#installation">Helm installation instructions</a> set.

@@ -154,6 +154,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/frequently-asked-questions/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/secrets/</loc>
@@ -220,6 +222,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/configmaps/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/v1alpha1api20211001/</loc>
@@ -239,6 +243,8 @@
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</loc>
   </url><url>

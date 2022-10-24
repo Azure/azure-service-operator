@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.88.1" />
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/reference/signalrservice/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,17 +18,27 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>signalrservice | Azure Service Operator</title>
-<meta name="description" content="">
-<meta property="og:title" content="signalrservice" />
-<meta property="og:description" content="The most popular HTML, CSS, and JS library in the world." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/signalrservice/" />
+<title>FAQ | Azure Service Operator</title>
+<meta name="description" content="Frequently Asked Questions
+Does ASO help with Disaster Recovery (DR) of resources in Azure?
+No. If the Azure resource supports DR then you can …">
+<meta property="og:title" content="FAQ" />
+<meta property="og:description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
+How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/frequently-asked-questions/" /><meta property="article:section" content="introduction" />
 
-<meta itemprop="name" content="signalrservice">
-<meta itemprop="description" content="The most popular HTML, CSS, and JS library in the world."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="signalrservice"/>
-<meta name="twitter:description" content="The most popular HTML, CSS, and JS library in the world."/>
+
+
+<meta itemprop="name" content="FAQ">
+<meta itemprop="description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
+How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.">
+
+<meta itemprop="wordCount" content="538">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FAQ"/>
+<meta name="twitter:description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
+How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure."/>
 
 
 
@@ -43,7 +52,7 @@
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -63,7 +72,7 @@
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/introduction/" ><span>Guide</span></a>
+				<a class="nav-link active" href="/azure-service-operator/introduction/" ><span class="active">Guide</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -75,7 +84,7 @@
 				
 				
 				
-				<a class="nav-link active" href="/azure-service-operator/reference/" ><span class="active">Supported Resources</span></a>
+				<a class="nav-link" href="/azure-service-operator/reference/" ><span>Supported Resources</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -129,45 +138,45 @@
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorintroduction-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorintroduction-li">
   <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmetrics-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmetrics-li">
   <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class=""></span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
   <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
-  <a href="/azure-service-operator/introduction/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionfrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
+  <a href="/azure-service-operator/introduction/frequently-asked-questions/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionfrequently-asked-questions"><span class="td-sidebar-nav-active-item">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionsecrets-li">
   <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
   <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
   <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconfigmaps-li">
   <a href="/azure-service-operator/introduction/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
   <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconditions-li">
   <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionuninstalling-li">
   <a href="/azure-service-operator/introduction/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionuninstalling"><span class="">Uninstalling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionupgrading-li">
   <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="">Upgrading</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
@@ -176,7 +185,7 @@
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
@@ -185,7 +194,7 @@
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
@@ -198,14 +207,14 @@
   <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
@@ -224,14 +233,14 @@
   <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
@@ -240,7 +249,7 @@
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
@@ -249,14 +258,14 @@
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
@@ -267,7 +276,7 @@
   <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
@@ -276,7 +285,7 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="">dbforpostgresql.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
@@ -285,7 +294,7 @@
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
@@ -294,7 +303,7 @@
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
@@ -303,7 +312,7 @@
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
@@ -316,21 +325,21 @@
   <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
@@ -339,7 +348,7 @@
   <a href="/azure-service-operator/reference/managedidentity/v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
@@ -350,7 +359,7 @@
   <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
@@ -359,7 +368,7 @@
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
@@ -368,7 +377,7 @@
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
@@ -377,16 +386,16 @@
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencesignalrservice-li">
-  <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="td-sidebar-nav-active-item">signalrservice</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
+  <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1alpha1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001"><span class="">signalrservice.azure.com/v1alpha1api20211001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencesignalrservicev1beta20211001-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1beta20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
@@ -395,7 +404,7 @@
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
@@ -487,6 +496,21 @@
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#frequently-asked-questions">Frequently Asked Questions</a>
+      <ul>
+        <li><a href="#does-aso-help-with-disaster-recovery-dr-of-resources-in-azure">Does ASO help with Disaster Recovery (DR) of resources in Azure?</a></li>
+        <li><a href="#how-can-i-protect-against-accidentally-deleting-an-important-resource">How can I protect against accidentally deleting an important resource?</a></li>
+        <li><a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">What is the best practice for transferring ASO resources from one cluster to another?</a></li>
+        <li><a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-namespace-to-another">What is the best practice for transferring ASO resources from one namespace to another?</a></li>
+        <li><a href="#can-i-run-aso-in-active-active-mode">Can I run ASO in active-active mode?</a></li>
+        <li><a href="#can-aso-be-used-with-iacgitops-tools">Can ASO be used with IAC/GitOps tools?</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -517,17 +541,17 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/">Guide</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/signalrservice/">signalrservice</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/frequently-asked-questions/">FAQ</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>signalrservice</h1>
-  
+	<h1>FAQ</h1>
+	
 	<header class="article-meta">
 		
 
@@ -542,42 +566,51 @@
   
 
 		
-	</header>
-	
-        <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/reference/signalrservice/v1alpha1api20211001/">signalrservice.azure.com/v1alpha1api20211001</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/">signalrservice.azure.com/v1beta20211001</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
-</div>
+	</header>    
+	<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<h3 id="does-aso-help-with-disaster-recovery-dr-of-resources-in-azure">Does ASO help with Disaster Recovery (DR) of resources in Azure?</h3>
+<p>No. If the Azure resource supports DR then you can configure it through ASO.
+If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.</p>
+<h3 id="how-can-i-protect-against-accidentally-deleting-an-important-resource">How can I protect against accidentally deleting an important resource?</h3>
+<ol>
+<li>You can set <a href="https://azure.github.io/azure-service-operator/introduction/annotations/#serviceoperatorazurecomreconcile-policy">serviceoperator.azure.com/reconcile-policy: detach-on-delete</a>. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.</li>
+<li>You can use a project like <a href="https://github.com/petrkotas/k8s-object-lock">https://github.com/petrkotas/k8s-object-lock</a> to protect the resources you&rsquo;re worried about. Note: That project is not owned/sponsored by Microsoft.</li>
+<li>You can manually add a finalizer to the resource which will not be removed except manually by you when ready to delete the resource, see <a href="https://kubernetes.io/blog/2021/05/14/using-finalizers-to-control-deletion/">this</a></li>
+</ol>
+<p>There&rsquo;s also a proposal for <a href="https://github.com/kubernetes/kubernetes/issues/10179">more general upstream support</a> on this topic, although there hasn&rsquo;t been movement on it in a while.</p>
+<h3 id="what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">What is the best practice for transferring ASO resources from one cluster to another?</h3>
+<p>There are two important tenets to remember when transferring resources between clusters:</p>
+<ol>
+<li>Don&rsquo;t accidentally delete the resources in Azure during the transfer.</li>
+<li>Don&rsquo;t have two instances of ASO fighting to reconcile the same resource to different states.</li>
+</ol>
+<p>Let&rsquo;s say that you want to migrate all of your ASO resources from cluster A to cluster B. We recommend the following pattern:</p>
+<ol>
+<li>Annotate the resources in cluster A with <a href="https://azure.github.io/azure-service-operator/introduction/annotations/#serviceoperatorazurecomreconcile-policy">serviceoperator.azure.com/reconcile-policy: skip</a>. This prevents ASO in that cluster from updating or deleting those resources.</li>
+<li>Ensure that cluster B has ASO installed.</li>
+<li><code>kubectl apply</code> the resources into cluster B. We strongly recommend an infrastructure-as-code approach where you keep your original/goal-state ASO YAMLs around.</li>
+<li>Delete the resources in cluster A. Note that because of the <code>skip</code> annotation, this will not delete the backing Azure resources.</li>
+</ol>
+<h3 id="what-is-the-best-practice-for-transferring-aso-resources-from-one-namespace-to-another">What is the best practice for transferring ASO resources from one namespace to another?</h3>
+<p>See <a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">above</a>. The process is the same for moving between namespaces.</p>
+<h3 id="can-i-run-aso-in-active-active-mode">Can I run ASO in active-active mode?</h3>
+<p>This is where two different ASO instances manage the same resource in Azure.</p>
+<p>This <em>can</em> be done but is not recommended. The main risk here is the goal state between the two instances of the same resource differing, causing thrashing in Azure
+as each operator instance tries to drive to its goal. If you take great care to ensure that the goal state between the two clusters cannot differ, then
+active-active can be done.</p>
+<p>We instead recommend an active-passive approach, where in 1 cluster the resources are created/managed as normal, and in the other cluster the resources are just watched.
+This can be accomplished with the <a href="https://azure.github.io/azure-service-operator/introduction/annotations/#serviceoperatorazurecomreconcile-policy">serviceoperator.azure.com/reconcile-policy: skip</a>
+annotation used in the second cluster. In the case of a DR event, automation or manual action can remove the <code>skip</code> annotation in the passive cluster, turning it into active mode.</p>
+<h3 id="can-aso-be-used-with-iacgitops-tools">Can ASO be used with IAC/GitOps tools?</h3>
+<p>Yes! We strongly recommend using something like <a href="https://fluxcd.io/">fluxcd</a> or <a href="https://argo-cd.readthedocs.io/en/stable/">argocd</a> with ASO.</p>
+<p>If using argocd, make sure to <strong>avoid</strong> the <code>SyncPolicy Replace=true</code>, as that removes finalizers and annotations added by the operator whenever resources are re-applied.
+ASO relies on the finalizer and annotations it adds being left alone to function properly. If they are unexpectedly removed the operator may not behave as expected.</p>
 
 	
 	
 	
 </div>
+
 
           </main>
         </div>
