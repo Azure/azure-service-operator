@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -66,7 +67,7 @@ type ARMOwnedResourceReconcilerCommon struct {
 func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (bool, error) {
 	owner, err := r.ResourceResolver.ResolveOwner(ctx, obj)
 	if err != nil {
-		var typedErr *resolver.ReferenceNotFound
+		var typedErr *core.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			log.V(Info).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
 			return true, nil
@@ -152,13 +153,13 @@ type ReconcilerCommon struct {
 
 func ClassifyResolverError(err error) error {
 	// If it's specifically secret not found, say so
-	var secretErr *resolver.SecretNotFound
+	var secretErr *core.SecretNotFound
 	if errors.As(err, &secretErr) {
 		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
 	}
 
 	// If it's specifically configmap not found, say so
-	var configMapErr *resolver.ConfigMapNotFound
+	var configMapErr *core.ConfigMapNotFound
 	if errors.As(err, &configMapErr) {
 		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonConfigMapNotFound)
 	}
