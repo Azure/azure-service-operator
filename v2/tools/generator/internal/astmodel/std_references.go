@@ -83,6 +83,11 @@ var (
 	GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
 	GenRuntimeMetaObjectType         = MakeTypeName(GenRuntimeReference, "MetaObject")
 
+	OptionalConfigMapReferenceType     = NewOptionalType(ConfigMapReferenceType)
+	OptionalKnownResourceReferenceType = NewOptionalType(KnownResourceReferenceType)
+	OptionalResourceReferenceType      = NewOptionalType(ResourceReferenceType)
+	OptionalSecretReferenceType        = NewOptionalType(SecretReferenceType)
+
 	// Type names - Generic ARM client
 	GenericClientType = MakeTypeName(GenericARMClientReference, "GenericClient")
 
