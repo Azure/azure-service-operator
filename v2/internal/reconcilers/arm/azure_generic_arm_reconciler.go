@@ -8,10 +8,8 @@ package arm
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -101,23 +99,9 @@ func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder 
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
-	armClient, err := r.ARMClientFactory(typedObj, ctx)
+	armClient, err := r.ARMClientFactory(ctx, typedObj, eventRecorder)
 	if err != nil {
 		return nil, err
-	}
-
-	eventRecorder.Eventf(typedObj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", armClient.CredentialFrom().String())
-
-	resourceID, ok := genruntime.GetResourceID(typedObj)
-	// TODO: do we need to check for !ok here? As resource will be always claimed and annotation would be added when we reach here.
-	if ok {
-		subscription, err := genericarmclient.GetSubscription(resourceID)
-		if err != nil {
-			return nil, err
-		}
-		if subscription != armClient.SubscriptionID() {
-			return nil, errors.Errorf("SubscriptionID %q for %q/%q resource does not match with Client Credential: %q", subscription, typedObj.GetNamespace(), typedObj.GetName(), armClient.SubscriptionID())
-		}
 	}
 
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry

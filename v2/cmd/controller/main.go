@@ -14,8 +14,9 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
-	"k8s.io/apimachinery/pkg/types"
+	v1 "k8s.io/api/core/v1"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	"k8s.io/client-go/tools/record"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -92,17 +93,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics, types.NamespacedName{Name: "aso-controller-settings", Namespace: cfg.PodNamespace})
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
 	if err != nil {
 		setupLog.Error(err, "failed to get new genericArmClient")
 		os.Exit(1)
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClients := armreconciler.NewARMClients(globalARMClient)
+	armClients := armreconciler.NewARMClients(globalARMClient, cfg.PodNamespace)
 
-	var clientFactory armreconciler.ARMClientFactory = func(obj genruntime.ARMMetaObject, ctx context.Context) (*genericarmclient.GenericClient, error) {
-		return armClients.GetClient(obj, kubeClient, ctx, cfg.Cloud())
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject, eventRecorder record.EventRecorder) (*genericarmclient.GenericClient, error) {
+		armClient, err := armClients.GetClient(ctx, obj, kubeClient, cfg.Cloud())
+		if err != nil {
+			return nil, err
+		}
+		eventRecorder.Eventf(obj, v1.EventTypeNormal, "credentialFrom", "Using credential from %q", armClient.CredentialFrom().String())
+		return armClient.GenericClient(), nil
 	}
 
 	log := ctrl.Log.WithName("controllers")

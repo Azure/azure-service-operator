@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/pkg/errors"
 )
 
@@ -75,11 +76,9 @@ func MakeSubscriptionID(subscription string) string {
 }
 
 func GetSubscription(path string) (string, error) {
-	parts := strings.Split(path, "/")
-	for i, v := range parts {
-		if v == "subscriptions" && (i+1) < len(parts) {
-			return parts[i+1], nil
-		}
+	id, err := arm.ParseResourceID(path)
+	if err != nil {
+		return "", err
 	}
-	return "", fmt.Errorf("failed to obtain subscription ID from %s", path)
+	return id.SubscriptionID, nil
 }
