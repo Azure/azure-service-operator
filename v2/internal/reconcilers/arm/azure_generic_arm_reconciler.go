@@ -91,7 +91,7 @@ func (r *AzureDeploymentReconciler) asARMObj(obj genruntime.MetaObject) (genrunt
 	return typedObj, nil
 }
 
-func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject, ctx context.Context) (*azureDeploymentReconcilerInstance, error) {
+func (r *AzureDeploymentReconciler) makeInstance(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (*azureDeploymentReconcilerInstance, error) {
 	typedObj, err := r.asARMObj(obj)
 	if err != nil {
 		return nil, err
@@ -109,7 +109,7 @@ func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder 
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
-	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -117,7 +117,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr
 }
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
-	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -136,7 +136,7 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 		return err
 	}
 
-	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return err
 	}
@@ -150,7 +150,7 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 }
 
 func (r *AzureDeploymentReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
-	instance, err := r.makeInstance(log, eventRecorder, obj, ctx)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return err
 	}
