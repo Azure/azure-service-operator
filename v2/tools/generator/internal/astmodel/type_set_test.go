@@ -74,8 +74,8 @@ func TestSetsWithEqualObjectsAreEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := MakeTypeSet(NewOptionalType(StringType))
-	y := MakeTypeSet(NewOptionalType(StringType))
+	x := MakeTypeSet(OptionalStringType)
+	y := MakeTypeSet(OptionalStringType)
 
 	// structurally equal
 	g.Expect(x).To(Equal(y))
@@ -103,7 +103,7 @@ func TestAddEquivalentTypeTwiceDoesNotAddTwice(t *testing.T) {
 
 	x := MakeTypeSet()
 
-	g.Expect(x.Add(NewOptionalType(StringType))).To(BeTrue())
-	g.Expect(x.Add(NewOptionalType(StringType))).To(BeFalse())
+	g.Expect(x.Add(OptionalStringType)).To(BeTrue())
+	g.Expect(x.Add(OptionalStringType)).To(BeFalse())
 	g.Expect(x.Len()).To(Equal(1))
 }
