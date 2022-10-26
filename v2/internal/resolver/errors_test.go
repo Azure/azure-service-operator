@@ -14,6 +14,8 @@ import (
 	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 func TestOwnerNotFound_Is(t *testing.T) {
@@ -40,25 +42,25 @@ func TestOwnerNotFound_Is(t *testing.T) {
 	}{
 		{
 			name:     "is equal to copy",
-			expected: NewReferenceNotFoundError(fooName, nil),
-			actual:   NewReferenceNotFoundError(fooName, nil),
+			expected: core.NewReferenceNotFoundError(fooName, nil),
+			actual:   core.NewReferenceNotFoundError(fooName, nil),
 			is:       true,
 		},
 		{
 			name:     "is equal to correct type with different NamespacedName instance",
-			expected: NewReferenceNotFoundError(fooName, nil),
-			actual:   NewReferenceNotFoundError(fooName2, nil),
+			expected: core.NewReferenceNotFoundError(fooName, nil),
+			actual:   core.NewReferenceNotFoundError(fooName2, nil),
 			is:       true,
 		},
 		{
 			name:     "is not equal to correct type with different NamespacedName",
-			expected: NewReferenceNotFoundError(fooName, nil),
-			actual:   NewReferenceNotFoundError(barName, nil),
+			expected: core.NewReferenceNotFoundError(fooName, nil),
+			actual:   core.NewReferenceNotFoundError(barName, nil),
 			is:       false,
 		},
 		{
 			name:     "is not equal to incorrect type",
-			expected: NewReferenceNotFoundError(fooName, nil),
+			expected: core.NewReferenceNotFoundError(fooName, nil),
 			actual:   errors.New("this is a test"),
 			is:       false,
 		},
@@ -84,9 +86,9 @@ func TestOwnerNotFound_AsCorrectType_Works(t *testing.T) {
 		Name:      "foo",
 	}
 
-	err := NewReferenceNotFoundError(fooName, nil)
+	err := core.NewReferenceNotFoundError(fooName, nil)
 
-	var e *ReferenceNotFound
+	var e *core.ReferenceNotFound
 	g.Expect(errors.As(err, &e)).To(BeTrue())
 	g.Expect(e).To(Equal(err))
 }
@@ -100,7 +102,7 @@ func TestOwnerNotFound_AsIncorrectType_Fails(t *testing.T) {
 		Name:      "foo",
 	}
 
-	err := NewReferenceNotFoundError(fooName, nil)
+	err := core.NewReferenceNotFoundError(fooName, nil)
 
 	var e *apierrors.StatusError
 	g.Expect(errors.As(err, &e)).To(BeFalse())
@@ -116,7 +118,7 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 	}
 
 	cause := errors.New("I caused the problem")
-	err := errors.WithStack(NewReferenceNotFoundError(fooName, cause))
+	err := errors.WithStack(core.NewReferenceNotFoundError(fooName, cause))
 
 	g.Expect(errors.Cause(err)).To(Equal(cause))
 
