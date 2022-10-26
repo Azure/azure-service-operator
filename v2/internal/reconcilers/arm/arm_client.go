@@ -13,16 +13,17 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 const (
@@ -35,31 +36,35 @@ type armClient struct {
 	credentialFrom types.NamespacedName
 }
 
-func (c armClient) GenericClient() *genericarmclient.GenericClient {
+func (c *armClient) GenericClient() *genericarmclient.GenericClient {
 	return c.genericClient
 }
 
-func (c armClient) CredentialFrom() types.NamespacedName {
+func (c *armClient) CredentialFrom() types.NamespacedName {
 	return c.credentialFrom
 }
 
-type armClients struct {
+type armClientCache struct {
 	lock sync.Mutex
 	// clients map hold namespaced name for a secret to all the registered ARM clients
 	clients      map[string]*armClient
 	globalClient *armClient
+	kubeClient   kubeclient.Client
+	cloudConfig  cloud.Configuration
 }
 
-func NewARMClients(client *genericarmclient.GenericClient, podNamespace string) *armClients {
+func NewARMClientCache(client *genericarmclient.GenericClient, podNamespace string, kubeClient kubeclient.Client, configuration cloud.Configuration) *armClientCache {
 	globalClient := &armClient{
 		genericClient:  client,
 		credentialFrom: types.NamespacedName{Name: "aso-controller-settings", Namespace: podNamespace},
 	}
 
-	return &armClients{
+	return &armClientCache{
 		lock:         sync.Mutex{},
 		clients:      make(map[string]*armClient),
 		globalClient: globalClient,
+		kubeClient:   kubeClient,
+		cloudConfig:  configuration,
 	}
 }
 
@@ -72,22 +77,22 @@ func newARMClient(client *genericarmclient.GenericClient, secretData map[string]
 
 }
 
-func (c armClients) Register(client *armClient) {
+func (c *armClientCache) Register(client *armClient) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	c.clients[client.CredentialFrom().String()] = client
 }
 
-func (c armClients) Lookup(key string) (*armClient, bool) {
+func (c *armClientCache) Lookup(key string) (*armClient, bool) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	client, ok := c.clients[key]
 	return client, ok
 }
 
-func (c armClients) GetClient(ctx context.Context, obj genruntime.ARMMetaObject, kubeClient kubeclient.Client, cloud cloud.Configuration) (*armClient, error) {
+func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
 	// Namespaced secret
-	secret, err := getSecret(ctx, kubeClient, obj.GetNamespace(), namespacedSecretName)
+	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +107,7 @@ func (c armClients) GetClient(ctx context.Context, obj genruntime.ARMMetaObject,
 				return nil, err
 			}
 
-			newClient, err := genericarmclient.NewGenericClient(cloud, credential, subscriptionID, metrics.NewARMClientMetrics())
+			newClient, err := genericarmclient.NewGenericClient(c.cloudConfig, credential, subscriptionID, metrics.NewARMClientMetrics())
 			if err != nil {
 				return nil, err
 			}
@@ -118,23 +123,23 @@ func (c armClients) GetClient(ctx context.Context, obj genruntime.ARMMetaObject,
 	return c.globalClient, nil
 }
 
-func (c armClients) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
+func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
-		return nil, "", resolver.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
+		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
 	}
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
-		return nil, "", resolver.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
+		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
 	}
 	clientID, ok := secret.Data[config.AzureClientID]
 	if !ok {
-		return nil, "", resolver.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientID))
+		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientID))
 	}
 	clientSecret, ok := secret.Data[config.AzureClientSecret]
 	// TODO: We check this for now until we support Workload Identity. When we support workload identity for multitenancy, !ok would mean to check for workload identity.
 	if !ok {
-		return nil, "", resolver.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecret))
+		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecret))
 	}
 
 	credential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
@@ -144,10 +149,10 @@ func (c armClients) newCredentialFromSecret(secret *v1.Secret, nsName types.Name
 	return credential, string(subscriptionID), nil
 }
 
-func getSecret(ctx context.Context, kubeClient kubeclient.Client, namespace string, secretName string) (*v1.Secret, error) {
+func (c *armClientCache) getSecret(ctx context.Context, namespace string, secretName string) (*v1.Secret, error) {
 	secret := &v1.Secret{}
 
-	err := kubeClient.Get(
+	err := c.kubeClient.Get(
 		ctx,
 		types.NamespacedName{Namespace: namespace, Name: secretName},
 		secret)
