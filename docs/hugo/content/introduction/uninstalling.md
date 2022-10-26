@@ -31,5 +31,5 @@ kubectl delete namespace azureserviceoperator-system
 > ensure that there are no remaining ASO resources in the cluster before you run this command.
 
 ```bash
-kubectl delete -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.1.yaml
+kubectl delete -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml
 ```

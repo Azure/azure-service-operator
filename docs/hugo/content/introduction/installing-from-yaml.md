@@ -11,7 +11,7 @@ title: "Installation: From YAML"
 
 1. Install [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator.
    ```bash
-   kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.0.yaml
+   kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml
    ```
 2. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. 
    Make sure that you have the 4 environment variables from the [Helm installation instructions](https://azure.github.io/azure-service-operator/#installation) set.

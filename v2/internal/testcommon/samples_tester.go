@@ -15,12 +15,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/yaml"
+
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 
@@ -42,9 +43,6 @@ var exclusions = []string{
 
 	// Excluding dbformysql/user as is not an ARM resource
 	"user",
-
-	// Excluding sqlroleassignment because it needs to reference a principalId
-	"sqlroleassignment",
 }
 
 type SamplesTester struct {
