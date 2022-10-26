@@ -75,14 +75,14 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	asserter.assert(fileName, def)
 }
 
-// AssertObjectHasProperty fails the test if the given object does not have a property with the given name.
+// AssertPropertyExists fails the test if the given object does not have a property with the given name and type
 // t is the current test.
 // atype is the type that's expected to have the property.
-// propertyName is the name of the property to be checked.
+// expectedName is the name of the property we expect to be present.
 func AssertPropertyExists(
 	t *testing.T,
 	atype astmodel.Type,
-	propertyName astmodel.PropertyName,
+	expectedName astmodel.PropertyName,
 ) *astmodel.PropertyDefinition {
 	t.Helper()
 	container, ok := astmodel.AsPropertyContainer(atype)
@@ -90,9 +90,33 @@ func AssertPropertyExists(
 		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
 	}
 
-	property, ok := container.Property(propertyName)
+	property, ok := container.Property(expectedName)
 	if !ok {
-		t.Fatalf("Expected object to have property %q", propertyName)
+		t.Fatalf("Expected object to have property %q", expectedName)
+	}
+
+	return property
+}
+
+// AssertPropertyExists fails the test if the given object does not have a property with the given name and type
+// t is the current test.
+// atype is the type that's expected to have the property.
+// expectedName is the name of the property we expect to be present.
+// expectedType is the type of the property we expect to be present.
+func AssertPropertyExistsWithType(
+	t *testing.T,
+	atype astmodel.Type,
+	expectedName astmodel.PropertyName,
+	expectedType astmodel.Type,
+) *astmodel.PropertyDefinition {
+	t.Helper()
+	property := AssertPropertyExists(t, atype, expectedName)
+	if !astmodel.TypeEquals(property.PropertyType(), expectedType) {
+		t.Fatalf(
+			"Expected property %q to have type %q, but was %q",
+			expectedName,
+			astmodel.DebugDescription(expectedType),
+			astmodel.DebugDescription(property.PropertyType()))
 	}
 
 	return property
