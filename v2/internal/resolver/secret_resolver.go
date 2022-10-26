@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 // SecretResolver is a secret resolver
@@ -49,7 +50,7 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 	err := r.client.Get(ctx, refNamespacedName, secret)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			err := NewSecretNotFoundError(refNamespacedName, err)
+			err := core.NewSecretNotFoundError(refNamespacedName, err)
 			return "", errors.WithStack(err)
 		}
 
@@ -60,7 +61,7 @@ func (r *kubeSecretResolver) ResolveSecretReference(ctx context.Context, ref gen
 
 	valueBytes, ok := secret.Data[ref.Key]
 	if !ok {
-		return "", NewSecretNotFoundError(refNamespacedName, errors.Errorf("Secret %q does not contain key %q", refNamespacedName.String(), ref.Key))
+		return "", core.NewSecretNotFoundError(refNamespacedName, errors.Errorf("Secret %q does not contain key %q", refNamespacedName.String(), ref.Key))
 	}
 
 	return string(valueBytes), nil

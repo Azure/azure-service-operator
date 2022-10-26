@@ -8,6 +8,7 @@ package resolver
 import (
 	"context"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -49,7 +50,7 @@ func (r *kubeConfigMapResolver) ResolveConfigMapReference(ctx context.Context, r
 	err := r.client.Get(ctx, refNamespacedName, configMap)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			err := NewConfigMapNotFoundError(refNamespacedName, err)
+			err := core.NewConfigMapNotFoundError(refNamespacedName, err)
 			return "", errors.WithStack(err)
 		}
 
@@ -58,7 +59,7 @@ func (r *kubeConfigMapResolver) ResolveConfigMapReference(ctx context.Context, r
 
 	value, ok := configMap.Data[ref.Key] // TODO: Do we need to also check the binaryData field?
 	if !ok {
-		return "", NewConfigMapNotFoundError(refNamespacedName, errors.Errorf("ConfigMap %q does not contain key %q", refNamespacedName.String(), ref.Key))
+		return "", core.NewConfigMapNotFoundError(refNamespacedName, errors.Errorf("ConfigMap %q does not contain key %q", refNamespacedName.String(), ref.Key))
 	}
 
 	return value, nil

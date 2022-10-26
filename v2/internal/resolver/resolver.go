@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
@@ -161,7 +162,7 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 	refObj, err := r.client.GetObject(ctx, refNamespacedName, refGVK)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			err := NewReferenceNotFoundError(refNamespacedName, err)
+			err := core.NewReferenceNotFoundError(refNamespacedName, err)
 			return nil, errors.WithStack(err)
 		}
 
