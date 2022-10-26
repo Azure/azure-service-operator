@@ -17,7 +17,12 @@ import (
 // t is the current test
 // definitions is the set of type definitions to be asserted
 // options is an optional set of configuration options to control the assertion
-func AssertPackagesGenerateExpectedCode(t *testing.T, definitions astmodel.TypeDefinitionSet, options ...AssertionOption) {
+func AssertPackagesGenerateExpectedCode(
+	t *testing.T,
+	definitions astmodel.TypeDefinitionSet,
+	options ...AssertionOption,
+) {
+	t.Helper()
 	// Group type definitions by package
 	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition, len(definitions))
 	for _, def := range definitions {
@@ -46,6 +51,7 @@ func AssertTypeDefinitionsGenerateExpectedCode(
 	defs []astmodel.TypeDefinition,
 	options ...AssertionOption,
 ) {
+	t.Helper()
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
 	asserter.assert(name, defs...)
@@ -63,6 +69,7 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	def astmodel.TypeDefinition,
 	options ...AssertionOption,
 ) {
+	t.Helper()
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
 	asserter.assert(fileName, def)
@@ -72,7 +79,12 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 // t is the current test.
 // atype is the type that's expected to have the property.
 // propertyName is the name of the property to be checked.
-func AssertPropertyExists(t *testing.T, atype astmodel.Type, propertyName astmodel.PropertyName) *astmodel.PropertyDefinition {
+func AssertPropertyExists(
+	t *testing.T,
+	atype astmodel.Type,
+	propertyName astmodel.PropertyName,
+) *astmodel.PropertyDefinition {
+	t.Helper()
 	container, ok := astmodel.AsPropertyContainer(atype)
 	if !ok {
 		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
@@ -87,7 +99,13 @@ func AssertPropertyExists(t *testing.T, atype astmodel.Type, propertyName astmod
 }
 
 // AssertPropertyCount fails the test if the given object does not have the expected number of properties.
-func AssertPropertyCount(t *testing.T, atype astmodel.Type, expected int) {
+func AssertPropertyCount(
+	t *testing.T,
+	atype astmodel.Type,
+	expected int,
+) {
+	t.Helper()
+
 	container, ok := astmodel.AsPropertyContainer(atype)
 	if !ok {
 		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
