@@ -601,6 +601,84 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpect
 	test.AssertPropertyExists(t, actual, "Minima")
 }
 
+var (
+	zeus = createTestLeafOneOfDefinition(
+		"Zeus",
+		"zeus",
+		"zeus",
+		astmodel.NewPropertyDefinition("LightningBolts", "lightningBolts", astmodel.IntType))
+
+	demeter = createTestLeafOneOfDefinition(
+		"Demeter",
+		"demeter",
+		"demeter",
+		astmodel.NewPropertyDefinition("Crops", "crops", astmodel.IntType))
+
+	poscidon = createTestLeafOneOfDefinition(
+		"Poscidon",
+		"poscidon",
+		"poscidon",
+		astmodel.NewPropertyDefinition("Tsunamis", "tsunamis", astmodel.IntType))
+
+	hades = createTestLeafOneOfDefinition(
+		"Hades",
+		"hades",
+		"hades",
+		astmodel.NewPropertyDefinition("Souls", "souls", astmodel.IntType))
+
+	olympian = createTestRootOneOfDefinition(
+		"Olympian",
+		"name",
+		test.CreateObjectType(
+			test.FullNameProperty,
+			test.KnownAsProperty),
+		zeus.Name(),
+		demeter.Name(),
+		poscidon.Name(),
+		hades.Name())
+)
+
+func TestGolden_Synthesizer_WhenSynthesizingRootBeforeLeaves_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	// Test definitions with root first
+	RunSynthesizerTestInOrder(t, olympian, zeus, demeter, poscidon, hades)
+}
+
+func TestGolden_Synthesizer_WhenSynthesizingLeavesBeforeRoot_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	// Test definitions with root last
+	RunSynthesizerTestInOrder(t, zeus, demeter, poscidon, hades, olympian)
+}
+
+func RunSynthesizerTestInOrder(t *testing.T, defs ...astmodel.TypeDefinition) {
+	g := NewGomegaWithT(t)
+
+	synth := makeSynth(defs...)
+	visitor := createVisitorForSynthesizer(synth)
+
+	// Visit everything in order
+	updatedDefs := make(astmodel.TypeDefinitionSet)
+	for _, def := range defs {
+		def, err := visitor.VisitDefinition(def, chooseSpec)
+		g.Expect(err).To(BeNil())
+
+		updatedDefs.Add(def)
+	}
+
+	// Combine the results
+	finalDefs := updatedDefs.OverlayWith(synth.updatedDefs)
+
+	// Check on the final shape
+	for _, def := range finalDefs {
+		test.AssertDefinitionHasExpectedShape(
+			t,
+			def.Name().Name(),
+			def)
+	}
+}
+
 func createTestRootOneOfDefinition(
 	name string,
 	discriminatorProperty string,

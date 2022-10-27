@@ -1,0 +1,5 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Zeus: Object
+    ├── FullName: string
+    ├── KnownAs: string
+    └── LightningBolts: int
