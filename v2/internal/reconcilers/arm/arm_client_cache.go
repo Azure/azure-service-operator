@@ -64,14 +64,6 @@ func NewARMClientCache(
 	}
 }
 
-func newARMClient(client *genericarmclient.GenericClient, secretData map[string][]byte, credentialFrom types.NamespacedName) *armClient {
-	return &armClient{
-		genericClient:  client,
-		secretData:     secretData,
-		credentialFrom: credentialFrom,
-	}
-}
-
 func (c *armClientCache) Register(client *armClient) {
 	c.lock.Lock()
 	defer c.lock.Unlock()

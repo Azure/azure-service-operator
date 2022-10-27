@@ -17,6 +17,14 @@ type armClient struct {
 	credentialFrom types.NamespacedName
 }
 
+func newARMClient(client *genericarmclient.GenericClient, secretData map[string][]byte, credentialFrom types.NamespacedName) *armClient {
+	return &armClient{
+		genericClient:  client,
+		secretData:     secretData,
+		credentialFrom: credentialFrom,
+	}
+}
+
 func (c *armClient) GenericClient() *genericarmclient.GenericClient {
 	return c.genericClient
 }
