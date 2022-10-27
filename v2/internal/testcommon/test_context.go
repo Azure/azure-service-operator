@@ -20,10 +20,6 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -31,6 +27,11 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ssh"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.

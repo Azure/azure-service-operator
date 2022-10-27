@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -99,10 +100,12 @@ func (r *AzureDeploymentReconciler) makeInstance(ctx context.Context, log logr.L
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
-	armClient, err := r.ARMClientFactory(ctx, typedObj, eventRecorder)
+	armClient, credentialFrom, err := r.ARMClientFactory(ctx, typedObj)
 	if err != nil {
 		return nil, err
 	}
+
+	eventRecorder.Eventf(obj, v1.EventTypeNormal, "credentialFrom", "Using credential from %q", credentialFrom)
 
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
 	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, armClient, *r), nil

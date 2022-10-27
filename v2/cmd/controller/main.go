@@ -14,9 +14,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
-	v1 "k8s.io/api/core/v1"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-	"k8s.io/client-go/tools/record"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -100,15 +98,10 @@ func main() {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud())
+	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil)
 
-	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject, eventRecorder record.EventRecorder) (*genericarmclient.GenericClient, error) {
-		armClient, err := armClientCache.GetClient(ctx, obj)
-		if err != nil {
-			return nil, err
-		}
-		eventRecorder.Eventf(obj, v1.EventTypeNormal, "credentialFrom", "Using credential from %q", armClient.CredentialFrom().String())
-		return armClient.GenericClient(), nil
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+		return armClientCache.GetClient(ctx, obj)
 	}
 
 	log := ctrl.Log.WithName("controllers")

@@ -7,6 +7,7 @@ package arm
 
 import (
 	"context"
+	"net/http"
 	"reflect"
 	"sync"
 
@@ -27,6 +28,7 @@ import (
 )
 
 const (
+	// #nosec
 	namespacedSecretName = "aso-credential"
 )
 
@@ -40,8 +42,8 @@ func (c *armClient) GenericClient() *genericarmclient.GenericClient {
 	return c.genericClient
 }
 
-func (c *armClient) CredentialFrom() types.NamespacedName {
-	return c.credentialFrom
+func (c *armClient) CredentialFrom() string {
+	return c.credentialFrom.String()
 }
 
 type armClientCache struct {
@@ -51,9 +53,16 @@ type armClientCache struct {
 	globalClient *armClient
 	kubeClient   kubeclient.Client
 	cloudConfig  cloud.Configuration
+	httpClient   *http.Client
 }
 
-func NewARMClientCache(client *genericarmclient.GenericClient, podNamespace string, kubeClient kubeclient.Client, configuration cloud.Configuration) *armClientCache {
+func NewARMClientCache(
+	client *genericarmclient.GenericClient,
+	podNamespace string,
+	kubeClient kubeclient.Client,
+	configuration cloud.Configuration,
+	httpClient *http.Client) *armClientCache {
+
 	globalClient := &armClient{
 		genericClient:  client,
 		credentialFrom: types.NamespacedName{Name: "aso-controller-settings", Namespace: podNamespace},
@@ -65,6 +74,7 @@ func NewARMClientCache(client *genericarmclient.GenericClient, podNamespace stri
 		globalClient: globalClient,
 		kubeClient:   kubeClient,
 		cloudConfig:  configuration,
+		httpClient:   httpClient,
 	}
 }
 
@@ -74,13 +84,12 @@ func newARMClient(client *genericarmclient.GenericClient, secretData map[string]
 		secretData:     secretData,
 		credentialFrom: credentialFrom,
 	}
-
 }
 
 func (c *armClientCache) Register(client *armClient) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
-	c.clients[client.CredentialFrom().String()] = client
+	c.clients[client.CredentialFrom()] = client
 }
 
 func (c *armClientCache) Lookup(key string) (*armClient, bool) {
@@ -90,11 +99,12 @@ func (c *armClientCache) Lookup(key string) (*armClient, bool) {
 	return client, ok
 }
 
-func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
+// GetClient function is a helper method to find and return client and credential used for the given resource
+func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
 	// Namespaced secret
 	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 
 	if secret != nil {
@@ -104,23 +114,23 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 		if !ok || !matchSecretData(client.secretData, secret.Data) {
 			credential, subscriptionID, err := c.newCredentialFromSecret(secret, nsName)
 			if err != nil {
-				return nil, err
+				return nil, "", err
 			}
 
-			newClient, err := genericarmclient.NewGenericClient(c.cloudConfig, credential, subscriptionID, metrics.NewARMClientMetrics())
+			newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, metrics.NewARMClientMetrics())
 			if err != nil {
-				return nil, err
+				return nil, "", err
 			}
 
 			armClient := newARMClient(newClient, secret.Data, nsName)
 			c.Register(armClient)
-			return armClient, nil
+			return armClient.GenericClient(), armClient.CredentialFrom(), nil
 		} else {
-			return client, nil
+			return client.GenericClient(), client.CredentialFrom(), nil
 		}
 	}
 	// If not found, default would be global
-	return c.globalClient, nil
+	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
 }
 
 func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
