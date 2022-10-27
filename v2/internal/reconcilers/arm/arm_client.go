@@ -11,11 +11,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
-const (
-	// #nosec
-	namespacedSecretName = "aso-credential"
-)
-
 type armClient struct {
 	genericClient  *genericarmclient.GenericClient
 	secretData     map[string][]byte

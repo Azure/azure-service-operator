@@ -27,6 +27,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
+const (
+	// #nosec
+	namespacedSecretName = "aso-credential"
+)
+
 type armClientCache struct {
 	lock sync.Mutex
 	// clients map hold namespaced name for a secret to all the registered ARM clients
