@@ -26,6 +26,7 @@ import (
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 var _ genruntime.Reconciler = &MySQLUserReconciler{}
@@ -133,7 +134,7 @@ func (r *MySQLUserReconciler) Delete(ctx context.Context, log logr.Logger, event
 	// This is an optimization to avoid excess requests to Azure.
 	_, err = r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
-		var typedErr *resolver.ReferenceNotFound
+		var typedErr *core.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			return ctrl.Result{}, nil
 		}
