@@ -1,0 +1,20 @@
+apiVersion: sql.azure.com/v1beta20211101
+kind: ServersFailoverGroup
+metadata:
+  name: aso-sample-failovergroup
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserverprimary # TODO: This doesn't exist right now
+  databasesReferences:
+  - group: sql.azure.com
+    kind: ServersDatabase
+    name: aso-sample-db
+  partnerServers:
+  - reference:
+      group: sql.azure.com
+      kind: Server
+      name: aso-sample-sqlserversecondary
+  readWriteEndpoint:
+    failoverPolicy: Automatic
+    failoverWithDataLossGracePeriodMinutes: 60
