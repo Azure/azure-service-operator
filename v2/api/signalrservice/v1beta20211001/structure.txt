@@ -18,12 +18,11 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001
 │   │   │   └── Value: Validated<*string> (2 rules)
 │   │   │       ├── Rule 0: {MaxLength %!s(int64=128)}
 │   │   │       └── Rule 1: {MinLength %!s(int64=1)}
-│   │   ├── Identity: Object (2 properties)
-│   │   │   ├── Type: Enum (3 values)
-│   │   │   │   ├── "None"
-│   │   │   │   ├── "SystemAssigned"
-│   │   │   │   └── "UserAssigned"
-│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
+│   │   ├── Identity: Object (1 property)
+│   │   │   └── Type: Enum (3 values)
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       └── "UserAssigned"
 │   │   ├── Kind: Enum (2 values)
 │   │   │   ├── "RawWebSockets"
 │   │   │   └── "SignalR"
@@ -237,7 +236,7 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001
 │       │       ├── HubPattern: *string
 │       │       └── UrlTemplate: *string
 │       └── Version: *string
-├── SignalRResource_STATUS_ARM: Object (10 properties)
+├── SignalR_STATUS_ARM: Object (10 properties)
 │   ├── Id: *string
 │   ├── Identity: Object (4 properties)
 │   │   ├── PrincipalId: *string
@@ -390,13 +389,13 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── SignalR_Spec_ARM: Object (7 properties)
-    ├── Identity: Object (2 properties)
-    │   ├── Type: Enum (3 values)
-    │   │   ├── "None"
-    │   │   ├── "SystemAssigned"
-    │   │   └── "UserAssigned"
-    │   └── UserAssignedIdentities: map[string]v1.JSON
+└── SignalR_Spec_ARM: Object (8 properties)
+    ├── AzureName: string
+    ├── Identity: Object (1 property)
+    │   └── Type: Enum (3 values)
+    │       ├── "None"
+    │       ├── "SystemAssigned"
+    │       └── "UserAssigned"
     ├── Kind: Enum (2 values)
     │   ├── "RawWebSockets"
     │   └── "SignalR"

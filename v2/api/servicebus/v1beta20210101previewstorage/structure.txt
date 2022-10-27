@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
-│   ├── Spec: Object (11 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AzureName: string
 │   │   ├── Encryption: Object (4 properties)
 │   │   │   ├── KeySource: *string
@@ -27,6 +27,16 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │   │   │       └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateEndpointConnections: Object (4 properties)
+│   │   │   ├── PrivateEndpoint: Object (2 properties)
+│   │   │   │   ├── Id: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
+│   │   │   │   ├── Description: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Status: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ProvisioningState: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Sku: Object (4 properties)
 │   │   │   ├── Capacity: *int
@@ -96,10 +106,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
 ├── NamespacesQueue: Resource
-│   ├── Spec: Object (20 properties)
+│   ├── Spec: Object (18 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: string
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -108,7 +117,6 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │   │   ├── EnablePartitioning: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── Location: *string
 │   │   ├── LockDuration: *string
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MaxSizeInMegabytes: *int
@@ -116,8 +124,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── RequiresDuplicateDetection: *bool
-│   │   ├── RequiresSession: *bool
-│   │   └── Tags: map[string]string
+│   │   └── RequiresSession: *bool
 │   └── Status: Object (27 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -160,23 +167,20 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopic: Resource
-│   ├── Spec: Object (15 properties)
+│   ├── Spec: Object (13 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: string
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
-│   │   ├── Location: *string
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── RequiresDuplicateDetection: *bool
-│   │   ├── SupportOrdering: *bool
-│   │   └── Tags: map[string]string
+│   │   └── SupportOrdering: *bool
 │   └── Status: Object (22 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -214,11 +218,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscription: Resource
-│   ├── Spec: Object (17 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: string
 │   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
@@ -226,14 +228,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── Location: *string
 │   │   ├── LockDuration: *string
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── RequiresSession: *bool
-│   │   └── Tags: map[string]string
+│   │   └── RequiresSession: *bool
 │   └── Status: Object (23 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -272,15 +272,13 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 └── NamespacesTopicsSubscriptionsRule: Resource
-    ├── Spec: Object (10 properties)
+    ├── Spec: Object (8 properties)
     │   ├── Action: Object (4 properties)
     │   │   ├── CompatibilityLevel: *int
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── RequiresPreprocessing: *bool
     │   │   └── SqlExpression: *string
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-    │   │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   ├── AzureName: string
     │   ├── CorrelationFilter: Object (11 properties)
     │   │   ├── ContentType: *string
     │   │   ├── CorrelationId: *string
@@ -294,16 +292,14 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
     │   │   ├── SessionId: *string
     │   │   └── To: *string
     │   ├── FilterType: *string
-    │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── SqlFilter: Object (4 properties)
-    │   │   ├── CompatibilityLevel: *int
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── RequiresPreprocessing: *bool
-    │   │   └── SqlExpression: *string
-    │   └── Tags: map[string]string
+    │   └── SqlFilter: Object (4 properties)
+    │       ├── CompatibilityLevel: *int
+    │       ├── PropertyBag: genruntime.PropertyBag
+    │       ├── RequiresPreprocessing: *bool
+    │       └── SqlExpression: *string
     └── Status: Object (10 properties)
         ├── Action: Object (4 properties)
         │   ├── CompatibilityLevel: *int

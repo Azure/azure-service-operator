@@ -100,14 +100,12 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Type: *string
 │       └── Version: *string
 ├── FlexibleServersConfiguration: Resource
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Source: *string
-│   │   ├── Tags: map[string]string
 │   │   └── Value: *string
 │   └── Status: Object (17 properties)
 │       ├── AllowedValues: *string
@@ -135,15 +133,13 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Unit: *string
 │       └── Value: *string
 ├── FlexibleServersDatabase: Resource
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (8 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
@@ -161,15 +157,13 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── FlexibleServersFirewallRule: Resource
-    ├── Spec: Object (8 properties)
+    ├── Spec: Object (6 properties)
     │   ├── AzureName: string
     │   ├── EndIpAddress: *string
-    │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── StartIpAddress: *string
-    │   └── Tags: map[string]string
+    │   └── StartIpAddress: *string
     └── Status: Object (8 properties)
         ├── Conditions: conditions.Condition[]
         ├── EndIpAddress: *string

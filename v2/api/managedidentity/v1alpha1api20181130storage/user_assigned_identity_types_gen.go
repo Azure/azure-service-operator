@@ -397,7 +397,6 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 	return nil
 }
 
-<<<<<<< HEAD
 // Storage version of v1alpha1api20181130.UserAssignedIdentity_STATUS
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20181130.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS struct {
@@ -500,44 +499,12 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 		identity.PropertyBag = propertyBag
 	} else {
 		identity.PropertyBag = nil
-=======
-// Storage version of v1alpha1api20181130.UserAssignedIdentityOperatorSpec
-// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type UserAssignedIdentityOperatorSpec struct {
-	ConfigMaps  *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
-	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
-func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *v20181130s.UserAssignedIdentityOperatorSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ConfigMaps
-	if source.ConfigMaps != nil {
-		var configMap UserAssignedIdentityOperatorConfigMaps
-		err := configMap.AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source.ConfigMaps)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
-		}
-		operator.ConfigMaps = &configMap
-	} else {
-		operator.ConfigMaps = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		operator.PropertyBag = propertyBag
-	} else {
-		operator.PropertyBag = nil
->>>>>>> main
 	}
 
 	// No error
 	return nil
 }
 
-<<<<<<< HEAD
 // AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20181130s.UserAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
@@ -569,7 +536,53 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
-=======
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20181130.UserAssignedIdentityOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type UserAssignedIdentityOperatorSpec struct {
+	ConfigMaps  *UserAssignedIdentityOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *v20181130s.UserAssignedIdentityOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap UserAssignedIdentityOperatorConfigMaps
+		err := configMap.AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // AssignProperties_To_UserAssignedIdentityOperatorSpec populates the provided destination UserAssignedIdentityOperatorSpec from our UserAssignedIdentityOperatorSpec
 func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssignedIdentityOperatorSpec(destination *v20181130s.UserAssignedIdentityOperatorSpec) error {
 	// Clone the existing property bag
@@ -657,7 +670,6 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 	} else {
 		destination.PrincipalId = nil
 	}
->>>>>>> main
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

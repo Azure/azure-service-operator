@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_SBSubscription_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Topics_Subscription_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SBSubscription_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBSubscription_STATUS_ARM, SBSubscription_STATUS_ARMGenerator()))
+		"Round trip of Namespaces_Topics_Subscription_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topics_Subscription_STATUS_ARM, Namespaces_Topics_Subscription_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBSubscription_STATUS_ARM runs a test to see if a specific instance of SBSubscription_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBSubscription_STATUS_ARM(subject SBSubscription_STATUS_ARM) string {
+// RunJSONSerializationTestForNamespaces_Topics_Subscription_STATUS_ARM runs a test to see if a specific instance of Namespaces_Topics_Subscription_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topics_Subscription_STATUS_ARM(subject Namespaces_Topics_Subscription_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForSBSubscription_STATUS_ARM(subject SBSubscription
 	}
 
 	// Deserialize back into memory
-	var actual SBSubscription_STATUS_ARM
+	var actual Namespaces_Topics_Subscription_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,41 +56,41 @@ func RunJSONSerializationTestForSBSubscription_STATUS_ARM(subject SBSubscription
 	return ""
 }
 
-// Generator of SBSubscription_STATUS_ARM instances for property testing - lazily instantiated by
-// SBSubscription_STATUS_ARMGenerator()
-var sbSubscription_STATUS_ARMGenerator gopter.Gen
+// Generator of Namespaces_Topics_Subscription_STATUS_ARM instances for property testing - lazily instantiated by
+// Namespaces_Topics_Subscription_STATUS_ARMGenerator()
+var namespaces_Topics_Subscription_STATUS_ARMGenerator gopter.Gen
 
-// SBSubscription_STATUS_ARMGenerator returns a generator of SBSubscription_STATUS_ARM instances for property testing.
-// We first initialize sbSubscription_STATUS_ARMGenerator with a simplified generator based on the
+// Namespaces_Topics_Subscription_STATUS_ARMGenerator returns a generator of Namespaces_Topics_Subscription_STATUS_ARM instances for property testing.
+// We first initialize namespaces_Topics_Subscription_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBSubscription_STATUS_ARMGenerator() gopter.Gen {
-	if sbSubscription_STATUS_ARMGenerator != nil {
-		return sbSubscription_STATUS_ARMGenerator
+func Namespaces_Topics_Subscription_STATUS_ARMGenerator() gopter.Gen {
+	if namespaces_Topics_Subscription_STATUS_ARMGenerator != nil {
+		return namespaces_Topics_Subscription_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBSubscription_STATUS_ARM(generators)
-	sbSubscription_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBSubscription_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM(generators)
+	namespaces_Topics_Subscription_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBSubscription_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForSBSubscription_STATUS_ARM(generators)
-	sbSubscription_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(SBSubscription_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM(generators)
+	namespaces_Topics_Subscription_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_STATUS_ARM{}), generators)
 
-	return sbSubscription_STATUS_ARMGenerator
+	return namespaces_Topics_Subscription_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBSubscription_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBSubscription_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBSubscription_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBSubscription_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SBSubscriptionProperties_STATUS_ARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }

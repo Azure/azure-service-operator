@@ -147,19 +147,8 @@ func Compute_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-<<<<<<< HEAD
 	AddIndependentPropertyGeneratorsForCompute_ARM(generators)
 	compute_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_ARM{}), generators)
-=======
-	AddRelatedPropertyGeneratorsForCompute_ARM(generators)
-
-	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(Compute_ARM{}), map[string]gopter.Gen{propName: propGen}))
-	}
-	compute_ARMGenerator = gen.OneGenOf(gens...)
->>>>>>> main
 
 	return compute_ARMGenerator
 }

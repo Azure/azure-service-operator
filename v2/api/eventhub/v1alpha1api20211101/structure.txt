@@ -1,197 +1,10 @@
 github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 ├── APIVersion: Enum (1 value)
 │   └── "2021-11-01"
-├── AuthorizationRule_STATUS_ARM: Object (6 properties)
-│   ├── Id: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: Object (1 property)
-│   │   └── Rights: Enum (3 values)
-│   │       ├── "Listen"
-│   │       ├── "Manage"
-│   │       └── "Send"
-│   ├── SystemData: Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
-│   └── Type: *string
-├── ConsumerGroup_STATUS_ARM: Object (6 properties)
-│   ├── Id: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: Object (3 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── UpdatedAt: *string
-│   │   └── UserMetadata: *string
-│   ├── SystemData: Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
-│   └── Type: *string
-├── EHNamespace_STATUS_ARM: Object (9 properties)
-│   ├── Id: *string
-│   ├── Identity: Object (4 properties)
-│   │   ├── PrincipalId: *string
-│   │   ├── TenantId: *string
-│   │   ├── Type: Enum (4 values)
-│   │   │   ├── "None"
-│   │   │   ├── "SystemAssigned"
-│   │   │   ├── "SystemAssigned, UserAssigned"
-│   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: Object (2 properties)
-│   │       ├── ClientId: *string
-│   │       └── PrincipalId: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: Object (15 properties)
-│   │   ├── AlternateName: *string
-│   │   ├── ClusterArmId: *string
-│   │   ├── CreatedAt: *string
-│   │   ├── DisableLocalAuth: *bool
-│   │   ├── Encryption: Object (3 properties)
-│   │   │   ├── KeySource: Enum (1 value)
-│   │   │   │   └── "Microsoft.KeyVault"
-│   │   │   ├── KeyVaultProperties: Object (4 properties)
-│   │   │   │   ├── Identity: Object (1 property)
-│   │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   │   ├── KeyName: *string
-│   │   │   │   ├── KeyVaultUri: *string
-│   │   │   │   └── KeyVersion: *string
-│   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── IsAutoInflateEnabled: *bool
-│   │   ├── KafkaEnabled: *bool
-│   │   ├── MaximumThroughputUnits: *int
-│   │   ├── MetricId: *string
-│   │   ├── PrivateEndpointConnections: Object (2 properties)
-│   │   │   ├── Id: *string
-│   │   │   └── SystemData: Object (6 properties)
-│   │   │       ├── CreatedAt: *string
-│   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: Enum (4 values)
-│   │   │       │   ├── "Application"
-│   │   │       │   ├── "Key"
-│   │   │       │   ├── "ManagedIdentity"
-│   │   │       │   └── "User"
-│   │   │       ├── LastModifiedAt: *string
-│   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: Enum (4 values)
-│   │   │           ├── "Application"
-│   │   │           ├── "Key"
-│   │   │           ├── "ManagedIdentity"
-│   │   │           └── "User"
-│   │   ├── ProvisioningState: *string
-│   │   ├── ServiceBusEndpoint: *string
-│   │   ├── Status: *string
-│   │   ├── UpdatedAt: *string
-│   │   └── ZoneRedundant: *bool
-│   ├── Sku: Object (3 properties)
-│   │   ├── Capacity: *int
-│   │   ├── Name: Enum (3 values)
-│   │   │   ├── "Basic"
-│   │   │   ├── "Premium"
-│   │   │   └── "Standard"
-│   │   └── Tier: Enum (3 values)
-│   │       ├── "Basic"
-│   │       ├── "Premium"
-│   │       └── "Standard"
-│   ├── SystemData: Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
-│   ├── Tags: map[string]string
-│   └── Type: *string
-├── Eventhub_STATUS_ARM: Object (6 properties)
-│   ├── Id: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: Object (7 properties)
-│   │   ├── CaptureDescription: Object (6 properties)
-│   │   │   ├── Destination: Object (2 properties)
-│   │   │   │   ├── Name: *string
-│   │   │   │   └── Properties: Object (6 properties)
-│   │   │   │       ├── ArchiveNameFormat: *string
-│   │   │   │       ├── BlobContainer: *string
-│   │   │   │       ├── DataLakeAccountName: *string
-│   │   │   │       ├── DataLakeFolderPath: *string
-│   │   │   │       ├── DataLakeSubscriptionId: *string
-│   │   │   │       └── StorageAccountResourceId: *string
-│   │   │   ├── Enabled: *bool
-│   │   │   ├── Encoding: Enum (2 values)
-│   │   │   │   ├── "Avro"
-│   │   │   │   └── "AvroDeflate"
-│   │   │   ├── IntervalInSeconds: *int
-│   │   │   ├── SizeLimitInBytes: *int
-│   │   │   └── SkipEmptyArchives: *bool
-│   │   ├── CreatedAt: *string
-│   │   ├── MessageRetentionInDays: *int
-│   │   ├── PartitionCount: *int
-│   │   ├── PartitionIds: string[]
-│   │   ├── Status: Enum (9 values)
-│   │   │   ├── "Active"
-│   │   │   ├── "Creating"
-│   │   │   ├── "Deleting"
-│   │   │   ├── "Disabled"
-│   │   │   ├── "ReceiveDisabled"
-│   │   │   ├── "Renaming"
-│   │   │   ├── "Restoring"
-│   │   │   ├── "SendDisabled"
-│   │   │   └── "Unknown"
-│   │   └── UpdatedAt: *string
-│   ├── SystemData: Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
-│   └── Type: *string
 ├── Namespace: Resource
 │   ├── Spec: Object (15 properties)
 │   │   ├── AlternateName: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
+│   │   ├── AzureName: string
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: Object (3 properties)
@@ -314,7 +127,91 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       ├── Type: *string
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
-├── Namespace_Spec_ARM: Object (6 properties)
+├── Namespace_STATUS_ARM: Object (9 properties)
+│   ├── Id: *string
+│   ├── Identity: Object (4 properties)
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: Object (2 properties)
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: Object (15 properties)
+│   │   ├── AlternateName: *string
+│   │   ├── ClusterArmId: *string
+│   │   ├── CreatedAt: *string
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Encryption: Object (3 properties)
+│   │   │   ├── KeySource: Enum (1 value)
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: Object (4 properties)
+│   │   │   │   ├── Identity: Object (1 property)
+│   │   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── IsAutoInflateEnabled: *bool
+│   │   ├── KafkaEnabled: *bool
+│   │   ├── MaximumThroughputUnits: *int
+│   │   ├── MetricId: *string
+│   │   ├── PrivateEndpointConnections: Object (2 properties)
+│   │   │   ├── Id: *string
+│   │   │   └── SystemData: Object (6 properties)
+│   │   │       ├── CreatedAt: *string
+│   │   │       ├── CreatedBy: *string
+│   │   │       ├── CreatedByType: Enum (4 values)
+│   │   │       │   ├── "Application"
+│   │   │       │   ├── "Key"
+│   │   │       │   ├── "ManagedIdentity"
+│   │   │       │   └── "User"
+│   │   │       ├── LastModifiedAt: *string
+│   │   │       ├── LastModifiedBy: *string
+│   │   │       └── LastModifiedByType: Enum (4 values)
+│   │   │           ├── "Application"
+│   │   │           ├── "Key"
+│   │   │           ├── "ManagedIdentity"
+│   │   │           └── "User"
+│   │   ├── ProvisioningState: *string
+│   │   ├── ServiceBusEndpoint: *string
+│   │   ├── Status: *string
+│   │   ├── UpdatedAt: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: Object (3 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Name: Enum (3 values)
+│   │   │   ├── "Basic"
+│   │   │   ├── "Premium"
+│   │   │   └── "Standard"
+│   │   └── Tier: Enum (3 values)
+│   │       ├── "Basic"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   ├── SystemData: Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── Namespace_Spec_ARM: Object (7 properties)
+│   ├── AzureName: string
 │   ├── Identity: Object (1 property)
 │   │   └── Type: Enum (4 values)
 │   │       ├── "None"
@@ -357,16 +254,13 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   │       └── "Standard"
 │   └── Tags: map[string]string
 ├── NamespacesAuthorizationRule: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
-│   │   ├── Location: *string
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Rights: Enum (3 values)
-│   │   │   ├── "Listen"
-│   │   │   ├── "Manage"
-│   │   │   └── "Send"
-│   │   └── Tags: map[string]string
+│   │   └── Rights: Enum (3 values)
+│   │       ├── "Listen"
+│   │       ├── "Manage"
+│   │       └── "Send"
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -393,10 +287,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       │       └── "User"
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
 │   │   ├── CaptureDescription: Object (6 properties)
 │   │   │   ├── Destination: Object (7 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
@@ -414,13 +306,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   │   │   ├── IntervalInSeconds: *int
 │   │   │   ├── SizeLimitInBytes: *int
 │   │   │   └── SkipEmptyArchives: *bool
-│   │   ├── Location: *string
 │   │   ├── MessageRetentionInDays: Validated<*int> (1 rule)
 │   │   │   └── Rule 0: {Minimum 1}
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PartitionCount: Validated<*int> (1 rule)
-│   │   │   └── Rule 0: {Minimum 1}
-│   │   └── Tags: map[string]string
+│   │   └── PartitionCount: Validated<*int> (1 rule)
+│   │       └── Rule 0: {Minimum 1}
 │   └── Status: Object (13 properties)
 │       ├── CaptureDescription: Object (6 properties)
 │       │   ├── Destination: Object (7 properties)
@@ -474,16 +364,13 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
-│   │   ├── Location: *string
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Rights: Enum (3 values)
-│   │   │   ├── "Listen"
-│   │   │   ├── "Manage"
-│   │   │   └── "Send"
-│   │   └── Tags: map[string]string
+│   │   └── Rights: Enum (3 values)
+│   │       ├── "Listen"
+│   │       ├── "Manage"
+│   │       └── "Send"
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -510,13 +397,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       │       └── "User"
 │       └── Type: *string
 ├── NamespacesEventhubsConsumerGroup: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
-│   │   ├── Location: *string
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Tags: map[string]string
 │   │   └── UserMetadata: *string
 │   └── Status: Object (9 properties)
 │       ├── Conditions: conditions.Condition[]
@@ -542,19 +425,44 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       ├── Type: *string
 │       ├── UpdatedAt: *string
 │       └── UserMetadata: *string
-├── Namespaces_AuthorizationRule_Spec_ARM: Object (4 properties)
+├── Namespaces_AuthorizationRule_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
 │   ├── Location: *string
-│   ├── Name: string
+│   ├── Name: *string
 │   ├── Properties: Object (1 property)
 │   │   └── Rights: Enum (3 values)
 │   │       ├── "Listen"
 │   │       ├── "Manage"
 │   │       └── "Send"
-│   └── Tags: map[string]string
-├── Namespaces_Eventhub_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
+│   ├── SystemData: Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── Namespaces_AuthorizationRule_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
 │   ├── Name: string
-│   ├── Properties: Object (3 properties)
+│   └── Properties: Object (1 property)
+│       └── Rights: Enum (3 values)
+│           ├── "Listen"
+│           ├── "Manage"
+│           └── "Send"
+├── Namespaces_Eventhub_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: Object (7 properties)
 │   │   ├── CaptureDescription: Object (6 properties)
 │   │   │   ├── Destination: Object (2 properties)
 │   │   │   │   ├── Name: *string
@@ -572,21 +480,119 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   │   │   ├── IntervalInSeconds: *int
 │   │   │   ├── SizeLimitInBytes: *int
 │   │   │   └── SkipEmptyArchives: *bool
+│   │   ├── CreatedAt: *string
 │   │   ├── MessageRetentionInDays: *int
-│   │   └── PartitionCount: *int
-│   └── Tags: map[string]string
-├── Namespaces_Eventhubs_AuthorizationRule_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
+│   │   ├── PartitionCount: *int
+│   │   ├── PartitionIds: string[]
+│   │   ├── Status: Enum (9 values)
+│   │   │   ├── "Active"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Disabled"
+│   │   │   ├── "ReceiveDisabled"
+│   │   │   ├── "Renaming"
+│   │   │   ├── "Restoring"
+│   │   │   ├── "SendDisabled"
+│   │   │   └── "Unknown"
+│   │   └── UpdatedAt: *string
+│   ├── SystemData: Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── Namespaces_Eventhub_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
 │   ├── Name: string
+│   └── Properties: Object (3 properties)
+│       ├── CaptureDescription: Object (6 properties)
+│       │   ├── Destination: Object (2 properties)
+│       │   │   ├── Name: *string
+│       │   │   └── Properties: Object (6 properties)
+│       │   │       ├── ArchiveNameFormat: *string
+│       │   │       ├── BlobContainer: *string
+│       │   │       ├── DataLakeAccountName: *string
+│       │   │       ├── DataLakeFolderPath: *string
+│       │   │       ├── DataLakeSubscriptionId: *string
+│       │   │       └── StorageAccountResourceId: *string
+│       │   ├── Enabled: *bool
+│       │   ├── Encoding: Enum (2 values)
+│       │   │   ├── "Avro"
+│       │   │   └── "AvroDeflate"
+│       │   ├── IntervalInSeconds: *int
+│       │   ├── SizeLimitInBytes: *int
+│       │   └── SkipEmptyArchives: *bool
+│       ├── MessageRetentionInDays: *int
+│       └── PartitionCount: *int
+├── Namespaces_Eventhubs_AuthorizationRule_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
 │   ├── Properties: Object (1 property)
 │   │   └── Rights: Enum (3 values)
 │   │       ├── "Listen"
 │   │       ├── "Manage"
 │   │       └── "Send"
-│   └── Tags: map[string]string
-└── Namespaces_Eventhubs_Consumergroup_Spec_ARM: Object (4 properties)
-    ├── Location: *string
+│   ├── SystemData: Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── Namespaces_Eventhubs_AuthorizationRule_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
+│   ├── Name: string
+│   └── Properties: Object (1 property)
+│       └── Rights: Enum (3 values)
+│           ├── "Listen"
+│           ├── "Manage"
+│           └── "Send"
+├── Namespaces_Eventhubs_Consumergroup_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: Object (3 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── UpdatedAt: *string
+│   │   └── UserMetadata: *string
+│   ├── SystemData: Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+└── Namespaces_Eventhubs_Consumergroup_Spec_ARM: Object (3 properties)
+    ├── AzureName: string
     ├── Name: string
-    ├── Properties: Object (1 property)
-    │   └── UserMetadata: *string
-    └── Tags: map[string]string
+    └── Properties: Object (1 property)
+        └── UserMetadata: *string

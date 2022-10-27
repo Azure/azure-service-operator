@@ -6,17 +6,11 @@ package v1beta20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Topics_Subscription_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	AzureName string `json:"azureName,omitempty"`
+	Name      string `json:"name,omitempty"`
 
-	// Name: The subscription name.
-	Name string `json:"name,omitempty"`
-
-	// Properties: Description of Subscription Resource.
+	// Properties: Properties of subscriptions resource.
 	Properties *SBSubscriptionProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_Topics_Subscription_Spec_ARM{}
@@ -36,7 +30,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics/subscriptions"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSubscriptionProperties
 type SBSubscriptionProperties_ARM struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.

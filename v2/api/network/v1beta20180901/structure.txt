@@ -2,12 +2,10 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 ├── APIVersion: Enum (1 value)
 │   └── "2018-09-01"
 ├── PrivateDnsZone: Resource
-│   ├── Spec: Object (5 properties)
+│   ├── Spec: Object (3 properties)
 │   │   ├── AzureName: string
 │   │   ├── Etag: *string
-│   │   ├── Location: *string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: map[string]string
+│   │   └── Owner: *genruntime.KnownResourceReference
 │   └── Status: Object (9 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Etag: *string
@@ -24,24 +22,23 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │           ├── "Failed"
 │           ├── "Succeeded"
 │           └── "Updating"
-├── PrivateDnsZone_Spec_ARM: Object (4 properties)
+├── PrivateDnsZone_STATUS_ARM: Object (2 properties)
 │   ├── Etag: *string
-│   ├── Location: *string
-│   ├── Name: string
-│   └── Tags: map[string]string
-└── PrivateZone_STATUS_ARM: Object (2 properties)
+│   └── Properties: Object (7 properties)
+│       ├── MaxNumberOfRecordSets: *int
+│       ├── MaxNumberOfVirtualNetworkLinks: *int
+│       ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
+│       ├── NumberOfRecordSets: *int
+│       ├── NumberOfVirtualNetworkLinks: *int
+│       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
+│       └── ProvisioningState: Enum (6 values)
+│           ├── "Canceled"
+│           ├── "Creating"
+│           ├── "Deleting"
+│           ├── "Failed"
+│           ├── "Succeeded"
+│           └── "Updating"
+└── PrivateDnsZone_Spec_ARM: Object (3 properties)
+    ├── AzureName: string
     ├── Etag: *string
-    └── Properties: Object (7 properties)
-        ├── MaxNumberOfRecordSets: *int
-        ├── MaxNumberOfVirtualNetworkLinks: *int
-        ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
-        ├── NumberOfRecordSets: *int
-        ├── NumberOfVirtualNetworkLinks: *int
-        ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-        └── ProvisioningState: Enum (6 values)
-            ├── "Canceled"
-            ├── "Creating"
-            ├── "Deleting"
-            ├── "Failed"
-            ├── "Succeeded"
-            └── "Updating"
+    └── Name: string

@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210101preview.NamespacesTopicsSubscriptionsRule
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions_rules
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
 type NamespacesTopicsSubscriptionsRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscriptions_Rule_Spec `json:"spec,omitempty"`
-	Status            Rule_STATUS                               `json:"status,omitempty"`
+	Spec              Namespaces_Topics_Subscriptions_Rule_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topics_Subscriptions_Rule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscriptionsRule{}
@@ -76,7 +78,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesTopicsSubscriptionsRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Rule_STATUS{}
+	return &Namespaces_Topics_Subscriptions_Rule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (rule *NamespacesTopicsSubscriptionsRule) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (rule *NamespacesTopicsSubscriptionsRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Rule_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topics_Subscriptions_Rule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Rule_STATUS
+	var st Namespaces_Topics_Subscriptions_Rule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (rule *NamespacesTopicsSubscriptionsRule) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210101preview.NamespacesTopicsSubscriptionsRule
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions_rules
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
 type NamespacesTopicsSubscriptionsRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -133,24 +137,20 @@ type NamespacesTopicsSubscriptionsRuleList struct {
 type Namespaces_Topics_Subscriptions_Rule_Spec struct {
 	Action *Action `json:"action,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string             `json:"azureName,omitempty"`
 	CorrelationFilter *CorrelationFilter `json:"correlationFilter,omitempty"`
 	FilterType        *string            `json:"filterType,omitempty"`
-	Location          *string            `json:"location,omitempty"`
 	OriginalVersion   string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
-	Owner       *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopicsSubscription"`
+	// reference to a servicebus.azure.com/Namespaces_Topics_Subscription resource
+	Owner       *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespaces_Topics_Subscription"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	SqlFilter   *SqlFilter                         `json:"sqlFilter,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscriptions_Rule_Spec{}
@@ -173,8 +173,8 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertSpecTo(destination
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1beta20210101preview.Rule_STATUS
-type Rule_STATUS struct {
+// Storage version of v1beta20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS
+type Namespaces_Topics_Subscriptions_Rule_STATUS struct {
 	Action            *Action_STATUS            `json:"action,omitempty"`
 	Conditions        []conditions.Condition    `json:"conditions,omitempty"`
 	CorrelationFilter *CorrelationFilter_STATUS `json:"correlationFilter,omitempty"`
@@ -187,10 +187,10 @@ type Rule_STATUS struct {
 	Type              *string                   `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Rule_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscriptions_Rule_STATUS{}
 
-// ConvertStatusFrom populates our Rule_STATUS from the provided source
-func (rule *Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -198,8 +198,8 @@ func (rule *Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	return source.ConvertStatusTo(rule)
 }
 
-// ConvertStatusTo populates the provided destination from our Rule_STATUS
-func (rule *Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_STATUS
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -208,7 +208,6 @@ func (rule *Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 }
 
 // Storage version of v1beta20210101preview.Action
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Action
 type Action struct {
 	CompatibilityLevel    *int                   `json:"compatibilityLevel,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -225,7 +224,6 @@ type Action_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.CorrelationFilter
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/CorrelationFilter
 type CorrelationFilter struct {
 	ContentType           *string                `json:"contentType,omitempty"`
 	CorrelationId         *string                `json:"correlationId,omitempty"`
@@ -256,7 +254,6 @@ type CorrelationFilter_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.SqlFilter
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SqlFilter
 type SqlFilter struct {
 	CompatibilityLevel    *int                   `json:"compatibilityLevel,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`

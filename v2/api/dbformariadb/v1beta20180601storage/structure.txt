@@ -2,14 +2,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
 ├── APIVersion: Enum (1 value)
 │   └── "2018-06-01"
 ├── Configuration: Resource
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Source: *string
-│   │   ├── Tags: map[string]string
 │   │   └── Value: *string
 │   └── Status: Object (11 properties)
 │       ├── AllowedValues: *string
@@ -24,15 +22,13 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
 │       ├── Type: *string
 │       └── Value: *string
 ├── Database: Resource
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (7 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
@@ -52,66 +48,19 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │       └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Properties: Object (5 properties)
+    │   ├── Properties: Object (7 properties)
+    │   │   ├── CreateMode: *string
+    │   │   ├── MinimalTlsVersion: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ServerPropertiesForDefaultCreate: Object (9 properties)
-    │   │   │   ├── AdministratorLogin: *string
-    │   │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
-    │   │   │   ├── CreateMode: *string
-    │   │   │   ├── MinimalTlsVersion: *string
+    │   │   ├── PublicNetworkAccess: *string
+    │   │   ├── SslEnforcement: *string
+    │   │   ├── StorageProfile: Object (5 properties)
+    │   │   │   ├── BackupRetentionDays: *int
+    │   │   │   ├── GeoRedundantBackup: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── PublicNetworkAccess: *string
-    │   │   │   ├── SslEnforcement: *string
-    │   │   │   ├── StorageProfile: Object (5 properties)
-    │   │   │   │   ├── BackupRetentionDays: *int
-    │   │   │   │   ├── GeoRedundantBackup: *string
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── StorageAutogrow: *string
-    │   │   │   │   └── StorageMB: *int
-    │   │   │   └── Version: *string
-    │   │   ├── ServerPropertiesForGeoRestore: Object (8 properties)
-    │   │   │   ├── CreateMode: *string
-    │   │   │   ├── MinimalTlsVersion: *string
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── PublicNetworkAccess: *string
-    │   │   │   ├── SourceServerId: *string
-    │   │   │   ├── SslEnforcement: *string
-    │   │   │   ├── StorageProfile: Object (5 properties)
-    │   │   │   │   ├── BackupRetentionDays: *int
-    │   │   │   │   ├── GeoRedundantBackup: *string
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── StorageAutogrow: *string
-    │   │   │   │   └── StorageMB: *int
-    │   │   │   └── Version: *string
-    │   │   ├── ServerPropertiesForReplica: Object (8 properties)
-    │   │   │   ├── CreateMode: *string
-    │   │   │   ├── MinimalTlsVersion: *string
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── PublicNetworkAccess: *string
-    │   │   │   ├── SourceServerId: *string
-    │   │   │   ├── SslEnforcement: *string
-    │   │   │   ├── StorageProfile: Object (5 properties)
-    │   │   │   │   ├── BackupRetentionDays: *int
-    │   │   │   │   ├── GeoRedundantBackup: *string
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── StorageAutogrow: *string
-    │   │   │   │   └── StorageMB: *int
-    │   │   │   └── Version: *string
-    │   │   └── ServerPropertiesForRestore: Object (9 properties)
-    │   │       ├── CreateMode: *string
-    │   │       ├── MinimalTlsVersion: *string
-    │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │       ├── PublicNetworkAccess: *string
-    │   │       ├── RestorePointInTime: *string
-    │   │       ├── SourceServerId: *string
-    │   │       ├── SslEnforcement: *string
-    │   │       ├── StorageProfile: Object (5 properties)
-    │   │       │   ├── BackupRetentionDays: *int
-    │   │       │   ├── GeoRedundantBackup: *string
-    │   │       │   ├── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── StorageAutogrow: *string
-    │   │       │   └── StorageMB: *int
-    │   │       └── Version: *string
+    │   │   │   ├── StorageAutogrow: *string
+    │   │   │   └── StorageMB: *int
+    │   │   └── Version: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── Sku: Object (6 properties)
     │   │   ├── Capacity: *int

@@ -1141,7 +1141,7 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      Identity_STATUS:
+      UserAssignedIdentity_STATUS:
         ClientId:
           $exportAsConfigMapPropertyName: ClientId
         PrincipalId:

@@ -204,7 +204,6 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.
 	return destination.ConvertSpecFrom(identity)
 }
 
-<<<<<<< HEAD
 // Storage version of v1beta20181130.UserAssignedIdentity_STATUS
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
@@ -237,7 +236,8 @@ func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genrunt
 	}
 
 	return destination.ConvertStatusFrom(identity)
-=======
+}
+
 // Storage version of v1beta20181130.UserAssignedIdentityOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type UserAssignedIdentityOperatorSpec struct {
@@ -250,7 +250,6 @@ type UserAssignedIdentityOperatorConfigMaps struct {
 	ClientId    *genruntime.ConfigMapDestination `json:"clientId,omitempty"`
 	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
->>>>>>> main
 }
 
 func init() {

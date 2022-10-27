@@ -22,10 +22,9 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   └── Status: *string
 │   │   ├── FriendlyName: *string
 │   │   ├── HbiWorkspace: *bool
-│   │   ├── Identity: Object (3 properties)
+│   │   ├── Identity: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
+│   │   │   └── Type: *string
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
@@ -176,305 +175,94 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── TenantId: *string
 │       ├── Type: *string
 │       └── WorkspaceId: *string
-├── WorkspacesCompute: Resource
-│   ├── Spec: Object (10 properties)
-│   │   ├── AzureName: string
-│   │   ├── Identity: Object (3 properties)
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
-│   │   ├── Location: *string
-│   │   ├── OriginalVersion: string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: Object (10 properties)
-│   │   │   ├── AKS: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (9 properties)
-│   │   │   │   │   ├── AgentCount: *int
-│   │   │   │   │   ├── AgentVmSize: *string
-│   │   │   │   │   ├── AksNetworkingConfiguration: Object (5 properties)
-│   │   │   │   │   │   ├── DnsServiceIP: *string
-│   │   │   │   │   │   ├── DockerBridgeCidr: *string
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   ├── ServiceCidr: *string
-│   │   │   │   │   │   └── SubnetReference: *genruntime.ResourceReference
-│   │   │   │   │   ├── ClusterFqdn: *string
-│   │   │   │   │   ├── ClusterPurpose: *string
-│   │   │   │   │   ├── LoadBalancerSubnet: *string
-│   │   │   │   │   ├── LoadBalancerType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SslConfiguration: Object (7 properties)
-│   │   │   │   │       ├── Cert: *string
-│   │   │   │   │       ├── Cname: *string
-│   │   │   │   │       ├── Key: *string
-│   │   │   │   │       ├── LeafDomainLabel: *string
-│   │   │   │   │       ├── OverwriteExistingDomain: *bool
-│   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │       └── Status: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── AmlCompute: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (11 properties)
-│   │   │   │   │   ├── EnableNodePublicIp: *bool
-│   │   │   │   │   ├── IsolatedNetwork: *bool
-│   │   │   │   │   ├── OsType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── RemoteLoginPortPublicAccess: *string
-│   │   │   │   │   ├── ScaleSettings: Object (4 properties)
-│   │   │   │   │   │   ├── MaxNodeCount: *int
-│   │   │   │   │   │   ├── MinNodeCount: *int
-│   │   │   │   │   │   ├── NodeIdleTimeBeforeScaleDown: *string
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── Subnet: Object (2 properties)
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   ├── UserAccountCredentials: Object (4 properties)
-│   │   │   │   │   │   ├── AdminUserName: *string
-│   │   │   │   │   │   ├── AdminUserPassword: *genruntime.SecretReference
-│   │   │   │   │   │   ├── AdminUserSshPublicKey: *genruntime.SecretReference
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── VirtualMachineImage: Object (2 properties)
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   ├── VmPriority: *string
-│   │   │   │   │   └── VmSize: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── ComputeInstance: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (8 properties)
-│   │   │   │   │   ├── ApplicationSharingPolicy: *string
-│   │   │   │   │   ├── ComputeInstanceAuthorizationType: *string
-│   │   │   │   │   ├── PersonalComputeInstanceSettings: Object (2 properties)
-│   │   │   │   │   │   ├── AssignedUser: Object (3 properties)
-│   │   │   │   │   │   │   ├── ObjectId: *string
-│   │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   │   └── TenantId: *string
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── SetupScripts: Object (2 properties)
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── Scripts: Object (3 properties)
-│   │   │   │   │   │       ├── CreationScript: Object (5 properties)
-│   │   │   │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │       │   ├── ScriptArguments: *string
-│   │   │   │   │   │       │   ├── ScriptData: *string
-│   │   │   │   │   │       │   ├── ScriptSource: *string
-│   │   │   │   │   │       │   └── Timeout: *string
-│   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │       └── StartupScript: Object (5 properties)
-│   │   │   │   │   │           ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │           ├── ScriptArguments: *string
-│   │   │   │   │   │           ├── ScriptData: *string
-│   │   │   │   │   │           ├── ScriptSource: *string
-│   │   │   │   │   │           └── Timeout: *string
-│   │   │   │   │   ├── SshSettings: Object (3 properties)
-│   │   │   │   │   │   ├── AdminPublicKey: *string
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── SshPublicAccess: *string
-│   │   │   │   │   ├── Subnet: Object (2 properties)
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   └── VmSize: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── DataFactory: Object (6 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── DataLakeAnalytics: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   │   ├── DataLakeStoreAccountName: *string
-│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── Databricks: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (3 properties)
-│   │   │   │   │   ├── DatabricksAccessToken: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── WorkspaceUrl: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── HDInsight: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (4 properties)
-│   │   │   │   │   ├── Address: *string
-│   │   │   │   │   ├── AdministratorAccount: Object (5 properties)
-│   │   │   │   │   │   ├── Password: *genruntime.SecretReference
-│   │   │   │   │   │   ├── PrivateKeyData: *string
-│   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   │   ├── PublicKeyData: *string
-│   │   │   │   │   │   └── Username: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SshPort: *int
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── SynapseSpark: Object (7 properties)
-│   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: *string
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── DisableLocalAuth: *bool
-│   │   │   │   ├── Properties: Object (11 properties)
-│   │   │   │   │   ├── AutoPauseProperties: Object (3 properties)
-│   │   │   │   │   │   ├── DelayInMinutes: *int
-│   │   │   │   │   │   ├── Enabled: *bool
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── AutoScaleProperties: Object (4 properties)
-│   │   │   │   │   │   ├── Enabled: *bool
-│   │   │   │   │   │   ├── MaxNodeCount: *int
-│   │   │   │   │   │   ├── MinNodeCount: *int
-│   │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── NodeCount: *int
-│   │   │   │   │   ├── NodeSize: *string
-│   │   │   │   │   ├── NodeSizeFamily: *string
-│   │   │   │   │   ├── PoolName: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── ResourceGroup: *string
-│   │   │   │   │   ├── SparkVersion: *string
-│   │   │   │   │   ├── SubscriptionId: *string
-│   │   │   │   │   └── WorkspaceName: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   └── VirtualMachine: Object (7 properties)
-│   │   │       ├── ComputeLocation: *string
-│   │   │       ├── ComputeType: *string
-│   │   │       ├── Description: *string
-│   │   │       ├── DisableLocalAuth: *bool
-│   │   │       ├── Properties: Object (6 properties)
-│   │   │       │   ├── Address: *string
-│   │   │       │   ├── AdministratorAccount: Object (5 properties)
-│   │   │       │   │   ├── Password: *genruntime.SecretReference
-│   │   │       │   │   ├── PrivateKeyData: *string
-│   │   │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │       │   │   ├── PublicKeyData: *string
-│   │   │       │   │   └── Username: *string
-│   │   │       │   ├── IsNotebookInstanceCompute: *bool
-│   │   │       │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │       │   ├── SshPort: *int
-│   │   │       │   └── VirtualMachineSize: *string
-│   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │       └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Sku: Object (3 properties)
-│   │   │   ├── Name: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Tier: *string
-│   │   ├── SystemData: Object (7 properties)
-│   │   │   ├── CreatedAt: *string
-│   │   │   ├── CreatedBy: *string
-│   │   │   ├── CreatedByType: *string
-│   │   │   ├── LastModifiedAt: *string
-│   │   │   ├── LastModifiedBy: *string
-│   │   │   ├── LastModifiedByType: *string
-│   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
-│   └── Status: Object (11 properties)
-│       ├── Conditions: conditions.Condition[]
-│       ├── Id: *string
-│       ├── Identity: Object (5 properties)
-│       │   ├── PrincipalId: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── TenantId: *string
-│       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: Object (4 properties)
-│       │       ├── ClientId: *string
-│       │       ├── PrincipalId: *string
-│       │       ├── PropertyBag: genruntime.PropertyBag
-│       │       └── TenantId: *string
-│       ├── Location: *string
-│       ├── Name: *string
-│       ├── Properties: Object (11 properties)
-│       │   ├── ComputeLocation: *string
-│       │   ├── ComputeType: *string
-│       │   ├── CreatedOn: *string
-│       │   ├── Description: *string
-│       │   ├── DisableLocalAuth: *bool
-│       │   ├── IsAttachedCompute: *bool
-│       │   ├── ModifiedOn: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningErrors: Object (2 properties)
-│       │   │   ├── Error: Object (6 properties)
-│       │   │   │   ├── AdditionalInfo: Object (3 properties)
-│       │   │   │   │   ├── Info: map[string]v1.JSON
-│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   └── Type: *string
-│       │   │   │   ├── Code: *string
-│       │   │   │   ├── Details: Object (5 properties)
-│       │   │   │   │   ├── AdditionalInfo: Object (3 properties)
-│       │   │   │   │   │   ├── Info: map[string]v1.JSON
-│       │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   │   └── Type: *string
-│       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── Message: *string
-│       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   │   └── Target: *string
-│       │   │   │   ├── Message: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Target: *string
-│       │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   └── ResourceId: *string
-│       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Sku: Object (3 properties)
-│       │   ├── Name: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Tier: *string
-│       ├── SystemData: Object (7 properties)
-│       │   ├── CreatedAt: *string
-│       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: *string
-│       │   ├── LastModifiedAt: *string
-│       │   ├── LastModifiedBy: *string
-│       │   ├── LastModifiedByType: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Tags: map[string]string
-│       └── Type: *string
-└── WorkspacesConnection: Resource
-    ├── Spec: Object (11 properties)
-    │   ├── AuthType: *string
+└── WorkspacesCompute: Resource
+    ├── Spec: Object (10 properties)
     │   ├── AzureName: string
-    │   ├── Category: *string
+    │   ├── Identity: Object (2 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── Properties: Object (6 properties)
+    │   │   ├── ComputeLocation: *string
+    │   │   ├── ComputeType: *string
+    │   │   ├── Description: *string
+    │   │   ├── DisableLocalAuth: *bool
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── ResourceReference: *genruntime.ResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Tags: map[string]string
-    │   ├── Target: *string
-    │   ├── Value: *string
-    │   └── ValueFormat: *string
-    └── Status: Object (10 properties)
-        ├── AuthType: *string
-        ├── Category: *string
+    │   ├── Sku: Object (3 properties)
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Tier: *string
+    │   ├── SystemData: Object (7 properties)
+    │   │   ├── CreatedAt: *string
+    │   │   ├── CreatedBy: *string
+    │   │   ├── CreatedByType: *string
+    │   │   ├── LastModifiedAt: *string
+    │   │   ├── LastModifiedBy: *string
+    │   │   ├── LastModifiedByType: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   └── Tags: map[string]string
+    └── Status: Object (11 properties)
         ├── Conditions: conditions.Condition[]
         ├── Id: *string
+        ├── Identity: Object (5 properties)
+        │   ├── PrincipalId: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── TenantId: *string
+        │   ├── Type: *string
+        │   └── UserAssignedIdentities: Object (4 properties)
+        │       ├── ClientId: *string
+        │       ├── PrincipalId: *string
+        │       ├── PropertyBag: genruntime.PropertyBag
+        │       └── TenantId: *string
+        ├── Location: *string
         ├── Name: *string
+        ├── Properties: Object (11 properties)
+        │   ├── ComputeLocation: *string
+        │   ├── ComputeType: *string
+        │   ├── CreatedOn: *string
+        │   ├── Description: *string
+        │   ├── DisableLocalAuth: *bool
+        │   ├── IsAttachedCompute: *bool
+        │   ├── ModifiedOn: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   ├── ProvisioningErrors: Object (2 properties)
+        │   │   ├── Error: Object (6 properties)
+        │   │   │   ├── AdditionalInfo: Object (3 properties)
+        │   │   │   │   ├── Info: map[string]v1.JSON
+        │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   └── Type: *string
+        │   │   │   ├── Code: *string
+        │   │   │   ├── Details: Object (5 properties)
+        │   │   │   │   ├── AdditionalInfo: Object (3 properties)
+        │   │   │   │   │   ├── Info: map[string]v1.JSON
+        │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   │   └── Type: *string
+        │   │   │   │   ├── Code: *string
+        │   │   │   │   ├── Message: *string
+        │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   └── Target: *string
+        │   │   │   ├── Message: *string
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   └── Target: *string
+        │   │   └── PropertyBag: genruntime.PropertyBag
+        │   ├── ProvisioningState: *string
+        │   └── ResourceId: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── Target: *string
-        ├── Type: *string
-        ├── Value: *string
-        └── ValueFormat: *string
+        ├── Sku: Object (3 properties)
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Tier: *string
+        ├── SystemData: Object (7 properties)
+        │   ├── CreatedAt: *string
+        │   ├── CreatedBy: *string
+        │   ├── CreatedByType: *string
+        │   ├── LastModifiedAt: *string
+        │   ├── LastModifiedBy: *string
+        │   ├── LastModifiedByType: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── Tags: map[string]string
+        └── Type: *string

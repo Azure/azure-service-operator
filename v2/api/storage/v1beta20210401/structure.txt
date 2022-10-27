@@ -1,190 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 ├── APIVersion: Enum (1 value)
 │   └── "2021-04-01"
-├── BlobContainer_STATUS_ARM: Object (5 properties)
-│   ├── Etag: *string
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (17 properties)
-│   │   ├── DefaultEncryptionScope: *string
-│   │   ├── Deleted: *bool
-│   │   ├── DeletedTime: *string
-│   │   ├── DenyEncryptionScopeOverride: *bool
-│   │   ├── HasImmutabilityPolicy: *bool
-│   │   ├── HasLegalHold: *bool
-│   │   ├── ImmutabilityPolicy: Object (3 properties)
-│   │   │   ├── Etag: *string
-│   │   │   ├── Properties: Object (3 properties)
-│   │   │   │   ├── AllowProtectedAppendWrites: *bool
-│   │   │   │   ├── ImmutabilityPeriodSinceCreationInDays: *int
-│   │   │   │   └── State: Enum (2 values)
-│   │   │   │       ├── "Locked"
-│   │   │   │       └── "Unlocked"
-│   │   │   └── UpdateHistory: Object (6 properties)
-│   │   │       ├── ImmutabilityPeriodSinceCreationInDays: *int
-│   │   │       ├── ObjectIdentifier: *string
-│   │   │       ├── TenantId: *string
-│   │   │       ├── Timestamp: *string
-│   │   │       ├── Update: Enum (3 values)
-│   │   │       │   ├── "extend"
-│   │   │       │   ├── "lock"
-│   │   │       │   └── "put"
-│   │   │       └── Upn: *string
-│   │   ├── ImmutableStorageWithVersioning: Object (3 properties)
-│   │   │   ├── Enabled: *bool
-│   │   │   ├── MigrationState: Enum (2 values)
-│   │   │   │   ├── "Completed"
-│   │   │   │   └── "InProgress"
-│   │   │   └── TimeStamp: *string
-│   │   ├── LastModifiedTime: *string
-│   │   ├── LeaseDuration: Enum (2 values)
-│   │   │   ├── "Fixed"
-│   │   │   └── "Infinite"
-│   │   ├── LeaseState: Enum (5 values)
-│   │   │   ├── "Available"
-│   │   │   ├── "Breaking"
-│   │   │   ├── "Broken"
-│   │   │   ├── "Expired"
-│   │   │   └── "Leased"
-│   │   ├── LeaseStatus: Enum (2 values)
-│   │   │   ├── "Locked"
-│   │   │   └── "Unlocked"
-│   │   ├── LegalHold: Object (2 properties)
-│   │   │   ├── HasLegalHold: *bool
-│   │   │   └── Tags: Object (5 properties)
-│   │   │       ├── ObjectIdentifier: *string
-│   │   │       ├── Tag: *string
-│   │   │       ├── TenantId: *string
-│   │   │       ├── Timestamp: *string
-│   │   │       └── Upn: *string
-│   │   ├── Metadata: map[string]string
-│   │   ├── PublicAccess: Enum (3 values)
-│   │   │   ├── "Blob"
-│   │   │   ├── "Container"
-│   │   │   └── "None"
-│   │   ├── RemainingRetentionDays: *int
-│   │   └── Version: *string
-│   └── Type: *string
-├── BlobServiceProperties_STATUS_ARM: Object (5 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (9 properties)
-│   │   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   │   ├── ChangeFeed: Object (2 properties)
-│   │   │   ├── Enabled: *bool
-│   │   │   └── RetentionInDays: *int
-│   │   ├── ContainerDeleteRetentionPolicy: Object (2 properties)
-│   │   │   ├── Days: *int
-│   │   │   └── Enabled: *bool
-│   │   ├── Cors: Object (1 property)
-│   │   │   └── CorsRules: Object (5 properties)
-│   │   │       ├── AllowedHeaders: string[]
-│   │   │       ├── AllowedMethods: Enum (7 values)
-│   │   │       │   ├── "DELETE"
-│   │   │       │   ├── "GET"
-│   │   │       │   ├── "HEAD"
-│   │   │       │   ├── "MERGE"
-│   │   │       │   ├── "OPTIONS"
-│   │   │       │   ├── "POST"
-│   │   │       │   └── "PUT"
-│   │   │       ├── AllowedOrigins: string[]
-│   │   │       ├── ExposedHeaders: string[]
-│   │   │       └── MaxAgeInSeconds: *int
-│   │   ├── DefaultServiceVersion: *string
-│   │   ├── DeleteRetentionPolicy: Object (2 properties)
-│   │   │   ├── Days: *int
-│   │   │   └── Enabled: *bool
-│   │   ├── IsVersioningEnabled: *bool
-│   │   ├── LastAccessTimeTrackingPolicy: Object (4 properties)
-│   │   │   ├── BlobType: string[]
-│   │   │   ├── Enable: *bool
-│   │   │   ├── Name: Enum (1 value)
-│   │   │   │   └── "AccessTimeTracking"
-│   │   │   └── TrackingGranularityInDays: *int
-│   │   └── RestorePolicy: Object (4 properties)
-│   │       ├── Days: *int
-│   │       ├── Enabled: *bool
-│   │       ├── LastEnabledTime: *string
-│   │       └── MinRestoreTime: *string
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (8 values)
-│   │   │   ├── "Premium_LRS"
-│   │   │   ├── "Premium_ZRS"
-│   │   │   ├── "Standard_GRS"
-│   │   │   ├── "Standard_GZRS"
-│   │   │   ├── "Standard_LRS"
-│   │   │   ├── "Standard_RAGRS"
-│   │   │   ├── "Standard_RAGZRS"
-│   │   │   └── "Standard_ZRS"
-│   │   └── Tier: Enum (2 values)
-│   │       ├── "Premium"
-│   │       └── "Standard"
-│   └── Type: *string
-├── ManagementPolicy_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (2 properties)
-│   │   ├── LastModifiedTime: *string
-│   │   └── Policy: Object (1 property)
-│   │       └── Rules: Object (4 properties)
-│   │           ├── Definition: Object (2 properties)
-│   │           │   ├── Actions: Object (3 properties)
-│   │           │   │   ├── BaseBlob: Object (4 properties)
-│   │           │   │   │   ├── Delete: Object (2 properties)
-│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
-│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
-│   │           │   │   │   ├── EnableAutoTierToHotFromCool: *bool
-│   │           │   │   │   ├── TierToArchive: Object (2 properties)
-│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
-│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
-│   │           │   │   │   └── TierToCool: Object (2 properties)
-│   │           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *float64
-│   │           │   │   │       └── DaysAfterModificationGreaterThan: *float64
-│   │           │   │   ├── Snapshot: Object (3 properties)
-│   │           │   │   │   ├── Delete: Object (1 property)
-│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │   │   ├── TierToArchive: Object (1 property)
-│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │   │   └── TierToCool: Object (1 property)
-│   │           │   │   │       └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │   └── Version: Object (3 properties)
-│   │           │   │       ├── Delete: Object (1 property)
-│   │           │   │       │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │       ├── TierToArchive: Object (1 property)
-│   │           │   │       │   └── DaysAfterCreationGreaterThan: *float64
-│   │           │   │       └── TierToCool: Object (1 property)
-│   │           │   │           └── DaysAfterCreationGreaterThan: *float64
-│   │           │   └── Filters: Object (3 properties)
-│   │           │       ├── BlobIndexMatch: Object (3 properties)
-│   │           │       │   ├── Name: *string
-│   │           │       │   ├── Op: *string
-│   │           │       │   └── Value: *string
-│   │           │       ├── BlobTypes: string[]
-│   │           │       └── PrefixMatch: string[]
-│   │           ├── Enabled: *bool
-│   │           ├── Name: *string
-│   │           └── Type: Enum (1 value)
-│   │               └── "Lifecycle"
-│   └── Type: *string
-├── QueueServiceProperties_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (1 property)
-│   │   └── Cors: Object (1 property)
-│   │       └── CorsRules: Object (5 properties)
-│   │           ├── AllowedHeaders: string[]
-│   │           ├── AllowedMethods: Enum (7 values)
-│   │           │   ├── "DELETE"
-│   │           │   ├── "GET"
-│   │           │   ├── "HEAD"
-│   │           │   ├── "MERGE"
-│   │           │   ├── "OPTIONS"
-│   │           │   ├── "POST"
-│   │           │   └── "PUT"
-│   │           ├── AllowedOrigins: string[]
-│   │           ├── ExposedHeaders: string[]
-│   │           └── MaxAgeInSeconds: *int
-│   └── Type: *string
 ├── StorageAccount: Resource
 │   ├── Spec: Object (25 properties)
 │   │   ├── AccessTier: Enum (2 values)
@@ -211,9 +27,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │       ├── "AADDS"
 │   │   │       ├── "AD"
 │   │   │       └── "None"
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
+│   │   ├── AzureName: string
 │   │   ├── CustomDomain: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── UseSubDomainName: *bool
@@ -801,7 +615,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │       └── "Standard"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── StorageAccount_Spec_ARM: Object (8 properties)
+├── StorageAccount_Spec_ARM: Object (9 properties)
+│   ├── AzureName: string
 │   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: Enum (1 value)
@@ -943,8 +758,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │       └── "Standard"
 │   └── Tags: map[string]string
 ├── StorageAccountsBlobService: Resource
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (11 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
+│   │   ├── AzureName: string
 │   │   ├── ChangeFeed: Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── RetentionInDays: Validated<*int> (2 rules)
@@ -982,14 +798,12 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │   ├── Name: Enum (1 value)
 │   │   │   │   └── "AccessTimeTracking"
 │   │   │   └── TrackingGranularityInDays: *int
-│   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── RestorePolicy: Object (2 properties)
-│   │   │   ├── Days: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 365}
-│   │   │   │   └── Rule 1: {Minimum 1}
-│   │   │   └── Enabled: *bool
-│   │   └── Tags: map[string]string
+│   │   └── RestorePolicy: Object (2 properties)
+│   │       ├── Days: Validated<*int> (2 rules)
+│   │       │   ├── Rule 0: {Maximum 365}
+│   │       │   └── Rule 1: {Minimum 1}
+│   │       └── Enabled: *bool
 │   └── Status: Object (14 properties)
 │       ├── AutomaticSnapshotPolicyEnabled: *bool
 │       ├── ChangeFeed: Object (2 properties)
@@ -1046,22 +860,18 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       │       └── "Standard"
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
-│   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── ImmutableStorageWithVersioning: Object (1 property)
 │   │   │   └── Enabled: *bool
-│   │   ├── Location: *string
 │   │   ├── Metadata: map[string]string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicAccess: Enum (3 values)
-│   │   │   ├── "Blob"
-│   │   │   ├── "Container"
-│   │   │   └── "None"
-│   │   └── Tags: map[string]string
+│   │   └── PublicAccess: Enum (3 values)
+│   │       ├── "Blob"
+│   │       ├── "Container"
+│   │       └── "None"
 │   └── Status: Object (22 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── DefaultEncryptionScope: *string
@@ -1127,76 +937,76 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
 │   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Policy: Object (1 property)
-│   │   │   └── Rules: Object (4 properties)
-│   │   │       ├── Definition: Object (2 properties)
-│   │   │       │   ├── Actions: Object (3 properties)
-│   │   │       │   │   ├── BaseBlob: Object (4 properties)
-│   │   │       │   │   │   ├── Delete: Object (2 properties)
-│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │   │   │   ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │   │   │   └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │   ├── EnableAutoTierToHotFromCool: *bool
-│   │   │       │   │   │   ├── TierToArchive: Object (2 properties)
-│   │   │       │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │   │   │   ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │   │   │   └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │   └── TierToCool: Object (2 properties)
-│   │   │       │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │       │   ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │       │   └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │       └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │           ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │           └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   ├── Snapshot: Object (3 properties)
-│   │   │       │   │   │   ├── Delete: Object (1 property)
-│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │   ├── TierToArchive: Object (1 property)
-│   │   │       │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │   │       ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │   │       └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   │   └── TierToCool: Object (1 property)
-│   │   │       │   │   │       └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │   │           ├── Rule 0: {Minimum 0}
-│   │   │       │   │   │           └── Rule 1: {MultipleOf 1}
-│   │   │       │   │   └── Version: Object (3 properties)
-│   │   │       │   │       ├── Delete: Object (1 property)
-│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │       │       ├── Rule 0: {Minimum 0}
-│   │   │       │   │       │       └── Rule 1: {MultipleOf 1}
-│   │   │       │   │       ├── TierToArchive: Object (1 property)
-│   │   │       │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │       │       ├── Rule 0: {Minimum 0}
-│   │   │       │   │       │       └── Rule 1: {MultipleOf 1}
-│   │   │       │   │       └── TierToCool: Object (1 property)
-│   │   │       │   │           └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
-│   │   │       │   │               ├── Rule 0: {Minimum 0}
-│   │   │       │   │               └── Rule 1: {MultipleOf 1}
-│   │   │       │   └── Filters: Object (3 properties)
-│   │   │       │       ├── BlobIndexMatch: Object (3 properties)
-│   │   │       │       │   ├── Name: Validated<*string> (2 rules)
-│   │   │       │       │   │   ├── Rule 0: {MaxLength %!s(int64=128)}
-│   │   │       │       │   │   └── Rule 1: {MinLength %!s(int64=1)}
-│   │   │       │       │   ├── Op: *string
-│   │   │       │       │   └── Value: Validated<*string> (2 rules)
-│   │   │       │       │       ├── Rule 0: {MaxLength %!s(int64=256)}
-│   │   │       │       │       └── Rule 1: {MinLength %!s(int64=0)}
-│   │   │       │       ├── BlobTypes: string[]
-│   │   │       │       └── PrefixMatch: string[]
-│   │   │       ├── Enabled: *bool
-│   │   │       ├── Name: *string
-│   │   │       └── Type: Enum (1 value)
-│   │   │           └── "Lifecycle"
-│   │   └── Tags: map[string]string
+│   │   └── Policy: Object (1 property)
+│   │       └── Rules: Object (4 properties)
+│   │           ├── Definition: Object (2 properties)
+│   │           │   ├── Actions: Object (3 properties)
+│   │           │   │   ├── BaseBlob: Object (4 properties)
+│   │           │   │   │   ├── Delete: Object (2 properties)
+│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │   │   │   ├── Rule 0: {Minimum 0}
+│   │           │   │   │   │   │   └── Rule 1: {MultipleOf 1}
+│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │           │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │           │   │   │   ├── EnableAutoTierToHotFromCool: *bool
+│   │           │   │   │   ├── TierToArchive: Object (2 properties)
+│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │   │   │   ├── Rule 0: {Minimum 0}
+│   │           │   │   │   │   │   └── Rule 1: {MultipleOf 1}
+│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │           │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │           │   │   │   └── TierToCool: Object (2 properties)
+│   │           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │       │   ├── Rule 0: {Minimum 0}
+│   │           │   │   │       │   └── Rule 1: {MultipleOf 1}
+│   │           │   │   │       └── DaysAfterModificationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │           ├── Rule 0: {Minimum 0}
+│   │           │   │   │           └── Rule 1: {MultipleOf 1}
+│   │           │   │   ├── Snapshot: Object (3 properties)
+│   │           │   │   │   ├── Delete: Object (1 property)
+│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │           │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │           │   │   │   ├── TierToArchive: Object (1 property)
+│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │   │       ├── Rule 0: {Minimum 0}
+│   │           │   │   │   │       └── Rule 1: {MultipleOf 1}
+│   │           │   │   │   └── TierToCool: Object (1 property)
+│   │           │   │   │       └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │   │           ├── Rule 0: {Minimum 0}
+│   │           │   │   │           └── Rule 1: {MultipleOf 1}
+│   │           │   │   └── Version: Object (3 properties)
+│   │           │   │       ├── Delete: Object (1 property)
+│   │           │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │       │       ├── Rule 0: {Minimum 0}
+│   │           │   │       │       └── Rule 1: {MultipleOf 1}
+│   │           │   │       ├── TierToArchive: Object (1 property)
+│   │           │   │       │   └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │       │       ├── Rule 0: {Minimum 0}
+│   │           │   │       │       └── Rule 1: {MultipleOf 1}
+│   │           │   │       └── TierToCool: Object (1 property)
+│   │           │   │           └── DaysAfterCreationGreaterThan: Validated<*int> (2 rules)
+│   │           │   │               ├── Rule 0: {Minimum 0}
+│   │           │   │               └── Rule 1: {MultipleOf 1}
+│   │           │   └── Filters: Object (3 properties)
+│   │           │       ├── BlobIndexMatch: Object (3 properties)
+│   │           │       │   ├── Name: Validated<*string> (2 rules)
+│   │           │       │   │   ├── Rule 0: {MaxLength %!s(int64=128)}
+│   │           │       │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   │           │       │   ├── Op: *string
+│   │           │       │   └── Value: Validated<*string> (2 rules)
+│   │           │       │       ├── Rule 0: {MaxLength %!s(int64=256)}
+│   │           │       │       └── Rule 1: {MinLength %!s(int64=0)}
+│   │           │       ├── BlobTypes: string[]
+│   │           │       └── PrefixMatch: string[]
+│   │           ├── Enabled: *bool
+│   │           ├── Name: *string
+│   │           └── Type: Enum (1 value)
+│   │               └── "Lifecycle"
 │   └── Status: Object (6 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -1244,7 +1054,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       │           └── "Lifecycle"
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
-│   ├── Spec: Object (4 properties)
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Cors: Object (1 property)
 │   │   │   └── CorsRules: Object (5 properties)
 │   │   │       ├── AllowedHeaders: string[]
@@ -1259,9 +1070,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │       ├── AllowedOrigins: string[]
 │   │   │       ├── ExposedHeaders: string[]
 │   │   │       └── MaxAgeInSeconds: *int
-│   │   ├── Location: *string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: map[string]string
+│   │   └── Owner: *genruntime.KnownResourceReference
 │   └── Status: Object (5 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Cors: Object (1 property)
@@ -1282,14 +1091,10 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       ├── Name: *string
 │       └── Type: *string
 ├── StorageAccountsQueueServicesQueue: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
-│   │   ├── Location: *string
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Metadata: map[string]string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: map[string]string
+│   │   └── Owner: *genruntime.KnownResourceReference
 │   └── Status: Object (6 properties)
 │       ├── ApproximateMessageCount: *int
 │       ├── Conditions: conditions.Condition[]
@@ -1297,9 +1102,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │       ├── Metadata: map[string]string
 │       ├── Name: *string
 │       └── Type: *string
-├── StorageAccounts_BlobService_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
+├── StorageAccounts_BlobService_STATUS_ARM: Object (5 properties)
+│   ├── Id: *string
+│   ├── Name: *string
 │   ├── Properties: Object (9 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   │   ├── ChangeFeed: Object (2 properties)
@@ -1333,56 +1138,175 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │   │   ├── Name: Enum (1 value)
 │   │   │   │   └── "AccessTimeTracking"
 │   │   │   └── TrackingGranularityInDays: *int
-│   │   └── RestorePolicy: Object (2 properties)
+│   │   └── RestorePolicy: Object (4 properties)
 │   │       ├── Days: *int
-│   │       └── Enabled: *bool
-│   └── Tags: map[string]string
-├── StorageAccounts_BlobServices_Container_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
+│   │       ├── Enabled: *bool
+│   │       ├── LastEnabledTime: *string
+│   │       └── MinRestoreTime: *string
+│   ├── Sku: Object (2 properties)
+│   │   ├── Name: Enum (8 values)
+│   │   │   ├── "Premium_LRS"
+│   │   │   ├── "Premium_ZRS"
+│   │   │   ├── "Standard_GRS"
+│   │   │   ├── "Standard_GZRS"
+│   │   │   ├── "Standard_LRS"
+│   │   │   ├── "Standard_RAGRS"
+│   │   │   ├── "Standard_RAGZRS"
+│   │   │   └── "Standard_ZRS"
+│   │   └── Tier: Enum (2 values)
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   └── Type: *string
+├── StorageAccounts_BlobService_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
 │   ├── Name: string
-│   ├── Properties: Object (5 properties)
+│   └── Properties: Object (9 properties)
+│       ├── AutomaticSnapshotPolicyEnabled: *bool
+│       ├── ChangeFeed: Object (2 properties)
+│       │   ├── Enabled: *bool
+│       │   └── RetentionInDays: *int
+│       ├── ContainerDeleteRetentionPolicy: Object (2 properties)
+│       │   ├── Days: *int
+│       │   └── Enabled: *bool
+│       ├── Cors: Object (1 property)
+│       │   └── CorsRules: Object (5 properties)
+│       │       ├── AllowedHeaders: string[]
+│       │       ├── AllowedMethods: Enum (7 values)
+│       │       │   ├── "DELETE"
+│       │       │   ├── "GET"
+│       │       │   ├── "HEAD"
+│       │       │   ├── "MERGE"
+│       │       │   ├── "OPTIONS"
+│       │       │   ├── "POST"
+│       │       │   └── "PUT"
+│       │       ├── AllowedOrigins: string[]
+│       │       ├── ExposedHeaders: string[]
+│       │       └── MaxAgeInSeconds: *int
+│       ├── DefaultServiceVersion: *string
+│       ├── DeleteRetentionPolicy: Object (2 properties)
+│       │   ├── Days: *int
+│       │   └── Enabled: *bool
+│       ├── IsVersioningEnabled: *bool
+│       ├── LastAccessTimeTrackingPolicy: Object (4 properties)
+│       │   ├── BlobType: string[]
+│       │   ├── Enable: *bool
+│       │   ├── Name: Enum (1 value)
+│       │   │   └── "AccessTimeTracking"
+│       │   └── TrackingGranularityInDays: *int
+│       └── RestorePolicy: Object (2 properties)
+│           ├── Days: *int
+│           └── Enabled: *bool
+├── StorageAccounts_BlobServices_Container_STATUS_ARM: Object (5 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (17 properties)
 │   │   ├── DefaultEncryptionScope: *string
+│   │   ├── Deleted: *bool
+│   │   ├── DeletedTime: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
-│   │   ├── ImmutableStorageWithVersioning: Object (1 property)
-│   │   │   └── Enabled: *bool
+│   │   ├── HasImmutabilityPolicy: *bool
+│   │   ├── HasLegalHold: *bool
+│   │   ├── ImmutabilityPolicy: Object (3 properties)
+│   │   │   ├── Etag: *string
+│   │   │   ├── Properties: Object (3 properties)
+│   │   │   │   ├── AllowProtectedAppendWrites: *bool
+│   │   │   │   ├── ImmutabilityPeriodSinceCreationInDays: *int
+│   │   │   │   └── State: Enum (2 values)
+│   │   │   │       ├── "Locked"
+│   │   │   │       └── "Unlocked"
+│   │   │   └── UpdateHistory: Object (6 properties)
+│   │   │       ├── ImmutabilityPeriodSinceCreationInDays: *int
+│   │   │       ├── ObjectIdentifier: *string
+│   │   │       ├── TenantId: *string
+│   │   │       ├── Timestamp: *string
+│   │   │       ├── Update: Enum (3 values)
+│   │   │       │   ├── "extend"
+│   │   │       │   ├── "lock"
+│   │   │       │   └── "put"
+│   │   │       └── Upn: *string
+│   │   ├── ImmutableStorageWithVersioning: Object (3 properties)
+│   │   │   ├── Enabled: *bool
+│   │   │   ├── MigrationState: Enum (2 values)
+│   │   │   │   ├── "Completed"
+│   │   │   │   └── "InProgress"
+│   │   │   └── TimeStamp: *string
+│   │   ├── LastModifiedTime: *string
+│   │   ├── LeaseDuration: Enum (2 values)
+│   │   │   ├── "Fixed"
+│   │   │   └── "Infinite"
+│   │   ├── LeaseState: Enum (5 values)
+│   │   │   ├── "Available"
+│   │   │   ├── "Breaking"
+│   │   │   ├── "Broken"
+│   │   │   ├── "Expired"
+│   │   │   └── "Leased"
+│   │   ├── LeaseStatus: Enum (2 values)
+│   │   │   ├── "Locked"
+│   │   │   └── "Unlocked"
+│   │   ├── LegalHold: Object (2 properties)
+│   │   │   ├── HasLegalHold: *bool
+│   │   │   └── Tags: Object (5 properties)
+│   │   │       ├── ObjectIdentifier: *string
+│   │   │       ├── Tag: *string
+│   │   │       ├── TenantId: *string
+│   │   │       ├── Timestamp: *string
+│   │   │       └── Upn: *string
 │   │   ├── Metadata: map[string]string
-│   │   └── PublicAccess: Enum (3 values)
-│   │       ├── "Blob"
-│   │       ├── "Container"
-│   │       └── "None"
-│   └── Tags: map[string]string
-├── StorageAccounts_ManagementPolicy_Spec_ARM: Object (3 properties)
+│   │   ├── PublicAccess: Enum (3 values)
+│   │   │   ├── "Blob"
+│   │   │   ├── "Container"
+│   │   │   └── "None"
+│   │   ├── RemainingRetentionDays: *int
+│   │   └── Version: *string
+│   └── Type: *string
+├── StorageAccounts_BlobServices_Container_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
 │   ├── Name: string
-│   ├── Properties: Object (1 property)
+│   └── Properties: Object (5 properties)
+│       ├── DefaultEncryptionScope: *string
+│       ├── DenyEncryptionScopeOverride: *bool
+│       ├── ImmutableStorageWithVersioning: Object (1 property)
+│       │   └── Enabled: *bool
+│       ├── Metadata: map[string]string
+│       └── PublicAccess: Enum (3 values)
+│           ├── "Blob"
+│           ├── "Container"
+│           └── "None"
+├── StorageAccounts_ManagementPolicy_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (2 properties)
+│   │   ├── LastModifiedTime: *string
 │   │   └── Policy: Object (1 property)
 │   │       └── Rules: Object (4 properties)
 │   │           ├── Definition: Object (2 properties)
 │   │           │   ├── Actions: Object (3 properties)
 │   │           │   │   ├── BaseBlob: Object (4 properties)
 │   │           │   │   │   ├── Delete: Object (2 properties)
-│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
-│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *int
+│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
+│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
 │   │           │   │   │   ├── EnableAutoTierToHotFromCool: *bool
 │   │           │   │   │   ├── TierToArchive: Object (2 properties)
-│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
-│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *int
+│   │           │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *float64
+│   │           │   │   │   │   └── DaysAfterModificationGreaterThan: *float64
 │   │           │   │   │   └── TierToCool: Object (2 properties)
-│   │           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *int
-│   │           │   │   │       └── DaysAfterModificationGreaterThan: *int
+│   │           │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *float64
+│   │           │   │   │       └── DaysAfterModificationGreaterThan: *float64
 │   │           │   │   ├── Snapshot: Object (3 properties)
 │   │           │   │   │   ├── Delete: Object (1 property)
-│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *int
+│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
 │   │           │   │   │   ├── TierToArchive: Object (1 property)
-│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *int
+│   │           │   │   │   │   └── DaysAfterCreationGreaterThan: *float64
 │   │           │   │   │   └── TierToCool: Object (1 property)
-│   │           │   │   │       └── DaysAfterCreationGreaterThan: *int
+│   │           │   │   │       └── DaysAfterCreationGreaterThan: *float64
 │   │           │   │   └── Version: Object (3 properties)
 │   │           │   │       ├── Delete: Object (1 property)
-│   │           │   │       │   └── DaysAfterCreationGreaterThan: *int
+│   │           │   │       │   └── DaysAfterCreationGreaterThan: *float64
 │   │           │   │       ├── TierToArchive: Object (1 property)
-│   │           │   │       │   └── DaysAfterCreationGreaterThan: *int
+│   │           │   │       │   └── DaysAfterCreationGreaterThan: *float64
 │   │           │   │       └── TierToCool: Object (1 property)
-│   │           │   │           └── DaysAfterCreationGreaterThan: *int
+│   │           │   │           └── DaysAfterCreationGreaterThan: *float64
 │   │           │   └── Filters: Object (3 properties)
 │   │           │       ├── BlobIndexMatch: Object (3 properties)
 │   │           │       │   ├── Name: *string
@@ -1394,10 +1318,54 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │           ├── Name: *string
 │   │           └── Type: Enum (1 value)
 │   │               └── "Lifecycle"
-│   └── Tags: map[string]string
-├── StorageAccounts_QueueService_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
+│   └── Type: *string
+├── StorageAccounts_ManagementPolicy_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
 │   ├── Name: string
+│   └── Properties: Object (1 property)
+│       └── Policy: Object (1 property)
+│           └── Rules: Object (4 properties)
+│               ├── Definition: Object (2 properties)
+│               │   ├── Actions: Object (3 properties)
+│               │   │   ├── BaseBlob: Object (4 properties)
+│               │   │   │   ├── Delete: Object (2 properties)
+│               │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
+│               │   │   │   │   └── DaysAfterModificationGreaterThan: *int
+│               │   │   │   ├── EnableAutoTierToHotFromCool: *bool
+│               │   │   │   ├── TierToArchive: Object (2 properties)
+│               │   │   │   │   ├── DaysAfterLastAccessTimeGreaterThan: *int
+│               │   │   │   │   └── DaysAfterModificationGreaterThan: *int
+│               │   │   │   └── TierToCool: Object (2 properties)
+│               │   │   │       ├── DaysAfterLastAccessTimeGreaterThan: *int
+│               │   │   │       └── DaysAfterModificationGreaterThan: *int
+│               │   │   ├── Snapshot: Object (3 properties)
+│               │   │   │   ├── Delete: Object (1 property)
+│               │   │   │   │   └── DaysAfterCreationGreaterThan: *int
+│               │   │   │   ├── TierToArchive: Object (1 property)
+│               │   │   │   │   └── DaysAfterCreationGreaterThan: *int
+│               │   │   │   └── TierToCool: Object (1 property)
+│               │   │   │       └── DaysAfterCreationGreaterThan: *int
+│               │   │   └── Version: Object (3 properties)
+│               │   │       ├── Delete: Object (1 property)
+│               │   │       │   └── DaysAfterCreationGreaterThan: *int
+│               │   │       ├── TierToArchive: Object (1 property)
+│               │   │       │   └── DaysAfterCreationGreaterThan: *int
+│               │   │       └── TierToCool: Object (1 property)
+│               │   │           └── DaysAfterCreationGreaterThan: *int
+│               │   └── Filters: Object (3 properties)
+│               │       ├── BlobIndexMatch: Object (3 properties)
+│               │       │   ├── Name: *string
+│               │       │   ├── Op: *string
+│               │       │   └── Value: *string
+│               │       ├── BlobTypes: string[]
+│               │       └── PrefixMatch: string[]
+│               ├── Enabled: *bool
+│               ├── Name: *string
+│               └── Type: Enum (1 value)
+│                   └── "Lifecycle"
+├── StorageAccounts_QueueService_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
 │   ├── Properties: Object (1 property)
 │   │   └── Cors: Object (1 property)
 │   │       └── CorsRules: Object (5 properties)
@@ -1413,17 +1381,34 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401
 │   │           ├── AllowedOrigins: string[]
 │   │           ├── ExposedHeaders: string[]
 │   │           └── MaxAgeInSeconds: *int
-│   └── Tags: map[string]string
-├── StorageAccounts_QueueServices_Queue_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
+│   └── Type: *string
+├── StorageAccounts_QueueService_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
 │   ├── Name: string
-│   ├── Properties: Object (1 property)
+│   └── Properties: Object (1 property)
+│       └── Cors: Object (1 property)
+│           └── CorsRules: Object (5 properties)
+│               ├── AllowedHeaders: string[]
+│               ├── AllowedMethods: Enum (7 values)
+│               │   ├── "DELETE"
+│               │   ├── "GET"
+│               │   ├── "HEAD"
+│               │   ├── "MERGE"
+│               │   ├── "OPTIONS"
+│               │   ├── "POST"
+│               │   └── "PUT"
+│               ├── AllowedOrigins: string[]
+│               ├── ExposedHeaders: string[]
+│               └── MaxAgeInSeconds: *int
+├── StorageAccounts_QueueServices_Queue_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (2 properties)
+│   │   ├── ApproximateMessageCount: *int
 │   │   └── Metadata: map[string]string
-│   └── Tags: map[string]string
-└── StorageQueue_STATUS_ARM: Object (4 properties)
-    ├── Id: *string
-    ├── Name: *string
-    ├── Properties: Object (2 properties)
-    │   ├── ApproximateMessageCount: *int
-    │   └── Metadata: map[string]string
-    └── Type: *string
+│   └── Type: *string
+└── StorageAccounts_QueueServices_Queue_Spec_ARM: Object (3 properties)
+    ├── AzureName: string
+    ├── Name: string
+    └── Properties: Object (1 property)
+        └── Metadata: map[string]string

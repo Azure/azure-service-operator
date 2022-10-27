@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210101preview.NamespacesTopicsSubscription
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
 type NamespacesTopicsSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscription_Spec `json:"spec,omitempty"`
-	Status            SBSubscription_STATUS               `json:"status,omitempty"`
+	Spec              Namespaces_Topics_Subscription_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topics_Subscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscription{}
@@ -76,7 +78,7 @@ func (subscription *NamespacesTopicsSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBSubscription_STATUS{}
+	return &Namespaces_Topics_Subscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBSubscription_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBSubscription_STATUS
+	var st Namespaces_Topics_Subscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (subscription *NamespacesTopicsSubscription) OriginalGVK() *schema.GroupVer
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210101preview.NamespacesTopicsSubscription
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
 type NamespacesTopicsSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -133,8 +137,6 @@ type NamespacesTopicsSubscriptionList struct {
 type Namespaces_Topics_Subscription_Spec struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                                 string  `json:"azureName,omitempty"`
@@ -145,7 +147,6 @@ type Namespaces_Topics_Subscription_Spec struct {
 	EnableBatchedOperations                   *bool   `json:"enableBatchedOperations,omitempty"`
 	ForwardDeadLetteredMessagesTo             *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
 	ForwardTo                                 *string `json:"forwardTo,omitempty"`
-	Location                                  *string `json:"location,omitempty"`
 	LockDuration                              *string `json:"lockDuration,omitempty"`
 	MaxDeliveryCount                          *int    `json:"maxDeliveryCount,omitempty"`
 	OriginalVersion                           string  `json:"originalVersion,omitempty"`
@@ -153,11 +154,10 @@ type Namespaces_Topics_Subscription_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a servicebus.azure.com/NamespacesTopic resource
-	Owner           *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopic"`
+	// reference to a servicebus.azure.com/Namespaces_Topic resource
+	Owner           *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespaces_Topic"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresSession *bool                              `json:"requiresSession,omitempty"`
-	Tags            map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespaces_Topics_Subscription_Spec{}
@@ -180,8 +180,8 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destinati
 	return destination.ConvertSpecFrom(subscription)
 }
 
-// Storage version of v1beta20210101preview.SBSubscription_STATUS
-type SBSubscription_STATUS struct {
+// Storage version of v1beta20210101preview.Namespaces_Topics_Subscription_STATUS
+type Namespaces_Topics_Subscription_STATUS struct {
 	AccessedAt                                *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                          *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                                []conditions.Condition      `json:"conditions,omitempty"`
@@ -207,10 +207,10 @@ type SBSubscription_STATUS struct {
 	UpdatedAt                                 *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBSubscription_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
 
-// ConvertStatusFrom populates our SBSubscription_STATUS from the provided source
-func (subscription *SBSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
+func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == subscription {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -218,8 +218,8 @@ func (subscription *SBSubscription_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(subscription)
 }
 
-// ConvertStatusTo populates the provided destination from our SBSubscription_STATUS
-func (subscription *SBSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
+func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == subscription {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

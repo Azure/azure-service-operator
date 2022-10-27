@@ -3,8 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   └── "2021-04-01-preview"
 ├── Vault: Resource
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {Pattern "^[a-zA-Z0-9-]{3,24}$"}
+│   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Properties: Object (14 properties)
@@ -393,7 +392,8 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Vault_Spec_ARM: Object (4 properties)
+└── Vault_Spec_ARM: Object (5 properties)
+    ├── AzureName: string
     ├── Location: *string
     ├── Name: string
     ├── Properties: Object (14 properties)

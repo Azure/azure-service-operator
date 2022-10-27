@@ -2,13 +2,12 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 ├── APIVersion: Enum (1 value)
 │   └── "2020-08-01-preview"
 ├── RoleAssignment: Resource
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
 │   │   ├── Condition: *string
 │   │   ├── ConditionVersion: *string
 │   │   ├── DelegatedManagedIdentityResourceId: *string
 │   │   ├── Description: *string
-│   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   │   ├── PrincipalId: *string
 │   │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
@@ -17,8 +16,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │   │   │   ├── "Group"
 │   │   │   ├── "ServicePrincipal"
 │   │   │   └── "User"
-│   │   ├── RoleDefinitionReference: *genruntime.ResourceReference
-│   │   └── Tags: map[string]string
+│   │   └── RoleDefinitionReference: *genruntime.ResourceReference
 │   └── Status: Object (16 properties)
 │       ├── Condition: *string
 │       ├── ConditionVersion: *string
@@ -61,19 +59,18 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801previ
 │   │   ├── UpdatedBy: *string
 │   │   └── UpdatedOn: *string
 │   └── Type: *string
-└── RoleAssignment_Spec_ARM: Object (4 properties)
-    ├── Location: *string
+└── RoleAssignment_Spec_ARM: Object (3 properties)
+    ├── AzureName: string
     ├── Name: string
-    ├── Properties: Object (7 properties)
-    │   ├── Condition: *string
-    │   ├── ConditionVersion: *string
-    │   ├── DelegatedManagedIdentityResourceId: *string
-    │   ├── Description: *string
-    │   ├── PrincipalId: *string
-    │   ├── PrincipalType: Enum (4 values)
-    │   │   ├── "ForeignGroup"
-    │   │   ├── "Group"
-    │   │   ├── "ServicePrincipal"
-    │   │   └── "User"
-    │   └── RoleDefinitionId: *string
-    └── Tags: map[string]string
+    └── Properties: Object (7 properties)
+        ├── Condition: *string
+        ├── ConditionVersion: *string
+        ├── DelegatedManagedIdentityResourceId: *string
+        ├── Description: *string
+        ├── PrincipalId: *string
+        ├── PrincipalType: Enum (4 values)
+        │   ├── "ForeignGroup"
+        │   ├── "Group"
+        │   ├── "ServicePrincipal"
+        │   └── "User"
+        └── RoleDefinitionId: *string

@@ -738,20 +738,11 @@ func ServerPropertiesForCreateGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForServerPropertiesForCreate(generators)
 	serverPropertiesForCreateGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForCreate{}), generators)
 
-<<<<<<< HEAD
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForServerPropertiesForCreate(generators)
 	AddRelatedPropertyGeneratorsForServerPropertiesForCreate(generators)
 	serverPropertiesForCreateGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForCreate{}), generators)
-=======
-	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(ServerPropertiesForCreate{}), map[string]gopter.Gen{propName: propGen}))
-	}
-	serverPropertiesForCreateGenerator = gen.OneGenOf(gens...)
->>>>>>> main
 
 	return serverPropertiesForCreateGenerator
 }

@@ -165,38 +165,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-<<<<<<< HEAD
-	result = append(result, &registration.StorageType{
-		Obj: new(batch_v20210101s.BatchAccount),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20201201s.Redis),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20201201s.RedisFirewallRule),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20201201s.RedisLinkedServer),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20201201s.RedisPatchSchedule),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20210301s.RedisEnterprise),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20210301s.RedisEnterpriseDatabase),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20200930s.Disk),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20200930s.Snapshot),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20220301s.Image),
-	})
-=======
 	result = append(result, &registration.StorageType{Obj: new(batch_v20210101s.BatchAccount)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.Redis)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisFirewallRule)})
@@ -204,12 +172,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cache_v20201201s.RedisPatchSchedule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20210301s.RedisEnterprise)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20210301s.RedisEnterpriseDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.Profile)})
-	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Disk)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20200930s.Snapshot)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
->>>>>>> main
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
 		Indexes: []registration.Index{
@@ -272,9 +237,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20210501s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Configuration)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Database)})
-	result = append(result, &registration.StorageType{
-		Obj: new(dbformariadb_v20180601s.Server),
-	})
+	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Server)})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformysql_v20210501s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -350,124 +313,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
 	result = append(result, &registration.StorageType{Obj: new(keyvault_v20210401ps.Vault)})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
-	result = append(result, &registration.StorageType{
-		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
-<<<<<<< HEAD
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20180901s.PrivateDnsZone),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.LoadBalancer),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.NetworkInterface),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.NetworkSecurityGroup),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.NetworkSecurityGroupsSecurityRule),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.PublicIPAddress),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.RouteTable),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.RouteTablesRoute),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.VirtualNetwork),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.VirtualNetworkGateway),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.VirtualNetworksSubnet),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(operationalinsights_v20210601s.Workspace),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(servicebus_v20210101ps.Namespace),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(servicebus_v20210101ps.NamespacesQueue),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(servicebus_v20210101ps.NamespacesTopic),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscription),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(servicebus_v20210101ps.NamespacesTopicsSubscriptionsRule),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(signalrservice_v20211001s.SignalR),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20210401s.StorageAccount),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20210401s.StorageAccountsBlobService),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20210401s.StorageAccountsBlobServicesContainer),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20210401s.StorageAccountsManagementPolicy),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20210401s.StorageAccountsQueueService),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(storage_v20210401s.StorageAccountsQueueServicesQueue),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(subscription_v20211001s.Alias),
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(web_v20220301s.ServerFarm),
-	})
-=======
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword",
-				Func: indexMachinelearningservicesWorkspacesComputeAdminUserPassword,
-			},
-			{
-				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey",
-				Func: indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey,
-			},
-			{
-				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
-			},
-			{
-				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
-			},
-		},
-	})
-	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.WorkspacesConnection)})
+	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.WorkspacesCompute)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20181130s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180901s.PrivateDnsZone)})
@@ -497,7 +343,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(storage_v20210401s.StorageAccountsQueueServicesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.StorageType{Obj: new(web_v20220301s.ServerFarm)})
->>>>>>> main
 	result = append(result, &registration.StorageType{
 		Obj: new(web_v20220301s.Site),
 		Indexes: []registration.Index{
@@ -1213,27 +1058,6 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-<<<<<<< HEAD
-=======
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
-func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
-		return nil
-	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
-		return nil
-	}
-	return obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Index()
-}
-
->>>>>>> main
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
 func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*dbformysql_v20210501s.FlexibleServer)
@@ -1270,105 +1094,6 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-<<<<<<< HEAD
-=======
-// indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
-func indexMachinelearningservicesWorkspacesComputeAdminUserPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword == nil {
-		return nil
-	}
-	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword.Index()
-}
-
-// indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey
-func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials == nil {
-		return nil
-	}
-	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey == nil {
-		return nil
-	}
-	return obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Index()
-}
-
-// indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
-func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount == nil {
-		return nil
-	}
-	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password == nil {
-		return nil
-	}
-	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Index()
-}
-
-// indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
-func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount == nil {
-		return nil
-	}
-	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password == nil {
-		return nil
-	}
-	return obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Index()
-}
-
->>>>>>> main
 // indexWebSiteAccessKey an index function for web_v20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
 func indexWebSiteAccessKey(rawObj client.Object) []string {
 	obj, ok := rawObj.(*web_v20220301s.Site)

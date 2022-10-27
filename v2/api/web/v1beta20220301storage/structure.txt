@@ -157,10 +157,9 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   └── Reference: *genruntime.ResourceReference
     │   ├── HttpsOnly: *bool
     │   ├── HyperV: *bool
-    │   ├── Identity: Object (3 properties)
+    │   ├── Identity: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── Type: *string
-    │   │   └── UserAssignedIdentities: map[string]v1.JSON
+    │   │   └── Type: *string
     │   ├── IsXenon: *bool
     │   ├── KeyVaultReferenceIdentity: *string
     │   ├── Kind: *string

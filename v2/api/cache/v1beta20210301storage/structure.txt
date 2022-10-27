@@ -37,12 +37,11 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage
 │       ├── Type: *string
 │       └── Zones: string[]
 └── RedisEnterpriseDatabase: Resource
-    ├── Spec: Object (12 properties)
+    ├── Spec: Object (10 properties)
     │   ├── AzureName: string
     │   ├── ClientProtocol: *string
     │   ├── ClusteringPolicy: *string
     │   ├── EvictionPolicy: *string
-    │   ├── Location: *string
     │   ├── Modules: Object (3 properties)
     │   │   ├── Args: *string
     │   │   ├── Name: *string
@@ -56,8 +55,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage
     │   │   ├── RdbEnabled: *bool
     │   │   └── RdbFrequency: *string
     │   ├── Port: *int
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: map[string]string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Status: Object (13 properties)
         ├── ClientProtocol: *string
         ├── ClusteringPolicy: *string

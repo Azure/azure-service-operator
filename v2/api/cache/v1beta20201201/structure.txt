@@ -41,7 +41,10 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │   ├── Tags: map[string]string
 │   │   ├── TenantSettings: map[string]string
 │   │   └── Zones: string[]
-│   └── Status: Object (26 properties)
+│   └── Status: Object (27 properties)
+│       ├── AccessKeys: Object (2 properties)
+│       │   ├── PrimaryKey: *string
+│       │   └── SecondaryKey: *string
 │       ├── Conditions: conditions.Condition[]
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string
@@ -102,13 +105,11 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │       ├── Type: *string
 │       └── Zones: string[]
 ├── RedisFirewallRule: Resource
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIP: *string
-│   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── StartIP: *string
-│   │   └── Tags: map[string]string
+│   │   └── StartIP: *string
 │   └── Status: Object (6 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── EndIP: *string
@@ -116,24 +117,15 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │       ├── Name: *string
 │       ├── StartIP: *string
 │       └── Type: *string
-├── RedisFirewallRule_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (2 properties)
-│   │   ├── EndIP: *string
-│   │   └── StartIP: *string
-│   └── Type: *string
 ├── RedisLinkedServer: Resource
-│   ├── Spec: Object (7 properties)
+│   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
-│   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ServerRole: Enum (2 values)
-│   │   │   ├── "Primary"
-│   │   │   └── "Secondary"
-│   │   └── Tags: map[string]string
+│   │   └── ServerRole: Enum (2 values)
+│   │       ├── "Primary"
+│   │       └── "Secondary"
 │   └── Status: Object (8 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -145,35 +137,23 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │       │   ├── "Primary"
 │       │   └── "Secondary"
 │       └── Type: *string
-├── RedisLinkedServerWithProperties_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (4 properties)
-│   │   ├── LinkedRedisCacheId: *string
-│   │   ├── LinkedRedisCacheLocation: *string
-│   │   ├── ProvisioningState: *string
-│   │   └── ServerRole: Enum (2 values)
-│   │       ├── "Primary"
-│   │       └── "Secondary"
-│   └── Type: *string
 ├── RedisPatchSchedule: Resource
-│   ├── Spec: Object (4 properties)
-│   │   ├── Location: *string
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ScheduleEntries: Object (3 properties)
-│   │   │   ├── DayOfWeek: Enum (9 values)
-│   │   │   │   ├── "Everyday"
-│   │   │   │   ├── "Friday"
-│   │   │   │   ├── "Monday"
-│   │   │   │   ├── "Saturday"
-│   │   │   │   ├── "Sunday"
-│   │   │   │   ├── "Thursday"
-│   │   │   │   ├── "Tuesday"
-│   │   │   │   ├── "Wednesday"
-│   │   │   │   └── "Weekend"
-│   │   │   ├── MaintenanceWindow: Validated<*string> (0 rules)
-│   │   │   └── StartHourUtc: *int
-│   │   └── Tags: map[string]string
+│   │   └── ScheduleEntries: Object (3 properties)
+│   │       ├── DayOfWeek: Enum (9 values)
+│   │       │   ├── "Everyday"
+│   │       │   ├── "Friday"
+│   │       │   ├── "Monday"
+│   │       │   ├── "Saturday"
+│   │       │   ├── "Sunday"
+│   │       │   ├── "Thursday"
+│   │       │   ├── "Tuesday"
+│   │       │   ├── "Wednesday"
+│   │       │   └── "Weekend"
+│   │       ├── MaintenanceWindow: Validated<*string> (0 rules)
+│   │       └── StartHourUtc: *int
 │   └── Status: Object (6 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -193,7 +173,40 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │       │   ├── MaintenanceWindow: *string
 │       │   └── StartHourUtc: *int
 │       └── Type: *string
-├── RedisPatchSchedule_STATUS_ARM: Object (5 properties)
+├── Redis_FirewallRule_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (2 properties)
+│   │   ├── EndIP: *string
+│   │   └── StartIP: *string
+│   └── Type: *string
+├── Redis_FirewallRule_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
+│   ├── Name: string
+│   └── Properties: Object (2 properties)
+│       ├── EndIP: *string
+│       └── StartIP: *string
+├── Redis_LinkedServer_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (4 properties)
+│   │   ├── LinkedRedisCacheId: *string
+│   │   ├── LinkedRedisCacheLocation: *string
+│   │   ├── ProvisioningState: *string
+│   │   └── ServerRole: Enum (2 values)
+│   │       ├── "Primary"
+│   │       └── "Secondary"
+│   └── Type: *string
+├── Redis_LinkedServer_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
+│   ├── Name: string
+│   └── Properties: Object (3 properties)
+│       ├── LinkedRedisCacheId: *string
+│       ├── LinkedRedisCacheLocation: *string
+│       └── ServerRole: Enum (2 values)
+│           ├── "Primary"
+│           └── "Secondary"
+├── Redis_PatchSchedule_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
@@ -212,11 +225,31 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │       ├── MaintenanceWindow: *string
 │   │       └── StartHourUtc: *int
 │   └── Type: *string
-├── RedisResource_STATUS_ARM: Object (7 properties)
+├── Redis_PatchSchedule_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
+│   ├── Name: string
+│   └── Properties: Object (1 property)
+│       └── ScheduleEntries: Object (3 properties)
+│           ├── DayOfWeek: Enum (9 values)
+│           │   ├── "Everyday"
+│           │   ├── "Friday"
+│           │   ├── "Monday"
+│           │   ├── "Saturday"
+│           │   ├── "Sunday"
+│           │   ├── "Thursday"
+│           │   ├── "Tuesday"
+│           │   ├── "Wednesday"
+│           │   └── "Weekend"
+│           ├── MaintenanceWindow: *string
+│           └── StartHourUtc: *int
+├── Redis_STATUS_ARM: Object (7 properties)
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (19 properties)
+│   ├── Properties: Object (20 properties)
+│   │   ├── AccessKeys: Object (2 properties)
+│   │   │   ├── PrimaryKey: *string
+│   │   │   └── SecondaryKey: *string
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── HostName: *string
 │   │   ├── Instances: Object (6 properties)
@@ -272,42 +305,8 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]
-├── Redis_FirewallRule_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: Object (2 properties)
-│   │   ├── EndIP: *string
-│   │   └── StartIP: *string
-│   └── Tags: map[string]string
-├── Redis_LinkedServer_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: Object (3 properties)
-│   │   ├── LinkedRedisCacheId: *string
-│   │   ├── LinkedRedisCacheLocation: *string
-│   │   └── ServerRole: Enum (2 values)
-│   │       ├── "Primary"
-│   │       └── "Secondary"
-│   └── Tags: map[string]string
-├── Redis_PatchSchedule_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: Object (1 property)
-│   │   └── ScheduleEntries: Object (3 properties)
-│   │       ├── DayOfWeek: Enum (9 values)
-│   │       │   ├── "Everyday"
-│   │       │   ├── "Friday"
-│   │       │   ├── "Monday"
-│   │       │   ├── "Saturday"
-│   │       │   ├── "Sunday"
-│   │       │   ├── "Thursday"
-│   │       │   ├── "Tuesday"
-│   │       │   ├── "Wednesday"
-│   │       │   └── "Weekend"
-│   │       ├── MaintenanceWindow: *string
-│   │       └── StartHourUtc: *int
-│   └── Tags: map[string]string
-└── Redis_Spec_ARM: Object (5 properties)
+└── Redis_Spec_ARM: Object (6 properties)
+    ├── AzureName: string
     ├── Location: *string
     ├── Name: string
     ├── Properties: Object (12 properties)

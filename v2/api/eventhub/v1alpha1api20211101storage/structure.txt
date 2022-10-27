@@ -4,9 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 ├── Namespace: Resource
 │   ├── Spec: Object (17 properties)
 │   │   ├── AlternateName: *string
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
+│   │   ├── AzureName: string
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: Object (4 properties)
@@ -110,15 +108,12 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
 ├── NamespacesAuthorizationRule: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
-│   │   ├── Location: *string
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Rights: string[]
-│   │   └── Tags: map[string]string
+│   │   └── Rights: string[]
 │   └── Status: Object (8 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -136,10 +131,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
-│   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
 │   │   ├── CaptureDescription: Object (7 properties)
 │   │   │   ├── Destination: Object (8 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
@@ -156,13 +149,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── SizeLimitInBytes: *int
 │   │   │   └── SkipEmptyArchives: *bool
-│   │   ├── Location: *string
 │   │   ├── MessageRetentionInDays: *int
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PartitionCount: *int
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (14 properties)
 │       ├── CaptureDescription: Object (7 properties)
 │       │   ├── Destination: Object (8 properties)
@@ -201,15 +192,12 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
-│   │   ├── Location: *string
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Rights: string[]
-│   │   └── Tags: map[string]string
+│   │   └── Rights: string[]
 │   └── Status: Object (8 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -227,15 +215,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── NamespacesEventhubsConsumerGroup: Resource
-    ├── Spec: Object (7 properties)
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-    │   │   └── Rule 1: {MinLength %!s(int64=1)}
-    │   ├── Location: *string
+    ├── Spec: Object (5 properties)
+    │   ├── AzureName: string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Tags: map[string]string
     │   └── UserMetadata: *string
     └── Status: Object (10 properties)
         ├── Conditions: conditions.Condition[]

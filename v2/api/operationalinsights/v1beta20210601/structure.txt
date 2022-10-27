@@ -3,13 +3,9 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   └── "2021-06-01"
 ├── Workspace: Resource
 │   ├── Spec: Object (13 properties)
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=4)}
-│   │   │   └── Rule 2: {Pattern "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"}
+│   │   ├── AzureName: string
 │   │   ├── Etag: *string
-│   │   ├── Features: Object (6 properties)
-│   │   │   ├── AdditionalProperties: map[string]v1.JSON
+│   │   ├── Features: Object (5 properties)
 │   │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
 │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   ├── EnableDataExport: *bool
@@ -34,7 +30,15 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │   │   └── "Enabled"
 │   │   ├── RetentionInDays: *int
 │   │   ├── Sku: Object (2 properties)
-│   │   │   ├── CapacityReservationLevel: *int
+│   │   │   ├── CapacityReservationLevel: Enum (8 values)
+│   │   │   │   ├── 100
+│   │   │   │   ├── 1000
+│   │   │   │   ├── 200
+│   │   │   │   ├── 2000
+│   │   │   │   ├── 300
+│   │   │   │   ├── 400
+│   │   │   │   ├── 500
+│   │   │   │   └── 5000
 │   │   │   └── Name: Enum (8 values)
 │   │   │       ├── "CapacityReservation"
 │   │   │       ├── "Free"
@@ -179,13 +183,13 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   │       └── QuotaNextResetTime: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Workspace_Spec_ARM: Object (5 properties)
+└── Workspace_Spec_ARM: Object (6 properties)
+    ├── AzureName: string
     ├── Etag: *string
     ├── Location: *string
     ├── Name: string
     ├── Properties: Object (8 properties)
-    │   ├── Features: Object (6 properties)
-    │   │   ├── AdditionalProperties: map[string]v1.JSON
+    │   ├── Features: Object (5 properties)
     │   │   ├── ClusterResourceId: *string
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── EnableDataExport: *bool
@@ -208,7 +212,15 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
     │   │   └── "Enabled"
     │   ├── RetentionInDays: *int
     │   ├── Sku: Object (2 properties)
-    │   │   ├── CapacityReservationLevel: *int
+    │   │   ├── CapacityReservationLevel: Enum (8 values)
+    │   │   │   ├── 100
+    │   │   │   ├── 1000
+    │   │   │   ├── 200
+    │   │   │   ├── 2000
+    │   │   │   ├── 300
+    │   │   │   ├── 400
+    │   │   │   ├── 500
+    │   │   │   └── 5000
     │   │   └── Name: Enum (8 values)
     │   │       ├── "CapacityReservation"
     │   │       ├── "Free"

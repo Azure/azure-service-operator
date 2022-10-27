@@ -274,7 +274,8 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]
-├── Disk_Spec_ARM: Object (7 properties)
+├── Disk_Spec_ARM: Object (8 properties)
+│   ├── AzureName: string
 │   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: Enum (1 value)
@@ -602,7 +603,8 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930
 │   │   └── Tier: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Snapshot_Spec_ARM: Object (6 properties)
+└── Snapshot_Spec_ARM: Object (7 properties)
+    ├── AzureName: string
     ├── ExtendedLocation: Object (2 properties)
     │   ├── Name: *string
     │   └── Type: Enum (1 value)

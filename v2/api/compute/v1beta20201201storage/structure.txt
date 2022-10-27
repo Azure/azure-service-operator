@@ -195,7 +195,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── Zones: string[]
-│   └── Status: Object (33 properties)
+│   └── Status: Object (32 properties)
 │       ├── AdditionalCapabilities: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── UltraSSDEnabled: *bool
@@ -474,41 +474,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       ├── ProximityPlacementGroup: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Resources: Object (16 properties)
-│       │   ├── AutoUpgradeMinorVersion: *bool
-│       │   ├── EnableAutomaticUpgrade: *bool
-│       │   ├── ForceUpdateTag: *string
-│       │   ├── Id: *string
-│       │   ├── InstanceView: Object (6 properties)
-│       │   │   ├── Name: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Statuses: Object (6 properties)
-│       │   │   │   ├── Code: *string
-│       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: *string
-│       │   │   │   ├── Message: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Time: *string
-│       │   │   ├── Substatuses: Object (6 properties)
-│       │   │   │   ├── Code: *string
-│       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: *string
-│       │   │   │   ├── Message: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Time: *string
-│       │   │   ├── Type: *string
-│       │   │   └── TypeHandlerVersion: *string
-│       │   ├── Location: *string
-│       │   ├── Name: *string
-│       │   ├── PropertiesType: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProtectedSettings: map[string]v1.JSON
-│       │   ├── ProvisioningState: *string
-│       │   ├── Publisher: *string
-│       │   ├── Settings: map[string]v1.JSON
-│       │   ├── Tags: map[string]string
-│       │   ├── Type: *string
-│       │   └── TypeHandlerVersion: *string
 │       ├── SecurityProfile: Object (4 properties)
 │       │   ├── EncryptionAtHost: *bool
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -672,14 +637,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   └── StorageUri: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── EvictionPolicy: *string
-    │   │   ├── ExtensionProfile: Object (3 properties)
-    │   │   │   ├── Extensions: Object (6 properties)
-    │   │   │   │   ├── Name: *string
-    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   ├── Publisher: *string
-    │   │   │   │   ├── Settings: map[string]v1.JSON
-    │   │   │   │   ├── Type: *string
-    │   │   │   │   └── TypeHandlerVersion: *string
+    │   │   ├── ExtensionProfile: Object (2 properties)
     │   │   │   ├── ExtensionsTimeBudget: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── LicenseType: *string
@@ -694,7 +652,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   ├── EnableAcceleratedNetworking: *bool
     │   │   │   │   ├── EnableFpga: *bool
     │   │   │   │   ├── EnableIPForwarding: *bool
-    │   │   │   │   ├── Id: *string
     │   │   │   │   ├── IpConfigurations: Object (11 properties)
     │   │   │   │   │   ├── ApplicationGatewayBackendAddressPools: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -702,7 +659,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   │   ├── ApplicationSecurityGroups: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   │   │   │   ├── Id: *string
     │   │   │   │   │   ├── LoadBalancerBackendAddressPools: Object (2 properties)
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
@@ -728,6 +684,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   │   │   └── PublicIPPrefix: Object (2 properties)
     │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   ├── Reference: *genruntime.ResourceReference
     │   │   │   │   │   └── Subnet: Object (2 properties)
     │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │       └── Reference: *genruntime.ResourceReference
@@ -736,7 +693,8 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   │   ├── Primary: *bool
-    │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── OsProfile: Object (8 properties)
     │   │   │   ├── AdminPassword: *genruntime.SecretReference
@@ -930,21 +888,9 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── EvictionPolicy: *string
         │   ├── ExtensionProfile: Object (3 properties)
-        │   │   ├── Extensions: Object (14 properties)
-        │   │   │   ├── AutoUpgradeMinorVersion: *bool
-        │   │   │   ├── EnableAutomaticUpgrade: *bool
-        │   │   │   ├── ForceUpdateTag: *string
+        │   │   ├── Extensions: Object (2 properties)
         │   │   │   ├── Id: *string
-        │   │   │   ├── Name: *string
-        │   │   │   ├── PropertiesType: *string
-        │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-        │   │   │   ├── ProvisionAfterExtensions: string[]
-        │   │   │   ├── ProvisioningState: *string
-        │   │   │   ├── Publisher: *string
-        │   │   │   ├── Settings: map[string]v1.JSON
-        │   │   │   ├── Type: *string
-        │   │   │   └── TypeHandlerVersion: *string
+        │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── ExtensionsTimeBudget: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── LicenseType: *string

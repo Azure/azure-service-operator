@@ -16,7 +16,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131pre
 │       ├── Name: *string
 │       ├── Subject: *string
 │       └── Type: *string
-├── FederatedIdentityCredential_STATUS_ARM: Object (4 properties)
+├── UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
 │   ├── Properties: Object (3 properties)
@@ -24,7 +24,8 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131pre
 │   │   ├── Issuer: *string
 │   │   └── Subject: *string
 │   └── Type: *string
-└── UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (2 properties)
+└── UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (3 properties)
+    ├── AzureName: string
     ├── Name: string
     └── Properties: Object (3 properties)
         ├── Audiences: string[]

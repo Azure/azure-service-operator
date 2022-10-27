@@ -9,31 +9,8 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │   │   │   ├── IpMask: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── InputSchema: *string
-│   │   ├── InputSchemaMapping: Object (3 properties)
+│   │   ├── InputSchemaMapping: Object (2 properties)
 │   │   │   ├── InputSchemaMappingType: *string
-│   │   │   ├── Properties: Object (7 properties)
-│   │   │   │   ├── DataVersion: Object (3 properties)
-│   │   │   │   │   ├── DefaultValue: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SourceField: *string
-│   │   │   │   ├── EventTime: Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SourceField: *string
-│   │   │   │   ├── EventType: Object (3 properties)
-│   │   │   │   │   ├── DefaultValue: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SourceField: *string
-│   │   │   │   ├── Id: Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SourceField: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── Subject: Object (3 properties)
-│   │   │   │   │   ├── DefaultValue: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SourceField: *string
-│   │   │   │   └── Topic: Object (2 properties)
-│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │       └── SourceField: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
@@ -73,13 +50,11 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── DomainsTopic: Resource
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -96,146 +71,34 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── EventSubscription: Resource
-│   ├── Spec: Object (13 properties)
+│   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
-│   │   ├── DeadLetterDestination: Object (3 properties)
+│   │   ├── DeadLetterDestination: Object (2 properties)
 │   │   │   ├── EndpointType: *string
-│   │   │   ├── Properties: Object (3 properties)
-│   │   │   │   ├── BlobContainerName: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Destination: Object (8 properties)
-│   │   │   ├── AzureFunction: Object (3 properties)
-│   │   │   │   ├── EndpointType: *string
-│   │   │   │   ├── Properties: Object (4 properties)
-│   │   │   │   │   ├── MaxEventsPerBatch: *int
-│   │   │   │   │   ├── PreferredBatchSizeInKilobytes: *int
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── EventHub: Object (3 properties)
-│   │   │   │   ├── EndpointType: *string
-│   │   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── HybridConnection: Object (3 properties)
-│   │   │   │   ├── EndpointType: *string
-│   │   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── ServiceBusQueue: Object (3 properties)
-│   │   │   │   ├── EndpointType: *string
-│   │   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── ServiceBusTopic: Object (3 properties)
-│   │   │   │   ├── EndpointType: *string
-│   │   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── StorageQueue: Object (3 properties)
-│   │   │   │   ├── EndpointType: *string
-│   │   │   │   ├── Properties: Object (3 properties)
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   ├── QueueName: *string
-│   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   └── WebHook: Object (3 properties)
-│   │   │       ├── EndpointType: *string
-│   │   │       ├── Properties: Object (6 properties)
-│   │   │       │   ├── AzureActiveDirectoryApplicationIdOrUri: *string
-│   │   │       │   ├── AzureActiveDirectoryTenantId: *string
-│   │   │       │   ├── EndpointUrl: *string
-│   │   │       │   ├── MaxEventsPerBatch: *int
-│   │   │       │   ├── PreferredBatchSizeInKilobytes: *int
-│   │   │       │   └── PropertyBag: genruntime.PropertyBag
-│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Destination: Object (2 properties)
+│   │   │   ├── EndpointType: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── EventDeliverySchema: *string
 │   │   ├── ExpirationTimeUtc: *string
 │   │   ├── Filter: Object (6 properties)
-│   │   │   ├── AdvancedFilters: Object (13 properties)
-│   │   │   │   ├── BoolEquals: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Value: *bool
-│   │   │   │   ├── NumberGreaterThan: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberGreaterThanOrEquals: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberIn: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Values: float64[]
-│   │   │   │   ├── NumberLessThan: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberLessThanOrEquals: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Value: *float64
-│   │   │   │   ├── NumberNotIn: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Values: float64[]
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── StringBeginsWith: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Values: string[]
-│   │   │   │   ├── StringContains: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Values: string[]
-│   │   │   │   ├── StringEndsWith: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Values: string[]
-│   │   │   │   ├── StringIn: Object (4 properties)
-│   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: *string
-│   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── Values: string[]
-│   │   │   │   └── StringNotIn: Object (4 properties)
-│   │   │   │       ├── Key: *string
-│   │   │   │       ├── OperatorType: *string
-│   │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │       └── Values: string[]
+│   │   │   ├── AdvancedFilters: Object (3 properties)
+│   │   │   │   ├── Key: *string
+│   │   │   │   ├── OperatorType: *string
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── IncludedEventTypes: string[]
 │   │   │   ├── IsSubjectCaseSensitive: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── SubjectBeginsWith: *string
 │   │   │   └── SubjectEndsWith: *string
 │   │   ├── Labels: string[]
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── RetryPolicy: Object (3 properties)
-│   │   │   ├── EventTimeToLiveInMinutes: *int
-│   │   │   ├── MaxDeliveryAttempts: *int
-│   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── RetryPolicy: Object (3 properties)
+│   │       ├── EventTimeToLiveInMinutes: *int
+│   │       ├── MaxDeliveryAttempts: *int
+│   │       └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (15 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── DeadLetterDestination: Object (2 properties)

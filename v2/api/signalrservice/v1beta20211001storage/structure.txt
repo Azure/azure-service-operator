@@ -14,10 +14,9 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
     │   │   ├── Properties: map[string]string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Value: *string
-    │   ├── Identity: Object (3 properties)
+    │   ├── Identity: Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── Type: *string
-    │   │   └── UserAssignedIdentities: map[string]v1.JSON
+    │   │   └── Type: *string
     │   ├── Kind: *string
     │   ├── Location: *string
     │   ├── NetworkACLs: Object (4 properties)

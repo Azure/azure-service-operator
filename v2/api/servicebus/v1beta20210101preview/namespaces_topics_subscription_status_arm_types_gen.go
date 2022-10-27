@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210101preview
 
-type SBSubscription_STATUS_ARM struct {
+type Namespaces_Topics_Subscription_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 

@@ -35,7 +35,11 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │   │   ├── Tags: map[string]string
 │   │   ├── TenantSettings: map[string]string
 │   │   └── Zones: string[]
-│   └── Status: Object (27 properties)
+│   └── Status: Object (28 properties)
+│       ├── AccessKeys: Object (3 properties)
+│       │   ├── PrimaryKey: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── SecondaryKey: *string
 │       ├── Conditions: conditions.Condition[]
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string
@@ -79,15 +83,13 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── Type: *string
 │       └── Zones: string[]
 ├── RedisFirewallRule: Resource
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIP: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── StartIP: *string
-│   │   └── Tags: map[string]string
+│   │   └── StartIP: *string
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── EndIP: *string
@@ -97,16 +99,14 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── StartIP: *string
 │       └── Type: *string
 ├── RedisLinkedServer: Resource
-│   ├── Spec: Object (9 properties)
+│   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ServerRole: *string
-│   │   └── Tags: map[string]string
+│   │   └── ServerRole: *string
 │   └── Status: Object (9 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -118,17 +118,16 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── ServerRole: *string
 │       └── Type: *string
 └── RedisPatchSchedule: Resource
-    ├── Spec: Object (6 properties)
-    │   ├── Location: *string
+    ├── Spec: Object (5 properties)
+    │   ├── AzureName: string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── ScheduleEntries: Object (4 properties)
-    │   │   ├── DayOfWeek: *string
-    │   │   ├── MaintenanceWindow: *string
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── StartHourUtc: *int
-    │   └── Tags: map[string]string
+    │   └── ScheduleEntries: Object (4 properties)
+    │       ├── DayOfWeek: *string
+    │       ├── MaintenanceWindow: *string
+    │       ├── PropertyBag: genruntime.PropertyBag
+    │       └── StartHourUtc: *int
     └── Status: Object (7 properties)
         ├── Conditions: conditions.Condition[]
         ├── Id: *string

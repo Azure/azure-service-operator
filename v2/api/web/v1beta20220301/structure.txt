@@ -1,71 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 ├── APIVersion: Enum (1 value)
 │   └── "2022-03-01"
-├── AppServicePlan_STATUS_ARM: Object (9 properties)
-│   ├── ExtendedLocation: Object (2 properties)
-│   │   ├── Name: *string
-│   │   └── Type: *string
-│   ├── Id: *string
-│   ├── Kind: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: Object (23 properties)
-│   │   ├── ElasticScaleEnabled: *bool
-│   │   ├── FreeOfferExpirationTime: *string
-│   │   ├── GeoRegion: *string
-│   │   ├── HostingEnvironmentProfile: Object (3 properties)
-│   │   │   ├── Id: *string
-│   │   │   ├── Name: *string
-│   │   │   └── Type: *string
-│   │   ├── HyperV: *bool
-│   │   ├── IsSpot: *bool
-│   │   ├── IsXenon: *bool
-│   │   ├── KubeEnvironmentProfile: Object (3 properties)
-│   │   │   ├── Id: *string
-│   │   │   ├── Name: *string
-│   │   │   └── Type: *string
-│   │   ├── MaximumElasticWorkerCount: *int
-│   │   ├── MaximumNumberOfWorkers: *int
-│   │   ├── NumberOfSites: *int
-│   │   ├── NumberOfWorkers: *int
-│   │   ├── PerSiteScaling: *bool
-│   │   ├── ProvisioningState: Enum (5 values)
-│   │   │   ├── "Canceled"
-│   │   │   ├── "Deleting"
-│   │   │   ├── "Failed"
-│   │   │   ├── "InProgress"
-│   │   │   └── "Succeeded"
-│   │   ├── Reserved: *bool
-│   │   ├── ResourceGroup: *string
-│   │   ├── SpotExpirationTime: *string
-│   │   ├── Status: Enum (3 values)
-│   │   │   ├── "Creating"
-│   │   │   ├── "Pending"
-│   │   │   └── "Ready"
-│   │   ├── Subscription: *string
-│   │   ├── TargetWorkerCount: *int
-│   │   ├── TargetWorkerSizeId: *int
-│   │   ├── WorkerTierName: *string
-│   │   └── ZoneRedundant: *bool
-│   ├── Sku: Object (8 properties)
-│   │   ├── Capabilities: Object (3 properties)
-│   │   │   ├── Name: *string
-│   │   │   ├── Reason: *string
-│   │   │   └── Value: *string
-│   │   ├── Capacity: *int
-│   │   ├── Family: *string
-│   │   ├── Locations: string[]
-│   │   ├── Name: *string
-│   │   ├── Size: *string
-│   │   ├── SkuCapacity: Object (5 properties)
-│   │   │   ├── Default: *int
-│   │   │   ├── ElasticMaximum: *int
-│   │   │   ├── Maximum: *int
-│   │   │   ├── Minimum: *int
-│   │   │   └── ScaleType: *string
-│   │   └── Tier: *string
-│   ├── Tags: map[string]string
-│   └── Type: *string
 ├── ServerFarm: Resource
 │   ├── Spec: Object (22 properties)
 │   │   ├── AzureName: string
@@ -174,7 +109,73 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── Type: *string
 │       ├── WorkerTierName: *string
 │       └── ZoneRedundant: *bool
-├── Serverfarm_Spec_ARM: Object (7 properties)
+├── Serverfarm_STATUS_ARM: Object (9 properties)
+│   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── Name: *string
+│   │   └── Type: *string
+│   ├── Id: *string
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: Object (23 properties)
+│   │   ├── ElasticScaleEnabled: *bool
+│   │   ├── FreeOfferExpirationTime: *string
+│   │   ├── GeoRegion: *string
+│   │   ├── HostingEnvironmentProfile: Object (3 properties)
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   └── Type: *string
+│   │   ├── HyperV: *bool
+│   │   ├── IsSpot: *bool
+│   │   ├── IsXenon: *bool
+│   │   ├── KubeEnvironmentProfile: Object (3 properties)
+│   │   │   ├── Id: *string
+│   │   │   ├── Name: *string
+│   │   │   └── Type: *string
+│   │   ├── MaximumElasticWorkerCount: *int
+│   │   ├── MaximumNumberOfWorkers: *int
+│   │   ├── NumberOfSites: *int
+│   │   ├── NumberOfWorkers: *int
+│   │   ├── PerSiteScaling: *bool
+│   │   ├── ProvisioningState: Enum (5 values)
+│   │   │   ├── "Canceled"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "InProgress"
+│   │   │   └── "Succeeded"
+│   │   ├── Reserved: *bool
+│   │   ├── ResourceGroup: *string
+│   │   ├── SpotExpirationTime: *string
+│   │   ├── Status: Enum (3 values)
+│   │   │   ├── "Creating"
+│   │   │   ├── "Pending"
+│   │   │   └── "Ready"
+│   │   ├── Subscription: *string
+│   │   ├── TargetWorkerCount: *int
+│   │   ├── TargetWorkerSizeId: *int
+│   │   ├── WorkerTierName: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: Object (8 properties)
+│   │   ├── Capabilities: Object (3 properties)
+│   │   │   ├── Name: *string
+│   │   │   ├── Reason: *string
+│   │   │   └── Value: *string
+│   │   ├── Capacity: *int
+│   │   ├── Family: *string
+│   │   ├── Locations: string[]
+│   │   ├── Name: *string
+│   │   ├── Size: *string
+│   │   ├── SkuCapacity: Object (5 properties)
+│   │   │   ├── Default: *int
+│   │   │   ├── ElasticMaximum: *int
+│   │   │   ├── Maximum: *int
+│   │   │   ├── Minimum: *int
+│   │   │   └── ScaleType: *string
+│   │   └── Tier: *string
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── Serverfarm_Spec_ARM: Object (8 properties)
+│   ├── AzureName: string
 │   ├── ExtendedLocation: Object (1 property)
 │   │   └── Name: *string
 │   ├── Kind: *string
@@ -262,13 +263,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── HttpsOnly: *bool
 │   │   ├── HyperV: *bool
-│   │   ├── Identity: Object (2 properties)
-│   │   │   ├── Type: Enum (4 values)
-│   │   │   │   ├── "None"
-│   │   │   │   ├── "SystemAssigned"
-│   │   │   │   ├── "SystemAssigned, UserAssigned"
-│   │   │   │   └── "UserAssigned"
-│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
+│   │   ├── Identity: Object (1 property)
+│   │   │   └── Type: Enum (4 values)
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       ├── "SystemAssigned, UserAssigned"
+│   │   │       └── "UserAssigned"
 │   │   ├── IsXenon: *bool
 │   │   ├── KeyVaultReferenceIdentity: *string
 │   │   ├── Kind: *string
@@ -1179,16 +1179,16 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   └── VnetRouteAllEnabled: *bool
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Site_Spec_ARM: Object (7 properties)
+└── Site_Spec_ARM: Object (8 properties)
+    ├── AzureName: string
     ├── ExtendedLocation: Object (1 property)
     │   └── Name: *string
-    ├── Identity: Object (2 properties)
-    │   ├── Type: Enum (4 values)
-    │   │   ├── "None"
-    │   │   ├── "SystemAssigned"
-    │   │   ├── "SystemAssigned, UserAssigned"
-    │   │   └── "UserAssigned"
-    │   └── UserAssignedIdentities: map[string]v1.JSON
+    ├── Identity: Object (1 property)
+    │   └── Type: Enum (4 values)
+    │       ├── "None"
+    │       ├── "SystemAssigned"
+    │       ├── "SystemAssigned, UserAssigned"
+    │       └── "UserAssigned"
     ├── Kind: *string
     ├── Location: *string
     ├── Name: string

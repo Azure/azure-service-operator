@@ -12,10 +12,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: Object (3 properties)
-│   │   │   ├── Config: map[string]string
-│   │   │   ├── Enabled: *bool
-│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── AddonProfiles: *v1.JSON
 │   │   ├── AgentPoolProfiles: Object (35 properties)
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
@@ -128,10 +125,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   ├── AutoUpgradeProfile: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UpgradeChannel: *string
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
-│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
+│   │   ├── AzureName: string
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string
@@ -148,15 +142,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── NoProxy: string[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TrustedCa: *string
-│   │   ├── Identity: Object (3 properties)
+│   │   ├── Identity: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
-│   │   ├── IdentityProfile: Object (4 properties)
-│   │   │   ├── ClientId: *string
-│   │   │   ├── ObjectId: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   │   └── Type: *string
+│   │   ├── IdentityProfile: *v1.JSON
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: Object (3 properties)
 │   │   │   ├── AdminUsername: *string
@@ -516,7 +505,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │           ├── LicenseType: *string
 │           └── PropertyBag: genruntime.PropertyBag
 └── ManagedClustersAgentPool: Resource
-    ├── Spec: Object (38 properties)
+    ├── Spec: Object (37 properties)
     │   ├── AvailabilityZones: string[]
     │   ├── AzureName: string
     │   ├── Count: *int
@@ -575,7 +564,6 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
     │   │   │   └── VmVfsCachePressure: *int
     │   │   ├── TransparentHugePageDefrag: *string
     │   │   └── TransparentHugePageEnabled: *string
-    │   ├── Location: *string
     │   ├── MaxCount: *int
     │   ├── MaxPods: *int
     │   ├── MinCount: *int

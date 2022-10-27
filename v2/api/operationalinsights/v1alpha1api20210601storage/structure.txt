@@ -3,13 +3,9 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
 │   └── "2021-06-01"
 └── Workspace: Resource
     ├── Spec: Object (15 properties)
-    │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-    │   │   ├── Rule 1: {MinLength %!s(int64=4)}
-    │   │   └── Rule 2: {Pattern "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"}
+    │   ├── AzureName: string
     │   ├── Etag: *string
-    │   ├── Features: Object (7 properties)
-    │   │   ├── AdditionalProperties: map[string]v1.JSON
+    │   ├── Features: Object (6 properties)
     │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── EnableDataExport: *bool

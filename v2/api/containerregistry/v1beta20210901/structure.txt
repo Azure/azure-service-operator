@@ -4,10 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901
 ├── Registry: Resource
 │   ├── Spec: Object (14 properties)
 │   │   ├── AdminUserEnabled: *bool
-│   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=5)}
-│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]*$"}
+│   │   ├── AzureName: string
 │   │   ├── DataEndpointEnabled: *bool
 │   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── KeyVaultProperties: Object (2 properties)
@@ -323,7 +320,8 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Registry_Spec_ARM: Object (6 properties)
+└── Registry_Spec_ARM: Object (7 properties)
+    ├── AzureName: string
     ├── Identity: Object (4 properties)
     │   ├── PrincipalId: *string
     │   ├── TenantId: *string

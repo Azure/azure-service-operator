@@ -2,12 +2,10 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 ├── APIVersion: Enum (1 value)
 │   └── "2018-06-01"
 ├── Configuration: Resource
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
-│   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Source: *string
-│   │   ├── Tags: map[string]string
 │   │   └── Value: *string
 │   └── Status: Object (10 properties)
 │       ├── AllowedValues: *string
@@ -20,25 +18,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │       ├── Source: *string
 │       ├── Type: *string
 │       └── Value: *string
-├── Configuration_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (6 properties)
-│   │   ├── AllowedValues: *string
-│   │   ├── DataType: *string
-│   │   ├── DefaultValue: *string
-│   │   ├── Description: *string
-│   │   ├── Source: *string
-│   │   └── Value: *string
-│   └── Type: *string
 ├── Database: Resource
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
-│   │   ├── Location: *string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── Tags: map[string]string
+│   │   └── Owner: *genruntime.KnownResourceReference
 │   └── Status: Object (6 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
@@ -46,13 +31,6 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │       ├── Id: *string
 │       ├── Name: *string
 │       └── Type: *string
-├── Database_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: Object (2 properties)
-│   │   ├── Charset: *string
-│   │   └── Collation: *string
-│   └── Type: *string
 ├── Server: Resource
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
@@ -61,117 +39,35 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │   └── Secrets: Object (1 property)
 │   │   │       └── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: Object (4 properties)
-│   │   │   ├── ServerPropertiesForDefaultCreate: Object (8 properties)
-│   │   │   │   ├── AdministratorLogin: *string
-│   │   │   │   ├── AdministratorLoginPassword: genruntime.SecretReference
-│   │   │   │   ├── CreateMode: Enum (1 value)
-│   │   │   │   │   └── "Default"
-│   │   │   │   ├── MinimalTlsVersion: Enum (4 values)
-│   │   │   │   │   ├── "TLS1_0"
-│   │   │   │   │   ├── "TLS1_1"
-│   │   │   │   │   ├── "TLS1_2"
-│   │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   │   ├── PublicNetworkAccess: Enum (2 values)
+│   │   ├── Properties: Object (6 properties)
+│   │   │   ├── CreateMode: Enum (4 values)
+│   │   │   │   ├── "Default"
+│   │   │   │   ├── "GeoRestore"
+│   │   │   │   ├── "PointInTimeRestore"
+│   │   │   │   └── "Replica"
+│   │   │   ├── MinimalTlsVersion: Enum (4 values)
+│   │   │   │   ├── "TLS1_0"
+│   │   │   │   ├── "TLS1_1"
+│   │   │   │   ├── "TLS1_2"
+│   │   │   │   └── "TLSEnforcementDisabled"
+│   │   │   ├── PublicNetworkAccess: Enum (2 values)
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "Enabled"
+│   │   │   ├── SslEnforcement: Enum (2 values)
+│   │   │   │   ├── "Disabled"
+│   │   │   │   └── "Enabled"
+│   │   │   ├── StorageProfile: Object (4 properties)
+│   │   │   │   ├── BackupRetentionDays: *int
+│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── SslEnforcement: Enum (2 values)
+│   │   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageProfile: Object (4 properties)
-│   │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   ├── StorageAutogrow: Enum (2 values)
-│   │   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   └── StorageMB: *int
-│   │   │   │   └── Version: Enum (2 values)
-│   │   │   │       ├── "10.2"
-│   │   │   │       └── "10.3"
-│   │   │   ├── ServerPropertiesForGeoRestore: Object (7 properties)
-│   │   │   │   ├── CreateMode: Enum (1 value)
-│   │   │   │   │   └── "GeoRestore"
-│   │   │   │   ├── MinimalTlsVersion: Enum (4 values)
-│   │   │   │   │   ├── "TLS1_0"
-│   │   │   │   │   ├── "TLS1_1"
-│   │   │   │   │   ├── "TLS1_2"
-│   │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   │   ├── PublicNetworkAccess: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── SourceServerId: *string
-│   │   │   │   ├── SslEnforcement: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageProfile: Object (4 properties)
-│   │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   ├── StorageAutogrow: Enum (2 values)
-│   │   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   └── StorageMB: *int
-│   │   │   │   └── Version: Enum (2 values)
-│   │   │   │       ├── "10.2"
-│   │   │   │       └── "10.3"
-│   │   │   ├── ServerPropertiesForReplica: Object (7 properties)
-│   │   │   │   ├── CreateMode: Enum (1 value)
-│   │   │   │   │   └── "Replica"
-│   │   │   │   ├── MinimalTlsVersion: Enum (4 values)
-│   │   │   │   │   ├── "TLS1_0"
-│   │   │   │   │   ├── "TLS1_1"
-│   │   │   │   │   ├── "TLS1_2"
-│   │   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   │   ├── PublicNetworkAccess: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── SourceServerId: *string
-│   │   │   │   ├── SslEnforcement: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageProfile: Object (4 properties)
-│   │   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   ├── StorageAutogrow: Enum (2 values)
-│   │   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   │   └── "Enabled"
-│   │   │   │   │   └── StorageMB: *int
-│   │   │   │   └── Version: Enum (2 values)
-│   │   │   │       ├── "10.2"
-│   │   │   │       └── "10.3"
-│   │   │   └── ServerPropertiesForRestore: Object (8 properties)
-│   │   │       ├── CreateMode: Enum (1 value)
-│   │   │       │   └── "PointInTimeRestore"
-│   │   │       ├── MinimalTlsVersion: Enum (4 values)
-│   │   │       │   ├── "TLS1_0"
-│   │   │       │   ├── "TLS1_1"
-│   │   │       │   ├── "TLS1_2"
-│   │   │       │   └── "TLSEnforcementDisabled"
-│   │   │       ├── PublicNetworkAccess: Enum (2 values)
-│   │   │       │   ├── "Disabled"
-│   │   │       │   └── "Enabled"
-│   │   │       ├── RestorePointInTime: Validated<*string> (0 rules)
-│   │   │       ├── SourceServerId: *string
-│   │   │       ├── SslEnforcement: Enum (2 values)
-│   │   │       │   ├── "Disabled"
-│   │   │       │   └── "Enabled"
-│   │   │       ├── StorageProfile: Object (4 properties)
-│   │   │       │   ├── BackupRetentionDays: *int
-│   │   │       │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │       │   │   ├── "Disabled"
-│   │   │       │   │   └── "Enabled"
-│   │   │       │   ├── StorageAutogrow: Enum (2 values)
-│   │   │       │   │   ├── "Disabled"
-│   │   │       │   │   └── "Enabled"
-│   │   │       │   └── StorageMB: *int
-│   │   │       └── Version: Enum (2 values)
-│   │   │           ├── "10.2"
-│   │   │           └── "10.3"
+│   │   │   │   └── StorageMB: *int
+│   │   │   └── Version: Enum (2 values)
+│   │   │       ├── "10.2"
+│   │   │       └── "10.3"
 │   │   ├── Sku: Object (5 properties)
 │   │   │   ├── Capacity: Validated<*int> (1 rule)
 │   │   │   │   └── Rule 0: {Minimum 0}
@@ -321,120 +217,39 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │       └── "MemoryOptimized"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Server_Spec_ARM: Object (5 properties)
+├── Server_Spec_ARM: Object (6 properties)
+│   ├── AzureName: string
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (4 properties)
-│   │   ├── ServerPropertiesForDefaultCreate: Object (8 properties)
-│   │   │   ├── AdministratorLogin: *string
-│   │   │   ├── AdministratorLoginPassword: string
-│   │   │   ├── CreateMode: Enum (1 value)
-│   │   │   │   └── "Default"
-│   │   │   ├── MinimalTlsVersion: Enum (4 values)
-│   │   │   │   ├── "TLS1_0"
-│   │   │   │   ├── "TLS1_1"
-│   │   │   │   ├── "TLS1_2"
-│   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   ├── PublicNetworkAccess: Enum (2 values)
+│   ├── Properties: Object (6 properties)
+│   │   ├── CreateMode: Enum (4 values)
+│   │   │   ├── "Default"
+│   │   │   ├── "GeoRestore"
+│   │   │   ├── "PointInTimeRestore"
+│   │   │   └── "Replica"
+│   │   ├── MinimalTlsVersion: Enum (4 values)
+│   │   │   ├── "TLS1_0"
+│   │   │   ├── "TLS1_1"
+│   │   │   ├── "TLS1_2"
+│   │   │   └── "TLSEnforcementDisabled"
+│   │   ├── PublicNetworkAccess: Enum (2 values)
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── SslEnforcement: Enum (2 values)
+│   │   │   ├── "Disabled"
+│   │   │   └── "Enabled"
+│   │   ├── StorageProfile: Object (4 properties)
+│   │   │   ├── BackupRetentionDays: *int
+│   │   │   ├── GeoRedundantBackup: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── SslEnforcement: Enum (2 values)
+│   │   │   ├── StorageAutogrow: Enum (2 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "Enabled"
-│   │   │   ├── StorageProfile: Object (4 properties)
-│   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageAutogrow: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   └── StorageMB: *int
-│   │   │   └── Version: Enum (2 values)
-│   │   │       ├── "10.2"
-│   │   │       └── "10.3"
-│   │   ├── ServerPropertiesForGeoRestore: Object (7 properties)
-│   │   │   ├── CreateMode: Enum (1 value)
-│   │   │   │   └── "GeoRestore"
-│   │   │   ├── MinimalTlsVersion: Enum (4 values)
-│   │   │   │   ├── "TLS1_0"
-│   │   │   │   ├── "TLS1_1"
-│   │   │   │   ├── "TLS1_2"
-│   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   ├── PublicNetworkAccess: Enum (2 values)
-│   │   │   │   ├── "Disabled"
-│   │   │   │   └── "Enabled"
-│   │   │   ├── SourceServerId: *string
-│   │   │   ├── SslEnforcement: Enum (2 values)
-│   │   │   │   ├── "Disabled"
-│   │   │   │   └── "Enabled"
-│   │   │   ├── StorageProfile: Object (4 properties)
-│   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageAutogrow: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   └── StorageMB: *int
-│   │   │   └── Version: Enum (2 values)
-│   │   │       ├── "10.2"
-│   │   │       └── "10.3"
-│   │   ├── ServerPropertiesForReplica: Object (7 properties)
-│   │   │   ├── CreateMode: Enum (1 value)
-│   │   │   │   └── "Replica"
-│   │   │   ├── MinimalTlsVersion: Enum (4 values)
-│   │   │   │   ├── "TLS1_0"
-│   │   │   │   ├── "TLS1_1"
-│   │   │   │   ├── "TLS1_2"
-│   │   │   │   └── "TLSEnforcementDisabled"
-│   │   │   ├── PublicNetworkAccess: Enum (2 values)
-│   │   │   │   ├── "Disabled"
-│   │   │   │   └── "Enabled"
-│   │   │   ├── SourceServerId: *string
-│   │   │   ├── SslEnforcement: Enum (2 values)
-│   │   │   │   ├── "Disabled"
-│   │   │   │   └── "Enabled"
-│   │   │   ├── StorageProfile: Object (4 properties)
-│   │   │   │   ├── BackupRetentionDays: *int
-│   │   │   │   ├── GeoRedundantBackup: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── StorageAutogrow: Enum (2 values)
-│   │   │   │   │   ├── "Disabled"
-│   │   │   │   │   └── "Enabled"
-│   │   │   │   └── StorageMB: *int
-│   │   │   └── Version: Enum (2 values)
-│   │   │       ├── "10.2"
-│   │   │       └── "10.3"
-│   │   └── ServerPropertiesForRestore: Object (8 properties)
-│   │       ├── CreateMode: Enum (1 value)
-│   │       │   └── "PointInTimeRestore"
-│   │       ├── MinimalTlsVersion: Enum (4 values)
-│   │       │   ├── "TLS1_0"
-│   │       │   ├── "TLS1_1"
-│   │       │   ├── "TLS1_2"
-│   │       │   └── "TLSEnforcementDisabled"
-│   │       ├── PublicNetworkAccess: Enum (2 values)
-│   │       │   ├── "Disabled"
-│   │       │   └── "Enabled"
-│   │       ├── RestorePointInTime: *string
-│   │       ├── SourceServerId: *string
-│   │       ├── SslEnforcement: Enum (2 values)
-│   │       │   ├── "Disabled"
-│   │       │   └── "Enabled"
-│   │       ├── StorageProfile: Object (4 properties)
-│   │       │   ├── BackupRetentionDays: *int
-│   │       │   ├── GeoRedundantBackup: Enum (2 values)
-│   │       │   │   ├── "Disabled"
-│   │       │   │   └── "Enabled"
-│   │       │   ├── StorageAutogrow: Enum (2 values)
-│   │       │   │   ├── "Disabled"
-│   │       │   │   └── "Enabled"
-│   │       │   └── StorageMB: *int
-│   │       └── Version: Enum (2 values)
-│   │           ├── "10.2"
-│   │           └── "10.3"
+│   │   │   └── StorageMB: *int
+│   │   └── Version: Enum (2 values)
+│   │       ├── "10.2"
+│   │       └── "10.3"
 │   ├── Sku: Object (5 properties)
 │   │   ├── Capacity: *int
 │   │   ├── Family: *string
@@ -445,17 +260,33 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │       ├── "GeneralPurpose"
 │   │       └── "MemoryOptimized"
 │   └── Tags: map[string]string
-├── Servers_Configuration_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: Object (2 properties)
+├── Servers_Configuration_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (6 properties)
+│   │   ├── AllowedValues: *string
+│   │   ├── DataType: *string
+│   │   ├── DefaultValue: *string
+│   │   ├── Description: *string
 │   │   ├── Source: *string
 │   │   └── Value: *string
-│   └── Tags: map[string]string
-└── Servers_Database_Spec_ARM: Object (4 properties)
-    ├── Location: *string
+│   └── Type: *string
+├── Servers_Configuration_Spec_ARM: Object (3 properties)
+│   ├── AzureName: string
+│   ├── Name: string
+│   └── Properties: Object (2 properties)
+│       ├── Source: *string
+│       └── Value: *string
+├── Servers_Database_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: Object (2 properties)
+│   │   ├── Charset: *string
+│   │   └── Collation: *string
+│   └── Type: *string
+└── Servers_Database_Spec_ARM: Object (3 properties)
+    ├── AzureName: string
     ├── Name: string
-    ├── Properties: Object (2 properties)
-    │   ├── Charset: *string
-    │   └── Collation: *string
-    └── Tags: map[string]string
+    └── Properties: Object (2 properties)
+        ├── Charset: *string
+        └── Collation: *string

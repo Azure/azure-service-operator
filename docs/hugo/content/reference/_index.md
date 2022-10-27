@@ -52,16 +52,6 @@ grouped by the originating ARM service.
 | [RedisPatchSchedule](https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/#cache.azure.com/v1beta20201201.RedisPatchSchedule)                     | 2020-12-01  | v1beta20201201      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20201201_redispatchschedule.yaml)                |
 | [RedisPatchSchedule](https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/#cache.azure.com/v1alpha1api20201201.RedisPatchSchedule)           | 2020-12-01  | v1alpha1api20201201 | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20201201_redispatchschedule.yaml)      |
 
-<<<<<<< HEAD
-=======
-## Cdn
-
-| Resource                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                       |
-|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
-| [Profile](https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.Profile)                   | 2021-06-01  | v1beta20210601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1beta/v1beta20210601_profile.yaml)          |
-| [ProfilesEndpoint](https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.ProfilesEndpoint) | 2021-06-01  | v1beta20210601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1beta/v1beta20210601_profilesendpoint.yaml) |
-
->>>>>>> main
 ## Compute
 
 | Resource                                                                                                                                                                     | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                           |
@@ -209,18 +199,10 @@ grouped by the originating ARM service.
 
 ## Machinelearningservices
 
-<<<<<<< HEAD
-| Resource                                                                                                                                                                                 | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                                   |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.Workspace)                 | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml)         |
-| [WorkspacesCompute](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesCompute) | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml) |
-=======
-| Resource                                                                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                               |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.Workspace)                       | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml)            |
-| [WorkspacesCompute](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesCompute)       | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml)    |
-| [WorkspacesConnection](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesConnection) | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacesconnection.yaml) |
->>>>>>> main
+| Resource                                                                                                                                                                                 | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                            |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.Workspace)                 | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml)         |
+| [WorkspacesCompute](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesCompute) | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml) |
 
 ## Managedidentity
 

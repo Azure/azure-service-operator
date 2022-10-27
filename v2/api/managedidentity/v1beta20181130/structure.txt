@@ -1,16 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130
 ├── APIVersion: Enum (1 value)
 │   └── "2018-11-30"
-├── Identity_STATUS_ARM: Object (6 properties)
-│   ├── Id: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: Object (3 properties)
-│   │   ├── ClientId: *string
-│   │   ├── PrincipalId: *string
-│   │   └── TenantId: *string
-│   ├── Tags: map[string]string
-│   └── Type: *string
 ├── UserAssignedIdentity: Resource
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
@@ -31,7 +21,18 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130
 │       ├── Tags: map[string]string
 │       ├── TenantId: *string
 │       └── Type: *string
-└── UserAssignedIdentity_Spec_ARM: Object (3 properties)
+├── UserAssignedIdentity_STATUS_ARM: Object (6 properties)
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: Object (3 properties)
+│   │   ├── ClientId: *string
+│   │   ├── PrincipalId: *string
+│   │   └── TenantId: *string
+│   ├── Tags: map[string]string
+│   └── Type: *string
+└── UserAssignedIdentity_Spec_ARM: Object (4 properties)
+    ├── AzureName: string
     ├── Location: *string
     ├── Name: string
     └── Tags: map[string]string
