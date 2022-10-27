@@ -20,22 +20,23 @@
 
 <title>Creating a new release | Azure Service Operator</title>
 <meta name="description" content="
+Ensure that the controller CVE scan action is green.
 Go to the releases page and draft a new release.
-In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the …">
+In the tag dropdown, type the name of the new …">
 <meta property="og:title" content="Creating a new release" />
-<meta property="og:description" content="Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it." />
+<meta property="og:description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" /><meta property="article:section" content="contributing" />
 
 
 
 <meta itemprop="name" content="Creating a new release">
-<meta itemprop="description" content="Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
+<meta itemprop="description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with.">
 
-<meta itemprop="wordCount" content="609">
+<meta itemprop="wordCount" content="618">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Creating a new release"/>
-<meta name="twitter:description" content="Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it."/>
+<meta name="twitter:description" content="Ensure that the controller CVE scan action is green. Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-beta.3). The release target should be main (the default). Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with."/>
 
 
 
@@ -550,6 +551,7 @@ In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it
 		
 	</header>    
 	<ol>
+<li>Ensure that the <a href="https://github.com/Azure/azure-service-operator/actions/workflows/scan-controller-image.yaml">controller CVE scan action</a> is green.</li>
 <li>Go to the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page and draft a new release.</li>
 <li>In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: <code>v2.0.0-beta.3</code>). The release target should be <code>main</code> (the default).</li>
 <li>Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.</li>
