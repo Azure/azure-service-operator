@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"github.com/kylelemons/godebug/diff"
+	"math/big"
 	"regexp"
 
 	"github.com/google/go-cmp/cmp"
@@ -143,6 +144,7 @@ func DiffTypes(x, y interface{}) string {
 		PrimitiveType{},
 		ResourceType{},
 		EnumType{},
+		FlaggedType{},
 		TypeName{},
 		LocalPackageReference{},
 		InterfaceImplementer{},
@@ -153,6 +155,8 @@ func DiffTypes(x, y interface{}) string {
 		readonly.Map[string, []string]{},
 		MapType{},
 		ResourceType{},
+		big.Rat{},
+		big.Int{},
 	)
 
 	regexCompare := cmp.Comparer(func(x, y regexp.Regexp) bool {

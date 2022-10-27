@@ -44,7 +44,7 @@ func BuildAllOfType(types ...Type) Type {
 		}
 	}
 
-	if t, ok := uniqueTypes.Only(); ok {
+	if t, ok := uniqueTypes.Single(); ok {
 		return t
 	}
 

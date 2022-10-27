@@ -16,6 +16,7 @@ type ReadonlyTypeSet interface {
 	ForEach(func(t Type, ix int))
 	ForEachError(func(t Type, ix int) error) error
 	Len() int
+	Single() (Type, bool)
 }
 
 var _ ReadonlyTypeSet = TypeSet{}
@@ -117,7 +118,7 @@ func (ts TypeSet) Len() int {
 	return len(ts.types)
 }
 
-func (ts TypeSet) Only() (Type, bool) {
+func (ts TypeSet) Single() (Type, bool) {
 	if len(ts.types) != 1 {
 		return nil, false
 	}

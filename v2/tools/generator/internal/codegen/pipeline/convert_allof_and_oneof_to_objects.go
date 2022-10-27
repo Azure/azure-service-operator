@@ -31,90 +31,16 @@ var (
 
 // ConvertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
 func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			builder := astmodel.TypeVisitorBuilder{}
+		func(ctx context.Context, state *State) (*State, error) {
 
-			// the context here is whether we are selecting spec or status fields
-			builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
-				synth := synthesizer{
-					specOrStatus: ctx.(resourceFieldSelector),
-					defs:         defs,
-					idFactory:    idFactory,
-				}
+			baseSynthesizer := newSynthesizer(state.Definitions(), idFactory)
 
-				object, err := synth.allOfObject(it)
-				if err != nil {
-					return nil, err
-				}
-
-				// we might end up with something that requires re-visiting
-				// e.g. AllOf can turn into a OneOf that we then need to visit
-				return this.Visit(object, ctx)
-			}
-
-			builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
-
-				// If the OneOf contains only one object type, we can just use that
-				if it.Types().Len() == 1 {
-					var only astmodel.Type
-					it.Types().ForEach(func(t astmodel.Type, _ int) {
-						only = t
-					})
-
-					if obj, ok := astmodel.AsObjectType(only); ok {
-						return obj, nil
-					}
-				}
-
-				// Otherwise synthesize
-				synth := synthesizer{
-					specOrStatus: ctx.(resourceFieldSelector),
-					defs:         defs,
-					idFactory:    idFactory,
-				}
-
-				// we want to preserve names of the inner types
-				// even if they are converted to other (unnamed types)
-				propNames, err := synth.getOneOfPropNames(it)
-				if err != nil {
-					return nil, err
-				}
-
-				// process children first so that allOfs are resolved
-				result, err := astmodel.IdentityVisitOfOneOfType(this, it, ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				if resultOneOf, ok := result.(*astmodel.OneOfType); ok {
-					result = synth.oneOfObject(resultOneOf, propNames)
-				}
-
-				// we might end up with something that requires re-visiting
-				return this.Visit(result, ctx)
-			}
-
-			builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-				spec, err := this.Visit(it.SpecType(), chooseSpec)
-				if err != nil {
-					return nil, errors.Wrapf(err, "unable to visit resource spec type")
-				}
-
-				status, err := this.Visit(it.StatusType(), chooseStatus)
-				if err != nil {
-					return nil, errors.Wrapf(err, "unable to visit resource status type")
-				}
-
-				return it.WithSpec(spec).WithStatus(status), nil
-			}
-
-			visitor := builder.Build()
-			result := make(astmodel.TypeDefinitionSet)
-
-			for _, def := range defs {
+			newDefs := make(astmodel.TypeDefinitionSet)
+			visitor := createVisitorForSynthesizer(baseSynthesizer)
+			for _, def := range state.Definitions() {
 				resourceUpdater := chooseSpec
 				// TODO: we need flags
 				if def.Name().IsStatus() {
@@ -126,17 +52,115 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
 				}
 
-				result.Add(transformed)
+				newDefs.Add(transformed)
 			}
 
-			return result, nil
+			finalDefs := newDefs.OverlayWith(baseSynthesizer.updatedDefs)
+			return state.WithDefinitions(finalDefs), nil
 		})
 }
 
+func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor {
+	builder := astmodel.TypeVisitorBuilder{}
+
+	// the context here is whether we are selecting spec or status fields
+	builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+
+		object, err := synth.allOfObject(it)
+		if err != nil {
+			return nil, err
+		}
+
+		// we might end up with something that requires re-visiting
+		// e.g. AllOf can turn into a OneOf that we then need to visit
+		return this.Visit(object, ctx)
+	}
+
+	builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
+
+		// If the OneOf contains only one object type, we can just use that
+		if only, ok := it.Types().Single(); ok {
+			if obj, ok := astmodel.AsObjectType(only); ok {
+				return obj, nil
+			}
+		}
+
+		// Otherwise synthesize
+		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+
+		// we want to preserve names of the inner types
+		// even if they are converted to other (unnamed types)
+		propNames, err := synth.getOneOfPropNames(it)
+		if err != nil {
+			return nil, err
+		}
+
+		// process children first so that allOfs are resolved
+		result, err := astmodel.IdentityVisitOfOneOfType(this, it, ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		if resultOneOf, ok := result.(*astmodel.OneOfType); ok {
+			result = synth.oneOfObject(resultOneOf, propNames)
+		}
+
+		// we might end up with something that requires re-visiting
+		return this.Visit(result, ctx)
+	}
+
+	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+		spec, err := this.Visit(it.SpecType(), chooseSpec)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to visit resource spec type")
+		}
+
+		status, err := this.Visit(it.StatusType(), chooseStatus)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to visit resource status type")
+		}
+
+		return it.WithSpec(spec).WithStatus(status), nil
+	}
+
+	builder.VisitErroredType = func(_ *astmodel.TypeVisitor, it *astmodel.ErroredType, ctx interface{}) (astmodel.Type, error) {
+		// Nothing we can do to resolve errors, so just return the type as-is
+		return it, nil
+	}
+
+	visitor := builder.Build()
+	return visitor
+}
+
 type synthesizer struct {
-	specOrStatus resourceFieldSelector
-	idFactory    astmodel.IdentifierFactory
-	defs         astmodel.TypeDefinitionSet
+	specOrStatus    resourceFieldSelector
+	idFactory       astmodel.IdentifierFactory
+	defs            astmodel.TypeDefinitionSet
+	referenceCounts map[astmodel.TypeName]int
+	activeNames     astmodel.TypeNameSet
+	updatedDefs     astmodel.TypeDefinitionSet
+}
+
+// newSynthesizer returns a partially configured synthesizer which lacks a field selector
+func newSynthesizer(
+	defs astmodel.TypeDefinitionSet,
+	idFactory astmodel.IdentifierFactory,
+) synthesizer {
+	return synthesizer{
+		defs:            defs,
+		idFactory:       idFactory,
+		referenceCounts: countTypeReferences(defs),
+		activeNames:     make(astmodel.TypeNameSet),
+		updatedDefs:     make(astmodel.TypeDefinitionSet),
+	}
+}
+
+// forField returns a synthesizer that will use the given field selector
+func (s synthesizer) forField(specOrStatus resourceFieldSelector) synthesizer {
+	result := s
+	result.specOrStatus = specOrStatus
+	return result
 }
 
 type propertyNames struct {
@@ -275,7 +299,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		}
 
 		// Otherwise, if we only have one nested type, use that
-		if only, ok := concreteType.Types().Only(); ok {
+		if only, ok := concreteType.Types().Single(); ok {
 			return s.getOneOfName(only, propIndex)
 		}
 
@@ -380,7 +404,7 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 		return astmodel.NewErroredType(oneOf, []string{err.Error()}, nil)
 	}
 
-	// propertyType is a local function to combine any oneof subtype with any common properties we've found earlier
+	// propertyType is a local function to combine any oneOf subtype with any common properties we've found earlier
 	propertyType := func(t astmodel.Type) astmodel.Type {
 		if commonProperties == nil {
 			return t
@@ -389,6 +413,11 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 		result, err := s.intersectTypes(t, commonProperties)
 		if err != nil {
 			return astmodel.NewErroredType(t, []string{err.Error()}, nil)
+		}
+
+		// If we didn't make a change, return the original type to avoid unnecessary churn
+		if astmodel.TypeEquals(t, result) {
+			return t
 		}
 
 		return result
@@ -420,7 +449,7 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 // common to all the subtypes. We need to push these properties down into each of the subtypes so that they can be
 // serialized correctly.
 // If we find exactly one nested ObjectType, it's returned.
-// If we find multiple, that's an error.
+// If we find multiple, they're merged into a single ObjectType and returned.
 // If we find none, that's ok.
 func (s synthesizer) findOneOfPropertyObject(oneOf *astmodel.OneOfType) (*astmodel.ObjectType, error) {
 	var result *astmodel.ObjectType
@@ -431,7 +460,18 @@ func (s synthesizer) findOneOfPropertyObject(oneOf *astmodel.OneOfType) (*astmod
 				return nil
 			}
 
-			return errors.Errorf("found multiple nested ObjectTypes in OneOf")
+			// We already have a result, so we need to intersect this one with it
+			intersection, err := s.intersectTypes(result, obj)
+			if err != nil {
+				return errors.Wrapf(err, "merging multiple nested ObjectTypes in OneOf")
+			}
+
+			newObj, ok := astmodel.AsObjectType(intersection)
+			if !ok {
+				return errors.New("expected merging two objects to return object")
+			}
+
+			result = newObj
 		}
 
 		// Not an object, keep looking
@@ -706,7 +746,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 		return nil, errors.Wrapf(err, "unable to intersect oneOf with %s", astmodel.DebugDescription(right))
 	}
 
-	if only, ok := newTypes.Only(); ok {
+	if only, ok := newTypes.Single(); ok {
 		return only, nil
 	}
 
@@ -719,6 +759,15 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 		return nil, errors.Errorf("couldn't find type %s", leftName)
 	}
 
+	if s.activeNames.Contains(leftName) {
+		// Avoid recursion, just keep the existing TypeName
+		return leftName, nil
+	}
+
+	// Track which TypeNames we're processing, so we can detect recursion
+	s.activeNames.Add(leftName)
+	defer func() { s.activeNames.Remove(leftName) }()
+
 	result, err := s.intersectTypes(found.Type(), right)
 	if err != nil {
 		return nil, errors.Wrapf(
@@ -730,8 +779,16 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 	// so that their innards are resolved already and we can retain
 	// the names?
 
-	if astmodel.TypeEquals(result, found.Type()) {
-		// if we got back the same thing we are referencing, preserve the reference
+	// If no change to the type, keep the typename
+	if astmodel.TypeEquals(result, found.Type()) ||
+		astmodel.TypeEquals(result, leftName) {
+		// if we got back the same thing we already have, preserve the reference
+		return leftName, nil
+	}
+
+	if refs, ok := s.referenceCounts[leftName]; ok && refs == 1 {
+		// if this is the only reference to this type, we can redefine it
+		s.updatedDefs.Add(found.WithType(result))
 		return leftName, nil
 	}
 
@@ -822,4 +879,30 @@ func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmode
 	}
 
 	return left.WithElement(internal), nil
+}
+
+func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]int {
+	referenceCounts := make(map[astmodel.TypeName]int)
+
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitTypeName: func(tn astmodel.TypeName) astmodel.Type {
+			if tn.Name() == "AKSServiceCreateRequest" {
+				klog.Warningf("Weirdness")
+			}
+
+			referenceCounts[tn]++
+			return tn
+		},
+	}.Build()
+
+	for _, def := range defs {
+		// We visit the type, not the definition, so we don't count the definition of each type as a reference
+		_, err := visitor.Visit(def.Type(), nil)
+		if err != nil {
+			// Never expected to error
+			panic(err)
+		}
+	}
+
+	return referenceCounts
 }

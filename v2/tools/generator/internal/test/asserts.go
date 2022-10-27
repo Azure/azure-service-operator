@@ -6,7 +6,10 @@
 package test
 
 import (
+	"bytes"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
+	"github.com/sebdah/goldie/v2"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -73,6 +76,32 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
 	asserter.assert(fileName, def)
+}
+
+// AssertDefinitionHasExpectedShape fails the test if the given definition does not have the expected shape.
+// t is the current test.
+// filename is the name of the golden file to write.
+// def is the definition to be asserted.
+func AssertDefinitionHasExpectedShape(
+	t *testing.T,
+	filename string,
+	def astmodel.TypeDefinition,
+) {
+	t.Helper()
+	g := goldie.New(t)
+	err := g.WithTestNameForDir(true)
+	if err != nil {
+		t.Fatalf("Unable to configure goldie output folder %s", err)
+	}
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.Add(def)
+
+	buf := &bytes.Buffer{}
+	report := reporting.NewTypeCatalogReport(defs)
+	report.WriteTo(buf)
+
+	g.Assert(t, filename, buf.Bytes())
 }
 
 // AssertPropertyExists fails the test if the given object does not have a property with the given name and type

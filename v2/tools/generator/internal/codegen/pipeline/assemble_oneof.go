@@ -9,6 +9,7 @@ import (
 	"context"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
+	"sort"
 )
 
 const AssembleOneOfTypesID = "assembleOneOfTypes"
@@ -19,7 +20,6 @@ func AssembleOneOfTypes() *Stage {
 		"Assemble OneOf types from OpenAPI Fragments",
 		func(ctx context.Context, state *State) (*State, error) {
 			assembler := newOneOfAssembler(state.Definitions())
-
 			newDefs := assembler.assembleOneOfs()
 			return state.WithDefinitions(
 					state.Definitions().OverlayWith(newDefs)),
@@ -76,6 +76,12 @@ func (o *oneOfAssembler) restructureRoot(rootName astmodel.TypeName, leaves []as
 		return errors.Wrapf(err, "root type name %s didn't map to a known OneOf", rootName)
 	}
 
+	// Ensure we always process leaves in the same order
+	// Mostly this just ensures we can compare debug results between runs
+	sort.Slice(leaves, func(i, j int) bool {
+		return leaves[i].Name() < leaves[j].Name()
+	})
+
 	// Add all the leaves into the base type so that it knows about them
 	for _, leaf := range leaves {
 		root = root.WithAdditionalType(leaf)
@@ -115,6 +121,7 @@ func (o *oneOfAssembler) indexLeaves() {
 		return false
 	})
 
+	// We pre-size the map by assuming the average OneOf has 3 leaves
 	o.leavesByRoot = make(map[astmodel.TypeName][]astmodel.TypeName, len(oneOfs)/4)
 	for _, def := range oneOfs {
 		o.addLeafToIndex(def)
@@ -124,7 +131,18 @@ func (o *oneOfAssembler) indexLeaves() {
 // addLeafToIndex adds a single leaf to our index, based on the root types it references.
 // We expect there to be one, but nothing restricts that from happening
 func (o *oneOfAssembler) addLeafToIndex(def astmodel.TypeDefinition) {
+	roots := o.findDirectRootsOfLeaf(def)
+	for _, root := range roots {
+		o.leavesByRoot[root] = append(o.leavesByRoot[root], def.Name())
+	}
+}
+
+// findDirectRootsOfLeaf finds all the root types that this leaf references.
+// def is the leaf type we're looking at.
+// We expect there to be one, but nothing requires that to happen.
+func (o *oneOfAssembler) findDirectRootsOfLeaf(def astmodel.TypeDefinition) []astmodel.TypeName {
 	oneOf, _ := astmodel.AsOneOfType(def.Type())
+	result := make([]astmodel.TypeName, 0, oneOf.Types().Len())
 	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
 		tn, ok := astmodel.AsTypeName(t)
 		if !ok {
@@ -145,10 +163,10 @@ func (o *oneOfAssembler) addLeafToIndex(def astmodel.TypeDefinition) {
 			return
 		}
 
-		// Capturing names requires an extra indirection, but ensures we don't end up with multiple (different!) copies
-		// of the same type definition lying around.
-		o.leavesByRoot[tn] = append(o.leavesByRoot[tn], def.Name())
+		result = append(result, tn)
 	})
+
+	return result
 }
 
 // lookupOneOf returns a OneOf type with the given name, if it exists

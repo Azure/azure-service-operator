@@ -35,7 +35,7 @@ var _ Type = &OneOfType{}
 func NewOneOfType(name string, types ...Type) *OneOfType {
 	return &OneOfType{
 		name:  name,
-		types: flattenTypesForOneOf(types),
+		types: MakeTypeSet(types...),
 	}
 }
 
@@ -75,7 +75,7 @@ func (oneOf *OneOfType) WithDiscriminatorValue(value string) *OneOfType {
 	return result
 }
 
-// WithType returns a new OneOf with the specified type added
+// WithAdditionalType returns a new OneOf with the specified type added
 func (oneOf *OneOfType) WithAdditionalType(t Type) *OneOfType {
 	if oneOf.types.Contains(t, EqualityOverrides{}) {
 		return oneOf
@@ -102,7 +102,7 @@ func (oneOf *OneOfType) WithoutType(t Type) *OneOfType {
 // WithTypes returns a new OneOf with only the specified types
 func (oneOf *OneOfType) WithTypes(types []Type) *OneOfType {
 	result := oneOf.copy()
-	result.types = flattenTypesForOneOf(types)
+	result.types = MakeTypeSet(types...)
 	return result
 }
 
