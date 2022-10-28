@@ -31,6 +31,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
@@ -343,7 +344,7 @@ func Test_ResolveResourceHierarchy_ReturnsReferenceNotFound(t *testing.T) {
 	_, err = test.resolver.ResolveResourceHierarchy(ctx, b)
 	g.Expect(err).To(HaveOccurred())
 
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.ReferenceNotFound{}))
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.ReferenceNotFound{}))
 }
 
 func Test_ResolveReference_FindsReference(t *testing.T) {
@@ -483,7 +484,7 @@ func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
 
 	_, err = test.resolver.ResolveSecretReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.SecretNotFound{}))
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.SecretNotFound{}))
 }
 
 func Test_ResolveConfigMaps_ReturnsExpectedValue(t *testing.T) {
@@ -547,7 +548,7 @@ func Test_ResolveConfigMaps_ReturnsReferenceNotFound(t *testing.T) {
 
 	_, err = test.resolver.ResolveConfigMapReferences(ctx, set.Make(namespacedRef))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&resolver.ConfigMapNotFound{}))
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&core.ConfigMapNotFound{}))
 }
 
 func createTestScheme() *runtime.Scheme {
