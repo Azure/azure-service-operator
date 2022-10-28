@@ -1,7 +1,7 @@
 /*
- * Copyright (c) Microsoft Corporation.
+* Copyright (c) Microsoft Corporation.
  * Licensed under the MIT license.
- */
+*/
 
 package conversions
 
@@ -807,25 +807,25 @@ var handCraftedConversions = []handCraftedConversion{
 		implFunc:    "CloneSliceOfCondition",
 	},
 	{
-		fromType:    astmodel.NewOptionalType(astmodel.IntType),
-		toType:      astmodel.NewOptionalType(astmodel.IntType),
+		fromType:    astmodel.OptionalIntType,
+		toType:      astmodel.OptionalIntType,
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "ClonePointerToInt",
 	},
 	{
-		fromType:    astmodel.NewOptionalType(astmodel.StringType),
-		toType:      astmodel.NewOptionalType(astmodel.StringType),
+		fromType:    astmodel.OptionalStringType,
+		toType:      astmodel.OptionalStringType,
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "ClonePointerToString",
 	},
 	{
-		fromType:    astmodel.NewOptionalType(astmodel.StringType),
+		fromType:    astmodel.OptionalStringType,
 		toType:      astmodel.StringType,
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "GetOptionalStringValue",
 	},
 	{
-		fromType:    astmodel.NewOptionalType(astmodel.IntType),
+		fromType:    astmodel.OptionalIntType,
 		toType:      astmodel.IntType,
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "GetOptionalIntValue",

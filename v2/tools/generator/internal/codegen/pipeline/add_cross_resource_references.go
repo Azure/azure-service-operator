@@ -175,7 +175,7 @@ func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
 	// The property must be a string, optional string, list of strings, or map[string]string
 	isString := astmodel.TypeEquals(prop.PropertyType(), astmodel.StringType)
-	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
+	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalStringType)
 	isStringSlice := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
 	isStringMap := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 

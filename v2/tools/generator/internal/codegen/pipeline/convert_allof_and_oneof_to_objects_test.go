@@ -278,7 +278,7 @@ func TestMergeValidatedOfOptional(t *testing.T) {
 
 	maxLen := int64(32)
 	validatedOptionalString := astmodel.NewValidatedType(
-		astmodel.NewOptionalType(astmodel.StringType),
+		astmodel.OptionalStringType,
 		astmodel.StringValidations{
 			MaxLength: &maxLen,
 		})
