@@ -248,12 +248,10 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --set azureClientID=${IDENTITY_CLIENT_ID}
 ```
 
-[test](#using-a-credential-for-aso-with-reduced-permissions)
-
 ## Using a credential for ASO with reduced permissions
 
 Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription.
-Such broadly scoped access is not required to run the operator, it's just the easiest way to set things up and so
+Such broadly scoped access is _**not**_ required to run the operator, it's just the easiest way to set things up and so
 is often used in examples. 
 
 Here we discuss a few approaches to restricting the access that the ASO identity has.
