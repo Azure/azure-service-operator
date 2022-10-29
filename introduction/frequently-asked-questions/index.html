@@ -34,7 +34,7 @@ How can I protect against accidentally deleting an important resource?  You can 
 <meta itemprop="description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
 How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.">
 
-<meta itemprop="wordCount" content="538">
+<meta itemprop="wordCount" content="768">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
@@ -506,6 +506,7 @@ How can I protect against accidentally deleting an important resource?  You can 
         <li><a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-namespace-to-another">What is the best practice for transferring ASO resources from one namespace to another?</a></li>
         <li><a href="#can-i-run-aso-in-active-active-mode">Can I run ASO in active-active mode?</a></li>
         <li><a href="#can-aso-be-used-with-iacgitops-tools">Can ASO be used with IAC/GitOps tools?</a></li>
+        <li><a href="#whats-the-difference-between-aso-and-crossplaneio">What&rsquo;s the difference between ASO and Crossplane.io?</a></li>
       </ul>
     </li>
   </ul>
@@ -605,6 +606,17 @@ annotation used in the second cluster. In the case of a DR event, automation or 
 <p>Yes! We strongly recommend using something like <a href="https://fluxcd.io/">fluxcd</a> or <a href="https://argo-cd.readthedocs.io/en/stable/">argocd</a> with ASO.</p>
 <p>If using argocd, make sure to <strong>avoid</strong> the <code>SyncPolicy Replace=true</code>, as that removes finalizers and annotations added by the operator whenever resources are re-applied.
 ASO relies on the finalizer and annotations it adds being left alone to function properly. If they are unexpectedly removed the operator may not behave as expected.</p>
+<h3 id="whats-the-difference-between-aso-and-crossplaneio">What&rsquo;s the difference between ASO and Crossplane.io?</h3>
+<p>There are a lot of similarities between ASO and Crossplane. They do similar things and have similar audiences. You can see some of this discussed <a href="https://github.com/Azure/azure-service-operator/issues/1190">here</a>.</p>
+<p><strong>Today</strong> primary differences are:</p>
+<ul>
+<li>ASO is officially maintained by Microsoft, while Crossplane Azure is community maintained.</li>
+<li>ASO focuses on simplicity. It doesn&rsquo;t offer any of the higher level abstractions that Crossplane does. ASO is not and will not ever be multi-cloud.</li>
+<li>The code generator we use to generate ASO resources is higher fidelity than the one that Crossplane uses. As a result, there are places where ASO resources are easier to use.
+One example of this is references between resources such as linking a VMSS to a VNET. In Crossplane you do this by specifying the raw ARM ID. In ASO, you can specify the raw ARM ID but you can also specify a reference to the corresponding resource in Kubernetes (with its Kubernetes name) and ASO translates that into an ARM ID under the hood so that you don’t have to. This makes managing graphs of interlinked resources easier.</li>
+</ul>
+<p>We would like to share our code-generator with Crossplane, as it’s higher fidelity than Terrajet (the codegenerator Crossplane uses to generate resources) for Azure resources.
+Right now our focus is on getting ASO to GA, after which we will hopefully have more time to invest in that.</p>
 
 	
 	

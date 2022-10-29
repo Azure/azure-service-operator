@@ -37,7 +37,7 @@ For more information about Service Principals, see creating an Azure Service Pri
  Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
 For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID.">
 
-<meta itemprop="wordCount" content="880">
+<meta itemprop="wordCount" content="1345">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Authentication in Azure Service Operator v2"/>
 <meta name="twitter:description" content="Azure Service Operator supports three different styles of authentication today.
@@ -520,6 +520,12 @@ For more information about Service Principals, see creating an Azure Service Pri
         <li><a href="#prerequisites-2">Prerequisites</a></li>
       </ul>
     </li>
+    <li><a href="#using-a-credential-for-aso-with-reduced-permissions">Using a credential for ASO with reduced permissions</a>
+      <ul>
+        <li><a href="#contributor-access-at-a-reduced-scope">Contributor access at a reduced scope</a></li>
+        <li><a href="#reduced-access-at-subscription-scope">Reduced access at Subscription scope</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
 
@@ -765,7 +771,53 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="col
 </span><span style="color:#ae81ff"></span>     --set aadPodIdentity.enable<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --set aadPodIdentity.azureManagedIdentityResourceId<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_RESOURCE_ID<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --set azureClientID<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_CLIENT_ID<span style="color:#e6db74">}</span>
-</code></pre></div>
+</code></pre></div><h2 id="using-a-credential-for-aso-with-reduced-permissions">Using a credential for ASO with reduced permissions</h2>
+<p>Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription.
+Such broadly scoped access is <em><strong>not</strong></em> required to run the operator, it&rsquo;s just the easiest way to set things up and so
+is often used in examples.</p>
+<p>Here we discuss a few approaches to restricting the access that the ASO identity has.</p>
+<h3 id="contributor-access-at-a-reduced-scope">Contributor access at a reduced scope</h3>
+<p>In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two
+teams working in a cluster with ASO, &ldquo;Marketing&rdquo; and &ldquo;Product&rdquo;. If you know ahead of time that the only resource groups these
+teams will use are <code>marketing-dev</code>, <code>marketing-prod</code>, <code>product-dev</code> and <code>product-prod</code>, you can pre-create the following resources:</p>
+<ul>
+<li>The 4 resource groups.</li>
+<li>An identity for use by ASO, assigned Contributor permission to each of the 4 resource groups.</li>
+</ul>
+<p>Now install ASO following the instructions above. Once ASO is installed, adopt the existing resource groups in ASO by applying a YAML in the cluster
+for each of the 4 resource groups. Now users of ASO are free to create resources in those resource groups as normal. If they attempt
+to use ASO to create a new resource group <code>foo</code> they will be rejected by Azure as the ASO identity doesn&rsquo;t have permission to create
+arbitrary resource groups in the Subscription.</p>
+<h3 id="reduced-access-at-subscription-scope">Reduced access at Subscription scope</h3>
+<p>In other scenarios, you may want to give out reduced access at the Subscription scope. This can be done by determining what resources
+in ASO you will be using and creating a custom role scoped to just those permissions.</p>
+<p>For example if you want to use ASO to manage ResourceGroups, Redis and MySQL flexible servers, but <em>not</em> anything else, you could
+<a href="https://learn.microsoft.com/azure/role-based-access-control/custom-roles-cli">create a role</a> similar to <code>aso-operator.json</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;ASO Operator&#34;</span>,
+  <span style="color:#f92672">&#34;IsCustom&#34;</span>: <span style="color:#66d9ef">true</span>,
+  <span style="color:#f92672">&#34;Description&#34;</span>: <span style="color:#e6db74">&#34;Role with access to perform only the operations which we allow ASO to perform&#34;</span>,
+  <span style="color:#f92672">&#34;Actions&#34;</span>: [
+    <span style="color:#e6db74">&#34;Microsoft.Resources/subscriptions/resourceGroups/*&#34;</span>,
+    <span style="color:#e6db74">&#34;Microsoft.Cache/*&#34;</span>,
+    <span style="color:#e6db74">&#34;Microsoft.DBforMySQL/*&#34;</span>
+  ],
+  <span style="color:#f92672">&#34;NotActions&#34;</span>: [
+  ],
+  <span style="color:#f92672">&#34;AssignableScopes&#34;</span>: [
+    <span style="color:#e6db74">&#34;/subscriptions/{subscriptionId1}&#34;</span>,
+    <span style="color:#e6db74">&#34;/subscriptions/{subscriptionId2}&#34;</span>
+  ]
+}
+</code></pre></div><p>Then use the az cli to create that custom role definition: <code>az role definition create --role-definition ~/aso-operator.json</code></p>
+<p>See <a href="https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations">list of resource provider operations</a> for a comprehensive
+list of operations.</p>
+<p><strong>Note: We strongly recommend giving full permissions to the resource types ASO will be managing.</strong> ASO needs <code>read</code>, <code>write</code>, and <code>delete</code> permissions to a resource
+to fully manage it. In some cases, it also needs <code>action</code> permissions. It&rsquo;s recommended to give <code>*</code> permissions for a given resource type which ASO
+will be managing.</p>
+<p>Once the role has been created, assign it to the ASO identity and install the operator as normal. It will be able to
+manage any resource of the types you allowed. Any other resources will fail to be created/updated/deleted with a permissions error.</p>
+
 	
 	
 	
