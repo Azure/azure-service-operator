@@ -5,13 +5,12 @@
 
 package astmodel
 
-var optionalResourceReferenceType = NewOptionalType(ResourceReferenceType)
 var arrayResourceReferenceType = NewArrayType(ResourceReferenceType)
 var mapResourceReferenceType = NewMapType(StringType, ResourceReferenceType)
 
 func IsTypeResourceReference(t Type) bool {
 	isResourceReference := TypeEquals(t, ResourceReferenceType)
-	isOptionalResourceReference := TypeEquals(t, optionalResourceReferenceType)
+	isOptionalResourceReference := TypeEquals(t, OptionalResourceReferenceType)
 	isSliceResourceReference := IsTypeResourceReferenceSlice(t)
 	isMapResourceReference := IsTypeResourceReferenceMap(t)
 

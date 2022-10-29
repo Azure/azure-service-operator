@@ -33,7 +33,7 @@ func TestAsPrimitiveType(t *testing.T) {
 		{"EnumsAreNotPrimitives", enumType, nil},
 		{"NamesAreNotPrimitives", nameType, nil},
 		{"OptionalAreNotPrimitives", optionalType, nil},
-		{"OptionalContainingPrimitive", NewOptionalType(StringType), StringType},
+		{"OptionalContainingPrimitive", OptionalStringType, StringType},
 		{"OptionalNotContainingPrimitive", NewOptionalType(objectType), nil},
 		{"FlaggedContainingPrimitive", OneOfFlag.ApplyTo(StringType), StringType},
 		{"FlaggedNotContainingPrimitive", OneOfFlag.ApplyTo(objectType), nil},
@@ -67,7 +67,7 @@ func TestAsObjectType(t *testing.T) {
 	objectType := NewObjectType()
 	arrayType := NewArrayType(StringType)
 	mapType := NewMapType(StringType, StringType)
-	optionalType := NewOptionalType(StringType)
+	optionalType := OptionalStringType
 	enumType := NewEnumType(StringType)
 	nameType := MakeTypeName(makeTestLocalPackageReference("g", "v"), "foo")
 
@@ -84,7 +84,7 @@ func TestAsObjectType(t *testing.T) {
 		{"NamesAreNotObjects", nameType, nil},
 		{"OptionalAreNotObjects", optionalType, nil},
 		{"OptionalContainingObject", NewOptionalType(objectType), objectType},
-		{"OptionalNotContainingObject", NewOptionalType(StringType), nil},
+		{"OptionalNotContainingObject", OptionalStringType, nil},
 		{"FlaggedContainingObject", OneOfFlag.ApplyTo(objectType), objectType},
 		{"FlaggedNotContainingObject", OneOfFlag.ApplyTo(StringType), nil},
 		{"ValidatedContainingObject", NewValidatedType(objectType, nil), objectType},
@@ -134,7 +134,7 @@ func TestAsArrayType(t *testing.T) {
 		{"NamesAreNotArrays", nameType, nil},
 		{"OptionalAreNotArrays", optionalType, nil},
 		{"OptionalContainingArray", NewOptionalType(arrayType), arrayType},
-		{"OptionalNotContainingArray", NewOptionalType(StringType), nil},
+		{"OptionalNotContainingArray", OptionalStringType, nil},
 		{"FlaggedContainingArray", OneOfFlag.ApplyTo(arrayType), arrayType},
 		{"FlaggedNotContainingArray", OneOfFlag.ApplyTo(StringType), nil},
 		{"ValidatedContainingArray", NewValidatedType(arrayType, nil), arrayType},
@@ -184,7 +184,7 @@ func TestAsMapType(t *testing.T) {
 		{"NamesAreNotMaps", nameType, nil},
 		{"OptionalAreNotMaps", optionalType, nil},
 		{"OptionalContainingMaps", NewOptionalType(mapType), mapType},
-		{"OptionalNotContainingMaps", NewOptionalType(StringType), nil},
+		{"OptionalNotContainingMaps", OptionalStringType, nil},
 		{"FlaggedContainingMaps", OneOfFlag.ApplyTo(mapType), mapType},
 		{"FlaggedNotContainingMaps", OneOfFlag.ApplyTo(StringType), nil},
 		{"ValidatedContainingMaps", NewValidatedType(mapType, nil), mapType},

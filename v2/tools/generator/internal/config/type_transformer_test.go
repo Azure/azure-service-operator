@@ -417,7 +417,7 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 	intProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
 	objectWithInt := astmodel.NewObjectType().WithProperties(intProperty)
 
-	optionalIntProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.NewOptionalType(astmodel.IntType))
+	optionalIntProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.OptionalIntType)
 	objectWithOptionalInt := astmodel.NewObjectType().WithProperties(optionalIntProperty)
 
 	cases := []struct {
@@ -439,7 +439,7 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 			transformOptionalIntToOptionalString,
 			objectWithOptionalInt,
 			"foo",
-			astmodel.NewOptionalType(astmodel.StringType),
+			astmodel.OptionalStringType,
 		},
 	}
 
