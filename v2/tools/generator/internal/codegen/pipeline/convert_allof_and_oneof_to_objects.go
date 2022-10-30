@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -69,7 +70,7 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 
 		object, err := synth.allOfObject(it)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(err, "creating object for allOf")
 		}
 
 		// we might end up with something that requires re-visiting
@@ -78,36 +79,15 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 	}
 
 	builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
-
-		// If the OneOf contains only one object type, we can just use that
-		if only, ok := it.Types().Single(); ok {
-			if obj, ok := astmodel.AsObjectType(only); ok {
-				return obj, nil
-			}
-		}
-
-		// Otherwise synthesize
 		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
 
-		// we want to preserve names of the inner types
-		// even if they are converted to other (unnamed types)
-		propNames, err := synth.getOneOfPropNames(it)
+		t, err := synth.oneOfToObject(it)
 		if err != nil {
-			return nil, err
-		}
-
-		// process children first so that allOfs are resolved
-		result, err := astmodel.IdentityVisitOfOneOfType(this, it, ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		if resultOneOf, ok := result.(*astmodel.OneOfType); ok {
-			result = synth.oneOfObject(resultOneOf, propNames)
+			return nil, errors.Wrapf(err, "creating object for oneOf")
 		}
 
 		// we might end up with something that requires re-visiting
-		return this.Visit(result, ctx)
+		return this.Visit(t, ctx)
 	}
 
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
@@ -225,6 +205,8 @@ func simplifyPropNames(names []propertyNames) []propertyNames {
 	for ix := range names {
 		it := names[ix]
 		newName := strings.TrimSuffix(string(it.golang), trim)
+		newName = strings.Trim(newName, "_")
+
 		if newName == "" {
 			return names // trimming common suffix would result in one name being empty, so trim nothing
 		}
@@ -388,50 +370,45 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		// Try unwrapping the meta type and basing the name on what's inside
 		return s.getOneOfName(concreteType.Unwrap(), propIndex)
 
+	case *astmodel.OptionalType:
+		return s.getOneOfName(concreteType.Element(), propIndex)
+
 	default:
 		return propertyNames{}, errors.Errorf("unexpected oneOf member, type: %T", t)
 	}
 }
 
-func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []propertyNames) astmodel.Type {
-	// If there's more than one option, synthesize a type.
-	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
-	// OpenAPI does, see https://github.com/Azure/azure-service-operator/issues/1515
-	var properties []*astmodel.PropertyDefinition
+func (s synthesizer) oneOfToObject(
+	oneOf *astmodel.OneOfType,
+) (astmodel.Type, error) {
 
-	commonProperties, err := s.findOneOfPropertyObject(oneOf)
-	if err != nil {
-		return astmodel.NewErroredType(oneOf, []string{err.Error()}, nil)
+	if oneOf.DiscriminatorValue() != "" {
+		// We have a leaf to assemble
+		types := make([]astmodel.Type, 0, oneOf.Types().Len())
+		oneOf.Types().ForEach(
+			func(t astmodel.Type, _ int) {
+				types = append(types, t)
+			})
+		allOf := astmodel.NewAllOfType(types...)
+		result, err := s.allOfObject(allOf)
+
+		return result, err
 	}
 
-	// propertyType is a local function to combine any oneOf subtype with any common properties we've found earlier
-	propertyType := func(t astmodel.Type) astmodel.Type {
-		if commonProperties == nil {
-			return t
-		}
+	// Otherwise we have a root to assemble; we need to create a new object type to hold the oneOf
+	// with properties for each of the leaves
 
-		result, err := s.intersectTypes(t, commonProperties)
-		if err != nil {
-			return astmodel.NewErroredType(t, []string{err.Error()}, nil)
-		}
-
-		// If we didn't make a change, return the original type to avoid unnecessary churn
-		if astmodel.TypeEquals(t, result) {
-			return t
-		}
-
-		return result
+	// Preserve names of the inner types
+	propNames, err := s.getOneOfPropNames(oneOf)
+	if err != nil {
+		return nil, err
 	}
 
 	propertyDescription := "Mutually exclusive with all other properties"
+	var properties []*astmodel.PropertyDefinition
 	oneOf.Types().ForEach(func(t astmodel.Type, ix int) {
-		// Don't create a property for the object type containing our common properties
-		if t == commonProperties {
-			return
-		}
-
 		names := propNames[ix]
-		prop := astmodel.NewPropertyDefinition(names.golang, names.json, propertyType(t))
+		prop := astmodel.NewPropertyDefinition(names.golang, names.json, t)
 		prop = prop.MakeTypeOptional()
 		prop = prop.WithDescription(propertyDescription)
 		properties = append(properties, prop)
@@ -442,19 +419,50 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 	// We need this information later so save it as a flag
 	result := astmodel.OneOfFlag.ApplyTo(objectType)
 
-	return result
+	return result, nil
 }
 
-// findOneOfPropertyObject looks for a nested ObjectType that contains properties specific to this OneOf that are in
-// common to all the subtypes. We need to push these properties down into each of the subtypes so that they can be
+func (s synthesizer) pushCommonPropertiesToLeaves(oneOf *astmodel.OneOfType, commonProperties *astmodel.ObjectType) (*astmodel.OneOfType, error) {
+	newTypes := make([]astmodel.Type, 0, oneOf.Types().Len())
+	var errs []error
+	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
+		if _, ok := s.AsCommonProperties(t); ok {
+			// This is a common properties object, so we don't need to do anything
+			return
+		}
+
+		// This is a leaf object, so we need to add the common properties, then merge it with the leaf
+		allOf := astmodel.NewAllOfType(t, commonProperties)
+		t, err := s.allOfObject(allOf)
+		if err != nil {
+			errs = append(errs, err)
+			return
+		}
+
+		newTypes = append(newTypes, t)
+	})
+
+	err := errors.Wrap(
+		kerrors.NewAggregate(errs),
+		"error pushing common properties to leaves of oneOf")
+	if err != nil {
+		return nil, err
+	}
+
+	return oneOf.WithTypes(newTypes), nil
+}
+
+// findCommonProperties looks for a nested ObjectType that contains common properties defined on this OneOf that need
+// to be pushed to all the subtypes. We need to push these properties down into each of the subtypes so that they can be
 // serialized correctly.
 // If we find exactly one nested ObjectType, it's returned.
 // If we find multiple, they're merged into a single ObjectType and returned.
 // If we find none, that's ok.
-func (s synthesizer) findOneOfPropertyObject(oneOf *astmodel.OneOfType) (*astmodel.ObjectType, error) {
+func (s synthesizer) findCommonProperties(oneOf *astmodel.OneOfType) (*astmodel.ObjectType, error) {
 	var result *astmodel.ObjectType
+
 	err := oneOf.Types().ForEachError(func(t astmodel.Type, ix int) error {
-		if obj, ok := astmodel.AsObjectType(t); ok {
+		if obj, ok := s.AsCommonProperties(t); ok {
 			if result == nil {
 				result = obj
 				return nil
@@ -483,6 +491,12 @@ func (s synthesizer) findOneOfPropertyObject(oneOf *astmodel.OneOfType) (*astmod
 	}
 
 	return result, nil
+}
+
+// AsCommonProperties captures the test used to determine if a type is a common properties object, ensuring that
+// we're consistent with our tests from multiple locations
+func (s synthesizer) AsCommonProperties(t astmodel.Type) (*astmodel.ObjectType, bool) {
+	return astmodel.AsObjectType(t)
 }
 
 func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
@@ -750,13 +764,36 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 		return only, nil
 	}
 
-	return leftOneOf.WithTypes(newTypes.AsSlice()), nil
+	// Still have a OneOf, need to reprocess it
+	oneOf := leftOneOf.WithTypes(newTypes.AsSlice())
+	return s.oneOfToObject(oneOf)
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
 	found, ok := s.defs[leftName]
 	if !ok {
 		return nil, errors.Errorf("couldn't find type %s", leftName)
+	}
+
+	if leftName.Name() == "AKS_STATUS" {
+		klog.Warningf("found AKS_STATUS")
+	}
+
+	if refs, ok := s.referenceCounts[leftName]; ok && refs == 1 && s.updatedDefs.Contains(leftName) {
+		// s.updatedDefs only contains definitions for types that are referenced exactly once
+		// If we're called a second time, it's because the type that contains this reference is referenced multiple
+		// times. In that case, we're going to get the exact same answer this time, so we may as well short-circuit
+		//
+		// E.g. if we have:
+		//
+		// Foo references Bar
+		// and Baz References Bar
+		// and Bar references Zed
+		//
+		// Then we can end up handling Zed twice, once when we handle Foo and once when we handle Baz
+		// But both times will have the exact same parameters (because they come from Bar) so we can just
+		// short-circuit the second time
+		return leftName, nil
 	}
 
 	if s.activeNames.Contains(leftName) {
@@ -865,7 +902,7 @@ func (s synthesizer) allOfObject(allOf *astmodel.AllOfType) (astmodel.Type, erro
 		return err
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "combining AllOf with %d types", allOf.Types().Len())
 	}
 
 	return intersection, nil
@@ -886,10 +923,6 @@ func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]
 
 	visitor := astmodel.TypeVisitorBuilder{
 		VisitTypeName: func(tn astmodel.TypeName) astmodel.Type {
-			if tn.Name() == "AKSServiceCreateRequest" {
-				klog.Warningf("Weirdness")
-			}
-
 			referenceCounts[tn]++
 			return tn
 		},

@@ -405,10 +405,9 @@ func TestOneOfResourceSpec(t *testing.T) {
 			MakeTypeOptional().WithDescription("Mutually exclusive with all other properties"),
 	)
 
-	names, err := synth.getOneOfPropNames(oneOf)
+	result, err := synth.oneOfToObject(oneOf)
 	g.Expect(err).To(BeNil())
 
-	result := synth.oneOfObject(oneOf, names)
 	result, ok := astmodel.AsObjectType(result)
 	g.Expect(ok).To(BeTrue())
 	result = astmodel.NewObjectType().WithProperties(result.(*astmodel.ObjectType).Properties().AsSlice()...)
@@ -485,10 +484,9 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 	synth := makeSynth(parent, child, person)
 
 	oneOf := person.Type().(*astmodel.OneOfType)
-	propNames, err := synth.getOneOfPropNames(oneOf)
-	g.Expect(err).ToNot(HaveOccurred())
 
-	actual := synth.oneOfObject(oneOf, propNames)
+	actual, err := synth.oneOfToObject(oneOf)
+	g.Expect(err).To(BeNil())
 
 	// Expect actual to have a property for each OneOf Option
 	test.AssertPropertyCount(t, actual, 2)
@@ -547,10 +545,9 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *te
 	synth := makeSynth(parent, child, person)
 
 	oneOf := person.Type().(*astmodel.OneOfType)
-	propNames, err := synth.getOneOfPropNames(oneOf)
-	g.Expect(err).ToNot(HaveOccurred())
 
-	actual := synth.oneOfObject(oneOf, propNames)
+	actual, err := synth.oneOfToObject(oneOf)
+	g.Expect(err).To(BeNil())
 
 	// Expect actual to have a property for each OneOf Option
 	test.AssertPropertyCount(t, actual, 2)
@@ -590,10 +587,9 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpect
 	synth := makeSynth(parent, child, person)
 
 	oneOf := person.Type().(*astmodel.OneOfType)
-	propNames, err := synth.getOneOfPropNames(oneOf)
-	g.Expect(err).ToNot(HaveOccurred())
 
-	actual := synth.oneOfObject(oneOf, propNames)
+	actual, err := synth.oneOfToObject(oneOf)
+	g.Expect(err).ToNot(HaveOccurred())
 
 	// Expect actual to have a property for each OneOf Option
 	test.AssertPropertyCount(t, actual, 2)

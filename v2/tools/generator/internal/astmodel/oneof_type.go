@@ -87,9 +87,23 @@ func (oneOf *OneOfType) WithAdditionalType(t Type) *OneOfType {
 	return result
 }
 
+// WithType returns a new OneOf with the specified type included
+func (oneOf *OneOfType) WithType(t Type) *OneOfType {
+	if oneOf.types.Contains(t, EqualityOverrides{}) {
+		// Already present
+		return oneOf
+	}
+
+	result := oneOf.copy()
+	result.types = result.types.Copy()
+	result.types.Add(t)
+	return result
+}
+
 // WithoutType returns a new OneOf with the specified type removed
 func (oneOf *OneOfType) WithoutType(t Type) *OneOfType {
 	if !oneOf.types.Contains(t, EqualityOverrides{}) {
+		// Nothing to remove
 		return oneOf
 	}
 

@@ -29,6 +29,12 @@ type AllOfType struct {
 
 var _ Type = &AllOfType{}
 
+func NewAllOfType(types ...Type) *AllOfType {
+	return &AllOfType{
+		types: MakeTypeSet(types...),
+	}
+}
+
 // BuildAllOfType is a smart constructor for AllOfType,
 // maintaining the invariants. If only one unique type
 // is passed, then the result will be that type, not an AllOf.
