@@ -7,9 +7,10 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
-	"sort"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 const AssembleOneOfTypesID = "assembleOneOfTypes"
@@ -20,7 +21,10 @@ func AssembleOneOfTypes() *Stage {
 		"Assemble OneOf types from OpenAPI Fragments",
 		func(ctx context.Context, state *State) (*State, error) {
 			assembler := newOneOfAssembler(state.Definitions())
-			newDefs := assembler.assembleOneOfs()
+			newDefs, err := assembler.assembleOneOfs()
+			if err != nil {
+				return nil, errors.Wrapf(err, "couldn't assemble OneOf types")
+			}
 			return state.WithDefinitions(
 					state.Definitions().OverlayWith(newDefs)),
 				nil
@@ -29,188 +33,289 @@ func AssembleOneOfTypes() *Stage {
 	return stage
 }
 
+// oneOfAssembler is used to build up our oneOf types.
 type oneOfAssembler struct {
 	// A set of all the TypeDefinitions we're assembling from
 	defs astmodel.TypeDefinitionSet
-	// A map of all the leaf OneOfs, indexed by the root they reference
-	leavesByRoot map[astmodel.TypeName][]astmodel.TypeName
-	// The set of definitions we've modified
-	updatedDefs astmodel.TypeDefinitionSet
+
+	// A set of all the changes we're going to make to TypeDefinitions
+	// We batch these up for processing at the end.
+	updates map[astmodel.TypeName]*astmodel.OneOfType
 }
 
 // newOneOfAssembler creates a new assembler to build our oneOf types
 func newOneOfAssembler(defs astmodel.TypeDefinitionSet) *oneOfAssembler {
 	result := &oneOfAssembler{
-		defs:        defs,
-		updatedDefs: make(astmodel.TypeDefinitionSet, 100),
+		defs:    defs,
+		updates: make(map[astmodel.TypeName]*astmodel.OneOfType),
 	}
-
-	result.indexLeaves()
 
 	return result
 }
 
-// assembleOneOfs is called to build up the oneOf types
-func (o *oneOfAssembler) assembleOneOfs() astmodel.TypeDefinitionSet {
-	for rootName, leaves := range o.leavesByRoot {
-		err := o.restructureRoot(rootName, leaves)
-		if err != nil {
-			o.saveError(rootName, errors.Wrapf(err, "error restructuring root oneOf %v", rootName))
-			continue
-		}
-
-		err = o.restructureLeaves(rootName, leaves)
-		if err != nil {
-			o.saveError(rootName, errors.Wrapf(err, "error restructuring leaf oneOfs for %v", rootName))
+// assembleOneOfs is called to build up the oneOf types.
+// We return a TypeDefinitionSet containing the new types.
+func (oa *oneOfAssembler) assembleOneOfs() (astmodel.TypeDefinitionSet, error) {
+	// Find all OneOfs and assemble each one
+	var errs []error
+	for tn := range oa.defs {
+		if _, ok := oa.asOneOf(tn); ok {
+			err := oa.assemble(tn)
+			if err != nil {
+				errs = append(errs, err)
+			}
 		}
 	}
 
-	return o.updatedDefs
-}
-
-// restructureRoot embeds names of the leaves into the root and updates our underlying TypeDefinitionSet.
-func (o *oneOfAssembler) restructureRoot(rootName astmodel.TypeName, leaves []astmodel.TypeName) error {
-
-	root, err := o.lookupOneOf(rootName)
+	err := kerrors.NewAggregate(errs)
 	if err != nil {
-		return errors.Wrapf(err, "root type name %s didn't map to a known OneOf", rootName)
+		return nil, err
 	}
 
-	// Ensure we always process leaves in the same order
-	// Mostly this just ensures we can compare debug results between runs
-	sort.Slice(leaves, func(i, j int) bool {
-		return leaves[i].Name() < leaves[j].Name()
-	})
-
-	// Add all the leaves into the base type so that it knows about them
-	for _, leaf := range leaves {
-		root = root.WithAdditionalType(leaf)
+	// Assemble our results
+	result := make(astmodel.TypeDefinitionSet)
+	for tn, oneOf := range oa.updates {
+		def := oa.defs.MustGetDefinition(tn)
+		result.Add(def.WithType(oneOf))
 	}
 
-	// Replace the old root with the new one
-	o.saveOneOf(rootName, root)
-
-	return nil
+	return result, nil
 }
 
-// restructureLeaves removes the name of the root from each of the leaves and updates our underlying TypeDefinitionSet.
-// We don't need the name reference as they're now embedded in the root.
-// Plus, failing to remove it results in a circular reference.
-func (o *oneOfAssembler) restructureLeaves(root astmodel.TypeName, leaves []astmodel.TypeName) error {
-	for _, leafName := range leaves {
-		leaf, err := o.lookupOneOf(leafName)
-		if err != nil {
-			return errors.Wrapf(err, "leaf type name %s didn't map to a known OneOf", leafName)
-		}
+// assemble is called to build up a single oneOf type.
+func (oa *oneOfAssembler) assemble(name astmodel.TypeName) error {
 
-		leaf = leaf.WithoutType(root)
-		o.saveOneOf(leafName, leaf)
-	}
-
-	return nil
-}
-
-// indexLeaves is called once to build up our index of all the oneOf leaf instances
-func (o *oneOfAssembler) indexLeaves() {
-	oneOfs := o.defs.Where(func(def astmodel.TypeDefinition) bool {
-		if oneOf, ok := astmodel.AsOneOfType(def.Type()); ok {
-			isLeaf := oneOf.DiscriminatorValue() != ""
-			return isLeaf
-		}
-
-		return false
-	})
-
-	// We pre-size the map by assuming the average OneOf has 3 leaves
-	o.leavesByRoot = make(map[astmodel.TypeName][]astmodel.TypeName, len(oneOfs)/4)
-	for _, def := range oneOfs {
-		o.addLeafToIndex(def)
-	}
-}
-
-// addLeafToIndex adds a single leaf to our index, based on the root types it references.
-// We expect there to be one, but nothing restricts that from happening
-func (o *oneOfAssembler) addLeafToIndex(def astmodel.TypeDefinition) {
-	roots := o.findDirectRootsOfLeaf(def)
-	for _, root := range roots {
-		o.leavesByRoot[root] = append(o.leavesByRoot[root], def.Name())
-	}
-}
-
-// findDirectRootsOfLeaf finds all the root types that this leaf references.
-// def is the leaf type we're looking at.
-// We expect there to be one, but nothing requires that to happen.
-func (o *oneOfAssembler) findDirectRootsOfLeaf(def astmodel.TypeDefinition) []astmodel.TypeName {
-	oneOf, _ := astmodel.AsOneOfType(def.Type())
-	result := make([]astmodel.TypeName, 0, oneOf.Types().Len())
-	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
-		tn, ok := astmodel.AsTypeName(t)
-		if !ok {
-			// Not a typename, can't point to a root
-			return
-		}
-
-		root, ok := o.defs[tn]
-		if !ok {
-			// Not a known type, doesn't point to a root
-			return
-		}
-
-		// Our parent must be a OneOf, but might not tbe the root (sometimes there are hierarchies of OneOfs)
-		// See for example machinelearningservices
-		if _, ok := astmodel.AsOneOfType(root.Type()); !ok {
-			// TypeName doesn't identify a oneOf, cannot be the parent
-			return
-		}
-
-		result = append(result, tn)
-	})
-
-	return result
-}
-
-// lookupOneOf returns a OneOf type with the given name, if it exists
-// We look first in the updatedDefs (as we may have already modified the type), then in the original defs
-func (o *oneOfAssembler) lookupOneOf(name astmodel.TypeName) (*astmodel.OneOfType, error) {
-	def, ok := o.updatedDefs[name]
+	root, ok := oa.findParentFor(name)
 	if !ok {
-		// try looking in the original defs instead
-		def, ok = o.defs[name]
+		// No parent, so we've found a root
+		return oa.removeCommonPropertiesFromRoot(name)
 	}
 
-	if !ok {
-		// Still not found
-		return nil, errors.Errorf("didn't find type %s", name)
-	}
-
-	if tn, ok := astmodel.AsTypeName(def.Type()); ok {
-		one, err := o.lookupOneOf(tn)
+	// We have a parent, so we're a leaf
+	for {
+		// Remove any direct reference to the parent from the leaf
+		err := oa.removeParentReferenceFromLeaf(root, name)
 		if err != nil {
-			return nil, errors.Wrapf(err, "looking up alias for %s", name)
+			return errors.Wrapf(err, "couldn't remove parent reference to %s from leaf %s", root, name)
 		}
 
-		return one, nil
+		// Copy any common properties from the parent to the child
+		err = oa.embedCommonPropertiesInLeaf(root, name)
+		if err != nil {
+			return errors.Wrapf(err, "couldn't embed common properties from %s in leaf %v", root, name)
+		}
+
+		// Now we need to check if the parent is a leaf itself
+		parent, ok := oa.findParentFor(root)
+		if !ok {
+			break
+		}
+
+		root = parent
+	}
+
+	// We've found the actual root, add a reference to the leaf
+	err := oa.addLeafReferenceToRoot(root, name)
+	return errors.Wrapf(err, "assembling oneOf %s", name)
+}
+
+// findParentFor returns the parent of the provided oneOf, if any.
+// leaf is the name of the oneOf to find the parent for.
+// If the provided oneOf has a parent, the parent's name is returned along with true.
+// Otherwise, we return an empty name and false.
+func (oa *oneOfAssembler) findParentFor(
+	leaf astmodel.TypeName,
+) (astmodel.TypeName, bool) {
+	// Look up the definition
+	def, ok := oa.defs[leaf]
+	if !ok {
+		// No definition, this may point to an external type
+		return astmodel.EmptyTypeName, false
 	}
 
 	oneOf, ok := astmodel.AsOneOfType(def.Type())
 	if !ok {
-		// Not a OneOf
-		return nil, errors.Errorf(
-			"type %s is not a OneOf, but actually a %s",
-			name,
-			astmodel.DebugDescription(def.Type()))
+		// Not a OneOF, can't have a parent
+		return astmodel.EmptyTypeName, false
 	}
 
-	return oneOf, nil
+	result := astmodel.EmptyTypeName
+	found := false
+
+	// Look for a reference to a parent
+	// We iterate through all the referenced types - finding more than one typename that points to a OneOf violates
+	// our understanding of the way Azure uses OpenAPI specs, so we'll error out if we find more than one.
+	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
+		if tn, ok := astmodel.AsTypeName(t); ok {
+			if _, ok := oa.asOneOf(tn); ok {
+				if found {
+					// We've already found a parent, this is an error
+					panic(fmt.Sprintf("Found multiple parents for %v", leaf))
+				}
+
+				result = tn
+				found = true
+			}
+		}
+	})
+
+	return result, found
 }
 
-func (o *oneOfAssembler) saveOneOf(name astmodel.TypeName, oneOf *astmodel.OneOfType) {
-	// We want to explicitly overwrite any pre-existing version as we've made another change
-	o.updatedDefs[name] = astmodel.MakeTypeDefinition(name, oneOf)
+// removeCommonPropertiesFromRoot removes any common properties from the root of a oneOf hierarchy.
+// root is the name of the root of the oneOf hierarchy.
+func (oa *oneOfAssembler) removeCommonPropertiesFromRoot(root astmodel.TypeName) error {
+	err := oa.updateOneOf(
+		root,
+		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
+			result := oneOf
+			oneOf.Types().ForEach(
+				func(t astmodel.Type, _ int) {
+					if obj, ok := oa.AsCommonProperties(t); ok {
+						// Found an object representing common properties
+						result = result.WithoutType(obj)
+					}
+				})
+
+			return result, nil
+		})
+
+	return errors.Wrapf(err, "removing common properties from root %s", root)
 }
 
-func (o *oneOfAssembler) saveError(name astmodel.TypeName, err error) {
-	def, _ := o.defs[name]
-	erroredType := astmodel.NewErroredType(def.Type(), []string{err.Error()}, nil)
-	o.updatedDefs[name] = astmodel.MakeTypeDefinition(name, erroredType)
+// removeParentReferenceFromLeaf removes any reference to the root from the leaf.
+// root is the name of the root of the oneOf hierarchy.
+// leaf is the name of the leaf from which to remove the reference.
+func (oa *oneOfAssembler) removeParentReferenceFromLeaf(parent astmodel.TypeName, leaf astmodel.TypeName) error {
+	err := oa.updateOneOf(
+		leaf,
+		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
+			return oneOf.WithoutType(parent), nil
+		})
+	return errors.Wrapf(err, "removing parent reference from leaf %s", leaf)
+}
+
+// embedCommonPropertiesInLeaf embeds any common properties found on the parent into the leaf
+func (oa *oneOfAssembler) embedCommonPropertiesInLeaf(parent astmodel.TypeName, leaf astmodel.TypeName) error {
+	parentOneOf, ok := oa.asOneOf(parent)
+	if !ok {
+		// Not a parent, nothing to do
+		return nil
+	}
+
+	err := oa.updateOneOf(
+		leaf,
+		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
+			result := oneOf
+			parentOneOf.Types().ForEach(
+				func(t astmodel.Type, _ int) {
+					if obj, ok := oa.AsCommonProperties(t); ok {
+						// Found an object representing common properties
+						result = result.WithType(obj)
+					}
+				})
+
+			return result, nil
+		})
+	return errors.Wrapf(err, "embedding common properties in leaf %s", leaf)
+}
+
+// addLeafReferenceToRoot adds a reference to the leaf to the root.
+// root is the name of the root of the oneOf hierarchy.
+// leaf is the name of the leaf to add a reference to.
+func (oa *oneOfAssembler) addLeafReferenceToRoot(root astmodel.TypeName, leaf astmodel.TypeName) error {
+	err := oa.updateOneOf(
+		root,
+		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
+			return oneOf.WithType(leaf), nil
+		})
+
+	return errors.Wrapf(err, "adding leaf reference %s to root %s", leaf, root)
+}
+
+// asOneOf returns true if the provided name identifies is a OneOf, false otherwise.
+// name is the name of the type to check.
+func (oa *oneOfAssembler) asOneOf(name astmodel.TypeName) (*astmodel.OneOfType, bool) {
+	def, ok := oa.defs[name]
+	if !ok {
+		// Name doesn't identify anything!
+		// (This can happen if the name references our standard library, for example)
+		return nil, false
+	}
+
+	return astmodel.AsOneOfType(def.Type())
+}
+
+// updateOneOf is used to make a change to a oneOf type.
+// name is the TypeName of the oneOf to update.
+// transform is a function that takes the existing oneOf and returns a new oneOf.
+// All updates funnel through here to ensure we're consistent with storing our changes in oa.updates without
+// overwriting prior changes.
+func (oa *oneOfAssembler) updateOneOf(
+	name astmodel.TypeName,
+	transform func(ofType *astmodel.OneOfType) (*astmodel.OneOfType, error),
+) error {
+	// Default to pulling an instance with existing changes applied
+	oneOf, ok := oa.updates[name]
+	if !ok {
+		def := oa.defs.MustGetDefinition(name)
+
+		oneOf, ok = astmodel.AsOneOfType(def.Type())
+		if !ok {
+			return errors.Errorf("found definition for %s, but it wasn't a OneOf", name)
+		}
+	}
+
+	updated, err := transform(oneOf)
+	if err != nil {
+		return errors.Wrapf(err, "couldn't transform oneOf %s", name)
+	}
+
+	oa.updates[name] = updated
+	return nil
+}
+
+/*
+
+
+
+
+
+
+
+
+
+
+ */
+
+func (*oneOfAssembler) findAllOneOfs(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]*astmodel.OneOfType {
+	result := make(map[astmodel.TypeName]*astmodel.OneOfType)
+
+	for _, def := range defs {
+		if oneOf, ok := astmodel.AsOneOfType(def.Type()); ok {
+			result[def.Name()] = oneOf
+		}
+	}
+
+	return result
+}
+
+// findCommonProperties returns a (possibly empty) slice of Objects that contain properties that need to be hoisted
+// to the provided oneOf. This list is made up of properties from both directly referenced roots, and indirectly
+// referenced roots.
+func (oa *oneOfAssembler) findCommonProperties(oneOf *astmodel.OneOfType) ([]*astmodel.ObjectType, error) {
+	result := make([]*astmodel.ObjectType, 0, oneOf.Types().Len())
+
+	// We need to look at all the types referenced by this oneOf
+	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
+
+	})
+
+	return result, nil
+}
+
+// AsCommonProperties captures the test used to determine if a type is a common properties object, ensuring that
+// we're consistent with our tests from multiple locations
+func (oa *oneOfAssembler) AsCommonProperties(t astmodel.Type) (*astmodel.ObjectType, bool) {
+	return astmodel.AsObjectType(t)
 }

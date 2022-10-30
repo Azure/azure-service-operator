@@ -1,0 +1,5 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Gamma: OneOf
+    ├── discriminator value: Gamma
+    └── option 0: Object
+        └── FullName: string

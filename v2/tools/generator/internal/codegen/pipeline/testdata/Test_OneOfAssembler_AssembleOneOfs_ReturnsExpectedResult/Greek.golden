@@ -1,0 +1,8 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Greek: OneOf
+    ├── discriminator: discriminator
+    ├── option 0: Alpha
+    ├── option 1: Beta
+    ├── option 2: Gamma
+    ├── option 3: Delta
+    └── option 4: Epsilon
