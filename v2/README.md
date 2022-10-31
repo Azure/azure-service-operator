@@ -53,7 +53,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    
    You can optionally use a service principal with a more restricted permission set 
    (for example contributor to just a Resource Group), but that will restrict what you can
-   do with ASO.
+   do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/introduction/authentication/#using-a-credential-for-aso-with-reduced-permissions) for more details.
 
    ```bash
    az ad sp create-for-rbac -n azure-service-operator --role contributor \
