@@ -75,7 +75,7 @@ func MakeSubscriptionID(subscription string) string {
 	return fmt.Sprintf("/subscriptions/%s", subscription)
 }
 
-// GetSubscription uses resource ID to extract and return subscription ID oiut of it.
+// GetSubscription uses resource ID to extract and return subscription ID out of it.
 func GetSubscription(path string) (string, error) {
 	id, err := arm.ParseResourceID(path)
 	if err != nil {
