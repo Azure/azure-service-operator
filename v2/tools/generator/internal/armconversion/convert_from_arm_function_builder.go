@@ -203,7 +203,7 @@ func (builder *convertFromARMBuilder) secretPropertyHandler(
 	_ *astmodel.ObjectType,
 ) ([]dst.Stmt, bool) {
 	isSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.SecretReferenceType)
-	isOptionalSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType))
+	isOptionalSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalSecretReferenceType)
 
 	if !isSecretReference && !isOptionalSecretReference {
 		return nil, false
@@ -220,7 +220,7 @@ func (builder *convertFromARMBuilder) configMapPropertyHandler(
 	_ *astmodel.ObjectType,
 ) ([]dst.Stmt, bool) {
 	isConfigMapReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.ConfigMapReferenceType)
-	isConfigMapReferencePtr := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType))
+	isConfigMapReferencePtr := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalConfigMapReferenceType)
 
 	if !isConfigMapReference && !isConfigMapReferencePtr {
 		return nil, false

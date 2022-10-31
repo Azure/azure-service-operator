@@ -169,7 +169,7 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 
 	// This is just an optimization to avoid scanning excess properties collections
 	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
-	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
+	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalStringType)
 
 	// TODO: Do we support slices or maps? Skipped for now
 	//isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
@@ -200,7 +200,7 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 		refProp = fromProps[0]
 	}
 
-	if !astmodel.TypeEquals(strProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType)) {
+	if !astmodel.TypeEquals(strProp.PropertyType(), astmodel.OptionalStringType) {
 		return nil, false
 	}
 	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
@@ -248,7 +248,7 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 
 	// This is just an optimization to avoid scanning excess properties collections
 	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
-	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
+	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalStringType)
 	isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
 	isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 

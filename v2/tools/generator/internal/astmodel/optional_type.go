@@ -25,14 +25,31 @@ var (
 	_ MetaType = &OptionalType{}
 )
 
+// Commonly used optionals
+// We bypass the constructor as that has a dependency on the cachedOptionals map that won't have been initialized yet
+var (
+	OptionalAnyType    = &OptionalType{AnyType}
+	OptionalARMIDType  = &OptionalType{ARMIDType}
+	OptionalBoolType   = &OptionalType{BoolType}
+	OptionalErrorType  = &OptionalType{ErrorType}
+	OptionalFloatType  = &OptionalType{FloatType}
+	OptionalIntType    = &OptionalType{IntType}
+	OptionalStringType = &OptionalType{StringType}
+	OptionalUInt64Type = &OptionalType{UInt64Type}
+	OptionalUInt32Type = &OptionalType{UInt32Type}
+)
+
 // cache of commonly-used values
 var cachedOptionals = map[Type]*OptionalType{
-	BoolType:   {BoolType},
-	FloatType:  {FloatType},
-	IntType:    {IntType},
-	StringType: {StringType},
-	UInt32Type: {UInt32Type},
-	UInt64Type: {UInt64Type},
+	AnyType:    OptionalAnyType,
+	ARMIDType:  OptionalARMIDType,
+	BoolType:   OptionalBoolType,
+	ErrorType:  OptionalErrorType,
+	FloatType:  OptionalFloatType,
+	IntType:    OptionalIntType,
+	StringType: OptionalStringType,
+	UInt32Type: OptionalUInt32Type,
+	UInt64Type: OptionalUInt64Type,
 }
 
 // NewOptionalType creates a new optional type that may or may not have the specified 'element' type
@@ -163,9 +180,9 @@ func (optional *OptionalType) Unwrap() Type {
 	return optional.element
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// definitions is a dictionary for resolving named types
+// WriteDebugDescription adds a description of the current type to the passed builder instance.
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
 func (optional *OptionalType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if optional == nil {
 		builder.WriteString("<nilOptional>")

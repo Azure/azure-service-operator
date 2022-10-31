@@ -18,7 +18,7 @@ func Test_Visit_GivenCountingTypeVisitor_ReturnsExpectedCounts(t *testing.T) {
 
 	arrType := NewArrayType(StringType)
 	mapType := NewMapType(StringType, StringType)
-	optType := NewOptionalType(IntType)
+	optType := OptionalIntType
 
 	intProp := NewPropertyDefinition("number", "number", IntType)
 	arrProp := NewPropertyDefinition("arrType", "arrType", arrType)
@@ -213,24 +213,24 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 		},
 		{
 			"OptionalTypeHandler",
-			NewOptionalType(IntType),
+			OptionalIntType,
 			func(builder *TypeVisitorBuilder) {
 				builder.VisitOptionalType = func(tv *TypeVisitor, ot *OptionalType, _ interface{}) (Type, error) {
 					return ot, errors.New(ot.String())
 				}
 			},
-			NewOptionalType(IntType),
+			OptionalIntType,
 			"optional",
 		},
 		{
 			"OptionalTypeSimplified",
-			NewOptionalType(IntType),
+			OptionalIntType,
 			func(builder *TypeVisitorBuilder) {
 				builder.VisitOptionalType = func(ot *OptionalType) (Type, error) {
 					return ot, errors.New(ot.String())
 				}
 			},
-			NewOptionalType(IntType),
+			OptionalIntType,
 			"optional",
 		},
 		{

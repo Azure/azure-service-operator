@@ -1,11 +1,11 @@
 apiVersion: v2
 name: azure-service-operator
-version: v2.0.0-beta.2
+version: v2.0.0-beta.3
 description: Deploy components and dependencies of azure-service-operator
 home: https://github.com/Azure/azure-service-operator/v2
 sources:
   - https://github.com/Azure/azure-service-operator/v2
 dependencies:
   - name: azure-service-operator-crds
-    version: v2.0.0-beta.2
+    version: v2.0.0-beta.3
     condition: installCRDs

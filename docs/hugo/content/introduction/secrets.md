@@ -15,7 +15,7 @@ For example, in order to create a VM, you may want to specify an SSH password to
 The field in the `spec` will be a [SecretReference](https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference),
 which refers to a particular Kubernetes `Secret` key.
 
-**Example (from [the MySQL FlexibleServer sample](https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserver.yaml)):**
+**Example (from [the MySQL FlexibleServer sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserver.yaml)):**
 ```yaml
 apiVersion: dbformysql.azure.com/v1alpha1api20210501
 kind: FlexibleServer
@@ -37,6 +37,17 @@ spec:
   storage:
     storageSizeGB: 128
 ```
+
+### Rotating credentials
+
+Azure Service Operator is watching the referenced secret for changes, so rotating these credentials is as simple as 
+editing the secret to contain a different credential. In the example above, if we update the content of 
+the `server-admin-pw` secret `password` key to a new value, that will automatically change the password on the
+`FlexibleServer` as well.
+
+Note that if you have any applications that hardcoded the old password they will fail to authenticate until they
+are also updated to the new password. This will also happen for any pods referring to the secret as an environment variable.
+For this reason, we recommend if you expect to perform secret rotation to mount the secret as a pod volume instead.
 
 ## How to retrieve secrets created by Azure
 
@@ -75,3 +86,13 @@ spec:
         key: endpoint
 ```
 
+### Rotating credentials
+
+Azure Service Operator does not currently support rotation Azure generated credentials through Kubernetes.
+ASO will (after some time) pick up rotations that happen via `az cli` or other tools. In order to avoid downtime
+during the sync time, applications must have access to both the primary and secondary key and fall back from the 
+primary to the secondary in the case authentication fails.
+The recommended pattern for rotating credentials that support a primary and secondary key is to rotate the primary key with the `az cli` or Azure portal,
+wait for 30m and then rotate the secondary key as well. As mentioned above, pods using the secrets ASO populates containing the
+Azure generated secrets should mount the secrets as a volume so that they are automatically updated as soon as ASO picks up the new secret
+value.  

@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
@@ -251,7 +252,7 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.NewOptionalType(astmodel.KnownResourceReferenceType))
+		astmodel.OptionalKnownResourceReferenceType)
 	prop = prop.WithDescription(
 		fmt.Sprintf("The owner of the resource. The owner controls where the resource goes when it is deployed. "+
 			"The owner also controls the resources lifecycle. "+

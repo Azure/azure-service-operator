@@ -280,7 +280,7 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 
 func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType) &&
-		!astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType)) {
+		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalSecretReferenceType) {
 		return nil, nil
 	}
 
@@ -290,7 +290,7 @@ func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDe
 	if isRequired {
 		newType = astmodel.StringType
 	} else {
-		newType = astmodel.NewOptionalType(astmodel.StringType)
+		newType = astmodel.OptionalStringType
 	}
 
 	return prop.WithType(newType), nil
@@ -298,7 +298,7 @@ func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDe
 
 func (c *armTypeCreator) createConfigMapReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.ConfigMapReferenceType) &&
-		!astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
+		!astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalConfigMapReferenceType) {
 		return nil, nil
 	}
 
@@ -312,7 +312,7 @@ func (c *armTypeCreator) createConfigMapReferenceProperty(prop *astmodel.Propert
 	if isRequired {
 		newType = astmodel.StringType
 	} else {
-		newType = astmodel.NewOptionalType(astmodel.StringType)
+		newType = astmodel.OptionalStringType
 	}
 
 	return prop.WithType(newType), nil
