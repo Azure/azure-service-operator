@@ -15,10 +15,10 @@ import (
 
 const (
 	// #nosec
-	AzureClientSecret          = "AZURE_CLIENT_SECRET"
+	AzureClientSecretVar       = "AZURE_CLIENT_SECRET"
 	SubscriptionIDVar          = "AZURE_SUBSCRIPTION_ID"
 	TenantIDVar                = "AZURE_TENANT_ID"
-	AzureClientID              = "AZURE_CLIENT_ID"
+	AzureClientIDVar           = "AZURE_CLIENT_ID"
 	targetNamespacesVar        = "AZURE_TARGET_NAMESPACES"
 	operatorModeVar            = "AZURE_OPERATOR_MODE"
 	syncPeriodVar              = "AZURE_SYNC_PERIOD"

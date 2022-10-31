@@ -105,7 +105,7 @@ func (r *AzureDeploymentReconciler) makeInstance(ctx context.Context, log logr.L
 		return nil, err
 	}
 
-	eventRecorder.Eventf(obj, v1.EventTypeNormal, "credentialFrom", "Using credential from %q", credentialFrom)
+	eventRecorder.Eventf(obj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", credentialFrom)
 
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
 	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, armClient, *r), nil

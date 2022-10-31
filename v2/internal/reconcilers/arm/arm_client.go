@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
+// armClient is a wrapper around generic client to keep a track of secretData used to create it and credentialFrom which that secret was retrieved.
 type armClient struct {
 	genericClient  *genericarmclient.GenericClient
 	secretData     map[string][]byte

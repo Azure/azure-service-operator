@@ -29,6 +29,8 @@ import (
 
 const (
 	// #nosec
+	globalCredentialSecretName = "aso-controller-settings"
+	// #nosec
 	namespacedSecretName = "aso-credential"
 )
 
@@ -51,7 +53,7 @@ func NewARMClientCache(
 
 	globalClient := &armClient{
 		genericClient:  client,
-		credentialFrom: types.NamespacedName{Name: "aso-controller-settings", Namespace: podNamespace},
+		credentialFrom: types.NamespacedName{Name: globalCredentialSecretName, Namespace: podNamespace},
 	}
 
 	return &armClientCache{
@@ -64,13 +66,13 @@ func NewARMClientCache(
 	}
 }
 
-func (c *armClientCache) Register(client *armClient) {
+func (c *armClientCache) register(client *armClient) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	c.clients[client.CredentialFrom()] = client
 }
 
-func (c *armClientCache) Lookup(key string) (*armClient, bool) {
+func (c *armClientCache) lookup(key string) (*armClient, bool) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	client, ok := c.clients[key]
@@ -87,7 +89,7 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 
 	if secret != nil {
 		nsName := types.NamespacedName{Namespace: secret.Namespace, Name: secret.Name}
-		client, ok := c.Lookup(nsName.String())
+		client, ok := c.lookup(nsName.String())
 		// if client does not already exist, or secret data is changed, we need to get new token.
 		if !ok || !matchSecretData(client.secretData, secret.Data) {
 			credential, subscriptionID, err := c.newCredentialFromSecret(secret, nsName)
@@ -101,7 +103,7 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 			}
 
 			armClient := newARMClient(newClient, secret.Data, nsName)
-			c.Register(armClient)
+			c.register(armClient)
 			return armClient.GenericClient(), armClient.CredentialFrom(), nil
 		} else {
 			return client.GenericClient(), client.CredentialFrom(), nil
@@ -121,14 +123,14 @@ func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 	if !ok {
 		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
 	}
-	clientID, ok := secret.Data[config.AzureClientID]
+	clientID, ok := secret.Data[config.AzureClientIDVar]
 	if !ok {
-		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientID))
+		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
 	}
-	clientSecret, ok := secret.Data[config.AzureClientSecret]
+	clientSecret, ok := secret.Data[config.AzureClientSecretVar]
 	// TODO: We check this for now until we support Workload Identity. When we support workload identity for multitenancy, !ok would mean to check for workload identity.
 	if !ok {
-		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecret))
+		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
 	}
 
 	credential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)

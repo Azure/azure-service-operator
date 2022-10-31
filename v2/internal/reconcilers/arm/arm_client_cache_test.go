@@ -36,7 +36,7 @@ func NewFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
 	return kubeclient.NewClient(fakeClient)
 }
 
-func NewTestArmClientCache(client kubeclient.Client) (*armClientCache, error) {
+func NewTestARMClientCache(client kubeclient.Client) (*armClientCache, error) {
 	cfg, err := config.ReadFromEnvironment()
 	if err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func testSetup() (*testResources, error) {
 	s := createTestScheme()
 
 	client := NewFakeKubeClient(s)
-	cache, err := NewTestArmClientCache(client)
+	cache, err := NewTestARMClientCache(client)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func testSetup() (*testResources, error) {
 	}, nil
 }
 
-func Test_ARMClientCache_ReturnsNamespacedSecretClient(t *testing.T) {
+func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.TODO()
@@ -119,7 +119,7 @@ func Test_ARMClientCache_ReturnsNamespacedSecretClient(t *testing.T) {
 
 }
 
-func Test_ARMClientCache_ReturnsNamespacedSecretClient_SecretChanged(t *testing.T) {
+func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.TODO()
@@ -154,7 +154,7 @@ func Test_ARMClientCache_ReturnsNamespacedSecretClient_SecretChanged(t *testing.
 
 	// change secret and check if we get a new client
 	old := secret
-	secret.StringData[config.AzureClientID] = "11111111-1111-1111-1111-111111111111"
+	secret.StringData[config.AzureClientIDVar] = "11111111-1111-1111-1111-111111111111"
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -194,8 +194,8 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 
 func newSecret(name string, namespace string) *v1.Secret {
 	secretData := make(map[string]string)
-	secretData[config.AzureClientID] = fakeID
-	secretData[config.AzureClientSecret] = fakeID
+	secretData[config.AzureClientIDVar] = fakeID
+	secretData[config.AzureClientSecretVar] = fakeID
 	secretData[config.TenantIDVar] = fakeID
 	secretData[config.SubscriptionIDVar] = fakeID
 
