@@ -52,6 +52,13 @@ grouped by the originating ARM service.
 | [RedisPatchSchedule](https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/#cache.azure.com/v1beta20201201.RedisPatchSchedule)                     | 2020-12-01  | v1beta20201201      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20201201_redispatchschedule.yaml)                |
 | [RedisPatchSchedule](https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/#cache.azure.com/v1alpha1api20201201.RedisPatchSchedule)           | 2020-12-01  | v1alpha1api20201201 | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20201201_redispatchschedule.yaml)      |
 
+## Cdn
+
+| Resource                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                              |
+|------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| [Profile](https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.Profile)                   | 2021-06-01  | v1beta20210601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cdn/v1beta/v1beta20210601_profile.yaml)          |
+| [ProfilesEndpoint](https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.ProfilesEndpoint) | 2021-06-01  | v1beta20210601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cdn/v1beta/v1beta20210601_profilesendpoint.yaml) |
+
 ## Compute
 
 | Resource                                                                                                                                                                     | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                           |

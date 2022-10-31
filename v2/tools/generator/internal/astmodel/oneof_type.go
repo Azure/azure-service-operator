@@ -228,20 +228,6 @@ func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentP
 	builder.WriteString("]")
 }
 
-// AsOneOfType unwraps any wrappers around the provided type and returns either the underlying OneOfType and true,
-// or nil and false.
-func AsOneOfType(t Type) (*OneOfType, bool) {
-	if one, ok := t.(*OneOfType); ok {
-		return one, true
-	}
-
-	if wrapper, ok := t.(MetaType); ok {
-		return AsOneOfType(wrapper.Unwrap())
-	}
-
-	return nil, false
-}
-
 func (oneOf *OneOfType) copy() *OneOfType {
 	result := *oneOf
 	result.types = oneOf.types // No need to copy, it's readonly
