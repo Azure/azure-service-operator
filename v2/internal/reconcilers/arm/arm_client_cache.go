@@ -93,7 +93,7 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 		return client.GenericClient(), client.CredentialFrom(), nil
 	}
 	// Namespaced secret
-	client, err = c.checkNamespacedSecret(ctx, obj, err)
+	client, err = c.checkNamespacedSecret(ctx, obj)
 	if err != nil {
 		return nil, "", err
 	} else if client != nil {
@@ -104,7 +104,7 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
 }
 
-func (c *armClientCache) checkNamespacedSecret(ctx context.Context, obj genruntime.ARMMetaObject, err error) (*armClient, error) {
+func (c *armClientCache) checkNamespacedSecret(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
 	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
 	if err != nil {
 		return nil, err
