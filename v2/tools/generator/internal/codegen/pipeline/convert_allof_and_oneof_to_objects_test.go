@@ -6,6 +6,7 @@
 package pipeline
 
 import (
+	"context"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"testing"
 
@@ -704,4 +705,115 @@ func createTestLeafOneOfDefinition(
 	body := astmodel.NewOneOfType(swaggerName, obj).
 		WithDiscriminatorValue(discriminator)
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(test.Pkg2020, typeName), body)
+}
+
+func Test_ConversionWithNestedAllOfs_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	// Testing a scenario found during manual testing
+
+	webtestsResource := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebtestsResource"),
+		astmodel.NewObjectType().
+			WithProperties(
+				astmodel.NewPropertyDefinition(
+					"Location", "location", astmodel.OptionalStringType),
+				astmodel.NewPropertyDefinition(
+					"Tags", "tags", astmodel.NewOptionalType(astmodel.AnyType))))
+
+	webTestProperties := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTestProperties"),
+		astmodel.NewObjectType().
+			WithProperties(
+				astmodel.NewPropertyDefinition(
+					"Alias", "alias", astmodel.OptionalStringType)))
+
+	webTest := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTest"),
+		astmodel.NewAllOfType(
+			webtestsResource.Name(),
+			astmodel.NewObjectType().WithProperties(
+				astmodel.NewPropertyDefinition(
+					"Kind", "kind", astmodel.NewOptionalType(astmodel.NewEnumType(
+						astmodel.StringType,
+						astmodel.MakeEnumValue("MultiStep", "multistep"),
+						astmodel.MakeEnumValue("Ping", "ping")))),
+				astmodel.NewPropertyDefinition("Properties", "properties", webTestProperties.Name()))))
+
+	webTestSpec := astmodel.NewAllOfType(
+		webTest.Name(),
+		astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("AzureName", "azurename", astmodel.StringType),
+			astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)))
+
+	webTest_Status := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTest_Status"),
+		astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("Status", "status", astmodel.OptionalStringType)))
+
+	webTestResource := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTestResource"),
+		astmodel.NewResourceType(webTestSpec, webTest_Status.Name()))
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(webtestsResource, webTestProperties, webTest, webTest_Status, webTestResource)
+
+	state := NewState(defs)
+	stage := ConvertAllOfAndOneOfToObjects(idFactory)
+
+	finalState, err := stage.Run(context.TODO(), state)
+	g.Expect(err).To(BeNil())
+
+	// Check on the final shape
+	for _, def := range finalState.definitions {
+		test.AssertDefinitionHasExpectedShape(t, def.Name().Name(), def)
+	}
+}
+
+func TestConversionOfSequentialOneOf_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	first := astmodel.NewObjectType().
+		WithProperties(
+			astmodel.NewPropertyDefinition("alpha", "alpha", astmodel.StringType),
+			astmodel.NewPropertyDefinition("beta", "beta", astmodel.StringType))
+
+	second := astmodel.NewObjectType().
+		WithProperties(
+			astmodel.NewPropertyDefinition("gamma", "gamma", astmodel.StringType),
+			astmodel.NewPropertyDefinition("delta", "delta", astmodel.StringType))
+
+	third := astmodel.NewObjectType().
+		WithProperties(
+			astmodel.NewPropertyDefinition("epsilon", "epsilon", astmodel.StringType),
+			astmodel.NewPropertyDefinition("zeta", "zeta", astmodel.StringType))
+
+	firstDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "First"),
+		first)
+
+	allOfDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "AllOf"),
+		astmodel.NewAllOfType(firstDef.Name(), second, third))
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(allOfDef, firstDef)
+
+	state := NewState(defs)
+	stage := ConvertAllOfAndOneOfToObjects(idFactory)
+
+	finalState, err := stage.Run(context.TODO(), state)
+	g.Expect(err).To(BeNil())
+
+	// Check on the final shape
+	for _, def := range finalState.definitions {
+		test.AssertDefinitionHasExpectedShape(t, def.Name().Name(), def)
+	}
 }
