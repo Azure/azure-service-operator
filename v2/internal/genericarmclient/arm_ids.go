@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/pkg/errors"
 )
 
@@ -72,4 +73,13 @@ func MakeResourceGroupID(subscription string, resourceGroup string) string {
 // This is "special" because there is no provider at all
 func MakeSubscriptionID(subscription string) string {
 	return fmt.Sprintf("/subscriptions/%s", subscription)
+}
+
+// GetSubscription uses resource ID to extract and return subscription ID out of it.
+func GetSubscription(path string) (string, error) {
+	id, err := arm.ParseResourceID(path)
+	if err != nil {
+		return "", err
+	}
+	return id.SubscriptionID, nil
 }

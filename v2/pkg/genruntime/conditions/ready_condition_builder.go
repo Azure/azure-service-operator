@@ -6,6 +6,9 @@ Licensed under the MIT license.
 package conditions
 
 const (
+	// Auth reasons
+	ReasonSubscriptionMismatch = "SubscriptionMismatch"
+
 	// Precondition reasons
 	ReasonSecretNotFound    = "SecretNotFound"
 	ReasonConfigMapNotFound = "ConfigMapNotFound"

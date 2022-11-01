@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -248,6 +249,14 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
 
+	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
+	if resourceID != "" {
+		err := checkSubscription(resourceID, r.ARMClient.SubscriptionID())
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+	}
+
 	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -282,6 +291,19 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 
 	SetPollerResumeToken(r.Obj, pollerResp.ID, resumeToken)
 	return ctrl.Result{Requeue: true}, nil
+}
+
+func checkSubscription(resourceID string, clientSubID string) error {
+	parsedRID, err := arm.ParseResourceID(resourceID)
+	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID, so we need to make sure subscriptionID exists before we check.
+	// TODO: we need a better way?
+	if err == nil {
+		if parsedRID.ResourceGroupName != "" && parsedRID.SubscriptionID != clientSubID {
+			err = errors.Errorf("SubscriptionID %q for %q resource does not match with Client Credential: %q", parsedRID.SubscriptionID, resourceID, clientSubID)
+			return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
+		}
+	}
+	return nil
 }
 
 func (r *azureDeploymentReconcilerInstance) handleCreatePollerFailed(err error) error {
@@ -606,6 +628,11 @@ func deleteResource(
 	if resourceID == "" {
 		log.V(Status).Info("Not issuing delete as resource had no ResourceID annotation")
 		return ctrl.Result{}, nil
+	}
+
+	err := checkSubscription(resourceID, armClient.SubscriptionID())
+	if err != nil {
+		return ctrl.Result{}, err
 	}
 
 	// Optimizations or complications of this delete path should be undertaken with care.

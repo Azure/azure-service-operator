@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"time"
@@ -90,22 +91,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	armClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
 	if err != nil {
 		setupLog.Error(err, "failed to get new genericArmClient")
 		os.Exit(1)
 	}
 
-	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.ARMMetaObject) *genericarmclient.GenericClient {
-		// always use the configured ARM client
-		return armClient
+	kubeClient := kubeclient.NewClient(mgr.GetClient())
+	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil)
+
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+		return armClientCache.GetClient(ctx, obj)
 	}
 
 	log := ctrl.Log.WithName("controllers")
 	log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		kubeClient := kubeclient.NewClient(mgr.GetClient())
 		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
 		options := makeControllerOptions(log, cfg)

@@ -75,7 +75,7 @@ func (r *rpRegistrationPolicy) Do(req *azpolicy.Request) (*http.Response, error)
 		return resp, err
 	}
 	// RP needs to be registered.  start by getting the subscription ID from the original request
-	subID, err := getSubscription(req.Raw().URL.Path)
+	subID, err := GetSubscription(req.Raw().URL.Path)
 	if err != nil {
 		return resp, err
 	}
@@ -95,16 +95,6 @@ func (r *rpRegistrationPolicy) Do(req *azpolicy.Request) (*http.Response, error)
 		return resp, err
 	}
 	return resp, fmt.Errorf("registering Resource Provider %s with subscription. Try again later", rp)
-}
-
-func getSubscription(path string) (string, error) {
-	parts := strings.Split(path, "/")
-	for i, v := range parts {
-		if v == "subscriptions" && (i+1) < len(parts) {
-			return parts[i+1], nil
-		}
-	}
-	return "", fmt.Errorf("failed to obtain subscription ID from %s", path)
 }
 
 func getProvider(re requestError) (string, error) {
