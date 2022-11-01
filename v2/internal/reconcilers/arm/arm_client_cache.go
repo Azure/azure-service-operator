@@ -9,6 +9,7 @@ import (
 	"context"
 	"net/http"
 	"reflect"
+	"strings"
 	"sync"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -31,7 +32,9 @@ const (
 	// #nosec
 	globalCredentialSecretName = "aso-controller-settings"
 	// #nosec
-	namespacedSecretName = "aso-credential"
+	namespacedSecretName        = "aso-credential"
+	perResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
+	namespacedNameSeparator     = "/"
 )
 
 // armClientCache is a cache for armClients to hold multiple credential clients and global credential client.
@@ -82,37 +85,96 @@ func (c *armClientCache) lookup(key string) (*armClient, bool) {
 
 // GetClient finds and returns a client and credential to be used for a given resource
 func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
-	// Namespaced secret
-	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
+
+	client, err := c.checkPerResourceSecret(ctx, obj)
 	if err != nil {
 		return nil, "", err
+	} else if client != nil {
+		return client.GenericClient(), client.CredentialFrom(), nil
 	}
-
-	if secret != nil {
-		nsName := types.NamespacedName{Namespace: secret.Namespace, Name: secret.Name}
-		client, ok := c.lookup(nsName.String())
-		// if client does not already exist, or secret data is changed, we need to get new token.
-		if !ok || !matchSecretData(client.secretData, secret.Data) {
-			credential, subscriptionID, err := c.newCredentialFromSecret(secret, nsName)
-			if err != nil {
-				return nil, "", err
-			}
-
-			newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, metrics.NewARMClientMetrics())
-			if err != nil {
-				return nil, "", err
-			}
-
-			armClient := newARMClient(newClient, secret.Data, nsName)
-			c.register(armClient)
-			return armClient.GenericClient(), armClient.CredentialFrom(), nil
-		} else {
-			return client.GenericClient(), client.CredentialFrom(), nil
-		}
+	// Namespaced secret
+	client, err = c.checkNamespacedSecret(ctx, obj, err)
+	if err != nil {
+		return nil, "", err
+	} else if client != nil {
+		return client.GenericClient(), client.CredentialFrom(), nil
 	}
 
 	// If not found, default would be global
 	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
+}
+
+func (c *armClientCache) checkNamespacedSecret(ctx context.Context, obj genruntime.ARMMetaObject, err error) (*armClient, error) {
+	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
+	if err != nil {
+		return nil, err
+	}
+
+	if secret != nil {
+		armClient, err := c.getARMClientFromSecret(secret)
+		if err != nil {
+			return nil, err
+		}
+		return armClient, nil
+	}
+	return nil, nil
+}
+
+func (c *armClientCache) checkPerResourceSecret(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
+	credentialFrom, ok := obj.GetAnnotations()[perResourceSecretAnnotation]
+	// annotation exists, use per Resource Group secret credential
+	if ok {
+		secretNamespacedName := getSecretNameFromAnnotation(credentialFrom, obj.GetNamespace())
+
+		secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
+		if err != nil {
+			return nil, err
+		}
+		// secret not found
+		if secret == nil {
+			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Errorf("Credential Secret %q not found for '%s/%s'", secretNamespacedName.String(), obj.GetNamespace(), obj.GetName()))
+		}
+
+		armClient, err := c.getARMClientFromSecret(secret)
+		if err != nil {
+			return nil, err
+		}
+		return armClient, nil
+	}
+	return nil, nil
+}
+
+func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string) types.NamespacedName {
+	if strings.Contains(credentialFrom, namespacedNameSeparator) {
+		slice := strings.Split(credentialFrom, namespacedNameSeparator)
+		return types.NamespacedName{Namespace: slice[0], Name: slice[1]}
+	} else {
+		// If namespace is not specified, look into the resource namespace
+		return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
+	}
+}
+
+func (c *armClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, error) {
+	nsName := types.NamespacedName{Namespace: secret.Namespace, Name: secret.Name}
+	client, ok := c.lookup(nsName.String())
+	// if client does not already exist, or secret data is changed, we need to get new token.
+	if !ok || !matchSecretData(client.secretData, secret.Data) {
+		credential, subscriptionID, err := c.newCredentialFromSecret(secret, nsName)
+		if err != nil {
+			return nil, err
+		}
+
+		newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, metrics.NewARMClientMetrics())
+		if err != nil {
+			return nil, err
+		}
+
+		armClient := newARMClient(newClient, secret.Data, nsName)
+		c.register(armClient)
+		return armClient, nil
+	} else {
+		return client, nil
+	}
 }
 
 func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
@@ -157,6 +219,7 @@ func (c *armClientCache) getSecret(ctx context.Context, namespace string, secret
 		if apierrors.IsNotFound(err) {
 			return nil, nil
 		}
+
 		return nil, err
 	}
 
