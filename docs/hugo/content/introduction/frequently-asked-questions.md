@@ -64,3 +64,10 @@ There are a lot of similarities between ASO and Crossplane. They do similar thin
   
 We would like to share our code-generator with Crossplane, as it’s higher fidelity than Terrajet (the codegenerator Crossplane uses to generate resources) for Azure resources. 
 Right now our focus is on getting ASO to GA, after which we will hopefully have more time to invest in that.
+
+### Can I configure how often ASO re-syncs to Azure when there have been no changes?
+
+Yes, using the `azureSyncPeriod` argument in Helm's values.yaml, or using the `AZURE_SYNC_PERIOD`
+in the `aso-controller-settings` secret.
+
+Be careful setting this value too low as it can produce a lot of calls to Azure.
