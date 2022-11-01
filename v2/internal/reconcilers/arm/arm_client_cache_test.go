@@ -108,9 +108,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
 	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
-	if err != nil {
-		return
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
@@ -143,9 +141,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
 	oldClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
-	if err != nil {
-		return
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
@@ -154,20 +150,17 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	// change secret and check if we get a new client
 	old := secret
-	secret.StringData[config.AzureClientIDVar] = "11111111-1111-1111-1111-111111111111"
+	secret.Data[config.AzureClientIDVar] = []byte("11111111-1111-1111-1111-111111111111")
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	newClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
-	if err != nil {
-		return
-	}
+	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
 	g.Expect(newClient.SubscriptionID()).To(BeEquivalentTo(fakeID))
 	g.Expect(newClient).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
-	g.Expect(newClient).To(Not(BeEquivalentTo(oldClient)))
 }
 
 func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
@@ -192,18 +185,18 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 }
 
 func newSecret(name string, namespace string) *v1.Secret {
-	secretData := make(map[string]string)
-	secretData[config.AzureClientIDVar] = fakeID
-	secretData[config.AzureClientSecretVar] = fakeID
-	secretData[config.TenantIDVar] = fakeID
-	secretData[config.SubscriptionIDVar] = fakeID
+	secretData := make(map[string][]byte)
+	secretData[config.AzureClientIDVar] = []byte(fakeID)
+	secretData[config.AzureClientSecretVar] = []byte(fakeID)
+	secretData[config.TenantIDVar] = []byte(fakeID)
+	secretData[config.SubscriptionIDVar] = []byte(fakeID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
 			Namespace: namespace,
 		},
-		StringData: secretData,
+		Data: secretData,
 	}
 }
 

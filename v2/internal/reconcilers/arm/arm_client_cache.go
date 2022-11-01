@@ -157,10 +157,9 @@ func (c *armClientCache) getSecret(ctx context.Context, namespace string, secret
 		if apierrors.IsNotFound(err) {
 			return nil, nil
 		}
-
 		return nil, err
 	}
-	
+
 	return secret, nil
 }
 
