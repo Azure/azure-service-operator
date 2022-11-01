@@ -36,7 +36,7 @@ func RemoveResourceScope() *Stage {
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to remove scope property from %s", updatedDef.Name())
 				}
-				newDefs.Add(updatedDef)
+				newDefs.AddAllowDuplicates(updatedDef)
 			}
 
 			result := state.Definitions().OverlayWith(newDefs)
