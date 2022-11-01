@@ -189,7 +189,6 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
 	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(res.armClientCache.globalClient.GenericClient().SubscriptionID()))
 	g.Expect(client).To(BeEquivalentTo(res.armClientCache.globalClient.GenericClient()))
-
 }
 
 func newSecret(name string, namespace string) *v1.Secret {

@@ -34,6 +34,7 @@ const (
 	namespacedSecretName = "aso-credential"
 )
 
+// armClientCache is a cache for armClients to hold multiple credential clients and global credential client.
 type armClientCache struct {
 	lock sync.Mutex
 	// clients allows quick lookup of an armClient for each namespace
@@ -79,7 +80,7 @@ func (c *armClientCache) lookup(key string) (*armClient, bool) {
 	return client, ok
 }
 
-// GetClient function is a helper method to find and return client and credential used for the given resource
+// GetClient finds and returns a client and credential to be used for a given resource
 func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
 	// Namespaced secret
 	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
@@ -117,26 +118,31 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
-		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
+		return nil, "", err
 	}
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
-		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
+		return nil, "", err
 	}
 	clientID, ok := secret.Data[config.AzureClientIDVar]
 	if !ok {
-		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
+		return nil, "", err
 	}
 	clientSecret, ok := secret.Data[config.AzureClientSecretVar]
 	// TODO: We check this for now until we support Workload Identity. When we support workload identity for multitenancy, !ok would mean to check for workload identity.
 	if !ok {
-		return nil, "", core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
+		return nil, "", err
 	}
 
 	credential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 	if err != nil {
 		return nil, "", errors.Wrap(err, errors.Errorf("Invalid Client Secret Credential for %q encountered", nsName.String()).Error())
 	}
+
 	return credential, string(subscriptionID), nil
 }
 
@@ -150,10 +156,11 @@ func (c *armClientCache) getSecret(ctx context.Context, namespace string, secret
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			return nil, nil
-		} else {
-			return nil, err
 		}
+
+		return nil, err
 	}
+	
 	return secret, nil
 }
 
