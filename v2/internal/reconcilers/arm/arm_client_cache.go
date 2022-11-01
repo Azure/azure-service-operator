@@ -36,7 +36,7 @@ const (
 
 type armClientCache struct {
 	lock sync.Mutex
-	// clients map hold namespaced name for a secret to all the registered ARM clients
+	// clients allows quick lookup of an armClient for each namespace
 	clients      map[string]*armClient
 	globalClient *armClient
 	kubeClient   kubeclient.Client
