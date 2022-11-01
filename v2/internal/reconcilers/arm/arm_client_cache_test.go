@@ -122,7 +122,6 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(credentialFrom).To(BeEquivalentTo(perResourceCredentialName.String()))
-	g.Expect(credentialFrom).ToNot(BeEquivalentTo(perResourceCredentialName.String()))
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(fakeID))
 	g.Expect(client).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
