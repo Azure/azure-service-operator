@@ -114,7 +114,6 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
 	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(fakeID))
 	g.Expect(client).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
-
 }
 
 func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T) {
