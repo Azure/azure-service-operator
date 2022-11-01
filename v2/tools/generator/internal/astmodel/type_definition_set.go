@@ -73,15 +73,21 @@ func (set TypeDefinitionSet) Add(def TypeDefinition) {
 
 // FullyResolve turns something that might be a TypeName into something that isn't
 func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
-	tName, ok := t.(TypeName)
+	seen := NewTypeNameSet()
+
+	tn, ok := t.(TypeName)
 	for ok {
-		tDef, found := set[tName]
+		seen.Add(tn)
+
+		def, found := set[tn]
 		if !found {
-			return nil, errors.Errorf("couldn't find definition for %s", tName)
+			return nil, errors.Errorf("couldn't find definition for %s", tn)
 		}
 
-		t = tDef.Type()
-		tName, ok = t.(TypeName)
+		tn, ok = def.Type().(TypeName)
+		if ok && seen.Contains(tn) {
+			return nil, errors.Errorf("cycle detected in type definition for %s", tn)
+		}
 	}
 
 	return t, nil

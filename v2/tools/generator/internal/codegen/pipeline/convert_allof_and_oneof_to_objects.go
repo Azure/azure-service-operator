@@ -914,18 +914,48 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 }
 
 // makes an ObjectType for an AllOf type
+// We're all about synthesizing a new type, so we resolve TypeNames here
 func (s synthesizer) allOfObject(allOf *astmodel.AllOfType) (astmodel.Type, error) {
-	var intersection astmodel.Type = astmodel.AnyType
-	err := allOf.Types().ForEachError(func(t astmodel.Type, _ int) error {
-		var err error
-		intersection, err = s.intersectTypes(intersection, t)
-		return err
+	types := allOf.Types()
+	toMerge := make([]astmodel.Type, types.Len())
+	types.ForEach(func(t astmodel.Type, i int) {
+		toMerge[i] = t
 	})
-	if err != nil {
-		return nil, errors.Wrapf(err, "combining AllOf with %d types", allOf.Types().Len())
+
+	return s.allOfSlice(toMerge)
+}
+
+func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
+	toMerge := make([]astmodel.Type, len(types))
+	foundName := false
+	for i, t := range types {
+		// if we find a type name, resolve it to the underlying type
+		if tn, ok := astmodel.AsTypeName(t); ok {
+			if def, ok := s.defs[tn]; ok {
+				toMerge[i] = def.Type()
+				foundName = true
+				continue
+			}
+		}
+
+		toMerge[i] = t
 	}
 
-	return intersection, nil
+	if foundName {
+		// Found a type name, recursive call in case there are more
+		return s.allOfSlice(toMerge)
+	}
+
+	var result astmodel.Type = astmodel.AnyType
+	for _, t := range toMerge {
+		var err error
+		result, err = s.intersectTypes(result, t)
+		if err != nil {
+			return nil, errors.Wrapf(err, "couldn't merge %s with %s", result, t)
+		}
+	}
+
+	return result, nil
 }
 
 func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmodel.Type) (astmodel.Type, error) {
