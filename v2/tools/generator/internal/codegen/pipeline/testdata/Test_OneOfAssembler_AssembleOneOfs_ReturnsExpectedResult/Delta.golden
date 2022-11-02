@@ -7,4 +7,4 @@ github.com/Azure/azure-service-operator/testing/person/v20200101
     │   └── FullName: string
     └── option 2: Object (1 property)
         └── Discriminator: Enum (1 value)
-            └── Delta
+            └── "Delta"

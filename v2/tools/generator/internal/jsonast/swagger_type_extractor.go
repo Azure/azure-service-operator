@@ -210,7 +210,7 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 		// Looking for definitions that either
 		//  o  specify discriminator property
 		//  o  contains a 'x-ms-discriminator-value' extension value
-		if _, found := def.Extensions.GetString("x-ms-discriminator-value"); !found && def.Discriminator == "" && !found {
+		if _, found := def.Extensions.GetString("x-ms-discriminator-value"); !found && def.Discriminator == "" {
 			continue
 		}
 

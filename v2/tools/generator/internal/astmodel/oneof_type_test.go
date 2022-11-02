@@ -11,24 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestOneOfFlattensNestedOneOfs(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	result := NewOneOfType(
-		"Test",
-		BoolType,
-		NewOneOfType("Nested", StringType, IntType))
-
-	expected := NewOneOfType(
-		"Test",
-		BoolType,
-		StringType,
-		IntType)
-
-	g.Expect(result).To(Equal(expected))
-}
-
 func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

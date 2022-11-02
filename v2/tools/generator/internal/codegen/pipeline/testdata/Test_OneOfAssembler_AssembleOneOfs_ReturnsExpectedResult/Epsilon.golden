@@ -9,4 +9,4 @@ github.com/Azure/azure-service-operator/testing/person/v20200101
     │   └── FullName: string
     └── option 3: Object (1 property)
         └── Discriminator: Enum (1 value)
-            └── Epsilon
+            └── "Epsilon"

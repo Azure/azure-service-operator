@@ -1,6 +1,7 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
 loadTestSchema                                       Load and walk schema (test)
+assembleOneOfTypes                                   Assemble OneOf types from OpenAPI Fragments
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
 stripUnused                                          Strip unused types for test
