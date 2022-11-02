@@ -1,5 +1,5 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── Hades: Object
+└── Hades: Object (3 properties)
     ├── FullName: string
     ├── KnownAs: string
     └── Souls: int

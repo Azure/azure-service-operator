@@ -457,10 +457,15 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	commonProperties := test.CreateObjectType(
+		test.FamilyNameProperty,
+		test.FullNameProperty)
+
 	parent := createTestLeafOneOfDefinition(
 		"Parent",
 		"Senior",
 		"Maxima",
+		commonProperties,
 		test.PostalAddress2021,
 		test.ResidentialAddress2021)
 
@@ -468,16 +473,12 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 		"Child",
 		"Junior", // no swagger name
 		"Minima",
+		commonProperties,
 		test.KnownAsProperty)
-
-	commonProperties := test.CreateObjectType(
-		test.FamilyNameProperty,
-		test.FullNameProperty)
 
 	person := createTestRootOneOfDefinition(
 		"Person",
 		"Kind",
-		commonProperties,
 		// Use names to reference leaves
 		parent.Name(),
 		child.Name())
@@ -490,19 +491,21 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 	g.Expect(err).To(BeNil())
 
 	// Expect actual to have a property for each OneOf Option
-	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyCount(t, actual, 3)
 	test.AssertPropertyExistsWithType(t, actual, "Parent", astmodel.NewOptionalType(parent.Name()))
 	test.AssertPropertyExistsWithType(t, actual, "Child", astmodel.NewOptionalType(child.Name()))
+	test.AssertPropertyExists(t, actual, "Kind") // Discriminator
 
 	// Check that common properties have been added to parent alongside the original properties
 	newParent, ok := synth.defs[parent.Name()]
 	g.Expect(ok).To(BeTrue())
 
-	test.AssertPropertyCount(t, newParent.Type(), 4)
+	test.AssertPropertyCount(t, newParent.Type(), 5)
 	test.AssertPropertyExistsWithType(t, newParent.Type(), "FamilyName", astmodel.StringType)
 	test.AssertPropertyExistsWithType(t, newParent.Type(), "FullName", astmodel.StringType)
 	test.AssertPropertyExistsWithType(t, newParent.Type(), "PostalAddress", test.Address2021.Name())
 	test.AssertPropertyExistsWithType(t, newParent.Type(), "ResidentialAddress", test.Address2021.Name())
+	test.AssertPropertyExists(t, newParent.Type(), "Kind") // Discriminator
 
 	// Check that common properties have been added to child alongside the original properties
 	newChild, ok := synth.defs[child.Name()]
@@ -512,16 +515,22 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 	test.AssertPropertyExistsWithType(t, newChild.Type(), "KnownAs", astmodel.StringType)
 	test.AssertPropertyExistsWithType(t, newChild.Type(), "FamilyName", astmodel.StringType)
 	test.AssertPropertyExistsWithType(t, newChild.Type(), "FullName", astmodel.StringType)
+	test.AssertPropertyExists(t, newChild.Type(), "Kind") // Discriminator
 }
 
 func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	commonProperties := test.CreateObjectType(
+		test.FamilyNameProperty,
+		test.FullNameProperty)
+
 	parent := createTestLeafOneOfDefinition(
 		"Parent",
 		"Senior",
 		"Maxima",
+		commonProperties,
 		test.PostalAddress2021,
 		test.ResidentialAddress2021)
 
@@ -529,16 +538,12 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *te
 		"Child",
 		"Junior", // no swagger name
 		"Minima",
+		commonProperties,
 		test.KnownAsProperty)
-
-	commonProperties := test.CreateObjectType(
-		test.FamilyNameProperty,
-		test.FullNameProperty)
 
 	person := createTestRootOneOfDefinition(
 		"Person",
 		"Kind",
-		commonProperties,
 		// Use bodies to ensure we're not using the type names
 		parent.Type(),
 		child.Type())
@@ -551,19 +556,25 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *te
 	g.Expect(err).To(BeNil())
 
 	// Expect actual to have a property for each OneOf Option
-	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyCount(t, actual, 3)
 	test.AssertPropertyExists(t, actual, "Senior")
 	test.AssertPropertyExists(t, actual, "Junior")
+	test.AssertPropertyExists(t, actual, "Kind") // Discriminator
 }
 
 func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpectedObject(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	commonProperties := test.CreateObjectType(
+		test.FamilyNameProperty,
+		test.FullNameProperty)
+
 	parent := createTestLeafOneOfDefinition(
 		"Parent",
 		"", // no swagger name
 		"Maxima",
+		commonProperties,
 		test.PostalAddress2021,
 		test.ResidentialAddress2021)
 
@@ -571,16 +582,12 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpect
 		"Child",
 		"", // no swagger name
 		"Minima",
+		commonProperties,
 		test.KnownAsProperty)
-
-	commonProperties := test.CreateObjectType(
-		test.FamilyNameProperty,
-		test.FullNameProperty)
 
 	person := createTestRootOneOfDefinition(
 		"Person",
 		"Kind",
-		commonProperties,
 		// Use bodies to ensure we're not using the type names
 		parent.Type(),
 		child.Type())
@@ -593,42 +600,48 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpect
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Expect actual to have a property for each OneOf Option
-	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyCount(t, actual, 3)
 	test.AssertPropertyExists(t, actual, "Maxima")
 	test.AssertPropertyExists(t, actual, "Minima")
+	test.AssertPropertyExists(t, actual, "Kind") // Discriminator
 }
 
 var (
+	olympianProperties = test.CreateObjectType(
+		test.FullNameProperty,
+		test.KnownAsProperty)
+
 	zeus = createTestLeafOneOfDefinition(
 		"Zeus",
 		"zeus",
 		"zeus",
+		olympianProperties,
 		astmodel.NewPropertyDefinition("LightningBolts", "lightningBolts", astmodel.IntType))
 
 	demeter = createTestLeafOneOfDefinition(
 		"Demeter",
 		"demeter",
 		"demeter",
+		olympianProperties,
 		astmodel.NewPropertyDefinition("Crops", "crops", astmodel.IntType))
 
 	poscidon = createTestLeafOneOfDefinition(
 		"Poscidon",
 		"poscidon",
 		"poscidon",
+		olympianProperties,
 		astmodel.NewPropertyDefinition("Tsunamis", "tsunamis", astmodel.IntType))
 
 	hades = createTestLeafOneOfDefinition(
 		"Hades",
 		"hades",
 		"hades",
+		olympianProperties,
 		astmodel.NewPropertyDefinition("Souls", "souls", astmodel.IntType))
 
 	olympian = createTestRootOneOfDefinition(
 		"Olympian",
 		"name",
-		test.CreateObjectType(
-			test.FullNameProperty,
-			test.KnownAsProperty),
 		zeus.Name(),
 		demeter.Name(),
 		poscidon.Name(),
@@ -679,18 +692,10 @@ func RunSynthesizerTestInOrder(t *testing.T, defs ...astmodel.TypeDefinition) {
 func createTestRootOneOfDefinition(
 	name string,
 	discriminatorProperty string,
-	commonProperties *astmodel.ObjectType,
 	leaves ...astmodel.Type,
 ) astmodel.TypeDefinition {
-	types := make([]astmodel.Type, 0, len(leaves)+1)
-	types = append(types, commonProperties)
-	for _, leaf := range leaves {
-		types = append(types, leaf)
-	}
-
-	oneOf := astmodel.NewOneOfType(name, types...).
-		WithDiscriminatorProperty(discriminatorProperty).
-		WithTypes(types)
+	oneOf := astmodel.NewOneOfType(name, leaves...).
+		WithDiscriminatorProperty(discriminatorProperty)
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(test.Pkg2020, name), oneOf)
 }
 
@@ -698,11 +703,12 @@ func createTestLeafOneOfDefinition(
 	typeName string,
 	swaggerName string,
 	discriminator string,
+	commonProperties *astmodel.ObjectType,
 	properties ...*astmodel.PropertyDefinition,
 ) astmodel.TypeDefinition {
 	obj := astmodel.NewObjectType().
 		WithProperties(properties...)
-	body := astmodel.NewOneOfType(swaggerName, obj).
+	body := astmodel.NewOneOfType(swaggerName, obj, commonProperties).
 		WithDiscriminatorValue(discriminator)
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(test.Pkg2020, typeName), body)
 }
