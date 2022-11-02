@@ -75,7 +75,7 @@ func (set TypeDefinitionSet) Add(def TypeDefinition) {
 func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
 	seen := NewTypeNameSet()
 
-	tn, ok := t.(TypeName)
+	tn, ok := AsTypeName(t)
 	for ok {
 		seen.Add(tn)
 
@@ -84,7 +84,8 @@ func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
 			return nil, errors.Errorf("couldn't find definition for %s", tn)
 		}
 
-		tn, ok = def.Type().(TypeName)
+		t = def.Type()
+		tn, ok = AsTypeName(t)
 		if ok && seen.Contains(tn) {
 			return nil, errors.Errorf("cycle detected in type definition for %s", tn)
 		}
