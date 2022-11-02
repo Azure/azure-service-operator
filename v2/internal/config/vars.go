@@ -35,6 +35,8 @@ var DefaultEndpoint = "https://management.azure.com"
 var DefaultAudience = "https://management.core.windows.net/"
 var DefaultAADAuthorityHost = "https://login.microsoftonline.com/"
 
+// NOTE: Changes to documentation or available values here should be documented in Helm values.yaml as well
+
 // Values stores configuration values that are set for the operator.
 type Values struct {
 	// SubscriptionID is the Azure subscription the operator will use
@@ -217,7 +219,7 @@ func parseTargetNamespaces(fromEnv string) []string {
 
 // parseSyncPeriod parses the sync period from the environment
 func parseSyncPeriod() (*time.Duration, error) {
-	syncPeriodStr := envOrDefault(syncPeriodVar, "15m")
+	syncPeriodStr := envOrDefault(syncPeriodVar, "1h")
 	if syncPeriodStr == "" {
 		return nil, nil
 	}
