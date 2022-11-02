@@ -5,43 +5,44 @@
 
 package astmodel
 
-import "fmt"
+import (
+	"github.com/pkg/errors"
+)
 
 type PropertyNameAndType struct {
 	PropertyName PropertyName
 	TypeName     TypeName // the name of the type inside the pointer type
 }
 
-func resolveOneOfMemberToObjectType(t Type, definitions TypeDefinitionSet) (TypeName, *ObjectType) {
+func resolveOneOfMemberToObjectType(
+	t Type,
+	definitions TypeDefinitionSet,
+) (TypeName, *ObjectType, error) {
 	// OneOfs are expected to contain properties that are:
 	// pointer to typename to objectType
 
-	propType, err := definitions.FullyResolve(t)
+	tn, ok := AsTypeName(t)
+	if !ok {
+		return EmptyTypeName,
+			nil,
+			errors.Errorf("expected oneOf member to be a TypeName, instead was %s", DebugDescription(t))
+	}
+
+	propType, err := definitions.FullyResolve(tn)
 	if err != nil {
-		panic(err) // type should not contain unresolvable references at this point
+		return EmptyTypeName,
+			nil,
+			errors.Wrapf(err, "unable to resolve oneOf member type %s", tn)
 	}
 
-	optionalType, ok := propType.(*OptionalType)
+	propObjType, ok := AsObjectType(propType)
 	if !ok {
-		panic(fmt.Sprintf("OneOf contained non-optional type %s", propType.String()))
+		return EmptyTypeName,
+			nil,
+			errors.Errorf("OneOf %s referenced non-object type %s", t, DebugDescription(propType))
 	}
 
-	typeName, ok := optionalType.Element().(TypeName)
-	if !ok {
-		panic("Expected OneOf to have pointer to TypeName")
-	}
-
-	resolvedInnerOptional, err := definitions.FullyResolve(typeName)
-	if err != nil {
-		panic(err) // definitions should not contain unresolvable references at this point
-	}
-
-	propObjType, ok := AsObjectType(resolvedInnerOptional)
-	if !ok {
-		panic(fmt.Sprintf("OneOf contained non-object type %s", propType.String()))
-	}
-
-	return typeName, propObjType
+	return tn, propObjType, nil
 }
 
 func getDiscriminatorMapping(
@@ -52,7 +53,10 @@ func getDiscriminatorMapping(
 	props := oneOf.Properties().Copy()
 	result := make(map[string]PropertyNameAndType, len(props))
 	for _, prop := range props {
-		propObjTypeName, propObjType := resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
+		propObjTypeName, propObjType, err := resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
+		if err != nil {
+			panic(err)
+		}
 
 		potentialDiscriminatorProp, ok := propObjType.Property(propName)
 		if !ok {
@@ -61,9 +65,8 @@ func getDiscriminatorMapping(
 
 		// Unwrap the property type if it's optional
 		propType := potentialDiscriminatorProp.PropertyType()
-		var optionalType *OptionalType
-		if optionalType, ok = propType.(*OptionalType); ok {
-			propType = optionalType.Element()
+		if opt, ok := AsOptionalType(propType); ok {
+			propType = opt.Element()
 		}
 
 		potentialDiscriminatorType, err := definitions.FullyResolve(propType)
@@ -79,8 +82,7 @@ func getDiscriminatorMapping(
 		enumOptions := enumType.Options()
 		if len(enumOptions) != 1 {
 			return nil // if enum type has more than one value, cannot be used as discriminator
-			// not entirely true since the options could all have distinct sets, but this is good-
-			// enough for now
+			// not entirely true since the options could all have distinct sets, but this is good enough for now
 		}
 
 		enumValue := enumOptions[0].Value
@@ -94,10 +96,16 @@ func getDiscriminatorMapping(
 	return result
 }
 
-func DetermineDiscriminantAndValues(oneOf *ObjectType, definitions TypeDefinitionSet) (string, map[string]PropertyNameAndType) {
+func DetermineDiscriminantAndValues(
+	oneOf *ObjectType,
+	definitions TypeDefinitionSet,
+) (string, map[string]PropertyNameAndType, error) {
 	// grab out the first member of the OneOf
 	firstProp := oneOf.Properties().First()
-	_, firstMember := resolveOneOfMemberToObjectType(firstProp.PropertyType(), definitions)
+	_, firstMember, err := resolveOneOfMemberToObjectType(firstProp.PropertyType(), definitions)
+	if err != nil {
+		return "", nil, errors.Wrap(err, "unable to resolve first member of OneOf")
+	}
 
 	// try to find a discriminator property out of the properties on the first member
 	for _, prop := range firstMember.Properties().Copy() {
@@ -110,9 +118,9 @@ func DetermineDiscriminantAndValues(oneOf *ObjectType, definitions TypeDefinitio
 			}
 
 			// first part of JSON tag is the JSON name
-			return jsonTag[0], mapping
+			return jsonTag[0], mapping, nil
 		}
 	}
 
-	panic("unable to determine a discriminator property for oneOf type")
+	return "", nil, errors.Errorf("unable to determine a discriminator property for oneOf type")
 }
