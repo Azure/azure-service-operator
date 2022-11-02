@@ -255,7 +255,8 @@ func (tcr *TypeCatalogReport) writeComplexType(
 		*astmodel.ResourceType,
 		*astmodel.EnumType,
 		*astmodel.OneOfType,
-		*astmodel.AllOfType:
+		*astmodel.AllOfType,
+		*astmodel.ValidatedType:
 		tcr.writeType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.OptionalType:
 		tcr.writeComplexType(rpt, t.Element(), currentPackage, parentTypes)
