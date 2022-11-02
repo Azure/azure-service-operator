@@ -1,10 +1,4 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── WebtestsResource: Object (6 properties)
-    ├── AzureName: string
-    ├── Kind: *Enum (2 values)
-    │   ├── multistep
-    │   └── ping
+└── WebtestsResource: Object (2 properties)
     ├── Location: *string
-    ├── Name: string
-    ├── Properties: WebTestProperties
     └── Tags: *interface{}

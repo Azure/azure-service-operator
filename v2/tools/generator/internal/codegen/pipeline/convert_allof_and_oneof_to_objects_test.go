@@ -720,7 +720,6 @@ func Test_ConversionWithNestedAllOfs_ReturnsExpectedResult(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
 	// Testing a scenario found during manual testing
-
 	webtestsResource := astmodel.MakeTypeDefinition(
 		astmodel.MakeTypeName(test.Pkg2020, "WebtestsResource"),
 		astmodel.NewObjectType().
