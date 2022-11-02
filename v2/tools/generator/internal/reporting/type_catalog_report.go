@@ -412,10 +412,26 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 		rpt.Addf("discriminator value: %s", oneOf.DiscriminatorValue())
 	}
 
-	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
+	// The order of entries in oneOf.Types() can vary but isn't significant
+	// So we pull them out and write them in sorted order
+	options := make([]astmodel.Type, 0, oneOf.Types().Len())
+	typesToNames := make(map[astmodel.Type]string, oneOf.Types().Len())
+	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
+		name := tcr.asShortNameForType(t, currentPackage)
+		options = append(options, t)
+		typesToNames[t] = name
+	})
+
+	sort.Slice(options, func(i, j int) bool {
+		iname := typesToNames[options[i]]
+		jname := typesToNames[options[j]]
+		return iname < jname
+	})
+
+	for index, t := range options {
 		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
 		tcr.writeComplexType(sub, t, currentPackage, types)
-	})
+	}
 }
 
 // writeAllOfType writes an allof to the report.
