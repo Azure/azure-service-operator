@@ -15,12 +15,12 @@ import (
 
 const AssembleOneOfTypesID = "assembleOneOfTypes"
 
-func AssembleOneOfTypes() *Stage {
+func AssembleOneOfTypes(idFactory astmodel.IdentifierFactory) *Stage {
 	stage := NewStage(
 		AssembleOneOfTypesID,
 		"Assemble OneOf types from OpenAPI Fragments",
 		func(ctx context.Context, state *State) (*State, error) {
-			assembler := newOneOfAssembler(state.Definitions())
+			assembler := newOneOfAssembler(state.Definitions(), idFactory)
 			newDefs, err := assembler.assembleOneOfs()
 			if err != nil {
 				return nil, errors.Wrapf(err, "couldn't assemble OneOf types")
@@ -38,16 +38,23 @@ type oneOfAssembler struct {
 	// A set of all the TypeDefinitions we're assembling from
 	defs astmodel.TypeDefinitionSet
 
+	// our usual factory for creating identifiers
+	idFactory astmodel.IdentifierFactory
+
 	// A set of all the changes we're going to make to TypeDefinitions
 	// We batch these up for processing at the end.
 	updates map[astmodel.TypeName]*astmodel.OneOfType
 }
 
 // newOneOfAssembler creates a new assembler to build our oneOf types
-func newOneOfAssembler(defs astmodel.TypeDefinitionSet) *oneOfAssembler {
+func newOneOfAssembler(
+	defs astmodel.TypeDefinitionSet,
+	idFactory astmodel.IdentifierFactory,
+) *oneOfAssembler {
 	result := &oneOfAssembler{
-		defs:    defs,
-		updates: make(map[astmodel.TypeName]*astmodel.OneOfType),
+		defs:      defs,
+		idFactory: idFactory,
+		updates:   make(map[astmodel.TypeName]*astmodel.OneOfType),
 	}
 
 	return result
@@ -56,7 +63,7 @@ func newOneOfAssembler(defs astmodel.TypeDefinitionSet) *oneOfAssembler {
 // assembleOneOfs is called to build up the oneOf types.
 // We return a TypeDefinitionSet containing the new types.
 func (oa *oneOfAssembler) assembleOneOfs() (astmodel.TypeDefinitionSet, error) {
-	// Find all OneOfs and assemble each one
+	// Find all OneOfs and work out the modifications we need to make to each one
 	var errs []error
 	for tn := range oa.defs {
 		if _, ok := oa.asOneOf(tn); ok {
@@ -67,12 +74,13 @@ func (oa *oneOfAssembler) assembleOneOfs() (astmodel.TypeDefinitionSet, error) {
 		}
 	}
 
+	// If we encountered any errors, bail out
 	err := kerrors.NewAggregate(errs)
 	if err != nil {
 		return nil, err
 	}
 
-	// Assemble our results
+	// Assemble our results by applying our accumulated modifications
 	result := make(astmodel.TypeDefinitionSet)
 	for tn, oneOf := range oa.updates {
 		def := oa.defs.MustGetDefinition(tn)

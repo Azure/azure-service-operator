@@ -86,7 +86,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.LoadTypes(idFactory, configuration),
 
 		// Assemble actual one-of types from roots and leaves
-		pipeline.AssembleOneOfTypes(),
+		pipeline.AssembleOneOfTypes(idFactory),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
