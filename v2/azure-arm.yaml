@@ -1,4 +1,4 @@
-schemaRoot: "./specs/azure-rest-api-specs/specification"
+schemaRoot: "./specs/azure-rest-api-specs/specification/"
 
 destinationGoModuleFile: go.mod
 
@@ -239,16 +239,16 @@ typeTransformers:
         value:
           name: string
     because: the definition in resource manager schemas uses additionalProperties + defined fields which we don't support
-  - group: cache
-    name: RedisProperties_Status
-    property: RedisConfiguration
-    target:
-      map:
-        key:
-          name: string
-        value:
-          name: string
-    because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
+#  - group: cache
+#    name: RedisProperties_Status
+#    property: RedisConfiguration
+#    target:
+#      map:
+#        key:
+#          name: string
+#        value:
+#          name: string
+#    because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
 
   # TODO(donotmerge)
   # - group: cache
@@ -356,23 +356,26 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhub_Properties_Spec
-    group: eventhub
-    property: Status
-    remove: true
-    because: This property should be marked readonly
+#  - name: Namespaces_Eventhub_Properties_Spec
+#    group: eventhub
+#    property: Status
+#    remove: true
+#    because: This property should be marked readonly
+
   - group: eventgrid
     version: v*20190601
     name: Domain_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
+
   - group: eventgrid
     version: "*"
     name: Topic_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
+
   - group: network
     version: "*"
     name: PrivateDnsZone_Spec
@@ -505,10 +508,11 @@ typeTransformers:
 
   # Deal with service Swaggers that are just wrong
   - group: insights
-    name: WebTest_Spec
+    name: Webtest_Spec
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
   - group: insights
     name: WebTest_Status
     property: Kind
@@ -823,25 +827,25 @@ objectModelConfiguration:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
   # TODO: disabled until (evildiscriminator)
-  # cdn:
-  #   2021-06-01:
-  #    DeepCreatedOriginProperties:
-  #      PrivateLinkLocation:
-  #        $armReference: true
-  #      PrivateLinkResourceId:
-  #        $armReference: true
-  #     EndpointProperties_WebApplicationFirewallPolicyLink:
-  #       Id:
-  #         $armReference: true
-  #     Profile:
-  #       $export: true
-  #       $supportedFrom: v2.0.0-beta.1
-  #     ProfilesEndpoint:
-  #      $exportAs: ProfilesEndpoint
-  #       $supportedFrom: v2.0.0-beta.1
-  #     ResourceReference:
-  #       Id:
-  #         $armReference: true
+  cdn:
+    2021-06-01:
+      DeepCreatedOriginProperties:
+       PrivateLinkLocation:
+         $armReference: true
+       PrivateLinkResourceId:
+         $armReference: true
+      EndpointProperties_WebApplicationFirewallPolicyLink:
+        Id:
+          $armReference: true
+#      EndpointPropertiesUpdateParameters_WebApplicationFirewallPolicyLink:
+#        Id:
+#          $armReference: true
+      Profile:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
+      Profiles_Endpoint:
+        $exportAs: ProfilesEndpoint
+        $supportedFrom: v2.0.0-beta.1
   compute:
     2020-09-30:
       CreationData:
@@ -953,15 +957,6 @@ objectModelConfiguration:
       Servers_Database:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
-      # TODO(donotmerge)
-      # ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
-      #   $exportAs: ServerPropertiesForDefaultCreate
-      # ServerPropertiesForCreate_ServerPropertiesForGeoRestore:
-      #   $exportAs: ServerPropertiesForGeoRestore
-      # ServerPropertiesForCreate_ServerPropertiesForReplica:
-      #   $exportAs: ServerPropertiesForReplica
-      # ServerPropertiesForCreate_ServerPropertiesForRestore:
-      #   $exportAs: ServerPropertiesForRestore
   dbformysql:
     2021-05-01:
       DataEncryption:
@@ -1113,6 +1108,7 @@ objectModelConfiguration:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
+      
   insights:
     2018-05-01-preview:
       Webtest:
@@ -1149,15 +1145,16 @@ objectModelConfiguration:
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:
-        $export: true
         $exportAs: FederatedIdentityCredential
         $supportedFrom: v2.0.0-beta.3
   machinelearningservices:
     2021-07-01:
-# TODO(evildiscriminator): disabled for now
-#      AksNetworkingConfiguration:
-#        SubnetId:
-#          $armReference: true
+      AksNetworkingConfiguration:
+        SubnetId:
+          $armReference: true
+      Kubernetes:
+        ResourceId:
+          $armReference: true
       Workspace:
         $export: true
         $supportedFrom: v2.0.0-beta.2
@@ -1186,54 +1183,47 @@ objectModelConfiguration:
       Workspaces_Compute:
         $exportAs: WorkspacesCompute
         $supportedFrom: v2.0.0-beta.2
-      Compute:
+      HDInsight:
         ResourceId:
           $armReference: true
-# TODO(evildiscriminator): disabled for now
-#      ResourceId:
-#        Id:
-#          $armReference: true
-#      Compute_HDInsight:
-#        ResourceId:
-#          $armReference: true
-#      Compute_DataLakeAnalytics:
-#        ResourceId:
-#          $armReference: true
-#      Compute_Databricks:
-#        ResourceId:
-#          $armReference: true
-#      Compute_DataFactory:
-#        ResourceId:
-#          $armReference: true
-#      Compute_AKS:
-#        ResourceId:
-#          $armReference: true
-#      Compute_ComputeInstance:
-#        ResourceId:
-#          $armReference: true
-#      Compute_SynapseSpark:
-#        ResourceId:
-#          $armReference: true
-#      Compute_AmlCompute:
-#        ResourceId:
-#          $armReference: true
-#      Compute_VirtualMachine:
-#        ResourceId:
-#          $armReference: true
-#      VirtualMachineImage:
-#        Id:
-#          $armReference: true
-#      UserAccountCredentials:
-#        AdminUserPassword:
-#          $isSecret: true
-#        AdminUserSshPublicKey:
-#          $isSecret: true
-#      VirtualMachineSshCredentials:
-#        Password:
-#          $isSecret: true
-#      Workspaces_Connection:
-#        $exportAs: WorkspacesConnection
-#        $supportedFrom: v2.0.0-beta.2
+      DataFactory:
+        ResourceId:
+          $armReference: true
+      DataLakeAnalytics:
+        ResourceId:
+          $armReference: true
+      Databricks:
+        ResourceId:
+          $armReference: true
+      AKS:
+        ResourceId:
+          $armReference: true
+      ComputeInstance:
+        ResourceId:
+          $armReference: true
+      SynapseSpark:
+        ResourceId:
+          $armReference: true
+      AmlCompute:
+        ResourceId:
+          $armReference: true
+      VirtualMachine:
+        ResourceId:
+          $armReference: true
+      VirtualMachineImage:
+        Id:
+          $armReference: true
+      UserAccountCredentials:
+        AdminUserPassword:
+          $isSecret: true
+        AdminUserSshPublicKey:
+          $isSecret: true
+      VirtualMachineSshCredentials:
+        Password:
+          $isSecret: true
+      Workspaces_Connection:
+        $exportAs: WorkspacesConnection
+        $supportedFrom: v2.0.0-beta.2
   network:
     2018-09-01:
       PrivateDnsZone:
@@ -1255,9 +1245,6 @@ objectModelConfiguration:
       PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
-#      Route_RouteTable_SubResourceEmbedded:
-#        Id:
-#          $armReference: true
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
@@ -1267,15 +1254,6 @@ objectModelConfiguration:
       RouteTables_Route:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
-#      SecurityRule_NetworkInterface_SubResourceEmbedded:
-#        Id:
-#          $armReference: true
-#      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
-#        Id:
-#          $armReference: true
-#      Subnet_VirtualNetwork_SubResourceEmbedded:
-#        Id:
-#          $armReference: true
       VirtualNetwork:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
