@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -58,14 +57,16 @@ func (vs apiVersions) Get(pr astmodel.PackageReference) apiVersion {
 	}
 
 	name := astmodel.MakeTypeName(pr, "APIVersion") // TODO: constant?
-	value := astmodel.EnumValue{
-		Identifier: "Value",
-		Value:      fmt.Sprintf("%q", apiVersionFromPackageReference(pr)),
-	}
+	value := astmodel.MakeEnumValue(
+		"Value",
+		fmt.Sprintf("%q", apiVersionFromPackageReference(pr)))
 
 	result := apiVersion{name: name, value: value}
 	vs.generated[pr] = result
-	vs.output.Add(astmodel.MakeTypeDefinition(name, astmodel.NewEnumType(astmodel.StringType, value)))
+	vs.output.Add(
+		astmodel.MakeTypeDefinition(
+			name,
+			astmodel.NewEnumType(astmodel.StringType, value)))
 	return result
 }
 

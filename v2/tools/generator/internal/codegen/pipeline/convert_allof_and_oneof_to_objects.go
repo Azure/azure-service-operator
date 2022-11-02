@@ -699,9 +699,9 @@ func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astm
 		return nil, errors.Errorf("cannot merge enums with differing base types")
 	}
 
-	var inBoth []astmodel.EnumValue
-
-	for _, option := range leftEnum.Options() {
+	leftOptions := leftEnum.Options()
+	inBoth := make([]astmodel.EnumValue, 0, len(leftOptions))
+	for _, option := range leftOptions {
 		for _, otherOption := range rightEnum.Options() {
 			if option == otherOption {
 				inBoth = append(inBoth, option)

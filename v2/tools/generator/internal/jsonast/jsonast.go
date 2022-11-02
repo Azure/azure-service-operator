@@ -486,7 +486,6 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 	enumValues := schema.enumValues()
 	values := make([]astmodel.EnumValue, 0, len(enumValues))
 	for _, v := range enumValues {
-
 		vTrimmed := strings.Trim(v, "\"")
 
 		// Some specs include boolean (or float, int) enums with quotes around the literals.
@@ -499,7 +498,7 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 		// TODO: for an arbitrary non-renderable character
 		// use vTrimmed as seed for identifier as it doesn't have quotes surrounding it
 		id := scanner.idFactory.CreateIdentifier(vTrimmed, astmodel.Exported)
-		values = append(values, astmodel.EnumValue{Identifier: id, Value: v})
+		values = append(values, astmodel.MakeEnumValue(id, v))
 	}
 
 	enumType := astmodel.NewEnumType(baseType, values...)

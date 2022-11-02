@@ -35,10 +35,7 @@ var emptyObject = astmodel.NewObjectType()
 func defineEnum(strings ...string) astmodel.Type {
 	values := make([]astmodel.EnumValue, 0, len(strings))
 	for _, value := range strings {
-		values = append(values, astmodel.EnumValue{
-			Identifier: value,
-			Value:      value,
-		})
+		values = append(values, astmodel.MakeEnumValue(value, value))
 	}
 
 	return astmodel.NewEnumType(
