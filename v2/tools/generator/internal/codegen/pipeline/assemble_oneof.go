@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 )
 
 const AssembleOneOfTypesID = "assembleOneOfTypes"
@@ -124,7 +125,17 @@ func (oa *oneOfAssembler) assemble(name astmodel.TypeName) error {
 
 	// We've found the actual root, add a reference to the leaf
 	err := oa.addLeafReferenceToRoot(root, name)
-	return errors.Wrapf(err, "assembling oneOf %s", name)
+	if err != nil {
+		return errors.Wrapf(err, "couldn't add leaf reference to %s from root %s", name, root)
+	}
+
+	// Ensure the discriminator property exists on the leaf
+	err = oa.addDiscriminatorProperty(name, root)
+	if err != nil {
+		return errors.Wrapf(err, "couldn't ensure discriminator property exists on %s", name)
+	}
+
+	return nil
 }
 
 // findParentFor returns the parent of the provided oneOf, if any.
@@ -239,6 +250,43 @@ func (oa *oneOfAssembler) addLeafReferenceToRoot(root astmodel.TypeName, leaf as
 		})
 
 	return errors.Wrapf(err, "adding leaf reference %s to root %s", leaf, root)
+}
+
+func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.TypeName, rootName astmodel.TypeName) error {
+	// Find the name of the discriminator property from the root
+	root, ok := oa.asOneOf(rootName)
+	if !ok {
+		return errors.Errorf("couldn't find root %s", rootName)
+	}
+
+	discriminatorProperty := root.DiscriminatorProperty()
+	propertyName := oa.idFactory.CreatePropertyName(discriminatorProperty, astmodel.Exported)
+	propertyJson := oa.idFactory.CreateIdentifier(discriminatorProperty, astmodel.NotExported)
+
+	err := oa.updateOneOf(
+		name,
+		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
+			// Create a name for the discriminator value
+			discriminatorValue := oneOf.DiscriminatorValue()
+			valueName := oa.idFactory.CreateIdentifier(discriminatorValue, astmodel.Exported)
+
+			// Create the discriminator property as a single valued enum
+			property := astmodel.NewPropertyDefinition(
+				propertyName,
+				propertyJson,
+				astmodel.NewEnumType(
+					astmodel.StringType,
+					astmodel.MakeEnumValue(valueName, fmt.Sprintf("%q", discriminatorValue))))
+
+			if discriminatorValue == "" {
+				klog.Warning("Weirdness")
+			}
+
+			obj := astmodel.NewObjectType().WithProperty(property)
+			return oneOf.WithType(obj), nil
+		})
+
+	return err
 }
 
 // asOneOf returns true if the provided name identifies is a OneOf, false otherwise.
