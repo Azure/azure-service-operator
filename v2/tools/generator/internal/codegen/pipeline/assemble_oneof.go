@@ -111,7 +111,7 @@ func (oa *oneOfAssembler) assemble(name astmodel.TypeName) error {
 		// Copy any common properties from the parent to the child
 		err = oa.embedCommonPropertiesInLeaf(root, name)
 		if err != nil {
-			return errors.Wrapf(err, "couldn't embed common properties from %s in leaf %v", root, name)
+			return errors.Wrapf(err, "couldn't embed common properties from %s in leaf %s", root, name)
 		}
 
 		// Now we need to check if the parent is a leaf itself
@@ -169,7 +169,7 @@ func (oa *oneOfAssembler) findParentFor(
 			if _, ok := oa.asOneOf(tn); ok {
 				if found {
 					// We've already found a parent, this is an error
-					panic(fmt.Sprintf("Found multiple parents for %v", leaf))
+					panic(fmt.Sprintf("Found multiple parents for %s", leaf))
 				}
 
 				result = tn
