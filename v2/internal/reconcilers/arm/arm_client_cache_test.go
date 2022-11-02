@@ -112,7 +112,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("my-rg", "")
+	rg := newResourceGroup("")
 	rg.Annotations = map[string]string{perResourceSecretAnnotation: perResourceCredentialName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -140,7 +140,7 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 		Name:      "test-secret",
 	}
 
-	rg := newResourceGroup("my-rg", "")
+	rg := newResourceGroup("")
 	rg.Annotations = map[string]string{perResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -171,7 +171,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("my-rg", "")
+	rg := newResourceGroup("")
 	rg.Annotations = map[string]string{perResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -204,7 +204,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("my-rg", credentialNamespacedName.Namespace)
+	rg := newResourceGroup(credentialNamespacedName.Namespace)
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -236,7 +236,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("my-rg", credentialNamespacedName.Namespace)
+	rg := newResourceGroup(credentialNamespacedName.Namespace)
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -272,7 +272,7 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 	res, err := testSetup()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("my-rg", "")
+	rg := newResourceGroup("")
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -302,19 +302,19 @@ func newSecret(name string, namespace string) *v1.Secret {
 	}
 }
 
-func newResourceGroup(name string, namespace string) *resources.ResourceGroup {
+func newResourceGroup(namespace string) *resources.ResourceGroup {
 	return &resources.ResourceGroup{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       resolver.ResourceGroupKind,
 			APIVersion: resources.GroupVersion.String(),
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
+			Name:      "my-rg",
 			Namespace: namespace,
 		},
 		Spec: resources.ResourceGroupSpec{
 			Location:  to.StringPtr("West US"),
-			AzureName: name, // defaulter webhook will copy Name to AzureName
+			AzureName: "my-rg", // defaulter webhook will copy Name to AzureName
 		},
 	}
 }
