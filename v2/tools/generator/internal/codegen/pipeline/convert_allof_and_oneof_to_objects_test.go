@@ -471,7 +471,7 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 
 	child := createTestLeafOneOfDefinition(
 		"Child",
-		"Junior", // no swagger name
+		"Junior",
 		"Minima",
 		commonProperties,
 		test.KnownAsProperty)
@@ -491,31 +491,9 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 	g.Expect(err).To(BeNil())
 
 	// Expect actual to have a property for each OneOf Option
-	test.AssertPropertyCount(t, actual, 3)
+	test.AssertPropertyCount(t, actual, 2)
 	test.AssertPropertyExistsWithType(t, actual, "Parent", astmodel.NewOptionalType(parent.Name()))
 	test.AssertPropertyExistsWithType(t, actual, "Child", astmodel.NewOptionalType(child.Name()))
-	test.AssertPropertyExists(t, actual, "Kind") // Discriminator
-
-	// Check that common properties have been added to parent alongside the original properties
-	newParent, ok := synth.defs[parent.Name()]
-	g.Expect(ok).To(BeTrue())
-
-	test.AssertPropertyCount(t, newParent.Type(), 5)
-	test.AssertPropertyExistsWithType(t, newParent.Type(), "FamilyName", astmodel.StringType)
-	test.AssertPropertyExistsWithType(t, newParent.Type(), "FullName", astmodel.StringType)
-	test.AssertPropertyExistsWithType(t, newParent.Type(), "PostalAddress", test.Address2021.Name())
-	test.AssertPropertyExistsWithType(t, newParent.Type(), "ResidentialAddress", test.Address2021.Name())
-	test.AssertPropertyExists(t, newParent.Type(), "Kind") // Discriminator
-
-	// Check that common properties have been added to child alongside the original properties
-	newChild, ok := synth.defs[child.Name()]
-	g.Expect(ok).To(BeTrue())
-
-	test.AssertPropertyCount(t, newChild.Type(), 3)
-	test.AssertPropertyExistsWithType(t, newChild.Type(), "KnownAs", astmodel.StringType)
-	test.AssertPropertyExistsWithType(t, newChild.Type(), "FamilyName", astmodel.StringType)
-	test.AssertPropertyExistsWithType(t, newChild.Type(), "FullName", astmodel.StringType)
-	test.AssertPropertyExists(t, newChild.Type(), "Kind") // Discriminator
 }
 
 func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *testing.T) {
@@ -556,10 +534,9 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *te
 	g.Expect(err).To(BeNil())
 
 	// Expect actual to have a property for each OneOf Option
-	test.AssertPropertyCount(t, actual, 3)
+	test.AssertPropertyCount(t, actual, 2)
 	test.AssertPropertyExists(t, actual, "Senior")
 	test.AssertPropertyExists(t, actual, "Junior")
-	test.AssertPropertyExists(t, actual, "Kind") // Discriminator
 }
 
 func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpectedObject(t *testing.T) {
@@ -600,10 +577,9 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpect
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Expect actual to have a property for each OneOf Option
-	test.AssertPropertyCount(t, actual, 3)
+	test.AssertPropertyCount(t, actual, 2)
 	test.AssertPropertyExists(t, actual, "Maxima")
 	test.AssertPropertyExists(t, actual, "Minima")
-	test.AssertPropertyExists(t, actual, "Kind") // Discriminator
 }
 
 var (
