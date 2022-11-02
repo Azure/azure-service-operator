@@ -234,13 +234,11 @@ type ServerPrivateEndpointConnection_STATUS struct {
 
 // Storage version of v1beta20180601.ServerPropertiesForCreate
 type ServerPropertiesForCreate struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
+	PropertyBag                      genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate `json:"serverPropertiesForDefaultCreate,omitempty"`
+	ServerPropertiesForGeoRestore    *ServerPropertiesForGeoRestore    `json:"serverPropertiesForGeoRestore,omitempty"`
+	ServerPropertiesForReplica       *ServerPropertiesForReplica       `json:"serverPropertiesForReplica,omitempty"`
+	ServerPropertiesForRestore       *ServerPropertiesForRestore       `json:"serverPropertiesForRestore,omitempty"`
 }
 
 // Storage version of v1beta20180601.Sku
@@ -286,13 +284,54 @@ type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	ProvisioningState                 *string                                                 `json:"provisioningState,omitempty"`
 }
 
-// Storage version of v1beta20180601.StorageProfile
-type StorageProfile struct {
-	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
-	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
+// Storage version of v1beta20180601.ServerPropertiesForDefaultCreate
+type ServerPropertiesForDefaultCreate struct {
+	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
+	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
+	CreateMode                 *string                     `json:"createMode,omitempty"`
+	MinimalTlsVersion          *string                     `json:"minimalTlsVersion,omitempty"`
+	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess        *string                     `json:"publicNetworkAccess,omitempty"`
+	SslEnforcement             *string                     `json:"sslEnforcement,omitempty"`
+	StorageProfile             *StorageProfile             `json:"storageProfile,omitempty"`
+	Version                    *string                     `json:"version,omitempty"`
+}
+
+// Storage version of v1beta20180601.ServerPropertiesForGeoRestore
+type ServerPropertiesForGeoRestore struct {
+	CreateMode          *string                `json:"createMode,omitempty"`
+	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	StorageAutogrow     *string                `json:"storageAutogrow,omitempty"`
-	StorageMB           *int                   `json:"storageMB,omitempty"`
+	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
+	SourceServerId      *string                `json:"sourceServerId,omitempty"`
+	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
+	Version             *string                `json:"version,omitempty"`
+}
+
+// Storage version of v1beta20180601.ServerPropertiesForReplica
+type ServerPropertiesForReplica struct {
+	CreateMode          *string                `json:"createMode,omitempty"`
+	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
+	SourceServerId      *string                `json:"sourceServerId,omitempty"`
+	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
+	Version             *string                `json:"version,omitempty"`
+}
+
+// Storage version of v1beta20180601.ServerPropertiesForRestore
+type ServerPropertiesForRestore struct {
+	CreateMode          *string                `json:"createMode,omitempty"`
+	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
+	RestorePointInTime  *string                `json:"restorePointInTime,omitempty"`
+	SourceServerId      *string                `json:"sourceServerId,omitempty"`
+	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
+	Version             *string                `json:"version,omitempty"`
 }
 
 // Storage version of v1beta20180601.PrivateEndpointProperty_STATUS
@@ -307,6 +346,15 @@ type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
 	Description     *string                `json:"description,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status          *string                `json:"status,omitempty"`
+}
+
+// Storage version of v1beta20180601.StorageProfile
+type StorageProfile struct {
+	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StorageAutogrow     *string                `json:"storageAutogrow,omitempty"`
+	StorageMB           *int                   `json:"storageMB,omitempty"`
 }
 
 func init() {

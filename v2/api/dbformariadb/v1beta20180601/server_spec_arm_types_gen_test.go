@@ -139,47 +139,38 @@ func RunJSONSerializationTestForServerPropertiesForCreate_ARM(subject ServerProp
 var serverPropertiesForCreate_ARMGenerator gopter.Gen
 
 // ServerPropertiesForCreate_ARMGenerator returns a generator of ServerPropertiesForCreate_ARM instances for property testing.
-// We first initialize serverPropertiesForCreate_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func ServerPropertiesForCreate_ARMGenerator() gopter.Gen {
 	if serverPropertiesForCreate_ARMGenerator != nil {
 		return serverPropertiesForCreate_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerPropertiesForCreate_ARM(generators)
-	serverPropertiesForCreate_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForCreate_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerPropertiesForCreate_ARM(generators)
 	AddRelatedPropertyGeneratorsForServerPropertiesForCreate_ARM(generators)
-	serverPropertiesForCreate_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForCreate_ARM{}), generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(ServerPropertiesForCreate_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	serverPropertiesForCreate_ARMGenerator = gen.OneGenOf(gens...)
 
 	return serverPropertiesForCreate_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServerPropertiesForCreate_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerPropertiesForCreate_ARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerPropertiesForCreate_CreateMode_Default,
-		ServerPropertiesForCreate_CreateMode_GeoRestore,
-		ServerPropertiesForCreate_CreateMode_PointInTimeRestore,
-		ServerPropertiesForCreate_CreateMode_Replica))
-	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
-		MinimalTlsVersion_TLS1_0,
-		MinimalTlsVersion_TLS1_1,
-		MinimalTlsVersion_TLS1_2,
-		MinimalTlsVersion_TLSEnforcementDisabled))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
-	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled, SslEnforcement_Enabled))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102, ServerVersion_103))
-}
-
 // AddRelatedPropertyGeneratorsForServerPropertiesForCreate_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerPropertiesForCreate_ARM(gens map[string]gopter.Gen) {
-	gens["StorageProfile"] = gen.PtrOf(StorageProfile_ARMGenerator())
+	gens["ServerPropertiesForDefaultCreate"] = ServerPropertiesForDefaultCreate_ARMGenerator().Map(func(it ServerPropertiesForDefaultCreate_ARM) *ServerPropertiesForDefaultCreate_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["ServerPropertiesForGeoRestore"] = ServerPropertiesForGeoRestore_ARMGenerator().Map(func(it ServerPropertiesForGeoRestore_ARM) *ServerPropertiesForGeoRestore_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["ServerPropertiesForReplica"] = ServerPropertiesForReplica_ARMGenerator().Map(func(it ServerPropertiesForReplica_ARM) *ServerPropertiesForReplica_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["ServerPropertiesForRestore"] = ServerPropertiesForRestore_ARMGenerator().Map(func(it ServerPropertiesForRestore_ARM) *ServerPropertiesForRestore_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -244,6 +235,344 @@ func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Basic, Sku_Tier_GeneralPurpose, Sku_Tier_MemoryOptimized))
+}
+
+func Test_ServerPropertiesForDefaultCreate_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPropertiesForDefaultCreate_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPropertiesForDefaultCreate_ARM, ServerPropertiesForDefaultCreate_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPropertiesForDefaultCreate_ARM runs a test to see if a specific instance of ServerPropertiesForDefaultCreate_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPropertiesForDefaultCreate_ARM(subject ServerPropertiesForDefaultCreate_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPropertiesForDefaultCreate_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPropertiesForDefaultCreate_ARM instances for property testing - lazily instantiated by
+// ServerPropertiesForDefaultCreate_ARMGenerator()
+var serverPropertiesForDefaultCreate_ARMGenerator gopter.Gen
+
+// ServerPropertiesForDefaultCreate_ARMGenerator returns a generator of ServerPropertiesForDefaultCreate_ARM instances for property testing.
+// We first initialize serverPropertiesForDefaultCreate_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerPropertiesForDefaultCreate_ARMGenerator() gopter.Gen {
+	if serverPropertiesForDefaultCreate_ARMGenerator != nil {
+		return serverPropertiesForDefaultCreate_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM(generators)
+	serverPropertiesForDefaultCreate_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForDefaultCreate_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM(generators)
+	serverPropertiesForDefaultCreate_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForDefaultCreate_ARM{}), generators)
+
+	return serverPropertiesForDefaultCreate_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM(gens map[string]gopter.Gen) {
+	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
+	gens["AdministratorLoginPassword"] = gen.AlphaString()
+	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForDefaultCreate_CreateMode_Default)
+	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
+		MinimalTlsVersion_TLS1_0,
+		MinimalTlsVersion_TLS1_1,
+		MinimalTlsVersion_TLS1_2,
+		MinimalTlsVersion_TLSEnforcementDisabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
+	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled, SslEnforcement_Enabled))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102, ServerVersion_103))
+}
+
+// AddRelatedPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerPropertiesForDefaultCreate_ARM(gens map[string]gopter.Gen) {
+	gens["StorageProfile"] = gen.PtrOf(StorageProfile_ARMGenerator())
+}
+
+func Test_ServerPropertiesForGeoRestore_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPropertiesForGeoRestore_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPropertiesForGeoRestore_ARM, ServerPropertiesForGeoRestore_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPropertiesForGeoRestore_ARM runs a test to see if a specific instance of ServerPropertiesForGeoRestore_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPropertiesForGeoRestore_ARM(subject ServerPropertiesForGeoRestore_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPropertiesForGeoRestore_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPropertiesForGeoRestore_ARM instances for property testing - lazily instantiated by
+// ServerPropertiesForGeoRestore_ARMGenerator()
+var serverPropertiesForGeoRestore_ARMGenerator gopter.Gen
+
+// ServerPropertiesForGeoRestore_ARMGenerator returns a generator of ServerPropertiesForGeoRestore_ARM instances for property testing.
+// We first initialize serverPropertiesForGeoRestore_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerPropertiesForGeoRestore_ARMGenerator() gopter.Gen {
+	if serverPropertiesForGeoRestore_ARMGenerator != nil {
+		return serverPropertiesForGeoRestore_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForGeoRestore_ARM(generators)
+	serverPropertiesForGeoRestore_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForGeoRestore_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForGeoRestore_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerPropertiesForGeoRestore_ARM(generators)
+	serverPropertiesForGeoRestore_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForGeoRestore_ARM{}), generators)
+
+	return serverPropertiesForGeoRestore_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPropertiesForGeoRestore_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPropertiesForGeoRestore_ARM(gens map[string]gopter.Gen) {
+	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForGeoRestore_CreateMode_GeoRestore)
+	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
+		MinimalTlsVersion_TLS1_0,
+		MinimalTlsVersion_TLS1_1,
+		MinimalTlsVersion_TLS1_2,
+		MinimalTlsVersion_TLSEnforcementDisabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
+	gens["SourceServerId"] = gen.PtrOf(gen.AlphaString())
+	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled, SslEnforcement_Enabled))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102, ServerVersion_103))
+}
+
+// AddRelatedPropertyGeneratorsForServerPropertiesForGeoRestore_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerPropertiesForGeoRestore_ARM(gens map[string]gopter.Gen) {
+	gens["StorageProfile"] = gen.PtrOf(StorageProfile_ARMGenerator())
+}
+
+func Test_ServerPropertiesForReplica_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPropertiesForReplica_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPropertiesForReplica_ARM, ServerPropertiesForReplica_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPropertiesForReplica_ARM runs a test to see if a specific instance of ServerPropertiesForReplica_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPropertiesForReplica_ARM(subject ServerPropertiesForReplica_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPropertiesForReplica_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPropertiesForReplica_ARM instances for property testing - lazily instantiated by
+// ServerPropertiesForReplica_ARMGenerator()
+var serverPropertiesForReplica_ARMGenerator gopter.Gen
+
+// ServerPropertiesForReplica_ARMGenerator returns a generator of ServerPropertiesForReplica_ARM instances for property testing.
+// We first initialize serverPropertiesForReplica_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerPropertiesForReplica_ARMGenerator() gopter.Gen {
+	if serverPropertiesForReplica_ARMGenerator != nil {
+		return serverPropertiesForReplica_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForReplica_ARM(generators)
+	serverPropertiesForReplica_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForReplica_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForReplica_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerPropertiesForReplica_ARM(generators)
+	serverPropertiesForReplica_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForReplica_ARM{}), generators)
+
+	return serverPropertiesForReplica_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPropertiesForReplica_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPropertiesForReplica_ARM(gens map[string]gopter.Gen) {
+	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForReplica_CreateMode_Replica)
+	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
+		MinimalTlsVersion_TLS1_0,
+		MinimalTlsVersion_TLS1_1,
+		MinimalTlsVersion_TLS1_2,
+		MinimalTlsVersion_TLSEnforcementDisabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
+	gens["SourceServerId"] = gen.PtrOf(gen.AlphaString())
+	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled, SslEnforcement_Enabled))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102, ServerVersion_103))
+}
+
+// AddRelatedPropertyGeneratorsForServerPropertiesForReplica_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerPropertiesForReplica_ARM(gens map[string]gopter.Gen) {
+	gens["StorageProfile"] = gen.PtrOf(StorageProfile_ARMGenerator())
+}
+
+func Test_ServerPropertiesForRestore_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPropertiesForRestore_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPropertiesForRestore_ARM, ServerPropertiesForRestore_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPropertiesForRestore_ARM runs a test to see if a specific instance of ServerPropertiesForRestore_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPropertiesForRestore_ARM(subject ServerPropertiesForRestore_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPropertiesForRestore_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPropertiesForRestore_ARM instances for property testing - lazily instantiated by
+// ServerPropertiesForRestore_ARMGenerator()
+var serverPropertiesForRestore_ARMGenerator gopter.Gen
+
+// ServerPropertiesForRestore_ARMGenerator returns a generator of ServerPropertiesForRestore_ARM instances for property testing.
+// We first initialize serverPropertiesForRestore_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerPropertiesForRestore_ARMGenerator() gopter.Gen {
+	if serverPropertiesForRestore_ARMGenerator != nil {
+		return serverPropertiesForRestore_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForRestore_ARM(generators)
+	serverPropertiesForRestore_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForRestore_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPropertiesForRestore_ARM(generators)
+	AddRelatedPropertyGeneratorsForServerPropertiesForRestore_ARM(generators)
+	serverPropertiesForRestore_ARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForRestore_ARM{}), generators)
+
+	return serverPropertiesForRestore_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPropertiesForRestore_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPropertiesForRestore_ARM(gens map[string]gopter.Gen) {
+	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForRestore_CreateMode_PointInTimeRestore)
+	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
+		MinimalTlsVersion_TLS1_0,
+		MinimalTlsVersion_TLS1_1,
+		MinimalTlsVersion_TLS1_2,
+		MinimalTlsVersion_TLSEnforcementDisabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
+	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
+	gens["SourceServerId"] = gen.PtrOf(gen.AlphaString())
+	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled, SslEnforcement_Enabled))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102, ServerVersion_103))
+}
+
+// AddRelatedPropertyGeneratorsForServerPropertiesForRestore_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerPropertiesForRestore_ARM(gens map[string]gopter.Gen) {
+	gens["StorageProfile"] = gen.PtrOf(StorageProfile_ARMGenerator())
 }
 
 func Test_StorageProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

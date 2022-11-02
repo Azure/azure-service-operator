@@ -48,6 +48,7 @@
 | RedisProperties_MinimumTlsVersion_STATUS      | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisProperties_ProvisioningState_STATUS      | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisProperties_PublicNetworkAccess_STATUS    | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| RedisProperties_RedisConfiguration_STATUS     | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisProperties_STATUS                        | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_FirewallRule_STATUS                     | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_FirewallRule_Spec                       | v1alpha1api20201201 |                     | v1beta20201201 |                |

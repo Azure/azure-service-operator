@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 // Deprecated version of Domain_Spec. Use v1beta20200601.Domain_Spec instead
 type Domain_Spec_ARM struct {
@@ -47,5 +50,57 @@ type InboundIpRule_ARM struct {
 
 // Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
 type InputSchemaMapping_ARM struct {
-	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	JsonInputSchemaMapping *JsonInputSchemaMapping_ARM `json:"jsonInputSchemaMapping,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because InputSchemaMapping_ARM represents a discriminated union (JSON OneOf)
+func (mapping InputSchemaMapping_ARM) MarshalJSON() ([]byte, error) {
+	if mapping.JsonInputSchemaMapping != nil {
+		return json.Marshal(mapping.JsonInputSchemaMapping)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the InputSchemaMapping_ARM
+func (mapping *InputSchemaMapping_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["inputSchemaMappingType"]
+	if discriminator == "Json" {
+		mapping.JsonInputSchemaMapping = &JsonInputSchemaMapping_ARM{}
+		return json.Unmarshal(data, mapping.JsonInputSchemaMapping)
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
+type JsonInputSchemaMapping_ARM struct {
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	Properties             *JsonInputSchemaMappingProperties_ARM         `json:"properties,omitempty"`
+}
+
+// Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
+type JsonInputSchemaMappingProperties_ARM struct {
+	DataVersion *JsonFieldWithDefault_ARM `json:"dataVersion,omitempty"`
+	EventTime   *JsonField_ARM            `json:"eventTime,omitempty"`
+	EventType   *JsonFieldWithDefault_ARM `json:"eventType,omitempty"`
+	Id          *JsonField_ARM            `json:"id,omitempty"`
+	Subject     *JsonFieldWithDefault_ARM `json:"subject,omitempty"`
+	Topic       *JsonField_ARM            `json:"topic,omitempty"`
+}
+
+// Deprecated version of JsonField. Use v1beta20200601.JsonField instead
+type JsonField_ARM struct {
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+// Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
+type JsonFieldWithDefault_ARM struct {
+	DefaultValue *string `json:"defaultValue,omitempty"`
+	SourceField  *string `json:"sourceField,omitempty"`
 }

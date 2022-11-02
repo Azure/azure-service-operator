@@ -234,15 +234,23 @@ func DeadLetterDestination_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS_ARM(generators)
-	deadLetterDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(DeadLetterDestination_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForDeadLetterDestination_STATUS_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(DeadLetterDestination_STATUS_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	deadLetterDestination_STATUS_ARMGenerator = gen.OneGenOf(gens...)
 
 	return deadLetterDestination_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDeadLetterDestination_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_EndpointType_STATUS_StorageBlob))
+// AddRelatedPropertyGeneratorsForDeadLetterDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDeadLetterDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["StorageBlobDeadLetterDestination_STATUS"] = StorageBlobDeadLetterDestination_STATUS_ARMGenerator().Map(func(it StorageBlobDeadLetterDestination_STATUS_ARM) *StorageBlobDeadLetterDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_EventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -295,22 +303,41 @@ func EventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS_ARM(generators)
-	eventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionDestination_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForEventSubscriptionDestination_STATUS_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(EventSubscriptionDestination_STATUS_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	eventSubscriptionDestination_STATUS_ARMGenerator = gen.OneGenOf(gens...)
 
 	return eventSubscriptionDestination_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionDestination_EndpointType_STATUS_AzureFunction,
-		EventSubscriptionDestination_EndpointType_STATUS_EventHub,
-		EventSubscriptionDestination_EndpointType_STATUS_HybridConnection,
-		EventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue,
-		EventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic,
-		EventSubscriptionDestination_EndpointType_STATUS_StorageQueue,
-		EventSubscriptionDestination_EndpointType_STATUS_WebHook))
+// AddRelatedPropertyGeneratorsForEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AzureFunction"] = AzureFunctionEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it AzureFunctionEventSubscriptionDestination_STATUS_ARM) *AzureFunctionEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["EventHub"] = EventHubEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it EventHubEventSubscriptionDestination_STATUS_ARM) *EventHubEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["HybridConnection"] = HybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it HybridConnectionEventSubscriptionDestination_STATUS_ARM) *HybridConnectionEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["ServiceBusQueue"] = ServiceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it ServiceBusQueueEventSubscriptionDestination_STATUS_ARM) *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["ServiceBusTopic"] = ServiceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it ServiceBusTopicEventSubscriptionDestination_STATUS_ARM) *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["StorageQueue"] = StorageQueueEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it StorageQueueEventSubscriptionDestination_STATUS_ARM) *StorageQueueEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["WebHook"] = WebHookEventSubscriptionDestination_STATUS_ARMGenerator().Map(func(it WebHookEventSubscriptionDestination_STATUS_ARM) *WebHookEventSubscriptionDestination_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_EventSubscriptionFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -503,26 +530,1906 @@ func AdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS_ARM(generators)
-	advancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForAdvancedFilter_STATUS_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(AdvancedFilter_STATUS_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	advancedFilter_STATUS_ARMGenerator = gen.OneGenOf(gens...)
 
 	return advancedFilter_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["BoolEquals"] = BoolEqualsAdvancedFilter_STATUS_ARMGenerator().Map(func(it BoolEqualsAdvancedFilter_STATUS_ARM) *BoolEqualsAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["NumberGreaterThan"] = NumberGreaterThanAdvancedFilter_STATUS_ARMGenerator().Map(func(it NumberGreaterThanAdvancedFilter_STATUS_ARM) *NumberGreaterThanAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["NumberGreaterThanOrEquals"] = NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator().Map(func(it NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM) *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["NumberIn"] = NumberInAdvancedFilter_STATUS_ARMGenerator().Map(func(it NumberInAdvancedFilter_STATUS_ARM) *NumberInAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["NumberLessThan"] = NumberLessThanAdvancedFilter_STATUS_ARMGenerator().Map(func(it NumberLessThanAdvancedFilter_STATUS_ARM) *NumberLessThanAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["NumberLessThanOrEquals"] = NumberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator().Map(func(it NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM) *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["NumberNotIn"] = NumberNotInAdvancedFilter_STATUS_ARMGenerator().Map(func(it NumberNotInAdvancedFilter_STATUS_ARM) *NumberNotInAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["StringBeginsWith"] = StringBeginsWithAdvancedFilter_STATUS_ARMGenerator().Map(func(it StringBeginsWithAdvancedFilter_STATUS_ARM) *StringBeginsWithAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["StringContains"] = StringContainsAdvancedFilter_STATUS_ARMGenerator().Map(func(it StringContainsAdvancedFilter_STATUS_ARM) *StringContainsAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["StringEndsWith"] = StringEndsWithAdvancedFilter_STATUS_ARMGenerator().Map(func(it StringEndsWithAdvancedFilter_STATUS_ARM) *StringEndsWithAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["StringIn"] = StringInAdvancedFilter_STATUS_ARMGenerator().Map(func(it StringInAdvancedFilter_STATUS_ARM) *StringInAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["StringNotIn"] = StringNotInAdvancedFilter_STATUS_ARMGenerator().Map(func(it StringNotInAdvancedFilter_STATUS_ARM) *StringNotInAdvancedFilter_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+}
+
+func Test_AzureFunctionEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AzureFunctionEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination_STATUS_ARM, AzureFunctionEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of AzureFunctionEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination_STATUS_ARM(subject AzureFunctionEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AzureFunctionEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AzureFunctionEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily
+// instantiated by AzureFunctionEventSubscriptionDestination_STATUS_ARMGenerator()
+var azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// AzureFunctionEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of AzureFunctionEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func AzureFunctionEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM(generators)
+	azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureFunctionEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM(generators)
+	azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureFunctionEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return azureFunctionEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_AzureFunction)
+}
+
+// AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_EventHubEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EventHubEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventHubEventSubscriptionDestination_STATUS_ARM, EventHubEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEventHubEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of EventHubEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventHubEventSubscriptionDestination_STATUS_ARM(subject EventHubEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EventHubEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EventHubEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily instantiated by
+// EventHubEventSubscriptionDestination_STATUS_ARMGenerator()
+var eventHubEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// EventHubEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of EventHubEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize eventHubEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func EventHubEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if eventHubEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return eventHubEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM(generators)
+	eventHubEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EventHubEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM(generators)
+	eventHubEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EventHubEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return eventHubEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(EventHubEventSubscriptionDestination_EndpointType_STATUS_EventHub)
+}
+
+// AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(EventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_HybridConnectionEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of HybridConnectionEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination_STATUS_ARM, HybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of HybridConnectionEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination_STATUS_ARM(subject HybridConnectionEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual HybridConnectionEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of HybridConnectionEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily
+// instantiated by HybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator()
+var hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// HybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of HybridConnectionEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func HybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM(generators)
+	hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(HybridConnectionEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM(generators)
+	hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(HybridConnectionEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return hybridConnectionEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_HybridConnection)
+}
+
+// AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_ServiceBusQueueEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceBusQueueEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination_STATUS_ARM, ServiceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of ServiceBusQueueEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination_STATUS_ARM(subject ServiceBusQueueEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceBusQueueEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceBusQueueEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily
+// instantiated by ServiceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator()
+var serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// ServiceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of ServiceBusQueueEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServiceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM(generators)
+	serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceBusQueueEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM(generators)
+	serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceBusQueueEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return serviceBusQueueEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue)
+}
+
+// AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_ServiceBusTopicEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceBusTopicEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination_STATUS_ARM, ServiceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of ServiceBusTopicEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination_STATUS_ARM(subject ServiceBusTopicEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceBusTopicEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceBusTopicEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily
+// instantiated by ServiceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator()
+var serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// ServiceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of ServiceBusTopicEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServiceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM(generators)
+	serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceBusTopicEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM(generators)
+	serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceBusTopicEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return serviceBusTopicEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic)
+}
+
+// AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_StorageBlobDeadLetterDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageBlobDeadLetterDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageBlobDeadLetterDestination_STATUS_ARM, StorageBlobDeadLetterDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageBlobDeadLetterDestination_STATUS_ARM runs a test to see if a specific instance of StorageBlobDeadLetterDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageBlobDeadLetterDestination_STATUS_ARM(subject StorageBlobDeadLetterDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageBlobDeadLetterDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageBlobDeadLetterDestination_STATUS_ARM instances for property testing - lazily instantiated by
+// StorageBlobDeadLetterDestination_STATUS_ARMGenerator()
+var storageBlobDeadLetterDestination_STATUS_ARMGenerator gopter.Gen
+
+// StorageBlobDeadLetterDestination_STATUS_ARMGenerator returns a generator of StorageBlobDeadLetterDestination_STATUS_ARM instances for property testing.
+// We first initialize storageBlobDeadLetterDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageBlobDeadLetterDestination_STATUS_ARMGenerator() gopter.Gen {
+	if storageBlobDeadLetterDestination_STATUS_ARMGenerator != nil {
+		return storageBlobDeadLetterDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM(generators)
+	storageBlobDeadLetterDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageBlobDeadLetterDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM(generators)
+	storageBlobDeadLetterDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageBlobDeadLetterDestination_STATUS_ARM{}), generators)
+
+	return storageBlobDeadLetterDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(StorageBlobDeadLetterDestination_EndpointType_STATUS_StorageBlob)
+}
+
+// AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(StorageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_StorageQueueEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageQueueEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageQueueEventSubscriptionDestination_STATUS_ARM, StorageQueueEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageQueueEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of StorageQueueEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageQueueEventSubscriptionDestination_STATUS_ARM(subject StorageQueueEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageQueueEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageQueueEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily instantiated
+// by StorageQueueEventSubscriptionDestination_STATUS_ARMGenerator()
+var storageQueueEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// StorageQueueEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of StorageQueueEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize storageQueueEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func StorageQueueEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if storageQueueEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return storageQueueEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM(generators)
+	storageQueueEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageQueueEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM(generators)
+	storageQueueEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageQueueEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return storageQueueEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(StorageQueueEventSubscriptionDestination_EndpointType_STATUS_StorageQueue)
+}
+
+// AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(StorageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_WebHookEventSubscriptionDestination_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebHookEventSubscriptionDestination_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebHookEventSubscriptionDestination_STATUS_ARM, WebHookEventSubscriptionDestination_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebHookEventSubscriptionDestination_STATUS_ARM runs a test to see if a specific instance of WebHookEventSubscriptionDestination_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebHookEventSubscriptionDestination_STATUS_ARM(subject WebHookEventSubscriptionDestination_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebHookEventSubscriptionDestination_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebHookEventSubscriptionDestination_STATUS_ARM instances for property testing - lazily instantiated by
+// WebHookEventSubscriptionDestination_STATUS_ARMGenerator()
+var webHookEventSubscriptionDestination_STATUS_ARMGenerator gopter.Gen
+
+// WebHookEventSubscriptionDestination_STATUS_ARMGenerator returns a generator of WebHookEventSubscriptionDestination_STATUS_ARM instances for property testing.
+// We first initialize webHookEventSubscriptionDestination_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func WebHookEventSubscriptionDestination_STATUS_ARMGenerator() gopter.Gen {
+	if webHookEventSubscriptionDestination_STATUS_ARMGenerator != nil {
+		return webHookEventSubscriptionDestination_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM(generators)
+	webHookEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebHookEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM(generators)
+	webHookEventSubscriptionDestination_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebHookEventSubscriptionDestination_STATUS_ARM{}), generators)
+
+	return webHookEventSubscriptionDestination_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(WebHookEventSubscriptionDestination_EndpointType_STATUS_WebHook)
+}
+
+// AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(WebHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator())
+}
+
+func Test_AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM, AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM(subject AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var azureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if azureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return azureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	azureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return azureFunctionEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["MaxEventsPerBatch"] = gen.PtrOf(gen.Int())
+	gens["PreferredBatchSizeInKilobytes"] = gen.PtrOf(gen.Int())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_BoolEqualsAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BoolEqualsAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBoolEqualsAdvancedFilter_STATUS_ARM, BoolEqualsAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBoolEqualsAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of BoolEqualsAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBoolEqualsAdvancedFilter_STATUS_ARM(subject BoolEqualsAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BoolEqualsAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BoolEqualsAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// BoolEqualsAdvancedFilter_STATUS_ARMGenerator()
+var boolEqualsAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// BoolEqualsAdvancedFilter_STATUS_ARMGenerator returns a generator of BoolEqualsAdvancedFilter_STATUS_ARM instances for property testing.
+func BoolEqualsAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if boolEqualsAdvancedFilter_STATUS_ARMGenerator != nil {
+		return boolEqualsAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBoolEqualsAdvancedFilter_STATUS_ARM(generators)
+	boolEqualsAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(BoolEqualsAdvancedFilter_STATUS_ARM{}), generators)
+
+	return boolEqualsAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForBoolEqualsAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBoolEqualsAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
-		AdvancedFilter_OperatorType_STATUS_BoolEquals,
-		AdvancedFilter_OperatorType_STATUS_NumberGreaterThan,
-		AdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals,
-		AdvancedFilter_OperatorType_STATUS_NumberIn,
-		AdvancedFilter_OperatorType_STATUS_NumberLessThan,
-		AdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals,
-		AdvancedFilter_OperatorType_STATUS_NumberNotIn,
-		AdvancedFilter_OperatorType_STATUS_StringBeginsWith,
-		AdvancedFilter_OperatorType_STATUS_StringContains,
-		AdvancedFilter_OperatorType_STATUS_StringEndsWith,
-		AdvancedFilter_OperatorType_STATUS_StringIn,
-		AdvancedFilter_OperatorType_STATUS_StringNotIn))
+	gens["OperatorType"] = gen.OneConstOf(BoolEqualsAdvancedFilter_OperatorType_STATUS_BoolEquals)
+	gens["Value"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_EventHubEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EventHubEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties_STATUS_ARM, EventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of EventHubEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties_STATUS_ARM(subject EventHubEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EventHubEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EventHubEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by EventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var eventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// EventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of EventHubEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func EventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if eventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return eventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	eventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(EventHubEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return eventHubEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM, HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM(subject HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing -
+// lazily instantiated by HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var hybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if hybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return hybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	hybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return hybridConnectionEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NumberGreaterThanAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NumberGreaterThanAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNumberGreaterThanAdvancedFilter_STATUS_ARM, NumberGreaterThanAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNumberGreaterThanAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of NumberGreaterThanAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNumberGreaterThanAdvancedFilter_STATUS_ARM(subject NumberGreaterThanAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NumberGreaterThanAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NumberGreaterThanAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// NumberGreaterThanAdvancedFilter_STATUS_ARMGenerator()
+var numberGreaterThanAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// NumberGreaterThanAdvancedFilter_STATUS_ARMGenerator returns a generator of NumberGreaterThanAdvancedFilter_STATUS_ARM instances for property testing.
+func NumberGreaterThanAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if numberGreaterThanAdvancedFilter_STATUS_ARMGenerator != nil {
+		return numberGreaterThanAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNumberGreaterThanAdvancedFilter_STATUS_ARM(generators)
+	numberGreaterThanAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NumberGreaterThanAdvancedFilter_STATUS_ARM{}), generators)
+
+	return numberGreaterThanAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNumberGreaterThanAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNumberGreaterThanAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(NumberGreaterThanAdvancedFilter_OperatorType_STATUS_NumberGreaterThan)
+	gens["Value"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM, NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM(subject NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated
+// by NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator()
+var numberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator returns a generator of NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM instances for property testing.
+func NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if numberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator != nil {
+		return numberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM(generators)
+	numberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM{}), generators)
+
+	return numberGreaterThanOrEqualsAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals)
+	gens["Value"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_NumberInAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NumberInAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNumberInAdvancedFilter_STATUS_ARM, NumberInAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNumberInAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of NumberInAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNumberInAdvancedFilter_STATUS_ARM(subject NumberInAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NumberInAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NumberInAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// NumberInAdvancedFilter_STATUS_ARMGenerator()
+var numberInAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// NumberInAdvancedFilter_STATUS_ARMGenerator returns a generator of NumberInAdvancedFilter_STATUS_ARM instances for property testing.
+func NumberInAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if numberInAdvancedFilter_STATUS_ARMGenerator != nil {
+		return numberInAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNumberInAdvancedFilter_STATUS_ARM(generators)
+	numberInAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NumberInAdvancedFilter_STATUS_ARM{}), generators)
+
+	return numberInAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNumberInAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNumberInAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(NumberInAdvancedFilter_OperatorType_STATUS_NumberIn)
+	gens["Values"] = gen.SliceOf(gen.Float64())
+}
+
+func Test_NumberLessThanAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NumberLessThanAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNumberLessThanAdvancedFilter_STATUS_ARM, NumberLessThanAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNumberLessThanAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of NumberLessThanAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNumberLessThanAdvancedFilter_STATUS_ARM(subject NumberLessThanAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NumberLessThanAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NumberLessThanAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// NumberLessThanAdvancedFilter_STATUS_ARMGenerator()
+var numberLessThanAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// NumberLessThanAdvancedFilter_STATUS_ARMGenerator returns a generator of NumberLessThanAdvancedFilter_STATUS_ARM instances for property testing.
+func NumberLessThanAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if numberLessThanAdvancedFilter_STATUS_ARMGenerator != nil {
+		return numberLessThanAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNumberLessThanAdvancedFilter_STATUS_ARM(generators)
+	numberLessThanAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NumberLessThanAdvancedFilter_STATUS_ARM{}), generators)
+
+	return numberLessThanAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNumberLessThanAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNumberLessThanAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(NumberLessThanAdvancedFilter_OperatorType_STATUS_NumberLessThan)
+	gens["Value"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNumberLessThanOrEqualsAdvancedFilter_STATUS_ARM, NumberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNumberLessThanOrEqualsAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNumberLessThanOrEqualsAdvancedFilter_STATUS_ARM(subject NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// NumberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator()
+var numberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// NumberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator returns a generator of NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM instances for property testing.
+func NumberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if numberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator != nil {
+		return numberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNumberLessThanOrEqualsAdvancedFilter_STATUS_ARM(generators)
+	numberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM{}), generators)
+
+	return numberLessThanOrEqualsAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNumberLessThanOrEqualsAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNumberLessThanOrEqualsAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals)
+	gens["Value"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_NumberNotInAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of NumberNotInAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNumberNotInAdvancedFilter_STATUS_ARM, NumberNotInAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNumberNotInAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of NumberNotInAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNumberNotInAdvancedFilter_STATUS_ARM(subject NumberNotInAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual NumberNotInAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of NumberNotInAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// NumberNotInAdvancedFilter_STATUS_ARMGenerator()
+var numberNotInAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// NumberNotInAdvancedFilter_STATUS_ARMGenerator returns a generator of NumberNotInAdvancedFilter_STATUS_ARM instances for property testing.
+func NumberNotInAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if numberNotInAdvancedFilter_STATUS_ARMGenerator != nil {
+		return numberNotInAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNumberNotInAdvancedFilter_STATUS_ARM(generators)
+	numberNotInAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NumberNotInAdvancedFilter_STATUS_ARM{}), generators)
+
+	return numberNotInAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNumberNotInAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNumberNotInAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(NumberNotInAdvancedFilter_OperatorType_STATUS_NumberNotIn)
+	gens["Values"] = gen.SliceOf(gen.Float64())
+}
+
+func Test_ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM, ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM(subject ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var serviceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if serviceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return serviceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	serviceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return serviceBusQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM, ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM(subject ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var serviceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if serviceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return serviceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	serviceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return serviceBusTopicEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StorageBlobDeadLetterDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageBlobDeadLetterDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties_STATUS_ARM, StorageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties_STATUS_ARM runs a test to see if a specific instance of StorageBlobDeadLetterDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties_STATUS_ARM(subject StorageBlobDeadLetterDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageBlobDeadLetterDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageBlobDeadLetterDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by StorageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator()
+var storageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// StorageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator returns a generator of StorageBlobDeadLetterDestinationProperties_STATUS_ARM instances for property testing.
+func StorageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if storageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator != nil {
+		return storageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperties_STATUS_ARM(generators)
+	storageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageBlobDeadLetterDestinationProperties_STATUS_ARM{}), generators)
+
+	return storageBlobDeadLetterDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["BlobContainerName"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperties_STATUS_ARM, StorageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperties_STATUS_ARM(subject StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by StorageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var storageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// StorageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func StorageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if storageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return storageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	storageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return storageQueueEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["QueueName"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StringBeginsWithAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StringBeginsWithAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStringBeginsWithAdvancedFilter_STATUS_ARM, StringBeginsWithAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStringBeginsWithAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of StringBeginsWithAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStringBeginsWithAdvancedFilter_STATUS_ARM(subject StringBeginsWithAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StringBeginsWithAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StringBeginsWithAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// StringBeginsWithAdvancedFilter_STATUS_ARMGenerator()
+var stringBeginsWithAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// StringBeginsWithAdvancedFilter_STATUS_ARMGenerator returns a generator of StringBeginsWithAdvancedFilter_STATUS_ARM instances for property testing.
+func StringBeginsWithAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if stringBeginsWithAdvancedFilter_STATUS_ARMGenerator != nil {
+		return stringBeginsWithAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStringBeginsWithAdvancedFilter_STATUS_ARM(generators)
+	stringBeginsWithAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StringBeginsWithAdvancedFilter_STATUS_ARM{}), generators)
+
+	return stringBeginsWithAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStringBeginsWithAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStringBeginsWithAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(StringBeginsWithAdvancedFilter_OperatorType_STATUS_StringBeginsWith)
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_StringContainsAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StringContainsAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStringContainsAdvancedFilter_STATUS_ARM, StringContainsAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStringContainsAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of StringContainsAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStringContainsAdvancedFilter_STATUS_ARM(subject StringContainsAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StringContainsAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StringContainsAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// StringContainsAdvancedFilter_STATUS_ARMGenerator()
+var stringContainsAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// StringContainsAdvancedFilter_STATUS_ARMGenerator returns a generator of StringContainsAdvancedFilter_STATUS_ARM instances for property testing.
+func StringContainsAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if stringContainsAdvancedFilter_STATUS_ARMGenerator != nil {
+		return stringContainsAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStringContainsAdvancedFilter_STATUS_ARM(generators)
+	stringContainsAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StringContainsAdvancedFilter_STATUS_ARM{}), generators)
+
+	return stringContainsAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStringContainsAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStringContainsAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(StringContainsAdvancedFilter_OperatorType_STATUS_StringContains)
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_StringEndsWithAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StringEndsWithAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStringEndsWithAdvancedFilter_STATUS_ARM, StringEndsWithAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStringEndsWithAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of StringEndsWithAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStringEndsWithAdvancedFilter_STATUS_ARM(subject StringEndsWithAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StringEndsWithAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StringEndsWithAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// StringEndsWithAdvancedFilter_STATUS_ARMGenerator()
+var stringEndsWithAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// StringEndsWithAdvancedFilter_STATUS_ARMGenerator returns a generator of StringEndsWithAdvancedFilter_STATUS_ARM instances for property testing.
+func StringEndsWithAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if stringEndsWithAdvancedFilter_STATUS_ARMGenerator != nil {
+		return stringEndsWithAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStringEndsWithAdvancedFilter_STATUS_ARM(generators)
+	stringEndsWithAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StringEndsWithAdvancedFilter_STATUS_ARM{}), generators)
+
+	return stringEndsWithAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStringEndsWithAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStringEndsWithAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(StringEndsWithAdvancedFilter_OperatorType_STATUS_StringEndsWith)
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_StringInAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StringInAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStringInAdvancedFilter_STATUS_ARM, StringInAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStringInAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of StringInAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStringInAdvancedFilter_STATUS_ARM(subject StringInAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StringInAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StringInAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// StringInAdvancedFilter_STATUS_ARMGenerator()
+var stringInAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// StringInAdvancedFilter_STATUS_ARMGenerator returns a generator of StringInAdvancedFilter_STATUS_ARM instances for property testing.
+func StringInAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if stringInAdvancedFilter_STATUS_ARMGenerator != nil {
+		return stringInAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStringInAdvancedFilter_STATUS_ARM(generators)
+	stringInAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StringInAdvancedFilter_STATUS_ARM{}), generators)
+
+	return stringInAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStringInAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStringInAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(StringInAdvancedFilter_OperatorType_STATUS_StringIn)
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_StringNotInAdvancedFilter_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StringNotInAdvancedFilter_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStringNotInAdvancedFilter_STATUS_ARM, StringNotInAdvancedFilter_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStringNotInAdvancedFilter_STATUS_ARM runs a test to see if a specific instance of StringNotInAdvancedFilter_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStringNotInAdvancedFilter_STATUS_ARM(subject StringNotInAdvancedFilter_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StringNotInAdvancedFilter_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StringNotInAdvancedFilter_STATUS_ARM instances for property testing - lazily instantiated by
+// StringNotInAdvancedFilter_STATUS_ARMGenerator()
+var stringNotInAdvancedFilter_STATUS_ARMGenerator gopter.Gen
+
+// StringNotInAdvancedFilter_STATUS_ARMGenerator returns a generator of StringNotInAdvancedFilter_STATUS_ARM instances for property testing.
+func StringNotInAdvancedFilter_STATUS_ARMGenerator() gopter.Gen {
+	if stringNotInAdvancedFilter_STATUS_ARMGenerator != nil {
+		return stringNotInAdvancedFilter_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStringNotInAdvancedFilter_STATUS_ARM(generators)
+	stringNotInAdvancedFilter_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(StringNotInAdvancedFilter_STATUS_ARM{}), generators)
+
+	return stringNotInAdvancedFilter_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStringNotInAdvancedFilter_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStringNotInAdvancedFilter_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(StringNotInAdvancedFilter_OperatorType_STATUS_StringNotIn)
+	gens["Values"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_WebHookEventSubscriptionDestinationProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebHookEventSubscriptionDestinationProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties_STATUS_ARM, WebHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties_STATUS_ARM runs a test to see if a specific instance of WebHookEventSubscriptionDestinationProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties_STATUS_ARM(subject WebHookEventSubscriptionDestinationProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebHookEventSubscriptionDestinationProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebHookEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing - lazily
+// instantiated by WebHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator()
+var webHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator gopter.Gen
+
+// WebHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator returns a generator of WebHookEventSubscriptionDestinationProperties_STATUS_ARM instances for property testing.
+func WebHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator() gopter.Gen {
+	if webHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator != nil {
+		return webHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationProperties_STATUS_ARM(generators)
+	webHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(WebHookEventSubscriptionDestinationProperties_STATUS_ARM{}), generators)
+
+	return webHookEventSubscriptionDestinationProperties_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["AzureActiveDirectoryApplicationIdOrUri"] = gen.PtrOf(gen.AlphaString())
+	gens["AzureActiveDirectoryTenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["EndpointBaseUrl"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxEventsPerBatch"] = gen.PtrOf(gen.Int())
+	gens["PreferredBatchSizeInKilobytes"] = gen.PtrOf(gen.Int())
 }

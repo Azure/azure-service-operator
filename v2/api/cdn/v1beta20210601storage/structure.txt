@@ -425,11 +425,297 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │   ├── Description: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Rules: Object (5 properties)
-        │       ├── Actions: Object (2 properties)
-        │       │   ├── Name: *string
-        │       │   └── PropertyBag: genruntime.PropertyBag
-        │       ├── Conditions: Object (2 properties)
-        │       │   ├── Name: *string
+        │       ├── Actions: Object (10 properties)
+        │       │   ├── DeliveryRuleCacheExpiration: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (5 properties)
+        │       │   │   │   ├── CacheBehavior: *string
+        │       │   │   │   ├── CacheDuration: *string
+        │       │   │   │   ├── CacheType: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleCacheKeyQueryString: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (4 properties)
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── QueryParameters: *string
+        │       │   │   │   ├── QueryStringBehavior: *string
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRequestHeader: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (5 properties)
+        │       │   │   │   ├── HeaderAction: *string
+        │       │   │   │   ├── HeaderName: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── TypeName: *string
+        │       │   │   │   └── Value: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleResponseHeader: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (5 properties)
+        │       │   │   │   ├── HeaderAction: *string
+        │       │   │   │   ├── HeaderName: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── TypeName: *string
+        │       │   │   │   └── Value: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (4 properties)
+        │       │   │   │   ├── CacheConfiguration: Object (6 properties)
+        │       │   │   │   │   ├── CacheBehavior: *string
+        │       │   │   │   │   ├── CacheDuration: *string
+        │       │   │   │   │   ├── IsCompressionEnabled: *string
+        │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   │   ├── QueryParameters: *string
+        │       │   │   │   │   └── QueryStringCachingBehavior: *string
+        │       │   │   │   ├── OriginGroupOverride: Object (3 properties)
+        │       │   │   │   │   ├── ForwardingProtocol: *string
+        │       │   │   │   │   ├── OriginGroup: Object (2 properties)
+        │       │   │   │   │   │   ├── Id: *string
+        │       │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── OriginGroupOverride: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (3 properties)
+        │       │   │   │   ├── OriginGroup: Object (2 properties)
+        │       │   │   │   │   ├── Id: *string
+        │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   ├── UrlRedirect: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (8 properties)
+        │       │   │   │   ├── CustomFragment: *string
+        │       │   │   │   ├── CustomHostname: *string
+        │       │   │   │   ├── CustomPath: *string
+        │       │   │   │   ├── CustomQueryString: *string
+        │       │   │   │   ├── DestinationProtocol: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── RedirectType: *string
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── UrlRewrite: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (5 properties)
+        │       │   │   │   ├── Destination: *string
+        │       │   │   │   ├── PreserveUnmatchedPath: *bool
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── SourcePattern: *string
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   └── UrlSigning: Object (3 properties)
+        │       │       ├── Name: *string
+        │       │       ├── Parameters: Object (4 properties)
+        │       │       │   ├── Algorithm: *string
+        │       │       │   ├── ParameterNameOverride: Object (3 properties)
+        │       │       │   │   ├── ParamIndicator: *string
+        │       │       │   │   ├── ParamName: *string
+        │       │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │       │   └── TypeName: *string
+        │       │       └── PropertyBag: genruntime.PropertyBag
+        │       ├── Conditions: Object (20 properties)
+        │       │   ├── DeliveryRuleClientPort: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleCookies: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (7 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Selector: *string
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleHostName: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleHttpVersion: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleIsDevice: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRulePostArgs: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (7 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Selector: *string
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleQueryString: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRemoteAddress: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRequestBody: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRequestHeader: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (7 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Selector: *string
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRequestMethod: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRequestScheme: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleRequestUri: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleServerPort: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleSocketAddr: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleSslProtocol: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleUrlFileExtension: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleUrlFileName: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── DeliveryRuleUrlPath: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (6 properties)
+        │       │   │   │   ├── MatchValues: string[]
+        │       │   │   │   ├── NegateCondition: *bool
+        │       │   │   │   ├── Operator: *string
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── Transforms: string[]
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
         │       │   └── PropertyBag: genruntime.PropertyBag
         │       ├── Name: *string
         │       ├── Order: *int

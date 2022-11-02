@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
+import "encoding/json"
+
 type DatabaseAccount_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
 	Id       *string                            `json:"id,omitempty"`
@@ -151,7 +153,43 @@ type ApiProperties_STATUS_ARM struct {
 }
 
 type BackupPolicy_STATUS_ARM struct {
-	Type *BackupPolicyType_STATUS `json:"type,omitempty"`
+	// Continuous: Mutually exclusive with all other properties
+	Continuous *ContinuousModeBackupPolicy_STATUS_ARM `json:"continuousModeBackupPolicy_STATUS,omitempty"`
+
+	// Periodic: Mutually exclusive with all other properties
+	Periodic *PeriodicModeBackupPolicy_STATUS_ARM `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_STATUS_ARM represents a discriminated union (JSON OneOf)
+func (policy BackupPolicy_STATUS_ARM) MarshalJSON() ([]byte, error) {
+	if policy.Continuous != nil {
+		return json.Marshal(policy.Continuous)
+	}
+	if policy.Periodic != nil {
+		return json.Marshal(policy.Periodic)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the BackupPolicy_STATUS_ARM
+func (policy *BackupPolicy_STATUS_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["type"]
+	if discriminator == "Continuous" {
+		policy.Continuous = &ContinuousModeBackupPolicy_STATUS_ARM{}
+		return json.Unmarshal(data, policy.Continuous)
+	}
+	if discriminator == "Periodic" {
+		policy.Periodic = &PeriodicModeBackupPolicy_STATUS_ARM{}
+		return json.Unmarshal(data, policy.Periodic)
+	}
+
+	// No error
+	return nil
 }
 
 type Capability_STATUS_ARM struct {
@@ -266,4 +304,22 @@ type VirtualNetworkRule_STATUS_ARM struct {
 
 	// IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.
 	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
+}
+
+type ContinuousModeBackupPolicy_STATUS_ARM struct {
+	Type ContinuousModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+}
+
+type PeriodicModeBackupPolicy_STATUS_ARM struct {
+	// PeriodicModeProperties: Configuration values for periodic mode backup
+	PeriodicModeProperties *PeriodicModeProperties_STATUS_ARM   `json:"periodicModeProperties,omitempty"`
+	Type                   PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+}
+
+type PeriodicModeProperties_STATUS_ARM struct {
+	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
+	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`
+
+	// BackupRetentionIntervalInHours: An integer representing the time (in hours) that each backup is retained
+	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
 }

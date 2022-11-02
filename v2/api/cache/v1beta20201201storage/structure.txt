@@ -65,7 +65,23 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── PublicNetworkAccess: *string
-│       ├── RedisConfiguration: map[string]string
+│       ├── RedisConfiguration: Object (16 properties)
+│       │   ├── AdditionalProperties: map[string]string
+│       │   ├── AofBackupEnabled: *string
+│       │   ├── AofStorageConnectionString0: *string
+│       │   ├── AofStorageConnectionString1: *string
+│       │   ├── Authnotrequired: *string
+│       │   ├── Maxclients: *string
+│       │   ├── MaxfragmentationmemoryReserved: *string
+│       │   ├── MaxmemoryDelta: *string
+│       │   ├── MaxmemoryPolicy: *string
+│       │   ├── MaxmemoryReserved: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RdbBackupEnabled: *string
+│       │   ├── RdbBackupFrequency: *string
+│       │   ├── RdbBackupMaxSnapshotCount: *string
+│       │   ├── RdbStorageConnectionString: *string
+│       │   └── ZonalConfiguration: *string
 │       ├── RedisVersion: *string
 │       ├── ReplicasPerMaster: *int
 │       ├── ReplicasPerPrimary: *int

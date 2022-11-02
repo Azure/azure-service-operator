@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
+import "encoding/json"
+
 // Deprecated version of DatabaseAccount_STATUS. Use v1beta20210515.DatabaseAccount_STATUS instead
 type DatabaseAccount_STATUS_ARM struct {
 	Id         *string                                  `json:"id,omitempty"`
@@ -77,7 +79,40 @@ type ApiProperties_STATUS_ARM struct {
 
 // Deprecated version of BackupPolicy_STATUS. Use v1beta20210515.BackupPolicy_STATUS instead
 type BackupPolicy_STATUS_ARM struct {
-	Type *BackupPolicyType_STATUS `json:"type,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_STATUS_ARM `json:"continuousModeBackupPolicy_STATUS,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy_STATUS_ARM   `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_STATUS_ARM represents a discriminated union (JSON OneOf)
+func (policy BackupPolicy_STATUS_ARM) MarshalJSON() ([]byte, error) {
+	if policy.Continuous != nil {
+		return json.Marshal(policy.Continuous)
+	}
+	if policy.Periodic != nil {
+		return json.Marshal(policy.Periodic)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the BackupPolicy_STATUS_ARM
+func (policy *BackupPolicy_STATUS_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["type"]
+	if discriminator == "Continuous" {
+		policy.Continuous = &ContinuousModeBackupPolicy_STATUS_ARM{}
+		return json.Unmarshal(data, policy.Continuous)
+	}
+	if discriminator == "Periodic" {
+		policy.Periodic = &PeriodicModeBackupPolicy_STATUS_ARM{}
+		return json.Unmarshal(data, policy.Periodic)
+	}
+
+	// No error
+	return nil
 }
 
 // Deprecated version of Capability_STATUS. Use v1beta20210515.Capability_STATUS instead
@@ -148,4 +183,21 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 type VirtualNetworkRule_STATUS_ARM struct {
 	Id                               *string `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
+}
+
+// Deprecated version of ContinuousModeBackupPolicy_STATUS. Use v1beta20210515.ContinuousModeBackupPolicy_STATUS instead
+type ContinuousModeBackupPolicy_STATUS_ARM struct {
+	Type ContinuousModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+}
+
+// Deprecated version of PeriodicModeBackupPolicy_STATUS. Use v1beta20210515.PeriodicModeBackupPolicy_STATUS instead
+type PeriodicModeBackupPolicy_STATUS_ARM struct {
+	PeriodicModeProperties *PeriodicModeProperties_STATUS_ARM   `json:"periodicModeProperties,omitempty"`
+	Type                   PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+}
+
+// Deprecated version of PeriodicModeProperties_STATUS. Use v1beta20210515.PeriodicModeProperties_STATUS instead
+type PeriodicModeProperties_STATUS_ARM struct {
+	BackupIntervalInMinutes        *int `json:"backupIntervalInMinutes,omitempty"`
+	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
 }

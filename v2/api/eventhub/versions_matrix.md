@@ -37,6 +37,7 @@
 | Namespaces_Eventhub_Properties_STATUS                           | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Eventhub_Properties_Spec                             | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Eventhub_Properties_Status_STATUS                    | v1alpha1api20211101 | v1beta20211101 |
+| Namespaces_Eventhub_Properties_Status_Spec                      | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Eventhub_STATUS                                      | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Eventhub_Spec                                        | v1alpha1api20211101 | v1beta20211101 |
 | Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS | v1alpha1api20211101 | v1beta20211101 |

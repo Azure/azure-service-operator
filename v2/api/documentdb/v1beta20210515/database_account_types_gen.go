@@ -3168,8 +3168,11 @@ func (properties *ApiProperties_STATUS) AssignProperties_To_ApiProperties_STATUS
 }
 
 type BackupPolicy struct {
-	// +kubebuilder:validation:Required
-	Type *BackupPolicyType `json:"type,omitempty"`
+	// Continuous: Mutually exclusive with all other properties
+	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
+
+	// Periodic: Mutually exclusive with all other properties
+	Periodic *PeriodicModeBackupPolicy `json:"periodicModeBackupPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackupPolicy{}
@@ -3181,10 +3184,24 @@ func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 	result := &BackupPolicy_ARM{}
 
-	// Set property ‘Type’:
-	if policy.Type != nil {
-		typeVar := *policy.Type
-		result.Type = &typeVar
+	// Set property ‘Continuous’:
+	if policy.Continuous != nil {
+		continuous_ARM, err := (*policy.Continuous).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		continuous := *continuous_ARM.(*ContinuousModeBackupPolicy_ARM)
+		result.Continuous = &continuous
+	}
+
+	// Set property ‘Periodic’:
+	if policy.Periodic != nil {
+		periodic_ARM, err := (*policy.Periodic).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		periodic := *periodic_ARM.(*PeriodicModeBackupPolicy_ARM)
+		result.Periodic = &periodic
 	}
 	return result, nil
 }
@@ -3201,10 +3218,26 @@ func (policy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicy_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		policy.Type = &typeVar
+	// Set property ‘Continuous’:
+	if typedInput.Continuous != nil {
+		var continuous1 ContinuousModeBackupPolicy
+		err := continuous1.PopulateFromARM(owner, *typedInput.Continuous)
+		if err != nil {
+			return err
+		}
+		continuous := continuous1
+		policy.Continuous = &continuous
+	}
+
+	// Set property ‘Periodic’:
+	if typedInput.Periodic != nil {
+		var periodic1 PeriodicModeBackupPolicy
+		err := periodic1.PopulateFromARM(owner, *typedInput.Periodic)
+		if err != nil {
+			return err
+		}
+		periodic := periodic1
+		policy.Periodic = &periodic
 	}
 
 	// No error
@@ -3214,12 +3247,28 @@ func (policy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 // AssignProperties_From_BackupPolicy populates our BackupPolicy from the provided source BackupPolicy
 func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *v20210515s.BackupPolicy) error {
 
-	// Type
-	if source.Type != nil {
-		typeVar := BackupPolicyType(*source.Type)
-		policy.Type = &typeVar
+	// Continuous
+	if source.Continuous != nil {
+		var continuou ContinuousModeBackupPolicy
+		err := continuou.AssignProperties_From_ContinuousModeBackupPolicy(source.Continuous)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContinuousModeBackupPolicy() to populate field Continuous")
+		}
+		policy.Continuous = &continuou
 	} else {
-		policy.Type = nil
+		policy.Continuous = nil
+	}
+
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy
+		err := periodic.AssignProperties_From_PeriodicModeBackupPolicy(source.Periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeBackupPolicy() to populate field Periodic")
+		}
+		policy.Periodic = &periodic
+	} else {
+		policy.Periodic = nil
 	}
 
 	// No error
@@ -3231,12 +3280,28 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20210
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Type
-	if policy.Type != nil {
-		typeVar := string(*policy.Type)
-		destination.Type = &typeVar
+	// Continuous
+	if policy.Continuous != nil {
+		var continuou v20210515s.ContinuousModeBackupPolicy
+		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy(&continuou)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContinuousModeBackupPolicy() to populate field Continuous")
+		}
+		destination.Continuous = &continuou
 	} else {
-		destination.Type = nil
+		destination.Continuous = nil
+	}
+
+	// Periodic
+	if policy.Periodic != nil {
+		var periodic v20210515s.PeriodicModeBackupPolicy
+		err := policy.Periodic.AssignProperties_To_PeriodicModeBackupPolicy(&periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeBackupPolicy() to populate field Periodic")
+		}
+		destination.Periodic = &periodic
+	} else {
+		destination.Periodic = nil
 	}
 
 	// Update the property bag
@@ -3251,7 +3316,11 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20210
 }
 
 type BackupPolicy_STATUS struct {
-	Type *BackupPolicyType_STATUS `json:"type,omitempty"`
+	// Continuous: Mutually exclusive with all other properties
+	Continuous *ContinuousModeBackupPolicy_STATUS `json:"continuousModeBackupPolicy_STATUS,omitempty"`
+
+	// Periodic: Mutually exclusive with all other properties
+	Periodic *PeriodicModeBackupPolicy_STATUS `json:"periodicModeBackupPolicy_STATUS,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackupPolicy_STATUS{}
@@ -3268,10 +3337,26 @@ func (policy *BackupPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicy_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		policy.Type = &typeVar
+	// Set property ‘Continuous’:
+	if typedInput.Continuous != nil {
+		var continuous1 ContinuousModeBackupPolicy_STATUS
+		err := continuous1.PopulateFromARM(owner, *typedInput.Continuous)
+		if err != nil {
+			return err
+		}
+		continuous := continuous1
+		policy.Continuous = &continuous
+	}
+
+	// Set property ‘Periodic’:
+	if typedInput.Periodic != nil {
+		var periodic1 PeriodicModeBackupPolicy_STATUS
+		err := periodic1.PopulateFromARM(owner, *typedInput.Periodic)
+		if err != nil {
+			return err
+		}
+		periodic := periodic1
+		policy.Periodic = &periodic
 	}
 
 	// No error
@@ -3281,12 +3366,28 @@ func (policy *BackupPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 // AssignProperties_From_BackupPolicy_STATUS populates our BackupPolicy_STATUS from the provided source BackupPolicy_STATUS
 func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(source *v20210515s.BackupPolicy_STATUS) error {
 
-	// Type
-	if source.Type != nil {
-		typeVar := BackupPolicyType_STATUS(*source.Type)
-		policy.Type = &typeVar
+	// Continuous
+	if source.Continuous != nil {
+		var continuou ContinuousModeBackupPolicy_STATUS
+		err := continuou.AssignProperties_From_ContinuousModeBackupPolicy_STATUS(source.Continuous)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
+		}
+		policy.Continuous = &continuou
 	} else {
-		policy.Type = nil
+		policy.Continuous = nil
+	}
+
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy_STATUS
+		err := periodic.AssignProperties_From_PeriodicModeBackupPolicy_STATUS(source.Periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeBackupPolicy_STATUS() to populate field Periodic")
+		}
+		policy.Periodic = &periodic
+	} else {
+		policy.Periodic = nil
 	}
 
 	// No error
@@ -3298,12 +3399,28 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Type
-	if policy.Type != nil {
-		typeVar := string(*policy.Type)
-		destination.Type = &typeVar
+	// Continuous
+	if policy.Continuous != nil {
+		var continuou v20210515s.ContinuousModeBackupPolicy_STATUS
+		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy_STATUS(&continuou)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
+		}
+		destination.Continuous = &continuou
 	} else {
-		destination.Type = nil
+		destination.Continuous = nil
+	}
+
+	// Periodic
+	if policy.Periodic != nil {
+		var periodic v20210515s.PeriodicModeBackupPolicy_STATUS
+		err := policy.Periodic.AssignProperties_To_PeriodicModeBackupPolicy_STATUS(&periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeBackupPolicy_STATUS() to populate field Periodic")
+		}
+		destination.Periodic = &periodic
+	} else {
+		destination.Periodic = nil
 	}
 
 	// Update the property bag
@@ -5136,21 +5253,6 @@ const (
 	ApiProperties_ServerVersion_STATUS_40 = ApiProperties_ServerVersion_STATUS("4.0")
 )
 
-// +kubebuilder:validation:Enum={"Continuous","Periodic"}
-type BackupPolicyType string
-
-const (
-	BackupPolicyType_Continuous = BackupPolicyType("Continuous")
-	BackupPolicyType_Periodic   = BackupPolicyType("Periodic")
-)
-
-type BackupPolicyType_STATUS string
-
-const (
-	BackupPolicyType_STATUS_Continuous = BackupPolicyType_STATUS("Continuous")
-	BackupPolicyType_STATUS_Periodic   = BackupPolicyType_STATUS("Periodic")
-)
-
 // +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
 type ConsistencyPolicy_DefaultConsistencyLevel string
 
@@ -5171,6 +5273,137 @@ const (
 	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Session          = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Session")
 	ConsistencyPolicy_DefaultConsistencyLevel_STATUS_Strong           = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Strong")
 )
+
+type ContinuousModeBackupPolicy struct {
+	// +kubebuilder:validation:Required
+	Type ContinuousModeBackupPolicy_Type `json:"type,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ContinuousModeBackupPolicy{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if policy == nil {
+		return nil, nil
+	}
+	result := &ContinuousModeBackupPolicy_ARM{}
+
+	// Set property ‘Type’:
+	result.Type = policy.Type
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *ContinuousModeBackupPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContinuousModeBackupPolicy_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *ContinuousModeBackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ContinuousModeBackupPolicy_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContinuousModeBackupPolicy_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Type’:
+	policy.Type = typedInput.Type
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ContinuousModeBackupPolicy populates our ContinuousModeBackupPolicy from the provided source ContinuousModeBackupPolicy
+func (policy *ContinuousModeBackupPolicy) AssignProperties_From_ContinuousModeBackupPolicy(source *v20210515s.ContinuousModeBackupPolicy) error {
+
+	// Type
+	if source.Type != nil {
+		policy.Type = ContinuousModeBackupPolicy_Type(*source.Type)
+	} else {
+		policy.Type = ""
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ContinuousModeBackupPolicy populates the provided destination ContinuousModeBackupPolicy from our ContinuousModeBackupPolicy
+func (policy *ContinuousModeBackupPolicy) AssignProperties_To_ContinuousModeBackupPolicy(destination *v20210515s.ContinuousModeBackupPolicy) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Type
+	typeVar := string(policy.Type)
+	destination.Type = &typeVar
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ContinuousModeBackupPolicy_STATUS struct {
+	Type ContinuousModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ContinuousModeBackupPolicy_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *ContinuousModeBackupPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContinuousModeBackupPolicy_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *ContinuousModeBackupPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ContinuousModeBackupPolicy_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContinuousModeBackupPolicy_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Type’:
+	policy.Type = typedInput.Type
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ContinuousModeBackupPolicy_STATUS populates our ContinuousModeBackupPolicy_STATUS from the provided source ContinuousModeBackupPolicy_STATUS
+func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_From_ContinuousModeBackupPolicy_STATUS(source *v20210515s.ContinuousModeBackupPolicy_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		policy.Type = ContinuousModeBackupPolicy_Type_STATUS(*source.Type)
+	} else {
+		policy.Type = ""
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ContinuousModeBackupPolicy_STATUS populates the provided destination ContinuousModeBackupPolicy_STATUS from our ContinuousModeBackupPolicy_STATUS
+func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_To_ContinuousModeBackupPolicy_STATUS(destination *v20210515s.ContinuousModeBackupPolicy_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Type
+	typeVar := string(policy.Type)
+	destination.Type = &typeVar
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type DatabaseAccountOperatorSecrets struct {
 	// DocumentEndpoint: indicates where the DocumentEndpoint secret should be placed. If omitted, the secret will not be
@@ -5358,6 +5591,429 @@ func (identities *ManagedServiceIdentity_UserAssignedIdentities_STATUS) AssignPr
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type PeriodicModeBackupPolicy struct {
+	// PeriodicModeProperties: Configuration values for periodic mode backup
+	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PeriodicModeBackupPolicy{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if policy == nil {
+		return nil, nil
+	}
+	result := &PeriodicModeBackupPolicy_ARM{}
+
+	// Set property ‘PeriodicModeProperties’:
+	if policy.PeriodicModeProperties != nil {
+		periodicModeProperties_ARM, err := (*policy.PeriodicModeProperties).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		periodicModeProperties := *periodicModeProperties_ARM.(*PeriodicModeProperties_ARM)
+		result.PeriodicModeProperties = &periodicModeProperties
+	}
+
+	// Set property ‘Type’:
+	result.Type = policy.Type
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *PeriodicModeBackupPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PeriodicModeBackupPolicy_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *PeriodicModeBackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PeriodicModeBackupPolicy_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PeriodicModeBackupPolicy_ARM, got %T", armInput)
+	}
+
+	// Set property ‘PeriodicModeProperties’:
+	if typedInput.PeriodicModeProperties != nil {
+		var periodicModeProperties1 PeriodicModeProperties
+		err := periodicModeProperties1.PopulateFromARM(owner, *typedInput.PeriodicModeProperties)
+		if err != nil {
+			return err
+		}
+		periodicModeProperties := periodicModeProperties1
+		policy.PeriodicModeProperties = &periodicModeProperties
+	}
+
+	// Set property ‘Type’:
+	policy.Type = typedInput.Type
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_PeriodicModeBackupPolicy populates our PeriodicModeBackupPolicy from the provided source PeriodicModeBackupPolicy
+func (policy *PeriodicModeBackupPolicy) AssignProperties_From_PeriodicModeBackupPolicy(source *v20210515s.PeriodicModeBackupPolicy) error {
+
+	// PeriodicModeProperties
+	if source.PeriodicModeProperties != nil {
+		var periodicModeProperty PeriodicModeProperties
+		err := periodicModeProperty.AssignProperties_From_PeriodicModeProperties(source.PeriodicModeProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeProperties() to populate field PeriodicModeProperties")
+		}
+		policy.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		policy.PeriodicModeProperties = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		policy.Type = PeriodicModeBackupPolicy_Type(*source.Type)
+	} else {
+		policy.Type = ""
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeBackupPolicy populates the provided destination PeriodicModeBackupPolicy from our PeriodicModeBackupPolicy
+func (policy *PeriodicModeBackupPolicy) AssignProperties_To_PeriodicModeBackupPolicy(destination *v20210515s.PeriodicModeBackupPolicy) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PeriodicModeProperties
+	if policy.PeriodicModeProperties != nil {
+		var periodicModeProperty v20210515s.PeriodicModeProperties
+		err := policy.PeriodicModeProperties.AssignProperties_To_PeriodicModeProperties(&periodicModeProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeProperties() to populate field PeriodicModeProperties")
+		}
+		destination.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		destination.PeriodicModeProperties = nil
+	}
+
+	// Type
+	typeVar := string(policy.Type)
+	destination.Type = &typeVar
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type PeriodicModeBackupPolicy_STATUS struct {
+	// PeriodicModeProperties: Configuration values for periodic mode backup
+	PeriodicModeProperties *PeriodicModeProperties_STATUS       `json:"periodicModeProperties,omitempty"`
+	Type                   PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &PeriodicModeBackupPolicy_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *PeriodicModeBackupPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PeriodicModeBackupPolicy_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *PeriodicModeBackupPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PeriodicModeBackupPolicy_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PeriodicModeBackupPolicy_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘PeriodicModeProperties’:
+	if typedInput.PeriodicModeProperties != nil {
+		var periodicModeProperties1 PeriodicModeProperties_STATUS
+		err := periodicModeProperties1.PopulateFromARM(owner, *typedInput.PeriodicModeProperties)
+		if err != nil {
+			return err
+		}
+		periodicModeProperties := periodicModeProperties1
+		policy.PeriodicModeProperties = &periodicModeProperties
+	}
+
+	// Set property ‘Type’:
+	policy.Type = typedInput.Type
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_PeriodicModeBackupPolicy_STATUS populates our PeriodicModeBackupPolicy_STATUS from the provided source PeriodicModeBackupPolicy_STATUS
+func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_From_PeriodicModeBackupPolicy_STATUS(source *v20210515s.PeriodicModeBackupPolicy_STATUS) error {
+
+	// PeriodicModeProperties
+	if source.PeriodicModeProperties != nil {
+		var periodicModeProperty PeriodicModeProperties_STATUS
+		err := periodicModeProperty.AssignProperties_From_PeriodicModeProperties_STATUS(source.PeriodicModeProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeProperties_STATUS() to populate field PeriodicModeProperties")
+		}
+		policy.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		policy.PeriodicModeProperties = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		policy.Type = PeriodicModeBackupPolicy_Type_STATUS(*source.Type)
+	} else {
+		policy.Type = ""
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeBackupPolicy_STATUS populates the provided destination PeriodicModeBackupPolicy_STATUS from our PeriodicModeBackupPolicy_STATUS
+func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_To_PeriodicModeBackupPolicy_STATUS(destination *v20210515s.PeriodicModeBackupPolicy_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PeriodicModeProperties
+	if policy.PeriodicModeProperties != nil {
+		var periodicModeProperty v20210515s.PeriodicModeProperties_STATUS
+		err := policy.PeriodicModeProperties.AssignProperties_To_PeriodicModeProperties_STATUS(&periodicModeProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeProperties_STATUS() to populate field PeriodicModeProperties")
+		}
+		destination.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		destination.PeriodicModeProperties = nil
+	}
+
+	// Type
+	typeVar := string(policy.Type)
+	destination.Type = &typeVar
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"Continuous"}
+type ContinuousModeBackupPolicy_Type string
+
+const ContinuousModeBackupPolicy_Type_Continuous = ContinuousModeBackupPolicy_Type("Continuous")
+
+type ContinuousModeBackupPolicy_Type_STATUS string
+
+const ContinuousModeBackupPolicy_Type_STATUS_Continuous = ContinuousModeBackupPolicy_Type_STATUS("Continuous")
+
+// +kubebuilder:validation:Enum={"Periodic"}
+type PeriodicModeBackupPolicy_Type string
+
+const PeriodicModeBackupPolicy_Type_Periodic = PeriodicModeBackupPolicy_Type("Periodic")
+
+type PeriodicModeBackupPolicy_Type_STATUS string
+
+const PeriodicModeBackupPolicy_Type_STATUS_Periodic = PeriodicModeBackupPolicy_Type_STATUS("Periodic")
+
+type PeriodicModeProperties struct {
+	// +kubebuilder:validation:Minimum=0
+	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
+	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`
+
+	// +kubebuilder:validation:Minimum=0
+	// BackupRetentionIntervalInHours: An integer representing the time (in hours) that each backup is retained
+	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PeriodicModeProperties{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (properties *PeriodicModeProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if properties == nil {
+		return nil, nil
+	}
+	result := &PeriodicModeProperties_ARM{}
+
+	// Set property ‘BackupIntervalInMinutes’:
+	if properties.BackupIntervalInMinutes != nil {
+		backupIntervalInMinutes := *properties.BackupIntervalInMinutes
+		result.BackupIntervalInMinutes = &backupIntervalInMinutes
+	}
+
+	// Set property ‘BackupRetentionIntervalInHours’:
+	if properties.BackupRetentionIntervalInHours != nil {
+		backupRetentionIntervalInHours := *properties.BackupRetentionIntervalInHours
+		result.BackupRetentionIntervalInHours = &backupRetentionIntervalInHours
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *PeriodicModeProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PeriodicModeProperties_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (properties *PeriodicModeProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PeriodicModeProperties_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PeriodicModeProperties_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BackupIntervalInMinutes’:
+	if typedInput.BackupIntervalInMinutes != nil {
+		backupIntervalInMinutes := *typedInput.BackupIntervalInMinutes
+		properties.BackupIntervalInMinutes = &backupIntervalInMinutes
+	}
+
+	// Set property ‘BackupRetentionIntervalInHours’:
+	if typedInput.BackupRetentionIntervalInHours != nil {
+		backupRetentionIntervalInHours := *typedInput.BackupRetentionIntervalInHours
+		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHours
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_PeriodicModeProperties populates our PeriodicModeProperties from the provided source PeriodicModeProperties
+func (properties *PeriodicModeProperties) AssignProperties_From_PeriodicModeProperties(source *v20210515s.PeriodicModeProperties) error {
+
+	// BackupIntervalInMinutes
+	if source.BackupIntervalInMinutes != nil {
+		backupIntervalInMinute := *source.BackupIntervalInMinutes
+		properties.BackupIntervalInMinutes = &backupIntervalInMinute
+	} else {
+		properties.BackupIntervalInMinutes = nil
+	}
+
+	// BackupRetentionIntervalInHours
+	if source.BackupRetentionIntervalInHours != nil {
+		backupRetentionIntervalInHour := *source.BackupRetentionIntervalInHours
+		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
+	} else {
+		properties.BackupRetentionIntervalInHours = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeProperties populates the provided destination PeriodicModeProperties from our PeriodicModeProperties
+func (properties *PeriodicModeProperties) AssignProperties_To_PeriodicModeProperties(destination *v20210515s.PeriodicModeProperties) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BackupIntervalInMinutes
+	if properties.BackupIntervalInMinutes != nil {
+		backupIntervalInMinute := *properties.BackupIntervalInMinutes
+		destination.BackupIntervalInMinutes = &backupIntervalInMinute
+	} else {
+		destination.BackupIntervalInMinutes = nil
+	}
+
+	// BackupRetentionIntervalInHours
+	if properties.BackupRetentionIntervalInHours != nil {
+		backupRetentionIntervalInHour := *properties.BackupRetentionIntervalInHours
+		destination.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
+	} else {
+		destination.BackupRetentionIntervalInHours = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type PeriodicModeProperties_STATUS struct {
+	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
+	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`
+
+	// BackupRetentionIntervalInHours: An integer representing the time (in hours) that each backup is retained
+	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &PeriodicModeProperties_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *PeriodicModeProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PeriodicModeProperties_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (properties *PeriodicModeProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PeriodicModeProperties_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PeriodicModeProperties_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BackupIntervalInMinutes’:
+	if typedInput.BackupIntervalInMinutes != nil {
+		backupIntervalInMinutes := *typedInput.BackupIntervalInMinutes
+		properties.BackupIntervalInMinutes = &backupIntervalInMinutes
+	}
+
+	// Set property ‘BackupRetentionIntervalInHours’:
+	if typedInput.BackupRetentionIntervalInHours != nil {
+		backupRetentionIntervalInHours := *typedInput.BackupRetentionIntervalInHours
+		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHours
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_PeriodicModeProperties_STATUS populates our PeriodicModeProperties_STATUS from the provided source PeriodicModeProperties_STATUS
+func (properties *PeriodicModeProperties_STATUS) AssignProperties_From_PeriodicModeProperties_STATUS(source *v20210515s.PeriodicModeProperties_STATUS) error {
+
+	// BackupIntervalInMinutes
+	properties.BackupIntervalInMinutes = genruntime.ClonePointerToInt(source.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	properties.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(source.BackupRetentionIntervalInHours)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeProperties_STATUS populates the provided destination PeriodicModeProperties_STATUS from our PeriodicModeProperties_STATUS
+func (properties *PeriodicModeProperties_STATUS) AssignProperties_To_PeriodicModeProperties_STATUS(destination *v20210515s.PeriodicModeProperties_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BackupIntervalInMinutes
+	destination.BackupIntervalInMinutes = genruntime.ClonePointerToInt(properties.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	destination.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(properties.BackupRetentionIntervalInHours)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

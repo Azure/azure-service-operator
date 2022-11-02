@@ -369,15 +369,23 @@ func InputSchemaMapping_STATUS_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUS_ARM(generators)
-	inputSchemaMapping_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InputSchemaMapping_STATUS_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(InputSchemaMapping_STATUS_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	inputSchemaMapping_STATUS_ARMGenerator = gen.OneGenOf(gens...)
 
 	return inputSchemaMapping_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_STATUS_Json))
+// AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["JsonInputSchemaMapping_STATUS"] = JsonInputSchemaMapping_STATUS_ARMGenerator().Map(func(it JsonInputSchemaMapping_STATUS_ARM) *JsonInputSchemaMapping_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -439,4 +447,268 @@ func PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARMGenerator() 
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_JsonInputSchemaMapping_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of JsonInputSchemaMapping_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonInputSchemaMapping_STATUS_ARM, JsonInputSchemaMapping_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForJsonInputSchemaMapping_STATUS_ARM runs a test to see if a specific instance of JsonInputSchemaMapping_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonInputSchemaMapping_STATUS_ARM(subject JsonInputSchemaMapping_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual JsonInputSchemaMapping_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of JsonInputSchemaMapping_STATUS_ARM instances for property testing - lazily instantiated by
+// JsonInputSchemaMapping_STATUS_ARMGenerator()
+var jsonInputSchemaMapping_STATUS_ARMGenerator gopter.Gen
+
+// JsonInputSchemaMapping_STATUS_ARMGenerator returns a generator of JsonInputSchemaMapping_STATUS_ARM instances for property testing.
+// We first initialize jsonInputSchemaMapping_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func JsonInputSchemaMapping_STATUS_ARMGenerator() gopter.Gen {
+	if jsonInputSchemaMapping_STATUS_ARMGenerator != nil {
+		return jsonInputSchemaMapping_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM(generators)
+	jsonInputSchemaMapping_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(JsonInputSchemaMapping_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM(generators)
+	jsonInputSchemaMapping_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(JsonInputSchemaMapping_STATUS_ARM{}), generators)
+
+	return jsonInputSchemaMapping_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_STATUS_Json)
+}
+
+// AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(JsonInputSchemaMappingProperties_STATUS_ARMGenerator())
+}
+
+func Test_JsonInputSchemaMappingProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of JsonInputSchemaMappingProperties_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonInputSchemaMappingProperties_STATUS_ARM, JsonInputSchemaMappingProperties_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForJsonInputSchemaMappingProperties_STATUS_ARM runs a test to see if a specific instance of JsonInputSchemaMappingProperties_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonInputSchemaMappingProperties_STATUS_ARM(subject JsonInputSchemaMappingProperties_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual JsonInputSchemaMappingProperties_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of JsonInputSchemaMappingProperties_STATUS_ARM instances for property testing - lazily instantiated by
+// JsonInputSchemaMappingProperties_STATUS_ARMGenerator()
+var jsonInputSchemaMappingProperties_STATUS_ARMGenerator gopter.Gen
+
+// JsonInputSchemaMappingProperties_STATUS_ARMGenerator returns a generator of JsonInputSchemaMappingProperties_STATUS_ARM instances for property testing.
+func JsonInputSchemaMappingProperties_STATUS_ARMGenerator() gopter.Gen {
+	if jsonInputSchemaMappingProperties_STATUS_ARMGenerator != nil {
+		return jsonInputSchemaMappingProperties_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForJsonInputSchemaMappingProperties_STATUS_ARM(generators)
+	jsonInputSchemaMappingProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(JsonInputSchemaMappingProperties_STATUS_ARM{}), generators)
+
+	return jsonInputSchemaMappingProperties_STATUS_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForJsonInputSchemaMappingProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForJsonInputSchemaMappingProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DataVersion"] = gen.PtrOf(JsonFieldWithDefault_STATUS_ARMGenerator())
+	gens["EventTime"] = gen.PtrOf(JsonField_STATUS_ARMGenerator())
+	gens["EventType"] = gen.PtrOf(JsonFieldWithDefault_STATUS_ARMGenerator())
+	gens["Id"] = gen.PtrOf(JsonField_STATUS_ARMGenerator())
+	gens["Subject"] = gen.PtrOf(JsonFieldWithDefault_STATUS_ARMGenerator())
+	gens["Topic"] = gen.PtrOf(JsonField_STATUS_ARMGenerator())
+}
+
+func Test_JsonField_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of JsonField_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonField_STATUS_ARM, JsonField_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForJsonField_STATUS_ARM runs a test to see if a specific instance of JsonField_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonField_STATUS_ARM(subject JsonField_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual JsonField_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of JsonField_STATUS_ARM instances for property testing - lazily instantiated by
+// JsonField_STATUS_ARMGenerator()
+var jsonField_STATUS_ARMGenerator gopter.Gen
+
+// JsonField_STATUS_ARMGenerator returns a generator of JsonField_STATUS_ARM instances for property testing.
+func JsonField_STATUS_ARMGenerator() gopter.Gen {
+	if jsonField_STATUS_ARMGenerator != nil {
+		return jsonField_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForJsonField_STATUS_ARM(generators)
+	jsonField_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(JsonField_STATUS_ARM{}), generators)
+
+	return jsonField_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForJsonField_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonField_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_JsonFieldWithDefault_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of JsonFieldWithDefault_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForJsonFieldWithDefault_STATUS_ARM, JsonFieldWithDefault_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForJsonFieldWithDefault_STATUS_ARM runs a test to see if a specific instance of JsonFieldWithDefault_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForJsonFieldWithDefault_STATUS_ARM(subject JsonFieldWithDefault_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual JsonFieldWithDefault_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of JsonFieldWithDefault_STATUS_ARM instances for property testing - lazily instantiated by
+// JsonFieldWithDefault_STATUS_ARMGenerator()
+var jsonFieldWithDefault_STATUS_ARMGenerator gopter.Gen
+
+// JsonFieldWithDefault_STATUS_ARMGenerator returns a generator of JsonFieldWithDefault_STATUS_ARM instances for property testing.
+func JsonFieldWithDefault_STATUS_ARMGenerator() gopter.Gen {
+	if jsonFieldWithDefault_STATUS_ARMGenerator != nil {
+		return jsonFieldWithDefault_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS_ARM(generators)
+	jsonFieldWithDefault_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(JsonFieldWithDefault_STATUS_ARM{}), generators)
+
+	return jsonFieldWithDefault_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForJsonFieldWithDefault_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
+	gens["SourceField"] = gen.PtrOf(gen.AlphaString())
 }

@@ -277,6 +277,7 @@ func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Spec(gens map[string
 	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Spec is a factory method for creating gopter generators

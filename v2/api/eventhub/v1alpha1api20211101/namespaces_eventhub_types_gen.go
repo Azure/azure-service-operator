@@ -347,7 +347,8 @@ type Namespaces_Eventhub_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Minimum=1
-	PartitionCount *int `json:"partitionCount,omitempty"`
+	PartitionCount *int                                        `json:"partitionCount,omitempty"`
+	Status         *Namespaces_Eventhub_Properties_Status_Spec `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Eventhub_Spec{}
@@ -368,7 +369,8 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertToARM(resolved genruntime.Conve
 	// Set property ‘Properties’:
 	if eventhub.CaptureDescription != nil ||
 		eventhub.MessageRetentionInDays != nil ||
-		eventhub.PartitionCount != nil {
+		eventhub.PartitionCount != nil ||
+		eventhub.Status != nil {
 		result.Properties = &Namespaces_Eventhub_Properties_Spec_ARM{}
 	}
 	if eventhub.CaptureDescription != nil {
@@ -386,6 +388,10 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertToARM(resolved genruntime.Conve
 	if eventhub.PartitionCount != nil {
 		partitionCount := *eventhub.PartitionCount
 		result.Properties.PartitionCount = &partitionCount
+	}
+	if eventhub.Status != nil {
+		status := *eventhub.Status
+		result.Properties.Status = &status
 	}
 	return result, nil
 }
@@ -437,6 +443,15 @@ func (eventhub *Namespaces_Eventhub_Spec) PopulateFromARM(owner genruntime.Arbit
 		if typedInput.Properties.PartitionCount != nil {
 			partitionCount := *typedInput.Properties.PartitionCount
 			eventhub.PartitionCount = &partitionCount
+		}
+	}
+
+	// Set property ‘Status’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Status != nil {
+			status := *typedInput.Properties.Status
+			eventhub.Status = &status
 		}
 	}
 
@@ -536,6 +551,14 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Event
 		eventhub.PartitionCount = nil
 	}
 
+	// Status
+	if source.Status != nil {
+		status := Namespaces_Eventhub_Properties_Status_Spec(*source.Status)
+		eventhub.Status = &status
+	} else {
+		eventhub.Status = nil
+	}
+
 	// No error
 	return nil
 }
@@ -585,6 +608,14 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_To_Namespaces_Eventhu
 		destination.PartitionCount = &partitionCount
 	} else {
 		destination.PartitionCount = nil
+	}
+
+	// Status
+	if eventhub.Status != nil {
+		status := string(*eventhub.Status)
+		destination.Status = &status
+	} else {
+		destination.Status = nil
 	}
 
 	// Update the property bag
@@ -1346,6 +1377,23 @@ func (description *CaptureDescription_STATUS) AssignProperties_To_CaptureDescrip
 	// No error
 	return nil
 }
+
+// Deprecated version of Namespaces_Eventhub_Properties_Status_Spec. Use
+// v1beta20211101.Namespaces_Eventhub_Properties_Status_Spec instead
+// +kubebuilder:validation:Enum={"Active","Creating","Deleting","Disabled","ReceiveDisabled","Renaming","Restoring","SendDisabled","Unknown"}
+type Namespaces_Eventhub_Properties_Status_Spec string
+
+const (
+	Namespaces_Eventhub_Properties_Status_Spec_Active          = Namespaces_Eventhub_Properties_Status_Spec("Active")
+	Namespaces_Eventhub_Properties_Status_Spec_Creating        = Namespaces_Eventhub_Properties_Status_Spec("Creating")
+	Namespaces_Eventhub_Properties_Status_Spec_Deleting        = Namespaces_Eventhub_Properties_Status_Spec("Deleting")
+	Namespaces_Eventhub_Properties_Status_Spec_Disabled        = Namespaces_Eventhub_Properties_Status_Spec("Disabled")
+	Namespaces_Eventhub_Properties_Status_Spec_ReceiveDisabled = Namespaces_Eventhub_Properties_Status_Spec("ReceiveDisabled")
+	Namespaces_Eventhub_Properties_Status_Spec_Renaming        = Namespaces_Eventhub_Properties_Status_Spec("Renaming")
+	Namespaces_Eventhub_Properties_Status_Spec_Restoring       = Namespaces_Eventhub_Properties_Status_Spec("Restoring")
+	Namespaces_Eventhub_Properties_Status_Spec_SendDisabled    = Namespaces_Eventhub_Properties_Status_Spec("SendDisabled")
+	Namespaces_Eventhub_Properties_Status_Spec_Unknown         = Namespaces_Eventhub_Properties_Status_Spec("Unknown")
+)
 
 // Deprecated version of Namespaces_Eventhub_Properties_Status_STATUS. Use
 // v1beta20211101.Namespaces_Eventhub_Properties_Status_STATUS instead

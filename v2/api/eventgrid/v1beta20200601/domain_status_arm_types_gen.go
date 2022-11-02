@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
+import "encoding/json"
+
 type Domain_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
@@ -84,8 +86,33 @@ type InboundIpRule_STATUS_ARM struct {
 }
 
 type InputSchemaMapping_STATUS_ARM struct {
-	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	// JsonInputSchemaMapping_STATUS: Mutually exclusive with all other properties
+	JsonInputSchemaMapping_STATUS *JsonInputSchemaMapping_STATUS_ARM `json:"jsonInputSchemaMapping_STATUS,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because InputSchemaMapping_STATUS_ARM represents a discriminated union (JSON OneOf)
+func (mapping InputSchemaMapping_STATUS_ARM) MarshalJSON() ([]byte, error) {
+	if mapping.JsonInputSchemaMapping_STATUS != nil {
+		return json.Marshal(mapping.JsonInputSchemaMapping_STATUS)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the InputSchemaMapping_STATUS_ARM
+func (mapping *InputSchemaMapping_STATUS_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["inputSchemaMappingType"]
+	if discriminator == "Json" {
+		mapping.JsonInputSchemaMapping_STATUS = &JsonInputSchemaMapping_STATUS_ARM{}
+		return json.Unmarshal(data, mapping.JsonInputSchemaMapping_STATUS)
+	}
+
+	// No error
+	return nil
 }
 
 type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded_ARM struct {
@@ -110,3 +137,45 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+type JsonInputSchemaMapping_STATUS_ARM struct {
+	// InputSchemaMappingType: Type of the custom mapping
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+
+	// Properties: JSON Properties of the input schema mapping
+	Properties *JsonInputSchemaMappingProperties_STATUS_ARM `json:"properties,omitempty"`
+}
+
+type JsonInputSchemaMappingProperties_STATUS_ARM struct {
+	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
+	DataVersion *JsonFieldWithDefault_STATUS_ARM `json:"dataVersion,omitempty"`
+
+	// EventTime: The mapping information for the EventTime property of the Event Grid Event.
+	EventTime *JsonField_STATUS_ARM `json:"eventTime,omitempty"`
+
+	// EventType: The mapping information for the EventType property of the Event Grid Event.
+	EventType *JsonFieldWithDefault_STATUS_ARM `json:"eventType,omitempty"`
+
+	// Id: The mapping information for the Id property of the Event Grid Event.
+	Id *JsonField_STATUS_ARM `json:"id,omitempty"`
+
+	// Subject: The mapping information for the Subject property of the Event Grid Event.
+	Subject *JsonFieldWithDefault_STATUS_ARM `json:"subject,omitempty"`
+
+	// Topic: The mapping information for the Topic property of the Event Grid Event.
+	Topic *JsonField_STATUS_ARM `json:"topic,omitempty"`
+}
+
+type JsonField_STATUS_ARM struct {
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+type JsonFieldWithDefault_STATUS_ARM struct {
+	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
+	// the specified name in the published JSON event payload.
+	DefaultValue *string `json:"defaultValue,omitempty"`
+
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}

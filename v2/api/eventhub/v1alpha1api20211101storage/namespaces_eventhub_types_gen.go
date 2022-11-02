@@ -215,6 +215,7 @@ type Namespaces_Eventhub_Spec struct {
 	Owner          *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	PartitionCount *int                               `json:"partitionCount,omitempty"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Status         *string                            `json:"status,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespaces_Eventhub_Spec{}
@@ -304,6 +305,9 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Event
 	// PartitionCount
 	eventhub.PartitionCount = genruntime.ClonePointerToInt(source.PartitionCount)
 
+	// Status
+	eventhub.Status = genruntime.ClonePointerToString(source.Status)
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		eventhub.PropertyBag = propertyBag
@@ -351,6 +355,9 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_To_Namespaces_Eventhu
 
 	// PartitionCount
 	destination.PartitionCount = genruntime.ClonePointerToInt(eventhub.PartitionCount)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(eventhub.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

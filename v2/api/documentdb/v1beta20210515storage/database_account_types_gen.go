@@ -291,14 +291,16 @@ type ApiProperties_STATUS struct {
 
 // Storage version of v1beta20210515.BackupPolicy
 type BackupPolicy struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.BackupPolicy_STATUS
 type BackupPolicy_STATUS struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy_STATUS `json:"continuousModeBackupPolicy_STATUS,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy_STATUS   `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.Capability
@@ -433,6 +435,18 @@ type VirtualNetworkRule_STATUS struct {
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210515.ContinuousModeBackupPolicy
+type ContinuousModeBackupPolicy struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20210515.ContinuousModeBackupPolicy_STATUS
+type ContinuousModeBackupPolicy_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
 // Storage version of v1beta20210515.DatabaseAccountOperatorSecrets
 type DatabaseAccountOperatorSecrets struct {
 	DocumentEndpoint           *genruntime.SecretDestination `json:"documentEndpoint,omitempty"`
@@ -448,6 +462,34 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210515.PeriodicModeBackupPolicy
+type PeriodicModeBackupPolicy struct {
+	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
+	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	Type                   *string                 `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20210515.PeriodicModeBackupPolicy_STATUS
+type PeriodicModeBackupPolicy_STATUS struct {
+	PeriodicModeProperties *PeriodicModeProperties_STATUS `json:"periodicModeProperties,omitempty"`
+	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Type                   *string                        `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20210515.PeriodicModeProperties
+type PeriodicModeProperties struct {
+	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
+	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210515.PeriodicModeProperties_STATUS
+type PeriodicModeProperties_STATUS struct {
+	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
+	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

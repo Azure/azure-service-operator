@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 type Domain_Spec_ARM struct {
 	AzureName string `json:"azureName,omitempty"`
@@ -62,6 +65,73 @@ type InboundIpRule_ARM struct {
 }
 
 type InputSchemaMapping_ARM struct {
+	// JsonInputSchemaMapping: Mutually exclusive with all other properties
+	JsonInputSchemaMapping *JsonInputSchemaMapping_ARM `json:"jsonInputSchemaMapping,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because InputSchemaMapping_ARM represents a discriminated union (JSON OneOf)
+func (mapping InputSchemaMapping_ARM) MarshalJSON() ([]byte, error) {
+	if mapping.JsonInputSchemaMapping != nil {
+		return json.Marshal(mapping.JsonInputSchemaMapping)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the InputSchemaMapping_ARM
+func (mapping *InputSchemaMapping_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["inputSchemaMappingType"]
+	if discriminator == "Json" {
+		mapping.JsonInputSchemaMapping = &JsonInputSchemaMapping_ARM{}
+		return json.Unmarshal(data, mapping.JsonInputSchemaMapping)
+	}
+
+	// No error
+	return nil
+}
+
+type JsonInputSchemaMapping_ARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+
+	// Properties: JSON Properties of the input schema mapping
+	Properties *JsonInputSchemaMappingProperties_ARM `json:"properties,omitempty"`
+}
+
+type JsonInputSchemaMappingProperties_ARM struct {
+	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
+	DataVersion *JsonFieldWithDefault_ARM `json:"dataVersion,omitempty"`
+
+	// EventTime: The mapping information for the EventTime property of the Event Grid Event.
+	EventTime *JsonField_ARM `json:"eventTime,omitempty"`
+
+	// EventType: The mapping information for the EventType property of the Event Grid Event.
+	EventType *JsonFieldWithDefault_ARM `json:"eventType,omitempty"`
+
+	// Id: The mapping information for the Id property of the Event Grid Event.
+	Id *JsonField_ARM `json:"id,omitempty"`
+
+	// Subject: The mapping information for the Subject property of the Event Grid Event.
+	Subject *JsonFieldWithDefault_ARM `json:"subject,omitempty"`
+
+	// Topic: The mapping information for the Topic property of the Event Grid Event.
+	Topic *JsonField_ARM `json:"topic,omitempty"`
+}
+
+type JsonField_ARM struct {
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+type JsonFieldWithDefault_ARM struct {
+	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
+	// the specified name in the published JSON event payload.
+	DefaultValue *string `json:"defaultValue,omitempty"`
+
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
 }

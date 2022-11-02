@@ -10,9 +10,18 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ServerVersion: *string
 │   │   ├── AzureName: string
-│   │   ├── BackupPolicy: Object (2 properties)
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   ├── BackupPolicy: Object (3 properties)
+│   │   │   ├── Continuous: Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Type: *string
+│   │   │   ├── Periodic: Object (3 properties)
+│   │   │   │   ├── PeriodicModeProperties: Object (3 properties)
+│   │   │   │   │   ├── BackupIntervalInMinutes: *int
+│   │   │   │   │   ├── BackupRetentionIntervalInHours: *int
+│   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Type: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Capabilities: Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -79,9 +88,18 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── ApiProperties: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── ServerVersion: *string
-│       ├── BackupPolicy: Object (2 properties)
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Type: *string
+│       ├── BackupPolicy: Object (3 properties)
+│       │   ├── Continuous: Object (2 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   ├── Periodic: Object (3 properties)
+│       │   │   ├── PeriodicModeProperties: Object (3 properties)
+│       │   │   │   ├── BackupIntervalInMinutes: *int
+│       │   │   │   ├── BackupRetentionIntervalInHours: *int
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── Type: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Capabilities: Object (2 properties)
 │       │   ├── Name: *string
 │       │   └── PropertyBag: genruntime.PropertyBag

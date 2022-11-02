@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 // Deprecated version of DatabaseAccount_Spec. Use v1beta20210515.DatabaseAccount_Spec instead
 type DatabaseAccount_Spec_ARM struct {
@@ -87,7 +90,40 @@ type ApiProperties_ARM struct {
 
 // Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy_ARM struct {
-	Type *BackupPolicyType `json:"type,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_ARM `json:"continuousModeBackupPolicy,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy_ARM   `json:"periodicModeBackupPolicy,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_ARM represents a discriminated union (JSON OneOf)
+func (policy BackupPolicy_ARM) MarshalJSON() ([]byte, error) {
+	if policy.Continuous != nil {
+		return json.Marshal(policy.Continuous)
+	}
+	if policy.Periodic != nil {
+		return json.Marshal(policy.Periodic)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the BackupPolicy_ARM
+func (policy *BackupPolicy_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["type"]
+	if discriminator == "Continuous" {
+		policy.Continuous = &ContinuousModeBackupPolicy_ARM{}
+		return json.Unmarshal(data, policy.Continuous)
+	}
+	if discriminator == "Periodic" {
+		policy.Periodic = &PeriodicModeBackupPolicy_ARM{}
+		return json.Unmarshal(data, policy.Periodic)
+	}
+
+	// No error
+	return nil
 }
 
 // Deprecated version of Capability. Use v1beta20210515.Capability instead
@@ -138,4 +174,21 @@ const (
 type VirtualNetworkRule_ARM struct {
 	Id                               *string `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool   `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
+}
+
+// Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
+type ContinuousModeBackupPolicy_ARM struct {
+	Type ContinuousModeBackupPolicy_Type `json:"type,omitempty"`
+}
+
+// Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
+type PeriodicModeBackupPolicy_ARM struct {
+	PeriodicModeProperties *PeriodicModeProperties_ARM   `json:"periodicModeProperties,omitempty"`
+	Type                   PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
+}
+
+// Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
+type PeriodicModeProperties_ARM struct {
+	BackupIntervalInMinutes        *int `json:"backupIntervalInMinutes,omitempty"`
+	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
 }

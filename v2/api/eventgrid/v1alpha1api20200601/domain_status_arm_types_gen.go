@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
+import "encoding/json"
+
 // Deprecated version of Domain_STATUS. Use v1beta20200601.Domain_STATUS instead
 type Domain_STATUS_ARM struct {
 	Id         *string                      `json:"id,omitempty"`
@@ -44,7 +46,32 @@ type InboundIpRule_STATUS_ARM struct {
 
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUS_ARM struct {
-	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	JsonInputSchemaMapping_STATUS *JsonInputSchemaMapping_STATUS_ARM `json:"jsonInputSchemaMapping_STATUS,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because InputSchemaMapping_STATUS_ARM represents a discriminated union (JSON OneOf)
+func (mapping InputSchemaMapping_STATUS_ARM) MarshalJSON() ([]byte, error) {
+	if mapping.JsonInputSchemaMapping_STATUS != nil {
+		return json.Marshal(mapping.JsonInputSchemaMapping_STATUS)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the InputSchemaMapping_STATUS_ARM
+func (mapping *InputSchemaMapping_STATUS_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["inputSchemaMappingType"]
+	if discriminator == "Json" {
+		mapping.JsonInputSchemaMapping_STATUS = &JsonInputSchemaMapping_STATUS_ARM{}
+		return json.Unmarshal(data, mapping.JsonInputSchemaMapping_STATUS)
+	}
+
+	// No error
+	return nil
 }
 
 // Deprecated version of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instead
@@ -72,3 +99,30 @@ const (
 	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
+
+// Deprecated version of JsonInputSchemaMapping_STATUS. Use v1beta20200601.JsonInputSchemaMapping_STATUS instead
+type JsonInputSchemaMapping_STATUS_ARM struct {
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	Properties             *JsonInputSchemaMappingProperties_STATUS_ARM         `json:"properties,omitempty"`
+}
+
+// Deprecated version of JsonInputSchemaMappingProperties_STATUS. Use v1beta20200601.JsonInputSchemaMappingProperties_STATUS instead
+type JsonInputSchemaMappingProperties_STATUS_ARM struct {
+	DataVersion *JsonFieldWithDefault_STATUS_ARM `json:"dataVersion,omitempty"`
+	EventTime   *JsonField_STATUS_ARM            `json:"eventTime,omitempty"`
+	EventType   *JsonFieldWithDefault_STATUS_ARM `json:"eventType,omitempty"`
+	Id          *JsonField_STATUS_ARM            `json:"id,omitempty"`
+	Subject     *JsonFieldWithDefault_STATUS_ARM `json:"subject,omitempty"`
+	Topic       *JsonField_STATUS_ARM            `json:"topic,omitempty"`
+}
+
+// Deprecated version of JsonField_STATUS. Use v1beta20200601.JsonField_STATUS instead
+type JsonField_STATUS_ARM struct {
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+// Deprecated version of JsonFieldWithDefault_STATUS. Use v1beta20200601.JsonFieldWithDefault_STATUS instead
+type JsonFieldWithDefault_STATUS_ARM struct {
+	DefaultValue *string `json:"defaultValue,omitempty"`
+	SourceField  *string `json:"sourceField,omitempty"`
+}

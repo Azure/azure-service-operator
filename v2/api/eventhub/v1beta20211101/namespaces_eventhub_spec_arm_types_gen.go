@@ -39,6 +39,9 @@ type Namespaces_Eventhub_Properties_Spec_ARM struct {
 
 	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
+
+	// Status: Enumerates the possible values for the status of the Event Hub.
+	Status *Namespaces_Eventhub_Properties_Status_Spec `json:"status,omitempty"`
 }
 
 type CaptureDescription_ARM struct {
