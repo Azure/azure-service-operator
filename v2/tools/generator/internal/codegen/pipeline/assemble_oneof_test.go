@@ -17,6 +17,8 @@ func Test_OneOfAssembler_AssembleOneOfs_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	idFactory := astmodel.NewIdentifierFactory()
+
 	greek := createTestRootOneOf("Greek", test.FullNameProperty)
 	alpha := createTestLeafOneOf("Alpha", greek)
 	beta := createTestLeafOneOf("Beta", greek)
@@ -27,7 +29,7 @@ func Test_OneOfAssembler_AssembleOneOfs_ReturnsExpectedResult(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet, 6)
 	defs.AddAll(greek, alpha, beta, gamma, delta, epsilon)
 
-	assembler := newOneOfAssembler(defs)
+	assembler := newOneOfAssembler(defs, idFactory)
 	result, err := assembler.assembleOneOfs()
 	g.Expect(err).To(BeNil())
 

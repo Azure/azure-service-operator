@@ -1,5 +1,5 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
-└── Greek: OneOf
+└── Greek: OneOf (5 choices)
     ├── discriminator: discriminator
     ├── option 0: Alpha
     ├── option 1: Beta
