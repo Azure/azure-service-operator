@@ -89,6 +89,7 @@ func AssertDefinitionHasExpectedShape(
 ) {
 	t.Helper()
 	g := goldie.New(t)
+
 	err := g.WithTestNameForDir(true)
 	if err != nil {
 		t.Fatalf("Unable to configure goldie output folder %s", err)
@@ -99,7 +100,10 @@ func AssertDefinitionHasExpectedShape(
 
 	buf := &bytes.Buffer{}
 	report := reporting.NewTypeCatalogReport(defs)
-	report.WriteTo(buf)
+	err = report.WriteTo(buf)
+	if err != nil {
+		t.Fatalf("unable to write report to buffer: %s", err)
+	}
 
 	g.Assert(t, filename, buf.Bytes())
 }

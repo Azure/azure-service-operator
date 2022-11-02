@@ -65,6 +65,7 @@ func getDiscriminatorMapping(
 
 		// Unwrap the property type if it's optional
 		propType := potentialDiscriminatorProp.PropertyType()
+		// nolint:govet,shadow - We want shadowing here
 		if opt, ok := AsOptionalType(propType); ok {
 			propType = opt.Element()
 		}

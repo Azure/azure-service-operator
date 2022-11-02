@@ -644,10 +644,10 @@ func RunSynthesizerTestInOrder(t *testing.T, defs ...astmodel.TypeDefinition) {
 	// Visit everything in order
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 	for _, def := range defs {
-		def, err := visitor.VisitDefinition(def, chooseSpec)
+		newDef, err := visitor.VisitDefinition(def, chooseSpec)
 		g.Expect(err).To(BeNil())
 
-		updatedDefs.Add(def)
+		updatedDefs.Add(newDef)
 	}
 
 	// Combine the results
