@@ -383,11 +383,11 @@ typeTransformers:
     remove: true
     because: it has no writable properties in swagger
 
-  - name: EventHubProperties
+  - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
     property: Status
     remove: true
-    because: This property should be marked readonly
+    because: These properties should be marked readonly
 
   ## Deal with properties that should have been marked readOnly but weren't
 

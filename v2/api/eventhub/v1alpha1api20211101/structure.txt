@@ -287,7 +287,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       │       └── "User"
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── CaptureDescription: Object (6 properties)
 │   │   │   ├── Destination: Object (7 properties)
@@ -309,18 +309,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   │   ├── MessageRetentionInDays: Validated<*int> (1 rule)
 │   │   │   └── Rule 0: {Minimum 1}
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PartitionCount: Validated<*int> (1 rule)
-│   │   │   └── Rule 0: {Minimum 1}
-│   │   └── Status: Enum (9 values)
-│   │       ├── "Active"
-│   │       ├── "Creating"
-│   │       ├── "Deleting"
-│   │       ├── "Disabled"
-│   │       ├── "ReceiveDisabled"
-│   │       ├── "Renaming"
-│   │       ├── "Restoring"
-│   │       ├── "SendDisabled"
-│   │       └── "Unknown"
+│   │   └── PartitionCount: Validated<*int> (1 rule)
+│   │       └── Rule 0: {Minimum 1}
 │   └── Status: Object (13 properties)
 │       ├── CaptureDescription: Object (6 properties)
 │       │   ├── Destination: Object (7 properties)
@@ -524,7 +514,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 ├── Namespaces_Eventhub_Spec_ARM: Object (3 properties)
 │   ├── AzureName: string
 │   ├── Name: string
-│   └── Properties: Object (4 properties)
+│   └── Properties: Object (3 properties)
 │       ├── CaptureDescription: Object (6 properties)
 │       │   ├── Destination: Object (2 properties)
 │       │   │   ├── Name: *string
@@ -543,17 +533,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       │   ├── SizeLimitInBytes: *int
 │       │   └── SkipEmptyArchives: *bool
 │       ├── MessageRetentionInDays: *int
-│       ├── PartitionCount: *int
-│       └── Status: Enum (9 values)
-│           ├── "Active"
-│           ├── "Creating"
-│           ├── "Deleting"
-│           ├── "Disabled"
-│           ├── "ReceiveDisabled"
-│           ├── "Renaming"
-│           ├── "Restoring"
-│           ├── "SendDisabled"
-│           └── "Unknown"
+│       └── PartitionCount: *int
 ├── Namespaces_Eventhubs_AuthorizationRule_STATUS_ARM: Object (6 properties)
 │   ├── Id: *string
 │   ├── Location: *string

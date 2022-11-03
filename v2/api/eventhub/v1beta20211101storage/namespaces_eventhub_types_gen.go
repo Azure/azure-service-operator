@@ -149,7 +149,6 @@ type Namespaces_Eventhub_Spec struct {
 	Owner          *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	PartitionCount *int                               `json:"partitionCount,omitempty"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Status         *string                            `json:"status,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespaces_Eventhub_Spec{}

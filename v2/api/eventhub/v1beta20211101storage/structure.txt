@@ -131,7 +131,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── CaptureDescription: Object (7 properties)
 │   │   │   ├── Destination: Object (8 properties)
@@ -153,8 +153,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PartitionCount: *int
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Status: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (14 properties)
 │       ├── CaptureDescription: Object (7 properties)
 │       │   ├── Destination: Object (8 properties)

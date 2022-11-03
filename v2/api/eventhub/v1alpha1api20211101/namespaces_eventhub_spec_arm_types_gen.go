@@ -31,10 +31,9 @@ func (eventhub *Namespaces_Eventhub_Spec_ARM) GetType() string {
 
 // Deprecated version of Namespaces_Eventhub_Properties_Spec. Use v1beta20211101.Namespaces_Eventhub_Properties_Spec instead
 type Namespaces_Eventhub_Properties_Spec_ARM struct {
-	CaptureDescription     *CaptureDescription_ARM                     `json:"captureDescription,omitempty"`
-	MessageRetentionInDays *int                                        `json:"messageRetentionInDays,omitempty"`
-	PartitionCount         *int                                        `json:"partitionCount,omitempty"`
-	Status                 *Namespaces_Eventhub_Properties_Status_Spec `json:"status,omitempty"`
+	CaptureDescription     *CaptureDescription_ARM `json:"captureDescription,omitempty"`
+	MessageRetentionInDays *int                    `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                    `json:"partitionCount,omitempty"`
 }
 
 // Deprecated version of CaptureDescription. Use v1beta20211101.CaptureDescription instead

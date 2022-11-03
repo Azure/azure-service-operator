@@ -162,16 +162,6 @@ func Namespaces_Eventhub_Properties_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		Namespaces_Eventhub_Properties_Status_Spec_Active,
-		Namespaces_Eventhub_Properties_Status_Spec_Creating,
-		Namespaces_Eventhub_Properties_Status_Spec_Deleting,
-		Namespaces_Eventhub_Properties_Status_Spec_Disabled,
-		Namespaces_Eventhub_Properties_Status_Spec_ReceiveDisabled,
-		Namespaces_Eventhub_Properties_Status_Spec_Renaming,
-		Namespaces_Eventhub_Properties_Status_Spec_Restoring,
-		Namespaces_Eventhub_Properties_Status_Spec_SendDisabled,
-		Namespaces_Eventhub_Properties_Status_Spec_Unknown))
 }
 
 // AddRelatedPropertyGeneratorsForNamespaces_Eventhub_Properties_Spec_ARM is a factory method for creating gopter generators
