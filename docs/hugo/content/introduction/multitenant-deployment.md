@@ -5,9 +5,14 @@ linktitle: Multitenancy
 
 Currently, we support two types of multitenancy with Azure Service Operator (ASO): 
 
-### Single operator multitenancy
-Single operator deployed in the `azureserviceoperator-system` namespace with _a single set of global Azure credentials_,
-and manages resources in _any namespace_ in the cluster with namespaced credentials and per-resource credentials. 
+### Single operator multitenancy (default)
+Single operator deployed in the `azureserviceoperator-system` namespace.
+This operator can be configured to manage resources with multiple different identities:
+* Single global credential `aso-controller-settings` deployed as part of operator deployment.
+* Per-namespace credential `aso-credential`. When this credential is created in a namespace, all resources in that namespace automatically use it instead of the global credential. This credential can be in a different tenant or subscription than the global credential.
+* Per-resource credential, indicated by the `serviceoperator.azure.com/credential-from` annotation. This credential must be in the same namespace as the resource but can be in a different tenant or subscription than both the global credential and per-namespace credential.
+
+When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.
 
 ### Multiple operator multitenancy
 Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
