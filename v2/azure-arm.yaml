@@ -383,59 +383,11 @@ typeTransformers:
     remove: true
     because: it has no writable properties in swagger
 
-  # TODO(donotmerge)
-#  - name: NamespacesEventhubs_Spec_Properties
-#    group: eventhub
-#    property: Status
-#    remove: true
-#    because: This property should be marked readonly
-
-  # TODO(donotmerge)
-#  - group: eventgrid
-#    version: v*20190601
-#    name: Domains_Spec
-#    property: Properties
-#    remove: true
-#    because: it has no writable properties in swagger
-
-  # TODO(donotmerge)
-#  - group: eventgrid
-#    version: "*"
-#    name: Topics_Spec
-#    property: Properties
-#    remove: true
-#    because: it has no writable properties in swagger
-
-  # TODO(donotmerge)
-#  - group: network
-#    version: "*"
-#    name: PrivateDnsZones_Spec
-#    property: Properties
-#    remove: true
-#    because: it has no writable properties in swagger
-
-  # TODO(donotmerge)
-  # - name: NamespacesEventhubs_Spec_Properties
-  #   group: eventhub
-  #   property: Status
-  #   remove: true
-  #   because: This property should be marked readonly
-
-  # TODO(donotmerge)
-  # - group: eventgrid
-  #   version: v*20190601
-  #   name: Domains_Spec
-  #   property: Properties
-  #   remove: true
-  #   because: it has no writable properties in swagger
-
-  # TODO(donotmerge)
-  # - group: eventgrid
-  #   version: "*"
-  #   name: Topics_Spec
-  #   property: Properties
-  #   remove: true
-  #   because: it has no writable properties in swagger
+  - name: EventHubProperties
+    group: eventhub
+    property: Status
+    remove: true
+    because: This property should be marked readonly
 
   ## Deal with properties that should have been marked readOnly but weren't
 
