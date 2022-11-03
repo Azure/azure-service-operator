@@ -19,6 +19,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -92,8 +93,9 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 	} else if client != nil {
 		return client.GenericClient(), client.CredentialFrom(), nil
 	}
+
 	// Namespaced secret
-	client, err = c.getNamespacedCredential(ctx, obj)
+	client, err = c.getNamespacedCredential(ctx, obj.GetNamespace())
 	if err != nil {
 		return nil, "", err
 	} else if client != nil {
@@ -108,8 +110,8 @@ func (c *armClientCache) getPerResourceCredential(ctx context.Context, obj genru
 	return c.getCredentialFromAnnotation(ctx, obj, perResourceSecretAnnotation)
 }
 
-func (c *armClientCache) getNamespacedCredential(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
-	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
+func (c *armClientCache) getNamespacedCredential(ctx context.Context, namespace string) (*armClient, error) {
+	secret, err := c.getSecret(ctx, namespace, namespacedSecretName)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			return nil, nil // Not finding this secret is allowed, allow caller to proceed to higher scope secret
@@ -119,7 +121,7 @@ func (c *armClientCache) getNamespacedCredential(ctx context.Context, obj genrun
 
 	armClient, err := c.getARMClientFromSecret(secret)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to get armClient from namespaced secret for %q/%q", secret.Namespace, secret.Name)
 	}
 
 	return armClient, nil
@@ -137,14 +139,14 @@ func (c *armClientCache) getCredentialFromAnnotation(ctx context.Context, obj ge
 	secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Errorf("credential Secret %q not found for '%s/%s'", secretNamespacedName.String(), obj.GetNamespace(), obj.GetName()))
+			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Wrapf(err, "credential secret not found"))
 		}
 		return nil, err
 	}
 
 	armClient, err := c.getARMClientFromSecret(secret)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "failed to get armClient from annotation for %q", secretNamespacedName.String())
 	}
 	return armClient, nil
 }
@@ -184,26 +186,31 @@ func (c *armClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, 
 }
 
 func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
+	var errs []error
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
 		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
-		return nil, "", err
+		errs = append(errs, err)
 	}
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
 		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
-		return nil, "", err
+		errs = append(errs, err)
 	}
 	clientID, ok := secret.Data[config.AzureClientIDVar]
 	if !ok {
 		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
-		return nil, "", err
+		errs = append(errs, err)
 	}
 	clientSecret, ok := secret.Data[config.AzureClientSecretVar]
 	// TODO: We check this for now until we support Workload Identity. When we support workload identity for multitenancy, !ok would mean to check for workload identity.
 	if !ok {
 		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
-		return nil, "", err
+		errs = append(errs, err)
+	}
+
+	if len(errs) > 0 {
+		return nil, "", kerrors.NewAggregate(errs)
 	}
 
 	credential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
