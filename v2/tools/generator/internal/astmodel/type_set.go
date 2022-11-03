@@ -114,10 +114,12 @@ func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 	return true
 }
 
+// Len returns the number of items in the set
 func (ts TypeSet) Len() int {
 	return len(ts.types)
 }
 
+// Single returns the only item in the set, and true, if it contains exactly one; otherwise it returns nil and false.
 func (ts TypeSet) Single() (Type, bool) {
 	if len(ts.types) != 1 {
 		return nil, false
@@ -126,6 +128,7 @@ func (ts TypeSet) Single() (Type, bool) {
 	return ts.types[0], true
 }
 
+// Copy returns a copy of this set that can then be modified.
 func (ts TypeSet) Copy() TypeSet {
 	return MakeTypeSet(ts.types...)
 }

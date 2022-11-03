@@ -88,7 +88,6 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 	}
 
 	for _, def := range scanner.Definitions() {
-
 		// Add additional type definitions required by the resources
 		if existingDef, ok := result.OtherDefinitions[def.Name()]; ok {
 			if !astmodel.TypeEquals(existingDef.Type(), def.Type()) {
@@ -199,7 +198,6 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 // ExtractOneOfTypes ensures we haven't missed any of the required OneOf type definitions.
 // The depth-first search of the Swagger spec done by ExtractResourcetypes() won't have found any "loose" one of options
 // so we need this extra step.
-
 func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 	ctx context.Context,
 	scanner *SchemaScanner,

@@ -122,7 +122,6 @@ func (schema *OpenAPISchema) oneOf() []Schema {
 	return schema.transformOpenAPISlice(schema.inner.OneOf)
 }
 
-//!! TODO: This is expensive to evaluate, so cache the result
 func (schema *OpenAPISchema) discriminatorValues() set.Set[string] {
 	// Must have a discriminator
 	discriminator := schema.inner.Discriminator

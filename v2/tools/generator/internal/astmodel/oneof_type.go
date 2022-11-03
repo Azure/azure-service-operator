@@ -23,7 +23,7 @@ import (
 // These three cases are unified into complete objects, and later converted into object definitions.
 //
 type OneOfType struct {
-	name                  string  // Name of the OneOf
+	swaggerName           string  // Name of the OneOf as defined in the Swagger file
 	types                 TypeSet // Set of all possible types
 	discriminatorProperty string  // Identifies the discriminatorProperty property
 	discriminatorValue    string  // Discriminator value used to identify this subtype
@@ -34,19 +34,24 @@ var _ Type = &OneOfType{}
 // NewOneOfType creates a new instance of a OneOfType
 func NewOneOfType(name string, types ...Type) *OneOfType {
 	return &OneOfType{
-		name:  name,
-		types: MakeTypeSet(types...),
+		swaggerName: name,
+		types:       MakeTypeSet(types...),
 	}
 }
 
 // Name returns the internal (swagger) name of the OneOf
 func (oneOf *OneOfType) Name() string {
-	return oneOf.name
+	return oneOf.swaggerName
 }
 
 // DiscriminatorProperty returns the name of the discriminatorProperty property (if any)
 func (oneOf *OneOfType) DiscriminatorProperty() string {
 	return oneOf.discriminatorProperty
+}
+
+// HasDiscriminatorProperty returns true if the OneOf has a discriminator property
+func (oneOf *OneOfType) HasDiscriminatorProperty() bool {
+	return oneOf.discriminatorProperty != ""
 }
 
 // WithDiscriminatorProperty returns a new OneOf object with the specified discriminatorProperty property
@@ -63,6 +68,11 @@ func (oneOf *OneOfType) WithDiscriminatorProperty(discriminator string) *OneOfTy
 // DiscriminatorValue returns the discriminator value used to identify this subtype
 func (oneOf *OneOfType) DiscriminatorValue() string {
 	return oneOf.discriminatorValue
+}
+
+// HasDiscriminatorValue returns true if the OneOf has a discriminator value
+func (oneOf *OneOfType) HasDiscriminatorValue() bool {
+	return oneOf.discriminatorValue != ""
 }
 
 func (oneOf *OneOfType) WithDiscriminatorValue(value string) *OneOfType {
@@ -201,8 +211,8 @@ func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentP
 
 	builder.WriteString("OneOf[")
 
-	if oneOf.name != "" {
-		builder.WriteString(oneOf.name)
+	if oneOf.swaggerName != "" {
+		builder.WriteString(oneOf.swaggerName)
 		builder.WriteRune(';')
 	}
 
@@ -230,7 +240,7 @@ func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentP
 
 func (oneOf *OneOfType) copy() *OneOfType {
 	result := *oneOf
-	result.types = oneOf.types // No need to copy, it's readonly
+	result.types = oneOf.types // we can share this as we use copy-on-write elsewhere
 	return &result
 }
 

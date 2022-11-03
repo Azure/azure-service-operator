@@ -405,11 +405,11 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 	currentPackage astmodel.PackageReference,
 	types astmodel.TypeNameSet,
 ) {
-	if oneOf.DiscriminatorProperty() != "" {
+	if oneOf.HasDiscriminatorProperty() {
 		rpt.Addf("discriminator: %s", oneOf.DiscriminatorProperty())
 	}
 
-	if oneOf.DiscriminatorValue() != "" {
+	if oneOf.HasDiscriminatorValue() {
 		rpt.Addf("discriminator value: %s", oneOf.DiscriminatorValue())
 	}
 

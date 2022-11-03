@@ -52,10 +52,14 @@ func newOneOfAssembler(
 	defs astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory,
 ) *oneOfAssembler {
+	// As a reasonable initial size for 'updates', we assume 25% of our definitions are oneOfs
+	// Actual benchmarking: of 88k original definitions, we have 18k oneOfs (approximately 20%)
+	updateSize := len(defs) / 4
+
 	result := &oneOfAssembler{
 		defs:      defs,
 		idFactory: idFactory,
-		updates:   make(map[astmodel.TypeName]*astmodel.OneOfType),
+		updates:   make(map[astmodel.TypeName]*astmodel.OneOfType, updateSize),
 	}
 
 	return result
@@ -93,7 +97,6 @@ func (oa *oneOfAssembler) assembleOneOfs() (astmodel.TypeDefinitionSet, error) {
 
 // assemble is called to build up a single oneOf type.
 func (oa *oneOfAssembler) assemble(name astmodel.TypeName) error {
-
 	root, ok := oa.findParentFor(name)
 	if !ok {
 		// No parent, so we've found a root
@@ -329,45 +332,6 @@ func (oa *oneOfAssembler) updateOneOf(
 
 	oa.updates[name] = updated
 	return nil
-}
-
-/*
-
-
-
-
-
-
-
-
-
-
- */
-
-func (*oneOfAssembler) findAllOneOfs(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]*astmodel.OneOfType {
-	result := make(map[astmodel.TypeName]*astmodel.OneOfType)
-
-	for _, def := range defs {
-		if oneOf, ok := astmodel.AsOneOfType(def.Type()); ok {
-			result[def.Name()] = oneOf
-		}
-	}
-
-	return result
-}
-
-// findCommonProperties returns a (possibly empty) slice of Objects that contain properties that need to be hoisted
-// to the provided oneOf. This list is made up of properties from both directly referenced roots, and indirectly
-// referenced roots.
-func (oa *oneOfAssembler) findCommonProperties(oneOf *astmodel.OneOfType) ([]*astmodel.ObjectType, error) {
-	result := make([]*astmodel.ObjectType, 0, oneOf.Types().Len())
-
-	// We need to look at all the types referenced by this oneOf
-	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
-
-	})
-
-	return result, nil
 }
 
 // AsCommonProperties captures the test used to determine if a type is a common properties object, ensuring that

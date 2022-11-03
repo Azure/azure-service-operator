@@ -272,7 +272,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		}
 
 		// If we have a discriminator value, use that as a name
-		if concreteType.DiscriminatorValue() != "" {
+		if concreteType.HasDiscriminatorValue() {
 			return propertyNames{
 				golang:     s.idFactory.CreatePropertyName(concreteType.DiscriminatorValue(), astmodel.Exported),
 				json:       s.idFactory.CreateIdentifier(concreteType.DiscriminatorValue(), astmodel.NotExported),
@@ -382,7 +382,7 @@ func (s synthesizer) oneOfToObject(
 	oneOf *astmodel.OneOfType,
 ) (astmodel.Type, error) {
 
-	if oneOf.DiscriminatorValue() != "" {
+	if oneOf.HasDiscriminatorValue() {
 		// We have a leaf to assemble
 		types := make([]astmodel.Type, 0, oneOf.Types().Len())
 		oneOf.Types().ForEach(
