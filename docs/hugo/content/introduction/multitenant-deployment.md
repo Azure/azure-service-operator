@@ -39,7 +39,7 @@ To deploy the operator in single-operator multi-tenant mode:
 
 ## Multiple operator multitenancy deployment
 
-To deploy the operator in multi-operator multi-tenant mode the release YAML has been split into two parts:
+To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:
 
 1. **Cluster-wide resources**:
    * Custom resource definitions for the Azure resources.
@@ -60,12 +60,12 @@ To deploy the operator in multi-operator multi-tenant mode the release YAML has 
 
    * A cluster role binding enabling the per-tenant operator's service account to manage the Azure resources.
 
-### Example files
+### YAML Installation
 Examples of the deployment YAML files are available on the release page for ASO v2 releases from [v2.0.0-beta.0](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-beta.0).
 The cluster-wide file `multitenant-cluster_v2.0.0-beta.0.yaml` can be used as-is (the webhook deployment namespace is fixed as `azureserviceoperator-system`),
 but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-beta.0.yaml` will need to be customised in each tenant's YAML file from `tenant1` to the desired name for that tenant.
 
-### Per-tenant configuration
+#### Per-tenant configuration
 Create the `aso-controller-settings` secret as described in the [authentication docs](https://azure.github.io/azure-service-operator/introduction/authentication/),
 but create the secret in the tenant namespace and add an extra target namespaces key to it:
 ```
@@ -110,6 +110,46 @@ NAME                             TYPE                                  DATA   AG
 secret/aso-controller-settings   Opaque                                5      3d
 secret/default-token-mqmpb       kubernetes.io/service-account-token   3      3d
 ```
+
+
+### Helm Installation
+
+To deploy the operator in multi-operator multi-tenant using helm is split into two parts:
+
+1. **Cluster-wide operator installation**:
+   ```
+   helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+   ```
+
+   ```
+   helm upgrade --install --devel aso2 aso2/azure-service-operator \
+   --create-namespace \
+   --namespace=azureserviceoperator-system \
+   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+   --set azureTenantID=$AZURE_TENANT_ID \
+   --set azureClientID=$AZURE_CLIENT_ID \
+   --set azureClientSecret=$AZURE_CLIENT_SECRET
+   --set multitenant.enabled=true
+   --set azureOperatorMode=webhooks
+   ```
+
+2. **Per-tenant operator installation**:
+   ```
+   helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+   ```
+
+   ```
+   helm upgrade --install --devel aso2 aso2/azure-service-operator \
+   --create-namespace \
+   --namespace=azureserviceoperator-system \
+   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+   --set azureTenantID=$AZURE_TENANT_ID \
+   --set azureClientID=$AZURE_CLIENT_ID \
+   --set azureClientSecret=$AZURE_CLIENT_SECRET
+   --set multitenant.enabled=true
+   --set azureOperatorMode=watchers
+   ```
+
 
 ## Role handling
 The multi-tenant deployment example files have a single `ClusterRole` that grants access to the Azure resource types,
