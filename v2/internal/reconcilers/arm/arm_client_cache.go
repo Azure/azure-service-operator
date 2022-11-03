@@ -86,62 +86,67 @@ func (c *armClientCache) lookup(key string) (*armClient, bool) {
 // GetClient finds and returns a client and credential to be used for a given resource
 func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
 
-	client, err := c.checkPerResourceSecret(ctx, obj)
+	client, err := c.getPerResourceCredential(ctx, obj)
 	if err != nil {
 		return nil, "", err
 	} else if client != nil {
 		return client.GenericClient(), client.CredentialFrom(), nil
 	}
 	// Namespaced secret
-	client, err = c.checkNamespacedSecret(ctx, obj)
+	client, err = c.getNamespacedCredential(ctx, obj)
 	if err != nil {
 		return nil, "", err
 	} else if client != nil {
 		return client.GenericClient(), client.CredentialFrom(), nil
 	}
 
-	// If not found, default would be global
+	// If not found, default is the global client
 	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
 }
 
-func (c *armClientCache) checkNamespacedSecret(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
+func (c *armClientCache) getPerResourceCredential(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
+	return c.getCredentialFromAnnotation(ctx, obj, perResourceSecretAnnotation)
+}
+
+func (c *armClientCache) getNamespacedCredential(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
 	secret, err := c.getSecret(ctx, obj.GetNamespace(), namespacedSecretName)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			return nil, nil // Not finding this secret is allowed, allow caller to proceed to higher scope secret
+		}
+		return nil, err
+	}
+
+	armClient, err := c.getARMClientFromSecret(secret)
 	if err != nil {
 		return nil, err
 	}
 
-	if secret != nil {
-		armClient, err := c.getARMClientFromSecret(secret)
-		if err != nil {
-			return nil, err
-		}
-		return armClient, nil
-	}
-	return nil, nil
+	return armClient, nil
 }
 
-func (c *armClientCache) checkPerResourceSecret(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
-	credentialFrom, ok := obj.GetAnnotations()[perResourceSecretAnnotation]
-	// annotation exists, use per Resource Group secret credential
-	if ok {
-		secretNamespacedName := getSecretNameFromAnnotation(credentialFrom, obj.GetNamespace())
-
-		secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
-		if err != nil {
-			return nil, err
-		}
-		// secret not found
-		if secret == nil {
-			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Errorf("Credential Secret %q not found for '%s/%s'", secretNamespacedName.String(), obj.GetNamespace(), obj.GetName()))
-		}
-
-		armClient, err := c.getARMClientFromSecret(secret)
-		if err != nil {
-			return nil, err
-		}
-		return armClient, nil
+func (c *armClientCache) getCredentialFromAnnotation(ctx context.Context, obj genruntime.ARMMetaObject, annotation string) (*armClient, error) {
+	credentialFrom, ok := obj.GetAnnotations()[annotation]
+	if !ok {
+		return nil, nil
 	}
-	return nil, nil
+
+	// annotation exists, use specified secret
+	secretNamespacedName := getSecretNameFromAnnotation(credentialFrom, obj.GetNamespace())
+
+	secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Errorf("credential Secret %q not found for '%s/%s'", secretNamespacedName.String(), obj.GetNamespace(), obj.GetName()))
+		}
+		return nil, err
+	}
+
+	armClient, err := c.getARMClientFromSecret(secret)
+	if err != nil {
+		return nil, err
+	}
+	return armClient, nil
 }
 
 func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string) types.NamespacedName {
@@ -157,52 +162,53 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 func (c *armClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, error) {
 	nsName := types.NamespacedName{Namespace: secret.Namespace, Name: secret.Name}
 	client, ok := c.lookup(nsName.String())
-	// if client does not already exist, or secret data is changed, we need to get new token.
-	if !ok || !matchSecretData(client.secretData, secret.Data) {
-		credential, subscriptionID, err := c.newCredentialFromSecret(secret, nsName)
-		if err != nil {
-			return nil, err
-		}
 
-		newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, metrics.NewARMClientMetrics())
-		if err != nil {
-			return nil, err
-		}
-
-		armClient := newARMClient(newClient, secret.Data, nsName)
-		c.register(armClient)
-		return armClient, nil
-	} else {
+	if ok && matchSecretData(client.secretData, secret.Data) {
 		return client, nil
 	}
+
+	// if client does not already exist, or secret data is changed, we need to get new token.
+	credential, subscriptionID, err := c.newCredentialFromSecret(secret, nsName)
+	if err != nil {
+		return nil, err
+	}
+
+	newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	if err != nil {
+		return nil, err
+	}
+
+	armClient := newARMClient(newClient, secret.Data, nsName)
+	c.register(armClient)
+	return armClient, nil
 }
 
 func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
 		return nil, "", err
 	}
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
 		return nil, "", err
 	}
 	clientID, ok := secret.Data[config.AzureClientIDVar]
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
 		return nil, "", err
 	}
 	clientSecret, ok := secret.Data[config.AzureClientSecretVar]
 	// TODO: We check this for now until we support Workload Identity. When we support workload identity for multitenancy, !ok would mean to check for workload identity.
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("Credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
 		return nil, "", err
 	}
 
 	credential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 	if err != nil {
-		return nil, "", errors.Wrap(err, errors.Errorf("Invalid Client Secret Credential for %q encountered", nsName.String()).Error())
+		return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName.String()).Error())
 	}
 
 	return credential, string(subscriptionID), nil
@@ -216,10 +222,6 @@ func (c *armClientCache) getSecret(ctx context.Context, namespace string, secret
 		types.NamespacedName{Namespace: namespace, Name: secretName},
 		secret)
 	if err != nil {
-		if apierrors.IsNotFound(err) {
-			return nil, nil
-		}
-
 		return nil, err
 	}
 
