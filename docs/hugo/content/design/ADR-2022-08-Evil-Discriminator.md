@@ -161,14 +161,35 @@ The changes here are:
 * Properties from `Video` have been copied to `H265Video`, eliminating the need for hierarchy.
 * Similarly, properties from `Audio` have been copied to `AacAudio`.
 
-### Challenges
-
-Derived types may not be co-resident in the same JSON file, requiring an approach that's driven by processing of each leaf as encountered, instead of being driven by the root.
-
-Many (but not all) leaf types will explicitly declare a property with the name required by the roots discriminator property, but as an enumeration with a single value. If such a property is not found, we need to synthesize one.
 
 ## Decision
+
+Adopted and implemented.
+
 ## Status
+
+Accepted
+
 ## Consequences
+
+TBC.
+
 ## Experience Report
+
+### Challenge: Derived type location
+
+Derived types may not be co-resident in the same JSON file. So far, we only observed cases where they are in separate files in the same directory, but there doesn't seem to be anything requiring this. 
+
+Fortunately, our implementation already handles this case. We iterate over all leaf *OneOf* types after completing our full directory walk, and so we'll find the derived types even if they're in a different file.
+
+### Challenge: Missing discriminator properties
+
+In many cases, each derived type will define its own discriminator property - an enumeration with a single value. 
+
+However, this is not required and some derived types don't declare one.
+
+We handle this by synthesizing a discriminator property for each derived type that doesn't have one. The single value of the enumeration is the discriminator value for the type.
+
 ## References
+
+TBC.
