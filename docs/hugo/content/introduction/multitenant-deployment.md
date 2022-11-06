@@ -3,14 +3,14 @@ title: Deploying Azure Service Operator v2 in multi-tenant mode
 linktitle: Multitenancy
 ---
 
-Currently, we support two types of multitenancy with Azure Service Operator (ASO): 
+Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
 
 ### Single operator multitenancy (default)
 Single operator deployed in the `azureserviceoperator-system` namespace.
 This operator can be configured to manage resources with multiple different identities:
-* Single global credential `aso-controller-settings` deployed as part of operator deployment.
-* Per-namespace credential `aso-credential`. When this credential is created in a namespace, all resources in that namespace automatically use it instead of the global credential. This credential can be in a different tenant or subscription than the global credential.
-* Per-resource credential, indicated by the `serviceoperator.azure.com/credential-from` annotation. This credential must be in the same namespace as the resource but can be in a different tenant or subscription than both the global credential and per-namespace credential.
+* Single global credential `aso-controller-settings` deployed as part of operator deployment in operator's namespace.
+  Per-namespace credential `aso-credential`. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential. This credential can be in a different tenant or subscription than the global credential.
+* Per-resource credential, indicated by the `serviceoperator.azure.com/credential-from` annotation. Create this annotation on each resource to configure the credential used for that resource. The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different tenant or subscription than both the global credential and per-namespace credential.
 
 When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.
 
@@ -24,7 +24,7 @@ ASO may also be deployed in a _multi-tenant_ configuration, enabling the use of 
 To deploy the operator in single-operator multi-tenant mode:
 
 1. Follow the normal ASO [installation](https://azure.github.io/azure-service-operator/#installation)
-2. To use namespace scoped credential, create a credential secret named `aso-credential` in a namespace. Using this, all the resources in a namespace will use namespace scoped credential. 
+2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
 3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
 
 ### Example Secret
@@ -74,26 +74,26 @@ but the namespaces and cluster role binding in the per-tenant file `multitenant-
 Create the `aso-controller-settings` secret as described in the [authentication docs](https://azure.github.io/azure-service-operator/introduction/authentication/),
 but create the secret in the tenant namespace and add an extra target namespaces key to it:
 ```
-export TENANT_NAMESPACE="<tenant namespace>"
-export AZURE_SUBSCRIPTION_ID="<subscription id>"
-export AZURE_TENANT_ID="<tenant id>"
-export AZURE_CLIENT_ID="<client id>"
-export AZURE_CLIENT_SECRET="<client secret>"
-export AZURE_TARGET_NAMESPACES="<comma-separated namespace names>"
-kubectl create namespace "$TENANT_NAMESPACE"
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aso-controller-settings
-  namespace: $TENANT_NAMESPACE
-stringData:
-  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
-  AZURE_TENANT_ID: "$AZURE_TENANT_ID"
-  AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
-  AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
-  AZURE_TARGET_NAMESPACES: "$AZURE_TARGET_NAMESPACES"
-EOF
+   export TENANT_NAMESPACE="<tenant namespace>"
+   export AZURE_SUBSCRIPTION_ID="<subscription id>"
+   export AZURE_TENANT_ID="<tenant id>"
+   export AZURE_CLIENT_ID="<client id>"
+   export AZURE_CLIENT_SECRET="<client secret>"
+   export AZURE_TARGET_NAMESPACES="<comma-separated namespace names>"
+   kubectl create namespace "$TENANT_NAMESPACE"
+   cat <<EOF | kubectl apply -f -
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: aso-controller-settings
+     namespace: $TENANT_NAMESPACE
+   stringData:
+     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+     AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+     AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+     AZURE_TARGET_NAMESPACES: "$AZURE_TARGET_NAMESPACES"
+     EOF
 ```
 
 Once the tenant operator is deployed and configured the contents of the tenant namespace will look something like the following:
@@ -128,14 +128,14 @@ To deploy the operator in multi-operator multi-tenant using helm is split into t
 
    ```
    helm upgrade --install --devel aso2 aso2/azure-service-operator \
-   --create-namespace \
-   --namespace=azureserviceoperator-system \
-   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-   --set azureTenantID=$AZURE_TENANT_ID \
-   --set azureClientID=$AZURE_CLIENT_ID \
-   --set azureClientSecret=$AZURE_CLIENT_SECRET
-   --set multitenant.enabled=true
-   --set azureOperatorMode=webhooks
+      --create-namespace \
+      --namespace=azureserviceoperator-system \
+      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureTenantID=$AZURE_TENANT_ID \
+      --set azureClientID=$AZURE_CLIENT_ID \
+      --set azureClientSecret=$AZURE_CLIENT_SECRET
+      --set multitenant.enable=true
+      --set azureOperatorMode=webhooks
    ```
 
 2. **Per-tenant operator installation**:
@@ -145,14 +145,14 @@ To deploy the operator in multi-operator multi-tenant using helm is split into t
 
    ```
    helm upgrade --install --devel aso2 aso2/azure-service-operator \
-   --create-namespace \
-   --namespace=azureserviceoperator-system \
-   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-   --set azureTenantID=$AZURE_TENANT_ID \
-   --set azureClientID=$AZURE_CLIENT_ID \
-   --set azureClientSecret=$AZURE_CLIENT_SECRET
-   --set multitenant.enabled=true
-   --set azureOperatorMode=watchers
+      --create-namespace \
+      --namespace=azureserviceoperator-system \
+      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureTenantID=$AZURE_TENANT_ID \
+      --set azureClientID=$AZURE_CLIENT_ID \
+      --set azureClientSecret=$AZURE_CLIENT_SECRET
+      --set multitenant.enable=true
+      --set azureOperatorMode=watchers
    ```
 
 

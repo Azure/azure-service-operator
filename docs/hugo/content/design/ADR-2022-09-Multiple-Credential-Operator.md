@@ -134,19 +134,22 @@ As part of this, we decided to publish `Last Credential Used` events for each re
 - Logging should be clear about the credential load/authentication failure
 - Errors can be reported through the standard `Condition` mechanism
 
-### Per-ResourceGroup secrets Implementation
+### Per resource group secrets
 
-To use credential for resources under parent ResourceGroup, we will somehow need to look up through the resource hierarchy to find the ResourceGroup and credential for it through the `ArmClientCache`.
+To use credential for resources under parent ResourceGroup, we will traverse up the resource hierarchy to find the containing Resource Group and look up credential for it through the `ArmClientCache`.
 
 #### Issue
 
-Looking the ResourceGroup credential up on create/update is straight forward as we can access the annotation on existing ResourceGroup, however, looking it up for delete is hard where we have already deleted the ResourceGroup so its annotation is gone. 
-Then we run into a problem of what secret to use for children?, where to get the annotation from? and if we re-create a ResourceGroup with a different objectID later, we'd use the wrong credentials accidentally. 
+Looking the resource group credential up for create or update is straightforward as we can easily access the annotation on any existing resource group. However, looking it up for delete is hard when we have already deleted the resource group, and any associated annotations are gone.
 
+Then we run into problems of
+* what secret to use for children?
+* where to get the annotation from? and,
+* if we re-create a ResourceGroup with a different objectID later, how do we avoid using the wrong credentials accidentally.
 #### Solution
 
-Solution would include adding an ASO managed annotation(TBD) on resources using Per-ResourceGroup credentials. The annotation with last credential used secret namespaced name would be added/updated on resource creation/update under a specific ResourceGroup. 
-This would help the operator in deletion of resource to know the about the correct credential to be used.
+When using per resource group credentials, we'll add an ASO managed annotation (TBD) on each Kubernetes resource recording the name of the credential secret last used with that resource. The annotation will be updated each time the resource is reconciled by ASO.
+If the resource group is deleted from the cluster first, we will fall back to the annotation on the resource to identify the credential to use for deletion.
 
 ## Milestones
 
