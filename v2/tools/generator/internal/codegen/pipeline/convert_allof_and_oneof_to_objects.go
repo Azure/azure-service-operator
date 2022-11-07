@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"strings"
 
 	"github.com/pkg/errors"
