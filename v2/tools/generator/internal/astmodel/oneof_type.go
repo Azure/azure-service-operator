@@ -85,18 +85,6 @@ func (oneOf *OneOfType) WithDiscriminatorValue(value string) *OneOfType {
 	return result
 }
 
-// WithAdditionalType returns a new OneOf with the specified type added
-func (oneOf *OneOfType) WithAdditionalType(t Type) *OneOfType {
-	if oneOf.types.Contains(t, EqualityOverrides{}) {
-		return oneOf
-	}
-
-	result := oneOf.copy()
-	result.types = result.types.Copy()
-	result.types.Add(t)
-	return result
-}
-
 // WithType returns a new OneOf with the specified type included
 func (oneOf *OneOfType) WithType(t Type) *OneOfType {
 	if oneOf.types.Contains(t, EqualityOverrides{}) {
