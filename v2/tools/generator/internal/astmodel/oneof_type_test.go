@@ -75,3 +75,37 @@ func TestOneOfRequiredImportsPanics(t *testing.T) {
 		x.RequiredPackageReferences()
 	}).To(PanicWith(MatchError(expectedOneOfPanic)))
 }
+
+func TestOneOfType_WithAdditionalPropertiesFromObject_GivenProperties_ReturnsOneOfContainingProperties(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	oneOf := NewOneOfType("oneOf")
+	objA := NewObjectType().WithProperties(
+		NewPropertyDefinition("FullName", "fullName", StringType),
+		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+	objB := NewObjectType().WithProperties(
+		NewPropertyDefinition("FullName", "fullName", StringType),
+		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+
+	result := oneOf.WithAdditionalPropertyObject(objA).WithAdditionalPropertyObject(objB)
+	g.Expect(result).NotTo(BeNil())
+
+	g.Expect(result.PropertyObjects()).To(HaveLen(2))
+}
+
+func TestOneOfType_WithoutAnyPropertyObjects_GivenProperties_ReturnsOneOfWithNone(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	oneOf := NewOneOfType("oneOf")
+	obj := NewObjectType().WithProperties(
+		NewPropertyDefinition("FullName", "fullName", StringType),
+		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+
+	oneOf = oneOf.WithAdditionalPropertyObject(obj)
+
+	result := oneOf.WithoutAnyPropertyObjects()
+	g.Expect(result).NotTo(BeNil())
+	g.Expect(result.PropertyObjects()).To(HaveLen(0))
+}

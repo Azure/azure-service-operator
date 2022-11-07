@@ -352,8 +352,9 @@ func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage
 			tcr.formatCount(t.Properties().Len(), "property", "properties"))
 	case *astmodel.OneOfType:
 		return fmt.Sprintf(
-			"OneOf (%s)",
-			tcr.formatCount(t.Types().Len(), "choice", "choices"))
+			"OneOf (%s, %s)",
+			tcr.formatCount(len(t.PropertyObjects()), "object", "objects"),
+			tcr.formatCount(t.Types().Len(), "option", "options"))
 	case *astmodel.AllOfType:
 		return fmt.Sprintf(
 			"AllOf (%s)",
@@ -413,25 +414,38 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 		rpt.Addf("discriminator value: %s", oneOf.DiscriminatorValue())
 	}
 
+	if propertyObjects := oneOf.PropertyObjects(); len(propertyObjects) > 0 {
+		// We expect the order of PropertyObjects() to be consistent, so no need to sort
+		sub := rpt.Addf("Property Objects (%s):", tcr.formatCount(len(propertyObjects), "object", "objects"))
+		for _, t := range propertyObjects {
+			subsub := sub.Addf("%s", tcr.asShortNameForType(t, currentPackage))
+			tcr.writeComplexType(subsub, t, currentPackage, types)
+		}
+	}
+
 	// The order of entries in oneOf.Types() can vary but isn't significant
 	// So we pull them out and write them in sorted order
-	options := make([]astmodel.Type, 0, oneOf.Types().Len())
-	typesToNames := make(map[astmodel.Type]string, oneOf.Types().Len())
-	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
-		name := tcr.asShortNameForType(t, currentPackage)
-		options = append(options, t)
-		typesToNames[t] = name
-	})
+	options := oneOf.Types()
+	if options.Len() > 0 {
+		optionTypes := make([]astmodel.Type, 0, options.Len())
+		typesToNames := make(map[astmodel.Type]string, options.Len())
+		options.ForEach(func(t astmodel.Type, _ int) {
+			name := tcr.asShortNameForType(t, currentPackage)
+			optionTypes = append(optionTypes, t)
+			typesToNames[t] = name
+		})
 
-	sort.Slice(options, func(i, j int) bool {
-		iname := typesToNames[options[i]]
-		jname := typesToNames[options[j]]
-		return iname < jname
-	})
+		sort.Slice(optionTypes, func(i, j int) bool {
+			iname := typesToNames[optionTypes[i]]
+			jname := typesToNames[optionTypes[j]]
+			return iname < jname
+		})
 
-	for index, t := range options {
-		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
-		tcr.writeComplexType(sub, t, currentPackage, types)
+		sub := rpt.Addf("Options (%s):", tcr.formatCount(len(optionTypes), "option", "options"))
+		for index, t := range optionTypes {
+			subsub := sub.Addf("Option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
+			tcr.writeComplexType(subsub, t, currentPackage, types)
+		}
 	}
 }
 

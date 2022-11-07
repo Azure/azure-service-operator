@@ -382,12 +382,12 @@ func (s synthesizer) oneOfToObject(
 ) (astmodel.Type, error) {
 
 	if oneOf.HasDiscriminatorValue() {
-		// We have a leaf to assemble
-		types := make([]astmodel.Type, 0, oneOf.Types().Len())
-		oneOf.Types().ForEach(
-			func(t astmodel.Type, _ int) {
-				types = append(types, t)
-			})
+		propertyObjects := oneOf.PropertyObjects()
+		types := make([]astmodel.Type, 0, len(propertyObjects))
+		for _, po := range propertyObjects {
+			types = append(types, po)
+		}
+
 		allOf := astmodel.NewAllOfType(types...)
 		result, err := s.allOfObject(allOf)
 

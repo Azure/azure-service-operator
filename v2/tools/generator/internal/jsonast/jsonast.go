@@ -804,34 +804,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
-	// Handle any nested OneOf options
-	types, err := scanner.RunHandlersForSchemas(ctx, schema.oneOf())
-	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
-	}
-
-	// Also need to pick up any nested AllOf options (we'll only ever have one or the other)
-	allOfTypes, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
-	if err != nil {
-		return nil, errors.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
-	}
-
-	// If we have both, we need to merge them
-	if len(allOfTypes) > 0 {
-		types = append(types, allOfTypes...)
-	}
-
-	// If there are any properties, we need to create an object type to wrap them
-	if len(schema.properties()) > 0 {
-		objectType, err := scanner.RunHandler(ctx, Object, schema)
-		if err != nil {
-			return nil, errors.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
-		}
-
-		types = append(types, objectType)
-	}
-
-	result := astmodel.NewOneOfType(schema.Id(), types...)
+	result := astmodel.NewOneOfType(schema.Id())
 
 	// Capture the discriminator property name, if we have one
 	if schema.discriminator() != "" {
@@ -843,7 +816,70 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 		result = result.WithDiscriminatorValue(discriminatorValue)
 	}
 
+	// Handle any nested OneOf options
+	// These will each be either a TypeName or an Object
+	types, err := scanner.RunHandlersForSchemas(ctx, schema.oneOf())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
+	}
+
+	result = result.WithTypes(types)
+
+	// Also need to pick up any nested AllOf options
+	// If an object, these are properties that are required for this option
+	// Otherwise, add as an option
+	allOfTypes, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
+	}
+
+	// Our AllOf contains either properties to add to our OneOf, or references to parent types
+	for _, t := range allOfTypes {
+		if obj, ok := asCommonProperties(t, scanner.definitions); ok {
+			// If we have an object, add its properties
+			result = result.WithAdditionalPropertyObject(obj)
+			continue
+		}
+
+		// Treat it as an option
+		result = result.WithType(t)
+	}
+
+	// If there are any properties, we need to create an object type to wrap them
+	if len(schema.properties()) > 0 {
+		t, err := scanner.RunHandler(ctx, Object, schema)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
+		}
+
+		obj, ok := t.(*astmodel.ObjectType)
+		if !ok {
+			return nil, errors.Errorf(
+				"expected object type for properties of %s, got %T", schema.Id(), t)
+		}
+
+		result = result.WithAdditionalPropertyObject(obj)
+	}
+
 	return result, nil
+}
+
+// attempts to resolve the passed type to an object type that represents properties
+func asCommonProperties(
+	t astmodel.Type,
+	defs map[astmodel.TypeName]*astmodel.TypeDefinition,
+) (*astmodel.ObjectType, bool) {
+	if obj, isObject := astmodel.AsObjectType(t); isObject {
+		return obj, true
+	}
+
+	if tn, isTypeName := astmodel.AsTypeName(t); isTypeName {
+		if def, found := defs[tn]; found {
+			return asCommonProperties(def.Type(), defs)
+		}
+	}
+
+	return nil, false
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {

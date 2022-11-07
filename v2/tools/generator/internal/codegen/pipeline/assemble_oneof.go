@@ -190,15 +190,7 @@ func (oa *oneOfAssembler) removeCommonPropertiesFromRoot(root astmodel.TypeName)
 	err := oa.updateOneOf(
 		root,
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
-			result := oneOf
-			oneOf.Types().ForEach(
-				func(t astmodel.Type, _ int) {
-					if obj, ok := oa.AsCommonProperties(t); ok {
-						// Found an object representing common properties
-						result = result.WithoutType(obj)
-					}
-				})
-
+			result := oneOf.WithoutAnyPropertyObjects()
 			return result, nil
 		})
 
@@ -229,16 +221,13 @@ func (oa *oneOfAssembler) embedCommonPropertiesInLeaf(parent astmodel.TypeName, 
 		leaf,
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
 			result := oneOf
-			parentOneOf.Types().ForEach(
-				func(t astmodel.Type, _ int) {
-					if obj, ok := oa.AsCommonProperties(t); ok {
-						// Found an object representing common properties
-						result = result.WithType(obj)
-					}
-				})
+			for _, obj := range parentOneOf.PropertyObjects() {
+				result = result.WithAdditionalPropertyObject(obj)
+			}
 
 			return result, nil
 		})
+
 	return errors.Wrapf(err, "embedding common properties in leaf %s", leaf)
 }
 
@@ -286,7 +275,7 @@ func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.TypeName, rootN
 			}
 
 			obj := astmodel.NewObjectType().WithProperty(property)
-			return oneOf.WithType(obj), nil
+			return oneOf.WithAdditionalPropertyObject(obj), nil
 		})
 
 	return err
@@ -332,10 +321,4 @@ func (oa *oneOfAssembler) updateOneOf(
 
 	oa.updates[name] = updated
 	return nil
-}
-
-// AsCommonProperties captures the test used to determine if a type is a common properties object, ensuring that
-// we're consistent with our tests from multiple locations
-func (oa *oneOfAssembler) AsCommonProperties(t astmodel.Type) (*astmodel.ObjectType, bool) {
-	return astmodel.AsObjectType(t)
 }

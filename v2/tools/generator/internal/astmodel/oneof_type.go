@@ -23,10 +23,12 @@ import (
 // These three cases are unified into complete objects, and later converted into object definitions.
 //
 type OneOfType struct {
-	swaggerName           string  // Name of the OneOf as defined in the Swagger file
-	types                 TypeSet // Set of all possible types
-	discriminatorProperty string  // Identifies the discriminatorProperty property
-	discriminatorValue    string  // Discriminator value used to identify this subtype
+	swaggerName           string        // Name of the OneOf as defined in the Swagger file
+	propertyObjects       []*ObjectType // Object definitions used to specify the properties held by this OneOf. May be empty.
+	options               TypeNameSet   // References to the type names of the options for this OneOf. May be empty.
+	types                 TypeSet       // Set of all possible types
+	discriminatorProperty string        // Identifies the discriminatorProperty property
+	discriminatorValue    string        // Discriminator value used to identify this subtype
 }
 
 var _ Type = &OneOfType{}
@@ -36,6 +38,7 @@ func NewOneOfType(name string, types ...Type) *OneOfType {
 	return &OneOfType{
 		swaggerName: name,
 		types:       MakeTypeSet(types...),
+		options:     NewTypeNameSet(),
 	}
 }
 
@@ -122,6 +125,25 @@ func (oneOf *OneOfType) WithTypes(types []Type) *OneOfType {
 // Exposed as ReadonlyTypeSet so caller cannot break invariants.
 func (oneOf *OneOfType) Types() ReadonlyTypeSet {
 	return oneOf.types
+}
+
+// PropertyObjects returns all the ObjectTypes that define the properties of this OneOf
+func (oneOf *OneOfType) PropertyObjects() []*ObjectType {
+	return oneOf.propertyObjects
+}
+
+// WithAdditionalPropertyObject returns a new OneOf that includes the specified properties as well as those already present
+func (oneOf *OneOfType) WithAdditionalPropertyObject(propertyObject *ObjectType) *OneOfType {
+	result := oneOf.copy()
+	result.propertyObjects = append(result.propertyObjects, propertyObject)
+	return result
+}
+
+// WithoutAnyPropertyObjects returns a new OneOf that has no Object properties
+func (oneOf *OneOfType) WithoutAnyPropertyObjects() *OneOfType {
+	result := oneOf.copy()
+	result.propertyObjects = nil
+	return result
 }
 
 // References returns any type referenced by the OneOf types
@@ -227,8 +249,8 @@ func (oneOf *OneOfType) WriteDebugDescription(builder *strings.Builder, currentP
 }
 
 func (oneOf *OneOfType) copy() *OneOfType {
+	// We can share internal sets and slices as we use copy-on-write semantics
 	result := *oneOf
-	result.types = oneOf.types // we can share this as we use copy-on-write elsewhere
 	return &result
 }
 

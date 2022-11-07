@@ -56,7 +56,7 @@ func createTestRootOneOf(
 
 	if len(commonProperties) > 0 {
 		obj := astmodel.NewObjectType().WithProperties(commonProperties...)
-		oneOf = oneOf.WithType(obj)
+		oneOf = oneOf.WithAdditionalPropertyObject(obj)
 	}
 
 	return astmodel.MakeTypeDefinition(typeName, oneOf)
@@ -73,7 +73,7 @@ func createTestLeafOneOf(
 
 	if len(additionalProperties) > 0 {
 		obj := astmodel.NewObjectType().WithProperties(additionalProperties...)
-		oneOf = oneOf.WithType(obj)
+		oneOf = oneOf.WithAdditionalPropertyObject(obj)
 	}
 
 	return astmodel.MakeTypeDefinition(typeName, oneOf)
