@@ -5,7 +5,7 @@ linktitle: Multitenancy
 
 Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
 
-### Single operator multitenancy (default)
+## Single operator multitenancy (default)
 Single operator deployed in the `azureserviceoperator-system` namespace.
 This operator can be configured to manage resources with multiple different identities:
 * Single global credential `aso-controller-settings` deployed as part of operator deployment in operator's namespace.
@@ -14,12 +14,7 @@ This operator can be configured to manage resources with multiple different iden
 
 When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.
 
-### Multiple operator multitenancy
-Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
-
-ASO may also be deployed in a _multi-tenant_ configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
-
-## Single operator multitenancy deployment
+### Deployment
 
 To deploy the operator in single-operator multi-tenant mode:
 
@@ -42,7 +37,14 @@ To deploy the operator in single-operator multi-tenant mode:
      AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
 ```
 
-## Multiple operator multitenancy deployment
+
+## Multiple operator multitenancy
+Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
+
+ASO may also be deployed in a _multi-tenant_ configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.
+
+
+### Multiple operator multitenancy deployment
 
 To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:
 
@@ -116,7 +118,6 @@ secret/aso-controller-settings   Opaque                                5      3d
 secret/default-token-mqmpb       kubernetes.io/service-account-token   3      3d
 ```
 
-
 ### Helm Installation
 
 To deploy the operator in multi-operator multi-tenant using helm is split into two parts:
@@ -154,12 +155,11 @@ To deploy the operator in multi-operator multi-tenant using helm is split into t
       --set multitenant.enable=true
       --set azureOperatorMode=watchers
    ```
-
-
-## Role handling
+   
+### Role handling
 The multi-tenant deployment example files have a single `ClusterRole` that grants access to the Azure resource types,
 and then a binding to that `ClusterRole` for the service account in each tenant-operator namespace.
-Each `ClusterRoleBinding` is named for the specific tenant so they don't collide and can be managed separately:
+Each `ClusterRoleBinding` is named for the specific tenant, so they don't collide and can be managed separately:
 
 ![diagram showing cluster-level role bindings pointing to tenant namespace service accounts](../multitenant-simple-roles.png)
 
@@ -173,7 +173,7 @@ and a `RoleBinding` should be created in that namespace linking the `Role` to th
 
 ![diagram showing namespace-scoped roles and bindings pointing to tenant operator service accounts](../multitenant-restrictive-roles.png)
 
-## Upgrading
+### Upgrading
 When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook deployment must be upgraded before upgrading the tenant operators.
 
 Applying the new version of the `multitenant-cluster` YAML file will add new and updated CRDs, then update the webhook configuration and cluster roles.
