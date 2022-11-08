@@ -97,91 +97,111 @@ func (oa *oneOfAssembler) assembleOneOfs() (astmodel.TypeDefinitionSet, error) {
 
 // assemble is called to build up a single oneOf type.
 func (oa *oneOfAssembler) assemble(name astmodel.TypeName) error {
-	root, ok := oa.findParentFor(name)
-	if !ok {
-		// No parent, so we've found a root
-		return oa.removeCommonPropertiesFromRoot(name)
-	}
-
-	// We have a parent, so we're a leaf
-	for {
-		// Remove any direct reference to the parent from the leaf
-		err := oa.removeParentReferenceFromLeaf(root, name)
+	for _, tn := range oa.findParentsOf(name) {
+		err := oa.assemblePair(tn, name)
 		if err != nil {
-			return errors.Wrapf(err, "couldn't remove parent reference to %s from leaf %s", root, name)
+			return err
 		}
-
-		// Copy any common properties from the parent to the child
-		err = oa.embedCommonPropertiesInLeaf(root, name)
-		if err != nil {
-			return errors.Wrapf(err, "couldn't embed common properties from %s in leaf %s", root, name)
-		}
-
-		// Now we need to check if the parent is a leaf itself
-		parent, ok := oa.findParentFor(root)
-		if !ok {
-			break
-		}
-
-		root = parent
-	}
-
-	// We've found the actual root, add a reference to the leaf
-	err := oa.addLeafReferenceToRoot(root, name)
-	if err != nil {
-		return errors.Wrapf(err, "couldn't add leaf reference to %s from root %s", name, root)
-	}
-
-	// Ensure the discriminator property exists on the leaf
-	err = oa.addDiscriminatorProperty(name, root)
-	if err != nil {
-		return errors.Wrapf(err, "couldn't ensure discriminator property exists on %s", name)
 	}
 
 	return nil
 }
 
-// findParentFor returns the parent of the provided oneOf, if any.
-// leaf is the name of the oneOf to find the parent for.
-// If the provided oneOf has a parent, the parent's name is returned along with true.
-// Otherwise, we return an empty name and false.
-func (oa *oneOfAssembler) findParentFor(
-	leaf astmodel.TypeName,
-) (astmodel.TypeName, bool) {
+// assemblePair updates a pair of nodes that have a relationship and recursively invokes itself to traverse the entire
+// tree of referenced imports.
+// ancestor is the parent or super-type. It may be a less specialised OneOf, a root OneOf, an Object or an AllOf
+// descendent is the child or subtype. It will be an intermediate or leaf OneOf.
+func (oa *oneOfAssembler) assemblePair(ancestor astmodel.TypeName, descendant astmodel.TypeName) error {
+	// Remove any direct reference to the parent from the leaf
+	err := oa.removeParentReferenceFromLeaf(ancestor, descendant)
+	if err != nil {
+		return errors.Wrapf(err, "removing parent reference %s from leaf %s", ancestor, descendant)
+	}
+
+	if oa.hasDiscriminatorValue(descendant) {
+		// Copy any common properties from the parent to the child
+		err = oa.embedCommonPropertiesInLeaf(ancestor, descendant)
+		if err != nil {
+			return errors.Wrapf(err, "embedding common properties from %s in leaf %s", ancestor, descendant)
+		}
+	}
+
+	if oa.isDiscriminatorRoot(ancestor) {
+		// Strip common properties from the root (we replace these with other properties in a later stage)
+		err := oa.removeCommonPropertiesFromRoot(ancestor)
+		if err != nil {
+			return errors.Wrapf(err, "removing common properties from OneOf root %s", ancestor)
+		}
+
+		// We've found the actual root, add a reference to the leaf
+		err = oa.addLeafReferenceToRoot(ancestor, descendant)
+		if err != nil {
+			return errors.Wrapf(err, "adding leaf reference to %s from root %s", descendant, ancestor)
+		}
+
+		// Ensure the discriminator property exists on the leaf
+		err = oa.addDiscriminatorProperty(descendant, ancestor)
+		if err != nil {
+			return errors.Wrapf(err, "ensuring discriminator property exists on %s", descendant)
+		}
+	}
+
+	// Recursively walk any parent's of the current ancestor
+	for _, tn := range oa.findParentsOf(ancestor) {
+		err := oa.assemblePair(tn, descendant)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// findParentsFor returns the parents of the provided typename, if any.
+// name is the name of the type to find parents for.
+func (oa *oneOfAssembler) findParentsOf(
+	name astmodel.TypeName,
+) []astmodel.TypeName {
 	// Look up the definition
-	def, ok := oa.defs[leaf]
+	def, ok := oa.defs[name]
 	if !ok {
 		// No definition, this may point to an external type
-		return astmodel.EmptyTypeName, false
+		return nil
 	}
 
-	oneOf, ok := astmodel.AsOneOfType(def.Type())
-	if !ok {
-		// Not a OneOF, can't have a parent
-		return astmodel.EmptyTypeName, false
+	if tn, ok := astmodel.AsTypeName(def.Type()); ok {
+		// Expand aliases
+		return oa.findParentsOf(tn)
 	}
 
-	result := astmodel.EmptyTypeName
-	found := false
-
-	// Look for a reference to a parent
-	// We iterate through all the referenced types - finding more than one typename that points to a OneOf violates
-	// our understanding of the way Azure uses OpenAPI specs, so we'll error out if we find more than one.
-	oneOf.Types().ForEach(func(t astmodel.Type, _ int) {
-		if tn, ok := astmodel.AsTypeName(t); ok {
-			if _, ok := oa.asOneOf(tn); ok {
-				if found {
-					// We've already found a parent, this is an error
-					panic(fmt.Sprintf("Found multiple parents for %s", leaf))
-				}
-
-				result = tn
-				found = true
+	if oneOf, ok := astmodel.AsOneOfType(def.Type()); ok {
+		// Found a oneOf, look for parents here
+		types := oneOf.Types()
+		result := make([]astmodel.TypeName, 0, types.Len())
+		types.ForEach(func(t astmodel.Type, ix int) {
+			if tn, ok := astmodel.AsTypeName(t); ok {
+				result = append(result, tn)
 			}
-		}
-	})
+		})
 
-	return result, found
+		return result
+	}
+
+	if allOf, ok := astmodel.AsAllOfType(def.Type()); ok {
+		// Found an allOf, look for parents here
+		types := allOf.Types()
+		result := make([]astmodel.TypeName, 0, types.Len())
+		types.ForEach(func(t astmodel.Type, ix int) {
+			if tn, ok := astmodel.AsTypeName(t); ok {
+				result = append(result, tn)
+			}
+		})
+
+		return result
+	}
+
+	// No parents
+	return nil
 }
 
 // removeCommonPropertiesFromRoot removes any common properties from the root of a oneOf hierarchy.
@@ -209,26 +229,54 @@ func (oa *oneOfAssembler) removeParentReferenceFromLeaf(parent astmodel.TypeName
 	return errors.Wrapf(err, "removing parent reference from leaf %s", leaf)
 }
 
-// embedCommonPropertiesInLeaf embeds any common properties found on the parent into the leaf
+// embedCommonPropertiesInLeaf embeds any common properties found on the parent into the leaf.
+// Parents can be OneOf, AllOf or object types.
+// A OneOf parent may be either the root of the OneOf tree, or an intermediate OneOf option that is also specialised
+// An AllOf parent is always an intermediate node, which isn't a valid option in itself, but is used to embed common properties
+//
+// One case where this happens is in MachineLearningServices, v2022-50-1, where DataVersionBase references AssetBase
+// to pull in common properties.
 func (oa *oneOfAssembler) embedCommonPropertiesInLeaf(parent astmodel.TypeName, leaf astmodel.TypeName) error {
-	parentOneOf, ok := oa.asOneOf(parent)
-	if !ok {
-		// Not a parent, nothing to do
-		return nil
-	}
-
+	commonProperties := oa.findCommonProperties(parent)
 	err := oa.updateOneOf(
 		leaf,
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
 			result := oneOf
-			for _, obj := range parentOneOf.PropertyObjects() {
+			for _, obj := range commonProperties {
 				result = result.WithAdditionalPropertyObject(obj)
 			}
 
 			return result, nil
 		})
 
-	return errors.Wrapf(err, "embedding common properties in leaf %s", leaf)
+	return errors.Wrapf(err, "embedding common properties from OneOf in leaf %s", leaf)
+}
+
+// findCommonProperties finds all the object properties referenced by name to embed in a leaf OneOf.
+// Recursively walking the reference tree is handled elsewhere.
+func (oa *oneOfAssembler) findCommonProperties(name astmodel.TypeName) []*astmodel.ObjectType {
+	if parentOneOf, ok := oa.asOneOf(name); ok {
+		// Parent is a OneOf
+		return parentOneOf.PropertyObjects()
+	}
+
+	if parentAllOf, ok := oa.asAllOf(name); ok {
+		// Parent is an AllOf
+		result := make([]*astmodel.ObjectType, 0, parentAllOf.Types().Len())
+		parentAllOf.Types().ForEach(func(t astmodel.Type, ix int) {
+			if obj, ok := astmodel.AsObjectType(t); ok {
+				result = append(result, obj)
+			}
+		})
+
+		return result
+	}
+
+	if obj, ok := oa.asObject(name); ok {
+		return []*astmodel.ObjectType{obj}
+	}
+
+	return nil
 }
 
 // addLeafReferenceToRoot adds a reference to the leaf to the root.
@@ -281,7 +329,7 @@ func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.TypeName, rootN
 	return err
 }
 
-// asOneOf returns true if the provided name identifies is a OneOf, false otherwise.
+// asOneOf returns a OneOf and true if the provided name identifies is a OneOf, nil and false otherwise.
 // name is the name of the type to check.
 func (oa *oneOfAssembler) asOneOf(name astmodel.TypeName) (*astmodel.OneOfType, bool) {
 	def, ok := oa.defs[name]
@@ -292,6 +340,52 @@ func (oa *oneOfAssembler) asOneOf(name astmodel.TypeName) (*astmodel.OneOfType, 
 	}
 
 	return astmodel.AsOneOfType(def.Type())
+}
+
+// asAllOf returns an AllOf and true if the provided name identifies an AllOf, nil and false otherwise.
+// name is the name of the type to check.
+func (oa *oneOfAssembler) asAllOf(name astmodel.TypeName) (*astmodel.AllOfType, bool) {
+	def, ok := oa.defs[name]
+	if !ok {
+		// Name doesn't identify anything!
+		// (This can happen if the name references our standard library, for example)
+		return nil, false
+	}
+
+	return astmodel.AsAllOfType(def.Type())
+}
+
+// asObject returns an object and true if the provided name identifies an object, false otherwise
+// name is the name of the type to check.
+func (oa *oneOfAssembler) asObject(name astmodel.TypeName) (*astmodel.ObjectType, bool) {
+	def, ok := oa.defs[name]
+	if !ok {
+		// Name doesn't identify anything!
+		// (This can happen if the name references our standard library, for example)
+		return nil, false
+	}
+
+	return astmodel.AsObjectType(def.Type())
+}
+
+// hasDiscriminatorValue returns true if the oneOf has a discriminator value
+func (oa *oneOfAssembler) hasDiscriminatorValue(name astmodel.TypeName) bool {
+	oneOf, ok := oa.asOneOf(name)
+	if !ok {
+		return false
+	}
+
+	return oneOf.HasDiscriminatorValue()
+}
+
+// isDiscriminatorRoot returns true if the oneOf is the root of a set of OneOf options
+func (oa *oneOfAssembler) isDiscriminatorRoot(name astmodel.TypeName) bool {
+	oneOf, ok := oa.asOneOf(name)
+	if !ok {
+		return false
+	}
+
+	return oneOf.HasDiscriminatorProperty()
 }
 
 // updateOneOf is used to make a change to a oneOf type.
