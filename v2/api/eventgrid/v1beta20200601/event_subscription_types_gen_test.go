@@ -528,7 +528,7 @@ func DeadLetterDestinationGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDeadLetterDestination is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDeadLetterDestination(gens map[string]gopter.Gen) {
-	gens["StorageBlobDeadLetterDestination"] = StorageBlobDeadLetterDestinationGenerator().Map(func(it StorageBlobDeadLetterDestination) *StorageBlobDeadLetterDestination {
+	gens["StorageBlob"] = StorageBlobDeadLetterDestinationGenerator().Map(func(it StorageBlobDeadLetterDestination) *StorageBlobDeadLetterDestination {
 		return &it
 	}) // generate one case for OneOf type
 }
@@ -639,7 +639,7 @@ func DeadLetterDestination_STATUSGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDeadLetterDestination_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDeadLetterDestination_STATUS(gens map[string]gopter.Gen) {
-	gens["StorageBlobDeadLetterDestination_STATUS"] = StorageBlobDeadLetterDestination_STATUSGenerator().Map(func(it StorageBlobDeadLetterDestination_STATUS) *StorageBlobDeadLetterDestination_STATUS {
+	gens["StorageBlob"] = StorageBlobDeadLetterDestination_STATUSGenerator().Map(func(it StorageBlobDeadLetterDestination_STATUS) *StorageBlobDeadLetterDestination_STATUS {
 		return &it
 	}) // generate one case for OneOf type
 }

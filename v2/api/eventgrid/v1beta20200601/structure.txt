@@ -13,7 +13,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
 │   │   ├── InputSchemaMapping: Object (1 property)
-│   │   │   └── JsonInputSchemaMapping: Object (7 properties)
+│   │   │   └── Json: Object (7 properties)
 │   │   │       ├── DataVersion: Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
 │   │   │       │   └── SourceField: *string
@@ -50,7 +50,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │   ├── "CustomEventSchema"
 │       │   └── "EventGridSchema"
 │       ├── InputSchemaMapping: Object (1 property)
-│       │   └── JsonInputSchemaMapping_STATUS: Object (7 properties)
+│       │   └── Json: Object (7 properties)
 │       │       ├── DataVersion: Object (2 properties)
 │       │       │   ├── DefaultValue: *string
 │       │       │   └── SourceField: *string
@@ -115,7 +115,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
 │   │   ├── InputSchemaMapping: Object (1 property)
-│   │   │   └── JsonInputSchemaMapping_STATUS: Object (2 properties)
+│   │   │   └── Json: Object (2 properties)
 │   │   │       ├── InputSchemaMappingType: Enum (1 value)
 │   │   │       │   └── "Json"
 │   │   │       └── Properties: Object (6 properties)
@@ -178,7 +178,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
 │   │   ├── InputSchemaMapping: Object (1 property)
-│   │   │   └── JsonInputSchemaMapping: Object (2 properties)
+│   │   │   └── Json: Object (2 properties)
 │   │   │       ├── InputSchemaMappingType: Enum (1 value)
 │   │   │       │   └── "Json"
 │   │   │       └── Properties: Object (6 properties)
@@ -266,7 +266,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── DeadLetterDestination: Object (1 property)
-│   │   │   └── StorageBlobDeadLetterDestination: Object (3 properties)
+│   │   │   └── StorageBlob: Object (3 properties)
 │   │   │       ├── BlobContainerName: *string
 │   │   │       ├── EndpointType: Enum (1 value)
 │   │   │       │   └── "StorageBlob"
@@ -386,7 +386,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   └── Status: Object (14 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── DeadLetterDestination: Object (1 property)
-│       │   └── StorageBlobDeadLetterDestination_STATUS: Object (3 properties)
+│       │   └── StorageBlob: Object (3 properties)
 │       │       ├── BlobContainerName: *string
 │       │       ├── EndpointType: Enum (1 value)
 │       │       │   └── "StorageBlob"
@@ -534,7 +534,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   ├── Name: *string
 │   ├── Properties: Object (9 properties)
 │   │   ├── DeadLetterDestination: Object (1 property)
-│   │   │   └── StorageBlobDeadLetterDestination_STATUS: Object (2 properties)
+│   │   │   └── StorageBlob: Object (2 properties)
 │   │   │       ├── EndpointType: Enum (1 value)
 │   │   │       │   └── "StorageBlob"
 │   │   │       └── Properties: Object (2 properties)
@@ -688,7 +688,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   ├── Name: string
 │   └── Properties: Object (7 properties)
 │       ├── DeadLetterDestination: Object (1 property)
-│       │   └── StorageBlobDeadLetterDestination: Object (2 properties)
+│       │   └── StorageBlob: Object (2 properties)
 │       │       ├── EndpointType: Enum (1 value)
 │       │       │   └── "StorageBlob"
 │       │       └── Properties: Object (2 properties)
@@ -831,7 +831,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │   ├── "CustomEventSchema"
 │       │   └── "EventGridSchema"
 │       ├── InputSchemaMapping: Object (1 property)
-│       │   └── JsonInputSchemaMapping_STATUS: Object (7 properties)
+│       │   └── Json: Object (7 properties)
 │       │       ├── DataVersion: Object (2 properties)
 │       │       │   ├── DefaultValue: *string
 │       │       │   └── SourceField: *string
@@ -896,7 +896,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   ├── "CustomEventSchema"
 │   │   │   └── "EventGridSchema"
 │   │   ├── InputSchemaMapping: Object (1 property)
-│   │   │   └── JsonInputSchemaMapping_STATUS: Object (2 properties)
+│   │   │   └── Json: Object (2 properties)
 │   │   │       ├── InputSchemaMappingType: Enum (1 value)
 │   │   │       │   └── "Json"
 │   │   │       └── Properties: Object (6 properties)

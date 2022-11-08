@@ -746,16 +746,16 @@ func ServerPropertiesForCreateGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServerPropertiesForCreate is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerPropertiesForCreate(gens map[string]gopter.Gen) {
-	gens["ServerPropertiesForDefaultCreate"] = ServerPropertiesForDefaultCreateGenerator().Map(func(it ServerPropertiesForDefaultCreate) *ServerPropertiesForDefaultCreate {
+	gens["Default"] = ServerPropertiesForDefaultCreateGenerator().Map(func(it ServerPropertiesForDefaultCreate) *ServerPropertiesForDefaultCreate {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ServerPropertiesForGeoRestore"] = ServerPropertiesForGeoRestoreGenerator().Map(func(it ServerPropertiesForGeoRestore) *ServerPropertiesForGeoRestore {
+	gens["GeoRestore"] = ServerPropertiesForGeoRestoreGenerator().Map(func(it ServerPropertiesForGeoRestore) *ServerPropertiesForGeoRestore {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ServerPropertiesForReplica"] = ServerPropertiesForReplicaGenerator().Map(func(it ServerPropertiesForReplica) *ServerPropertiesForReplica {
+	gens["PointInTimeRestore"] = ServerPropertiesForRestoreGenerator().Map(func(it ServerPropertiesForRestore) *ServerPropertiesForRestore {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ServerPropertiesForRestore"] = ServerPropertiesForRestoreGenerator().Map(func(it ServerPropertiesForRestore) *ServerPropertiesForRestore {
+	gens["Replica"] = ServerPropertiesForReplicaGenerator().Map(func(it ServerPropertiesForReplica) *ServerPropertiesForReplica {
 		return &it
 	}) // generate one case for OneOf type
 }

@@ -1585,34 +1585,34 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v20210701s.Comp
 
 type Compute_STATUS struct {
 	// AKS: Mutually exclusive with all other properties
-	AKS *AKS_STATUS `json:"aks_STATUS,omitempty"`
+	AKS *AKS_STATUS `json:"aks,omitempty"`
 
 	// AmlCompute: Mutually exclusive with all other properties
-	AmlCompute *AmlCompute_STATUS `json:"amlCompute_STATUS,omitempty"`
+	AmlCompute *AmlCompute_STATUS `json:"amlCompute,omitempty"`
 
 	// ComputeInstance: Mutually exclusive with all other properties
-	ComputeInstance *ComputeInstance_STATUS `json:"computeInstance_STATUS,omitempty"`
+	ComputeInstance *ComputeInstance_STATUS `json:"computeInstance,omitempty"`
 
 	// DataFactory: Mutually exclusive with all other properties
-	DataFactory *DataFactory_STATUS `json:"dataFactory_STATUS,omitempty"`
+	DataFactory *DataFactory_STATUS `json:"dataFactory,omitempty"`
 
 	// DataLakeAnalytics: Mutually exclusive with all other properties
-	DataLakeAnalytics *DataLakeAnalytics_STATUS `json:"dataLakeAnalytics_STATUS,omitempty"`
+	DataLakeAnalytics *DataLakeAnalytics_STATUS `json:"dataLakeAnalytics,omitempty"`
 
 	// Databricks: Mutually exclusive with all other properties
-	Databricks *Databricks_STATUS `json:"databricks_STATUS,omitempty"`
+	Databricks *Databricks_STATUS `json:"databricks,omitempty"`
 
 	// HDInsight: Mutually exclusive with all other properties
-	HDInsight *HDInsight_STATUS `json:"hdInsight_STATUS,omitempty"`
+	HDInsight *HDInsight_STATUS `json:"hdInsight,omitempty"`
 
 	// Kubernetes: Mutually exclusive with all other properties
-	Kubernetes *Kubernetes_STATUS `json:"kubernetes_STATUS,omitempty"`
+	Kubernetes *Kubernetes_STATUS `json:"kubernetes,omitempty"`
 
 	// SynapseSpark: Mutually exclusive with all other properties
-	SynapseSpark *SynapseSpark_STATUS `json:"synapseSpark_STATUS,omitempty"`
+	SynapseSpark *SynapseSpark_STATUS `json:"synapseSpark,omitempty"`
 
 	// VirtualMachine: Mutually exclusive with all other properties
-	VirtualMachine *VirtualMachine_STATUS `json:"virtualMachine_STATUS,omitempty"`
+	VirtualMachine *VirtualMachine_STATUS `json:"virtualMachine,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Compute_STATUS{}

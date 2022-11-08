@@ -45,13 +45,13 @@ type EventSubscriptionProperties_ARM struct {
 
 // Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead
 type DeadLetterDestination_ARM struct {
-	StorageBlobDeadLetterDestination *StorageBlobDeadLetterDestination_ARM `json:"storageBlobDeadLetterDestination,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination_ARM `json:"storageBlob,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeadLetterDestination_ARM represents a discriminated union (JSON OneOf)
 func (destination DeadLetterDestination_ARM) MarshalJSON() ([]byte, error) {
-	if destination.StorageBlobDeadLetterDestination != nil {
-		return json.Marshal(destination.StorageBlobDeadLetterDestination)
+	if destination.StorageBlob != nil {
+		return json.Marshal(destination.StorageBlob)
 	}
 	return nil, nil
 }
@@ -65,8 +65,8 @@ func (destination *DeadLetterDestination_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["endpointType"]
 	if discriminator == "StorageBlob" {
-		destination.StorageBlobDeadLetterDestination = &StorageBlobDeadLetterDestination_ARM{}
-		return json.Unmarshal(data, destination.StorageBlobDeadLetterDestination)
+		destination.StorageBlob = &StorageBlobDeadLetterDestination_ARM{}
+		return json.Unmarshal(data, destination.StorageBlob)
 	}
 
 	// No error
@@ -75,13 +75,13 @@ func (destination *DeadLetterDestination_ARM) UnmarshalJSON(data []byte) error {
 
 // Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination_ARM struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination_ARM    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination_ARM         `json:"eventHubEventSubscriptionDestination,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination_ARM `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_ARM  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_ARM  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination_ARM     `json:"storageQueueEventSubscriptionDestination,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination_ARM          `json:"webHookEventSubscriptionDestination,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_ARM    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_ARM         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_ARM `json:"hybridConnection,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_ARM  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_ARM  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_ARM     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_ARM          `json:"webHook,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestination_ARM represents a discriminated union (JSON OneOf)
@@ -168,18 +168,18 @@ type RetryPolicy_ARM struct {
 
 // Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
 type AdvancedFilter_ARM struct {
-	BoolEquals                *BoolEqualsAdvancedFilter_ARM                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_ARM         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_ARM `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *NumberInAdvancedFilter_ARM                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *NumberLessThanAdvancedFilter_ARM            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_ARM    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *NumberNotInAdvancedFilter_ARM               `json:"numberNotInAdvancedFilter,omitempty"`
-	StringBeginsWith          *StringBeginsWithAdvancedFilter_ARM          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *StringContainsAdvancedFilter_ARM            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *StringEndsWithAdvancedFilter_ARM            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *StringInAdvancedFilter_ARM                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *StringNotInAdvancedFilter_ARM               `json:"stringNotInAdvancedFilter,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter_ARM                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_ARM         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_ARM `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter_ARM                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter_ARM            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_ARM    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter_ARM               `json:"numberNotIn,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter_ARM          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter_ARM            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter_ARM            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter_ARM                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter_ARM               `json:"stringNotIn,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilter_ARM represents a discriminated union (JSON OneOf)

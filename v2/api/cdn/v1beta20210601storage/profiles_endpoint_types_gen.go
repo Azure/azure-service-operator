@@ -455,78 +455,78 @@ type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 
 // Storage version of v1beta20210601.DeliveryRuleAction
 type DeliveryRuleAction struct {
-	DeliveryRuleCacheExpiration            *DeliveryRuleCacheExpirationAction            `json:"deliveryRuleCacheExpirationAction,omitempty"`
-	DeliveryRuleCacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction        `json:"deliveryRuleCacheKeyQueryStringAction,omitempty"`
-	DeliveryRuleRequestHeader              *DeliveryRuleRequestHeaderAction              `json:"deliveryRuleRequestHeaderAction,omitempty"`
-	DeliveryRuleResponseHeader             *DeliveryRuleResponseHeaderAction             `json:"deliveryRuleResponseHeaderAction,omitempty"`
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"deliveryRuleRouteConfigurationOverrideAction,omitempty"`
-	OriginGroupOverride                    *OriginGroupOverrideAction                    `json:"originGroupOverrideAction,omitempty"`
-	PropertyBag                            genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	UrlRedirect                            *UrlRedirectAction                            `json:"urlRedirectAction,omitempty"`
-	UrlRewrite                             *UrlRewriteAction                             `json:"urlRewriteAction,omitempty"`
-	UrlSigning                             *UrlSigningAction                             `json:"urlSigningAction,omitempty"`
+	CacheExpiration            *DeliveryRuleCacheExpirationAction            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction                    `json:"originGroupOverride,omitempty"`
+	PropertyBag                genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"routeConfigurationOverride,omitempty"`
+	UrlRedirect                *UrlRedirectAction                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction                             `json:"urlSigning,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRuleAction_STATUS
 type DeliveryRuleAction_STATUS struct {
-	DeliveryRuleCacheExpiration            *DeliveryRuleCacheExpirationAction_STATUS            `json:"deliveryRuleCacheExpirationAction_STATUS,omitempty"`
-	DeliveryRuleCacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction_STATUS        `json:"deliveryRuleCacheKeyQueryStringAction_STATUS,omitempty"`
-	DeliveryRuleRequestHeader              *DeliveryRuleRequestHeaderAction_STATUS              `json:"deliveryRuleRequestHeaderAction_STATUS,omitempty"`
-	DeliveryRuleResponseHeader             *DeliveryRuleResponseHeaderAction_STATUS             `json:"deliveryRuleResponseHeaderAction_STATUS,omitempty"`
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS `json:"deliveryRuleRouteConfigurationOverrideAction_STATUS,omitempty"`
-	OriginGroupOverride                    *OriginGroupOverrideAction_STATUS                    `json:"originGroupOverrideAction_STATUS,omitempty"`
-	PropertyBag                            genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	UrlRedirect                            *UrlRedirectAction_STATUS                            `json:"urlRedirectAction_STATUS,omitempty"`
-	UrlRewrite                             *UrlRewriteAction_STATUS                             `json:"urlRewriteAction_STATUS,omitempty"`
-	UrlSigning                             *UrlSigningAction_STATUS                             `json:"urlSigningAction_STATUS,omitempty"`
+	CacheExpiration            *DeliveryRuleCacheExpirationAction_STATUS            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction_STATUS        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction_STATUS              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction_STATUS             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction_STATUS                    `json:"originGroupOverride,omitempty"`
+	PropertyBag                genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS `json:"routeConfigurationOverride,omitempty"`
+	UrlRedirect                *UrlRedirectAction_STATUS                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction_STATUS                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction_STATUS                             `json:"urlSigning,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCondition
 type DeliveryRuleCondition struct {
-	DeliveryRuleClientPort       *DeliveryRuleClientPortCondition       `json:"deliveryRuleClientPortCondition,omitempty"`
-	DeliveryRuleCookies          *DeliveryRuleCookiesCondition          `json:"deliveryRuleCookiesCondition,omitempty"`
-	DeliveryRuleHostName         *DeliveryRuleHostNameCondition         `json:"deliveryRuleHostNameCondition,omitempty"`
-	DeliveryRuleHttpVersion      *DeliveryRuleHttpVersionCondition      `json:"deliveryRuleHttpVersionCondition,omitempty"`
-	DeliveryRuleIsDevice         *DeliveryRuleIsDeviceCondition         `json:"deliveryRuleIsDeviceCondition,omitempty"`
-	DeliveryRulePostArgs         *DeliveryRulePostArgsCondition         `json:"deliveryRulePostArgsCondition,omitempty"`
-	DeliveryRuleQueryString      *DeliveryRuleQueryStringCondition      `json:"deliveryRuleQueryStringCondition,omitempty"`
-	DeliveryRuleRemoteAddress    *DeliveryRuleRemoteAddressCondition    `json:"deliveryRuleRemoteAddressCondition,omitempty"`
-	DeliveryRuleRequestBody      *DeliveryRuleRequestBodyCondition      `json:"deliveryRuleRequestBodyCondition,omitempty"`
-	DeliveryRuleRequestHeader    *DeliveryRuleRequestHeaderCondition    `json:"deliveryRuleRequestHeaderCondition,omitempty"`
-	DeliveryRuleRequestMethod    *DeliveryRuleRequestMethodCondition    `json:"deliveryRuleRequestMethodCondition,omitempty"`
-	DeliveryRuleRequestScheme    *DeliveryRuleRequestSchemeCondition    `json:"deliveryRuleRequestSchemeCondition,omitempty"`
-	DeliveryRuleRequestUri       *DeliveryRuleRequestUriCondition       `json:"deliveryRuleRequestUriCondition,omitempty"`
-	DeliveryRuleServerPort       *DeliveryRuleServerPortCondition       `json:"deliveryRuleServerPortCondition,omitempty"`
-	DeliveryRuleSocketAddr       *DeliveryRuleSocketAddrCondition       `json:"deliveryRuleSocketAddrCondition,omitempty"`
-	DeliveryRuleSslProtocol      *DeliveryRuleSslProtocolCondition      `json:"deliveryRuleSslProtocolCondition,omitempty"`
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"deliveryRuleUrlFileExtensionCondition,omitempty"`
-	DeliveryRuleUrlFileName      *DeliveryRuleUrlFileNameCondition      `json:"deliveryRuleUrlFileNameCondition,omitempty"`
-	DeliveryRuleUrlPath          *DeliveryRuleUrlPathCondition          `json:"deliveryRuleUrlPathCondition,omitempty"`
-	PropertyBag                  genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	ClientPort       *DeliveryRuleClientPortCondition       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition         `json:"postArgs,omitempty"`
+	PropertyBag      genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition      `json:"sslProtocol,omitempty"`
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"urlFileExtension,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition          `json:"urlPath,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCondition_STATUS
 type DeliveryRuleCondition_STATUS struct {
-	DeliveryRuleClientPort       *DeliveryRuleClientPortCondition_STATUS       `json:"deliveryRuleClientPortCondition_STATUS,omitempty"`
-	DeliveryRuleCookies          *DeliveryRuleCookiesCondition_STATUS          `json:"deliveryRuleCookiesCondition_STATUS,omitempty"`
-	DeliveryRuleHostName         *DeliveryRuleHostNameCondition_STATUS         `json:"deliveryRuleHostNameCondition_STATUS,omitempty"`
-	DeliveryRuleHttpVersion      *DeliveryRuleHttpVersionCondition_STATUS      `json:"deliveryRuleHttpVersionCondition_STATUS,omitempty"`
-	DeliveryRuleIsDevice         *DeliveryRuleIsDeviceCondition_STATUS         `json:"deliveryRuleIsDeviceCondition_STATUS,omitempty"`
-	DeliveryRulePostArgs         *DeliveryRulePostArgsCondition_STATUS         `json:"deliveryRulePostArgsCondition_STATUS,omitempty"`
-	DeliveryRuleQueryString      *DeliveryRuleQueryStringCondition_STATUS      `json:"deliveryRuleQueryStringCondition_STATUS,omitempty"`
-	DeliveryRuleRemoteAddress    *DeliveryRuleRemoteAddressCondition_STATUS    `json:"deliveryRuleRemoteAddressCondition_STATUS,omitempty"`
-	DeliveryRuleRequestBody      *DeliveryRuleRequestBodyCondition_STATUS      `json:"deliveryRuleRequestBodyCondition_STATUS,omitempty"`
-	DeliveryRuleRequestHeader    *DeliveryRuleRequestHeaderCondition_STATUS    `json:"deliveryRuleRequestHeaderCondition_STATUS,omitempty"`
-	DeliveryRuleRequestMethod    *DeliveryRuleRequestMethodCondition_STATUS    `json:"deliveryRuleRequestMethodCondition_STATUS,omitempty"`
-	DeliveryRuleRequestScheme    *DeliveryRuleRequestSchemeCondition_STATUS    `json:"deliveryRuleRequestSchemeCondition_STATUS,omitempty"`
-	DeliveryRuleRequestUri       *DeliveryRuleRequestUriCondition_STATUS       `json:"deliveryRuleRequestUriCondition_STATUS,omitempty"`
-	DeliveryRuleServerPort       *DeliveryRuleServerPortCondition_STATUS       `json:"deliveryRuleServerPortCondition_STATUS,omitempty"`
-	DeliveryRuleSocketAddr       *DeliveryRuleSocketAddrCondition_STATUS       `json:"deliveryRuleSocketAddrCondition_STATUS,omitempty"`
-	DeliveryRuleSslProtocol      *DeliveryRuleSslProtocolCondition_STATUS      `json:"deliveryRuleSslProtocolCondition_STATUS,omitempty"`
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS `json:"deliveryRuleUrlFileExtensionCondition_STATUS,omitempty"`
-	DeliveryRuleUrlFileName      *DeliveryRuleUrlFileNameCondition_STATUS      `json:"deliveryRuleUrlFileNameCondition_STATUS,omitempty"`
-	DeliveryRuleUrlPath          *DeliveryRuleUrlPathCondition_STATUS          `json:"deliveryRuleUrlPathCondition_STATUS,omitempty"`
-	PropertyBag                  genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	ClientPort       *DeliveryRuleClientPortCondition_STATUS       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition_STATUS          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition_STATUS         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition_STATUS      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition_STATUS         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition_STATUS         `json:"postArgs,omitempty"`
+	PropertyBag      genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition_STATUS      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition_STATUS    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition_STATUS      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition_STATUS    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition_STATUS    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition_STATUS    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition_STATUS       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition_STATUS       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition_STATUS       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition_STATUS      `json:"sslProtocol,omitempty"`
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS `json:"urlFileExtension,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition_STATUS      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition_STATUS          `json:"urlPath,omitempty"`
 }
 
 // Storage version of v1beta20210601.HttpErrorRangeParameters

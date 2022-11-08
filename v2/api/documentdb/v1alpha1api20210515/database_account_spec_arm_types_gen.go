@@ -90,8 +90,8 @@ type ApiProperties_ARM struct {
 
 // Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy_ARM struct {
-	Continuous *ContinuousModeBackupPolicy_ARM `json:"continuousModeBackupPolicy,omitempty"`
-	Periodic   *PeriodicModeBackupPolicy_ARM   `json:"periodicModeBackupPolicy,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_ARM `json:"continuous,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy_ARM   `json:"periodic,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_ARM represents a discriminated union (JSON OneOf)

@@ -236,14 +236,14 @@ type InboundIpRule_STATUS struct {
 
 // Storage version of v1beta20200601.InputSchemaMapping
 type InputSchemaMapping struct {
-	JsonInputSchemaMapping *JsonInputSchemaMapping `json:"jsonInputSchemaMapping,omitempty"`
-	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200601.InputSchemaMapping_STATUS
 type InputSchemaMapping_STATUS struct {
-	JsonInputSchemaMapping_STATUS *JsonInputSchemaMapping_STATUS `json:"jsonInputSchemaMapping_STATUS,omitempty"`
-	PropertyBag                   genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping_STATUS `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded

@@ -49,7 +49,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Rules: Object (5 properties)
     │   │       ├── Actions: Object (10 properties)
-    │   │       │   ├── DeliveryRuleCacheExpiration: Object (3 properties)
+    │   │       │   ├── CacheExpiration: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (5 properties)
     │   │       │   │   │   ├── CacheBehavior: *string
@@ -58,7 +58,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleCacheKeyQueryString: Object (3 properties)
+    │   │       │   ├── CacheKeyQueryString: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (4 properties)
     │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -66,7 +66,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── QueryStringBehavior: *string
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRequestHeader: Object (3 properties)
+    │   │       │   ├── ModifyRequestHeader: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (5 properties)
     │   │       │   │   │   ├── HeaderAction: *string
@@ -75,7 +75,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── TypeName: *string
     │   │       │   │   │   └── Value: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleResponseHeader: Object (3 properties)
+    │   │       │   ├── ModifyResponseHeader: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (5 properties)
     │   │       │   │   │   ├── HeaderAction: *string
@@ -84,7 +84,17 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── TypeName: *string
     │   │       │   │   │   └── Value: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (3 properties)
+    │   │       │   ├── OriginGroupOverride: Object (3 properties)
+    │   │       │   │   ├── Name: *string
+    │   │       │   │   ├── Parameters: Object (3 properties)
+    │   │       │   │   │   ├── OriginGroup: Object (2 properties)
+    │   │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   │   └── Reference: *genruntime.ResourceReference
+    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   │   │   └── TypeName: *string
+    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── RouteConfigurationOverride: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (4 properties)
     │   │       │   │   │   ├── CacheConfiguration: Object (6 properties)
@@ -103,16 +113,6 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── OriginGroupOverride: Object (3 properties)
-    │   │       │   │   ├── Name: *string
-    │   │       │   │   ├── Parameters: Object (3 properties)
-    │   │       │   │   │   ├── OriginGroup: Object (2 properties)
-    │   │       │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │       │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │       │   │   │   └── TypeName: *string
-    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │       │   ├── UrlRedirect: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (8 properties)
@@ -146,7 +146,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │       │   └── TypeName: *string
     │   │       │       └── PropertyBag: genruntime.PropertyBag
     │   │       ├── Conditions: Object (20 properties)
-    │   │       │   ├── DeliveryRuleClientPort: Object (3 properties)
+    │   │       │   ├── ClientPort: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -156,7 +156,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleCookies: Object (3 properties)
+    │   │       │   ├── Cookies: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (7 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -167,7 +167,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleHostName: Object (3 properties)
+    │   │       │   ├── HostName: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -177,7 +177,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleHttpVersion: Object (3 properties)
+    │   │       │   ├── HttpVersion: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -187,7 +187,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleIsDevice: Object (3 properties)
+    │   │       │   ├── IsDevice: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -197,7 +197,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRulePostArgs: Object (3 properties)
+    │   │       │   ├── PostArgs: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (7 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -208,7 +208,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleQueryString: Object (3 properties)
+    │   │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │   ├── QueryString: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -218,7 +219,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRemoteAddress: Object (3 properties)
+    │   │       │   ├── RemoteAddress: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -228,7 +229,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRequestBody: Object (3 properties)
+    │   │       │   ├── RequestBody: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -238,7 +239,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRequestHeader: Object (3 properties)
+    │   │       │   ├── RequestHeader: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (7 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -249,7 +250,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRequestMethod: Object (3 properties)
+    │   │       │   ├── RequestMethod: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -259,7 +260,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRequestScheme: Object (3 properties)
+    │   │       │   ├── RequestScheme: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -269,7 +270,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleRequestUri: Object (3 properties)
+    │   │       │   ├── RequestUri: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -279,7 +280,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleServerPort: Object (3 properties)
+    │   │       │   ├── ServerPort: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -289,7 +290,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleSocketAddr: Object (3 properties)
+    │   │       │   ├── SocketAddr: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -299,7 +300,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleSslProtocol: Object (3 properties)
+    │   │       │   ├── SslProtocol: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -309,7 +310,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleUrlFileExtension: Object (3 properties)
+    │   │       │   ├── UrlFileExtension: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -319,7 +320,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleUrlFileName: Object (3 properties)
+    │   │       │   ├── UrlFileName: Object (3 properties)
     │   │       │   │   ├── Name: *string
     │   │       │   │   ├── Parameters: Object (6 properties)
     │   │       │   │   │   ├── MatchValues: string[]
@@ -329,17 +330,16 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
     │   │       │   │   │   ├── Transforms: string[]
     │   │       │   │   │   └── TypeName: *string
     │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   ├── DeliveryRuleUrlPath: Object (3 properties)
-    │   │       │   │   ├── Name: *string
-    │   │       │   │   ├── Parameters: Object (6 properties)
-    │   │       │   │   │   ├── MatchValues: string[]
-    │   │       │   │   │   ├── NegateCondition: *bool
-    │   │       │   │   │   ├── Operator: *string
-    │   │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │       │   │   │   ├── Transforms: string[]
-    │   │       │   │   │   └── TypeName: *string
-    │   │       │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │       │   └── PropertyBag: genruntime.PropertyBag
+    │   │       │   └── UrlPath: Object (3 properties)
+    │   │       │       ├── Name: *string
+    │   │       │       ├── Parameters: Object (6 properties)
+    │   │       │       │   ├── MatchValues: string[]
+    │   │       │       │   ├── NegateCondition: *bool
+    │   │       │       │   ├── Operator: *string
+    │   │       │       │   ├── PropertyBag: genruntime.PropertyBag
+    │   │       │       │   ├── Transforms: string[]
+    │   │       │       │   └── TypeName: *string
+    │   │       │       └── PropertyBag: genruntime.PropertyBag
     │   │       ├── Name: *string
     │   │       ├── Order: *int
     │   │       └── PropertyBag: genruntime.PropertyBag
@@ -426,7 +426,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Rules: Object (5 properties)
         │       ├── Actions: Object (10 properties)
-        │       │   ├── DeliveryRuleCacheExpiration: Object (3 properties)
+        │       │   ├── CacheExpiration: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (5 properties)
         │       │   │   │   ├── CacheBehavior: *string
@@ -435,7 +435,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleCacheKeyQueryString: Object (3 properties)
+        │       │   ├── CacheKeyQueryString: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (4 properties)
         │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -443,7 +443,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── QueryStringBehavior: *string
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRequestHeader: Object (3 properties)
+        │       │   ├── ModifyRequestHeader: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (5 properties)
         │       │   │   │   ├── HeaderAction: *string
@@ -452,7 +452,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── TypeName: *string
         │       │   │   │   └── Value: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleResponseHeader: Object (3 properties)
+        │       │   ├── ModifyResponseHeader: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (5 properties)
         │       │   │   │   ├── HeaderAction: *string
@@ -461,7 +461,17 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── TypeName: *string
         │       │   │   │   └── Value: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (3 properties)
+        │       │   ├── OriginGroupOverride: Object (3 properties)
+        │       │   │   ├── Name: *string
+        │       │   │   ├── Parameters: Object (3 properties)
+        │       │   │   │   ├── OriginGroup: Object (2 properties)
+        │       │   │   │   │   ├── Id: *string
+        │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   │   │   └── TypeName: *string
+        │       │   │   └── PropertyBag: genruntime.PropertyBag
+        │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   ├── RouteConfigurationOverride: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (4 properties)
         │       │   │   │   ├── CacheConfiguration: Object (6 properties)
@@ -480,16 +490,6 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── OriginGroupOverride: Object (3 properties)
-        │       │   │   ├── Name: *string
-        │       │   │   ├── Parameters: Object (3 properties)
-        │       │   │   │   ├── OriginGroup: Object (2 properties)
-        │       │   │   │   │   ├── Id: *string
-        │       │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │       │   │   │   └── TypeName: *string
-        │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── PropertyBag: genruntime.PropertyBag
         │       │   ├── UrlRedirect: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (8 properties)
@@ -523,7 +523,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │       │   └── TypeName: *string
         │       │       └── PropertyBag: genruntime.PropertyBag
         │       ├── Conditions: Object (20 properties)
-        │       │   ├── DeliveryRuleClientPort: Object (3 properties)
+        │       │   ├── ClientPort: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -533,7 +533,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleCookies: Object (3 properties)
+        │       │   ├── Cookies: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (7 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -544,7 +544,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleHostName: Object (3 properties)
+        │       │   ├── HostName: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -554,7 +554,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleHttpVersion: Object (3 properties)
+        │       │   ├── HttpVersion: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -564,7 +564,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleIsDevice: Object (3 properties)
+        │       │   ├── IsDevice: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -574,7 +574,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRulePostArgs: Object (3 properties)
+        │       │   ├── PostArgs: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (7 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -585,7 +585,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleQueryString: Object (3 properties)
+        │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │   ├── QueryString: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -595,7 +596,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRemoteAddress: Object (3 properties)
+        │       │   ├── RemoteAddress: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -605,7 +606,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRequestBody: Object (3 properties)
+        │       │   ├── RequestBody: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -615,7 +616,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRequestHeader: Object (3 properties)
+        │       │   ├── RequestHeader: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (7 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -626,7 +627,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRequestMethod: Object (3 properties)
+        │       │   ├── RequestMethod: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -636,7 +637,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRequestScheme: Object (3 properties)
+        │       │   ├── RequestScheme: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -646,7 +647,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleRequestUri: Object (3 properties)
+        │       │   ├── RequestUri: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -656,7 +657,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleServerPort: Object (3 properties)
+        │       │   ├── ServerPort: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -666,7 +667,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleSocketAddr: Object (3 properties)
+        │       │   ├── SocketAddr: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -676,7 +677,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleSslProtocol: Object (3 properties)
+        │       │   ├── SslProtocol: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -686,7 +687,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleUrlFileExtension: Object (3 properties)
+        │       │   ├── UrlFileExtension: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -696,7 +697,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleUrlFileName: Object (3 properties)
+        │       │   ├── UrlFileName: Object (3 properties)
         │       │   │   ├── Name: *string
         │       │   │   ├── Parameters: Object (6 properties)
         │       │   │   │   ├── MatchValues: string[]
@@ -706,17 +707,16 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
         │       │   │   │   ├── Transforms: string[]
         │       │   │   │   └── TypeName: *string
         │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   ├── DeliveryRuleUrlPath: Object (3 properties)
-        │       │   │   ├── Name: *string
-        │       │   │   ├── Parameters: Object (6 properties)
-        │       │   │   │   ├── MatchValues: string[]
-        │       │   │   │   ├── NegateCondition: *bool
-        │       │   │   │   ├── Operator: *string
-        │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │       │   │   │   ├── Transforms: string[]
-        │       │   │   │   └── TypeName: *string
-        │       │   │   └── PropertyBag: genruntime.PropertyBag
-        │       │   └── PropertyBag: genruntime.PropertyBag
+        │       │   └── UrlPath: Object (3 properties)
+        │       │       ├── Name: *string
+        │       │       ├── Parameters: Object (6 properties)
+        │       │       │   ├── MatchValues: string[]
+        │       │       │   ├── NegateCondition: *bool
+        │       │       │   ├── Operator: *string
+        │       │       │   ├── PropertyBag: genruntime.PropertyBag
+        │       │       │   ├── Transforms: string[]
+        │       │       │   └── TypeName: *string
+        │       │       └── PropertyBag: genruntime.PropertyBag
         │       ├── Name: *string
         │       ├── Order: *int
         │       └── PropertyBag: genruntime.PropertyBag

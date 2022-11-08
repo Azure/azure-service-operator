@@ -215,38 +215,38 @@ func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genrun
 
 // Storage version of v1beta20200601.DeadLetterDestination
 type DeadLetterDestination struct {
-	PropertyBag                      genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	StorageBlobDeadLetterDestination *StorageBlobDeadLetterDestination `json:"storageBlobDeadLetterDestination,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination `json:"storageBlob,omitempty"`
 }
 
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
 type DeadLetterDestination_STATUS struct {
-	PropertyBag                             genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	StorageBlobDeadLetterDestination_STATUS *StorageBlobDeadLetterDestination_STATUS `json:"storageBlobDeadLetterDestination_STATUS,omitempty"`
+	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination_STATUS `json:"storageBlob,omitempty"`
 }
 
 // Storage version of v1beta20200601.EventSubscriptionDestination
 type EventSubscriptionDestination struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHubEventSubscriptionDestination,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnection,omitempty"`
 	PropertyBag      genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueueEventSubscriptionDestination,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination          `json:"webHookEventSubscriptionDestination,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination          `json:"webHook,omitempty"`
 }
 
 // Storage version of v1beta20200601.EventSubscriptionDestination_STATUS
 type EventSubscriptionDestination_STATUS struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunctionEventSubscriptionDestination_STATUS,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHubEventSubscriptionDestination_STATUS,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS `json:"hybridConnectionEventSubscriptionDestination_STATUS,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS `json:"hybridConnection,omitempty"`
 	PropertyBag      genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_STATUS  `json:"serviceBusQueueEventSubscriptionDestination_STATUS,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_STATUS  `json:"serviceBusTopicEventSubscriptionDestination_STATUS,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination_STATUS     `json:"storageQueueEventSubscriptionDestination_STATUS,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHookEventSubscriptionDestination_STATUS,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_STATUS  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_STATUS  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_STATUS     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHook,omitempty"`
 }
 
 // Storage version of v1beta20200601.EventSubscriptionFilter
@@ -285,36 +285,36 @@ type RetryPolicy_STATUS struct {
 
 // Storage version of v1beta20200601.AdvancedFilter
 type AdvancedFilter struct {
-	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *NumberInAdvancedFilter                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *NumberLessThanAdvancedFilter            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *NumberNotInAdvancedFilter               `json:"numberNotInAdvancedFilter,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter               `json:"numberNotIn,omitempty"`
 	PropertyBag               genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	StringBeginsWith          *StringBeginsWithAdvancedFilter          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *StringContainsAdvancedFilter            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *StringEndsWithAdvancedFilter            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *StringInAdvancedFilter                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotInAdvancedFilter,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotIn,omitempty"`
 }
 
 // Storage version of v1beta20200601.AdvancedFilter_STATUS
 type AdvancedFilter_STATUS struct {
-	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEqualsAdvancedFilter_STATUS,omitempty"`
-	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThanAdvancedFilter_STATUS,omitempty"`
-	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS `json:"numberGreaterThanOrEqualsAdvancedFilter_STATUS,omitempty"`
-	NumberIn                  *NumberInAdvancedFilter_STATUS                  `json:"numberInAdvancedFilter_STATUS,omitempty"`
-	NumberLessThan            *NumberLessThanAdvancedFilter_STATUS            `json:"numberLessThanAdvancedFilter_STATUS,omitempty"`
-	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_STATUS    `json:"numberLessThanOrEqualsAdvancedFilter_STATUS,omitempty"`
-	NumberNotIn               *NumberNotInAdvancedFilter_STATUS               `json:"numberNotInAdvancedFilter_STATUS,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter_STATUS                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter_STATUS            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_STATUS    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter_STATUS               `json:"numberNotIn,omitempty"`
 	PropertyBag               genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-	StringBeginsWith          *StringBeginsWithAdvancedFilter_STATUS          `json:"stringBeginsWithAdvancedFilter_STATUS,omitempty"`
-	StringContains            *StringContainsAdvancedFilter_STATUS            `json:"stringContainsAdvancedFilter_STATUS,omitempty"`
-	StringEndsWith            *StringEndsWithAdvancedFilter_STATUS            `json:"stringEndsWithAdvancedFilter_STATUS,omitempty"`
-	StringIn                  *StringInAdvancedFilter_STATUS                  `json:"stringInAdvancedFilter_STATUS,omitempty"`
-	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotInAdvancedFilter_STATUS,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter_STATUS          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter_STATUS            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter_STATUS            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter_STATUS                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotIn,omitempty"`
 }
 
 // Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestination

@@ -1203,7 +1203,7 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 
 // Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead
 type DeadLetterDestination struct {
-	StorageBlobDeadLetterDestination *StorageBlobDeadLetterDestination `json:"storageBlobDeadLetterDestination,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination `json:"storageBlob,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DeadLetterDestination{}
@@ -1215,14 +1215,14 @@ func (destination *DeadLetterDestination) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &DeadLetterDestination_ARM{}
 
-	// Set property ‘StorageBlobDeadLetterDestination’:
-	if destination.StorageBlobDeadLetterDestination != nil {
-		storageBlobDeadLetterDestination_ARM, err := (*destination.StorageBlobDeadLetterDestination).ConvertToARM(resolved)
+	// Set property ‘StorageBlob’:
+	if destination.StorageBlob != nil {
+		storageBlob_ARM, err := (*destination.StorageBlob).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		storageBlobDeadLetterDestination := *storageBlobDeadLetterDestination_ARM.(*StorageBlobDeadLetterDestination_ARM)
-		result.StorageBlobDeadLetterDestination = &storageBlobDeadLetterDestination
+		storageBlob := *storageBlob_ARM.(*StorageBlobDeadLetterDestination_ARM)
+		result.StorageBlob = &storageBlob
 	}
 	return result, nil
 }
@@ -1239,15 +1239,15 @@ func (destination *DeadLetterDestination) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageBlobDeadLetterDestination’:
-	if typedInput.StorageBlobDeadLetterDestination != nil {
-		var storageBlobDeadLetterDestination1 StorageBlobDeadLetterDestination
-		err := storageBlobDeadLetterDestination1.PopulateFromARM(owner, *typedInput.StorageBlobDeadLetterDestination)
+	// Set property ‘StorageBlob’:
+	if typedInput.StorageBlob != nil {
+		var storageBlob1 StorageBlobDeadLetterDestination
+		err := storageBlob1.PopulateFromARM(owner, *typedInput.StorageBlob)
 		if err != nil {
 			return err
 		}
-		storageBlobDeadLetterDestination := storageBlobDeadLetterDestination1
-		destination.StorageBlobDeadLetterDestination = &storageBlobDeadLetterDestination
+		storageBlob := storageBlob1
+		destination.StorageBlob = &storageBlob
 	}
 
 	// No error
@@ -1257,16 +1257,16 @@ func (destination *DeadLetterDestination) PopulateFromARM(owner genruntime.Arbit
 // AssignProperties_From_DeadLetterDestination populates our DeadLetterDestination from the provided source DeadLetterDestination
 func (destination *DeadLetterDestination) AssignProperties_From_DeadLetterDestination(source *alpha20200601s.DeadLetterDestination) error {
 
-	// StorageBlobDeadLetterDestination
-	if source.StorageBlobDeadLetterDestination != nil {
-		var storageBlobDeadLetterDestination StorageBlobDeadLetterDestination
-		err := storageBlobDeadLetterDestination.AssignProperties_From_StorageBlobDeadLetterDestination(source.StorageBlobDeadLetterDestination)
+	// StorageBlob
+	if source.StorageBlob != nil {
+		var storageBlob StorageBlobDeadLetterDestination
+		err := storageBlob.AssignProperties_From_StorageBlobDeadLetterDestination(source.StorageBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field StorageBlobDeadLetterDestination")
+			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field StorageBlob")
 		}
-		destination.StorageBlobDeadLetterDestination = &storageBlobDeadLetterDestination
+		destination.StorageBlob = &storageBlob
 	} else {
-		destination.StorageBlobDeadLetterDestination = nil
+		destination.StorageBlob = nil
 	}
 
 	// No error
@@ -1278,16 +1278,16 @@ func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestinat
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// StorageBlobDeadLetterDestination
-	if destination.StorageBlobDeadLetterDestination != nil {
-		var storageBlobDeadLetterDestination alpha20200601s.StorageBlobDeadLetterDestination
-		err := destination.StorageBlobDeadLetterDestination.AssignProperties_To_StorageBlobDeadLetterDestination(&storageBlobDeadLetterDestination)
+	// StorageBlob
+	if destination.StorageBlob != nil {
+		var storageBlob alpha20200601s.StorageBlobDeadLetterDestination
+		err := destination.StorageBlob.AssignProperties_To_StorageBlobDeadLetterDestination(&storageBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field StorageBlobDeadLetterDestination")
+			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field StorageBlob")
 		}
-		target.StorageBlobDeadLetterDestination = &storageBlobDeadLetterDestination
+		target.StorageBlob = &storageBlob
 	} else {
-		target.StorageBlobDeadLetterDestination = nil
+		target.StorageBlob = nil
 	}
 
 	// Update the property bag
@@ -1303,7 +1303,7 @@ func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestinat
 
 // Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead
 type DeadLetterDestination_STATUS struct {
-	StorageBlobDeadLetterDestination_STATUS *StorageBlobDeadLetterDestination_STATUS `json:"storageBlobDeadLetterDestination_STATUS,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination_STATUS `json:"storageBlob,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeadLetterDestination_STATUS{}
@@ -1320,15 +1320,15 @@ func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeadLetterDestination_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘StorageBlobDeadLetterDestination_STATUS’:
-	if typedInput.StorageBlobDeadLetterDestination_STATUS != nil {
-		var storageBlobDeadLetterDestinationSTATUS1 StorageBlobDeadLetterDestination_STATUS
-		err := storageBlobDeadLetterDestinationSTATUS1.PopulateFromARM(owner, *typedInput.StorageBlobDeadLetterDestination_STATUS)
+	// Set property ‘StorageBlob’:
+	if typedInput.StorageBlob != nil {
+		var storageBlob1 StorageBlobDeadLetterDestination_STATUS
+		err := storageBlob1.PopulateFromARM(owner, *typedInput.StorageBlob)
 		if err != nil {
 			return err
 		}
-		storageBlobDeadLetterDestinationSTATUS := storageBlobDeadLetterDestinationSTATUS1
-		destination.StorageBlobDeadLetterDestination_STATUS = &storageBlobDeadLetterDestinationSTATUS
+		storageBlob := storageBlob1
+		destination.StorageBlob = &storageBlob
 	}
 
 	// No error
@@ -1338,16 +1338,16 @@ func (destination *DeadLetterDestination_STATUS) PopulateFromARM(owner genruntim
 // AssignProperties_From_DeadLetterDestination_STATUS populates our DeadLetterDestination_STATUS from the provided source DeadLetterDestination_STATUS
 func (destination *DeadLetterDestination_STATUS) AssignProperties_From_DeadLetterDestination_STATUS(source *alpha20200601s.DeadLetterDestination_STATUS) error {
 
-	// StorageBlobDeadLetterDestination_STATUS
-	if source.StorageBlobDeadLetterDestination_STATUS != nil {
-		var storageBlobDeadLetterDestinationSTATUS StorageBlobDeadLetterDestination_STATUS
-		err := storageBlobDeadLetterDestinationSTATUS.AssignProperties_From_StorageBlobDeadLetterDestination_STATUS(source.StorageBlobDeadLetterDestination_STATUS)
+	// StorageBlob
+	if source.StorageBlob != nil {
+		var storageBlob StorageBlobDeadLetterDestination_STATUS
+		err := storageBlob.AssignProperties_From_StorageBlobDeadLetterDestination_STATUS(source.StorageBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlobDeadLetterDestination_STATUS")
+			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlob")
 		}
-		destination.StorageBlobDeadLetterDestination_STATUS = &storageBlobDeadLetterDestinationSTATUS
+		destination.StorageBlob = &storageBlob
 	} else {
-		destination.StorageBlobDeadLetterDestination_STATUS = nil
+		destination.StorageBlob = nil
 	}
 
 	// No error
@@ -1359,16 +1359,16 @@ func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterD
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// StorageBlobDeadLetterDestination_STATUS
-	if destination.StorageBlobDeadLetterDestination_STATUS != nil {
-		var storageBlobDeadLetterDestinationSTATUS alpha20200601s.StorageBlobDeadLetterDestination_STATUS
-		err := destination.StorageBlobDeadLetterDestination_STATUS.AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(&storageBlobDeadLetterDestinationSTATUS)
+	// StorageBlob
+	if destination.StorageBlob != nil {
+		var storageBlob alpha20200601s.StorageBlobDeadLetterDestination_STATUS
+		err := destination.StorageBlob.AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(&storageBlob)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlobDeadLetterDestination_STATUS")
+			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlob")
 		}
-		target.StorageBlobDeadLetterDestination_STATUS = &storageBlobDeadLetterDestinationSTATUS
+		target.StorageBlob = &storageBlob
 	} else {
-		target.StorageBlobDeadLetterDestination_STATUS = nil
+		target.StorageBlob = nil
 	}
 
 	// Update the property bag
@@ -1384,13 +1384,13 @@ func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterD
 
 // Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHubEventSubscriptionDestination,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueueEventSubscriptionDestination,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination          `json:"webHookEventSubscriptionDestination,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnection,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination          `json:"webHook,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventSubscriptionDestination{}
@@ -1760,13 +1760,13 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 
 // Deprecated version of EventSubscriptionDestination_STATUS. Use v1beta20200601.EventSubscriptionDestination_STATUS instead
 type EventSubscriptionDestination_STATUS struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunctionEventSubscriptionDestination_STATUS,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHubEventSubscriptionDestination_STATUS,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS `json:"hybridConnectionEventSubscriptionDestination_STATUS,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_STATUS  `json:"serviceBusQueueEventSubscriptionDestination_STATUS,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_STATUS  `json:"serviceBusTopicEventSubscriptionDestination_STATUS,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination_STATUS     `json:"storageQueueEventSubscriptionDestination_STATUS,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHookEventSubscriptionDestination_STATUS,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS `json:"hybridConnection,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_STATUS  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_STATUS  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_STATUS     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHook,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EventSubscriptionDestination_STATUS{}
@@ -2602,18 +2602,18 @@ func (policy *RetryPolicy_STATUS) AssignProperties_To_RetryPolicy_STATUS(destina
 
 // Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
 type AdvancedFilter struct {
-	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *NumberInAdvancedFilter                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *NumberLessThanAdvancedFilter            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *NumberNotInAdvancedFilter               `json:"numberNotInAdvancedFilter,omitempty"`
-	StringBeginsWith          *StringBeginsWithAdvancedFilter          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *StringContainsAdvancedFilter            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *StringEndsWithAdvancedFilter            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *StringInAdvancedFilter                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotInAdvancedFilter,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter               `json:"numberNotIn,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotIn,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AdvancedFilter{}
@@ -3208,18 +3208,18 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *al
 
 // Deprecated version of AdvancedFilter_STATUS. Use v1beta20200601.AdvancedFilter_STATUS instead
 type AdvancedFilter_STATUS struct {
-	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEqualsAdvancedFilter_STATUS,omitempty"`
-	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThanAdvancedFilter_STATUS,omitempty"`
-	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS `json:"numberGreaterThanOrEqualsAdvancedFilter_STATUS,omitempty"`
-	NumberIn                  *NumberInAdvancedFilter_STATUS                  `json:"numberInAdvancedFilter_STATUS,omitempty"`
-	NumberLessThan            *NumberLessThanAdvancedFilter_STATUS            `json:"numberLessThanAdvancedFilter_STATUS,omitempty"`
-	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_STATUS    `json:"numberLessThanOrEqualsAdvancedFilter_STATUS,omitempty"`
-	NumberNotIn               *NumberNotInAdvancedFilter_STATUS               `json:"numberNotInAdvancedFilter_STATUS,omitempty"`
-	StringBeginsWith          *StringBeginsWithAdvancedFilter_STATUS          `json:"stringBeginsWithAdvancedFilter_STATUS,omitempty"`
-	StringContains            *StringContainsAdvancedFilter_STATUS            `json:"stringContainsAdvancedFilter_STATUS,omitempty"`
-	StringEndsWith            *StringEndsWithAdvancedFilter_STATUS            `json:"stringEndsWithAdvancedFilter_STATUS,omitempty"`
-	StringIn                  *StringInAdvancedFilter_STATUS                  `json:"stringInAdvancedFilter_STATUS,omitempty"`
-	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotInAdvancedFilter_STATUS,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter_STATUS                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter_STATUS            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_STATUS    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter_STATUS               `json:"numberNotIn,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter_STATUS          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter_STATUS            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter_STATUS            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter_STATUS                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotIn,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdvancedFilter_STATUS{}

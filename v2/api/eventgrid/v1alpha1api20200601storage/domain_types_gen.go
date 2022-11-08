@@ -817,8 +817,8 @@ func (rule *InboundIpRule_STATUS) AssignProperties_To_InboundIpRule_STATUS(desti
 // Storage version of v1alpha1api20200601.InputSchemaMapping
 // Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
 type InputSchemaMapping struct {
-	JsonInputSchemaMapping *JsonInputSchemaMapping `json:"jsonInputSchemaMapping,omitempty"`
-	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_InputSchemaMapping populates our InputSchemaMapping from the provided source InputSchemaMapping
@@ -826,16 +826,16 @@ func (mapping *InputSchemaMapping) AssignProperties_From_InputSchemaMapping(sour
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// JsonInputSchemaMapping
-	if source.JsonInputSchemaMapping != nil {
-		var jsonInputSchemaMapping JsonInputSchemaMapping
-		err := jsonInputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.JsonInputSchemaMapping)
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping
+		err := json.AssignProperties_From_JsonInputSchemaMapping(source.Json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field JsonInputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field Json")
 		}
-		mapping.JsonInputSchemaMapping = &jsonInputSchemaMapping
+		mapping.Json = &json
 	} else {
-		mapping.JsonInputSchemaMapping = nil
+		mapping.Json = nil
 	}
 
 	// Update the property bag
@@ -854,16 +854,16 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
 
-	// JsonInputSchemaMapping
-	if mapping.JsonInputSchemaMapping != nil {
-		var jsonInputSchemaMapping v20200601s.JsonInputSchemaMapping
-		err := mapping.JsonInputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&jsonInputSchemaMapping)
+	// Json
+	if mapping.Json != nil {
+		var json v20200601s.JsonInputSchemaMapping
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping(&json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field JsonInputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field Json")
 		}
-		destination.JsonInputSchemaMapping = &jsonInputSchemaMapping
+		destination.Json = &json
 	} else {
-		destination.JsonInputSchemaMapping = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag
@@ -880,8 +880,8 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 // Storage version of v1alpha1api20200601.InputSchemaMapping_STATUS
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUS struct {
-	JsonInputSchemaMapping_STATUS *JsonInputSchemaMapping_STATUS `json:"jsonInputSchemaMapping_STATUS,omitempty"`
-	PropertyBag                   genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping_STATUS `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_InputSchemaMapping_STATUS populates our InputSchemaMapping_STATUS from the provided source InputSchemaMapping_STATUS
@@ -889,16 +889,16 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_From_InputSchemaMappi
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// JsonInputSchemaMapping_STATUS
-	if source.JsonInputSchemaMapping_STATUS != nil {
-		var jsonInputSchemaMappingSTATUS JsonInputSchemaMapping_STATUS
-		err := jsonInputSchemaMappingSTATUS.AssignProperties_From_JsonInputSchemaMapping_STATUS(source.JsonInputSchemaMapping_STATUS)
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping_STATUS
+		err := json.AssignProperties_From_JsonInputSchemaMapping_STATUS(source.Json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping_STATUS() to populate field JsonInputSchemaMapping_STATUS")
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping_STATUS() to populate field Json")
 		}
-		mapping.JsonInputSchemaMapping_STATUS = &jsonInputSchemaMappingSTATUS
+		mapping.Json = &json
 	} else {
-		mapping.JsonInputSchemaMapping_STATUS = nil
+		mapping.Json = nil
 	}
 
 	// Update the property bag
@@ -917,16 +917,16 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_To_InputSchemaMapping
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
 
-	// JsonInputSchemaMapping_STATUS
-	if mapping.JsonInputSchemaMapping_STATUS != nil {
-		var jsonInputSchemaMappingSTATUS v20200601s.JsonInputSchemaMapping_STATUS
-		err := mapping.JsonInputSchemaMapping_STATUS.AssignProperties_To_JsonInputSchemaMapping_STATUS(&jsonInputSchemaMappingSTATUS)
+	// Json
+	if mapping.Json != nil {
+		var json v20200601s.JsonInputSchemaMapping_STATUS
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping_STATUS(&json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping_STATUS() to populate field JsonInputSchemaMapping_STATUS")
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping_STATUS() to populate field Json")
 		}
-		destination.JsonInputSchemaMapping_STATUS = &jsonInputSchemaMappingSTATUS
+		destination.Json = &json
 	} else {
-		destination.JsonInputSchemaMapping_STATUS = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag

@@ -227,17 +227,17 @@ type Compute struct {
 
 // Storage version of v1beta20210701.Compute_STATUS
 type Compute_STATUS struct {
-	AKS               *AKS_STATUS               `json:"aks_STATUS,omitempty"`
-	AmlCompute        *AmlCompute_STATUS        `json:"amlCompute_STATUS,omitempty"`
-	ComputeInstance   *ComputeInstance_STATUS   `json:"computeInstance_STATUS,omitempty"`
-	DataFactory       *DataFactory_STATUS       `json:"dataFactory_STATUS,omitempty"`
-	DataLakeAnalytics *DataLakeAnalytics_STATUS `json:"dataLakeAnalytics_STATUS,omitempty"`
-	Databricks        *Databricks_STATUS        `json:"databricks_STATUS,omitempty"`
-	HDInsight         *HDInsight_STATUS         `json:"hdInsight_STATUS,omitempty"`
-	Kubernetes        *Kubernetes_STATUS        `json:"kubernetes_STATUS,omitempty"`
+	AKS               *AKS_STATUS               `json:"aks,omitempty"`
+	AmlCompute        *AmlCompute_STATUS        `json:"amlCompute,omitempty"`
+	ComputeInstance   *ComputeInstance_STATUS   `json:"computeInstance,omitempty"`
+	DataFactory       *DataFactory_STATUS       `json:"dataFactory,omitempty"`
+	DataLakeAnalytics *DataLakeAnalytics_STATUS `json:"dataLakeAnalytics,omitempty"`
+	Databricks        *Databricks_STATUS        `json:"databricks,omitempty"`
+	HDInsight         *HDInsight_STATUS         `json:"hdInsight,omitempty"`
+	Kubernetes        *Kubernetes_STATUS        `json:"kubernetes,omitempty"`
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	SynapseSpark      *SynapseSpark_STATUS      `json:"synapseSpark_STATUS,omitempty"`
-	VirtualMachine    *VirtualMachine_STATUS    `json:"virtualMachine_STATUS,omitempty"`
+	SynapseSpark      *SynapseSpark_STATUS      `json:"synapseSpark,omitempty"`
+	VirtualMachine    *VirtualMachine_STATUS    `json:"virtualMachine,omitempty"`
 }
 
 // Storage version of v1beta20210701.AKS

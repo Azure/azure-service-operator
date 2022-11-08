@@ -154,10 +154,10 @@ type ApiProperties_STATUS_ARM struct {
 
 type BackupPolicy_STATUS_ARM struct {
 	// Continuous: Mutually exclusive with all other properties
-	Continuous *ContinuousModeBackupPolicy_STATUS_ARM `json:"continuousModeBackupPolicy_STATUS,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_STATUS_ARM `json:"continuous,omitempty"`
 
 	// Periodic: Mutually exclusive with all other properties
-	Periodic *PeriodicModeBackupPolicy_STATUS_ARM `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+	Periodic *PeriodicModeBackupPolicy_STATUS_ARM `json:"periodic,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_STATUS_ARM represents a discriminated union (JSON OneOf)

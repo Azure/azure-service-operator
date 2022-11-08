@@ -1193,22 +1193,22 @@ func DeliveryRuleAction_STATUS_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DeliveryRuleCacheExpiration"] = DeliveryRuleCacheExpirationAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleCacheExpirationAction_STATUS_ARM) *DeliveryRuleCacheExpirationAction_STATUS_ARM {
+	gens["CacheExpiration"] = DeliveryRuleCacheExpirationAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleCacheExpirationAction_STATUS_ARM) *DeliveryRuleCacheExpirationAction_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleCacheKeyQueryString"] = DeliveryRuleCacheKeyQueryStringAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM) *DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM {
+	gens["CacheKeyQueryString"] = DeliveryRuleCacheKeyQueryStringAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM) *DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRequestHeader"] = DeliveryRuleRequestHeaderAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestHeaderAction_STATUS_ARM) *DeliveryRuleRequestHeaderAction_STATUS_ARM {
+	gens["ModifyRequestHeader"] = DeliveryRuleRequestHeaderAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestHeaderAction_STATUS_ARM) *DeliveryRuleRequestHeaderAction_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleResponseHeader"] = DeliveryRuleResponseHeaderAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleResponseHeaderAction_STATUS_ARM) *DeliveryRuleResponseHeaderAction_STATUS_ARM {
-		return &it
-	}) // generate one case for OneOf type
-	gens["DeliveryRuleRouteConfigurationOverride"] = DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM) *DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM {
+	gens["ModifyResponseHeader"] = DeliveryRuleResponseHeaderAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleResponseHeaderAction_STATUS_ARM) *DeliveryRuleResponseHeaderAction_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
 	gens["OriginGroupOverride"] = OriginGroupOverrideAction_STATUS_ARMGenerator().Map(func(it OriginGroupOverrideAction_STATUS_ARM) *OriginGroupOverrideAction_STATUS_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["RouteConfigurationOverride"] = DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARMGenerator().Map(func(it DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM) *DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
 	gens["UrlRedirect"] = UrlRedirectAction_STATUS_ARMGenerator().Map(func(it UrlRedirectAction_STATUS_ARM) *UrlRedirectAction_STATUS_ARM {
@@ -1286,61 +1286,61 @@ func DeliveryRuleCondition_STATUS_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["DeliveryRuleClientPort"] = DeliveryRuleClientPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleClientPortCondition_STATUS_ARM) *DeliveryRuleClientPortCondition_STATUS_ARM {
+	gens["ClientPort"] = DeliveryRuleClientPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleClientPortCondition_STATUS_ARM) *DeliveryRuleClientPortCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleCookies"] = DeliveryRuleCookiesCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleCookiesCondition_STATUS_ARM) *DeliveryRuleCookiesCondition_STATUS_ARM {
+	gens["Cookies"] = DeliveryRuleCookiesCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleCookiesCondition_STATUS_ARM) *DeliveryRuleCookiesCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleHostName"] = DeliveryRuleHostNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHostNameCondition_STATUS_ARM) *DeliveryRuleHostNameCondition_STATUS_ARM {
+	gens["HostName"] = DeliveryRuleHostNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHostNameCondition_STATUS_ARM) *DeliveryRuleHostNameCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleHttpVersion"] = DeliveryRuleHttpVersionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHttpVersionCondition_STATUS_ARM) *DeliveryRuleHttpVersionCondition_STATUS_ARM {
+	gens["HttpVersion"] = DeliveryRuleHttpVersionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleHttpVersionCondition_STATUS_ARM) *DeliveryRuleHttpVersionCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleIsDevice"] = DeliveryRuleIsDeviceCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleIsDeviceCondition_STATUS_ARM) *DeliveryRuleIsDeviceCondition_STATUS_ARM {
+	gens["IsDevice"] = DeliveryRuleIsDeviceCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleIsDeviceCondition_STATUS_ARM) *DeliveryRuleIsDeviceCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRulePostArgs"] = DeliveryRulePostArgsCondition_STATUS_ARMGenerator().Map(func(it DeliveryRulePostArgsCondition_STATUS_ARM) *DeliveryRulePostArgsCondition_STATUS_ARM {
+	gens["PostArgs"] = DeliveryRulePostArgsCondition_STATUS_ARMGenerator().Map(func(it DeliveryRulePostArgsCondition_STATUS_ARM) *DeliveryRulePostArgsCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleQueryString"] = DeliveryRuleQueryStringCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleQueryStringCondition_STATUS_ARM) *DeliveryRuleQueryStringCondition_STATUS_ARM {
+	gens["QueryString"] = DeliveryRuleQueryStringCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleQueryStringCondition_STATUS_ARM) *DeliveryRuleQueryStringCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRemoteAddress"] = DeliveryRuleRemoteAddressCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRemoteAddressCondition_STATUS_ARM) *DeliveryRuleRemoteAddressCondition_STATUS_ARM {
+	gens["RemoteAddress"] = DeliveryRuleRemoteAddressCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRemoteAddressCondition_STATUS_ARM) *DeliveryRuleRemoteAddressCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRequestBody"] = DeliveryRuleRequestBodyCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestBodyCondition_STATUS_ARM) *DeliveryRuleRequestBodyCondition_STATUS_ARM {
+	gens["RequestBody"] = DeliveryRuleRequestBodyCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestBodyCondition_STATUS_ARM) *DeliveryRuleRequestBodyCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRequestHeader"] = DeliveryRuleRequestHeaderCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestHeaderCondition_STATUS_ARM) *DeliveryRuleRequestHeaderCondition_STATUS_ARM {
+	gens["RequestHeader"] = DeliveryRuleRequestHeaderCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestHeaderCondition_STATUS_ARM) *DeliveryRuleRequestHeaderCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRequestMethod"] = DeliveryRuleRequestMethodCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestMethodCondition_STATUS_ARM) *DeliveryRuleRequestMethodCondition_STATUS_ARM {
+	gens["RequestMethod"] = DeliveryRuleRequestMethodCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestMethodCondition_STATUS_ARM) *DeliveryRuleRequestMethodCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRequestScheme"] = DeliveryRuleRequestSchemeCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestSchemeCondition_STATUS_ARM) *DeliveryRuleRequestSchemeCondition_STATUS_ARM {
+	gens["RequestScheme"] = DeliveryRuleRequestSchemeCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestSchemeCondition_STATUS_ARM) *DeliveryRuleRequestSchemeCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleRequestUri"] = DeliveryRuleRequestUriCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestUriCondition_STATUS_ARM) *DeliveryRuleRequestUriCondition_STATUS_ARM {
+	gens["RequestUri"] = DeliveryRuleRequestUriCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleRequestUriCondition_STATUS_ARM) *DeliveryRuleRequestUriCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleServerPort"] = DeliveryRuleServerPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleServerPortCondition_STATUS_ARM) *DeliveryRuleServerPortCondition_STATUS_ARM {
+	gens["ServerPort"] = DeliveryRuleServerPortCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleServerPortCondition_STATUS_ARM) *DeliveryRuleServerPortCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleSocketAddr"] = DeliveryRuleSocketAddrCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSocketAddrCondition_STATUS_ARM) *DeliveryRuleSocketAddrCondition_STATUS_ARM {
+	gens["SocketAddr"] = DeliveryRuleSocketAddrCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSocketAddrCondition_STATUS_ARM) *DeliveryRuleSocketAddrCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleSslProtocol"] = DeliveryRuleSslProtocolCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSslProtocolCondition_STATUS_ARM) *DeliveryRuleSslProtocolCondition_STATUS_ARM {
+	gens["SslProtocol"] = DeliveryRuleSslProtocolCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleSslProtocolCondition_STATUS_ARM) *DeliveryRuleSslProtocolCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleUrlFileExtension"] = DeliveryRuleUrlFileExtensionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileExtensionCondition_STATUS_ARM) *DeliveryRuleUrlFileExtensionCondition_STATUS_ARM {
+	gens["UrlFileExtension"] = DeliveryRuleUrlFileExtensionCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileExtensionCondition_STATUS_ARM) *DeliveryRuleUrlFileExtensionCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleUrlFileName"] = DeliveryRuleUrlFileNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileNameCondition_STATUS_ARM) *DeliveryRuleUrlFileNameCondition_STATUS_ARM {
+	gens["UrlFileName"] = DeliveryRuleUrlFileNameCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlFileNameCondition_STATUS_ARM) *DeliveryRuleUrlFileNameCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DeliveryRuleUrlPath"] = DeliveryRuleUrlPathCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlPathCondition_STATUS_ARM) *DeliveryRuleUrlPathCondition_STATUS_ARM {
+	gens["UrlPath"] = DeliveryRuleUrlPathCondition_STATUS_ARMGenerator().Map(func(it DeliveryRuleUrlPathCondition_STATUS_ARM) *DeliveryRuleUrlPathCondition_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }

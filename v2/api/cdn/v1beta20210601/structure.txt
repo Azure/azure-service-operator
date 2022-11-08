@@ -158,7 +158,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │   ├── Description: *string
 │   │   │   └── Rules: Object (4 properties)
 │   │   │       ├── Actions: Object (9 properties)
-│   │   │       │   ├── DeliveryRuleCacheExpiration: Object (2 properties)
+│   │   │       │   ├── CacheExpiration: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "CacheExpiration"
 │   │   │       │   │   └── Parameters: Object (4 properties)
@@ -171,7 +171,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "All"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
-│   │   │       │   ├── DeliveryRuleCacheKeyQueryString: Object (2 properties)
+│   │   │       │   ├── CacheKeyQueryString: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "CacheKeyQueryString"
 │   │   │       │   │   └── Parameters: Object (3 properties)
@@ -183,7 +183,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "IncludeAll"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-│   │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+│   │   │       │   ├── ModifyRequestHeader: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ModifyRequestHeader"
 │   │   │       │   │   └── Parameters: Object (4 properties)
@@ -195,7 +195,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       ├── TypeName: Enum (1 value)
 │   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │   │   │       │   │       └── Value: *string
-│   │   │       │   ├── DeliveryRuleResponseHeader: Object (2 properties)
+│   │   │       │   ├── ModifyResponseHeader: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ModifyResponseHeader"
 │   │   │       │   │   └── Parameters: Object (4 properties)
@@ -207,7 +207,15 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       ├── TypeName: Enum (1 value)
 │   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │   │   │       │   │       └── Value: *string
-│   │   │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (2 properties)
+│   │   │       │   ├── OriginGroupOverride: Object (2 properties)
+│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   │   │   └── "OriginGroupOverride"
+│   │   │       │   │   └── Parameters: Object (2 properties)
+│   │   │       │   │       ├── OriginGroup: Object (1 property)
+│   │   │       │   │       │   └── Reference: *genruntime.ResourceReference
+│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
+│   │   │       │   ├── RouteConfigurationOverride: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RouteConfigurationOverride"
 │   │   │       │   │   └── Parameters: Object (3 properties)
@@ -235,14 +243,6 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │       └── Reference: *genruntime.ResourceReference
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
-│   │   │       │   ├── OriginGroupOverride: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
-│   │   │       │   │   │   └── "OriginGroupOverride"
-│   │   │       │   │   └── Parameters: Object (2 properties)
-│   │   │       │   │       ├── OriginGroup: Object (1 property)
-│   │   │       │   │       │   └── Reference: *genruntime.ResourceReference
-│   │   │       │   │       └── TypeName: Enum (1 value)
-│   │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
 │   │   │       │   ├── UrlRedirect: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "UrlRedirect"
@@ -286,7 +286,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │           └── TypeName: Enum (1 value)
 │   │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
 │   │   │       ├── Conditions: Object (19 properties)
-│   │   │       │   ├── DeliveryRuleClientPort: Object (2 properties)
+│   │   │       │   ├── ClientPort: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ClientPort"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -312,7 +312,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
-│   │   │       │   ├── DeliveryRuleCookies: Object (2 properties)
+│   │   │       │   ├── Cookies: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "Cookies"
 │   │   │       │   │   └── Parameters: Object (6 properties)
@@ -339,7 +339,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
-│   │   │       │   ├── DeliveryRuleHostName: Object (2 properties)
+│   │   │       │   ├── HostName: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "HostName"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -365,7 +365,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
-│   │   │       │   ├── DeliveryRuleHttpVersion: Object (2 properties)
+│   │   │       │   ├── HttpVersion: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "HttpVersion"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -382,7 +382,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
-│   │   │       │   ├── DeliveryRuleIsDevice: Object (2 properties)
+│   │   │       │   ├── IsDevice: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "IsDevice"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -401,7 +401,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
-│   │   │       │   ├── DeliveryRulePostArgs: Object (2 properties)
+│   │   │       │   ├── PostArgs: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "PostArgs"
 │   │   │       │   │   └── Parameters: Object (6 properties)
@@ -428,7 +428,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
-│   │   │       │   ├── DeliveryRuleQueryString: Object (2 properties)
+│   │   │       │   ├── QueryString: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "QueryString"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -454,7 +454,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
-│   │   │       │   ├── DeliveryRuleRemoteAddress: Object (2 properties)
+│   │   │       │   ├── RemoteAddress: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RemoteAddress"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -473,7 +473,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestBody: Object (2 properties)
+│   │   │       │   ├── RequestBody: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestBody"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -499,7 +499,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+│   │   │       │   ├── RequestHeader: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestHeader"
 │   │   │       │   │   └── Parameters: Object (6 properties)
@@ -526,7 +526,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestMethod: Object (2 properties)
+│   │   │       │   ├── RequestMethod: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestMethod"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -550,7 +550,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestScheme: Object (2 properties)
+│   │   │       │   ├── RequestScheme: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestScheme"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -569,7 +569,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestUri: Object (2 properties)
+│   │   │       │   ├── RequestUri: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestUri"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -595,7 +595,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
-│   │   │       │   ├── DeliveryRuleServerPort: Object (2 properties)
+│   │   │       │   ├── ServerPort: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ServerPort"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -621,7 +621,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
-│   │   │       │   ├── DeliveryRuleSocketAddr: Object (2 properties)
+│   │   │       │   ├── SocketAddr: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "SocketAddr"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -639,7 +639,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
-│   │   │       │   ├── DeliveryRuleSslProtocol: Object (2 properties)
+│   │   │       │   ├── SslProtocol: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "SslProtocol"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -659,7 +659,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
-│   │   │       │   ├── DeliveryRuleUrlFileExtension: Object (2 properties)
+│   │   │       │   ├── UrlFileExtension: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "UrlFileExtension"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -685,7 +685,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-│   │   │       │   ├── DeliveryRuleUrlFileName: Object (2 properties)
+│   │   │       │   ├── UrlFileName: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "UrlFileName"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -711,7 +711,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
-│   │   │       │   └── DeliveryRuleUrlPath: Object (2 properties)
+│   │   │       │   └── UrlPath: Object (2 properties)
 │   │   │       │       ├── Name: Enum (1 value)
 │   │   │       │       │   └── "UrlPath"
 │   │   │       │       └── Parameters: Object (5 properties)
@@ -847,7 +847,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │   ├── Description: *string
 │       │   └── Rules: Object (4 properties)
 │       │       ├── Actions: Object (9 properties)
-│       │       │   ├── DeliveryRuleCacheExpiration: Object (2 properties)
+│       │       │   ├── CacheExpiration: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "CacheExpiration"
 │       │       │   │   └── Parameters: Object (4 properties)
@@ -860,7 +860,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "All"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
-│       │       │   ├── DeliveryRuleCacheKeyQueryString: Object (2 properties)
+│       │       │   ├── CacheKeyQueryString: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "CacheKeyQueryString"
 │       │       │   │   └── Parameters: Object (3 properties)
@@ -872,7 +872,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "IncludeAll"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-│       │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+│       │       │   ├── ModifyRequestHeader: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "ModifyRequestHeader"
 │       │       │   │   └── Parameters: Object (4 properties)
@@ -884,7 +884,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       ├── TypeName: Enum (1 value)
 │       │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │       │       │   │       └── Value: *string
-│       │       │   ├── DeliveryRuleResponseHeader: Object (2 properties)
+│       │       │   ├── ModifyResponseHeader: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "ModifyResponseHeader"
 │       │       │   │   └── Parameters: Object (4 properties)
@@ -896,7 +896,15 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       ├── TypeName: Enum (1 value)
 │       │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │       │       │   │       └── Value: *string
-│       │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (2 properties)
+│       │       │   ├── OriginGroupOverride: Object (2 properties)
+│       │       │   │   ├── Name: Enum (1 value)
+│       │       │   │   │   └── "OriginGroupOverride"
+│       │       │   │   └── Parameters: Object (2 properties)
+│       │       │   │       ├── OriginGroup: Object (1 property)
+│       │       │   │       │   └── Id: *string
+│       │       │   │       └── TypeName: Enum (1 value)
+│       │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
+│       │       │   ├── RouteConfigurationOverride: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RouteConfigurationOverride"
 │       │       │   │   └── Parameters: Object (3 properties)
@@ -924,14 +932,6 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │       └── Id: *string
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
-│       │       │   ├── OriginGroupOverride: Object (2 properties)
-│       │       │   │   ├── Name: Enum (1 value)
-│       │       │   │   │   └── "OriginGroupOverride"
-│       │       │   │   └── Parameters: Object (2 properties)
-│       │       │   │       ├── OriginGroup: Object (1 property)
-│       │       │   │       │   └── Id: *string
-│       │       │   │       └── TypeName: Enum (1 value)
-│       │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
 │       │       │   ├── UrlRedirect: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "UrlRedirect"
@@ -975,7 +975,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │           └── TypeName: Enum (1 value)
 │       │       │               └── "DeliveryRuleUrlSigningActionParameters"
 │       │       ├── Conditions: Object (19 properties)
-│       │       │   ├── DeliveryRuleClientPort: Object (2 properties)
+│       │       │   ├── ClientPort: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "ClientPort"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1001,7 +1001,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleClientPortConditionParameters"
-│       │       │   ├── DeliveryRuleCookies: Object (2 properties)
+│       │       │   ├── Cookies: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "Cookies"
 │       │       │   │   └── Parameters: Object (6 properties)
@@ -1028,7 +1028,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleCookiesConditionParameters"
-│       │       │   ├── DeliveryRuleHostName: Object (2 properties)
+│       │       │   ├── HostName: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "HostName"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1054,7 +1054,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleHostNameConditionParameters"
-│       │       │   ├── DeliveryRuleHttpVersion: Object (2 properties)
+│       │       │   ├── HttpVersion: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "HttpVersion"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1071,7 +1071,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
-│       │       │   ├── DeliveryRuleIsDevice: Object (2 properties)
+│       │       │   ├── IsDevice: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "IsDevice"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1090,7 +1090,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
-│       │       │   ├── DeliveryRulePostArgs: Object (2 properties)
+│       │       │   ├── PostArgs: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "PostArgs"
 │       │       │   │   └── Parameters: Object (6 properties)
@@ -1117,7 +1117,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRulePostArgsConditionParameters"
-│       │       │   ├── DeliveryRuleQueryString: Object (2 properties)
+│       │       │   ├── QueryString: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "QueryString"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1143,7 +1143,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
-│       │       │   ├── DeliveryRuleRemoteAddress: Object (2 properties)
+│       │       │   ├── RemoteAddress: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RemoteAddress"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1162,7 +1162,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
-│       │       │   ├── DeliveryRuleRequestBody: Object (2 properties)
+│       │       │   ├── RequestBody: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RequestBody"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1188,7 +1188,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
-│       │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+│       │       │   ├── RequestHeader: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RequestHeader"
 │       │       │   │   └── Parameters: Object (6 properties)
@@ -1215,7 +1215,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
-│       │       │   ├── DeliveryRuleRequestMethod: Object (2 properties)
+│       │       │   ├── RequestMethod: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RequestMethod"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1239,7 +1239,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
-│       │       │   ├── DeliveryRuleRequestScheme: Object (2 properties)
+│       │       │   ├── RequestScheme: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RequestScheme"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1258,7 +1258,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
-│       │       │   ├── DeliveryRuleRequestUri: Object (2 properties)
+│       │       │   ├── RequestUri: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "RequestUri"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1284,7 +1284,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
-│       │       │   ├── DeliveryRuleServerPort: Object (2 properties)
+│       │       │   ├── ServerPort: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "ServerPort"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1310,7 +1310,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleServerPortConditionParameters"
-│       │       │   ├── DeliveryRuleSocketAddr: Object (2 properties)
+│       │       │   ├── SocketAddr: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "SocketAddr"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1328,7 +1328,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
-│       │       │   ├── DeliveryRuleSslProtocol: Object (2 properties)
+│       │       │   ├── SslProtocol: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "SslProtocol"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1348,7 +1348,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
-│       │       │   ├── DeliveryRuleUrlFileExtension: Object (2 properties)
+│       │       │   ├── UrlFileExtension: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "UrlFileExtension"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1374,7 +1374,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-│       │       │   ├── DeliveryRuleUrlFileName: Object (2 properties)
+│       │       │   ├── UrlFileName: Object (2 properties)
 │       │       │   │   ├── Name: Enum (1 value)
 │       │       │   │   │   └── "UrlFileName"
 │       │       │   │   └── Parameters: Object (5 properties)
@@ -1400,7 +1400,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │   │       │   └── "UrlEncode"
 │       │       │   │       └── TypeName: Enum (1 value)
 │       │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
-│       │       │   └── DeliveryRuleUrlPath: Object (2 properties)
+│       │       │   └── UrlPath: Object (2 properties)
 │       │       │       ├── Name: Enum (1 value)
 │       │       │       │   └── "UrlPath"
 │       │       │       └── Parameters: Object (5 properties)
@@ -1559,7 +1559,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │   ├── Description: *string
 │   │   │   └── Rules: Object (4 properties)
 │   │   │       ├── Actions: Object (9 properties)
-│   │   │       │   ├── DeliveryRuleCacheExpiration: Object (2 properties)
+│   │   │       │   ├── CacheExpiration: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "CacheExpiration"
 │   │   │       │   │   └── Parameters: Object (4 properties)
@@ -1572,7 +1572,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "All"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
-│   │   │       │   ├── DeliveryRuleCacheKeyQueryString: Object (2 properties)
+│   │   │       │   ├── CacheKeyQueryString: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "CacheKeyQueryString"
 │   │   │       │   │   └── Parameters: Object (3 properties)
@@ -1584,7 +1584,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "IncludeAll"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-│   │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+│   │   │       │   ├── ModifyRequestHeader: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ModifyRequestHeader"
 │   │   │       │   │   └── Parameters: Object (4 properties)
@@ -1596,7 +1596,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       ├── TypeName: Enum (1 value)
 │   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │   │   │       │   │       └── Value: *string
-│   │   │       │   ├── DeliveryRuleResponseHeader: Object (2 properties)
+│   │   │       │   ├── ModifyResponseHeader: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ModifyResponseHeader"
 │   │   │       │   │   └── Parameters: Object (4 properties)
@@ -1608,7 +1608,15 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       ├── TypeName: Enum (1 value)
 │   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │   │   │       │   │       └── Value: *string
-│   │   │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (2 properties)
+│   │   │       │   ├── OriginGroupOverride: Object (2 properties)
+│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   │   │   └── "OriginGroupOverride"
+│   │   │       │   │   └── Parameters: Object (2 properties)
+│   │   │       │   │       ├── OriginGroup: Object (1 property)
+│   │   │       │   │       │   └── Id: *string
+│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
+│   │   │       │   ├── RouteConfigurationOverride: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RouteConfigurationOverride"
 │   │   │       │   │   └── Parameters: Object (3 properties)
@@ -1636,14 +1644,6 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │       └── Id: *string
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
-│   │   │       │   ├── OriginGroupOverride: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
-│   │   │       │   │   │   └── "OriginGroupOverride"
-│   │   │       │   │   └── Parameters: Object (2 properties)
-│   │   │       │   │       ├── OriginGroup: Object (1 property)
-│   │   │       │   │       │   └── Id: *string
-│   │   │       │   │       └── TypeName: Enum (1 value)
-│   │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
 │   │   │       │   ├── UrlRedirect: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "UrlRedirect"
@@ -1687,7 +1687,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │           └── TypeName: Enum (1 value)
 │   │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
 │   │   │       ├── Conditions: Object (19 properties)
-│   │   │       │   ├── DeliveryRuleClientPort: Object (2 properties)
+│   │   │       │   ├── ClientPort: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ClientPort"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1713,7 +1713,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
-│   │   │       │   ├── DeliveryRuleCookies: Object (2 properties)
+│   │   │       │   ├── Cookies: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "Cookies"
 │   │   │       │   │   └── Parameters: Object (6 properties)
@@ -1740,7 +1740,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
-│   │   │       │   ├── DeliveryRuleHostName: Object (2 properties)
+│   │   │       │   ├── HostName: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "HostName"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1766,7 +1766,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
-│   │   │       │   ├── DeliveryRuleHttpVersion: Object (2 properties)
+│   │   │       │   ├── HttpVersion: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "HttpVersion"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1783,7 +1783,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
-│   │   │       │   ├── DeliveryRuleIsDevice: Object (2 properties)
+│   │   │       │   ├── IsDevice: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "IsDevice"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1802,7 +1802,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
-│   │   │       │   ├── DeliveryRulePostArgs: Object (2 properties)
+│   │   │       │   ├── PostArgs: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "PostArgs"
 │   │   │       │   │   └── Parameters: Object (6 properties)
@@ -1829,7 +1829,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
-│   │   │       │   ├── DeliveryRuleQueryString: Object (2 properties)
+│   │   │       │   ├── QueryString: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "QueryString"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1855,7 +1855,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
-│   │   │       │   ├── DeliveryRuleRemoteAddress: Object (2 properties)
+│   │   │       │   ├── RemoteAddress: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RemoteAddress"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1874,7 +1874,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestBody: Object (2 properties)
+│   │   │       │   ├── RequestBody: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestBody"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1900,7 +1900,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+│   │   │       │   ├── RequestHeader: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestHeader"
 │   │   │       │   │   └── Parameters: Object (6 properties)
@@ -1927,7 +1927,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestMethod: Object (2 properties)
+│   │   │       │   ├── RequestMethod: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestMethod"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1951,7 +1951,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestScheme: Object (2 properties)
+│   │   │       │   ├── RequestScheme: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestScheme"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1970,7 +1970,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestUri: Object (2 properties)
+│   │   │       │   ├── RequestUri: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "RequestUri"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -1996,7 +1996,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
-│   │   │       │   ├── DeliveryRuleServerPort: Object (2 properties)
+│   │   │       │   ├── ServerPort: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "ServerPort"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -2022,7 +2022,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
-│   │   │       │   ├── DeliveryRuleSocketAddr: Object (2 properties)
+│   │   │       │   ├── SocketAddr: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "SocketAddr"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -2040,7 +2040,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
-│   │   │       │   ├── DeliveryRuleSslProtocol: Object (2 properties)
+│   │   │       │   ├── SslProtocol: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "SslProtocol"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -2060,7 +2060,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
-│   │   │       │   ├── DeliveryRuleUrlFileExtension: Object (2 properties)
+│   │   │       │   ├── UrlFileExtension: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "UrlFileExtension"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -2086,7 +2086,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-│   │   │       │   ├── DeliveryRuleUrlFileName: Object (2 properties)
+│   │   │       │   ├── UrlFileName: Object (2 properties)
 │   │   │       │   │   ├── Name: Enum (1 value)
 │   │   │       │   │   │   └── "UrlFileName"
 │   │   │       │   │   └── Parameters: Object (5 properties)
@@ -2112,7 +2112,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   └── "UrlEncode"
 │   │   │       │   │       └── TypeName: Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
-│   │   │       │   └── DeliveryRuleUrlPath: Object (2 properties)
+│   │   │       │   └── UrlPath: Object (2 properties)
 │   │   │       │       ├── Name: Enum (1 value)
 │   │   │       │       │   └── "UrlPath"
 │   │   │       │       └── Parameters: Object (5 properties)
@@ -2265,7 +2265,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │   ├── Description: *string
     │   │   └── Rules: Object (4 properties)
     │   │       ├── Actions: Object (9 properties)
-    │   │       │   ├── DeliveryRuleCacheExpiration: Object (2 properties)
+    │   │       │   ├── CacheExpiration: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "CacheExpiration"
     │   │       │   │   └── Parameters: Object (4 properties)
@@ -2278,7 +2278,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "All"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
-    │   │       │   ├── DeliveryRuleCacheKeyQueryString: Object (2 properties)
+    │   │       │   ├── CacheKeyQueryString: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "CacheKeyQueryString"
     │   │       │   │   └── Parameters: Object (3 properties)
@@ -2290,7 +2290,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "IncludeAll"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-    │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+    │   │       │   ├── ModifyRequestHeader: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ModifyRequestHeader"
     │   │       │   │   └── Parameters: Object (4 properties)
@@ -2302,7 +2302,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       ├── TypeName: Enum (1 value)
     │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
     │   │       │   │       └── Value: *string
-    │   │       │   ├── DeliveryRuleResponseHeader: Object (2 properties)
+    │   │       │   ├── ModifyResponseHeader: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ModifyResponseHeader"
     │   │       │   │   └── Parameters: Object (4 properties)
@@ -2314,7 +2314,15 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       ├── TypeName: Enum (1 value)
     │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
     │   │       │   │       └── Value: *string
-    │   │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (2 properties)
+    │   │       │   ├── OriginGroupOverride: Object (2 properties)
+    │   │       │   │   ├── Name: Enum (1 value)
+    │   │       │   │   │   └── "OriginGroupOverride"
+    │   │       │   │   └── Parameters: Object (2 properties)
+    │   │       │   │       ├── OriginGroup: Object (1 property)
+    │   │       │   │       │   └── Id: *string
+    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
+    │   │       │   ├── RouteConfigurationOverride: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RouteConfigurationOverride"
     │   │       │   │   └── Parameters: Object (3 properties)
@@ -2342,14 +2350,6 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │       └── Id: *string
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
-    │   │       │   ├── OriginGroupOverride: Object (2 properties)
-    │   │       │   │   ├── Name: Enum (1 value)
-    │   │       │   │   │   └── "OriginGroupOverride"
-    │   │       │   │   └── Parameters: Object (2 properties)
-    │   │       │   │       ├── OriginGroup: Object (1 property)
-    │   │       │   │       │   └── Id: *string
-    │   │       │   │       └── TypeName: Enum (1 value)
-    │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
     │   │       │   ├── UrlRedirect: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlRedirect"
@@ -2393,7 +2393,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │           └── TypeName: Enum (1 value)
     │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
     │   │       ├── Conditions: Object (19 properties)
-    │   │       │   ├── DeliveryRuleClientPort: Object (2 properties)
+    │   │       │   ├── ClientPort: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ClientPort"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2419,7 +2419,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
-    │   │       │   ├── DeliveryRuleCookies: Object (2 properties)
+    │   │       │   ├── Cookies: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "Cookies"
     │   │       │   │   └── Parameters: Object (6 properties)
@@ -2446,7 +2446,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
-    │   │       │   ├── DeliveryRuleHostName: Object (2 properties)
+    │   │       │   ├── HostName: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "HostName"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2472,7 +2472,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
-    │   │       │   ├── DeliveryRuleHttpVersion: Object (2 properties)
+    │   │       │   ├── HttpVersion: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "HttpVersion"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2489,7 +2489,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
-    │   │       │   ├── DeliveryRuleIsDevice: Object (2 properties)
+    │   │       │   ├── IsDevice: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "IsDevice"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2508,7 +2508,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
-    │   │       │   ├── DeliveryRulePostArgs: Object (2 properties)
+    │   │       │   ├── PostArgs: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "PostArgs"
     │   │       │   │   └── Parameters: Object (6 properties)
@@ -2535,7 +2535,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
-    │   │       │   ├── DeliveryRuleQueryString: Object (2 properties)
+    │   │       │   ├── QueryString: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "QueryString"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2561,7 +2561,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
-    │   │       │   ├── DeliveryRuleRemoteAddress: Object (2 properties)
+    │   │       │   ├── RemoteAddress: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RemoteAddress"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2580,7 +2580,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestBody: Object (2 properties)
+    │   │       │   ├── RequestBody: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestBody"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2606,7 +2606,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+    │   │       │   ├── RequestHeader: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestHeader"
     │   │       │   │   └── Parameters: Object (6 properties)
@@ -2633,7 +2633,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestMethod: Object (2 properties)
+    │   │       │   ├── RequestMethod: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestMethod"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2657,7 +2657,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestScheme: Object (2 properties)
+    │   │       │   ├── RequestScheme: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestScheme"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2676,7 +2676,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestUri: Object (2 properties)
+    │   │       │   ├── RequestUri: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestUri"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2702,7 +2702,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
-    │   │       │   ├── DeliveryRuleServerPort: Object (2 properties)
+    │   │       │   ├── ServerPort: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ServerPort"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2728,7 +2728,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
-    │   │       │   ├── DeliveryRuleSocketAddr: Object (2 properties)
+    │   │       │   ├── SocketAddr: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "SocketAddr"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2746,7 +2746,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
-    │   │       │   ├── DeliveryRuleSslProtocol: Object (2 properties)
+    │   │       │   ├── SslProtocol: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "SslProtocol"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2766,7 +2766,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
-    │   │       │   ├── DeliveryRuleUrlFileExtension: Object (2 properties)
+    │   │       │   ├── UrlFileExtension: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlFileExtension"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2792,7 +2792,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-    │   │       │   ├── DeliveryRuleUrlFileName: Object (2 properties)
+    │   │       │   ├── UrlFileName: Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlFileName"
     │   │       │   │   └── Parameters: Object (5 properties)
@@ -2818,7 +2818,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   └── "UrlEncode"
     │   │       │   │       └── TypeName: Enum (1 value)
     │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
-    │   │       │   └── DeliveryRuleUrlPath: Object (2 properties)
+    │   │       │   └── UrlPath: Object (2 properties)
     │   │       │       ├── Name: Enum (1 value)
     │   │       │       │   └── "UrlPath"
     │   │       │       └── Parameters: Object (5 properties)

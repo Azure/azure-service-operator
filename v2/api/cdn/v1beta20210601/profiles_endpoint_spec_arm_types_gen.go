@@ -237,53 +237,53 @@ type KeyVaultSigningKeyParameters_ARM struct {
 }
 
 type DeliveryRuleAction_ARM struct {
-	// DeliveryRuleCacheExpiration: Mutually exclusive with all other properties
-	DeliveryRuleCacheExpiration *DeliveryRuleCacheExpirationAction_ARM `json:"deliveryRuleCacheExpirationAction,omitempty"`
+	// CacheExpiration: Mutually exclusive with all other properties
+	CacheExpiration *DeliveryRuleCacheExpirationAction_ARM `json:"cacheExpiration,omitempty"`
 
-	// DeliveryRuleCacheKeyQueryString: Mutually exclusive with all other properties
-	DeliveryRuleCacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_ARM `json:"deliveryRuleCacheKeyQueryStringAction,omitempty"`
+	// CacheKeyQueryString: Mutually exclusive with all other properties
+	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_ARM `json:"cacheKeyQueryString,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderAction_ARM `json:"deliveryRuleRequestHeaderAction,omitempty"`
+	// ModifyRequestHeader: Mutually exclusive with all other properties
+	ModifyRequestHeader *DeliveryRuleRequestHeaderAction_ARM `json:"modifyRequestHeader,omitempty"`
 
-	// DeliveryRuleResponseHeader: Mutually exclusive with all other properties
-	DeliveryRuleResponseHeader *DeliveryRuleResponseHeaderAction_ARM `json:"deliveryRuleResponseHeaderAction,omitempty"`
-
-	// DeliveryRuleRouteConfigurationOverride: Mutually exclusive with all other properties
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_ARM `json:"deliveryRuleRouteConfigurationOverrideAction,omitempty"`
+	// ModifyResponseHeader: Mutually exclusive with all other properties
+	ModifyResponseHeader *DeliveryRuleResponseHeaderAction_ARM `json:"modifyResponseHeader,omitempty"`
 
 	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction_ARM `json:"originGroupOverrideAction,omitempty"`
+	OriginGroupOverride *OriginGroupOverrideAction_ARM `json:"originGroupOverride,omitempty"`
+
+	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_ARM `json:"routeConfigurationOverride,omitempty"`
 
 	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction_ARM `json:"urlRedirectAction,omitempty"`
+	UrlRedirect *UrlRedirectAction_ARM `json:"urlRedirect,omitempty"`
 
 	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction_ARM `json:"urlRewriteAction,omitempty"`
+	UrlRewrite *UrlRewriteAction_ARM `json:"urlRewrite,omitempty"`
 
 	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction_ARM `json:"urlSigningAction,omitempty"`
+	UrlSigning *UrlSigningAction_ARM `json:"urlSigning,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleAction_ARM represents a discriminated union (JSON OneOf)
 func (action DeliveryRuleAction_ARM) MarshalJSON() ([]byte, error) {
-	if action.DeliveryRuleCacheExpiration != nil {
-		return json.Marshal(action.DeliveryRuleCacheExpiration)
+	if action.CacheExpiration != nil {
+		return json.Marshal(action.CacheExpiration)
 	}
-	if action.DeliveryRuleCacheKeyQueryString != nil {
-		return json.Marshal(action.DeliveryRuleCacheKeyQueryString)
+	if action.CacheKeyQueryString != nil {
+		return json.Marshal(action.CacheKeyQueryString)
 	}
-	if action.DeliveryRuleRequestHeader != nil {
-		return json.Marshal(action.DeliveryRuleRequestHeader)
+	if action.ModifyRequestHeader != nil {
+		return json.Marshal(action.ModifyRequestHeader)
 	}
-	if action.DeliveryRuleResponseHeader != nil {
-		return json.Marshal(action.DeliveryRuleResponseHeader)
-	}
-	if action.DeliveryRuleRouteConfigurationOverride != nil {
-		return json.Marshal(action.DeliveryRuleRouteConfigurationOverride)
+	if action.ModifyResponseHeader != nil {
+		return json.Marshal(action.ModifyResponseHeader)
 	}
 	if action.OriginGroupOverride != nil {
 		return json.Marshal(action.OriginGroupOverride)
+	}
+	if action.RouteConfigurationOverride != nil {
+		return json.Marshal(action.RouteConfigurationOverride)
 	}
 	if action.UrlRedirect != nil {
 		return json.Marshal(action.UrlRedirect)
@@ -306,28 +306,28 @@ func (action *DeliveryRuleAction_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["name"]
 	if discriminator == "CacheExpiration" {
-		action.DeliveryRuleCacheExpiration = &DeliveryRuleCacheExpirationAction_ARM{}
-		return json.Unmarshal(data, action.DeliveryRuleCacheExpiration)
+		action.CacheExpiration = &DeliveryRuleCacheExpirationAction_ARM{}
+		return json.Unmarshal(data, action.CacheExpiration)
 	}
 	if discriminator == "CacheKeyQueryString" {
-		action.DeliveryRuleCacheKeyQueryString = &DeliveryRuleCacheKeyQueryStringAction_ARM{}
-		return json.Unmarshal(data, action.DeliveryRuleCacheKeyQueryString)
+		action.CacheKeyQueryString = &DeliveryRuleCacheKeyQueryStringAction_ARM{}
+		return json.Unmarshal(data, action.CacheKeyQueryString)
 	}
 	if discriminator == "ModifyRequestHeader" {
-		action.DeliveryRuleRequestHeader = &DeliveryRuleRequestHeaderAction_ARM{}
-		return json.Unmarshal(data, action.DeliveryRuleRequestHeader)
+		action.ModifyRequestHeader = &DeliveryRuleRequestHeaderAction_ARM{}
+		return json.Unmarshal(data, action.ModifyRequestHeader)
 	}
 	if discriminator == "ModifyResponseHeader" {
-		action.DeliveryRuleResponseHeader = &DeliveryRuleResponseHeaderAction_ARM{}
-		return json.Unmarshal(data, action.DeliveryRuleResponseHeader)
+		action.ModifyResponseHeader = &DeliveryRuleResponseHeaderAction_ARM{}
+		return json.Unmarshal(data, action.ModifyResponseHeader)
 	}
 	if discriminator == "OriginGroupOverride" {
 		action.OriginGroupOverride = &OriginGroupOverrideAction_ARM{}
 		return json.Unmarshal(data, action.OriginGroupOverride)
 	}
 	if discriminator == "RouteConfigurationOverride" {
-		action.DeliveryRuleRouteConfigurationOverride = &DeliveryRuleRouteConfigurationOverrideAction_ARM{}
-		return json.Unmarshal(data, action.DeliveryRuleRouteConfigurationOverride)
+		action.RouteConfigurationOverride = &DeliveryRuleRouteConfigurationOverrideAction_ARM{}
+		return json.Unmarshal(data, action.RouteConfigurationOverride)
 	}
 	if discriminator == "UrlRedirect" {
 		action.UrlRedirect = &UrlRedirectAction_ARM{}
@@ -347,122 +347,122 @@ func (action *DeliveryRuleAction_ARM) UnmarshalJSON(data []byte) error {
 }
 
 type DeliveryRuleCondition_ARM struct {
-	// DeliveryRuleClientPort: Mutually exclusive with all other properties
-	DeliveryRuleClientPort *DeliveryRuleClientPortCondition_ARM `json:"deliveryRuleClientPortCondition,omitempty"`
+	// ClientPort: Mutually exclusive with all other properties
+	ClientPort *DeliveryRuleClientPortCondition_ARM `json:"clientPort,omitempty"`
 
-	// DeliveryRuleCookies: Mutually exclusive with all other properties
-	DeliveryRuleCookies *DeliveryRuleCookiesCondition_ARM `json:"deliveryRuleCookiesCondition,omitempty"`
+	// Cookies: Mutually exclusive with all other properties
+	Cookies *DeliveryRuleCookiesCondition_ARM `json:"cookies,omitempty"`
 
-	// DeliveryRuleHostName: Mutually exclusive with all other properties
-	DeliveryRuleHostName *DeliveryRuleHostNameCondition_ARM `json:"deliveryRuleHostNameCondition,omitempty"`
+	// HostName: Mutually exclusive with all other properties
+	HostName *DeliveryRuleHostNameCondition_ARM `json:"hostName,omitempty"`
 
-	// DeliveryRuleHttpVersion: Mutually exclusive with all other properties
-	DeliveryRuleHttpVersion *DeliveryRuleHttpVersionCondition_ARM `json:"deliveryRuleHttpVersionCondition,omitempty"`
+	// HttpVersion: Mutually exclusive with all other properties
+	HttpVersion *DeliveryRuleHttpVersionCondition_ARM `json:"httpVersion,omitempty"`
 
-	// DeliveryRuleIsDevice: Mutually exclusive with all other properties
-	DeliveryRuleIsDevice *DeliveryRuleIsDeviceCondition_ARM `json:"deliveryRuleIsDeviceCondition,omitempty"`
+	// IsDevice: Mutually exclusive with all other properties
+	IsDevice *DeliveryRuleIsDeviceCondition_ARM `json:"isDevice,omitempty"`
 
-	// DeliveryRulePostArgs: Mutually exclusive with all other properties
-	DeliveryRulePostArgs *DeliveryRulePostArgsCondition_ARM `json:"deliveryRulePostArgsCondition,omitempty"`
+	// PostArgs: Mutually exclusive with all other properties
+	PostArgs *DeliveryRulePostArgsCondition_ARM `json:"postArgs,omitempty"`
 
-	// DeliveryRuleQueryString: Mutually exclusive with all other properties
-	DeliveryRuleQueryString *DeliveryRuleQueryStringCondition_ARM `json:"deliveryRuleQueryStringCondition,omitempty"`
+	// QueryString: Mutually exclusive with all other properties
+	QueryString *DeliveryRuleQueryStringCondition_ARM `json:"queryString,omitempty"`
 
-	// DeliveryRuleRemoteAddress: Mutually exclusive with all other properties
-	DeliveryRuleRemoteAddress *DeliveryRuleRemoteAddressCondition_ARM `json:"deliveryRuleRemoteAddressCondition,omitempty"`
+	// RemoteAddress: Mutually exclusive with all other properties
+	RemoteAddress *DeliveryRuleRemoteAddressCondition_ARM `json:"remoteAddress,omitempty"`
 
-	// DeliveryRuleRequestBody: Mutually exclusive with all other properties
-	DeliveryRuleRequestBody *DeliveryRuleRequestBodyCondition_ARM `json:"deliveryRuleRequestBodyCondition,omitempty"`
+	// RequestBody: Mutually exclusive with all other properties
+	RequestBody *DeliveryRuleRequestBodyCondition_ARM `json:"requestBody,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderCondition_ARM `json:"deliveryRuleRequestHeaderCondition,omitempty"`
+	// RequestHeader: Mutually exclusive with all other properties
+	RequestHeader *DeliveryRuleRequestHeaderCondition_ARM `json:"requestHeader,omitempty"`
 
-	// DeliveryRuleRequestMethod: Mutually exclusive with all other properties
-	DeliveryRuleRequestMethod *DeliveryRuleRequestMethodCondition_ARM `json:"deliveryRuleRequestMethodCondition,omitempty"`
+	// RequestMethod: Mutually exclusive with all other properties
+	RequestMethod *DeliveryRuleRequestMethodCondition_ARM `json:"requestMethod,omitempty"`
 
-	// DeliveryRuleRequestScheme: Mutually exclusive with all other properties
-	DeliveryRuleRequestScheme *DeliveryRuleRequestSchemeCondition_ARM `json:"deliveryRuleRequestSchemeCondition,omitempty"`
+	// RequestScheme: Mutually exclusive with all other properties
+	RequestScheme *DeliveryRuleRequestSchemeCondition_ARM `json:"requestScheme,omitempty"`
 
-	// DeliveryRuleRequestUri: Mutually exclusive with all other properties
-	DeliveryRuleRequestUri *DeliveryRuleRequestUriCondition_ARM `json:"deliveryRuleRequestUriCondition,omitempty"`
+	// RequestUri: Mutually exclusive with all other properties
+	RequestUri *DeliveryRuleRequestUriCondition_ARM `json:"requestUri,omitempty"`
 
-	// DeliveryRuleServerPort: Mutually exclusive with all other properties
-	DeliveryRuleServerPort *DeliveryRuleServerPortCondition_ARM `json:"deliveryRuleServerPortCondition,omitempty"`
+	// ServerPort: Mutually exclusive with all other properties
+	ServerPort *DeliveryRuleServerPortCondition_ARM `json:"serverPort,omitempty"`
 
-	// DeliveryRuleSocketAddr: Mutually exclusive with all other properties
-	DeliveryRuleSocketAddr *DeliveryRuleSocketAddrCondition_ARM `json:"deliveryRuleSocketAddrCondition,omitempty"`
+	// SocketAddr: Mutually exclusive with all other properties
+	SocketAddr *DeliveryRuleSocketAddrCondition_ARM `json:"socketAddr,omitempty"`
 
-	// DeliveryRuleSslProtocol: Mutually exclusive with all other properties
-	DeliveryRuleSslProtocol *DeliveryRuleSslProtocolCondition_ARM `json:"deliveryRuleSslProtocolCondition,omitempty"`
+	// SslProtocol: Mutually exclusive with all other properties
+	SslProtocol *DeliveryRuleSslProtocolCondition_ARM `json:"sslProtocol,omitempty"`
 
-	// DeliveryRuleUrlFileExtension: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition_ARM `json:"deliveryRuleUrlFileExtensionCondition,omitempty"`
+	// UrlFileExtension: Mutually exclusive with all other properties
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_ARM `json:"urlFileExtension,omitempty"`
 
-	// DeliveryRuleUrlFileName: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileName *DeliveryRuleUrlFileNameCondition_ARM `json:"deliveryRuleUrlFileNameCondition,omitempty"`
+	// UrlFileName: Mutually exclusive with all other properties
+	UrlFileName *DeliveryRuleUrlFileNameCondition_ARM `json:"urlFileName,omitempty"`
 
-	// DeliveryRuleUrlPath: Mutually exclusive with all other properties
-	DeliveryRuleUrlPath *DeliveryRuleUrlPathCondition_ARM `json:"deliveryRuleUrlPathCondition,omitempty"`
+	// UrlPath: Mutually exclusive with all other properties
+	UrlPath *DeliveryRuleUrlPathCondition_ARM `json:"urlPath,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleCondition_ARM represents a discriminated union (JSON OneOf)
 func (condition DeliveryRuleCondition_ARM) MarshalJSON() ([]byte, error) {
-	if condition.DeliveryRuleClientPort != nil {
-		return json.Marshal(condition.DeliveryRuleClientPort)
+	if condition.ClientPort != nil {
+		return json.Marshal(condition.ClientPort)
 	}
-	if condition.DeliveryRuleCookies != nil {
-		return json.Marshal(condition.DeliveryRuleCookies)
+	if condition.Cookies != nil {
+		return json.Marshal(condition.Cookies)
 	}
-	if condition.DeliveryRuleHostName != nil {
-		return json.Marshal(condition.DeliveryRuleHostName)
+	if condition.HostName != nil {
+		return json.Marshal(condition.HostName)
 	}
-	if condition.DeliveryRuleHttpVersion != nil {
-		return json.Marshal(condition.DeliveryRuleHttpVersion)
+	if condition.HttpVersion != nil {
+		return json.Marshal(condition.HttpVersion)
 	}
-	if condition.DeliveryRuleIsDevice != nil {
-		return json.Marshal(condition.DeliveryRuleIsDevice)
+	if condition.IsDevice != nil {
+		return json.Marshal(condition.IsDevice)
 	}
-	if condition.DeliveryRulePostArgs != nil {
-		return json.Marshal(condition.DeliveryRulePostArgs)
+	if condition.PostArgs != nil {
+		return json.Marshal(condition.PostArgs)
 	}
-	if condition.DeliveryRuleQueryString != nil {
-		return json.Marshal(condition.DeliveryRuleQueryString)
+	if condition.QueryString != nil {
+		return json.Marshal(condition.QueryString)
 	}
-	if condition.DeliveryRuleRemoteAddress != nil {
-		return json.Marshal(condition.DeliveryRuleRemoteAddress)
+	if condition.RemoteAddress != nil {
+		return json.Marshal(condition.RemoteAddress)
 	}
-	if condition.DeliveryRuleRequestBody != nil {
-		return json.Marshal(condition.DeliveryRuleRequestBody)
+	if condition.RequestBody != nil {
+		return json.Marshal(condition.RequestBody)
 	}
-	if condition.DeliveryRuleRequestHeader != nil {
-		return json.Marshal(condition.DeliveryRuleRequestHeader)
+	if condition.RequestHeader != nil {
+		return json.Marshal(condition.RequestHeader)
 	}
-	if condition.DeliveryRuleRequestMethod != nil {
-		return json.Marshal(condition.DeliveryRuleRequestMethod)
+	if condition.RequestMethod != nil {
+		return json.Marshal(condition.RequestMethod)
 	}
-	if condition.DeliveryRuleRequestScheme != nil {
-		return json.Marshal(condition.DeliveryRuleRequestScheme)
+	if condition.RequestScheme != nil {
+		return json.Marshal(condition.RequestScheme)
 	}
-	if condition.DeliveryRuleRequestUri != nil {
-		return json.Marshal(condition.DeliveryRuleRequestUri)
+	if condition.RequestUri != nil {
+		return json.Marshal(condition.RequestUri)
 	}
-	if condition.DeliveryRuleServerPort != nil {
-		return json.Marshal(condition.DeliveryRuleServerPort)
+	if condition.ServerPort != nil {
+		return json.Marshal(condition.ServerPort)
 	}
-	if condition.DeliveryRuleSocketAddr != nil {
-		return json.Marshal(condition.DeliveryRuleSocketAddr)
+	if condition.SocketAddr != nil {
+		return json.Marshal(condition.SocketAddr)
 	}
-	if condition.DeliveryRuleSslProtocol != nil {
-		return json.Marshal(condition.DeliveryRuleSslProtocol)
+	if condition.SslProtocol != nil {
+		return json.Marshal(condition.SslProtocol)
 	}
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		return json.Marshal(condition.DeliveryRuleUrlFileExtension)
+	if condition.UrlFileExtension != nil {
+		return json.Marshal(condition.UrlFileExtension)
 	}
-	if condition.DeliveryRuleUrlFileName != nil {
-		return json.Marshal(condition.DeliveryRuleUrlFileName)
+	if condition.UrlFileName != nil {
+		return json.Marshal(condition.UrlFileName)
 	}
-	if condition.DeliveryRuleUrlPath != nil {
-		return json.Marshal(condition.DeliveryRuleUrlPath)
+	if condition.UrlPath != nil {
+		return json.Marshal(condition.UrlPath)
 	}
 	return nil, nil
 }
@@ -476,80 +476,80 @@ func (condition *DeliveryRuleCondition_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["name"]
 	if discriminator == "ClientPort" {
-		condition.DeliveryRuleClientPort = &DeliveryRuleClientPortCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleClientPort)
+		condition.ClientPort = &DeliveryRuleClientPortCondition_ARM{}
+		return json.Unmarshal(data, condition.ClientPort)
 	}
 	if discriminator == "Cookies" {
-		condition.DeliveryRuleCookies = &DeliveryRuleCookiesCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleCookies)
+		condition.Cookies = &DeliveryRuleCookiesCondition_ARM{}
+		return json.Unmarshal(data, condition.Cookies)
 	}
 	if discriminator == "HostName" {
-		condition.DeliveryRuleHostName = &DeliveryRuleHostNameCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleHostName)
+		condition.HostName = &DeliveryRuleHostNameCondition_ARM{}
+		return json.Unmarshal(data, condition.HostName)
 	}
 	if discriminator == "HttpVersion" {
-		condition.DeliveryRuleHttpVersion = &DeliveryRuleHttpVersionCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleHttpVersion)
+		condition.HttpVersion = &DeliveryRuleHttpVersionCondition_ARM{}
+		return json.Unmarshal(data, condition.HttpVersion)
 	}
 	if discriminator == "IsDevice" {
-		condition.DeliveryRuleIsDevice = &DeliveryRuleIsDeviceCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleIsDevice)
+		condition.IsDevice = &DeliveryRuleIsDeviceCondition_ARM{}
+		return json.Unmarshal(data, condition.IsDevice)
 	}
 	if discriminator == "PostArgs" {
-		condition.DeliveryRulePostArgs = &DeliveryRulePostArgsCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRulePostArgs)
+		condition.PostArgs = &DeliveryRulePostArgsCondition_ARM{}
+		return json.Unmarshal(data, condition.PostArgs)
 	}
 	if discriminator == "QueryString" {
-		condition.DeliveryRuleQueryString = &DeliveryRuleQueryStringCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleQueryString)
+		condition.QueryString = &DeliveryRuleQueryStringCondition_ARM{}
+		return json.Unmarshal(data, condition.QueryString)
 	}
 	if discriminator == "RemoteAddress" {
-		condition.DeliveryRuleRemoteAddress = &DeliveryRuleRemoteAddressCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRemoteAddress)
+		condition.RemoteAddress = &DeliveryRuleRemoteAddressCondition_ARM{}
+		return json.Unmarshal(data, condition.RemoteAddress)
 	}
 	if discriminator == "RequestBody" {
-		condition.DeliveryRuleRequestBody = &DeliveryRuleRequestBodyCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestBody)
+		condition.RequestBody = &DeliveryRuleRequestBodyCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestBody)
 	}
 	if discriminator == "RequestHeader" {
-		condition.DeliveryRuleRequestHeader = &DeliveryRuleRequestHeaderCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestHeader)
+		condition.RequestHeader = &DeliveryRuleRequestHeaderCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestHeader)
 	}
 	if discriminator == "RequestMethod" {
-		condition.DeliveryRuleRequestMethod = &DeliveryRuleRequestMethodCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestMethod)
+		condition.RequestMethod = &DeliveryRuleRequestMethodCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestMethod)
 	}
 	if discriminator == "RequestScheme" {
-		condition.DeliveryRuleRequestScheme = &DeliveryRuleRequestSchemeCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestScheme)
+		condition.RequestScheme = &DeliveryRuleRequestSchemeCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestScheme)
 	}
 	if discriminator == "RequestUri" {
-		condition.DeliveryRuleRequestUri = &DeliveryRuleRequestUriCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestUri)
+		condition.RequestUri = &DeliveryRuleRequestUriCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestUri)
 	}
 	if discriminator == "ServerPort" {
-		condition.DeliveryRuleServerPort = &DeliveryRuleServerPortCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleServerPort)
+		condition.ServerPort = &DeliveryRuleServerPortCondition_ARM{}
+		return json.Unmarshal(data, condition.ServerPort)
 	}
 	if discriminator == "SocketAddr" {
-		condition.DeliveryRuleSocketAddr = &DeliveryRuleSocketAddrCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleSocketAddr)
+		condition.SocketAddr = &DeliveryRuleSocketAddrCondition_ARM{}
+		return json.Unmarshal(data, condition.SocketAddr)
 	}
 	if discriminator == "SslProtocol" {
-		condition.DeliveryRuleSslProtocol = &DeliveryRuleSslProtocolCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleSslProtocol)
+		condition.SslProtocol = &DeliveryRuleSslProtocolCondition_ARM{}
+		return json.Unmarshal(data, condition.SslProtocol)
 	}
 	if discriminator == "UrlFileExtension" {
-		condition.DeliveryRuleUrlFileExtension = &DeliveryRuleUrlFileExtensionCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleUrlFileExtension)
+		condition.UrlFileExtension = &DeliveryRuleUrlFileExtensionCondition_ARM{}
+		return json.Unmarshal(data, condition.UrlFileExtension)
 	}
 	if discriminator == "UrlFileName" {
-		condition.DeliveryRuleUrlFileName = &DeliveryRuleUrlFileNameCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleUrlFileName)
+		condition.UrlFileName = &DeliveryRuleUrlFileNameCondition_ARM{}
+		return json.Unmarshal(data, condition.UrlFileName)
 	}
 	if discriminator == "UrlPath" {
-		condition.DeliveryRuleUrlPath = &DeliveryRuleUrlPathCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleUrlPath)
+		condition.UrlPath = &DeliveryRuleUrlPathCondition_ARM{}
+		return json.Unmarshal(data, condition.UrlPath)
 	}
 
 	// No error

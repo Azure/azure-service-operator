@@ -237,7 +237,7 @@ func DeadLetterDestination_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForDeadLetterDestination_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDeadLetterDestination_ARM(gens map[string]gopter.Gen) {
-	gens["StorageBlobDeadLetterDestination"] = StorageBlobDeadLetterDestination_ARMGenerator().Map(func(it StorageBlobDeadLetterDestination_ARM) *StorageBlobDeadLetterDestination_ARM {
+	gens["StorageBlob"] = StorageBlobDeadLetterDestination_ARMGenerator().Map(func(it StorageBlobDeadLetterDestination_ARM) *StorageBlobDeadLetterDestination_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }

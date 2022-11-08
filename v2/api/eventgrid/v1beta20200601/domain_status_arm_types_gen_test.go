@@ -383,7 +383,7 @@ func InputSchemaMapping_STATUS_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["JsonInputSchemaMapping_STATUS"] = JsonInputSchemaMapping_STATUS_ARMGenerator().Map(func(it JsonInputSchemaMapping_STATUS_ARM) *JsonInputSchemaMapping_STATUS_ARM {
+	gens["Json"] = JsonInputSchemaMapping_STATUS_ARMGenerator().Map(func(it JsonInputSchemaMapping_STATUS_ARM) *JsonInputSchemaMapping_STATUS_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }

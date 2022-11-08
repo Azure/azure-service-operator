@@ -159,16 +159,16 @@ func ServerPropertiesForCreate_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForServerPropertiesForCreate_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerPropertiesForCreate_ARM(gens map[string]gopter.Gen) {
-	gens["ServerPropertiesForDefaultCreate"] = ServerPropertiesForDefaultCreate_ARMGenerator().Map(func(it ServerPropertiesForDefaultCreate_ARM) *ServerPropertiesForDefaultCreate_ARM {
+	gens["Default"] = ServerPropertiesForDefaultCreate_ARMGenerator().Map(func(it ServerPropertiesForDefaultCreate_ARM) *ServerPropertiesForDefaultCreate_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ServerPropertiesForGeoRestore"] = ServerPropertiesForGeoRestore_ARMGenerator().Map(func(it ServerPropertiesForGeoRestore_ARM) *ServerPropertiesForGeoRestore_ARM {
+	gens["GeoRestore"] = ServerPropertiesForGeoRestore_ARMGenerator().Map(func(it ServerPropertiesForGeoRestore_ARM) *ServerPropertiesForGeoRestore_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ServerPropertiesForReplica"] = ServerPropertiesForReplica_ARMGenerator().Map(func(it ServerPropertiesForReplica_ARM) *ServerPropertiesForReplica_ARM {
+	gens["PointInTimeRestore"] = ServerPropertiesForRestore_ARMGenerator().Map(func(it ServerPropertiesForRestore_ARM) *ServerPropertiesForRestore_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ServerPropertiesForRestore"] = ServerPropertiesForRestore_ARMGenerator().Map(func(it ServerPropertiesForRestore_ARM) *ServerPropertiesForRestore_ARM {
+	gens["Replica"] = ServerPropertiesForReplica_ARMGenerator().Map(func(it ServerPropertiesForReplica_ARM) *ServerPropertiesForReplica_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }

@@ -1407,17 +1407,17 @@ const (
 )
 
 type ServerPropertiesForCreate struct {
-	// ServerPropertiesForDefaultCreate: Mutually exclusive with all other properties
-	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate `json:"serverPropertiesForDefaultCreate,omitempty"`
+	// Default: Mutually exclusive with all other properties
+	Default *ServerPropertiesForDefaultCreate `json:"def,omitempty"`
 
-	// ServerPropertiesForGeoRestore: Mutually exclusive with all other properties
-	ServerPropertiesForGeoRestore *ServerPropertiesForGeoRestore `json:"serverPropertiesForGeoRestore,omitempty"`
+	// GeoRestore: Mutually exclusive with all other properties
+	GeoRestore *ServerPropertiesForGeoRestore `json:"geoRestore,omitempty"`
 
-	// ServerPropertiesForReplica: Mutually exclusive with all other properties
-	ServerPropertiesForReplica *ServerPropertiesForReplica `json:"serverPropertiesForReplica,omitempty"`
+	// PointInTimeRestore: Mutually exclusive with all other properties
+	PointInTimeRestore *ServerPropertiesForRestore `json:"pointInTimeRestore,omitempty"`
 
-	// ServerPropertiesForRestore: Mutually exclusive with all other properties
-	ServerPropertiesForRestore *ServerPropertiesForRestore `json:"serverPropertiesForRestore,omitempty"`
+	// Replica: Mutually exclusive with all other properties
+	Replica *ServerPropertiesForReplica `json:"replica,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForCreate{}
@@ -1429,44 +1429,44 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &ServerPropertiesForCreate_ARM{}
 
-	// Set property ‘ServerPropertiesForDefaultCreate’:
-	if create.ServerPropertiesForDefaultCreate != nil {
-		serverPropertiesForDefaultCreate_ARM, err := (*create.ServerPropertiesForDefaultCreate).ConvertToARM(resolved)
+	// Set property ‘Default’:
+	if create.Default != nil {
+		default_ARM, err := (*create.Default).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForDefaultCreate := *serverPropertiesForDefaultCreate_ARM.(*ServerPropertiesForDefaultCreate_ARM)
-		result.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		def := *default_ARM.(*ServerPropertiesForDefaultCreate_ARM)
+		result.Default = &def
 	}
 
-	// Set property ‘ServerPropertiesForGeoRestore’:
-	if create.ServerPropertiesForGeoRestore != nil {
-		serverPropertiesForGeoRestore_ARM, err := (*create.ServerPropertiesForGeoRestore).ConvertToARM(resolved)
+	// Set property ‘GeoRestore’:
+	if create.GeoRestore != nil {
+		geoRestore_ARM, err := (*create.GeoRestore).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForGeoRestore := *serverPropertiesForGeoRestore_ARM.(*ServerPropertiesForGeoRestore_ARM)
-		result.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		geoRestore := *geoRestore_ARM.(*ServerPropertiesForGeoRestore_ARM)
+		result.GeoRestore = &geoRestore
 	}
 
-	// Set property ‘ServerPropertiesForReplica’:
-	if create.ServerPropertiesForReplica != nil {
-		serverPropertiesForReplica_ARM, err := (*create.ServerPropertiesForReplica).ConvertToARM(resolved)
+	// Set property ‘PointInTimeRestore’:
+	if create.PointInTimeRestore != nil {
+		pointInTimeRestore_ARM, err := (*create.PointInTimeRestore).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForReplica := *serverPropertiesForReplica_ARM.(*ServerPropertiesForReplica_ARM)
-		result.ServerPropertiesForReplica = &serverPropertiesForReplica
+		pointInTimeRestore := *pointInTimeRestore_ARM.(*ServerPropertiesForRestore_ARM)
+		result.PointInTimeRestore = &pointInTimeRestore
 	}
 
-	// Set property ‘ServerPropertiesForRestore’:
-	if create.ServerPropertiesForRestore != nil {
-		serverPropertiesForRestore_ARM, err := (*create.ServerPropertiesForRestore).ConvertToARM(resolved)
+	// Set property ‘Replica’:
+	if create.Replica != nil {
+		replica_ARM, err := (*create.Replica).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForRestore := *serverPropertiesForRestore_ARM.(*ServerPropertiesForRestore_ARM)
-		result.ServerPropertiesForRestore = &serverPropertiesForRestore
+		replica := *replica_ARM.(*ServerPropertiesForReplica_ARM)
+		result.Replica = &replica
 	}
 	return result, nil
 }
@@ -1483,48 +1483,48 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ServerPropertiesForDefaultCreate’:
-	if typedInput.ServerPropertiesForDefaultCreate != nil {
-		var serverPropertiesForDefaultCreate1 ServerPropertiesForDefaultCreate
-		err := serverPropertiesForDefaultCreate1.PopulateFromARM(owner, *typedInput.ServerPropertiesForDefaultCreate)
+	// Set property ‘Default’:
+	if typedInput.Default != nil {
+		var default1 ServerPropertiesForDefaultCreate
+		err := default1.PopulateFromARM(owner, *typedInput.Default)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForDefaultCreate := serverPropertiesForDefaultCreate1
-		create.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		def := default1
+		create.Default = &def
 	}
 
-	// Set property ‘ServerPropertiesForGeoRestore’:
-	if typedInput.ServerPropertiesForGeoRestore != nil {
-		var serverPropertiesForGeoRestore1 ServerPropertiesForGeoRestore
-		err := serverPropertiesForGeoRestore1.PopulateFromARM(owner, *typedInput.ServerPropertiesForGeoRestore)
+	// Set property ‘GeoRestore’:
+	if typedInput.GeoRestore != nil {
+		var geoRestore1 ServerPropertiesForGeoRestore
+		err := geoRestore1.PopulateFromARM(owner, *typedInput.GeoRestore)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForGeoRestore := serverPropertiesForGeoRestore1
-		create.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		geoRestore := geoRestore1
+		create.GeoRestore = &geoRestore
 	}
 
-	// Set property ‘ServerPropertiesForReplica’:
-	if typedInput.ServerPropertiesForReplica != nil {
-		var serverPropertiesForReplica1 ServerPropertiesForReplica
-		err := serverPropertiesForReplica1.PopulateFromARM(owner, *typedInput.ServerPropertiesForReplica)
+	// Set property ‘PointInTimeRestore’:
+	if typedInput.PointInTimeRestore != nil {
+		var pointInTimeRestore1 ServerPropertiesForRestore
+		err := pointInTimeRestore1.PopulateFromARM(owner, *typedInput.PointInTimeRestore)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForReplica := serverPropertiesForReplica1
-		create.ServerPropertiesForReplica = &serverPropertiesForReplica
+		pointInTimeRestore := pointInTimeRestore1
+		create.PointInTimeRestore = &pointInTimeRestore
 	}
 
-	// Set property ‘ServerPropertiesForRestore’:
-	if typedInput.ServerPropertiesForRestore != nil {
-		var serverPropertiesForRestore1 ServerPropertiesForRestore
-		err := serverPropertiesForRestore1.PopulateFromARM(owner, *typedInput.ServerPropertiesForRestore)
+	// Set property ‘Replica’:
+	if typedInput.Replica != nil {
+		var replica1 ServerPropertiesForReplica
+		err := replica1.PopulateFromARM(owner, *typedInput.Replica)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForRestore := serverPropertiesForRestore1
-		create.ServerPropertiesForRestore = &serverPropertiesForRestore
+		replica := replica1
+		create.Replica = &replica
 	}
 
 	// No error
@@ -1534,52 +1534,52 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 // AssignProperties_From_ServerPropertiesForCreate populates our ServerPropertiesForCreate from the provided source ServerPropertiesForCreate
 func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesForCreate(source *v20180601s.ServerPropertiesForCreate) error {
 
-	// ServerPropertiesForDefaultCreate
-	if source.ServerPropertiesForDefaultCreate != nil {
-		var serverPropertiesForDefaultCreate ServerPropertiesForDefaultCreate
-		err := serverPropertiesForDefaultCreate.AssignProperties_From_ServerPropertiesForDefaultCreate(source.ServerPropertiesForDefaultCreate)
+	// Default
+	if source.Default != nil {
+		var def ServerPropertiesForDefaultCreate
+		err := def.AssignProperties_From_ServerPropertiesForDefaultCreate(source.Default)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field ServerPropertiesForDefaultCreate")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
-		create.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		create.Default = &def
 	} else {
-		create.ServerPropertiesForDefaultCreate = nil
+		create.Default = nil
 	}
 
-	// ServerPropertiesForGeoRestore
-	if source.ServerPropertiesForGeoRestore != nil {
-		var serverPropertiesForGeoRestore ServerPropertiesForGeoRestore
-		err := serverPropertiesForGeoRestore.AssignProperties_From_ServerPropertiesForGeoRestore(source.ServerPropertiesForGeoRestore)
+	// GeoRestore
+	if source.GeoRestore != nil {
+		var geoRestore ServerPropertiesForGeoRestore
+		err := geoRestore.AssignProperties_From_ServerPropertiesForGeoRestore(source.GeoRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field ServerPropertiesForGeoRestore")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field GeoRestore")
 		}
-		create.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		create.GeoRestore = &geoRestore
 	} else {
-		create.ServerPropertiesForGeoRestore = nil
+		create.GeoRestore = nil
 	}
 
-	// ServerPropertiesForReplica
-	if source.ServerPropertiesForReplica != nil {
-		var serverPropertiesForReplica ServerPropertiesForReplica
-		err := serverPropertiesForReplica.AssignProperties_From_ServerPropertiesForReplica(source.ServerPropertiesForReplica)
+	// PointInTimeRestore
+	if source.PointInTimeRestore != nil {
+		var pointInTimeRestore ServerPropertiesForRestore
+		err := pointInTimeRestore.AssignProperties_From_ServerPropertiesForRestore(source.PointInTimeRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field ServerPropertiesForReplica")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field PointInTimeRestore")
 		}
-		create.ServerPropertiesForReplica = &serverPropertiesForReplica
+		create.PointInTimeRestore = &pointInTimeRestore
 	} else {
-		create.ServerPropertiesForReplica = nil
+		create.PointInTimeRestore = nil
 	}
 
-	// ServerPropertiesForRestore
-	if source.ServerPropertiesForRestore != nil {
-		var serverPropertiesForRestore ServerPropertiesForRestore
-		err := serverPropertiesForRestore.AssignProperties_From_ServerPropertiesForRestore(source.ServerPropertiesForRestore)
+	// Replica
+	if source.Replica != nil {
+		var replica ServerPropertiesForReplica
+		err := replica.AssignProperties_From_ServerPropertiesForReplica(source.Replica)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field ServerPropertiesForRestore")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field Replica")
 		}
-		create.ServerPropertiesForRestore = &serverPropertiesForRestore
+		create.Replica = &replica
 	} else {
-		create.ServerPropertiesForRestore = nil
+		create.Replica = nil
 	}
 
 	// No error
@@ -1591,52 +1591,52 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ServerPropertiesForDefaultCreate
-	if create.ServerPropertiesForDefaultCreate != nil {
-		var serverPropertiesForDefaultCreate v20180601s.ServerPropertiesForDefaultCreate
-		err := create.ServerPropertiesForDefaultCreate.AssignProperties_To_ServerPropertiesForDefaultCreate(&serverPropertiesForDefaultCreate)
+	// Default
+	if create.Default != nil {
+		var def v20180601s.ServerPropertiesForDefaultCreate
+		err := create.Default.AssignProperties_To_ServerPropertiesForDefaultCreate(&def)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field ServerPropertiesForDefaultCreate")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
-		destination.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		destination.Default = &def
 	} else {
-		destination.ServerPropertiesForDefaultCreate = nil
+		destination.Default = nil
 	}
 
-	// ServerPropertiesForGeoRestore
-	if create.ServerPropertiesForGeoRestore != nil {
-		var serverPropertiesForGeoRestore v20180601s.ServerPropertiesForGeoRestore
-		err := create.ServerPropertiesForGeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&serverPropertiesForGeoRestore)
+	// GeoRestore
+	if create.GeoRestore != nil {
+		var geoRestore v20180601s.ServerPropertiesForGeoRestore
+		err := create.GeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&geoRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field ServerPropertiesForGeoRestore")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field GeoRestore")
 		}
-		destination.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		destination.GeoRestore = &geoRestore
 	} else {
-		destination.ServerPropertiesForGeoRestore = nil
+		destination.GeoRestore = nil
 	}
 
-	// ServerPropertiesForReplica
-	if create.ServerPropertiesForReplica != nil {
-		var serverPropertiesForReplica v20180601s.ServerPropertiesForReplica
-		err := create.ServerPropertiesForReplica.AssignProperties_To_ServerPropertiesForReplica(&serverPropertiesForReplica)
+	// PointInTimeRestore
+	if create.PointInTimeRestore != nil {
+		var pointInTimeRestore v20180601s.ServerPropertiesForRestore
+		err := create.PointInTimeRestore.AssignProperties_To_ServerPropertiesForRestore(&pointInTimeRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field ServerPropertiesForReplica")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field PointInTimeRestore")
 		}
-		destination.ServerPropertiesForReplica = &serverPropertiesForReplica
+		destination.PointInTimeRestore = &pointInTimeRestore
 	} else {
-		destination.ServerPropertiesForReplica = nil
+		destination.PointInTimeRestore = nil
 	}
 
-	// ServerPropertiesForRestore
-	if create.ServerPropertiesForRestore != nil {
-		var serverPropertiesForRestore v20180601s.ServerPropertiesForRestore
-		err := create.ServerPropertiesForRestore.AssignProperties_To_ServerPropertiesForRestore(&serverPropertiesForRestore)
+	// Replica
+	if create.Replica != nil {
+		var replica v20180601s.ServerPropertiesForReplica
+		err := create.Replica.AssignProperties_To_ServerPropertiesForReplica(&replica)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field ServerPropertiesForRestore")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field Replica")
 		}
-		destination.ServerPropertiesForRestore = &serverPropertiesForRestore
+		destination.Replica = &replica
 	} else {
-		destination.ServerPropertiesForRestore = nil
+		destination.Replica = nil
 	}
 
 	// Update the property bag

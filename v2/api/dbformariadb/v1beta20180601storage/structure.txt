@@ -49,8 +49,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── Properties: Object (5 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ServerPropertiesForDefaultCreate: Object (9 properties)
+    │   │   ├── Default: Object (9 properties)
     │   │   │   ├── AdministratorLogin: *string
     │   │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
     │   │   │   ├── CreateMode: *string
@@ -65,7 +64,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   ├── ServerPropertiesForGeoRestore: Object (8 properties)
+    │   │   ├── GeoRestore: Object (8 properties)
     │   │   │   ├── CreateMode: *string
     │   │   │   ├── MinimalTlsVersion: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -79,11 +78,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   ├── ServerPropertiesForReplica: Object (8 properties)
+    │   │   ├── PointInTimeRestore: Object (9 properties)
     │   │   │   ├── CreateMode: *string
     │   │   │   ├── MinimalTlsVersion: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PublicNetworkAccess: *string
+    │   │   │   ├── RestorePointInTime: *string
     │   │   │   ├── SourceServerId: *string
     │   │   │   ├── SslEnforcement: *string
     │   │   │   ├── StorageProfile: Object (5 properties)
@@ -93,12 +93,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   └── ServerPropertiesForRestore: Object (9 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Replica: Object (8 properties)
     │   │       ├── CreateMode: *string
     │   │       ├── MinimalTlsVersion: *string
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       ├── PublicNetworkAccess: *string
-    │   │       ├── RestorePointInTime: *string
     │   │       ├── SourceServerId: *string
     │   │       ├── SslEnforcement: *string
     │   │       ├── StorageProfile: Object (5 properties)

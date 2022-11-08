@@ -3169,10 +3169,10 @@ func (properties *ApiProperties_STATUS) AssignProperties_To_ApiProperties_STATUS
 
 type BackupPolicy struct {
 	// Continuous: Mutually exclusive with all other properties
-	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
+	Continuous *ContinuousModeBackupPolicy `json:"continuous,omitempty"`
 
 	// Periodic: Mutually exclusive with all other properties
-	Periodic *PeriodicModeBackupPolicy `json:"periodicModeBackupPolicy,omitempty"`
+	Periodic *PeriodicModeBackupPolicy `json:"periodic,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackupPolicy{}
@@ -3317,10 +3317,10 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20210
 
 type BackupPolicy_STATUS struct {
 	// Continuous: Mutually exclusive with all other properties
-	Continuous *ContinuousModeBackupPolicy_STATUS `json:"continuousModeBackupPolicy_STATUS,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_STATUS `json:"continuous,omitempty"`
 
 	// Periodic: Mutually exclusive with all other properties
-	Periodic *PeriodicModeBackupPolicy_STATUS `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+	Periodic *PeriodicModeBackupPolicy_STATUS `json:"periodic,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackupPolicy_STATUS{}

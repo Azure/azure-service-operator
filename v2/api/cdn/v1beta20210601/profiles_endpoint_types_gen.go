@@ -5750,32 +5750,32 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 }
 
 type DeliveryRuleAction struct {
-	// DeliveryRuleCacheExpiration: Mutually exclusive with all other properties
-	DeliveryRuleCacheExpiration *DeliveryRuleCacheExpirationAction `json:"deliveryRuleCacheExpirationAction,omitempty"`
+	// CacheExpiration: Mutually exclusive with all other properties
+	CacheExpiration *DeliveryRuleCacheExpirationAction `json:"cacheExpiration,omitempty"`
 
-	// DeliveryRuleCacheKeyQueryString: Mutually exclusive with all other properties
-	DeliveryRuleCacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction `json:"deliveryRuleCacheKeyQueryStringAction,omitempty"`
+	// CacheKeyQueryString: Mutually exclusive with all other properties
+	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction `json:"cacheKeyQueryString,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderAction `json:"deliveryRuleRequestHeaderAction,omitempty"`
+	// ModifyRequestHeader: Mutually exclusive with all other properties
+	ModifyRequestHeader *DeliveryRuleRequestHeaderAction `json:"modifyRequestHeader,omitempty"`
 
-	// DeliveryRuleResponseHeader: Mutually exclusive with all other properties
-	DeliveryRuleResponseHeader *DeliveryRuleResponseHeaderAction `json:"deliveryRuleResponseHeaderAction,omitempty"`
-
-	// DeliveryRuleRouteConfigurationOverride: Mutually exclusive with all other properties
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"deliveryRuleRouteConfigurationOverrideAction,omitempty"`
+	// ModifyResponseHeader: Mutually exclusive with all other properties
+	ModifyResponseHeader *DeliveryRuleResponseHeaderAction `json:"modifyResponseHeader,omitempty"`
 
 	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction `json:"originGroupOverrideAction,omitempty"`
+	OriginGroupOverride *OriginGroupOverrideAction `json:"originGroupOverride,omitempty"`
+
+	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"routeConfigurationOverride,omitempty"`
 
 	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction `json:"urlRedirectAction,omitempty"`
+	UrlRedirect *UrlRedirectAction `json:"urlRedirect,omitempty"`
 
 	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction `json:"urlRewriteAction,omitempty"`
+	UrlRewrite *UrlRewriteAction `json:"urlRewrite,omitempty"`
 
 	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction `json:"urlSigningAction,omitempty"`
+	UrlSigning *UrlSigningAction `json:"urlSigning,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DeliveryRuleAction{}
@@ -5787,54 +5787,44 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &DeliveryRuleAction_ARM{}
 
-	// Set property ‘DeliveryRuleCacheExpiration’:
-	if action.DeliveryRuleCacheExpiration != nil {
-		deliveryRuleCacheExpiration_ARM, err := (*action.DeliveryRuleCacheExpiration).ConvertToARM(resolved)
+	// Set property ‘CacheExpiration’:
+	if action.CacheExpiration != nil {
+		cacheExpiration_ARM, err := (*action.CacheExpiration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleCacheExpiration := *deliveryRuleCacheExpiration_ARM.(*DeliveryRuleCacheExpirationAction_ARM)
-		result.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		cacheExpiration := *cacheExpiration_ARM.(*DeliveryRuleCacheExpirationAction_ARM)
+		result.CacheExpiration = &cacheExpiration
 	}
 
-	// Set property ‘DeliveryRuleCacheKeyQueryString’:
-	if action.DeliveryRuleCacheKeyQueryString != nil {
-		deliveryRuleCacheKeyQueryString_ARM, err := (*action.DeliveryRuleCacheKeyQueryString).ConvertToARM(resolved)
+	// Set property ‘CacheKeyQueryString’:
+	if action.CacheKeyQueryString != nil {
+		cacheKeyQueryString_ARM, err := (*action.CacheKeyQueryString).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleCacheKeyQueryString := *deliveryRuleCacheKeyQueryString_ARM.(*DeliveryRuleCacheKeyQueryStringAction_ARM)
-		result.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		cacheKeyQueryString := *cacheKeyQueryString_ARM.(*DeliveryRuleCacheKeyQueryStringAction_ARM)
+		result.CacheKeyQueryString = &cacheKeyQueryString
 	}
 
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if action.DeliveryRuleRequestHeader != nil {
-		deliveryRuleRequestHeader_ARM, err := (*action.DeliveryRuleRequestHeader).ConvertToARM(resolved)
+	// Set property ‘ModifyRequestHeader’:
+	if action.ModifyRequestHeader != nil {
+		modifyRequestHeader_ARM, err := (*action.ModifyRequestHeader).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestHeader := *deliveryRuleRequestHeader_ARM.(*DeliveryRuleRequestHeaderAction_ARM)
-		result.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		modifyRequestHeader := *modifyRequestHeader_ARM.(*DeliveryRuleRequestHeaderAction_ARM)
+		result.ModifyRequestHeader = &modifyRequestHeader
 	}
 
-	// Set property ‘DeliveryRuleResponseHeader’:
-	if action.DeliveryRuleResponseHeader != nil {
-		deliveryRuleResponseHeader_ARM, err := (*action.DeliveryRuleResponseHeader).ConvertToARM(resolved)
+	// Set property ‘ModifyResponseHeader’:
+	if action.ModifyResponseHeader != nil {
+		modifyResponseHeader_ARM, err := (*action.ModifyResponseHeader).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleResponseHeader := *deliveryRuleResponseHeader_ARM.(*DeliveryRuleResponseHeaderAction_ARM)
-		result.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	}
-
-	// Set property ‘DeliveryRuleRouteConfigurationOverride’:
-	if action.DeliveryRuleRouteConfigurationOverride != nil {
-		deliveryRuleRouteConfigurationOverride_ARM, err := (*action.DeliveryRuleRouteConfigurationOverride).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRouteConfigurationOverride := *deliveryRuleRouteConfigurationOverride_ARM.(*DeliveryRuleRouteConfigurationOverrideAction_ARM)
-		result.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
+		modifyResponseHeader := *modifyResponseHeader_ARM.(*DeliveryRuleResponseHeaderAction_ARM)
+		result.ModifyResponseHeader = &modifyResponseHeader
 	}
 
 	// Set property ‘OriginGroupOverride’:
@@ -5845,6 +5835,16 @@ func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMR
 		}
 		originGroupOverride := *originGroupOverride_ARM.(*OriginGroupOverrideAction_ARM)
 		result.OriginGroupOverride = &originGroupOverride
+	}
+
+	// Set property ‘RouteConfigurationOverride’:
+	if action.RouteConfigurationOverride != nil {
+		routeConfigurationOverride_ARM, err := (*action.RouteConfigurationOverride).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		routeConfigurationOverride := *routeConfigurationOverride_ARM.(*DeliveryRuleRouteConfigurationOverrideAction_ARM)
+		result.RouteConfigurationOverride = &routeConfigurationOverride
 	}
 
 	// Set property ‘UrlRedirect’:
@@ -5891,59 +5891,48 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DeliveryRuleCacheExpiration’:
-	if typedInput.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration1 DeliveryRuleCacheExpirationAction
-		err := deliveryRuleCacheExpiration1.PopulateFromARM(owner, *typedInput.DeliveryRuleCacheExpiration)
+	// Set property ‘CacheExpiration’:
+	if typedInput.CacheExpiration != nil {
+		var cacheExpiration1 DeliveryRuleCacheExpirationAction
+		err := cacheExpiration1.PopulateFromARM(owner, *typedInput.CacheExpiration)
 		if err != nil {
 			return err
 		}
-		deliveryRuleCacheExpiration := deliveryRuleCacheExpiration1
-		action.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		cacheExpiration := cacheExpiration1
+		action.CacheExpiration = &cacheExpiration
 	}
 
-	// Set property ‘DeliveryRuleCacheKeyQueryString’:
-	if typedInput.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction
-		err := deliveryRuleCacheKeyQueryString1.PopulateFromARM(owner, *typedInput.DeliveryRuleCacheKeyQueryString)
+	// Set property ‘CacheKeyQueryString’:
+	if typedInput.CacheKeyQueryString != nil {
+		var cacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction
+		err := cacheKeyQueryString1.PopulateFromARM(owner, *typedInput.CacheKeyQueryString)
 		if err != nil {
 			return err
 		}
-		deliveryRuleCacheKeyQueryString := deliveryRuleCacheKeyQueryString1
-		action.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		cacheKeyQueryString := cacheKeyQueryString1
+		action.CacheKeyQueryString = &cacheKeyQueryString
 	}
 
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if typedInput.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader1 DeliveryRuleRequestHeaderAction
-		err := deliveryRuleRequestHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestHeader)
+	// Set property ‘ModifyRequestHeader’:
+	if typedInput.ModifyRequestHeader != nil {
+		var modifyRequestHeader1 DeliveryRuleRequestHeaderAction
+		err := modifyRequestHeader1.PopulateFromARM(owner, *typedInput.ModifyRequestHeader)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeader1
-		action.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		modifyRequestHeader := modifyRequestHeader1
+		action.ModifyRequestHeader = &modifyRequestHeader
 	}
 
-	// Set property ‘DeliveryRuleResponseHeader’:
-	if typedInput.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader1 DeliveryRuleResponseHeaderAction
-		err := deliveryRuleResponseHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleResponseHeader)
+	// Set property ‘ModifyResponseHeader’:
+	if typedInput.ModifyResponseHeader != nil {
+		var modifyResponseHeader1 DeliveryRuleResponseHeaderAction
+		err := modifyResponseHeader1.PopulateFromARM(owner, *typedInput.ModifyResponseHeader)
 		if err != nil {
 			return err
 		}
-		deliveryRuleResponseHeader := deliveryRuleResponseHeader1
-		action.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	}
-
-	// Set property ‘DeliveryRuleRouteConfigurationOverride’:
-	if typedInput.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction
-		err := deliveryRuleRouteConfigurationOverride1.PopulateFromARM(owner, *typedInput.DeliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRouteConfigurationOverride := deliveryRuleRouteConfigurationOverride1
-		action.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
+		modifyResponseHeader := modifyResponseHeader1
+		action.ModifyResponseHeader = &modifyResponseHeader
 	}
 
 	// Set property ‘OriginGroupOverride’:
@@ -5955,6 +5944,17 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 		}
 		originGroupOverride := originGroupOverride1
 		action.OriginGroupOverride = &originGroupOverride
+	}
+
+	// Set property ‘RouteConfigurationOverride’:
+	if typedInput.RouteConfigurationOverride != nil {
+		var routeConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction
+		err := routeConfigurationOverride1.PopulateFromARM(owner, *typedInput.RouteConfigurationOverride)
+		if err != nil {
+			return err
+		}
+		routeConfigurationOverride := routeConfigurationOverride1
+		action.RouteConfigurationOverride = &routeConfigurationOverride
 	}
 
 	// Set property ‘UrlRedirect’:
@@ -5997,64 +5997,52 @@ func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwne
 // AssignProperties_From_DeliveryRuleAction populates our DeliveryRuleAction from the provided source DeliveryRuleAction
 func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(source *v20210601s.DeliveryRuleAction) error {
 
-	// DeliveryRuleCacheExpiration
-	if source.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration DeliveryRuleCacheExpirationAction
-		err := deliveryRuleCacheExpiration.AssignProperties_From_DeliveryRuleCacheExpirationAction(source.DeliveryRuleCacheExpiration)
+	// CacheExpiration
+	if source.CacheExpiration != nil {
+		var cacheExpiration DeliveryRuleCacheExpirationAction
+		err := cacheExpiration.AssignProperties_From_DeliveryRuleCacheExpirationAction(source.CacheExpiration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheExpirationAction() to populate field CacheExpiration")
 		}
-		action.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		action.CacheExpiration = &cacheExpiration
 	} else {
-		action.DeliveryRuleCacheExpiration = nil
+		action.CacheExpiration = nil
 	}
 
-	// DeliveryRuleCacheKeyQueryString
-	if source.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction
-		err := deliveryRuleCacheKeyQueryString.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source.DeliveryRuleCacheKeyQueryString)
+	// CacheKeyQueryString
+	if source.CacheKeyQueryString != nil {
+		var cacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction
+		err := cacheKeyQueryString.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction(source.CacheKeyQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction() to populate field CacheKeyQueryString")
 		}
-		action.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		action.CacheKeyQueryString = &cacheKeyQueryString
 	} else {
-		action.DeliveryRuleCacheKeyQueryString = nil
+		action.CacheKeyQueryString = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if source.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderAction
-		err := deliveryRuleRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderAction(source.DeliveryRuleRequestHeader)
+	// ModifyRequestHeader
+	if source.ModifyRequestHeader != nil {
+		var modifyRequestHeader DeliveryRuleRequestHeaderAction
+		err := modifyRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderAction(source.ModifyRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderAction() to populate field ModifyRequestHeader")
 		}
-		action.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		action.ModifyRequestHeader = &modifyRequestHeader
 	} else {
-		action.DeliveryRuleRequestHeader = nil
+		action.ModifyRequestHeader = nil
 	}
 
-	// DeliveryRuleResponseHeader
-	if source.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader DeliveryRuleResponseHeaderAction
-		err := deliveryRuleResponseHeader.AssignProperties_From_DeliveryRuleResponseHeaderAction(source.DeliveryRuleResponseHeader)
+	// ModifyResponseHeader
+	if source.ModifyResponseHeader != nil {
+		var modifyResponseHeader DeliveryRuleResponseHeaderAction
+		err := modifyResponseHeader.AssignProperties_From_DeliveryRuleResponseHeaderAction(source.ModifyResponseHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleResponseHeaderAction() to populate field ModifyResponseHeader")
 		}
-		action.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
+		action.ModifyResponseHeader = &modifyResponseHeader
 	} else {
-		action.DeliveryRuleResponseHeader = nil
-	}
-
-	// DeliveryRuleRouteConfigurationOverride
-	if source.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction
-		err := deliveryRuleRouteConfigurationOverride.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source.DeliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
-		}
-		action.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	} else {
-		action.DeliveryRuleRouteConfigurationOverride = nil
+		action.ModifyResponseHeader = nil
 	}
 
 	// OriginGroupOverride
@@ -6067,6 +6055,18 @@ func (action *DeliveryRuleAction) AssignProperties_From_DeliveryRuleAction(sourc
 		action.OriginGroupOverride = &originGroupOverride
 	} else {
 		action.OriginGroupOverride = nil
+	}
+
+	// RouteConfigurationOverride
+	if source.RouteConfigurationOverride != nil {
+		var routeConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction
+		err := routeConfigurationOverride.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction(source.RouteConfigurationOverride)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction() to populate field RouteConfigurationOverride")
+		}
+		action.RouteConfigurationOverride = &routeConfigurationOverride
+	} else {
+		action.RouteConfigurationOverride = nil
 	}
 
 	// UrlRedirect
@@ -6114,64 +6114,52 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DeliveryRuleCacheExpiration
-	if action.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration v20210601s.DeliveryRuleCacheExpirationAction
-		err := action.DeliveryRuleCacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction(&deliveryRuleCacheExpiration)
+	// CacheExpiration
+	if action.CacheExpiration != nil {
+		var cacheExpiration v20210601s.DeliveryRuleCacheExpirationAction
+		err := action.CacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction(&cacheExpiration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction() to populate field CacheExpiration")
 		}
-		destination.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		destination.CacheExpiration = &cacheExpiration
 	} else {
-		destination.DeliveryRuleCacheExpiration = nil
+		destination.CacheExpiration = nil
 	}
 
-	// DeliveryRuleCacheKeyQueryString
-	if action.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction
-		err := action.DeliveryRuleCacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&deliveryRuleCacheKeyQueryString)
+	// CacheKeyQueryString
+	if action.CacheKeyQueryString != nil {
+		var cacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction
+		err := action.CacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction(&cacheKeyQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction() to populate field CacheKeyQueryString")
 		}
-		destination.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		destination.CacheKeyQueryString = &cacheKeyQueryString
 	} else {
-		destination.DeliveryRuleCacheKeyQueryString = nil
+		destination.CacheKeyQueryString = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if action.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderAction
-		err := action.DeliveryRuleRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction(&deliveryRuleRequestHeader)
+	// ModifyRequestHeader
+	if action.ModifyRequestHeader != nil {
+		var modifyRequestHeader v20210601s.DeliveryRuleRequestHeaderAction
+		err := action.ModifyRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction(&modifyRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction() to populate field ModifyRequestHeader")
 		}
-		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		destination.ModifyRequestHeader = &modifyRequestHeader
 	} else {
-		destination.DeliveryRuleRequestHeader = nil
+		destination.ModifyRequestHeader = nil
 	}
 
-	// DeliveryRuleResponseHeader
-	if action.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader v20210601s.DeliveryRuleResponseHeaderAction
-		err := action.DeliveryRuleResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction(&deliveryRuleResponseHeader)
+	// ModifyResponseHeader
+	if action.ModifyResponseHeader != nil {
+		var modifyResponseHeader v20210601s.DeliveryRuleResponseHeaderAction
+		err := action.ModifyResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction(&modifyResponseHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction() to populate field ModifyResponseHeader")
 		}
-		destination.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
+		destination.ModifyResponseHeader = &modifyResponseHeader
 	} else {
-		destination.DeliveryRuleResponseHeader = nil
-	}
-
-	// DeliveryRuleRouteConfigurationOverride
-	if action.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction
-		err := action.DeliveryRuleRouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&deliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
-		}
-		destination.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	} else {
-		destination.DeliveryRuleRouteConfigurationOverride = nil
+		destination.ModifyResponseHeader = nil
 	}
 
 	// OriginGroupOverride
@@ -6184,6 +6172,18 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 		destination.OriginGroupOverride = &originGroupOverride
 	} else {
 		destination.OriginGroupOverride = nil
+	}
+
+	// RouteConfigurationOverride
+	if action.RouteConfigurationOverride != nil {
+		var routeConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction
+		err := action.RouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction(&routeConfigurationOverride)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction() to populate field RouteConfigurationOverride")
+		}
+		destination.RouteConfigurationOverride = &routeConfigurationOverride
+	} else {
+		destination.RouteConfigurationOverride = nil
 	}
 
 	// UrlRedirect
@@ -6234,32 +6234,32 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 }
 
 type DeliveryRuleAction_STATUS struct {
-	// DeliveryRuleCacheExpiration: Mutually exclusive with all other properties
-	DeliveryRuleCacheExpiration *DeliveryRuleCacheExpirationAction_STATUS `json:"deliveryRuleCacheExpirationAction_STATUS,omitempty"`
+	// CacheExpiration: Mutually exclusive with all other properties
+	CacheExpiration *DeliveryRuleCacheExpirationAction_STATUS `json:"cacheExpiration,omitempty"`
 
-	// DeliveryRuleCacheKeyQueryString: Mutually exclusive with all other properties
-	DeliveryRuleCacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_STATUS `json:"deliveryRuleCacheKeyQueryStringAction_STATUS,omitempty"`
+	// CacheKeyQueryString: Mutually exclusive with all other properties
+	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_STATUS `json:"cacheKeyQueryString,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderAction_STATUS `json:"deliveryRuleRequestHeaderAction_STATUS,omitempty"`
+	// ModifyRequestHeader: Mutually exclusive with all other properties
+	ModifyRequestHeader *DeliveryRuleRequestHeaderAction_STATUS `json:"modifyRequestHeader,omitempty"`
 
-	// DeliveryRuleResponseHeader: Mutually exclusive with all other properties
-	DeliveryRuleResponseHeader *DeliveryRuleResponseHeaderAction_STATUS `json:"deliveryRuleResponseHeaderAction_STATUS,omitempty"`
-
-	// DeliveryRuleRouteConfigurationOverride: Mutually exclusive with all other properties
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS `json:"deliveryRuleRouteConfigurationOverrideAction_STATUS,omitempty"`
+	// ModifyResponseHeader: Mutually exclusive with all other properties
+	ModifyResponseHeader *DeliveryRuleResponseHeaderAction_STATUS `json:"modifyResponseHeader,omitempty"`
 
 	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction_STATUS `json:"originGroupOverrideAction_STATUS,omitempty"`
+	OriginGroupOverride *OriginGroupOverrideAction_STATUS `json:"originGroupOverride,omitempty"`
+
+	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS `json:"routeConfigurationOverride,omitempty"`
 
 	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction_STATUS `json:"urlRedirectAction_STATUS,omitempty"`
+	UrlRedirect *UrlRedirectAction_STATUS `json:"urlRedirect,omitempty"`
 
 	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction_STATUS `json:"urlRewriteAction_STATUS,omitempty"`
+	UrlRewrite *UrlRewriteAction_STATUS `json:"urlRewrite,omitempty"`
 
 	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction_STATUS `json:"urlSigningAction_STATUS,omitempty"`
+	UrlSigning *UrlSigningAction_STATUS `json:"urlSigning,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleAction_STATUS{}
@@ -6276,59 +6276,48 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DeliveryRuleCacheExpiration’:
-	if typedInput.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration1 DeliveryRuleCacheExpirationAction_STATUS
-		err := deliveryRuleCacheExpiration1.PopulateFromARM(owner, *typedInput.DeliveryRuleCacheExpiration)
+	// Set property ‘CacheExpiration’:
+	if typedInput.CacheExpiration != nil {
+		var cacheExpiration1 DeliveryRuleCacheExpirationAction_STATUS
+		err := cacheExpiration1.PopulateFromARM(owner, *typedInput.CacheExpiration)
 		if err != nil {
 			return err
 		}
-		deliveryRuleCacheExpiration := deliveryRuleCacheExpiration1
-		action.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		cacheExpiration := cacheExpiration1
+		action.CacheExpiration = &cacheExpiration
 	}
 
-	// Set property ‘DeliveryRuleCacheKeyQueryString’:
-	if typedInput.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction_STATUS
-		err := deliveryRuleCacheKeyQueryString1.PopulateFromARM(owner, *typedInput.DeliveryRuleCacheKeyQueryString)
+	// Set property ‘CacheKeyQueryString’:
+	if typedInput.CacheKeyQueryString != nil {
+		var cacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction_STATUS
+		err := cacheKeyQueryString1.PopulateFromARM(owner, *typedInput.CacheKeyQueryString)
 		if err != nil {
 			return err
 		}
-		deliveryRuleCacheKeyQueryString := deliveryRuleCacheKeyQueryString1
-		action.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		cacheKeyQueryString := cacheKeyQueryString1
+		action.CacheKeyQueryString = &cacheKeyQueryString
 	}
 
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if typedInput.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader1 DeliveryRuleRequestHeaderAction_STATUS
-		err := deliveryRuleRequestHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestHeader)
+	// Set property ‘ModifyRequestHeader’:
+	if typedInput.ModifyRequestHeader != nil {
+		var modifyRequestHeader1 DeliveryRuleRequestHeaderAction_STATUS
+		err := modifyRequestHeader1.PopulateFromARM(owner, *typedInput.ModifyRequestHeader)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeader1
-		action.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		modifyRequestHeader := modifyRequestHeader1
+		action.ModifyRequestHeader = &modifyRequestHeader
 	}
 
-	// Set property ‘DeliveryRuleResponseHeader’:
-	if typedInput.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader1 DeliveryRuleResponseHeaderAction_STATUS
-		err := deliveryRuleResponseHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleResponseHeader)
+	// Set property ‘ModifyResponseHeader’:
+	if typedInput.ModifyResponseHeader != nil {
+		var modifyResponseHeader1 DeliveryRuleResponseHeaderAction_STATUS
+		err := modifyResponseHeader1.PopulateFromARM(owner, *typedInput.ModifyResponseHeader)
 		if err != nil {
 			return err
 		}
-		deliveryRuleResponseHeader := deliveryRuleResponseHeader1
-		action.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	}
-
-	// Set property ‘DeliveryRuleRouteConfigurationOverride’:
-	if typedInput.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction_STATUS
-		err := deliveryRuleRouteConfigurationOverride1.PopulateFromARM(owner, *typedInput.DeliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRouteConfigurationOverride := deliveryRuleRouteConfigurationOverride1
-		action.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
+		modifyResponseHeader := modifyResponseHeader1
+		action.ModifyResponseHeader = &modifyResponseHeader
 	}
 
 	// Set property ‘OriginGroupOverride’:
@@ -6340,6 +6329,17 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 		originGroupOverride := originGroupOverride1
 		action.OriginGroupOverride = &originGroupOverride
+	}
+
+	// Set property ‘RouteConfigurationOverride’:
+	if typedInput.RouteConfigurationOverride != nil {
+		var routeConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		err := routeConfigurationOverride1.PopulateFromARM(owner, *typedInput.RouteConfigurationOverride)
+		if err != nil {
+			return err
+		}
+		routeConfigurationOverride := routeConfigurationOverride1
+		action.RouteConfigurationOverride = &routeConfigurationOverride
 	}
 
 	// Set property ‘UrlRedirect’:
@@ -6382,64 +6382,52 @@ func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.Arbitr
 // AssignProperties_From_DeliveryRuleAction_STATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
 func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleAction_STATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
 
-	// DeliveryRuleCacheExpiration
-	if source.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration DeliveryRuleCacheExpirationAction_STATUS
-		err := deliveryRuleCacheExpiration.AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(source.DeliveryRuleCacheExpiration)
+	// CacheExpiration
+	if source.CacheExpiration != nil {
+		var cacheExpiration DeliveryRuleCacheExpirationAction_STATUS
+		err := cacheExpiration.AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS(source.CacheExpiration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS() to populate field DeliveryRuleCacheExpiration")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheExpirationAction_STATUS() to populate field CacheExpiration")
 		}
-		action.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		action.CacheExpiration = &cacheExpiration
 	} else {
-		action.DeliveryRuleCacheExpiration = nil
+		action.CacheExpiration = nil
 	}
 
-	// DeliveryRuleCacheKeyQueryString
-	if source.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction_STATUS
-		err := deliveryRuleCacheKeyQueryString.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source.DeliveryRuleCacheKeyQueryString)
+	// CacheKeyQueryString
+	if source.CacheKeyQueryString != nil {
+		var cacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction_STATUS
+		err := cacheKeyQueryString.AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source.CacheKeyQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field DeliveryRuleCacheKeyQueryString")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field CacheKeyQueryString")
 		}
-		action.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		action.CacheKeyQueryString = &cacheKeyQueryString
 	} else {
-		action.DeliveryRuleCacheKeyQueryString = nil
+		action.CacheKeyQueryString = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if source.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderAction_STATUS
-		err := deliveryRuleRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(source.DeliveryRuleRequestHeader)
+	// ModifyRequestHeader
+	if source.ModifyRequestHeader != nil {
+		var modifyRequestHeader DeliveryRuleRequestHeaderAction_STATUS
+		err := modifyRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS(source.ModifyRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderAction_STATUS() to populate field ModifyRequestHeader")
 		}
-		action.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		action.ModifyRequestHeader = &modifyRequestHeader
 	} else {
-		action.DeliveryRuleRequestHeader = nil
+		action.ModifyRequestHeader = nil
 	}
 
-	// DeliveryRuleResponseHeader
-	if source.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader DeliveryRuleResponseHeaderAction_STATUS
-		err := deliveryRuleResponseHeader.AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(source.DeliveryRuleResponseHeader)
+	// ModifyResponseHeader
+	if source.ModifyResponseHeader != nil {
+		var modifyResponseHeader DeliveryRuleResponseHeaderAction_STATUS
+		err := modifyResponseHeader.AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS(source.ModifyResponseHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS() to populate field DeliveryRuleResponseHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleResponseHeaderAction_STATUS() to populate field ModifyResponseHeader")
 		}
-		action.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
+		action.ModifyResponseHeader = &modifyResponseHeader
 	} else {
-		action.DeliveryRuleResponseHeader = nil
-	}
-
-	// DeliveryRuleRouteConfigurationOverride
-	if source.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction_STATUS
-		err := deliveryRuleRouteConfigurationOverride.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source.DeliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field DeliveryRuleRouteConfigurationOverride")
-		}
-		action.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	} else {
-		action.DeliveryRuleRouteConfigurationOverride = nil
+		action.ModifyResponseHeader = nil
 	}
 
 	// OriginGroupOverride
@@ -6452,6 +6440,18 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_From_DeliveryRuleActio
 		action.OriginGroupOverride = &originGroupOverride
 	} else {
 		action.OriginGroupOverride = nil
+	}
+
+	// RouteConfigurationOverride
+	if source.RouteConfigurationOverride != nil {
+		var routeConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		err := routeConfigurationOverride.AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source.RouteConfigurationOverride)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field RouteConfigurationOverride")
+		}
+		action.RouteConfigurationOverride = &routeConfigurationOverride
+	} else {
+		action.RouteConfigurationOverride = nil
 	}
 
 	// UrlRedirect
@@ -6499,64 +6499,52 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DeliveryRuleCacheExpiration
-	if action.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration v20210601s.DeliveryRuleCacheExpirationAction_STATUS
-		err := action.DeliveryRuleCacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&deliveryRuleCacheExpiration)
+	// CacheExpiration
+	if action.CacheExpiration != nil {
+		var cacheExpiration v20210601s.DeliveryRuleCacheExpirationAction_STATUS
+		err := action.CacheExpiration.AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS(&cacheExpiration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS() to populate field DeliveryRuleCacheExpiration")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheExpirationAction_STATUS() to populate field CacheExpiration")
 		}
-		destination.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
+		destination.CacheExpiration = &cacheExpiration
 	} else {
-		destination.DeliveryRuleCacheExpiration = nil
+		destination.CacheExpiration = nil
 	}
 
-	// DeliveryRuleCacheKeyQueryString
-	if action.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS
-		err := action.DeliveryRuleCacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&deliveryRuleCacheKeyQueryString)
+	// CacheKeyQueryString
+	if action.CacheKeyQueryString != nil {
+		var cacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction_STATUS
+		err := action.CacheKeyQueryString.AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS(&cacheKeyQueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field DeliveryRuleCacheKeyQueryString")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field CacheKeyQueryString")
 		}
-		destination.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
+		destination.CacheKeyQueryString = &cacheKeyQueryString
 	} else {
-		destination.DeliveryRuleCacheKeyQueryString = nil
+		destination.CacheKeyQueryString = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if action.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderAction_STATUS
-		err := action.DeliveryRuleRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&deliveryRuleRequestHeader)
+	// ModifyRequestHeader
+	if action.ModifyRequestHeader != nil {
+		var modifyRequestHeader v20210601s.DeliveryRuleRequestHeaderAction_STATUS
+		err := action.ModifyRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS(&modifyRequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderAction_STATUS() to populate field ModifyRequestHeader")
 		}
-		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		destination.ModifyRequestHeader = &modifyRequestHeader
 	} else {
-		destination.DeliveryRuleRequestHeader = nil
+		destination.ModifyRequestHeader = nil
 	}
 
-	// DeliveryRuleResponseHeader
-	if action.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader v20210601s.DeliveryRuleResponseHeaderAction_STATUS
-		err := action.DeliveryRuleResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&deliveryRuleResponseHeader)
+	// ModifyResponseHeader
+	if action.ModifyResponseHeader != nil {
+		var modifyResponseHeader v20210601s.DeliveryRuleResponseHeaderAction_STATUS
+		err := action.ModifyResponseHeader.AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS(&modifyResponseHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS() to populate field DeliveryRuleResponseHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleResponseHeaderAction_STATUS() to populate field ModifyResponseHeader")
 		}
-		destination.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
+		destination.ModifyResponseHeader = &modifyResponseHeader
 	} else {
-		destination.DeliveryRuleResponseHeader = nil
-	}
-
-	// DeliveryRuleRouteConfigurationOverride
-	if action.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
-		err := action.DeliveryRuleRouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&deliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field DeliveryRuleRouteConfigurationOverride")
-		}
-		destination.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	} else {
-		destination.DeliveryRuleRouteConfigurationOverride = nil
+		destination.ModifyResponseHeader = nil
 	}
 
 	// OriginGroupOverride
@@ -6569,6 +6557,18 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 		destination.OriginGroupOverride = &originGroupOverride
 	} else {
 		destination.OriginGroupOverride = nil
+	}
+
+	// RouteConfigurationOverride
+	if action.RouteConfigurationOverride != nil {
+		var routeConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction_STATUS
+		err := action.RouteConfigurationOverride.AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS(&routeConfigurationOverride)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field RouteConfigurationOverride")
+		}
+		destination.RouteConfigurationOverride = &routeConfigurationOverride
+	} else {
+		destination.RouteConfigurationOverride = nil
 	}
 
 	// UrlRedirect
@@ -6619,62 +6619,62 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 }
 
 type DeliveryRuleCondition struct {
-	// DeliveryRuleClientPort: Mutually exclusive with all other properties
-	DeliveryRuleClientPort *DeliveryRuleClientPortCondition `json:"deliveryRuleClientPortCondition,omitempty"`
+	// ClientPort: Mutually exclusive with all other properties
+	ClientPort *DeliveryRuleClientPortCondition `json:"clientPort,omitempty"`
 
-	// DeliveryRuleCookies: Mutually exclusive with all other properties
-	DeliveryRuleCookies *DeliveryRuleCookiesCondition `json:"deliveryRuleCookiesCondition,omitempty"`
+	// Cookies: Mutually exclusive with all other properties
+	Cookies *DeliveryRuleCookiesCondition `json:"cookies,omitempty"`
 
-	// DeliveryRuleHostName: Mutually exclusive with all other properties
-	DeliveryRuleHostName *DeliveryRuleHostNameCondition `json:"deliveryRuleHostNameCondition,omitempty"`
+	// HostName: Mutually exclusive with all other properties
+	HostName *DeliveryRuleHostNameCondition `json:"hostName,omitempty"`
 
-	// DeliveryRuleHttpVersion: Mutually exclusive with all other properties
-	DeliveryRuleHttpVersion *DeliveryRuleHttpVersionCondition `json:"deliveryRuleHttpVersionCondition,omitempty"`
+	// HttpVersion: Mutually exclusive with all other properties
+	HttpVersion *DeliveryRuleHttpVersionCondition `json:"httpVersion,omitempty"`
 
-	// DeliveryRuleIsDevice: Mutually exclusive with all other properties
-	DeliveryRuleIsDevice *DeliveryRuleIsDeviceCondition `json:"deliveryRuleIsDeviceCondition,omitempty"`
+	// IsDevice: Mutually exclusive with all other properties
+	IsDevice *DeliveryRuleIsDeviceCondition `json:"isDevice,omitempty"`
 
-	// DeliveryRulePostArgs: Mutually exclusive with all other properties
-	DeliveryRulePostArgs *DeliveryRulePostArgsCondition `json:"deliveryRulePostArgsCondition,omitempty"`
+	// PostArgs: Mutually exclusive with all other properties
+	PostArgs *DeliveryRulePostArgsCondition `json:"postArgs,omitempty"`
 
-	// DeliveryRuleQueryString: Mutually exclusive with all other properties
-	DeliveryRuleQueryString *DeliveryRuleQueryStringCondition `json:"deliveryRuleQueryStringCondition,omitempty"`
+	// QueryString: Mutually exclusive with all other properties
+	QueryString *DeliveryRuleQueryStringCondition `json:"queryString,omitempty"`
 
-	// DeliveryRuleRemoteAddress: Mutually exclusive with all other properties
-	DeliveryRuleRemoteAddress *DeliveryRuleRemoteAddressCondition `json:"deliveryRuleRemoteAddressCondition,omitempty"`
+	// RemoteAddress: Mutually exclusive with all other properties
+	RemoteAddress *DeliveryRuleRemoteAddressCondition `json:"remoteAddress,omitempty"`
 
-	// DeliveryRuleRequestBody: Mutually exclusive with all other properties
-	DeliveryRuleRequestBody *DeliveryRuleRequestBodyCondition `json:"deliveryRuleRequestBodyCondition,omitempty"`
+	// RequestBody: Mutually exclusive with all other properties
+	RequestBody *DeliveryRuleRequestBodyCondition `json:"requestBody,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderCondition `json:"deliveryRuleRequestHeaderCondition,omitempty"`
+	// RequestHeader: Mutually exclusive with all other properties
+	RequestHeader *DeliveryRuleRequestHeaderCondition `json:"requestHeader,omitempty"`
 
-	// DeliveryRuleRequestMethod: Mutually exclusive with all other properties
-	DeliveryRuleRequestMethod *DeliveryRuleRequestMethodCondition `json:"deliveryRuleRequestMethodCondition,omitempty"`
+	// RequestMethod: Mutually exclusive with all other properties
+	RequestMethod *DeliveryRuleRequestMethodCondition `json:"requestMethod,omitempty"`
 
-	// DeliveryRuleRequestScheme: Mutually exclusive with all other properties
-	DeliveryRuleRequestScheme *DeliveryRuleRequestSchemeCondition `json:"deliveryRuleRequestSchemeCondition,omitempty"`
+	// RequestScheme: Mutually exclusive with all other properties
+	RequestScheme *DeliveryRuleRequestSchemeCondition `json:"requestScheme,omitempty"`
 
-	// DeliveryRuleRequestUri: Mutually exclusive with all other properties
-	DeliveryRuleRequestUri *DeliveryRuleRequestUriCondition `json:"deliveryRuleRequestUriCondition,omitempty"`
+	// RequestUri: Mutually exclusive with all other properties
+	RequestUri *DeliveryRuleRequestUriCondition `json:"requestUri,omitempty"`
 
-	// DeliveryRuleServerPort: Mutually exclusive with all other properties
-	DeliveryRuleServerPort *DeliveryRuleServerPortCondition `json:"deliveryRuleServerPortCondition,omitempty"`
+	// ServerPort: Mutually exclusive with all other properties
+	ServerPort *DeliveryRuleServerPortCondition `json:"serverPort,omitempty"`
 
-	// DeliveryRuleSocketAddr: Mutually exclusive with all other properties
-	DeliveryRuleSocketAddr *DeliveryRuleSocketAddrCondition `json:"deliveryRuleSocketAddrCondition,omitempty"`
+	// SocketAddr: Mutually exclusive with all other properties
+	SocketAddr *DeliveryRuleSocketAddrCondition `json:"socketAddr,omitempty"`
 
-	// DeliveryRuleSslProtocol: Mutually exclusive with all other properties
-	DeliveryRuleSslProtocol *DeliveryRuleSslProtocolCondition `json:"deliveryRuleSslProtocolCondition,omitempty"`
+	// SslProtocol: Mutually exclusive with all other properties
+	SslProtocol *DeliveryRuleSslProtocolCondition `json:"sslProtocol,omitempty"`
 
-	// DeliveryRuleUrlFileExtension: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"deliveryRuleUrlFileExtensionCondition,omitempty"`
+	// UrlFileExtension: Mutually exclusive with all other properties
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"urlFileExtension,omitempty"`
 
-	// DeliveryRuleUrlFileName: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileName *DeliveryRuleUrlFileNameCondition `json:"deliveryRuleUrlFileNameCondition,omitempty"`
+	// UrlFileName: Mutually exclusive with all other properties
+	UrlFileName *DeliveryRuleUrlFileNameCondition `json:"urlFileName,omitempty"`
 
-	// DeliveryRuleUrlPath: Mutually exclusive with all other properties
-	DeliveryRuleUrlPath *DeliveryRuleUrlPathCondition `json:"deliveryRuleUrlPathCondition,omitempty"`
+	// UrlPath: Mutually exclusive with all other properties
+	UrlPath *DeliveryRuleUrlPathCondition `json:"urlPath,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DeliveryRuleCondition{}
@@ -6686,194 +6686,194 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &DeliveryRuleCondition_ARM{}
 
-	// Set property ‘DeliveryRuleClientPort’:
-	if condition.DeliveryRuleClientPort != nil {
-		deliveryRuleClientPort_ARM, err := (*condition.DeliveryRuleClientPort).ConvertToARM(resolved)
+	// Set property ‘ClientPort’:
+	if condition.ClientPort != nil {
+		clientPort_ARM, err := (*condition.ClientPort).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleClientPort := *deliveryRuleClientPort_ARM.(*DeliveryRuleClientPortCondition_ARM)
-		result.DeliveryRuleClientPort = &deliveryRuleClientPort
+		clientPort := *clientPort_ARM.(*DeliveryRuleClientPortCondition_ARM)
+		result.ClientPort = &clientPort
 	}
 
-	// Set property ‘DeliveryRuleCookies’:
-	if condition.DeliveryRuleCookies != nil {
-		deliveryRuleCookies_ARM, err := (*condition.DeliveryRuleCookies).ConvertToARM(resolved)
+	// Set property ‘Cookies’:
+	if condition.Cookies != nil {
+		cookies_ARM, err := (*condition.Cookies).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleCookies := *deliveryRuleCookies_ARM.(*DeliveryRuleCookiesCondition_ARM)
-		result.DeliveryRuleCookies = &deliveryRuleCookies
+		cookies := *cookies_ARM.(*DeliveryRuleCookiesCondition_ARM)
+		result.Cookies = &cookies
 	}
 
-	// Set property ‘DeliveryRuleHostName’:
-	if condition.DeliveryRuleHostName != nil {
-		deliveryRuleHostName_ARM, err := (*condition.DeliveryRuleHostName).ConvertToARM(resolved)
+	// Set property ‘HostName’:
+	if condition.HostName != nil {
+		hostName_ARM, err := (*condition.HostName).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleHostName := *deliveryRuleHostName_ARM.(*DeliveryRuleHostNameCondition_ARM)
-		result.DeliveryRuleHostName = &deliveryRuleHostName
+		hostName := *hostName_ARM.(*DeliveryRuleHostNameCondition_ARM)
+		result.HostName = &hostName
 	}
 
-	// Set property ‘DeliveryRuleHttpVersion’:
-	if condition.DeliveryRuleHttpVersion != nil {
-		deliveryRuleHttpVersion_ARM, err := (*condition.DeliveryRuleHttpVersion).ConvertToARM(resolved)
+	// Set property ‘HttpVersion’:
+	if condition.HttpVersion != nil {
+		httpVersion_ARM, err := (*condition.HttpVersion).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleHttpVersion := *deliveryRuleHttpVersion_ARM.(*DeliveryRuleHttpVersionCondition_ARM)
-		result.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		httpVersion := *httpVersion_ARM.(*DeliveryRuleHttpVersionCondition_ARM)
+		result.HttpVersion = &httpVersion
 	}
 
-	// Set property ‘DeliveryRuleIsDevice’:
-	if condition.DeliveryRuleIsDevice != nil {
-		deliveryRuleIsDevice_ARM, err := (*condition.DeliveryRuleIsDevice).ConvertToARM(resolved)
+	// Set property ‘IsDevice’:
+	if condition.IsDevice != nil {
+		isDevice_ARM, err := (*condition.IsDevice).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleIsDevice := *deliveryRuleIsDevice_ARM.(*DeliveryRuleIsDeviceCondition_ARM)
-		result.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		isDevice := *isDevice_ARM.(*DeliveryRuleIsDeviceCondition_ARM)
+		result.IsDevice = &isDevice
 	}
 
-	// Set property ‘DeliveryRulePostArgs’:
-	if condition.DeliveryRulePostArgs != nil {
-		deliveryRulePostArgs_ARM, err := (*condition.DeliveryRulePostArgs).ConvertToARM(resolved)
+	// Set property ‘PostArgs’:
+	if condition.PostArgs != nil {
+		postArgs_ARM, err := (*condition.PostArgs).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRulePostArgs := *deliveryRulePostArgs_ARM.(*DeliveryRulePostArgsCondition_ARM)
-		result.DeliveryRulePostArgs = &deliveryRulePostArgs
+		postArgs := *postArgs_ARM.(*DeliveryRulePostArgsCondition_ARM)
+		result.PostArgs = &postArgs
 	}
 
-	// Set property ‘DeliveryRuleQueryString’:
-	if condition.DeliveryRuleQueryString != nil {
-		deliveryRuleQueryString_ARM, err := (*condition.DeliveryRuleQueryString).ConvertToARM(resolved)
+	// Set property ‘QueryString’:
+	if condition.QueryString != nil {
+		queryString_ARM, err := (*condition.QueryString).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleQueryString := *deliveryRuleQueryString_ARM.(*DeliveryRuleQueryStringCondition_ARM)
-		result.DeliveryRuleQueryString = &deliveryRuleQueryString
+		queryString := *queryString_ARM.(*DeliveryRuleQueryStringCondition_ARM)
+		result.QueryString = &queryString
 	}
 
-	// Set property ‘DeliveryRuleRemoteAddress’:
-	if condition.DeliveryRuleRemoteAddress != nil {
-		deliveryRuleRemoteAddress_ARM, err := (*condition.DeliveryRuleRemoteAddress).ConvertToARM(resolved)
+	// Set property ‘RemoteAddress’:
+	if condition.RemoteAddress != nil {
+		remoteAddress_ARM, err := (*condition.RemoteAddress).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRemoteAddress := *deliveryRuleRemoteAddress_ARM.(*DeliveryRuleRemoteAddressCondition_ARM)
-		result.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		remoteAddress := *remoteAddress_ARM.(*DeliveryRuleRemoteAddressCondition_ARM)
+		result.RemoteAddress = &remoteAddress
 	}
 
-	// Set property ‘DeliveryRuleRequestBody’:
-	if condition.DeliveryRuleRequestBody != nil {
-		deliveryRuleRequestBody_ARM, err := (*condition.DeliveryRuleRequestBody).ConvertToARM(resolved)
+	// Set property ‘RequestBody’:
+	if condition.RequestBody != nil {
+		requestBody_ARM, err := (*condition.RequestBody).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestBody := *deliveryRuleRequestBody_ARM.(*DeliveryRuleRequestBodyCondition_ARM)
-		result.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		requestBody := *requestBody_ARM.(*DeliveryRuleRequestBodyCondition_ARM)
+		result.RequestBody = &requestBody
 	}
 
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if condition.DeliveryRuleRequestHeader != nil {
-		deliveryRuleRequestHeader_ARM, err := (*condition.DeliveryRuleRequestHeader).ConvertToARM(resolved)
+	// Set property ‘RequestHeader’:
+	if condition.RequestHeader != nil {
+		requestHeader_ARM, err := (*condition.RequestHeader).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestHeader := *deliveryRuleRequestHeader_ARM.(*DeliveryRuleRequestHeaderCondition_ARM)
-		result.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		requestHeader := *requestHeader_ARM.(*DeliveryRuleRequestHeaderCondition_ARM)
+		result.RequestHeader = &requestHeader
 	}
 
-	// Set property ‘DeliveryRuleRequestMethod’:
-	if condition.DeliveryRuleRequestMethod != nil {
-		deliveryRuleRequestMethod_ARM, err := (*condition.DeliveryRuleRequestMethod).ConvertToARM(resolved)
+	// Set property ‘RequestMethod’:
+	if condition.RequestMethod != nil {
+		requestMethod_ARM, err := (*condition.RequestMethod).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestMethod := *deliveryRuleRequestMethod_ARM.(*DeliveryRuleRequestMethodCondition_ARM)
-		result.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		requestMethod := *requestMethod_ARM.(*DeliveryRuleRequestMethodCondition_ARM)
+		result.RequestMethod = &requestMethod
 	}
 
-	// Set property ‘DeliveryRuleRequestScheme’:
-	if condition.DeliveryRuleRequestScheme != nil {
-		deliveryRuleRequestScheme_ARM, err := (*condition.DeliveryRuleRequestScheme).ConvertToARM(resolved)
+	// Set property ‘RequestScheme’:
+	if condition.RequestScheme != nil {
+		requestScheme_ARM, err := (*condition.RequestScheme).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestScheme := *deliveryRuleRequestScheme_ARM.(*DeliveryRuleRequestSchemeCondition_ARM)
-		result.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		requestScheme := *requestScheme_ARM.(*DeliveryRuleRequestSchemeCondition_ARM)
+		result.RequestScheme = &requestScheme
 	}
 
-	// Set property ‘DeliveryRuleRequestUri’:
-	if condition.DeliveryRuleRequestUri != nil {
-		deliveryRuleRequestUri_ARM, err := (*condition.DeliveryRuleRequestUri).ConvertToARM(resolved)
+	// Set property ‘RequestUri’:
+	if condition.RequestUri != nil {
+		requestUri_ARM, err := (*condition.RequestUri).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleRequestUri := *deliveryRuleRequestUri_ARM.(*DeliveryRuleRequestUriCondition_ARM)
-		result.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		requestUri := *requestUri_ARM.(*DeliveryRuleRequestUriCondition_ARM)
+		result.RequestUri = &requestUri
 	}
 
-	// Set property ‘DeliveryRuleServerPort’:
-	if condition.DeliveryRuleServerPort != nil {
-		deliveryRuleServerPort_ARM, err := (*condition.DeliveryRuleServerPort).ConvertToARM(resolved)
+	// Set property ‘ServerPort’:
+	if condition.ServerPort != nil {
+		serverPort_ARM, err := (*condition.ServerPort).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleServerPort := *deliveryRuleServerPort_ARM.(*DeliveryRuleServerPortCondition_ARM)
-		result.DeliveryRuleServerPort = &deliveryRuleServerPort
+		serverPort := *serverPort_ARM.(*DeliveryRuleServerPortCondition_ARM)
+		result.ServerPort = &serverPort
 	}
 
-	// Set property ‘DeliveryRuleSocketAddr’:
-	if condition.DeliveryRuleSocketAddr != nil {
-		deliveryRuleSocketAddr_ARM, err := (*condition.DeliveryRuleSocketAddr).ConvertToARM(resolved)
+	// Set property ‘SocketAddr’:
+	if condition.SocketAddr != nil {
+		socketAddr_ARM, err := (*condition.SocketAddr).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleSocketAddr := *deliveryRuleSocketAddr_ARM.(*DeliveryRuleSocketAddrCondition_ARM)
-		result.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		socketAddr := *socketAddr_ARM.(*DeliveryRuleSocketAddrCondition_ARM)
+		result.SocketAddr = &socketAddr
 	}
 
-	// Set property ‘DeliveryRuleSslProtocol’:
-	if condition.DeliveryRuleSslProtocol != nil {
-		deliveryRuleSslProtocol_ARM, err := (*condition.DeliveryRuleSslProtocol).ConvertToARM(resolved)
+	// Set property ‘SslProtocol’:
+	if condition.SslProtocol != nil {
+		sslProtocol_ARM, err := (*condition.SslProtocol).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleSslProtocol := *deliveryRuleSslProtocol_ARM.(*DeliveryRuleSslProtocolCondition_ARM)
-		result.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		sslProtocol := *sslProtocol_ARM.(*DeliveryRuleSslProtocolCondition_ARM)
+		result.SslProtocol = &sslProtocol
 	}
 
-	// Set property ‘DeliveryRuleUrlFileExtension’:
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		deliveryRuleUrlFileExtension_ARM, err := (*condition.DeliveryRuleUrlFileExtension).ConvertToARM(resolved)
+	// Set property ‘UrlFileExtension’:
+	if condition.UrlFileExtension != nil {
+		urlFileExtension_ARM, err := (*condition.UrlFileExtension).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleUrlFileExtension := *deliveryRuleUrlFileExtension_ARM.(*DeliveryRuleUrlFileExtensionCondition_ARM)
-		result.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		urlFileExtension := *urlFileExtension_ARM.(*DeliveryRuleUrlFileExtensionCondition_ARM)
+		result.UrlFileExtension = &urlFileExtension
 	}
 
-	// Set property ‘DeliveryRuleUrlFileName’:
-	if condition.DeliveryRuleUrlFileName != nil {
-		deliveryRuleUrlFileName_ARM, err := (*condition.DeliveryRuleUrlFileName).ConvertToARM(resolved)
+	// Set property ‘UrlFileName’:
+	if condition.UrlFileName != nil {
+		urlFileName_ARM, err := (*condition.UrlFileName).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleUrlFileName := *deliveryRuleUrlFileName_ARM.(*DeliveryRuleUrlFileNameCondition_ARM)
-		result.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		urlFileName := *urlFileName_ARM.(*DeliveryRuleUrlFileNameCondition_ARM)
+		result.UrlFileName = &urlFileName
 	}
 
-	// Set property ‘DeliveryRuleUrlPath’:
-	if condition.DeliveryRuleUrlPath != nil {
-		deliveryRuleUrlPath_ARM, err := (*condition.DeliveryRuleUrlPath).ConvertToARM(resolved)
+	// Set property ‘UrlPath’:
+	if condition.UrlPath != nil {
+		urlPath_ARM, err := (*condition.UrlPath).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryRuleUrlPath := *deliveryRuleUrlPath_ARM.(*DeliveryRuleUrlPathCondition_ARM)
-		result.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		urlPath := *urlPath_ARM.(*DeliveryRuleUrlPathCondition_ARM)
+		result.UrlPath = &urlPath
 	}
 	return result, nil
 }
@@ -6890,213 +6890,213 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DeliveryRuleClientPort’:
-	if typedInput.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort1 DeliveryRuleClientPortCondition
-		err := deliveryRuleClientPort1.PopulateFromARM(owner, *typedInput.DeliveryRuleClientPort)
+	// Set property ‘ClientPort’:
+	if typedInput.ClientPort != nil {
+		var clientPort1 DeliveryRuleClientPortCondition
+		err := clientPort1.PopulateFromARM(owner, *typedInput.ClientPort)
 		if err != nil {
 			return err
 		}
-		deliveryRuleClientPort := deliveryRuleClientPort1
-		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
+		clientPort := clientPort1
+		condition.ClientPort = &clientPort
 	}
 
-	// Set property ‘DeliveryRuleCookies’:
-	if typedInput.DeliveryRuleCookies != nil {
-		var deliveryRuleCookies1 DeliveryRuleCookiesCondition
-		err := deliveryRuleCookies1.PopulateFromARM(owner, *typedInput.DeliveryRuleCookies)
+	// Set property ‘Cookies’:
+	if typedInput.Cookies != nil {
+		var cookies1 DeliveryRuleCookiesCondition
+		err := cookies1.PopulateFromARM(owner, *typedInput.Cookies)
 		if err != nil {
 			return err
 		}
-		deliveryRuleCookies := deliveryRuleCookies1
-		condition.DeliveryRuleCookies = &deliveryRuleCookies
+		cookies := cookies1
+		condition.Cookies = &cookies
 	}
 
-	// Set property ‘DeliveryRuleHostName’:
-	if typedInput.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName1 DeliveryRuleHostNameCondition
-		err := deliveryRuleHostName1.PopulateFromARM(owner, *typedInput.DeliveryRuleHostName)
+	// Set property ‘HostName’:
+	if typedInput.HostName != nil {
+		var hostName1 DeliveryRuleHostNameCondition
+		err := hostName1.PopulateFromARM(owner, *typedInput.HostName)
 		if err != nil {
 			return err
 		}
-		deliveryRuleHostName := deliveryRuleHostName1
-		condition.DeliveryRuleHostName = &deliveryRuleHostName
+		hostName := hostName1
+		condition.HostName = &hostName
 	}
 
-	// Set property ‘DeliveryRuleHttpVersion’:
-	if typedInput.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion1 DeliveryRuleHttpVersionCondition
-		err := deliveryRuleHttpVersion1.PopulateFromARM(owner, *typedInput.DeliveryRuleHttpVersion)
+	// Set property ‘HttpVersion’:
+	if typedInput.HttpVersion != nil {
+		var httpVersion1 DeliveryRuleHttpVersionCondition
+		err := httpVersion1.PopulateFromARM(owner, *typedInput.HttpVersion)
 		if err != nil {
 			return err
 		}
-		deliveryRuleHttpVersion := deliveryRuleHttpVersion1
-		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		httpVersion := httpVersion1
+		condition.HttpVersion = &httpVersion
 	}
 
-	// Set property ‘DeliveryRuleIsDevice’:
-	if typedInput.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice1 DeliveryRuleIsDeviceCondition
-		err := deliveryRuleIsDevice1.PopulateFromARM(owner, *typedInput.DeliveryRuleIsDevice)
+	// Set property ‘IsDevice’:
+	if typedInput.IsDevice != nil {
+		var isDevice1 DeliveryRuleIsDeviceCondition
+		err := isDevice1.PopulateFromARM(owner, *typedInput.IsDevice)
 		if err != nil {
 			return err
 		}
-		deliveryRuleIsDevice := deliveryRuleIsDevice1
-		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		isDevice := isDevice1
+		condition.IsDevice = &isDevice
 	}
 
-	// Set property ‘DeliveryRulePostArgs’:
-	if typedInput.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArgs1 DeliveryRulePostArgsCondition
-		err := deliveryRulePostArgs1.PopulateFromARM(owner, *typedInput.DeliveryRulePostArgs)
+	// Set property ‘PostArgs’:
+	if typedInput.PostArgs != nil {
+		var postArgs1 DeliveryRulePostArgsCondition
+		err := postArgs1.PopulateFromARM(owner, *typedInput.PostArgs)
 		if err != nil {
 			return err
 		}
-		deliveryRulePostArgs := deliveryRulePostArgs1
-		condition.DeliveryRulePostArgs = &deliveryRulePostArgs
+		postArgs := postArgs1
+		condition.PostArgs = &postArgs
 	}
 
-	// Set property ‘DeliveryRuleQueryString’:
-	if typedInput.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString1 DeliveryRuleQueryStringCondition
-		err := deliveryRuleQueryString1.PopulateFromARM(owner, *typedInput.DeliveryRuleQueryString)
+	// Set property ‘QueryString’:
+	if typedInput.QueryString != nil {
+		var queryString1 DeliveryRuleQueryStringCondition
+		err := queryString1.PopulateFromARM(owner, *typedInput.QueryString)
 		if err != nil {
 			return err
 		}
-		deliveryRuleQueryString := deliveryRuleQueryString1
-		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
+		queryString := queryString1
+		condition.QueryString = &queryString
 	}
 
-	// Set property ‘DeliveryRuleRemoteAddress’:
-	if typedInput.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress1 DeliveryRuleRemoteAddressCondition
-		err := deliveryRuleRemoteAddress1.PopulateFromARM(owner, *typedInput.DeliveryRuleRemoteAddress)
+	// Set property ‘RemoteAddress’:
+	if typedInput.RemoteAddress != nil {
+		var remoteAddress1 DeliveryRuleRemoteAddressCondition
+		err := remoteAddress1.PopulateFromARM(owner, *typedInput.RemoteAddress)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRemoteAddress := deliveryRuleRemoteAddress1
-		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		remoteAddress := remoteAddress1
+		condition.RemoteAddress = &remoteAddress
 	}
 
-	// Set property ‘DeliveryRuleRequestBody’:
-	if typedInput.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody1 DeliveryRuleRequestBodyCondition
-		err := deliveryRuleRequestBody1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestBody)
+	// Set property ‘RequestBody’:
+	if typedInput.RequestBody != nil {
+		var requestBody1 DeliveryRuleRequestBodyCondition
+		err := requestBody1.PopulateFromARM(owner, *typedInput.RequestBody)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestBody := deliveryRuleRequestBody1
-		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		requestBody := requestBody1
+		condition.RequestBody = &requestBody
 	}
 
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if typedInput.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader1 DeliveryRuleRequestHeaderCondition
-		err := deliveryRuleRequestHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestHeader)
+	// Set property ‘RequestHeader’:
+	if typedInput.RequestHeader != nil {
+		var requestHeader1 DeliveryRuleRequestHeaderCondition
+		err := requestHeader1.PopulateFromARM(owner, *typedInput.RequestHeader)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeader1
-		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		requestHeader := requestHeader1
+		condition.RequestHeader = &requestHeader
 	}
 
-	// Set property ‘DeliveryRuleRequestMethod’:
-	if typedInput.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod1 DeliveryRuleRequestMethodCondition
-		err := deliveryRuleRequestMethod1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestMethod)
+	// Set property ‘RequestMethod’:
+	if typedInput.RequestMethod != nil {
+		var requestMethod1 DeliveryRuleRequestMethodCondition
+		err := requestMethod1.PopulateFromARM(owner, *typedInput.RequestMethod)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestMethod := deliveryRuleRequestMethod1
-		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		requestMethod := requestMethod1
+		condition.RequestMethod = &requestMethod
 	}
 
-	// Set property ‘DeliveryRuleRequestScheme’:
-	if typedInput.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme1 DeliveryRuleRequestSchemeCondition
-		err := deliveryRuleRequestScheme1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestScheme)
+	// Set property ‘RequestScheme’:
+	if typedInput.RequestScheme != nil {
+		var requestScheme1 DeliveryRuleRequestSchemeCondition
+		err := requestScheme1.PopulateFromARM(owner, *typedInput.RequestScheme)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestScheme := deliveryRuleRequestScheme1
-		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		requestScheme := requestScheme1
+		condition.RequestScheme = &requestScheme
 	}
 
-	// Set property ‘DeliveryRuleRequestUri’:
-	if typedInput.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri1 DeliveryRuleRequestUriCondition
-		err := deliveryRuleRequestUri1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestUri)
+	// Set property ‘RequestUri’:
+	if typedInput.RequestUri != nil {
+		var requestUri1 DeliveryRuleRequestUriCondition
+		err := requestUri1.PopulateFromARM(owner, *typedInput.RequestUri)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestUri := deliveryRuleRequestUri1
-		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		requestUri := requestUri1
+		condition.RequestUri = &requestUri
 	}
 
-	// Set property ‘DeliveryRuleServerPort’:
-	if typedInput.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort1 DeliveryRuleServerPortCondition
-		err := deliveryRuleServerPort1.PopulateFromARM(owner, *typedInput.DeliveryRuleServerPort)
+	// Set property ‘ServerPort’:
+	if typedInput.ServerPort != nil {
+		var serverPort1 DeliveryRuleServerPortCondition
+		err := serverPort1.PopulateFromARM(owner, *typedInput.ServerPort)
 		if err != nil {
 			return err
 		}
-		deliveryRuleServerPort := deliveryRuleServerPort1
-		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
+		serverPort := serverPort1
+		condition.ServerPort = &serverPort
 	}
 
-	// Set property ‘DeliveryRuleSocketAddr’:
-	if typedInput.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr1 DeliveryRuleSocketAddrCondition
-		err := deliveryRuleSocketAddr1.PopulateFromARM(owner, *typedInput.DeliveryRuleSocketAddr)
+	// Set property ‘SocketAddr’:
+	if typedInput.SocketAddr != nil {
+		var socketAddr1 DeliveryRuleSocketAddrCondition
+		err := socketAddr1.PopulateFromARM(owner, *typedInput.SocketAddr)
 		if err != nil {
 			return err
 		}
-		deliveryRuleSocketAddr := deliveryRuleSocketAddr1
-		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		socketAddr := socketAddr1
+		condition.SocketAddr = &socketAddr
 	}
 
-	// Set property ‘DeliveryRuleSslProtocol’:
-	if typedInput.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol1 DeliveryRuleSslProtocolCondition
-		err := deliveryRuleSslProtocol1.PopulateFromARM(owner, *typedInput.DeliveryRuleSslProtocol)
+	// Set property ‘SslProtocol’:
+	if typedInput.SslProtocol != nil {
+		var sslProtocol1 DeliveryRuleSslProtocolCondition
+		err := sslProtocol1.PopulateFromARM(owner, *typedInput.SslProtocol)
 		if err != nil {
 			return err
 		}
-		deliveryRuleSslProtocol := deliveryRuleSslProtocol1
-		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		sslProtocol := sslProtocol1
+		condition.SslProtocol = &sslProtocol
 	}
 
-	// Set property ‘DeliveryRuleUrlFileExtension’:
-	if typedInput.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension1 DeliveryRuleUrlFileExtensionCondition
-		err := deliveryRuleUrlFileExtension1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlFileExtension)
+	// Set property ‘UrlFileExtension’:
+	if typedInput.UrlFileExtension != nil {
+		var urlFileExtension1 DeliveryRuleUrlFileExtensionCondition
+		err := urlFileExtension1.PopulateFromARM(owner, *typedInput.UrlFileExtension)
 		if err != nil {
 			return err
 		}
-		deliveryRuleUrlFileExtension := deliveryRuleUrlFileExtension1
-		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		urlFileExtension := urlFileExtension1
+		condition.UrlFileExtension = &urlFileExtension
 	}
 
-	// Set property ‘DeliveryRuleUrlFileName’:
-	if typedInput.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName1 DeliveryRuleUrlFileNameCondition
-		err := deliveryRuleUrlFileName1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlFileName)
+	// Set property ‘UrlFileName’:
+	if typedInput.UrlFileName != nil {
+		var urlFileName1 DeliveryRuleUrlFileNameCondition
+		err := urlFileName1.PopulateFromARM(owner, *typedInput.UrlFileName)
 		if err != nil {
 			return err
 		}
-		deliveryRuleUrlFileName := deliveryRuleUrlFileName1
-		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		urlFileName := urlFileName1
+		condition.UrlFileName = &urlFileName
 	}
 
-	// Set property ‘DeliveryRuleUrlPath’:
-	if typedInput.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath1 DeliveryRuleUrlPathCondition
-		err := deliveryRuleUrlPath1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlPath)
+	// Set property ‘UrlPath’:
+	if typedInput.UrlPath != nil {
+		var urlPath1 DeliveryRuleUrlPathCondition
+		err := urlPath1.PopulateFromARM(owner, *typedInput.UrlPath)
 		if err != nil {
 			return err
 		}
-		deliveryRuleUrlPath := deliveryRuleUrlPath1
-		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		urlPath := urlPath1
+		condition.UrlPath = &urlPath
 	}
 
 	// No error
@@ -7106,232 +7106,232 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 // AssignProperties_From_DeliveryRuleCondition populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition
 func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondition(source *v20210601s.DeliveryRuleCondition) error {
 
-	// DeliveryRuleClientPort
-	if source.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort DeliveryRuleClientPortCondition
-		err := deliveryRuleClientPort.AssignProperties_From_DeliveryRuleClientPortCondition(source.DeliveryRuleClientPort)
+	// ClientPort
+	if source.ClientPort != nil {
+		var clientPort DeliveryRuleClientPortCondition
+		err := clientPort.AssignProperties_From_DeliveryRuleClientPortCondition(source.ClientPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleClientPortCondition() to populate field ClientPort")
 		}
-		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
+		condition.ClientPort = &clientPort
 	} else {
-		condition.DeliveryRuleClientPort = nil
+		condition.ClientPort = nil
 	}
 
-	// DeliveryRuleCookies
-	if source.DeliveryRuleCookies != nil {
-		var deliveryRuleCooky DeliveryRuleCookiesCondition
-		err := deliveryRuleCooky.AssignProperties_From_DeliveryRuleCookiesCondition(source.DeliveryRuleCookies)
+	// Cookies
+	if source.Cookies != nil {
+		var cooky DeliveryRuleCookiesCondition
+		err := cooky.AssignProperties_From_DeliveryRuleCookiesCondition(source.Cookies)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition() to populate field Cookies")
 		}
-		condition.DeliveryRuleCookies = &deliveryRuleCooky
+		condition.Cookies = &cooky
 	} else {
-		condition.DeliveryRuleCookies = nil
+		condition.Cookies = nil
 	}
 
-	// DeliveryRuleHostName
-	if source.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName DeliveryRuleHostNameCondition
-		err := deliveryRuleHostName.AssignProperties_From_DeliveryRuleHostNameCondition(source.DeliveryRuleHostName)
+	// HostName
+	if source.HostName != nil {
+		var hostName DeliveryRuleHostNameCondition
+		err := hostName.AssignProperties_From_DeliveryRuleHostNameCondition(source.HostName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHostNameCondition() to populate field HostName")
 		}
-		condition.DeliveryRuleHostName = &deliveryRuleHostName
+		condition.HostName = &hostName
 	} else {
-		condition.DeliveryRuleHostName = nil
+		condition.HostName = nil
 	}
 
-	// DeliveryRuleHttpVersion
-	if source.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion DeliveryRuleHttpVersionCondition
-		err := deliveryRuleHttpVersion.AssignProperties_From_DeliveryRuleHttpVersionCondition(source.DeliveryRuleHttpVersion)
+	// HttpVersion
+	if source.HttpVersion != nil {
+		var httpVersion DeliveryRuleHttpVersionCondition
+		err := httpVersion.AssignProperties_From_DeliveryRuleHttpVersionCondition(source.HttpVersion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHttpVersionCondition() to populate field HttpVersion")
 		}
-		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		condition.HttpVersion = &httpVersion
 	} else {
-		condition.DeliveryRuleHttpVersion = nil
+		condition.HttpVersion = nil
 	}
 
-	// DeliveryRuleIsDevice
-	if source.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice DeliveryRuleIsDeviceCondition
-		err := deliveryRuleIsDevice.AssignProperties_From_DeliveryRuleIsDeviceCondition(source.DeliveryRuleIsDevice)
+	// IsDevice
+	if source.IsDevice != nil {
+		var isDevice DeliveryRuleIsDeviceCondition
+		err := isDevice.AssignProperties_From_DeliveryRuleIsDeviceCondition(source.IsDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleIsDeviceCondition() to populate field IsDevice")
 		}
-		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		condition.IsDevice = &isDevice
 	} else {
-		condition.DeliveryRuleIsDevice = nil
+		condition.IsDevice = nil
 	}
 
-	// DeliveryRulePostArgs
-	if source.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArg DeliveryRulePostArgsCondition
-		err := deliveryRulePostArg.AssignProperties_From_DeliveryRulePostArgsCondition(source.DeliveryRulePostArgs)
+	// PostArgs
+	if source.PostArgs != nil {
+		var postArg DeliveryRulePostArgsCondition
+		err := postArg.AssignProperties_From_DeliveryRulePostArgsCondition(source.PostArgs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRulePostArgsCondition() to populate field PostArgs")
 		}
-		condition.DeliveryRulePostArgs = &deliveryRulePostArg
+		condition.PostArgs = &postArg
 	} else {
-		condition.DeliveryRulePostArgs = nil
+		condition.PostArgs = nil
 	}
 
-	// DeliveryRuleQueryString
-	if source.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString DeliveryRuleQueryStringCondition
-		err := deliveryRuleQueryString.AssignProperties_From_DeliveryRuleQueryStringCondition(source.DeliveryRuleQueryString)
+	// QueryString
+	if source.QueryString != nil {
+		var queryString DeliveryRuleQueryStringCondition
+		err := queryString.AssignProperties_From_DeliveryRuleQueryStringCondition(source.QueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleQueryStringCondition() to populate field QueryString")
 		}
-		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
+		condition.QueryString = &queryString
 	} else {
-		condition.DeliveryRuleQueryString = nil
+		condition.QueryString = nil
 	}
 
-	// DeliveryRuleRemoteAddress
-	if source.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress DeliveryRuleRemoteAddressCondition
-		err := deliveryRuleRemoteAddress.AssignProperties_From_DeliveryRuleRemoteAddressCondition(source.DeliveryRuleRemoteAddress)
+	// RemoteAddress
+	if source.RemoteAddress != nil {
+		var remoteAddress DeliveryRuleRemoteAddressCondition
+		err := remoteAddress.AssignProperties_From_DeliveryRuleRemoteAddressCondition(source.RemoteAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRemoteAddressCondition() to populate field RemoteAddress")
 		}
-		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		condition.RemoteAddress = &remoteAddress
 	} else {
-		condition.DeliveryRuleRemoteAddress = nil
+		condition.RemoteAddress = nil
 	}
 
-	// DeliveryRuleRequestBody
-	if source.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody DeliveryRuleRequestBodyCondition
-		err := deliveryRuleRequestBody.AssignProperties_From_DeliveryRuleRequestBodyCondition(source.DeliveryRuleRequestBody)
+	// RequestBody
+	if source.RequestBody != nil {
+		var requestBody DeliveryRuleRequestBodyCondition
+		err := requestBody.AssignProperties_From_DeliveryRuleRequestBodyCondition(source.RequestBody)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestBodyCondition() to populate field RequestBody")
 		}
-		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		condition.RequestBody = &requestBody
 	} else {
-		condition.DeliveryRuleRequestBody = nil
+		condition.RequestBody = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if source.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderCondition
-		err := deliveryRuleRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderCondition(source.DeliveryRuleRequestHeader)
+	// RequestHeader
+	if source.RequestHeader != nil {
+		var requestHeader DeliveryRuleRequestHeaderCondition
+		err := requestHeader.AssignProperties_From_DeliveryRuleRequestHeaderCondition(source.RequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderCondition() to populate field RequestHeader")
 		}
-		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		condition.RequestHeader = &requestHeader
 	} else {
-		condition.DeliveryRuleRequestHeader = nil
+		condition.RequestHeader = nil
 	}
 
-	// DeliveryRuleRequestMethod
-	if source.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod DeliveryRuleRequestMethodCondition
-		err := deliveryRuleRequestMethod.AssignProperties_From_DeliveryRuleRequestMethodCondition(source.DeliveryRuleRequestMethod)
+	// RequestMethod
+	if source.RequestMethod != nil {
+		var requestMethod DeliveryRuleRequestMethodCondition
+		err := requestMethod.AssignProperties_From_DeliveryRuleRequestMethodCondition(source.RequestMethod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestMethodCondition() to populate field RequestMethod")
 		}
-		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		condition.RequestMethod = &requestMethod
 	} else {
-		condition.DeliveryRuleRequestMethod = nil
+		condition.RequestMethod = nil
 	}
 
-	// DeliveryRuleRequestScheme
-	if source.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme DeliveryRuleRequestSchemeCondition
-		err := deliveryRuleRequestScheme.AssignProperties_From_DeliveryRuleRequestSchemeCondition(source.DeliveryRuleRequestScheme)
+	// RequestScheme
+	if source.RequestScheme != nil {
+		var requestScheme DeliveryRuleRequestSchemeCondition
+		err := requestScheme.AssignProperties_From_DeliveryRuleRequestSchemeCondition(source.RequestScheme)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestSchemeCondition() to populate field RequestScheme")
 		}
-		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		condition.RequestScheme = &requestScheme
 	} else {
-		condition.DeliveryRuleRequestScheme = nil
+		condition.RequestScheme = nil
 	}
 
-	// DeliveryRuleRequestUri
-	if source.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri DeliveryRuleRequestUriCondition
-		err := deliveryRuleRequestUri.AssignProperties_From_DeliveryRuleRequestUriCondition(source.DeliveryRuleRequestUri)
+	// RequestUri
+	if source.RequestUri != nil {
+		var requestUri DeliveryRuleRequestUriCondition
+		err := requestUri.AssignProperties_From_DeliveryRuleRequestUriCondition(source.RequestUri)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestUriCondition() to populate field RequestUri")
 		}
-		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		condition.RequestUri = &requestUri
 	} else {
-		condition.DeliveryRuleRequestUri = nil
+		condition.RequestUri = nil
 	}
 
-	// DeliveryRuleServerPort
-	if source.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort DeliveryRuleServerPortCondition
-		err := deliveryRuleServerPort.AssignProperties_From_DeliveryRuleServerPortCondition(source.DeliveryRuleServerPort)
+	// ServerPort
+	if source.ServerPort != nil {
+		var serverPort DeliveryRuleServerPortCondition
+		err := serverPort.AssignProperties_From_DeliveryRuleServerPortCondition(source.ServerPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleServerPortCondition() to populate field ServerPort")
 		}
-		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
+		condition.ServerPort = &serverPort
 	} else {
-		condition.DeliveryRuleServerPort = nil
+		condition.ServerPort = nil
 	}
 
-	// DeliveryRuleSocketAddr
-	if source.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr DeliveryRuleSocketAddrCondition
-		err := deliveryRuleSocketAddr.AssignProperties_From_DeliveryRuleSocketAddrCondition(source.DeliveryRuleSocketAddr)
+	// SocketAddr
+	if source.SocketAddr != nil {
+		var socketAddr DeliveryRuleSocketAddrCondition
+		err := socketAddr.AssignProperties_From_DeliveryRuleSocketAddrCondition(source.SocketAddr)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSocketAddrCondition() to populate field SocketAddr")
 		}
-		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		condition.SocketAddr = &socketAddr
 	} else {
-		condition.DeliveryRuleSocketAddr = nil
+		condition.SocketAddr = nil
 	}
 
-	// DeliveryRuleSslProtocol
-	if source.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol DeliveryRuleSslProtocolCondition
-		err := deliveryRuleSslProtocol.AssignProperties_From_DeliveryRuleSslProtocolCondition(source.DeliveryRuleSslProtocol)
+	// SslProtocol
+	if source.SslProtocol != nil {
+		var sslProtocol DeliveryRuleSslProtocolCondition
+		err := sslProtocol.AssignProperties_From_DeliveryRuleSslProtocolCondition(source.SslProtocol)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSslProtocolCondition() to populate field SslProtocol")
 		}
-		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		condition.SslProtocol = &sslProtocol
 	} else {
-		condition.DeliveryRuleSslProtocol = nil
+		condition.SslProtocol = nil
 	}
 
-	// DeliveryRuleUrlFileExtension
-	if source.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension DeliveryRuleUrlFileExtensionCondition
-		err := deliveryRuleUrlFileExtension.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source.DeliveryRuleUrlFileExtension)
+	// UrlFileExtension
+	if source.UrlFileExtension != nil {
+		var urlFileExtension DeliveryRuleUrlFileExtensionCondition
+		err := urlFileExtension.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition(source.UrlFileExtension)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileExtensionCondition() to populate field UrlFileExtension")
 		}
-		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		condition.UrlFileExtension = &urlFileExtension
 	} else {
-		condition.DeliveryRuleUrlFileExtension = nil
+		condition.UrlFileExtension = nil
 	}
 
-	// DeliveryRuleUrlFileName
-	if source.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName DeliveryRuleUrlFileNameCondition
-		err := deliveryRuleUrlFileName.AssignProperties_From_DeliveryRuleUrlFileNameCondition(source.DeliveryRuleUrlFileName)
+	// UrlFileName
+	if source.UrlFileName != nil {
+		var urlFileName DeliveryRuleUrlFileNameCondition
+		err := urlFileName.AssignProperties_From_DeliveryRuleUrlFileNameCondition(source.UrlFileName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileNameCondition() to populate field UrlFileName")
 		}
-		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		condition.UrlFileName = &urlFileName
 	} else {
-		condition.DeliveryRuleUrlFileName = nil
+		condition.UrlFileName = nil
 	}
 
-	// DeliveryRuleUrlPath
-	if source.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath DeliveryRuleUrlPathCondition
-		err := deliveryRuleUrlPath.AssignProperties_From_DeliveryRuleUrlPathCondition(source.DeliveryRuleUrlPath)
+	// UrlPath
+	if source.UrlPath != nil {
+		var urlPath DeliveryRuleUrlPathCondition
+		err := urlPath.AssignProperties_From_DeliveryRuleUrlPathCondition(source.UrlPath)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlPathCondition() to populate field UrlPath")
 		}
-		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		condition.UrlPath = &urlPath
 	} else {
-		condition.DeliveryRuleUrlPath = nil
+		condition.UrlPath = nil
 	}
 
 	// No error
@@ -7343,232 +7343,232 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DeliveryRuleClientPort
-	if condition.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort v20210601s.DeliveryRuleClientPortCondition
-		err := condition.DeliveryRuleClientPort.AssignProperties_To_DeliveryRuleClientPortCondition(&deliveryRuleClientPort)
+	// ClientPort
+	if condition.ClientPort != nil {
+		var clientPort v20210601s.DeliveryRuleClientPortCondition
+		err := condition.ClientPort.AssignProperties_To_DeliveryRuleClientPortCondition(&clientPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition() to populate field ClientPort")
 		}
-		destination.DeliveryRuleClientPort = &deliveryRuleClientPort
+		destination.ClientPort = &clientPort
 	} else {
-		destination.DeliveryRuleClientPort = nil
+		destination.ClientPort = nil
 	}
 
-	// DeliveryRuleCookies
-	if condition.DeliveryRuleCookies != nil {
-		var deliveryRuleCooky v20210601s.DeliveryRuleCookiesCondition
-		err := condition.DeliveryRuleCookies.AssignProperties_To_DeliveryRuleCookiesCondition(&deliveryRuleCooky)
+	// Cookies
+	if condition.Cookies != nil {
+		var cooky v20210601s.DeliveryRuleCookiesCondition
+		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition(&cooky)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition() to populate field Cookies")
 		}
-		destination.DeliveryRuleCookies = &deliveryRuleCooky
+		destination.Cookies = &cooky
 	} else {
-		destination.DeliveryRuleCookies = nil
+		destination.Cookies = nil
 	}
 
-	// DeliveryRuleHostName
-	if condition.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName v20210601s.DeliveryRuleHostNameCondition
-		err := condition.DeliveryRuleHostName.AssignProperties_To_DeliveryRuleHostNameCondition(&deliveryRuleHostName)
+	// HostName
+	if condition.HostName != nil {
+		var hostName v20210601s.DeliveryRuleHostNameCondition
+		err := condition.HostName.AssignProperties_To_DeliveryRuleHostNameCondition(&hostName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition() to populate field HostName")
 		}
-		destination.DeliveryRuleHostName = &deliveryRuleHostName
+		destination.HostName = &hostName
 	} else {
-		destination.DeliveryRuleHostName = nil
+		destination.HostName = nil
 	}
 
-	// DeliveryRuleHttpVersion
-	if condition.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion v20210601s.DeliveryRuleHttpVersionCondition
-		err := condition.DeliveryRuleHttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition(&deliveryRuleHttpVersion)
+	// HttpVersion
+	if condition.HttpVersion != nil {
+		var httpVersion v20210601s.DeliveryRuleHttpVersionCondition
+		err := condition.HttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition(&httpVersion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition() to populate field HttpVersion")
 		}
-		destination.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		destination.HttpVersion = &httpVersion
 	} else {
-		destination.DeliveryRuleHttpVersion = nil
+		destination.HttpVersion = nil
 	}
 
-	// DeliveryRuleIsDevice
-	if condition.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice v20210601s.DeliveryRuleIsDeviceCondition
-		err := condition.DeliveryRuleIsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition(&deliveryRuleIsDevice)
+	// IsDevice
+	if condition.IsDevice != nil {
+		var isDevice v20210601s.DeliveryRuleIsDeviceCondition
+		err := condition.IsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition(&isDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition() to populate field IsDevice")
 		}
-		destination.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		destination.IsDevice = &isDevice
 	} else {
-		destination.DeliveryRuleIsDevice = nil
+		destination.IsDevice = nil
 	}
 
-	// DeliveryRulePostArgs
-	if condition.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArg v20210601s.DeliveryRulePostArgsCondition
-		err := condition.DeliveryRulePostArgs.AssignProperties_To_DeliveryRulePostArgsCondition(&deliveryRulePostArg)
+	// PostArgs
+	if condition.PostArgs != nil {
+		var postArg v20210601s.DeliveryRulePostArgsCondition
+		err := condition.PostArgs.AssignProperties_To_DeliveryRulePostArgsCondition(&postArg)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition() to populate field PostArgs")
 		}
-		destination.DeliveryRulePostArgs = &deliveryRulePostArg
+		destination.PostArgs = &postArg
 	} else {
-		destination.DeliveryRulePostArgs = nil
+		destination.PostArgs = nil
 	}
 
-	// DeliveryRuleQueryString
-	if condition.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString v20210601s.DeliveryRuleQueryStringCondition
-		err := condition.DeliveryRuleQueryString.AssignProperties_To_DeliveryRuleQueryStringCondition(&deliveryRuleQueryString)
+	// QueryString
+	if condition.QueryString != nil {
+		var queryString v20210601s.DeliveryRuleQueryStringCondition
+		err := condition.QueryString.AssignProperties_To_DeliveryRuleQueryStringCondition(&queryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition() to populate field QueryString")
 		}
-		destination.DeliveryRuleQueryString = &deliveryRuleQueryString
+		destination.QueryString = &queryString
 	} else {
-		destination.DeliveryRuleQueryString = nil
+		destination.QueryString = nil
 	}
 
-	// DeliveryRuleRemoteAddress
-	if condition.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress v20210601s.DeliveryRuleRemoteAddressCondition
-		err := condition.DeliveryRuleRemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&deliveryRuleRemoteAddress)
+	// RemoteAddress
+	if condition.RemoteAddress != nil {
+		var remoteAddress v20210601s.DeliveryRuleRemoteAddressCondition
+		err := condition.RemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition(&remoteAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition() to populate field RemoteAddress")
 		}
-		destination.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		destination.RemoteAddress = &remoteAddress
 	} else {
-		destination.DeliveryRuleRemoteAddress = nil
+		destination.RemoteAddress = nil
 	}
 
-	// DeliveryRuleRequestBody
-	if condition.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody v20210601s.DeliveryRuleRequestBodyCondition
-		err := condition.DeliveryRuleRequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition(&deliveryRuleRequestBody)
+	// RequestBody
+	if condition.RequestBody != nil {
+		var requestBody v20210601s.DeliveryRuleRequestBodyCondition
+		err := condition.RequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition(&requestBody)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition() to populate field RequestBody")
 		}
-		destination.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		destination.RequestBody = &requestBody
 	} else {
-		destination.DeliveryRuleRequestBody = nil
+		destination.RequestBody = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if condition.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderCondition
-		err := condition.DeliveryRuleRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&deliveryRuleRequestHeader)
+	// RequestHeader
+	if condition.RequestHeader != nil {
+		var requestHeader v20210601s.DeliveryRuleRequestHeaderCondition
+		err := condition.RequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition(&requestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition() to populate field RequestHeader")
 		}
-		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		destination.RequestHeader = &requestHeader
 	} else {
-		destination.DeliveryRuleRequestHeader = nil
+		destination.RequestHeader = nil
 	}
 
-	// DeliveryRuleRequestMethod
-	if condition.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod v20210601s.DeliveryRuleRequestMethodCondition
-		err := condition.DeliveryRuleRequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition(&deliveryRuleRequestMethod)
+	// RequestMethod
+	if condition.RequestMethod != nil {
+		var requestMethod v20210601s.DeliveryRuleRequestMethodCondition
+		err := condition.RequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition(&requestMethod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition() to populate field RequestMethod")
 		}
-		destination.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		destination.RequestMethod = &requestMethod
 	} else {
-		destination.DeliveryRuleRequestMethod = nil
+		destination.RequestMethod = nil
 	}
 
-	// DeliveryRuleRequestScheme
-	if condition.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme v20210601s.DeliveryRuleRequestSchemeCondition
-		err := condition.DeliveryRuleRequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&deliveryRuleRequestScheme)
+	// RequestScheme
+	if condition.RequestScheme != nil {
+		var requestScheme v20210601s.DeliveryRuleRequestSchemeCondition
+		err := condition.RequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition(&requestScheme)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition() to populate field RequestScheme")
 		}
-		destination.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		destination.RequestScheme = &requestScheme
 	} else {
-		destination.DeliveryRuleRequestScheme = nil
+		destination.RequestScheme = nil
 	}
 
-	// DeliveryRuleRequestUri
-	if condition.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri v20210601s.DeliveryRuleRequestUriCondition
-		err := condition.DeliveryRuleRequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition(&deliveryRuleRequestUri)
+	// RequestUri
+	if condition.RequestUri != nil {
+		var requestUri v20210601s.DeliveryRuleRequestUriCondition
+		err := condition.RequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition(&requestUri)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition() to populate field RequestUri")
 		}
-		destination.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		destination.RequestUri = &requestUri
 	} else {
-		destination.DeliveryRuleRequestUri = nil
+		destination.RequestUri = nil
 	}
 
-	// DeliveryRuleServerPort
-	if condition.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort v20210601s.DeliveryRuleServerPortCondition
-		err := condition.DeliveryRuleServerPort.AssignProperties_To_DeliveryRuleServerPortCondition(&deliveryRuleServerPort)
+	// ServerPort
+	if condition.ServerPort != nil {
+		var serverPort v20210601s.DeliveryRuleServerPortCondition
+		err := condition.ServerPort.AssignProperties_To_DeliveryRuleServerPortCondition(&serverPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition() to populate field ServerPort")
 		}
-		destination.DeliveryRuleServerPort = &deliveryRuleServerPort
+		destination.ServerPort = &serverPort
 	} else {
-		destination.DeliveryRuleServerPort = nil
+		destination.ServerPort = nil
 	}
 
-	// DeliveryRuleSocketAddr
-	if condition.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr v20210601s.DeliveryRuleSocketAddrCondition
-		err := condition.DeliveryRuleSocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition(&deliveryRuleSocketAddr)
+	// SocketAddr
+	if condition.SocketAddr != nil {
+		var socketAddr v20210601s.DeliveryRuleSocketAddrCondition
+		err := condition.SocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition(&socketAddr)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition() to populate field SocketAddr")
 		}
-		destination.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		destination.SocketAddr = &socketAddr
 	} else {
-		destination.DeliveryRuleSocketAddr = nil
+		destination.SocketAddr = nil
 	}
 
-	// DeliveryRuleSslProtocol
-	if condition.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol v20210601s.DeliveryRuleSslProtocolCondition
-		err := condition.DeliveryRuleSslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition(&deliveryRuleSslProtocol)
+	// SslProtocol
+	if condition.SslProtocol != nil {
+		var sslProtocol v20210601s.DeliveryRuleSslProtocolCondition
+		err := condition.SslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition(&sslProtocol)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition() to populate field SslProtocol")
 		}
-		destination.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		destination.SslProtocol = &sslProtocol
 	} else {
-		destination.DeliveryRuleSslProtocol = nil
+		destination.SslProtocol = nil
 	}
 
-	// DeliveryRuleUrlFileExtension
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition
-		err := condition.DeliveryRuleUrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&deliveryRuleUrlFileExtension)
+	// UrlFileExtension
+	if condition.UrlFileExtension != nil {
+		var urlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition
+		err := condition.UrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition(&urlFileExtension)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition() to populate field UrlFileExtension")
 		}
-		destination.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		destination.UrlFileExtension = &urlFileExtension
 	} else {
-		destination.DeliveryRuleUrlFileExtension = nil
+		destination.UrlFileExtension = nil
 	}
 
-	// DeliveryRuleUrlFileName
-	if condition.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName v20210601s.DeliveryRuleUrlFileNameCondition
-		err := condition.DeliveryRuleUrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&deliveryRuleUrlFileName)
+	// UrlFileName
+	if condition.UrlFileName != nil {
+		var urlFileName v20210601s.DeliveryRuleUrlFileNameCondition
+		err := condition.UrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition(&urlFileName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition() to populate field UrlFileName")
 		}
-		destination.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		destination.UrlFileName = &urlFileName
 	} else {
-		destination.DeliveryRuleUrlFileName = nil
+		destination.UrlFileName = nil
 	}
 
-	// DeliveryRuleUrlPath
-	if condition.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath v20210601s.DeliveryRuleUrlPathCondition
-		err := condition.DeliveryRuleUrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition(&deliveryRuleUrlPath)
+	// UrlPath
+	if condition.UrlPath != nil {
+		var urlPath v20210601s.DeliveryRuleUrlPathCondition
+		err := condition.UrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition(&urlPath)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition() to populate field UrlPath")
 		}
-		destination.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		destination.UrlPath = &urlPath
 	} else {
-		destination.DeliveryRuleUrlPath = nil
+		destination.UrlPath = nil
 	}
 
 	// Update the property bag
@@ -7583,62 +7583,62 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 }
 
 type DeliveryRuleCondition_STATUS struct {
-	// DeliveryRuleClientPort: Mutually exclusive with all other properties
-	DeliveryRuleClientPort *DeliveryRuleClientPortCondition_STATUS `json:"deliveryRuleClientPortCondition_STATUS,omitempty"`
+	// ClientPort: Mutually exclusive with all other properties
+	ClientPort *DeliveryRuleClientPortCondition_STATUS `json:"clientPort,omitempty"`
 
-	// DeliveryRuleCookies: Mutually exclusive with all other properties
-	DeliveryRuleCookies *DeliveryRuleCookiesCondition_STATUS `json:"deliveryRuleCookiesCondition_STATUS,omitempty"`
+	// Cookies: Mutually exclusive with all other properties
+	Cookies *DeliveryRuleCookiesCondition_STATUS `json:"cookies,omitempty"`
 
-	// DeliveryRuleHostName: Mutually exclusive with all other properties
-	DeliveryRuleHostName *DeliveryRuleHostNameCondition_STATUS `json:"deliveryRuleHostNameCondition_STATUS,omitempty"`
+	// HostName: Mutually exclusive with all other properties
+	HostName *DeliveryRuleHostNameCondition_STATUS `json:"hostName,omitempty"`
 
-	// DeliveryRuleHttpVersion: Mutually exclusive with all other properties
-	DeliveryRuleHttpVersion *DeliveryRuleHttpVersionCondition_STATUS `json:"deliveryRuleHttpVersionCondition_STATUS,omitempty"`
+	// HttpVersion: Mutually exclusive with all other properties
+	HttpVersion *DeliveryRuleHttpVersionCondition_STATUS `json:"httpVersion,omitempty"`
 
-	// DeliveryRuleIsDevice: Mutually exclusive with all other properties
-	DeliveryRuleIsDevice *DeliveryRuleIsDeviceCondition_STATUS `json:"deliveryRuleIsDeviceCondition_STATUS,omitempty"`
+	// IsDevice: Mutually exclusive with all other properties
+	IsDevice *DeliveryRuleIsDeviceCondition_STATUS `json:"isDevice,omitempty"`
 
-	// DeliveryRulePostArgs: Mutually exclusive with all other properties
-	DeliveryRulePostArgs *DeliveryRulePostArgsCondition_STATUS `json:"deliveryRulePostArgsCondition_STATUS,omitempty"`
+	// PostArgs: Mutually exclusive with all other properties
+	PostArgs *DeliveryRulePostArgsCondition_STATUS `json:"postArgs,omitempty"`
 
-	// DeliveryRuleQueryString: Mutually exclusive with all other properties
-	DeliveryRuleQueryString *DeliveryRuleQueryStringCondition_STATUS `json:"deliveryRuleQueryStringCondition_STATUS,omitempty"`
+	// QueryString: Mutually exclusive with all other properties
+	QueryString *DeliveryRuleQueryStringCondition_STATUS `json:"queryString,omitempty"`
 
-	// DeliveryRuleRemoteAddress: Mutually exclusive with all other properties
-	DeliveryRuleRemoteAddress *DeliveryRuleRemoteAddressCondition_STATUS `json:"deliveryRuleRemoteAddressCondition_STATUS,omitempty"`
+	// RemoteAddress: Mutually exclusive with all other properties
+	RemoteAddress *DeliveryRuleRemoteAddressCondition_STATUS `json:"remoteAddress,omitempty"`
 
-	// DeliveryRuleRequestBody: Mutually exclusive with all other properties
-	DeliveryRuleRequestBody *DeliveryRuleRequestBodyCondition_STATUS `json:"deliveryRuleRequestBodyCondition_STATUS,omitempty"`
+	// RequestBody: Mutually exclusive with all other properties
+	RequestBody *DeliveryRuleRequestBodyCondition_STATUS `json:"requestBody,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderCondition_STATUS `json:"deliveryRuleRequestHeaderCondition_STATUS,omitempty"`
+	// RequestHeader: Mutually exclusive with all other properties
+	RequestHeader *DeliveryRuleRequestHeaderCondition_STATUS `json:"requestHeader,omitempty"`
 
-	// DeliveryRuleRequestMethod: Mutually exclusive with all other properties
-	DeliveryRuleRequestMethod *DeliveryRuleRequestMethodCondition_STATUS `json:"deliveryRuleRequestMethodCondition_STATUS,omitempty"`
+	// RequestMethod: Mutually exclusive with all other properties
+	RequestMethod *DeliveryRuleRequestMethodCondition_STATUS `json:"requestMethod,omitempty"`
 
-	// DeliveryRuleRequestScheme: Mutually exclusive with all other properties
-	DeliveryRuleRequestScheme *DeliveryRuleRequestSchemeCondition_STATUS `json:"deliveryRuleRequestSchemeCondition_STATUS,omitempty"`
+	// RequestScheme: Mutually exclusive with all other properties
+	RequestScheme *DeliveryRuleRequestSchemeCondition_STATUS `json:"requestScheme,omitempty"`
 
-	// DeliveryRuleRequestUri: Mutually exclusive with all other properties
-	DeliveryRuleRequestUri *DeliveryRuleRequestUriCondition_STATUS `json:"deliveryRuleRequestUriCondition_STATUS,omitempty"`
+	// RequestUri: Mutually exclusive with all other properties
+	RequestUri *DeliveryRuleRequestUriCondition_STATUS `json:"requestUri,omitempty"`
 
-	// DeliveryRuleServerPort: Mutually exclusive with all other properties
-	DeliveryRuleServerPort *DeliveryRuleServerPortCondition_STATUS `json:"deliveryRuleServerPortCondition_STATUS,omitempty"`
+	// ServerPort: Mutually exclusive with all other properties
+	ServerPort *DeliveryRuleServerPortCondition_STATUS `json:"serverPort,omitempty"`
 
-	// DeliveryRuleSocketAddr: Mutually exclusive with all other properties
-	DeliveryRuleSocketAddr *DeliveryRuleSocketAddrCondition_STATUS `json:"deliveryRuleSocketAddrCondition_STATUS,omitempty"`
+	// SocketAddr: Mutually exclusive with all other properties
+	SocketAddr *DeliveryRuleSocketAddrCondition_STATUS `json:"socketAddr,omitempty"`
 
-	// DeliveryRuleSslProtocol: Mutually exclusive with all other properties
-	DeliveryRuleSslProtocol *DeliveryRuleSslProtocolCondition_STATUS `json:"deliveryRuleSslProtocolCondition_STATUS,omitempty"`
+	// SslProtocol: Mutually exclusive with all other properties
+	SslProtocol *DeliveryRuleSslProtocolCondition_STATUS `json:"sslProtocol,omitempty"`
 
-	// DeliveryRuleUrlFileExtension: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS `json:"deliveryRuleUrlFileExtensionCondition_STATUS,omitempty"`
+	// UrlFileExtension: Mutually exclusive with all other properties
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS `json:"urlFileExtension,omitempty"`
 
-	// DeliveryRuleUrlFileName: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileName *DeliveryRuleUrlFileNameCondition_STATUS `json:"deliveryRuleUrlFileNameCondition_STATUS,omitempty"`
+	// UrlFileName: Mutually exclusive with all other properties
+	UrlFileName *DeliveryRuleUrlFileNameCondition_STATUS `json:"urlFileName,omitempty"`
 
-	// DeliveryRuleUrlPath: Mutually exclusive with all other properties
-	DeliveryRuleUrlPath *DeliveryRuleUrlPathCondition_STATUS `json:"deliveryRuleUrlPathCondition_STATUS,omitempty"`
+	// UrlPath: Mutually exclusive with all other properties
+	UrlPath *DeliveryRuleUrlPathCondition_STATUS `json:"urlPath,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCondition_STATUS{}
@@ -7655,213 +7655,213 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘DeliveryRuleClientPort’:
-	if typedInput.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort1 DeliveryRuleClientPortCondition_STATUS
-		err := deliveryRuleClientPort1.PopulateFromARM(owner, *typedInput.DeliveryRuleClientPort)
+	// Set property ‘ClientPort’:
+	if typedInput.ClientPort != nil {
+		var clientPort1 DeliveryRuleClientPortCondition_STATUS
+		err := clientPort1.PopulateFromARM(owner, *typedInput.ClientPort)
 		if err != nil {
 			return err
 		}
-		deliveryRuleClientPort := deliveryRuleClientPort1
-		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
+		clientPort := clientPort1
+		condition.ClientPort = &clientPort
 	}
 
-	// Set property ‘DeliveryRuleCookies’:
-	if typedInput.DeliveryRuleCookies != nil {
-		var deliveryRuleCookies1 DeliveryRuleCookiesCondition_STATUS
-		err := deliveryRuleCookies1.PopulateFromARM(owner, *typedInput.DeliveryRuleCookies)
+	// Set property ‘Cookies’:
+	if typedInput.Cookies != nil {
+		var cookies1 DeliveryRuleCookiesCondition_STATUS
+		err := cookies1.PopulateFromARM(owner, *typedInput.Cookies)
 		if err != nil {
 			return err
 		}
-		deliveryRuleCookies := deliveryRuleCookies1
-		condition.DeliveryRuleCookies = &deliveryRuleCookies
+		cookies := cookies1
+		condition.Cookies = &cookies
 	}
 
-	// Set property ‘DeliveryRuleHostName’:
-	if typedInput.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName1 DeliveryRuleHostNameCondition_STATUS
-		err := deliveryRuleHostName1.PopulateFromARM(owner, *typedInput.DeliveryRuleHostName)
+	// Set property ‘HostName’:
+	if typedInput.HostName != nil {
+		var hostName1 DeliveryRuleHostNameCondition_STATUS
+		err := hostName1.PopulateFromARM(owner, *typedInput.HostName)
 		if err != nil {
 			return err
 		}
-		deliveryRuleHostName := deliveryRuleHostName1
-		condition.DeliveryRuleHostName = &deliveryRuleHostName
+		hostName := hostName1
+		condition.HostName = &hostName
 	}
 
-	// Set property ‘DeliveryRuleHttpVersion’:
-	if typedInput.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion1 DeliveryRuleHttpVersionCondition_STATUS
-		err := deliveryRuleHttpVersion1.PopulateFromARM(owner, *typedInput.DeliveryRuleHttpVersion)
+	// Set property ‘HttpVersion’:
+	if typedInput.HttpVersion != nil {
+		var httpVersion1 DeliveryRuleHttpVersionCondition_STATUS
+		err := httpVersion1.PopulateFromARM(owner, *typedInput.HttpVersion)
 		if err != nil {
 			return err
 		}
-		deliveryRuleHttpVersion := deliveryRuleHttpVersion1
-		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		httpVersion := httpVersion1
+		condition.HttpVersion = &httpVersion
 	}
 
-	// Set property ‘DeliveryRuleIsDevice’:
-	if typedInput.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice1 DeliveryRuleIsDeviceCondition_STATUS
-		err := deliveryRuleIsDevice1.PopulateFromARM(owner, *typedInput.DeliveryRuleIsDevice)
+	// Set property ‘IsDevice’:
+	if typedInput.IsDevice != nil {
+		var isDevice1 DeliveryRuleIsDeviceCondition_STATUS
+		err := isDevice1.PopulateFromARM(owner, *typedInput.IsDevice)
 		if err != nil {
 			return err
 		}
-		deliveryRuleIsDevice := deliveryRuleIsDevice1
-		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		isDevice := isDevice1
+		condition.IsDevice = &isDevice
 	}
 
-	// Set property ‘DeliveryRulePostArgs’:
-	if typedInput.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArgs1 DeliveryRulePostArgsCondition_STATUS
-		err := deliveryRulePostArgs1.PopulateFromARM(owner, *typedInput.DeliveryRulePostArgs)
+	// Set property ‘PostArgs’:
+	if typedInput.PostArgs != nil {
+		var postArgs1 DeliveryRulePostArgsCondition_STATUS
+		err := postArgs1.PopulateFromARM(owner, *typedInput.PostArgs)
 		if err != nil {
 			return err
 		}
-		deliveryRulePostArgs := deliveryRulePostArgs1
-		condition.DeliveryRulePostArgs = &deliveryRulePostArgs
+		postArgs := postArgs1
+		condition.PostArgs = &postArgs
 	}
 
-	// Set property ‘DeliveryRuleQueryString’:
-	if typedInput.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString1 DeliveryRuleQueryStringCondition_STATUS
-		err := deliveryRuleQueryString1.PopulateFromARM(owner, *typedInput.DeliveryRuleQueryString)
+	// Set property ‘QueryString’:
+	if typedInput.QueryString != nil {
+		var queryString1 DeliveryRuleQueryStringCondition_STATUS
+		err := queryString1.PopulateFromARM(owner, *typedInput.QueryString)
 		if err != nil {
 			return err
 		}
-		deliveryRuleQueryString := deliveryRuleQueryString1
-		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
+		queryString := queryString1
+		condition.QueryString = &queryString
 	}
 
-	// Set property ‘DeliveryRuleRemoteAddress’:
-	if typedInput.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress1 DeliveryRuleRemoteAddressCondition_STATUS
-		err := deliveryRuleRemoteAddress1.PopulateFromARM(owner, *typedInput.DeliveryRuleRemoteAddress)
+	// Set property ‘RemoteAddress’:
+	if typedInput.RemoteAddress != nil {
+		var remoteAddress1 DeliveryRuleRemoteAddressCondition_STATUS
+		err := remoteAddress1.PopulateFromARM(owner, *typedInput.RemoteAddress)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRemoteAddress := deliveryRuleRemoteAddress1
-		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		remoteAddress := remoteAddress1
+		condition.RemoteAddress = &remoteAddress
 	}
 
-	// Set property ‘DeliveryRuleRequestBody’:
-	if typedInput.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody1 DeliveryRuleRequestBodyCondition_STATUS
-		err := deliveryRuleRequestBody1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestBody)
+	// Set property ‘RequestBody’:
+	if typedInput.RequestBody != nil {
+		var requestBody1 DeliveryRuleRequestBodyCondition_STATUS
+		err := requestBody1.PopulateFromARM(owner, *typedInput.RequestBody)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestBody := deliveryRuleRequestBody1
-		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		requestBody := requestBody1
+		condition.RequestBody = &requestBody
 	}
 
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if typedInput.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader1 DeliveryRuleRequestHeaderCondition_STATUS
-		err := deliveryRuleRequestHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestHeader)
+	// Set property ‘RequestHeader’:
+	if typedInput.RequestHeader != nil {
+		var requestHeader1 DeliveryRuleRequestHeaderCondition_STATUS
+		err := requestHeader1.PopulateFromARM(owner, *typedInput.RequestHeader)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeader1
-		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		requestHeader := requestHeader1
+		condition.RequestHeader = &requestHeader
 	}
 
-	// Set property ‘DeliveryRuleRequestMethod’:
-	if typedInput.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod1 DeliveryRuleRequestMethodCondition_STATUS
-		err := deliveryRuleRequestMethod1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestMethod)
+	// Set property ‘RequestMethod’:
+	if typedInput.RequestMethod != nil {
+		var requestMethod1 DeliveryRuleRequestMethodCondition_STATUS
+		err := requestMethod1.PopulateFromARM(owner, *typedInput.RequestMethod)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestMethod := deliveryRuleRequestMethod1
-		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		requestMethod := requestMethod1
+		condition.RequestMethod = &requestMethod
 	}
 
-	// Set property ‘DeliveryRuleRequestScheme’:
-	if typedInput.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme1 DeliveryRuleRequestSchemeCondition_STATUS
-		err := deliveryRuleRequestScheme1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestScheme)
+	// Set property ‘RequestScheme’:
+	if typedInput.RequestScheme != nil {
+		var requestScheme1 DeliveryRuleRequestSchemeCondition_STATUS
+		err := requestScheme1.PopulateFromARM(owner, *typedInput.RequestScheme)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestScheme := deliveryRuleRequestScheme1
-		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		requestScheme := requestScheme1
+		condition.RequestScheme = &requestScheme
 	}
 
-	// Set property ‘DeliveryRuleRequestUri’:
-	if typedInput.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri1 DeliveryRuleRequestUriCondition_STATUS
-		err := deliveryRuleRequestUri1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestUri)
+	// Set property ‘RequestUri’:
+	if typedInput.RequestUri != nil {
+		var requestUri1 DeliveryRuleRequestUriCondition_STATUS
+		err := requestUri1.PopulateFromARM(owner, *typedInput.RequestUri)
 		if err != nil {
 			return err
 		}
-		deliveryRuleRequestUri := deliveryRuleRequestUri1
-		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		requestUri := requestUri1
+		condition.RequestUri = &requestUri
 	}
 
-	// Set property ‘DeliveryRuleServerPort’:
-	if typedInput.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort1 DeliveryRuleServerPortCondition_STATUS
-		err := deliveryRuleServerPort1.PopulateFromARM(owner, *typedInput.DeliveryRuleServerPort)
+	// Set property ‘ServerPort’:
+	if typedInput.ServerPort != nil {
+		var serverPort1 DeliveryRuleServerPortCondition_STATUS
+		err := serverPort1.PopulateFromARM(owner, *typedInput.ServerPort)
 		if err != nil {
 			return err
 		}
-		deliveryRuleServerPort := deliveryRuleServerPort1
-		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
+		serverPort := serverPort1
+		condition.ServerPort = &serverPort
 	}
 
-	// Set property ‘DeliveryRuleSocketAddr’:
-	if typedInput.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr1 DeliveryRuleSocketAddrCondition_STATUS
-		err := deliveryRuleSocketAddr1.PopulateFromARM(owner, *typedInput.DeliveryRuleSocketAddr)
+	// Set property ‘SocketAddr’:
+	if typedInput.SocketAddr != nil {
+		var socketAddr1 DeliveryRuleSocketAddrCondition_STATUS
+		err := socketAddr1.PopulateFromARM(owner, *typedInput.SocketAddr)
 		if err != nil {
 			return err
 		}
-		deliveryRuleSocketAddr := deliveryRuleSocketAddr1
-		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		socketAddr := socketAddr1
+		condition.SocketAddr = &socketAddr
 	}
 
-	// Set property ‘DeliveryRuleSslProtocol’:
-	if typedInput.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol1 DeliveryRuleSslProtocolCondition_STATUS
-		err := deliveryRuleSslProtocol1.PopulateFromARM(owner, *typedInput.DeliveryRuleSslProtocol)
+	// Set property ‘SslProtocol’:
+	if typedInput.SslProtocol != nil {
+		var sslProtocol1 DeliveryRuleSslProtocolCondition_STATUS
+		err := sslProtocol1.PopulateFromARM(owner, *typedInput.SslProtocol)
 		if err != nil {
 			return err
 		}
-		deliveryRuleSslProtocol := deliveryRuleSslProtocol1
-		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		sslProtocol := sslProtocol1
+		condition.SslProtocol = &sslProtocol
 	}
 
-	// Set property ‘DeliveryRuleUrlFileExtension’:
-	if typedInput.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension1 DeliveryRuleUrlFileExtensionCondition_STATUS
-		err := deliveryRuleUrlFileExtension1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlFileExtension)
+	// Set property ‘UrlFileExtension’:
+	if typedInput.UrlFileExtension != nil {
+		var urlFileExtension1 DeliveryRuleUrlFileExtensionCondition_STATUS
+		err := urlFileExtension1.PopulateFromARM(owner, *typedInput.UrlFileExtension)
 		if err != nil {
 			return err
 		}
-		deliveryRuleUrlFileExtension := deliveryRuleUrlFileExtension1
-		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		urlFileExtension := urlFileExtension1
+		condition.UrlFileExtension = &urlFileExtension
 	}
 
-	// Set property ‘DeliveryRuleUrlFileName’:
-	if typedInput.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName1 DeliveryRuleUrlFileNameCondition_STATUS
-		err := deliveryRuleUrlFileName1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlFileName)
+	// Set property ‘UrlFileName’:
+	if typedInput.UrlFileName != nil {
+		var urlFileName1 DeliveryRuleUrlFileNameCondition_STATUS
+		err := urlFileName1.PopulateFromARM(owner, *typedInput.UrlFileName)
 		if err != nil {
 			return err
 		}
-		deliveryRuleUrlFileName := deliveryRuleUrlFileName1
-		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		urlFileName := urlFileName1
+		condition.UrlFileName = &urlFileName
 	}
 
-	// Set property ‘DeliveryRuleUrlPath’:
-	if typedInput.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath1 DeliveryRuleUrlPathCondition_STATUS
-		err := deliveryRuleUrlPath1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlPath)
+	// Set property ‘UrlPath’:
+	if typedInput.UrlPath != nil {
+		var urlPath1 DeliveryRuleUrlPathCondition_STATUS
+		err := urlPath1.PopulateFromARM(owner, *typedInput.UrlPath)
 		if err != nil {
 			return err
 		}
-		deliveryRuleUrlPath := deliveryRuleUrlPath1
-		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		urlPath := urlPath1
+		condition.UrlPath = &urlPath
 	}
 
 	// No error
@@ -7871,232 +7871,232 @@ func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.
 // AssignProperties_From_DeliveryRuleCondition_STATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
 func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRuleCondition_STATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
 
-	// DeliveryRuleClientPort
-	if source.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort DeliveryRuleClientPortCondition_STATUS
-		err := deliveryRuleClientPort.AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(source.DeliveryRuleClientPort)
+	// ClientPort
+	if source.ClientPort != nil {
+		var clientPort DeliveryRuleClientPortCondition_STATUS
+		err := clientPort.AssignProperties_From_DeliveryRuleClientPortCondition_STATUS(source.ClientPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleClientPortCondition_STATUS() to populate field DeliveryRuleClientPort")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleClientPortCondition_STATUS() to populate field ClientPort")
 		}
-		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
+		condition.ClientPort = &clientPort
 	} else {
-		condition.DeliveryRuleClientPort = nil
+		condition.ClientPort = nil
 	}
 
-	// DeliveryRuleCookies
-	if source.DeliveryRuleCookies != nil {
-		var deliveryRuleCooky DeliveryRuleCookiesCondition_STATUS
-		err := deliveryRuleCooky.AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source.DeliveryRuleCookies)
+	// Cookies
+	if source.Cookies != nil {
+		var cooky DeliveryRuleCookiesCondition_STATUS
+		err := cooky.AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source.Cookies)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition_STATUS() to populate field DeliveryRuleCookies")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
 		}
-		condition.DeliveryRuleCookies = &deliveryRuleCooky
+		condition.Cookies = &cooky
 	} else {
-		condition.DeliveryRuleCookies = nil
+		condition.Cookies = nil
 	}
 
-	// DeliveryRuleHostName
-	if source.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName DeliveryRuleHostNameCondition_STATUS
-		err := deliveryRuleHostName.AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(source.DeliveryRuleHostName)
+	// HostName
+	if source.HostName != nil {
+		var hostName DeliveryRuleHostNameCondition_STATUS
+		err := hostName.AssignProperties_From_DeliveryRuleHostNameCondition_STATUS(source.HostName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHostNameCondition_STATUS() to populate field DeliveryRuleHostName")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHostNameCondition_STATUS() to populate field HostName")
 		}
-		condition.DeliveryRuleHostName = &deliveryRuleHostName
+		condition.HostName = &hostName
 	} else {
-		condition.DeliveryRuleHostName = nil
+		condition.HostName = nil
 	}
 
-	// DeliveryRuleHttpVersion
-	if source.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion DeliveryRuleHttpVersionCondition_STATUS
-		err := deliveryRuleHttpVersion.AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(source.DeliveryRuleHttpVersion)
+	// HttpVersion
+	if source.HttpVersion != nil {
+		var httpVersion DeliveryRuleHttpVersionCondition_STATUS
+		err := httpVersion.AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS(source.HttpVersion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS() to populate field DeliveryRuleHttpVersion")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleHttpVersionCondition_STATUS() to populate field HttpVersion")
 		}
-		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		condition.HttpVersion = &httpVersion
 	} else {
-		condition.DeliveryRuleHttpVersion = nil
+		condition.HttpVersion = nil
 	}
 
-	// DeliveryRuleIsDevice
-	if source.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice DeliveryRuleIsDeviceCondition_STATUS
-		err := deliveryRuleIsDevice.AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(source.DeliveryRuleIsDevice)
+	// IsDevice
+	if source.IsDevice != nil {
+		var isDevice DeliveryRuleIsDeviceCondition_STATUS
+		err := isDevice.AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS(source.IsDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS() to populate field DeliveryRuleIsDevice")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleIsDeviceCondition_STATUS() to populate field IsDevice")
 		}
-		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		condition.IsDevice = &isDevice
 	} else {
-		condition.DeliveryRuleIsDevice = nil
+		condition.IsDevice = nil
 	}
 
-	// DeliveryRulePostArgs
-	if source.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArg DeliveryRulePostArgsCondition_STATUS
-		err := deliveryRulePostArg.AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(source.DeliveryRulePostArgs)
+	// PostArgs
+	if source.PostArgs != nil {
+		var postArg DeliveryRulePostArgsCondition_STATUS
+		err := postArg.AssignProperties_From_DeliveryRulePostArgsCondition_STATUS(source.PostArgs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRulePostArgsCondition_STATUS() to populate field DeliveryRulePostArgs")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRulePostArgsCondition_STATUS() to populate field PostArgs")
 		}
-		condition.DeliveryRulePostArgs = &deliveryRulePostArg
+		condition.PostArgs = &postArg
 	} else {
-		condition.DeliveryRulePostArgs = nil
+		condition.PostArgs = nil
 	}
 
-	// DeliveryRuleQueryString
-	if source.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString DeliveryRuleQueryStringCondition_STATUS
-		err := deliveryRuleQueryString.AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(source.DeliveryRuleQueryString)
+	// QueryString
+	if source.QueryString != nil {
+		var queryString DeliveryRuleQueryStringCondition_STATUS
+		err := queryString.AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS(source.QueryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS() to populate field DeliveryRuleQueryString")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleQueryStringCondition_STATUS() to populate field QueryString")
 		}
-		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
+		condition.QueryString = &queryString
 	} else {
-		condition.DeliveryRuleQueryString = nil
+		condition.QueryString = nil
 	}
 
-	// DeliveryRuleRemoteAddress
-	if source.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress DeliveryRuleRemoteAddressCondition_STATUS
-		err := deliveryRuleRemoteAddress.AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(source.DeliveryRuleRemoteAddress)
+	// RemoteAddress
+	if source.RemoteAddress != nil {
+		var remoteAddress DeliveryRuleRemoteAddressCondition_STATUS
+		err := remoteAddress.AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS(source.RemoteAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS() to populate field DeliveryRuleRemoteAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRemoteAddressCondition_STATUS() to populate field RemoteAddress")
 		}
-		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		condition.RemoteAddress = &remoteAddress
 	} else {
-		condition.DeliveryRuleRemoteAddress = nil
+		condition.RemoteAddress = nil
 	}
 
-	// DeliveryRuleRequestBody
-	if source.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody DeliveryRuleRequestBodyCondition_STATUS
-		err := deliveryRuleRequestBody.AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(source.DeliveryRuleRequestBody)
+	// RequestBody
+	if source.RequestBody != nil {
+		var requestBody DeliveryRuleRequestBodyCondition_STATUS
+		err := requestBody.AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS(source.RequestBody)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS() to populate field DeliveryRuleRequestBody")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestBodyCondition_STATUS() to populate field RequestBody")
 		}
-		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		condition.RequestBody = &requestBody
 	} else {
-		condition.DeliveryRuleRequestBody = nil
+		condition.RequestBody = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if source.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderCondition_STATUS
-		err := deliveryRuleRequestHeader.AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(source.DeliveryRuleRequestHeader)
+	// RequestHeader
+	if source.RequestHeader != nil {
+		var requestHeader DeliveryRuleRequestHeaderCondition_STATUS
+		err := requestHeader.AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS(source.RequestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestHeaderCondition_STATUS() to populate field RequestHeader")
 		}
-		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		condition.RequestHeader = &requestHeader
 	} else {
-		condition.DeliveryRuleRequestHeader = nil
+		condition.RequestHeader = nil
 	}
 
-	// DeliveryRuleRequestMethod
-	if source.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod DeliveryRuleRequestMethodCondition_STATUS
-		err := deliveryRuleRequestMethod.AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(source.DeliveryRuleRequestMethod)
+	// RequestMethod
+	if source.RequestMethod != nil {
+		var requestMethod DeliveryRuleRequestMethodCondition_STATUS
+		err := requestMethod.AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS(source.RequestMethod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS() to populate field DeliveryRuleRequestMethod")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestMethodCondition_STATUS() to populate field RequestMethod")
 		}
-		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		condition.RequestMethod = &requestMethod
 	} else {
-		condition.DeliveryRuleRequestMethod = nil
+		condition.RequestMethod = nil
 	}
 
-	// DeliveryRuleRequestScheme
-	if source.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme DeliveryRuleRequestSchemeCondition_STATUS
-		err := deliveryRuleRequestScheme.AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(source.DeliveryRuleRequestScheme)
+	// RequestScheme
+	if source.RequestScheme != nil {
+		var requestScheme DeliveryRuleRequestSchemeCondition_STATUS
+		err := requestScheme.AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS(source.RequestScheme)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS() to populate field DeliveryRuleRequestScheme")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestSchemeCondition_STATUS() to populate field RequestScheme")
 		}
-		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		condition.RequestScheme = &requestScheme
 	} else {
-		condition.DeliveryRuleRequestScheme = nil
+		condition.RequestScheme = nil
 	}
 
-	// DeliveryRuleRequestUri
-	if source.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri DeliveryRuleRequestUriCondition_STATUS
-		err := deliveryRuleRequestUri.AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(source.DeliveryRuleRequestUri)
+	// RequestUri
+	if source.RequestUri != nil {
+		var requestUri DeliveryRuleRequestUriCondition_STATUS
+		err := requestUri.AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS(source.RequestUri)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS() to populate field DeliveryRuleRequestUri")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleRequestUriCondition_STATUS() to populate field RequestUri")
 		}
-		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		condition.RequestUri = &requestUri
 	} else {
-		condition.DeliveryRuleRequestUri = nil
+		condition.RequestUri = nil
 	}
 
-	// DeliveryRuleServerPort
-	if source.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort DeliveryRuleServerPortCondition_STATUS
-		err := deliveryRuleServerPort.AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(source.DeliveryRuleServerPort)
+	// ServerPort
+	if source.ServerPort != nil {
+		var serverPort DeliveryRuleServerPortCondition_STATUS
+		err := serverPort.AssignProperties_From_DeliveryRuleServerPortCondition_STATUS(source.ServerPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleServerPortCondition_STATUS() to populate field DeliveryRuleServerPort")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleServerPortCondition_STATUS() to populate field ServerPort")
 		}
-		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
+		condition.ServerPort = &serverPort
 	} else {
-		condition.DeliveryRuleServerPort = nil
+		condition.ServerPort = nil
 	}
 
-	// DeliveryRuleSocketAddr
-	if source.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr DeliveryRuleSocketAddrCondition_STATUS
-		err := deliveryRuleSocketAddr.AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(source.DeliveryRuleSocketAddr)
+	// SocketAddr
+	if source.SocketAddr != nil {
+		var socketAddr DeliveryRuleSocketAddrCondition_STATUS
+		err := socketAddr.AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS(source.SocketAddr)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS() to populate field DeliveryRuleSocketAddr")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSocketAddrCondition_STATUS() to populate field SocketAddr")
 		}
-		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		condition.SocketAddr = &socketAddr
 	} else {
-		condition.DeliveryRuleSocketAddr = nil
+		condition.SocketAddr = nil
 	}
 
-	// DeliveryRuleSslProtocol
-	if source.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol DeliveryRuleSslProtocolCondition_STATUS
-		err := deliveryRuleSslProtocol.AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(source.DeliveryRuleSslProtocol)
+	// SslProtocol
+	if source.SslProtocol != nil {
+		var sslProtocol DeliveryRuleSslProtocolCondition_STATUS
+		err := sslProtocol.AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS(source.SslProtocol)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS() to populate field DeliveryRuleSslProtocol")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleSslProtocolCondition_STATUS() to populate field SslProtocol")
 		}
-		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		condition.SslProtocol = &sslProtocol
 	} else {
-		condition.DeliveryRuleSslProtocol = nil
+		condition.SslProtocol = nil
 	}
 
-	// DeliveryRuleUrlFileExtension
-	if source.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension DeliveryRuleUrlFileExtensionCondition_STATUS
-		err := deliveryRuleUrlFileExtension.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source.DeliveryRuleUrlFileExtension)
+	// UrlFileExtension
+	if source.UrlFileExtension != nil {
+		var urlFileExtension DeliveryRuleUrlFileExtensionCondition_STATUS
+		err := urlFileExtension.AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source.UrlFileExtension)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field DeliveryRuleUrlFileExtension")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field UrlFileExtension")
 		}
-		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		condition.UrlFileExtension = &urlFileExtension
 	} else {
-		condition.DeliveryRuleUrlFileExtension = nil
+		condition.UrlFileExtension = nil
 	}
 
-	// DeliveryRuleUrlFileName
-	if source.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName DeliveryRuleUrlFileNameCondition_STATUS
-		err := deliveryRuleUrlFileName.AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(source.DeliveryRuleUrlFileName)
+	// UrlFileName
+	if source.UrlFileName != nil {
+		var urlFileName DeliveryRuleUrlFileNameCondition_STATUS
+		err := urlFileName.AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS(source.UrlFileName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS() to populate field DeliveryRuleUrlFileName")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlFileNameCondition_STATUS() to populate field UrlFileName")
 		}
-		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		condition.UrlFileName = &urlFileName
 	} else {
-		condition.DeliveryRuleUrlFileName = nil
+		condition.UrlFileName = nil
 	}
 
-	// DeliveryRuleUrlPath
-	if source.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath DeliveryRuleUrlPathCondition_STATUS
-		err := deliveryRuleUrlPath.AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(source.DeliveryRuleUrlPath)
+	// UrlPath
+	if source.UrlPath != nil {
+		var urlPath DeliveryRuleUrlPathCondition_STATUS
+		err := urlPath.AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS(source.UrlPath)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS() to populate field DeliveryRuleUrlPath")
+			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleUrlPathCondition_STATUS() to populate field UrlPath")
 		}
-		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		condition.UrlPath = &urlPath
 	} else {
-		condition.DeliveryRuleUrlPath = nil
+		condition.UrlPath = nil
 	}
 
 	// No error
@@ -8108,232 +8108,232 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DeliveryRuleClientPort
-	if condition.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort v20210601s.DeliveryRuleClientPortCondition_STATUS
-		err := condition.DeliveryRuleClientPort.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&deliveryRuleClientPort)
+	// ClientPort
+	if condition.ClientPort != nil {
+		var clientPort v20210601s.DeliveryRuleClientPortCondition_STATUS
+		err := condition.ClientPort.AssignProperties_To_DeliveryRuleClientPortCondition_STATUS(&clientPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition_STATUS() to populate field DeliveryRuleClientPort")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleClientPortCondition_STATUS() to populate field ClientPort")
 		}
-		destination.DeliveryRuleClientPort = &deliveryRuleClientPort
+		destination.ClientPort = &clientPort
 	} else {
-		destination.DeliveryRuleClientPort = nil
+		destination.ClientPort = nil
 	}
 
-	// DeliveryRuleCookies
-	if condition.DeliveryRuleCookies != nil {
-		var deliveryRuleCooky v20210601s.DeliveryRuleCookiesCondition_STATUS
-		err := condition.DeliveryRuleCookies.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&deliveryRuleCooky)
+	// Cookies
+	if condition.Cookies != nil {
+		var cooky v20210601s.DeliveryRuleCookiesCondition_STATUS
+		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&cooky)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition_STATUS() to populate field DeliveryRuleCookies")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
 		}
-		destination.DeliveryRuleCookies = &deliveryRuleCooky
+		destination.Cookies = &cooky
 	} else {
-		destination.DeliveryRuleCookies = nil
+		destination.Cookies = nil
 	}
 
-	// DeliveryRuleHostName
-	if condition.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName v20210601s.DeliveryRuleHostNameCondition_STATUS
-		err := condition.DeliveryRuleHostName.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&deliveryRuleHostName)
+	// HostName
+	if condition.HostName != nil {
+		var hostName v20210601s.DeliveryRuleHostNameCondition_STATUS
+		err := condition.HostName.AssignProperties_To_DeliveryRuleHostNameCondition_STATUS(&hostName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition_STATUS() to populate field DeliveryRuleHostName")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHostNameCondition_STATUS() to populate field HostName")
 		}
-		destination.DeliveryRuleHostName = &deliveryRuleHostName
+		destination.HostName = &hostName
 	} else {
-		destination.DeliveryRuleHostName = nil
+		destination.HostName = nil
 	}
 
-	// DeliveryRuleHttpVersion
-	if condition.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion v20210601s.DeliveryRuleHttpVersionCondition_STATUS
-		err := condition.DeliveryRuleHttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&deliveryRuleHttpVersion)
+	// HttpVersion
+	if condition.HttpVersion != nil {
+		var httpVersion v20210601s.DeliveryRuleHttpVersionCondition_STATUS
+		err := condition.HttpVersion.AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS(&httpVersion)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS() to populate field DeliveryRuleHttpVersion")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleHttpVersionCondition_STATUS() to populate field HttpVersion")
 		}
-		destination.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
+		destination.HttpVersion = &httpVersion
 	} else {
-		destination.DeliveryRuleHttpVersion = nil
+		destination.HttpVersion = nil
 	}
 
-	// DeliveryRuleIsDevice
-	if condition.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice v20210601s.DeliveryRuleIsDeviceCondition_STATUS
-		err := condition.DeliveryRuleIsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&deliveryRuleIsDevice)
+	// IsDevice
+	if condition.IsDevice != nil {
+		var isDevice v20210601s.DeliveryRuleIsDeviceCondition_STATUS
+		err := condition.IsDevice.AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS(&isDevice)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS() to populate field DeliveryRuleIsDevice")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleIsDeviceCondition_STATUS() to populate field IsDevice")
 		}
-		destination.DeliveryRuleIsDevice = &deliveryRuleIsDevice
+		destination.IsDevice = &isDevice
 	} else {
-		destination.DeliveryRuleIsDevice = nil
+		destination.IsDevice = nil
 	}
 
-	// DeliveryRulePostArgs
-	if condition.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArg v20210601s.DeliveryRulePostArgsCondition_STATUS
-		err := condition.DeliveryRulePostArgs.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&deliveryRulePostArg)
+	// PostArgs
+	if condition.PostArgs != nil {
+		var postArg v20210601s.DeliveryRulePostArgsCondition_STATUS
+		err := condition.PostArgs.AssignProperties_To_DeliveryRulePostArgsCondition_STATUS(&postArg)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition_STATUS() to populate field DeliveryRulePostArgs")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRulePostArgsCondition_STATUS() to populate field PostArgs")
 		}
-		destination.DeliveryRulePostArgs = &deliveryRulePostArg
+		destination.PostArgs = &postArg
 	} else {
-		destination.DeliveryRulePostArgs = nil
+		destination.PostArgs = nil
 	}
 
-	// DeliveryRuleQueryString
-	if condition.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString v20210601s.DeliveryRuleQueryStringCondition_STATUS
-		err := condition.DeliveryRuleQueryString.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&deliveryRuleQueryString)
+	// QueryString
+	if condition.QueryString != nil {
+		var queryString v20210601s.DeliveryRuleQueryStringCondition_STATUS
+		err := condition.QueryString.AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS(&queryString)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS() to populate field DeliveryRuleQueryString")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleQueryStringCondition_STATUS() to populate field QueryString")
 		}
-		destination.DeliveryRuleQueryString = &deliveryRuleQueryString
+		destination.QueryString = &queryString
 	} else {
-		destination.DeliveryRuleQueryString = nil
+		destination.QueryString = nil
 	}
 
-	// DeliveryRuleRemoteAddress
-	if condition.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress v20210601s.DeliveryRuleRemoteAddressCondition_STATUS
-		err := condition.DeliveryRuleRemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&deliveryRuleRemoteAddress)
+	// RemoteAddress
+	if condition.RemoteAddress != nil {
+		var remoteAddress v20210601s.DeliveryRuleRemoteAddressCondition_STATUS
+		err := condition.RemoteAddress.AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS(&remoteAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS() to populate field DeliveryRuleRemoteAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRemoteAddressCondition_STATUS() to populate field RemoteAddress")
 		}
-		destination.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
+		destination.RemoteAddress = &remoteAddress
 	} else {
-		destination.DeliveryRuleRemoteAddress = nil
+		destination.RemoteAddress = nil
 	}
 
-	// DeliveryRuleRequestBody
-	if condition.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody v20210601s.DeliveryRuleRequestBodyCondition_STATUS
-		err := condition.DeliveryRuleRequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&deliveryRuleRequestBody)
+	// RequestBody
+	if condition.RequestBody != nil {
+		var requestBody v20210601s.DeliveryRuleRequestBodyCondition_STATUS
+		err := condition.RequestBody.AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS(&requestBody)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS() to populate field DeliveryRuleRequestBody")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestBodyCondition_STATUS() to populate field RequestBody")
 		}
-		destination.DeliveryRuleRequestBody = &deliveryRuleRequestBody
+		destination.RequestBody = &requestBody
 	} else {
-		destination.DeliveryRuleRequestBody = nil
+		destination.RequestBody = nil
 	}
 
-	// DeliveryRuleRequestHeader
-	if condition.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderCondition_STATUS
-		err := condition.DeliveryRuleRequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&deliveryRuleRequestHeader)
+	// RequestHeader
+	if condition.RequestHeader != nil {
+		var requestHeader v20210601s.DeliveryRuleRequestHeaderCondition_STATUS
+		err := condition.RequestHeader.AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS(&requestHeader)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS() to populate field DeliveryRuleRequestHeader")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestHeaderCondition_STATUS() to populate field RequestHeader")
 		}
-		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
+		destination.RequestHeader = &requestHeader
 	} else {
-		destination.DeliveryRuleRequestHeader = nil
+		destination.RequestHeader = nil
 	}
 
-	// DeliveryRuleRequestMethod
-	if condition.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod v20210601s.DeliveryRuleRequestMethodCondition_STATUS
-		err := condition.DeliveryRuleRequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&deliveryRuleRequestMethod)
+	// RequestMethod
+	if condition.RequestMethod != nil {
+		var requestMethod v20210601s.DeliveryRuleRequestMethodCondition_STATUS
+		err := condition.RequestMethod.AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS(&requestMethod)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS() to populate field DeliveryRuleRequestMethod")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestMethodCondition_STATUS() to populate field RequestMethod")
 		}
-		destination.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
+		destination.RequestMethod = &requestMethod
 	} else {
-		destination.DeliveryRuleRequestMethod = nil
+		destination.RequestMethod = nil
 	}
 
-	// DeliveryRuleRequestScheme
-	if condition.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme v20210601s.DeliveryRuleRequestSchemeCondition_STATUS
-		err := condition.DeliveryRuleRequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&deliveryRuleRequestScheme)
+	// RequestScheme
+	if condition.RequestScheme != nil {
+		var requestScheme v20210601s.DeliveryRuleRequestSchemeCondition_STATUS
+		err := condition.RequestScheme.AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS(&requestScheme)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS() to populate field DeliveryRuleRequestScheme")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestSchemeCondition_STATUS() to populate field RequestScheme")
 		}
-		destination.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
+		destination.RequestScheme = &requestScheme
 	} else {
-		destination.DeliveryRuleRequestScheme = nil
+		destination.RequestScheme = nil
 	}
 
-	// DeliveryRuleRequestUri
-	if condition.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri v20210601s.DeliveryRuleRequestUriCondition_STATUS
-		err := condition.DeliveryRuleRequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&deliveryRuleRequestUri)
+	// RequestUri
+	if condition.RequestUri != nil {
+		var requestUri v20210601s.DeliveryRuleRequestUriCondition_STATUS
+		err := condition.RequestUri.AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS(&requestUri)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS() to populate field DeliveryRuleRequestUri")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleRequestUriCondition_STATUS() to populate field RequestUri")
 		}
-		destination.DeliveryRuleRequestUri = &deliveryRuleRequestUri
+		destination.RequestUri = &requestUri
 	} else {
-		destination.DeliveryRuleRequestUri = nil
+		destination.RequestUri = nil
 	}
 
-	// DeliveryRuleServerPort
-	if condition.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort v20210601s.DeliveryRuleServerPortCondition_STATUS
-		err := condition.DeliveryRuleServerPort.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&deliveryRuleServerPort)
+	// ServerPort
+	if condition.ServerPort != nil {
+		var serverPort v20210601s.DeliveryRuleServerPortCondition_STATUS
+		err := condition.ServerPort.AssignProperties_To_DeliveryRuleServerPortCondition_STATUS(&serverPort)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition_STATUS() to populate field DeliveryRuleServerPort")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleServerPortCondition_STATUS() to populate field ServerPort")
 		}
-		destination.DeliveryRuleServerPort = &deliveryRuleServerPort
+		destination.ServerPort = &serverPort
 	} else {
-		destination.DeliveryRuleServerPort = nil
+		destination.ServerPort = nil
 	}
 
-	// DeliveryRuleSocketAddr
-	if condition.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr v20210601s.DeliveryRuleSocketAddrCondition_STATUS
-		err := condition.DeliveryRuleSocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&deliveryRuleSocketAddr)
+	// SocketAddr
+	if condition.SocketAddr != nil {
+		var socketAddr v20210601s.DeliveryRuleSocketAddrCondition_STATUS
+		err := condition.SocketAddr.AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS(&socketAddr)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS() to populate field DeliveryRuleSocketAddr")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSocketAddrCondition_STATUS() to populate field SocketAddr")
 		}
-		destination.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
+		destination.SocketAddr = &socketAddr
 	} else {
-		destination.DeliveryRuleSocketAddr = nil
+		destination.SocketAddr = nil
 	}
 
-	// DeliveryRuleSslProtocol
-	if condition.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol v20210601s.DeliveryRuleSslProtocolCondition_STATUS
-		err := condition.DeliveryRuleSslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&deliveryRuleSslProtocol)
+	// SslProtocol
+	if condition.SslProtocol != nil {
+		var sslProtocol v20210601s.DeliveryRuleSslProtocolCondition_STATUS
+		err := condition.SslProtocol.AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS(&sslProtocol)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS() to populate field DeliveryRuleSslProtocol")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleSslProtocolCondition_STATUS() to populate field SslProtocol")
 		}
-		destination.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
+		destination.SslProtocol = &sslProtocol
 	} else {
-		destination.DeliveryRuleSslProtocol = nil
+		destination.SslProtocol = nil
 	}
 
-	// DeliveryRuleUrlFileExtension
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS
-		err := condition.DeliveryRuleUrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&deliveryRuleUrlFileExtension)
+	// UrlFileExtension
+	if condition.UrlFileExtension != nil {
+		var urlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition_STATUS
+		err := condition.UrlFileExtension.AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS(&urlFileExtension)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field DeliveryRuleUrlFileExtension")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field UrlFileExtension")
 		}
-		destination.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
+		destination.UrlFileExtension = &urlFileExtension
 	} else {
-		destination.DeliveryRuleUrlFileExtension = nil
+		destination.UrlFileExtension = nil
 	}
 
-	// DeliveryRuleUrlFileName
-	if condition.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName v20210601s.DeliveryRuleUrlFileNameCondition_STATUS
-		err := condition.DeliveryRuleUrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&deliveryRuleUrlFileName)
+	// UrlFileName
+	if condition.UrlFileName != nil {
+		var urlFileName v20210601s.DeliveryRuleUrlFileNameCondition_STATUS
+		err := condition.UrlFileName.AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS(&urlFileName)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS() to populate field DeliveryRuleUrlFileName")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlFileNameCondition_STATUS() to populate field UrlFileName")
 		}
-		destination.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
+		destination.UrlFileName = &urlFileName
 	} else {
-		destination.DeliveryRuleUrlFileName = nil
+		destination.UrlFileName = nil
 	}
 
-	// DeliveryRuleUrlPath
-	if condition.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath v20210601s.DeliveryRuleUrlPathCondition_STATUS
-		err := condition.DeliveryRuleUrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&deliveryRuleUrlPath)
+	// UrlPath
+	if condition.UrlPath != nil {
+		var urlPath v20210601s.DeliveryRuleUrlPathCondition_STATUS
+		err := condition.UrlPath.AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS(&urlPath)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS() to populate field DeliveryRuleUrlPath")
+			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleUrlPathCondition_STATUS() to populate field UrlPath")
 		}
-		destination.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+		destination.UrlPath = &urlPath
 	} else {
-		destination.DeliveryRuleUrlPath = nil
+		destination.UrlPath = nil
 	}
 
 	// Update the property bag

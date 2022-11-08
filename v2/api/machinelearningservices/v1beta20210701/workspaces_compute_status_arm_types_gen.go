@@ -40,34 +40,34 @@ type Workspaces_Compute_STATUS_ARM struct {
 
 type Compute_STATUS_ARM struct {
 	// AKS: Mutually exclusive with all other properties
-	AKS *AKS_STATUS_ARM `json:"aks_STATUS,omitempty"`
+	AKS *AKS_STATUS_ARM `json:"aks,omitempty"`
 
 	// AmlCompute: Mutually exclusive with all other properties
-	AmlCompute *AmlCompute_STATUS_ARM `json:"amlCompute_STATUS,omitempty"`
+	AmlCompute *AmlCompute_STATUS_ARM `json:"amlCompute,omitempty"`
 
 	// ComputeInstance: Mutually exclusive with all other properties
-	ComputeInstance *ComputeInstance_STATUS_ARM `json:"computeInstance_STATUS,omitempty"`
+	ComputeInstance *ComputeInstance_STATUS_ARM `json:"computeInstance,omitempty"`
 
 	// DataFactory: Mutually exclusive with all other properties
-	DataFactory *DataFactory_STATUS_ARM `json:"dataFactory_STATUS,omitempty"`
+	DataFactory *DataFactory_STATUS_ARM `json:"dataFactory,omitempty"`
 
 	// DataLakeAnalytics: Mutually exclusive with all other properties
-	DataLakeAnalytics *DataLakeAnalytics_STATUS_ARM `json:"dataLakeAnalytics_STATUS,omitempty"`
+	DataLakeAnalytics *DataLakeAnalytics_STATUS_ARM `json:"dataLakeAnalytics,omitempty"`
 
 	// Databricks: Mutually exclusive with all other properties
-	Databricks *Databricks_STATUS_ARM `json:"databricks_STATUS,omitempty"`
+	Databricks *Databricks_STATUS_ARM `json:"databricks,omitempty"`
 
 	// HDInsight: Mutually exclusive with all other properties
-	HDInsight *HDInsight_STATUS_ARM `json:"hdInsight_STATUS,omitempty"`
+	HDInsight *HDInsight_STATUS_ARM `json:"hdInsight,omitempty"`
 
 	// Kubernetes: Mutually exclusive with all other properties
-	Kubernetes *Kubernetes_STATUS_ARM `json:"kubernetes_STATUS,omitempty"`
+	Kubernetes *Kubernetes_STATUS_ARM `json:"kubernetes,omitempty"`
 
 	// SynapseSpark: Mutually exclusive with all other properties
-	SynapseSpark *SynapseSpark_STATUS_ARM `json:"synapseSpark_STATUS,omitempty"`
+	SynapseSpark *SynapseSpark_STATUS_ARM `json:"synapseSpark,omitempty"`
 
 	// VirtualMachine: Mutually exclusive with all other properties
-	VirtualMachine *VirtualMachine_STATUS_ARM `json:"virtualMachine_STATUS,omitempty"`
+	VirtualMachine *VirtualMachine_STATUS_ARM `json:"virtualMachine,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Compute_STATUS_ARM represents a discriminated union (JSON OneOf)

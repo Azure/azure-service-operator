@@ -46,13 +46,13 @@ type InboundIpRule_STATUS_ARM struct {
 
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUS_ARM struct {
-	JsonInputSchemaMapping_STATUS *JsonInputSchemaMapping_STATUS_ARM `json:"jsonInputSchemaMapping_STATUS,omitempty"`
+	Json *JsonInputSchemaMapping_STATUS_ARM `json:"json,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because InputSchemaMapping_STATUS_ARM represents a discriminated union (JSON OneOf)
 func (mapping InputSchemaMapping_STATUS_ARM) MarshalJSON() ([]byte, error) {
-	if mapping.JsonInputSchemaMapping_STATUS != nil {
-		return json.Marshal(mapping.JsonInputSchemaMapping_STATUS)
+	if mapping.Json != nil {
+		return json.Marshal(mapping.Json)
 	}
 	return nil, nil
 }
@@ -66,8 +66,8 @@ func (mapping *InputSchemaMapping_STATUS_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["inputSchemaMappingType"]
 	if discriminator == "Json" {
-		mapping.JsonInputSchemaMapping_STATUS = &JsonInputSchemaMapping_STATUS_ARM{}
-		return json.Unmarshal(data, mapping.JsonInputSchemaMapping_STATUS)
+		mapping.Json = &JsonInputSchemaMapping_STATUS_ARM{}
+		return json.Unmarshal(data, mapping.Json)
 	}
 
 	// No error

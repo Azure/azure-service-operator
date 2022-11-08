@@ -43,32 +43,32 @@ func (server *Server_Spec_ARM) GetType() string {
 }
 
 type ServerPropertiesForCreate_ARM struct {
-	// ServerPropertiesForDefaultCreate: Mutually exclusive with all other properties
-	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate_ARM `json:"serverPropertiesForDefaultCreate,omitempty"`
+	// Default: Mutually exclusive with all other properties
+	Default *ServerPropertiesForDefaultCreate_ARM `json:"def,omitempty"`
 
-	// ServerPropertiesForGeoRestore: Mutually exclusive with all other properties
-	ServerPropertiesForGeoRestore *ServerPropertiesForGeoRestore_ARM `json:"serverPropertiesForGeoRestore,omitempty"`
+	// GeoRestore: Mutually exclusive with all other properties
+	GeoRestore *ServerPropertiesForGeoRestore_ARM `json:"geoRestore,omitempty"`
 
-	// ServerPropertiesForReplica: Mutually exclusive with all other properties
-	ServerPropertiesForReplica *ServerPropertiesForReplica_ARM `json:"serverPropertiesForReplica,omitempty"`
+	// PointInTimeRestore: Mutually exclusive with all other properties
+	PointInTimeRestore *ServerPropertiesForRestore_ARM `json:"pointInTimeRestore,omitempty"`
 
-	// ServerPropertiesForRestore: Mutually exclusive with all other properties
-	ServerPropertiesForRestore *ServerPropertiesForRestore_ARM `json:"serverPropertiesForRestore,omitempty"`
+	// Replica: Mutually exclusive with all other properties
+	Replica *ServerPropertiesForReplica_ARM `json:"replica,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because ServerPropertiesForCreate_ARM represents a discriminated union (JSON OneOf)
 func (create ServerPropertiesForCreate_ARM) MarshalJSON() ([]byte, error) {
-	if create.ServerPropertiesForDefaultCreate != nil {
-		return json.Marshal(create.ServerPropertiesForDefaultCreate)
+	if create.Default != nil {
+		return json.Marshal(create.Default)
 	}
-	if create.ServerPropertiesForGeoRestore != nil {
-		return json.Marshal(create.ServerPropertiesForGeoRestore)
+	if create.GeoRestore != nil {
+		return json.Marshal(create.GeoRestore)
 	}
-	if create.ServerPropertiesForReplica != nil {
-		return json.Marshal(create.ServerPropertiesForReplica)
+	if create.PointInTimeRestore != nil {
+		return json.Marshal(create.PointInTimeRestore)
 	}
-	if create.ServerPropertiesForRestore != nil {
-		return json.Marshal(create.ServerPropertiesForRestore)
+	if create.Replica != nil {
+		return json.Marshal(create.Replica)
 	}
 	return nil, nil
 }
@@ -82,20 +82,20 @@ func (create *ServerPropertiesForCreate_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["createMode"]
 	if discriminator == "Default" {
-		create.ServerPropertiesForDefaultCreate = &ServerPropertiesForDefaultCreate_ARM{}
-		return json.Unmarshal(data, create.ServerPropertiesForDefaultCreate)
+		create.Default = &ServerPropertiesForDefaultCreate_ARM{}
+		return json.Unmarshal(data, create.Default)
 	}
 	if discriminator == "GeoRestore" {
-		create.ServerPropertiesForGeoRestore = &ServerPropertiesForGeoRestore_ARM{}
-		return json.Unmarshal(data, create.ServerPropertiesForGeoRestore)
+		create.GeoRestore = &ServerPropertiesForGeoRestore_ARM{}
+		return json.Unmarshal(data, create.GeoRestore)
 	}
 	if discriminator == "PointInTimeRestore" {
-		create.ServerPropertiesForRestore = &ServerPropertiesForRestore_ARM{}
-		return json.Unmarshal(data, create.ServerPropertiesForRestore)
+		create.PointInTimeRestore = &ServerPropertiesForRestore_ARM{}
+		return json.Unmarshal(data, create.PointInTimeRestore)
 	}
 	if discriminator == "Replica" {
-		create.ServerPropertiesForReplica = &ServerPropertiesForReplica_ARM{}
-		return json.Unmarshal(data, create.ServerPropertiesForReplica)
+		create.Replica = &ServerPropertiesForReplica_ARM{}
+		return json.Unmarshal(data, create.Replica)
 	}
 
 	// No error

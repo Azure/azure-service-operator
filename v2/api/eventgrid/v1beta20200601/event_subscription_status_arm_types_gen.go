@@ -53,14 +53,14 @@ type EventSubscriptionProperties_STATUS_ARM struct {
 }
 
 type DeadLetterDestination_STATUS_ARM struct {
-	// StorageBlobDeadLetterDestination_STATUS: Mutually exclusive with all other properties
-	StorageBlobDeadLetterDestination_STATUS *StorageBlobDeadLetterDestination_STATUS_ARM `json:"storageBlobDeadLetterDestination_STATUS,omitempty"`
+	// StorageBlob: Mutually exclusive with all other properties
+	StorageBlob *StorageBlobDeadLetterDestination_STATUS_ARM `json:"storageBlob,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeadLetterDestination_STATUS_ARM represents a discriminated union (JSON OneOf)
 func (destination DeadLetterDestination_STATUS_ARM) MarshalJSON() ([]byte, error) {
-	if destination.StorageBlobDeadLetterDestination_STATUS != nil {
-		return json.Marshal(destination.StorageBlobDeadLetterDestination_STATUS)
+	if destination.StorageBlob != nil {
+		return json.Marshal(destination.StorageBlob)
 	}
 	return nil, nil
 }
@@ -74,8 +74,8 @@ func (destination *DeadLetterDestination_STATUS_ARM) UnmarshalJSON(data []byte) 
 	}
 	discriminator := rawJson["endpointType"]
 	if discriminator == "StorageBlob" {
-		destination.StorageBlobDeadLetterDestination_STATUS = &StorageBlobDeadLetterDestination_STATUS_ARM{}
-		return json.Unmarshal(data, destination.StorageBlobDeadLetterDestination_STATUS)
+		destination.StorageBlob = &StorageBlobDeadLetterDestination_STATUS_ARM{}
+		return json.Unmarshal(data, destination.StorageBlob)
 	}
 
 	// No error
@@ -84,25 +84,25 @@ func (destination *DeadLetterDestination_STATUS_ARM) UnmarshalJSON(data []byte) 
 
 type EventSubscriptionDestination_STATUS_ARM struct {
 	// AzureFunction: Mutually exclusive with all other properties
-	AzureFunction *AzureFunctionEventSubscriptionDestination_STATUS_ARM `json:"azureFunctionEventSubscriptionDestination_STATUS,omitempty"`
+	AzureFunction *AzureFunctionEventSubscriptionDestination_STATUS_ARM `json:"azureFunction,omitempty"`
 
 	// EventHub: Mutually exclusive with all other properties
-	EventHub *EventHubEventSubscriptionDestination_STATUS_ARM `json:"eventHubEventSubscriptionDestination_STATUS,omitempty"`
+	EventHub *EventHubEventSubscriptionDestination_STATUS_ARM `json:"eventHub,omitempty"`
 
 	// HybridConnection: Mutually exclusive with all other properties
-	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS_ARM `json:"hybridConnectionEventSubscriptionDestination_STATUS,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS_ARM `json:"hybridConnection,omitempty"`
 
 	// ServiceBusQueue: Mutually exclusive with all other properties
-	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM `json:"serviceBusQueueEventSubscriptionDestination_STATUS,omitempty"`
+	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM `json:"serviceBusQueue,omitempty"`
 
 	// ServiceBusTopic: Mutually exclusive with all other properties
-	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM `json:"serviceBusTopicEventSubscriptionDestination_STATUS,omitempty"`
+	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM `json:"serviceBusTopic,omitempty"`
 
 	// StorageQueue: Mutually exclusive with all other properties
-	StorageQueue *StorageQueueEventSubscriptionDestination_STATUS_ARM `json:"storageQueueEventSubscriptionDestination_STATUS,omitempty"`
+	StorageQueue *StorageQueueEventSubscriptionDestination_STATUS_ARM `json:"storageQueue,omitempty"`
 
 	// WebHook: Mutually exclusive with all other properties
-	WebHook *WebHookEventSubscriptionDestination_STATUS_ARM `json:"webHookEventSubscriptionDestination_STATUS,omitempty"`
+	WebHook *WebHookEventSubscriptionDestination_STATUS_ARM `json:"webHook,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestination_STATUS_ARM represents a discriminated union (JSON OneOf)
@@ -204,40 +204,40 @@ type RetryPolicy_STATUS_ARM struct {
 
 type AdvancedFilter_STATUS_ARM struct {
 	// BoolEquals: Mutually exclusive with all other properties
-	BoolEquals *BoolEqualsAdvancedFilter_STATUS_ARM `json:"boolEqualsAdvancedFilter_STATUS,omitempty"`
+	BoolEquals *BoolEqualsAdvancedFilter_STATUS_ARM `json:"boolEquals,omitempty"`
 
 	// NumberGreaterThan: Mutually exclusive with all other properties
-	NumberGreaterThan *NumberGreaterThanAdvancedFilter_STATUS_ARM `json:"numberGreaterThanAdvancedFilter_STATUS,omitempty"`
+	NumberGreaterThan *NumberGreaterThanAdvancedFilter_STATUS_ARM `json:"numberGreaterThan,omitempty"`
 
 	// NumberGreaterThanOrEquals: Mutually exclusive with all other properties
-	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM `json:"numberGreaterThanOrEqualsAdvancedFilter_STATUS,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM `json:"numberGreaterThanOrEquals,omitempty"`
 
 	// NumberIn: Mutually exclusive with all other properties
-	NumberIn *NumberInAdvancedFilter_STATUS_ARM `json:"numberInAdvancedFilter_STATUS,omitempty"`
+	NumberIn *NumberInAdvancedFilter_STATUS_ARM `json:"numberIn,omitempty"`
 
 	// NumberLessThan: Mutually exclusive with all other properties
-	NumberLessThan *NumberLessThanAdvancedFilter_STATUS_ARM `json:"numberLessThanAdvancedFilter_STATUS,omitempty"`
+	NumberLessThan *NumberLessThanAdvancedFilter_STATUS_ARM `json:"numberLessThan,omitempty"`
 
 	// NumberLessThanOrEquals: Mutually exclusive with all other properties
-	NumberLessThanOrEquals *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM `json:"numberLessThanOrEqualsAdvancedFilter_STATUS,omitempty"`
+	NumberLessThanOrEquals *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM `json:"numberLessThanOrEquals,omitempty"`
 
 	// NumberNotIn: Mutually exclusive with all other properties
-	NumberNotIn *NumberNotInAdvancedFilter_STATUS_ARM `json:"numberNotInAdvancedFilter_STATUS,omitempty"`
+	NumberNotIn *NumberNotInAdvancedFilter_STATUS_ARM `json:"numberNotIn,omitempty"`
 
 	// StringBeginsWith: Mutually exclusive with all other properties
-	StringBeginsWith *StringBeginsWithAdvancedFilter_STATUS_ARM `json:"stringBeginsWithAdvancedFilter_STATUS,omitempty"`
+	StringBeginsWith *StringBeginsWithAdvancedFilter_STATUS_ARM `json:"stringBeginsWith,omitempty"`
 
 	// StringContains: Mutually exclusive with all other properties
-	StringContains *StringContainsAdvancedFilter_STATUS_ARM `json:"stringContainsAdvancedFilter_STATUS,omitempty"`
+	StringContains *StringContainsAdvancedFilter_STATUS_ARM `json:"stringContains,omitempty"`
 
 	// StringEndsWith: Mutually exclusive with all other properties
-	StringEndsWith *StringEndsWithAdvancedFilter_STATUS_ARM `json:"stringEndsWithAdvancedFilter_STATUS,omitempty"`
+	StringEndsWith *StringEndsWithAdvancedFilter_STATUS_ARM `json:"stringEndsWith,omitempty"`
 
 	// StringIn: Mutually exclusive with all other properties
-	StringIn *StringInAdvancedFilter_STATUS_ARM `json:"stringInAdvancedFilter_STATUS,omitempty"`
+	StringIn *StringInAdvancedFilter_STATUS_ARM `json:"stringIn,omitempty"`
 
 	// StringNotIn: Mutually exclusive with all other properties
-	StringNotIn *StringNotInAdvancedFilter_STATUS_ARM `json:"stringNotInAdvancedFilter_STATUS,omitempty"`
+	StringNotIn *StringNotInAdvancedFilter_STATUS_ARM `json:"stringNotIn,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilter_STATUS_ARM represents a discriminated union (JSON OneOf)

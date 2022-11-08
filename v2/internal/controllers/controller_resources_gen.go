@@ -246,14 +246,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(dbformariadb_v20180601s.Server),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword",
+				Key:  ".spec.properties.def.administratorLoginPassword",
 				Func: indexDbformariadbServerAdministratorLoginPassword,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.def.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
 			},
 		},
 	})
@@ -325,14 +325,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(eventgrid_v20200601s.EventSubscription),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.destination.webHookEventSubscriptionDestination.endpointUrl",
+				Key:  ".spec.destination.webHook.endpointUrl",
 				Func: indexEventgridEventSubscriptionEndpointUrl,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.destination.webHookEventSubscriptionDestination.endpointUrl"}, &eventgrid_v20200601s.EventSubscriptionList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.destination.webHook.endpointUrl"}, &eventgrid_v20200601s.EventSubscriptionList{}),
 			},
 		},
 	})
@@ -1141,7 +1141,7 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
+// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.def.administratorLoginPassword
 func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
 	if !ok {
@@ -1150,13 +1150,13 @@ func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []s
 	if obj.Spec.Properties == nil {
 		return nil
 	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
+	if obj.Spec.Properties.Default == nil {
 		return nil
 	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
+	if obj.Spec.Properties.Default.AdministratorLoginPassword == nil {
 		return nil
 	}
-	return obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Index()
+	return obj.Spec.Properties.Default.AdministratorLoginPassword.Index()
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
@@ -1195,7 +1195,7 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20200601s.EventSubscription .spec.destination.webHookEventSubscriptionDestination.endpointUrl
+// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20200601s.EventSubscription .spec.destination.webHook.endpointUrl
 func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 	obj, ok := rawObj.(*eventgrid_v20200601s.EventSubscription)
 	if !ok {

@@ -296,7 +296,7 @@ func InputSchemaMapping_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForInputSchemaMapping_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForInputSchemaMapping_ARM(gens map[string]gopter.Gen) {
-	gens["JsonInputSchemaMapping"] = JsonInputSchemaMapping_ARMGenerator().Map(func(it JsonInputSchemaMapping_ARM) *JsonInputSchemaMapping_ARM {
+	gens["Json"] = JsonInputSchemaMapping_ARMGenerator().Map(func(it JsonInputSchemaMapping_ARM) *JsonInputSchemaMapping_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }

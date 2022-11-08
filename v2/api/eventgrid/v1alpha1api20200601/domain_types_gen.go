@@ -1403,7 +1403,7 @@ func (rule *InboundIpRule_STATUS) AssignProperties_To_InboundIpRule_STATUS(desti
 
 // Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
 type InputSchemaMapping struct {
-	JsonInputSchemaMapping *JsonInputSchemaMapping `json:"jsonInputSchemaMapping,omitempty"`
+	Json *JsonInputSchemaMapping `json:"json,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InputSchemaMapping{}
@@ -1415,14 +1415,14 @@ func (mapping *InputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &InputSchemaMapping_ARM{}
 
-	// Set property ‘JsonInputSchemaMapping’:
-	if mapping.JsonInputSchemaMapping != nil {
-		jsonInputSchemaMapping_ARM, err := (*mapping.JsonInputSchemaMapping).ConvertToARM(resolved)
+	// Set property ‘Json’:
+	if mapping.Json != nil {
+		json_ARM, err := (*mapping.Json).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		jsonInputSchemaMapping := *jsonInputSchemaMapping_ARM.(*JsonInputSchemaMapping_ARM)
-		result.JsonInputSchemaMapping = &jsonInputSchemaMapping
+		json := *json_ARM.(*JsonInputSchemaMapping_ARM)
+		result.Json = &json
 	}
 	return result, nil
 }
@@ -1439,15 +1439,15 @@ func (mapping *InputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_ARM, got %T", armInput)
 	}
 
-	// Set property ‘JsonInputSchemaMapping’:
-	if typedInput.JsonInputSchemaMapping != nil {
-		var jsonInputSchemaMapping1 JsonInputSchemaMapping
-		err := jsonInputSchemaMapping1.PopulateFromARM(owner, *typedInput.JsonInputSchemaMapping)
+	// Set property ‘Json’:
+	if typedInput.Json != nil {
+		var json1 JsonInputSchemaMapping
+		err := json1.PopulateFromARM(owner, *typedInput.Json)
 		if err != nil {
 			return err
 		}
-		jsonInputSchemaMapping := jsonInputSchemaMapping1
-		mapping.JsonInputSchemaMapping = &jsonInputSchemaMapping
+		json := json1
+		mapping.Json = &json
 	}
 
 	// No error
@@ -1457,16 +1457,16 @@ func (mapping *InputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwn
 // AssignProperties_From_InputSchemaMapping populates our InputSchemaMapping from the provided source InputSchemaMapping
 func (mapping *InputSchemaMapping) AssignProperties_From_InputSchemaMapping(source *alpha20200601s.InputSchemaMapping) error {
 
-	// JsonInputSchemaMapping
-	if source.JsonInputSchemaMapping != nil {
-		var jsonInputSchemaMapping JsonInputSchemaMapping
-		err := jsonInputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.JsonInputSchemaMapping)
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping
+		err := json.AssignProperties_From_JsonInputSchemaMapping(source.Json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field JsonInputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field Json")
 		}
-		mapping.JsonInputSchemaMapping = &jsonInputSchemaMapping
+		mapping.Json = &json
 	} else {
-		mapping.JsonInputSchemaMapping = nil
+		mapping.Json = nil
 	}
 
 	// No error
@@ -1478,16 +1478,16 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// JsonInputSchemaMapping
-	if mapping.JsonInputSchemaMapping != nil {
-		var jsonInputSchemaMapping alpha20200601s.JsonInputSchemaMapping
-		err := mapping.JsonInputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&jsonInputSchemaMapping)
+	// Json
+	if mapping.Json != nil {
+		var json alpha20200601s.JsonInputSchemaMapping
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping(&json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field JsonInputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field Json")
 		}
-		destination.JsonInputSchemaMapping = &jsonInputSchemaMapping
+		destination.Json = &json
 	} else {
-		destination.JsonInputSchemaMapping = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag
@@ -1503,7 +1503,7 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUS struct {
-	JsonInputSchemaMapping_STATUS *JsonInputSchemaMapping_STATUS `json:"jsonInputSchemaMapping_STATUS,omitempty"`
+	Json *JsonInputSchemaMapping_STATUS `json:"json,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InputSchemaMapping_STATUS{}
@@ -1520,15 +1520,15 @@ func (mapping *InputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘JsonInputSchemaMapping_STATUS’:
-	if typedInput.JsonInputSchemaMapping_STATUS != nil {
-		var jsonInputSchemaMappingSTATUS1 JsonInputSchemaMapping_STATUS
-		err := jsonInputSchemaMappingSTATUS1.PopulateFromARM(owner, *typedInput.JsonInputSchemaMapping_STATUS)
+	// Set property ‘Json’:
+	if typedInput.Json != nil {
+		var json1 JsonInputSchemaMapping_STATUS
+		err := json1.PopulateFromARM(owner, *typedInput.Json)
 		if err != nil {
 			return err
 		}
-		jsonInputSchemaMappingSTATUS := jsonInputSchemaMappingSTATUS1
-		mapping.JsonInputSchemaMapping_STATUS = &jsonInputSchemaMappingSTATUS
+		json := json1
+		mapping.Json = &json
 	}
 
 	// No error
@@ -1538,16 +1538,16 @@ func (mapping *InputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.Arbit
 // AssignProperties_From_InputSchemaMapping_STATUS populates our InputSchemaMapping_STATUS from the provided source InputSchemaMapping_STATUS
 func (mapping *InputSchemaMapping_STATUS) AssignProperties_From_InputSchemaMapping_STATUS(source *alpha20200601s.InputSchemaMapping_STATUS) error {
 
-	// JsonInputSchemaMapping_STATUS
-	if source.JsonInputSchemaMapping_STATUS != nil {
-		var jsonInputSchemaMappingSTATUS JsonInputSchemaMapping_STATUS
-		err := jsonInputSchemaMappingSTATUS.AssignProperties_From_JsonInputSchemaMapping_STATUS(source.JsonInputSchemaMapping_STATUS)
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping_STATUS
+		err := json.AssignProperties_From_JsonInputSchemaMapping_STATUS(source.Json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping_STATUS() to populate field JsonInputSchemaMapping_STATUS")
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping_STATUS() to populate field Json")
 		}
-		mapping.JsonInputSchemaMapping_STATUS = &jsonInputSchemaMappingSTATUS
+		mapping.Json = &json
 	} else {
-		mapping.JsonInputSchemaMapping_STATUS = nil
+		mapping.Json = nil
 	}
 
 	// No error
@@ -1559,16 +1559,16 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_To_InputSchemaMapping
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// JsonInputSchemaMapping_STATUS
-	if mapping.JsonInputSchemaMapping_STATUS != nil {
-		var jsonInputSchemaMappingSTATUS alpha20200601s.JsonInputSchemaMapping_STATUS
-		err := mapping.JsonInputSchemaMapping_STATUS.AssignProperties_To_JsonInputSchemaMapping_STATUS(&jsonInputSchemaMappingSTATUS)
+	// Json
+	if mapping.Json != nil {
+		var json alpha20200601s.JsonInputSchemaMapping_STATUS
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping_STATUS(&json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping_STATUS() to populate field JsonInputSchemaMapping_STATUS")
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping_STATUS() to populate field Json")
 		}
-		destination.JsonInputSchemaMapping_STATUS = &jsonInputSchemaMappingSTATUS
+		destination.Json = &json
 	} else {
-		destination.JsonInputSchemaMapping_STATUS = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag

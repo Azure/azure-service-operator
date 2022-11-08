@@ -10,7 +10,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── InputSchema: *string
 │   │   ├── InputSchemaMapping: Object (2 properties)
-│   │   │   ├── JsonInputSchemaMapping: Object (8 properties)
+│   │   │   ├── Json: Object (8 properties)
 │   │   │   │   ├── DataVersion: Object (3 properties)
 │   │   │   │   │   ├── DefaultValue: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -51,7 +51,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── InputSchema: *string
 │       ├── InputSchemaMapping: Object (2 properties)
-│       │   ├── JsonInputSchemaMapping_STATUS: Object (8 properties)
+│       │   ├── Json: Object (8 properties)
 │       │   │   ├── DataVersion: Object (3 properties)
 │       │   │   │   ├── DefaultValue: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -121,7 +121,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │   │   ├── AzureName: string
 │   │   ├── DeadLetterDestination: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── StorageBlobDeadLetterDestination: Object (4 properties)
+│   │   │   └── StorageBlob: Object (4 properties)
 │   │   │       ├── BlobContainerName: *string
 │   │   │       ├── EndpointType: *string
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
@@ -245,7 +245,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │       ├── Conditions: conditions.Condition[]
 │       ├── DeadLetterDestination: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── StorageBlobDeadLetterDestination_STATUS: Object (4 properties)
+│       │   └── StorageBlob: Object (4 properties)
 │       │       ├── BlobContainerName: *string
 │       │       ├── EndpointType: *string
 │       │       ├── PropertyBag: genruntime.PropertyBag
@@ -394,7 +394,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
         │   └── PropertyBag: genruntime.PropertyBag
         ├── InputSchema: *string
         ├── InputSchemaMapping: Object (2 properties)
-        │   ├── JsonInputSchemaMapping_STATUS: Object (8 properties)
+        │   ├── Json: Object (8 properties)
         │   │   ├── DataVersion: Object (3 properties)
         │   │   │   ├── DefaultValue: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag

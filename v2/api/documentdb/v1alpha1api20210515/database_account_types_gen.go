@@ -3063,8 +3063,8 @@ func (properties *ApiProperties_STATUS) AssignProperties_To_ApiProperties_STATUS
 
 // Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy struct {
-	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
-	Periodic   *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
+	Continuous *ContinuousModeBackupPolicy `json:"continuous,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy   `json:"periodic,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackupPolicy{}
@@ -3209,8 +3209,8 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *alpha2
 
 // Deprecated version of BackupPolicy_STATUS. Use v1beta20210515.BackupPolicy_STATUS instead
 type BackupPolicy_STATUS struct {
-	Continuous *ContinuousModeBackupPolicy_STATUS `json:"continuousModeBackupPolicy_STATUS,omitempty"`
-	Periodic   *PeriodicModeBackupPolicy_STATUS   `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_STATUS `json:"continuous,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy_STATUS   `json:"periodic,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackupPolicy_STATUS{}

@@ -732,7 +732,7 @@ func InputSchemaMappingGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForInputSchemaMapping is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForInputSchemaMapping(gens map[string]gopter.Gen) {
-	gens["JsonInputSchemaMapping"] = JsonInputSchemaMappingGenerator().Map(func(it JsonInputSchemaMapping) *JsonInputSchemaMapping {
+	gens["Json"] = JsonInputSchemaMappingGenerator().Map(func(it JsonInputSchemaMapping) *JsonInputSchemaMapping {
 		return &it
 	}) // generate one case for OneOf type
 }
@@ -843,7 +843,7 @@ func InputSchemaMapping_STATUSGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForInputSchemaMapping_STATUS(gens map[string]gopter.Gen) {
-	gens["JsonInputSchemaMapping_STATUS"] = JsonInputSchemaMapping_STATUSGenerator().Map(func(it JsonInputSchemaMapping_STATUS) *JsonInputSchemaMapping_STATUS {
+	gens["Json"] = JsonInputSchemaMapping_STATUSGenerator().Map(func(it JsonInputSchemaMapping_STATUS) *JsonInputSchemaMapping_STATUS {
 		return &it
 	}) // generate one case for OneOf type
 }

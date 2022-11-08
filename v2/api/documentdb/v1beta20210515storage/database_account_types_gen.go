@@ -291,15 +291,15 @@ type ApiProperties_STATUS struct {
 
 // Storage version of v1beta20210515.BackupPolicy
 type BackupPolicy struct {
-	Continuous  *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
-	Periodic    *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy `json:"continuous,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy   `json:"periodic,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.BackupPolicy_STATUS
 type BackupPolicy_STATUS struct {
-	Continuous  *ContinuousModeBackupPolicy_STATUS `json:"continuousModeBackupPolicy_STATUS,omitempty"`
-	Periodic    *PeriodicModeBackupPolicy_STATUS   `json:"periodicModeBackupPolicy_STATUS,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy_STATUS `json:"continuous,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy_STATUS   `json:"periodic,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
