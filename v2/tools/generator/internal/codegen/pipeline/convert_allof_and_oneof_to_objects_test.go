@@ -460,16 +460,16 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 
 	parent := createTestLeafOneOfDefinition(
 		"Parent",
-		"Senior",
-		"Maxima",
+		"", // No swagger name, to force use of type names
+		"", // No discriminator, to force use of type names
 		commonProperties,
 		test.PostalAddress2021,
 		test.ResidentialAddress2021)
 
 	child := createTestLeafOneOfDefinition(
 		"Child",
-		"Junior",
-		"Minima",
+		"", // No swagger name, to force use of type names
+		"", // No discriminator, to force use of type names
 		commonProperties,
 		test.KnownAsProperty)
 
@@ -493,7 +493,7 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t
 	test.AssertPropertyExistsWithType(t, actual, "Child", astmodel.NewOptionalType(child.Name()))
 }
 
-func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *testing.T) {
+func TestSynthesizerOneOfObject_GivenOneOfUsingSwaggerNames_ReturnsExpectedObject(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -504,15 +504,15 @@ func TestSynthesizerOneOfObject_GivenOneOfUsingNames_ReturnsExpectedObject(t *te
 	parent := createTestLeafOneOfDefinition(
 		"Parent",
 		"Senior",
-		"Maxima",
+		"", // No discriminator, to force use of the Swagger names
 		commonProperties,
 		test.PostalAddress2021,
 		test.ResidentialAddress2021)
 
 	child := createTestLeafOneOfDefinition(
 		"Child",
-		"Junior", // no swagger name
-		"Minima",
+		"Junior",
+		"", // No discriminator, to force use of the Swagger names
 		commonProperties,
 		test.KnownAsProperty)
 
