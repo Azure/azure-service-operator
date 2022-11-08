@@ -252,6 +252,16 @@ func commonUppercasedSuffix(x, y string) string {
 func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames, error) {
 	switch concreteType := t.(type) {
 	case astmodel.TypeName:
+
+		if def, ok := s.defs[concreteType]; ok {
+			// TypeName represents one of our definitions; if we can get a good name from the content
+			// (say, from a OneOf discriminator), we should use that
+			names, err := s.getOneOfName(def.Type(), propIndex)
+			if err == nil && names.isGoodName {
+				return names, nil
+			}
+		}
+
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
 		return propertyNames{
@@ -261,21 +271,21 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		}, nil
 
 	case *astmodel.OneOfType:
-		// If we have a name, use that
-		if concreteType.Name() != "" {
-			return propertyNames{
-				golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
-				json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
-				isGoodName: true, // a oneOf name is good (little else is)
-			}, nil
-		}
-
 		// If we have a discriminator value, use that as a name
 		if concreteType.HasDiscriminatorValue() {
 			return propertyNames{
 				golang:     s.idFactory.CreatePropertyName(concreteType.DiscriminatorValue(), astmodel.Exported),
 				json:       s.idFactory.CreateIdentifier(concreteType.DiscriminatorValue(), astmodel.NotExported),
 				isGoodName: true, // a discriminator value is good (little else is)
+			}, nil
+		}
+
+		// If we have a name, use that
+		if concreteType.Name() != "" {
+			return propertyNames{
+				golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
+				json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
+				isGoodName: true, // a oneOf name is good (little else is)
 			}, nil
 		}
 
