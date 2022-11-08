@@ -49,7 +49,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 
 				transformed, err := visitor.VisitDefinition(def, resourceUpdater)
 				if err != nil {
-					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
+					return nil, errors.Wrapf(err, "processing type %s", def.Name())
 				}
 
 				newDefs.Add(transformed)
@@ -92,12 +92,12 @@ func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisit
 	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
 		spec, err := this.Visit(it.SpecType(), chooseSpec)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to visit resource spec type")
+			return nil, errors.Wrapf(err, "visiting resource spec type")
 		}
 
 		status, err := this.Visit(it.StatusType(), chooseStatus)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to visit resource status type")
+			return nil, errors.Wrapf(err, "visiting resource status type")
 		}
 
 		return it.WithSpec(spec).WithStatus(status), nil
@@ -689,7 +689,7 @@ func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.T
 		return nil
 	})
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to intersect oneOf with %s", astmodel.DebugDescription(right))
+		return nil, errors.Wrapf(err, "intersecting oneOf with %s", astmodel.DebugDescription(right))
 	}
 
 	if only, ok := newTypes.Single(); ok {
@@ -720,7 +720,7 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
-			"couldn't intersect %s with %s", leftName, astmodel.DebugDescription(right))
+			"intersecting %s with %s", leftName, astmodel.DebugDescription(right))
 	}
 
 	// TODO: can we somehow process these pointed-to types first,
@@ -734,54 +734,62 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 		return leftName, nil
 	}
 
-	// if this is the only reference to a type we've merged, we can redefine it
-	if refs, ok := s.referenceCounts[leftName]; ok && refs == 1 {
-		// Check to see if we've already redefined this type (this can happen with nesting of typenames and allOfs).
-		// If we have, we need to merge our new changes with the changes already made.
-		redefined, ok := s.updatedDefs[leftName]
-		for ok {
-			// Grab the existing redefinition and merge it with our current result
-			merged, err := s.intersectTypes(result, redefined.Type())
-			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't merge %s with %s", result, redefined.Type())
-			}
-
-			// We use the intermediate variable 'merged' to allow inspection/comparison while debugging.
-			// ProTip: keep this!
-			result = merged
-
-			//
-			// Here's where it gets hairy.
-			//
-			// The s.intersectTypes() call above may have redefined the definition we're currently processing as a side
-			// effect, due to the recursive way it processes merging `result` and `redefined.Type()`.
-			//
-			// If that's the case, and if the (new) definition is different, we have a problem.
-			// If we blindly use `result`, we are throwing away that redefinition.
-			// If we throw away `result`, we are throwing away the work we just did.
-			//
-			// To avoid throwing away work, we check to see if the definitions underlying type was changed, and if so we
-			// need to merge again by looping.
-			// Each time we loop, we eliminate one reason to loop, so I think this is guaranteed to terminate.
-			//
-
-			check := s.updatedDefs[leftName]
-			if astmodel.TypeEquals(check.Type(), redefined.Type()) {
-				// No change to the underlying type, we're done
-				break
-			}
-
-			// We need to loop, merging in new changes
-			redefined = check
-		}
-
-		// Overwrite the existing definition with the new one
-		s.updatedDefs[leftName] = found.WithType(result)
-
-		return leftName, nil
+	//
+	// if this is the only reference to a type we've merged, we can safely redefine it
+	// preserving the name of the type instead of ending up with an anonymous type that
+	// needs a name synthesized for it later on.
+	//
+	// If there are multiple references to a type we can't do this because we might end
+	// up with a different final shape each time.
+	//
+	if refs, ok := s.referenceCounts[leftName]; !ok || refs != 1 {
+		return result, nil
 	}
 
-	return result, nil
+	// Check to see if we've already redefined this type even though there is only one references
+	//// (this can happen with nesting of typenames and allOfs because we process things interatively pair-by-pair).
+	// If we have, we need to merge our new changes with the changes already made.
+	redefined, ok := s.updatedDefs[leftName]
+	for ok {
+		// Grab the existing redefinition and merge it with our current result
+		merged, err := s.intersectTypes(result, redefined.Type())
+		if err != nil {
+			return nil, errors.Wrapf(err, "merging %s with %s", result, redefined.Type())
+		}
+
+		// We use the intermediate variable 'merged' to allow inspection/comparison while debugging.
+		// ProTip: keep this!
+		result = merged
+
+		//
+		// Here's where it gets hairy.
+		//
+		// The s.intersectTypes() call above may have redefined the definition we're currently processing as a side
+		// effect, due to the recursive way it processes merging `result` and `redefined.Type()`.
+		//
+		// If that's the case, and if the (new) definition is different, we have a problem.
+		// If we blindly use `result`, we are throwing away that redefinition.
+		// If we throw away `result`, we are throwing away the work we just did.
+		//
+		// To avoid throwing away work, we check to see if the definitions underlying type was changed, and if so we
+		// need to merge again by looping.
+		// Each time we loop, we eliminate one reason to loop, so I think this is guaranteed to terminate.
+		//
+
+		check := s.updatedDefs[leftName]
+		if astmodel.TypeEquals(check.Type(), redefined.Type()) {
+			// No change to the underlying type, we're done
+			break
+		}
+
+		// We need to loop, merging in new changes
+		redefined = check
+	}
+
+	// Overwrite the existing definition with the new one
+	s.updatedDefs[leftName] = found.WithType(result)
+
+	return leftName, nil
 }
 
 // any type always disappears when intersected with another type
@@ -883,7 +891,7 @@ func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
 		var err error
 		result, err = s.intersectTypes(result, t)
 		if err != nil {
-			return nil, errors.Wrapf(err, "couldn't merge %s with %s", result, t)
+			return nil, errors.Wrapf(err, "merging %s with %s", result, t)
 		}
 	}
 

@@ -114,13 +114,13 @@ func AssertDefinitionHasExpectedShape(
 // expectedName is the name of the property we expect to be present.
 func AssertPropertyExists(
 	t *testing.T,
-	atype astmodel.Type,
+	aType astmodel.Type,
 	expectedName astmodel.PropertyName,
 ) *astmodel.PropertyDefinition {
 	t.Helper()
-	container, ok := astmodel.AsPropertyContainer(atype)
+	container, ok := astmodel.AsPropertyContainer(aType)
 	if !ok {
-		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
+		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(aType))
 	}
 
 	property, ok := container.Property(expectedName)
@@ -138,12 +138,12 @@ func AssertPropertyExists(
 // expectedType is the type of the property we expect to be present.
 func AssertPropertyExistsWithType(
 	t *testing.T,
-	atype astmodel.Type,
+	aType astmodel.Type,
 	expectedName astmodel.PropertyName,
 	expectedType astmodel.Type,
 ) *astmodel.PropertyDefinition {
 	t.Helper()
-	property := AssertPropertyExists(t, atype, expectedName)
+	property := AssertPropertyExists(t, aType, expectedName)
 	if !astmodel.TypeEquals(property.PropertyType(), expectedType) {
 		t.Fatalf(
 			"Expected property %q to have type %q, but was %q",
@@ -158,14 +158,14 @@ func AssertPropertyExistsWithType(
 // AssertPropertyCount fails the test if the given object does not have the expected number of properties.
 func AssertPropertyCount(
 	t *testing.T,
-	atype astmodel.Type,
+	aType astmodel.Type,
 	expected int,
 ) {
 	t.Helper()
 
-	container, ok := astmodel.AsPropertyContainer(atype)
+	container, ok := astmodel.AsPropertyContainer(aType)
 	if !ok {
-		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(atype))
+		t.Fatalf("Expected %s to be a property container", astmodel.DebugDescription(aType))
 	}
 
 	actual := container.Properties().Len()

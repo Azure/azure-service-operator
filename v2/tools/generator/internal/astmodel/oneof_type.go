@@ -15,13 +15,6 @@ import (
 )
 
 // OneOfType represents something that can be any one of a number of selected types
-// Early in processing, instances represent
-//  o  A base object (with discriminator property) that has a number of subtypes defined elsewhere
-//  o  A subtype (with discriminator value) that references a base object
-//  o  A complete object with subtypes nested within
-//
-// These three cases are unified into complete objects, and later converted into object definitions.
-//
 type OneOfType struct {
 	swaggerName           string        // Name of the OneOf as defined in the Swagger file
 	propertyObjects       []*ObjectType // Object definitions used to specify the properties held by this OneOf. May be empty.

@@ -174,6 +174,7 @@ func DiffTypes(x, y interface{}) string {
 		return ""
 	}
 
+	// prefer diff.Diff() over cmp.Diff() as the results are more readable
 	return diff.Diff(
 		pretty.Sprint(x),
 		pretty.Sprint(y))

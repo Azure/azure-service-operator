@@ -24,7 +24,7 @@ func AssembleOneOfTypes(idFactory astmodel.IdentifierFactory) *Stage {
 			assembler := newOneOfAssembler(state.Definitions(), idFactory)
 			newDefs, err := assembler.assembleOneOfs()
 			if err != nil {
-				return nil, errors.Wrapf(err, "couldn't assemble OneOf types")
+				return nil, errors.Wrapf(err, "assembling OneOf types")
 			}
 			return state.WithDefinitions(
 					state.Definitions().OverlayWith(newDefs)),
@@ -410,7 +410,7 @@ func (oa *oneOfAssembler) updateOneOf(
 
 	updated, err := transform(oneOf)
 	if err != nil {
-		return errors.Wrapf(err, "couldn't transform oneOf %s", name)
+		return errors.Wrapf(err, "transforming oneOf %s", name)
 	}
 
 	oa.updates[name] = updated
