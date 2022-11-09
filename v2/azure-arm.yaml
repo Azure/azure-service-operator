@@ -778,7 +778,6 @@ objectModelConfiguration:
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
-  # TODO: disabled until (evildiscriminator)
   cdn:
     2021-06-01:
       DeepCreatedOriginProperties:
@@ -789,9 +788,6 @@ objectModelConfiguration:
       EndpointProperties_WebApplicationFirewallPolicyLink:
         Id:
           $armReference: true
-#      EndpointPropertiesUpdateParameters_WebApplicationFirewallPolicyLink:
-#        Id:
-#          $armReference: true
       Profile:
         $export: true
         $supportedFrom: v2.0.0-beta.1
@@ -1197,6 +1193,9 @@ objectModelConfiguration:
       PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
+#      Route_RouteTable_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
@@ -1206,6 +1205,15 @@ objectModelConfiguration:
       RouteTables_Route:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
+#      SecurityRule_NetworkInterface_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
+#      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
+#      Subnet_VirtualNetwork_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
       VirtualNetwork:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
