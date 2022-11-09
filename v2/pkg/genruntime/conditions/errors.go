@@ -14,17 +14,19 @@ import (
 
 // ReadyConditionImpactingError is an error that requires notification in the Ready condition
 type ReadyConditionImpactingError struct {
-	Severity ConditionSeverity
-	Reason   string
-	cause    error
+	Severity            ConditionSeverity
+	Reason              string
+	cause               error
+	RetryClassification RetryClassification
 }
 
 // NewReadyConditionImpactingError creates a new ReadyConditionImpactingError
-func NewReadyConditionImpactingError(cause error, severity ConditionSeverity, reason string) *ReadyConditionImpactingError {
+func NewReadyConditionImpactingError(cause error, severity ConditionSeverity, reason Reason) *ReadyConditionImpactingError {
 	return &ReadyConditionImpactingError{
-		cause:    cause,
-		Severity: severity,
-		Reason:   reason,
+		cause:               cause,
+		Severity:            severity,
+		Reason:              reason.Name,
+		RetryClassification: reason.RetryClassification,
 	}
 }
 
@@ -37,6 +39,11 @@ func AsReadyConditionImpactingError(err error) (*ReadyConditionImpactingError, b
 	}
 
 	return nil, false
+}
+
+func (e *ReadyConditionImpactingError) WithRetryClassification(classification RetryClassification) *ReadyConditionImpactingError {
+	e.RetryClassification = classification
+	return e
 }
 
 func (e *ReadyConditionImpactingError) Error() string {

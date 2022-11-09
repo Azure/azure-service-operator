@@ -47,7 +47,7 @@ func Test_MissingSecret_ReturnsError_ReconcilesSuccessfullyWhenSecretAdded(t *te
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound))
+	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound.Name))
 	tc.Expect(vm.Status.Conditions[0].Message).To(
 		ContainSubstring("failed resolving secret references: %s/%s does not exist", tc.Namespace, secretRef.Name))
 
@@ -86,7 +86,7 @@ func Test_MissingSecretKey_ReturnsError(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound))
+	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound.Name))
 	tc.Expect(vm.Status.Conditions[0].Message).To(
 		ContainSubstring("Secret \"%s/%s\" does not contain key \"%s\"", tc.Namespace, secret.Name, secret.Key))
 
@@ -118,7 +118,7 @@ func Test_UserSecretInDifferentNamespace_SecretNotFound(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(vm, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound))
+	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound.Name))
 	tc.Expect(vm.Status.Conditions[0].Message).To(
 		ContainSubstring("failed resolving secret references: %s/%s does not exist", tc.Namespace, secretInDiffNamespace.Name))
 
