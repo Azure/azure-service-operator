@@ -2226,13 +2226,7 @@ const (
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210101.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-	Etag                              *string                                                       `json:"etag,omitempty"`
-	Id                                *string                                                       `json:"id,omitempty"`
-	Name                              *string                                                       `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_STATUS                                       `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS                     `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-	Type                              *string                                                       `json:"type,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
@@ -2249,65 +2243,10 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		connection.Etag = &etag
-	}
-
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		connection.Name = &name
-	}
-
-	// Set property ‘PrivateEndpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateEndpoint != nil {
-			var privateEndpoint1 PrivateEndpoint_STATUS
-			err := privateEndpoint1.PopulateFromARM(owner, *typedInput.Properties.PrivateEndpoint)
-			if err != nil {
-				return err
-			}
-			privateEndpoint := privateEndpoint1
-			connection.PrivateEndpoint = &privateEndpoint
-		}
-	}
-
-	// Set property ‘PrivateLinkServiceConnectionState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
-			var privateLinkServiceConnectionState1 PrivateLinkServiceConnectionState_STATUS
-			err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.Properties.PrivateLinkServiceConnectionState)
-			if err != nil {
-				return err
-			}
-			privateLinkServiceConnectionState := privateLinkServiceConnectionState1
-			connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			connection.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		connection.Type = &typeVar
 	}
 
 	// No error
@@ -2317,49 +2256,8 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *alpha20210101s.PrivateEndpointConnection_STATUS) error {
 
-	// Etag
-	connection.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	connection.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint_STATUS
-		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS(source.PrivateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
-		}
-		connection.PrivateEndpoint = &privateEndpoint
-	} else {
-		connection.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
-		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		connection.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointConnectionProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		connection.ProvisioningState = &provisioningState
-	} else {
-		connection.ProvisioningState = nil
-	}
-
-	// Type
-	connection.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -2370,49 +2268,8 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(connection.Etag)
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(connection.Name)
-
-	// PrivateEndpoint
-	if connection.PrivateEndpoint != nil {
-		var privateEndpoint alpha20210101s.PrivateEndpoint_STATUS
-		err := connection.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS(&privateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
-		}
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState alpha20210101s.PrivateLinkServiceConnectionState_STATUS
-		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if connection.ProvisioningState != nil {
-		provisioningState := string(*connection.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(connection.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2732,179 +2589,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	// No error
 	return nil
 }
-
-// Deprecated version of PrivateEndpoint_STATUS. Use v1beta20210101.PrivateEndpoint_STATUS instead
-type PrivateEndpoint_STATUS struct {
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &PrivateEndpoint_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *PrivateEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpoint_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *PrivateEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpoint_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		endpoint.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateEndpoint_STATUS populates our PrivateEndpoint_STATUS from the provided source PrivateEndpoint_STATUS
-func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_STATUS(source *alpha20210101s.PrivateEndpoint_STATUS) error {
-
-	// Id
-	endpoint.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateEndpoint_STATUS populates the provided destination PrivateEndpoint_STATUS from our PrivateEndpoint_STATUS
-func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STATUS(destination *alpha20210101s.PrivateEndpoint_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of PrivateEndpointConnectionProperties_ProvisioningState_STATUS. Use
-// v1beta20210101.PrivateEndpointConnectionProperties_ProvisioningState_STATUS instead
-type PrivateEndpointConnectionProperties_ProvisioningState_STATUS string
-
-const (
-	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed    = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Failed")
-	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Succeeded = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Succeeded")
-	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Updating  = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Updating")
-)
-
-// Deprecated version of PrivateLinkServiceConnectionState_STATUS. Use v1beta20210101.PrivateLinkServiceConnectionState_STATUS instead
-type PrivateLinkServiceConnectionState_STATUS struct {
-	ActionRequired *string                                    `json:"actionRequired,omitempty"`
-	Description    *string                                    `json:"description,omitempty"`
-	Status         *PrivateLinkServiceConnectionStatus_STATUS `json:"status,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &PrivateLinkServiceConnectionState_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (state *PrivateLinkServiceConnectionState_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkServiceConnectionState_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkServiceConnectionState_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ActionRequired’:
-	if typedInput.ActionRequired != nil {
-		actionRequired := *typedInput.ActionRequired
-		state.ActionRequired = &actionRequired
-	}
-
-	// Set property ‘Description’:
-	if typedInput.Description != nil {
-		description := *typedInput.Description
-		state.Description = &description
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		status := *typedInput.Status
-		state.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *alpha20210101s.PrivateLinkServiceConnectionState_STATUS) error {
-
-	// ActionRequired
-	state.ActionRequired = genruntime.ClonePointerToString(source.ActionRequired)
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	if source.Status != nil {
-		status := PrivateLinkServiceConnectionStatus_STATUS(*source.Status)
-		state.Status = &status
-	} else {
-		state.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *alpha20210101s.PrivateLinkServiceConnectionState_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ActionRequired
-	destination.ActionRequired = genruntime.ClonePointerToString(state.ActionRequired)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(state.Description)
-
-	// Status
-	if state.Status != nil {
-		status := string(*state.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of PrivateLinkServiceConnectionStatus_STATUS. Use
-// v1beta20210101.PrivateLinkServiceConnectionStatus_STATUS instead
-type PrivateLinkServiceConnectionStatus_STATUS string
-
-const (
-	PrivateLinkServiceConnectionStatus_STATUS_Approved     = PrivateLinkServiceConnectionStatus_STATUS("Approved")
-	PrivateLinkServiceConnectionStatus_STATUS_Disconnected = PrivateLinkServiceConnectionStatus_STATUS("Disconnected")
-	PrivateLinkServiceConnectionStatus_STATUS_Pending      = PrivateLinkServiceConnectionStatus_STATUS("Pending")
-	PrivateLinkServiceConnectionStatus_STATUS_Rejected     = PrivateLinkServiceConnectionStatus_STATUS("Rejected")
-)
 
 func init() {
 	SchemeBuilder.Register(&BatchAccount{}, &BatchAccountList{})

@@ -149,17 +149,13 @@ type VirtualNetworks_VirtualNetworkPeering_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a network.azure.com/VirtualNetwork resource
-	Owner        *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
-	PeeringState *string                            `json:"peeringState,omitempty"`
-	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	RemoteAddressSpace   *AddressSpace                 `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork *SubResource                  `json:"remoteVirtualNetwork,omitempty"`
-	Type                 *string                       `json:"type,omitempty"`
-	UseRemoteGateways    *bool                         `json:"useRemoteGateways,omitempty"`
+	Owner                *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+	PeeringState         *string                            `json:"peeringState,omitempty"`
+	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RemoteAddressSpace   *AddressSpace                      `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities      `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                       `json:"remoteVirtualNetwork,omitempty"`
+	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworks_VirtualNetworkPeering_Spec{}

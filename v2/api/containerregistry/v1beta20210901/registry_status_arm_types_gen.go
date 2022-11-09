@@ -163,9 +163,6 @@ type Policies_STATUS_ARM struct {
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 type Sku_Name_STATUS string

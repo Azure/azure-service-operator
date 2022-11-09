@@ -158,11 +158,8 @@ type VirtualNetworkGateway_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku       *VirtualNetworkGatewaySku     `json:"sku,omitempty"`
-	Tags      map[string]string             `json:"tags,omitempty"`
+	Sku         *VirtualNetworkGatewaySku          `json:"sku,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 
 	// VNetExtendedLocationResourceReference: Customer vnet resource id. VirtualNetworkGateway of type local gateway is
 	// associated with the customer vnet.
@@ -266,10 +263,7 @@ type VirtualNetworkGatewayIPConfiguration struct {
 	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicIPAddress           *SubResource           `json:"publicIPAddress,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet    *SubResource                  `json:"subnet,omitempty"`
+	Subnet                    *SubResource           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration_STATUS
@@ -396,10 +390,7 @@ type RadiusServer_STATUS struct {
 type VpnClientRevokedCertificate struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference  *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Thumbprint *string                       `json:"thumbprint,omitempty"`
+	Thumbprint  *string                `json:"thumbprint,omitempty"`
 }
 
 // Storage version of v1beta20201101.VpnClientRevokedCertificate_STATUS
@@ -417,9 +408,6 @@ type VpnClientRootCertificate struct {
 	Name           *string                `json:"name,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicCertData *string                `json:"publicCertData,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1beta20201101.VpnClientRootCertificate_STATUS

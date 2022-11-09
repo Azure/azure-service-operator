@@ -349,9 +349,6 @@ type VirtualNetworks_VirtualNetworkPeering_Spec struct {
 	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
 
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace `json:"remoteAddressSpace,omitempty"`
 
@@ -362,9 +359,6 @@ type VirtualNetworks_VirtualNetworkPeering_Spec struct {
 	// different region (preview). See here to register for the preview and learn more
 	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
 	RemoteVirtualNetwork *SubResource `json:"remoteVirtualNetwork,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 
 	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
 	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
@@ -381,16 +375,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) ConvertToARM(resolved
 		return nil, nil
 	}
 	result := &VirtualNetworks_VirtualNetworkPeering_Spec_ARM{}
-
-	// Set property ‘Id’:
-	if peering.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*peering.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -454,12 +438,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) ConvertToARM(resolved
 	if peering.UseRemoteGateways != nil {
 		useRemoteGateways := *peering.UseRemoteGateways
 		result.Properties.UseRemoteGateways = &useRemoteGateways
-	}
-
-	// Set property ‘Type’:
-	if peering.Type != nil {
-		typeVar := *peering.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -527,8 +505,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘RemoteAddressSpace’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -569,12 +545,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) PopulateFromARM(owner
 			remoteVirtualNetwork := remoteVirtualNetwork1
 			peering.RemoteVirtualNetwork = &remoteVirtualNetwork
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		peering.Type = &typeVar
 	}
 
 	// Set property ‘UseRemoteGateways’:
@@ -694,14 +664,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 		peering.PeeringState = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		peering.Reference = &reference
-	} else {
-		peering.Reference = nil
-	}
-
 	// RemoteAddressSpace
 	if source.RemoteAddressSpace != nil {
 		var remoteAddressSpace AddressSpace
@@ -737,9 +699,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 	} else {
 		peering.RemoteVirtualNetwork = nil
 	}
-
-	// Type
-	peering.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UseRemoteGateways
 	if source.UseRemoteGateways != nil {
@@ -812,14 +771,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 		destination.PeeringState = nil
 	}
 
-	// Reference
-	if peering.Reference != nil {
-		reference := peering.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
 	// RemoteAddressSpace
 	if peering.RemoteAddressSpace != nil {
 		var remoteAddressSpace v20201101s.AddressSpace
@@ -855,9 +806,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 	} else {
 		destination.RemoteVirtualNetwork = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(peering.Type)
 
 	// UseRemoteGateways
 	if peering.UseRemoteGateways != nil {

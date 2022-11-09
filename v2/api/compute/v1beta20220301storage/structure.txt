@@ -408,7 +408,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── Zones: string[]
-│   └── Status: Object (37 properties)
+│   └── Status: Object (38 properties)
 │       ├── AdditionalCapabilities: Object (3 properties)
 │       │   ├── HibernationEnabled: *bool
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -772,6 +772,43 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │       ├── ProximityPlacementGroup: Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Resources: Object (18 properties)
+│       │   ├── AutoUpgradeMinorVersion: *bool
+│       │   ├── EnableAutomaticUpgrade: *bool
+│       │   ├── ForceUpdateTag: *string
+│       │   ├── Id: *string
+│       │   ├── InstanceView: Object (6 properties)
+│       │   │   ├── Name: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Statuses: Object (6 properties)
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── Substatuses: Object (6 properties)
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: *string
+│       │   │   │   ├── Message: *string
+│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   │   └── Time: *string
+│       │   │   ├── Type: *string
+│       │   │   └── TypeHandlerVersion: *string
+│       │   ├── Location: *string
+│       │   ├── Name: *string
+│       │   ├── PropertiesType: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProtectedSettings: map[string]v1.JSON
+│       │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│       │   ├── ProvisioningState: *string
+│       │   ├── Publisher: *string
+│       │   ├── Settings: map[string]v1.JSON
+│       │   ├── SuppressFailures: *bool
+│       │   ├── Tags: map[string]string
+│       │   ├── Type: *string
+│       │   └── TypeHandlerVersion: *string
 │       ├── ScheduledEventsProfile: Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── TerminateNotificationProfile: Object (3 properties)
@@ -982,7 +1019,21 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
     │   │   │   │   └── StorageUri: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── EvictionPolicy: *string
-    │   │   ├── ExtensionProfile: Object (2 properties)
+    │   │   ├── ExtensionProfile: Object (3 properties)
+    │   │   │   ├── Extensions: Object (13 properties)
+    │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+    │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+    │   │   │   │   ├── ForceUpdateTag: *string
+    │   │   │   │   ├── Name: *string
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+    │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+    │   │   │   │   ├── ProvisionAfterExtensions: string[]
+    │   │   │   │   ├── Publisher: *string
+    │   │   │   │   ├── Settings: map[string]v1.JSON
+    │   │   │   │   ├── SuppressFailures: *bool
+    │   │   │   │   ├── Type: *string
+    │   │   │   │   └── TypeHandlerVersion: *string
     │   │   │   ├── ExtensionsTimeBudget: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── HardwareProfile: Object (2 properties)
@@ -1296,9 +1347,23 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── EvictionPolicy: *string
         │   ├── ExtensionProfile: Object (3 properties)
-        │   │   ├── Extensions: Object (2 properties)
+        │   │   ├── Extensions: Object (16 properties)
+        │   │   │   ├── AutoUpgradeMinorVersion: *bool
+        │   │   │   ├── EnableAutomaticUpgrade: *bool
+        │   │   │   ├── ForceUpdateTag: *string
         │   │   │   ├── Id: *string
-        │   │   │   └── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── Name: *string
+        │   │   │   ├── PropertiesType: *string
+        │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+        │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+        │   │   │   ├── ProvisionAfterExtensions: string[]
+        │   │   │   ├── ProvisioningState: *string
+        │   │   │   ├── Publisher: *string
+        │   │   │   ├── Settings: map[string]v1.JSON
+        │   │   │   ├── SuppressFailures: *bool
+        │   │   │   ├── Type: *string
+        │   │   │   └── TypeHandlerVersion: *string
         │   │   ├── ExtensionsTimeBudget: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── HardwareProfile: Object (2 properties)

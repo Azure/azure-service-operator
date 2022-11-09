@@ -6,16 +6,11 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RouteTables_Route_Spec_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the route.
 	Properties *RoutePropertiesFormat_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RouteTables_Route_Spec_ARM{}

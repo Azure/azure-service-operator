@@ -247,29 +247,29 @@ func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
 	return visitor.Visit(omc)
 }
 
-// IsResourceLifecycleOwnedByParent returns true if the property represents a subresource whose resource lifecycle is owned by the parent resource.
-// False is returned if the property does not represent a subresource whose lifecycle is owned by the parent.
-func (omc *ObjectModelConfiguration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	var result bool
+// ResourceLifecycleOwnedByParent returns the name of the parent resource if the property represents a subresource whose resource lifecycle is owned by the parent resource.
+// An empty string + error is returned if this is not configured for the property in question
+func (omc *ObjectModelConfiguration) ResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
+	var result string
 	visitor := newSinglePropertyConfigurationVisitor(
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
-			isResourceLifecycleOwnedByParent, err := configuration.IsResourceLifecycleOwnedByParent()
-			result = isResourceLifecycleOwnedByParent
+			resourceLifecycleOwnedByParent, err := configuration.ResourceLifecycleOwnedByParent()
+			result = resourceLifecycleOwnedByParent
 			return err
 		})
 
 	err := visitor.Visit(omc)
 	if err != nil {
-		return false, err
+		return "", err
 	}
 
 	return result, nil
 }
 
-// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
-func (omc *ObjectModelConfiguration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
+// MarkResourceLifecycleOwnedByParentUnconsumed marks all ResourceLifecycleOwnedByParent as unconsumed
+func (omc *ObjectModelConfiguration) MarkResourceLifecycleOwnedByParentUnconsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			configuration.ClearResourceLifecycleOwnedByParentConsumed()
@@ -278,12 +278,12 @@ func (omc *ObjectModelConfiguration) MarkIsResourceLifecycleOwnedByParentUnconsu
 	return visitor.Visit(omc)
 }
 
-// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent configuration
+// VerifyResourceLifecycleOwnedByParentConsumed returns an error if any ResourceLifecycleOwnedByParent configuration
 // was not consumed
-func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
+func (omc *ObjectModelConfiguration) VerifyResourceLifecycleOwnedByParentConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
-			return configuration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+			return configuration.VerifyResourceLifecycleOwnedByParentConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -370,6 +370,62 @@ func (omc *ObjectModelConfiguration) VerifyImportConfigMapModeConsumed() error {
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			return configuration.VerifyImportConfigMapModeConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupResourceEmbeddedInParent checks to see whether a specified type is labelled as a resource that is embedded
+// inside its parent. Returns a NotConfiguredError if no $resourceEmbeddedInParent flag is configured.
+func (omc *ObjectModelConfiguration) LookupResourceEmbeddedInParent(name astmodel.TypeName) (string, error) {
+	var embeddedInParent string
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			embedded, err := configuration.LookupResourceEmbeddedInParent()
+			embeddedInParent = embedded
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return embeddedInParent, nil
+}
+
+// VerifyResourceEmbeddedInParentConsumed returns an error if our configured $resourceEmbeddedInParent flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyResourceEmbeddedInParentConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyResourceEmbeddedInParentConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupIsResource checks to see whether a specified type is labelled as a resource.
+// Returns a NotConfiguredError if no $resourceEmbeddedInParent flag is configured.
+func (omc *ObjectModelConfiguration) LookupIsResource(name astmodel.TypeName) (bool, error) {
+	var isResource bool
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			is, err := configuration.LookupIsResource()
+			isResource = is
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return isResource, nil
+}
+
+// VerifyIsResourceConsumed returns an error if our configured $isResource flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyIsResourceConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyIsResourceConsumed()
 		})
 	return visitor.Visit(omc)
 }

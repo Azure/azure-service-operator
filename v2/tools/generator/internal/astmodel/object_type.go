@@ -26,6 +26,7 @@ type ObjectType struct {
 	testcases  readonly.Map[string, TestCase]
 	InterfaceImplementer
 	isResource bool
+	resources  TypeNameSet
 }
 
 // for want of a better place for this to live…
@@ -160,6 +161,40 @@ func (objectType *ObjectType) WithIsResource(isResource bool) *ObjectType {
 	return result
 }
 
+func (objectType *ObjectType) Resources() TypeNameSet {
+	return objectType.resources
+}
+
+func (objectType *ObjectType) WithResource(resource TypeName) *ObjectType {
+	if objectType.resources.Contains(resource) {
+		return objectType
+	}
+
+	result := objectType.copy()
+	result.resources.Add(resource)
+	return result
+}
+
+func (objectType *ObjectType) WithResources(resources TypeNameSet) *ObjectType {
+	if objectType.resources.ContainsAll(resources) {
+		return objectType
+	}
+
+	result := objectType.copy()
+	result.resources.AddAll(resources)
+	return result
+}
+
+func (objectType *ObjectType) ClearResources() *ObjectType {
+	if len(objectType.resources) == 0 {
+		return objectType
+	}
+
+	result := objectType.copy()
+	result.resources = make(TypeNameSet)
+	return result
+}
+
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (objectType *ObjectType) Functions() []Function {
@@ -262,6 +297,10 @@ func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
 		return false
 	}
 
+	if overrides.ObjectType != nil {
+		return overrides.ObjectType(objectType, other)
+	}
+
 	if len(objectType.embedded) != len(other.embedded) {
 		// Different number of embedded properties, not equal
 		return false
@@ -293,6 +332,14 @@ func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
 	if !objectType.testcases.Equals(other.testcases, func(l, r TestCase) bool {
 		return l.Equals(r, overrides)
 	}) {
+		return false
+	}
+
+	if objectType.isResource != other.isResource {
+		return false
+	}
+
+	if !objectType.resources.Equals(other.resources) {
 		return false
 	}
 
@@ -499,6 +546,7 @@ func (objectType *ObjectType) copy() *ObjectType {
 
 	result.InterfaceImplementer = objectType.InterfaceImplementer.copy()
 	result.isResource = objectType.isResource
+	result.resources = objectType.resources.Copy()
 
 	return result
 }

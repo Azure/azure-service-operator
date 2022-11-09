@@ -8,12 +8,13 @@ package jsonast
 import (
 	"context"
 	"fmt"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"math"
 	"math/big"
 	"net/url"
 	"regexp"
 	"strings"
+
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/devigned/tab"
 	"github.com/pkg/errors"
@@ -1009,10 +1010,6 @@ func categorizeResourceType(url *url.URL) *astmodel.ResourceScope {
 	resourceGroup := astmodel.ResourceScopeResourceGroup
 	extension := astmodel.ResourceScopeExtension
 	tenant := astmodel.ResourceScopeTenant
-
-	if strings.Contains(url.String(), "aliases") {
-		print("here")
-	}
 
 	for _, fragmentPart := range fragmentParts {
 		// resourceDefinitions are "normal" resources

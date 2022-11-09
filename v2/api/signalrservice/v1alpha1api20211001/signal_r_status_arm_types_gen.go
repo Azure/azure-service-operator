@@ -85,8 +85,7 @@ const (
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM struct {
-	Id         *string                `json:"id,omitempty"`
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of ResourceLogConfiguration_STATUS. Use v1beta20211001.ResourceLogConfiguration_STATUS instead
@@ -101,8 +100,7 @@ type ServerlessUpstreamSettings_STATUS_ARM struct {
 
 // Deprecated version of SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded instead
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded_ARM struct {
-	Id         *string                `json:"id,omitempty"`
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of SignalRCorsSettings_STATUS. Use v1beta20211001.SignalRCorsSettings_STATUS instead

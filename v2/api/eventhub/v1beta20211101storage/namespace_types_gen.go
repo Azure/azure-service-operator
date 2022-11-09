@@ -162,12 +162,11 @@ type Namespace_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Sku                        *Sku                               `json:"sku,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
+	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku           *Sku                               `json:"sku,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundant *bool                              `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
@@ -270,17 +269,10 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20211101.PrivateEndpointConnection
-type PrivateEndpointConnection struct {
-	PrivateEndpoint *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20211101.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20211101.Sku
@@ -326,14 +318,6 @@ type KeyVaultProperties_STATUS struct {
 	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                                `json:"keyVersion,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20211101.PrivateEndpoint
-type PrivateEndpoint struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1beta20211101.UserAssignedIdentity_STATUS

@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 // Deprecated version of VirtualMachineScaleSet_Spec. Use v1beta20201201.VirtualMachineScaleSet_Spec instead
 type VirtualMachineScaleSet_Spec_ARM struct {
@@ -161,7 +164,8 @@ type ScheduledEventsProfile_ARM struct {
 
 // Deprecated version of VirtualMachineScaleSetExtensionProfile. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile instead
 type VirtualMachineScaleSetExtensionProfile_ARM struct {
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension_ARM `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                               `json:"extensionsTimeBudget,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkProfile. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile instead
@@ -212,6 +216,12 @@ type VirtualMachineScaleSetDataDisk_ARM struct {
 	WriteAcceleratorEnabled *bool                                            `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// Deprecated version of VirtualMachineScaleSetExtension. Use v1beta20201201.VirtualMachineScaleSetExtension instead
+type VirtualMachineScaleSetExtension_ARM struct {
+	Name       *string                                        `json:"name,omitempty"`
+	Properties *VirtualMachineScaleSetExtensionProperties_ARM `json:"properties,omitempty"`
+}
+
 // Deprecated version of VirtualMachineScaleSetNetworkConfiguration. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration instead
 type VirtualMachineScaleSetNetworkConfiguration_ARM struct {
 	Id         *string                                                   `json:"id,omitempty"`
@@ -231,6 +241,19 @@ type VirtualMachineScaleSetOSDisk_ARM struct {
 	OsType                  *VirtualMachineScaleSetOSDisk_OsType             `json:"osType,omitempty"`
 	VhdContainers           []string                                         `json:"vhdContainers,omitempty"`
 	WriteAcceleratorEnabled *bool                                            `json:"writeAcceleratorEnabled,omitempty"`
+}
+
+// Deprecated version of VirtualMachineScaleSetExtensionProperties. Use v1beta20201201.VirtualMachineScaleSetExtensionProperties instead
+type VirtualMachineScaleSetExtensionProperties_ARM struct {
+	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string            `json:"forceUpdateTag,omitempty"`
+	ProtectedSettings        map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string           `json:"provisionAfterExtensions,omitempty"`
+	Publisher                *string            `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON `json:"settings,omitempty"`
+	Type                     *string            `json:"type,omitempty"`
+	TypeHandlerVersion       *string            `json:"typeHandlerVersion,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetManagedDiskParameters. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters instead

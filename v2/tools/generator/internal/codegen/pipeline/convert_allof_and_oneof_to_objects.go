@@ -623,7 +623,9 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 
 	// TODO: need to handle merging other bits of objects
 	isResource := leftObj.IsResource() || rightObj.IsResource()
-	return leftObj.WithProperties(properties...).WithIsResource(isResource), nil
+
+	resources := astmodel.SetUnion(leftObj.Resources(), rightObj.Resources())
+	return leftObj.WithProperties(properties...).WithIsResource(isResource).WithResources(resources), nil
 }
 
 func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astmodel.EnumType) (astmodel.Type, error) {

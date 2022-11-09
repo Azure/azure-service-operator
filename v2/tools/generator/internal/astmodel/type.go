@@ -48,7 +48,8 @@ type Type interface {
 }
 
 type EqualityOverrides struct {
-	TypeName func(left TypeName, right TypeName) bool
+	TypeName   func(left TypeName, right TypeName) bool
+	ObjectType func(left *ObjectType, right *ObjectType) bool
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper

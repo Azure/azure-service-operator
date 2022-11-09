@@ -345,12 +345,6 @@ type RouteTables_Route_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a network.azure.com/RouteTable resource
 	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"RouteTable"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RouteTables_Route_Spec{}
@@ -361,16 +355,6 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		return nil, nil
 	}
 	result := &RouteTables_Route_Spec_ARM{}
-
-	// Set property ‘Id’:
-	if route.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*route.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -397,12 +381,6 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if route.NextHopType != nil {
 		nextHopType := *route.NextHopType
 		result.Properties.NextHopType = &nextHopType
-	}
-
-	// Set property ‘Type’:
-	if route.Type != nil {
-		typeVar := *route.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -460,14 +438,6 @@ func (route *RouteTables_Route_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Owner’:
 	route.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
-
-	// no assignment for property ‘Reference’
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		route.Type = &typeVar
-	}
 
 	// No error
 	return nil
@@ -559,17 +529,6 @@ func (route *RouteTables_Route_Spec) AssignProperties_From_RouteTables_Route_Spe
 		route.Owner = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		route.Reference = &reference
-	} else {
-		route.Reference = nil
-	}
-
-	// Type
-	route.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -614,17 +573,6 @@ func (route *RouteTables_Route_Spec) AssignProperties_To_RouteTables_Route_Spec(
 	} else {
 		destination.Owner = nil
 	}
-
-	// Reference
-	if route.Reference != nil {
-		reference := route.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(route.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

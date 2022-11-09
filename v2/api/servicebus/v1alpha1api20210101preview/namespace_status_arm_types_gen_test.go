@@ -580,9 +580,6 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_ARM(subject Pri
 var privateEndpointConnection_STATUS_ARMGenerator gopter.Gen
 
 // PrivateEndpointConnection_STATUS_ARMGenerator returns a generator of PrivateEndpointConnection_STATUS_ARM instances for property testing.
-// We first initialize privateEndpointConnection_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func PrivateEndpointConnection_STATUS_ARMGenerator() gopter.Gen {
 	if privateEndpointConnection_STATUS_ARMGenerator != nil {
 		return privateEndpointConnection_STATUS_ARMGenerator
@@ -592,23 +589,12 @@ func PrivateEndpointConnection_STATUS_ARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
 	privateEndpointConnection_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
-	privateEndpointConnection_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_ARM{}), generators)
-
 	return privateEndpointConnection_STATUS_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUS_ARMGenerator())
 }
 
 func Test_KeyVaultProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

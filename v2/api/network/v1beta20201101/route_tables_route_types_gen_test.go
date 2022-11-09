@@ -274,7 +274,6 @@ func AddIndependentPropertyGeneratorsForRouteTables_Route_Spec(gens map[string]g
 		RouteNextHopType_VirtualAppliance,
 		RouteNextHopType_VirtualNetworkGateway,
 		RouteNextHopType_VnetLocal))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RouteTables_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

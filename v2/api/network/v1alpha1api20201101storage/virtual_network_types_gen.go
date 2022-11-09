@@ -222,7 +222,6 @@ type VirtualNetwork_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Reference   *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
@@ -392,14 +391,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.Owner = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		network.Reference = &reference
-	} else {
-		network.Reference = nil
-	}
-
 	// Tags
 	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -528,14 +519,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// Reference
-	if network.Reference != nil {
-		reference := network.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Tags

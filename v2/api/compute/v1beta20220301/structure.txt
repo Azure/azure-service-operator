@@ -751,7 +751,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   ├── VirtualMachineScaleSet: Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── Zones: string[]
-│   └── Status: Object (36 properties)
+│   └── Status: Object (37 properties)
 │       ├── AdditionalCapabilities: Object (2 properties)
 │       │   ├── HibernationEnabled: *bool
 │       │   └── UltraSSDEnabled: *bool
@@ -1294,6 +1294,45 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │       ├── ProvisioningState: *string
 │       ├── ProximityPlacementGroup: Object (1 property)
 │       │   └── Id: *string
+│       ├── Resources: Object (17 properties)
+│       │   ├── AutoUpgradeMinorVersion: *bool
+│       │   ├── EnableAutomaticUpgrade: *bool
+│       │   ├── ForceUpdateTag: *string
+│       │   ├── Id: *string
+│       │   ├── InstanceView: Object (5 properties)
+│       │   │   ├── Name: *string
+│       │   │   ├── Statuses: Object (5 properties)
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   ├── Substatuses: Object (5 properties)
+│       │   │   │   ├── Code: *string
+│       │   │   │   ├── DisplayStatus: *string
+│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   │   ├── "Error"
+│       │   │   │   │   ├── "Info"
+│       │   │   │   │   └── "Warning"
+│       │   │   │   ├── Message: *string
+│       │   │   │   └── Time: *string
+│       │   │   ├── Type: *string
+│       │   │   └── TypeHandlerVersion: *string
+│       │   ├── Location: *string
+│       │   ├── Name: *string
+│       │   ├── PropertiesType: *string
+│       │   ├── ProtectedSettings: map[string]v1.JSON
+│       │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│       │   ├── ProvisioningState: *string
+│       │   ├── Publisher: *string
+│       │   ├── Settings: map[string]v1.JSON
+│       │   ├── SuppressFailures: *bool
+│       │   ├── Tags: map[string]string
+│       │   ├── Type: *string
+│       │   └── TypeHandlerVersion: *string
 │       ├── ScheduledEventsProfile: Object (1 property)
 │       │   └── TerminateNotificationProfile: Object (2 properties)
 │       │       ├── Enable: *bool
@@ -1521,7 +1560,20 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   ├── EvictionPolicy: Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ExtensionProfile: Object (1 property)
+│   │   │   ├── ExtensionProfile: Object (2 properties)
+│   │   │   │   ├── Extensions: Object (12 properties)
+│   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │   ├── ForceUpdateTag: *string
+│   │   │   │   │   ├── Name: *string
+│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │   ├── ProvisionAfterExtensions: string[]
+│   │   │   │   │   ├── Publisher: *string
+│   │   │   │   │   ├── Settings: map[string]v1.JSON
+│   │   │   │   │   ├── SuppressFailures: *bool
+│   │   │   │   │   ├── Type: *string
+│   │   │   │   │   └── TypeHandlerVersion: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── HardwareProfile: Object (1 property)
 │   │   │   │   └── VmSizeProperties: Object (2 properties)
@@ -1859,8 +1911,22 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │       │   │   ├── "Deallocate"
 │       │   │   └── "Delete"
 │       │   ├── ExtensionProfile: Object (2 properties)
-│       │   │   ├── Extensions: Object (1 property)
-│       │   │   │   └── Id: *string
+│       │   │   ├── Extensions: Object (15 properties)
+│       │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│       │   │   │   ├── EnableAutomaticUpgrade: *bool
+│       │   │   │   ├── ForceUpdateTag: *string
+│       │   │   │   ├── Id: *string
+│       │   │   │   ├── Name: *string
+│       │   │   │   ├── PropertiesType: *string
+│       │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│       │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│       │   │   │   ├── ProvisionAfterExtensions: string[]
+│       │   │   │   ├── ProvisioningState: *string
+│       │   │   │   ├── Publisher: *string
+│       │   │   │   ├── Settings: map[string]v1.JSON
+│       │   │   │   ├── SuppressFailures: *bool
+│       │   │   │   ├── Type: *string
+│       │   │   │   └── TypeHandlerVersion: *string
 │       │   │   └── ExtensionsTimeBudget: *string
 │       │   ├── HardwareProfile: Object (1 property)
 │       │   │   └── VmSizeProperties: Object (2 properties)
@@ -2192,8 +2258,23 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
 │   │   │   ├── ExtensionProfile: Object (2 properties)
-│   │   │   │   ├── Extensions: Object (1 property)
-│   │   │   │   │   └── Id: *string
+│   │   │   │   ├── Extensions: Object (4 properties)
+│   │   │   │   │   ├── Id: *string
+│   │   │   │   │   ├── Name: *string
+│   │   │   │   │   ├── Properties: Object (12 properties)
+│   │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │   │   ├── ForceUpdateTag: *string
+│   │   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
+│   │   │   │   │   │   ├── ProvisioningState: *string
+│   │   │   │   │   │   ├── Publisher: *string
+│   │   │   │   │   │   ├── Settings: map[string]v1.JSON
+│   │   │   │   │   │   ├── SuppressFailures: *bool
+│   │   │   │   │   │   ├── Type: *string
+│   │   │   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   │   │   └── Type: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── HardwareProfile: Object (1 property)
 │   │   │   │   └── VmSizeProperties: Object (2 properties)
@@ -2527,7 +2608,21 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   ├── EvictionPolicy: Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ExtensionProfile: Object (1 property)
+│   │   │   ├── ExtensionProfile: Object (2 properties)
+│   │   │   │   ├── Extensions: Object (2 properties)
+│   │   │   │   │   ├── Name: *string
+│   │   │   │   │   └── Properties: Object (11 properties)
+│   │   │   │   │       ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │       ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │       ├── ForceUpdateTag: *string
+│   │   │   │   │       ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │       ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │       ├── ProvisionAfterExtensions: string[]
+│   │   │   │   │       ├── Publisher: *string
+│   │   │   │   │       ├── Settings: map[string]v1.JSON
+│   │   │   │   │       ├── SuppressFailures: *bool
+│   │   │   │   │       ├── Type: *string
+│   │   │   │   │       └── TypeHandlerVersion: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── HardwareProfile: Object (1 property)
 │   │   │   │   └── VmSizeProperties: Object (2 properties)
@@ -2774,7 +2869,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   └── Tier: *string
 │   ├── Tags: map[string]string
 │   └── Zones: string[]
-├── VirtualMachine_STATUS_ARM: Object (10 properties)
+├── VirtualMachine_STATUS_ARM: Object (11 properties)
 │   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: Enum (1 value)
@@ -3447,6 +3542,46 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   ├── VirtualMachineScaleSet: Object (1 property)
 │   │   │   └── Id: *string
 │   │   └── VmId: *string
+│   ├── Resources: Object (6 properties)
+│   │   ├── Id: *string
+│   │   ├── Location: *string
+│   │   ├── Name: *string
+│   │   ├── Properties: Object (12 properties)
+│   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   ├── ForceUpdateTag: *string
+│   │   │   ├── InstanceView: Object (5 properties)
+│   │   │   │   ├── Name: *string
+│   │   │   │   ├── Statuses: Object (5 properties)
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   ├── Substatuses: Object (5 properties)
+│   │   │   │   │   ├── Code: *string
+│   │   │   │   │   ├── DisplayStatus: *string
+│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   │   ├── "Error"
+│   │   │   │   │   │   ├── "Info"
+│   │   │   │   │   │   └── "Warning"
+│   │   │   │   │   ├── Message: *string
+│   │   │   │   │   └── Time: *string
+│   │   │   │   ├── Type: *string
+│   │   │   │   └── TypeHandlerVersion: *string
+│   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   ├── ProvisioningState: *string
+│   │   │   ├── Publisher: *string
+│   │   │   ├── Settings: map[string]v1.JSON
+│   │   │   ├── SuppressFailures: *bool
+│   │   │   ├── Type: *string
+│   │   │   └── TypeHandlerVersion: *string
+│   │   ├── Tags: map[string]string
+│   │   └── Type: *string
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]

@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
 │   │   ├── Encryption: Object (4 properties)
 │   │   │   ├── KeySource: *string
@@ -27,16 +27,6 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │   │   │       └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PrivateEndpointConnections: Object (4 properties)
-│   │   │   ├── PrivateEndpoint: Object (2 properties)
-│   │   │   │   ├── Id: *string
-│   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
-│   │   │   │   ├── Description: *string
-│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── Status: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── ProvisioningState: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Sku: Object (4 properties)
 │   │   │   ├── Capacity: *int
@@ -73,17 +63,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       ├── Location: *string
 │       ├── MetricId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: Object (3 properties)
+│       ├── PrivateEndpointConnections: Object (2 properties)
 │       │   ├── Id: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── SystemData: Object (7 properties)
-│       │       ├── CreatedAt: *string
-│       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: *string
-│       │       ├── LastModifiedAt: *string
-│       │       ├── LastModifiedBy: *string
-│       │       ├── LastModifiedByType: *string
-│       │       └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── ServiceBusEndpoint: *string

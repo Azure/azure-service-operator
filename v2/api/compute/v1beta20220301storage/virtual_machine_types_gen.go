@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -226,6 +227,7 @@ type VirtualMachine_STATUS struct {
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup *SubResource_STATUS                `json:"proximityPlacementGroup,omitempty"`
+	Resources               []VirtualMachineExtension_STATUS   `json:"resources,omitempty"`
 	ScheduledEventsProfile  *ScheduledEventsProfile_STATUS     `json:"scheduledEventsProfile,omitempty"`
 	SecurityProfile         *SecurityProfile_STATUS            `json:"securityProfile,omitempty"`
 	StorageProfile          *StorageProfile_STATUS             `json:"storageProfile,omitempty"`
@@ -437,6 +439,28 @@ type StorageProfile_STATUS struct {
 	ImageReference *ImageReference_STATUS `json:"imageReference,omitempty"`
 	OsDisk         *OSDisk_STATUS         `json:"osDisk,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20220301.VirtualMachineExtension_STATUS
+type VirtualMachineExtension_STATUS struct {
+	AutoUpgradeMinorVersion       *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade        *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag                *string                                     `json:"forceUpdateTag,omitempty"`
+	Id                            *string                                     `json:"id,omitempty"`
+	InstanceView                  *VirtualMachineExtensionInstanceView_STATUS `json:"instanceView,omitempty"`
+	Location                      *string                                     `json:"location,omitempty"`
+	Name                          *string                                     `json:"name,omitempty"`
+	PropertiesType                *string                                     `json:"properties_type,omitempty"`
+	PropertyBag                   genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+	ProtectedSettings             map[string]v1.JSON                          `json:"protectedSettings,omitempty"`
+	ProtectedSettingsFromKeyVault map[string]v1.JSON                          `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProvisioningState             *string                                     `json:"provisioningState,omitempty"`
+	Publisher                     *string                                     `json:"publisher,omitempty"`
+	Settings                      map[string]v1.JSON                          `json:"settings,omitempty"`
+	SuppressFailures              *bool                                       `json:"suppressFailures,omitempty"`
+	Tags                          map[string]string                           `json:"tags,omitempty"`
+	Type                          *string                                     `json:"type,omitempty"`
+	TypeHandlerVersion            *string                                     `json:"typeHandlerVersion,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineIdentity

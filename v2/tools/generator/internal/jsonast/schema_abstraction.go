@@ -6,11 +6,11 @@
 package jsonast
 
 import (
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"regexp"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -48,7 +48,7 @@ type Schema interface {
 
 	// complex things
 	hasOneOf() bool
-	oneOf() []Schema // Returns any directly embedded definitions held within a OneOf
+	oneOf() []Schema                      // Returns any directly embedded definitions held within a OneOf
 	discriminator() string                // Returns the name of the discriminator field, or "" if it has none
 	discriminatorValues() set.Set[string] // Finds the set of expected discriminators, or nil if this has none
 

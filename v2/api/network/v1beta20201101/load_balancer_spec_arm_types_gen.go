@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type LoadBalancer_Spec_ARM struct {
 	// ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -51,10 +50,10 @@ type ExtendedLocation_ARM struct {
 
 type LoadBalancerPropertiesFormat_ARM struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
-	BackendAddressPools []BackendAddressPool_ARM `json:"backendAddressPools,omitempty"`
+	BackendAddressPools []BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM `json:"backendAddressPools,omitempty"`
 
 	// FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.
-	FrontendIPConfigurations []FrontendIPConfiguration_ARM `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM `json:"frontendIPConfigurations,omitempty"`
 
 	// InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
 	// balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
@@ -67,7 +66,7 @@ type LoadBalancerPropertiesFormat_ARM struct {
 	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
 	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
 	// reference individual inbound NAT rules.
-	InboundNatRules []InboundNatRule_ARM `json:"inboundNatRules,omitempty"`
+	InboundNatRules []InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM `json:"inboundNatRules,omitempty"`
 
 	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
 	LoadBalancingRules []LoadBalancingRule_ARM `json:"loadBalancingRules,omitempty"`
@@ -87,9 +86,7 @@ type LoadBalancerSku_ARM struct {
 	Tier *LoadBalancerSku_Tier `json:"tier,omitempty"`
 }
 
-type BackendAddressPool_ARM struct {
-	Id *string `json:"id,omitempty"`
-
+type BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
 	// name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -103,9 +100,7 @@ type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
-type FrontendIPConfiguration_ARM struct {
-	Id *string `json:"id,omitempty"`
-
+type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
 	// This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -118,8 +113,6 @@ type FrontendIPConfiguration_ARM struct {
 }
 
 type InboundNatPool_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
 	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -128,9 +121,7 @@ type InboundNatPool_ARM struct {
 	Properties *InboundNatPoolPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type InboundNatRule_ARM struct {
-	Id *string `json:"id,omitempty"`
-
+type InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
 	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -156,8 +147,6 @@ const (
 )
 
 type LoadBalancingRule_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
 	// name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -167,8 +156,6 @@ type LoadBalancingRule_ARM struct {
 }
 
 type OutboundRule_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
 	// be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -178,8 +165,6 @@ type OutboundRule_ARM struct {
 }
 
 type Probe_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
 	// to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -204,13 +189,13 @@ type FrontendIPConfigurationPropertiesFormat_ARM struct {
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
-	PublicIPAddress *PublicIPAddressSpec_ARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
 
 	// PublicIPPrefix: The reference to the Public IP Prefix resource.
 	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_ARM `json:"subnet,omitempty"`
+	Subnet *Subnet_LoadBalancer_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
 }
 
 type InboundNatPoolPropertiesFormat_ARM struct {
@@ -370,25 +355,12 @@ type LoadBalancerBackendAddress_ARM struct {
 	Properties *LoadBalancerBackendAddressPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type PublicIPAddressSpec_ARM struct {
-	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-	Id               *string               `json:"id,omitempty"`
+type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
 
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormat_ARM `json:"properties,omitempty"`
-
-	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSku_ARM `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+type Subnet_LoadBalancer_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
 }
 
 type LoadBalancerBackendAddressPropertiesFormat_ARM struct {
@@ -403,42 +375,4 @@ type LoadBalancerBackendAddressPropertiesFormat_ARM struct {
 
 	// VirtualNetwork: Reference to an existing virtual network.
 	VirtualNetwork *SubResource_ARM `json:"virtualNetwork,omitempty"`
-}
-
-type PublicIPAddressPropertiesFormat_ARM struct {
-	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
-	DdosSettings *DdosSettings_ARM `json:"ddosSettings,omitempty"`
-
-	// DnsSettings: The FQDN of the DNS record associated with the public IP address.
-	DnsSettings *PublicIPAddressDnsSettings_ARM `json:"dnsSettings,omitempty"`
-
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// IpAddress: The IP address associated with the public IP address resource.
-	IpAddress *string `json:"ipAddress,omitempty"`
-
-	// IpTags: The list of tags associated with the public IP address.
-	IpTags []IpTag_ARM `json:"ipTags,omitempty"`
-
-	// LinkedPublicIPAddress: The linked public IP address of the public IP address resource.
-	LinkedPublicIPAddress *PublicIPAddressSpec_ARM `json:"linkedPublicIPAddress,omitempty"`
-
-	// MigrationPhase: Migration phase of Public IP Address.
-	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase `json:"migrationPhase,omitempty"`
-
-	// NatGateway: The NatGateway for the Public IP address.
-	NatGateway *NatGatewaySpec_ARM `json:"natGateway,omitempty"`
-
-	// PublicIPAddressVersion: The public IP address version.
-	PublicIPAddressVersion *IPVersion `json:"publicIPAddressVersion,omitempty"`
-
-	// PublicIPAllocationMethod: The public IP address allocation method.
-	PublicIPAllocationMethod *IPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
-
-	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
-	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
-
-	// ServicePublicIPAddress: The service public IP address of the public IP address resource.
-	ServicePublicIPAddress *PublicIPAddressSpec_ARM `json:"servicePublicIPAddress,omitempty"`
 }

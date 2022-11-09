@@ -108,6 +108,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration),
 
+		pipeline.ApplyIsResourceOverrides(configuration),
+		pipeline.FixIdFields(),
+
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),
 		pipeline.RemoveResourceScope(),

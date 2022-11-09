@@ -117,11 +117,6 @@ typeFilters:
     because: Contains directly recursive type.
 
   - action: prune
-    name: VirtualMachineExtension
-    group: compute
-    because: TODO(donotmerge) - object type not resource type in determineResourceOwnership
-
-  - action: prune
     group: securityinsights
     name: Workspaces_Providers*
     because: Resource ownership is malformed
@@ -345,12 +340,16 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: Namespace_Properties_Spec
+    group: eventhub
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: PrivateLinkServiceConnectionState
     remove: true
     because: This property should be marked readonly
-
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: ProvisioningState
@@ -382,6 +381,54 @@ typeTransformers:
     property: Properties
     remove: true
     because: it has no writable properties in swagger
+  - group: network
+    version: "*"
+    name: RouteTables_Route_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: NetworkInterfaceIPConfiguration
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: NetworkInterfacePropertiesFormat
+    property: MigrationPhase
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: PublicIPAddressPropertiesFormat
+    property: MigrationPhase
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: NetworkSecurityGroups_SecurityRule_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: VirtualNetworks_Subnet_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: VirtualNetworks_VirtualNetworkPeering_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: Delegation
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
 
   - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
@@ -391,19 +438,12 @@ typeTransformers:
 
   ## Deal with properties that should have been marked readOnly but weren't
 
-  # TODO(donotmerge)
-  # - group: servicebus
-  #   name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
-  #   property: PrivateEndpointConnections
-  #   remove: true
-  #   because: This property should have been marked readonly but wasn't.
-
-  # TODO: Unused or renamed? 
-  #- group: servicebus
-  #  name: Namespace_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
-  #  property: PrivateEndpointConnections
-  #  remove: true
-  #  because: This property should have been marked readonly but wasn't.
+    # TODO: Unused or renamed?
+  - group: servicebus
+    name: SBNamespaceProperties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should have been marked readonly but wasn't.
 
   - group: servicebus
     name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
@@ -690,6 +730,19 @@ status:
 #     work if you put it in the same section as $exportAs; you instead need 
 #     to place $supportedFrom in a section using the name specified by $exportAs
 #
+# $isResource: <bool>
+#     Configures if the given type is a resource or not. This can be used to
+#     mark types that are labelled as a resources in the Swagger as normal (non-resource) types.
+#     This is needed especially for compute and networking groups whose SubResource incorrectly labels
+#     many resource references as resources instead.
+#
+# $resourceEmbeddedInParent: <resource name>
+#     Labels the given type as a resource in some contexts, while not in others.
+#     In particular this caters to pseudo-resources which have ARM IDs associated with them
+#     and have GET APIs but cannot be created except as part of their parent. This enables
+#     the generator to prune these resources from all contexts except their creation context.
+#     A concrete example of this can be seen on LoadBalancer with "resources" like LoadBalancingRule.
+#
 # Available 'property' modifiers:
 #
 # $armReference: <bool>
@@ -711,11 +764,13 @@ status:
 #     Establishes a connection between the two properties allowing for proper
 #     forward and backward conversion.
 #
-# $isResourceLifecycleOwnedByParent: <bool>
+# $resourceLifecycleOwnedByParent: <string>
 #     Specifies that the property references a misbehaving embedded resource, one whose parent
 #     resource owns the lifecycle of the child resource.
 #     These resources are embedded resources which are overwritten when their parent resource
 #     is changed. For example see https://github.com/Azure/azure-service-operator/issues/1944.
+#     The value should be the name of the parent resource which owns the lifecycle of the
+#     sub-resource.
 #
 objectModelConfiguration:
   appconfiguration:
@@ -736,6 +791,10 @@ objectModelConfiguration:
           - SecondaryReadOnlyKeyID
           - SecondaryReadOnlyKey
           - SecondaryReadOnlyConnectionString
+      PrivateEndpointConnectionReference_STATUS:
+        # This is a subresource but it's not labelled as one in their Swagger, instead there's a duplicate entity
+        # shaped the same called PrivateEndpointConnection which is labelled as a resource. We want to prune this.
+        $isResource: true
   authorization:
     2020-08-01-preview:
       RoleAssignment:
@@ -780,11 +839,26 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
   cdn:
     2021-06-01:
+      DeepCreatedOriginGroup:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+      DeepCreatedOriginGroup_STATUS:
+        $isResource: false
+      DeepCreatedOriginGroupProperties:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+      DeepCreatedOriginGroupProperties_STATUS:
+        $isResource: false
+      DeepCreatedOrigin:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+      DeepCreatedOrigin_STATUS:
+        $isResource: false
       DeepCreatedOriginProperties:
-       PrivateLinkLocation:
-         $armReference: true
-       PrivateLinkResourceId:
-         $armReference: true
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+        PrivateLinkLocation:
+          $armReference: true
+        PrivateLinkResourceId:
+          $armReference: true
+      DeepCreatedOriginProperties_STATUS:
+        $isResource: false
       EndpointProperties_WebApplicationFirewallPolicyLink:
         Id:
           $armReference: true
@@ -824,12 +898,38 @@ objectModelConfiguration:
       ApiEntityReference:
         Id:
           $armReference: true
+      ImageReference:
+        $isResource: false
+      ImageReference_STATUS:
+        $isResource: false
+      ManagedDiskParameters:
+        $isResource: false
+      ManagedDiskParameters_STATUS:
+        $isResource: false
+      NetworkInterfaceReference:
+        $isResource: false
+      NetworkInterfaceReference_STATUS:
+        $isResource: false
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      VirtualMachineExtension_STATUS:
+        $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      VirtualMachineScaleSetExtension:
+        $isResource: false
+      VirtualMachineScaleSetExtension_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration_STATUS:
+        $isResource: false
     2021-07-01:
       Image:
         $export: true
@@ -842,17 +942,48 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
       ImageReference:
+        $isResource: false
         Version:
           $armReference: false
+      ImageReference_STATUS:
+        $isResource: false
+      ManagedDiskParameters:
+        $isResource: false
+      ManagedDiskParameters_STATUS:
+        $isResource: false
+#      NetworkInterfaceConfiguration:
+#        $isResource: false
+      NetworkInterfaceReference:
+        $isResource: false
+      NetworkInterfaceReference_STATUS:
+        $isResource: false
+      NetworkProfile:
+        $isResource: false
+      NetworkProfile_STATUS:
+        $isResource: false
       VMGalleryApplication:
         PackageReferenceId:
           $armReference: true
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+      VirtualMachineExtension_STATUS:
+        $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+      VirtualMachineScaleSetExtension:
+        $isResource: false
+      VirtualMachineScaleSetExtension_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration_STATUS:
+        $isResource: false
   containerinstance:
     2021-10-01:
       ContainerGroup:
@@ -1050,9 +1181,10 @@ objectModelConfiguration:
       Namespace_Properties_Spec:
         ClusterArmId:
           $armReference: true
-      PrivateEndpoint:
-        Id:
-          $armReference: true
+# TODO: I think this has been (correctly) pruned now
+#      PrivateEndpoint:
+#        Id:
+#          $armReference: true
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
@@ -1178,30 +1310,67 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
     2020-11-01:
+      BackendAddressPool:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      BackendAddressPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Delegation:
+        $resourceEmbeddedInParent: VirtualNetworks_Subnet
+      Delegation_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworks_Subnet
+      FrontendIPConfiguration:
+        $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
+      FrontendIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatRule:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatPool:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource
+      InboundNatPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
       LoadBalancer:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      LoadBalancingRule:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
+      LoadBalancingRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
       NetworkInterface:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
+      NetworkInterfaceIPConfiguration:
+        $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
+      NetworkInterfaceIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: NetworkInterface
       NetworkSecurityGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
+      OutboundRule:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      OutboundRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Probe:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      Probe_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
       PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
-#      Route_RouteTable_SubResourceEmbedded:
-#        Id:
-#          $armReference: true
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
       RouteTablePropertiesFormat:
         Routes:
-          $isResourceLifecycleOwnedByParent: true
+          $resourceLifecycleOwnedByParent: RouteTable
       RouteTables_Route:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
@@ -1223,13 +1392,25 @@ objectModelConfiguration:
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $armReference: true
+      VirtualNetworkGatewayIPConfiguration:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
       VirtualNetworkPropertiesFormat:
         Subnets:
-          $isResourceLifecycleOwnedByParent: true
+          $resourceLifecycleOwnedByParent: VirtualNetwork
         VirtualNetworkPeerings:
           # Technically this resource behaves fine (updating the vnet doesn't delete these if they
           # aren't included in the payload). Marking it here so that the pruning takes effect.
-          $isResourceLifecycleOwnedByParent: true
+          $resourceLifecycleOwnedByParent: VirtualNetwork
       VirtualNetworks_Subnet:
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
@@ -1257,9 +1438,10 @@ objectModelConfiguration:
       Namespaces_Topic:
         $exportAs: NamespacesTopic
         $supportedFrom: v2.0.0-alpha.1
-      PrivateEndpoint:
-        Id:
-          $armReference: false # TODO: should be removed
+# TODO: What happened to this?
+#      PrivateEndpoint:
+#        Id:
+#          $armReference: false # TODO: should be removed
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
@@ -1336,6 +1518,12 @@ objectModelConfiguration:
       KubeEnvironmentProfile:
         Id:
           $armReference: true
+      PushSettings:
+        # This actually is a resource I think, but as far as I can tell in the context it's used
+        # here as part of SitesConfig it has to be embedded as there is no writable ID field
+        $isResource: false
+      PushSettings_STATUS:
+        $isResource: false
       ServerFarm:
         $exportAs: ServerFarm
         $supportedFrom: v2.0.0-beta.3

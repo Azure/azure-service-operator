@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -413,8 +414,9 @@ type RollingUpgradePolicy_STATUS struct {
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile
 type VirtualMachineScaleSetExtensionProfile struct {
-	ExtensionsTimeBudget *string                `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                           `json:"extensionsTimeBudget,omitempty"`
+	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile_STATUS
@@ -537,10 +539,41 @@ type VirtualMachineScaleSetDataDisk_STATUS struct {
 	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// Storage version of v1beta20220301.VirtualMachineScaleSetExtension
+type VirtualMachineScaleSetExtension struct {
+	AutoUpgradeMinorVersion       *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade        *bool                  `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag                *string                `json:"forceUpdateTag,omitempty"`
+	Name                          *string                `json:"name,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProtectedSettings             map[string]v1.JSON     `json:"protectedSettings,omitempty"`
+	ProtectedSettingsFromKeyVault map[string]v1.JSON     `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProvisionAfterExtensions      []string               `json:"provisionAfterExtensions,omitempty"`
+	Publisher                     *string                `json:"publisher,omitempty"`
+	Settings                      map[string]v1.JSON     `json:"settings,omitempty"`
+	SuppressFailures              *bool                  `json:"suppressFailures,omitempty"`
+	Type                          *string                `json:"type,omitempty"`
+	TypeHandlerVersion            *string                `json:"typeHandlerVersion,omitempty"`
+}
+
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtension_STATUS
 type VirtualMachineScaleSetExtension_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AutoUpgradeMinorVersion       *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade        *bool                  `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag                *string                `json:"forceUpdateTag,omitempty"`
+	Id                            *string                `json:"id,omitempty"`
+	Name                          *string                `json:"name,omitempty"`
+	PropertiesType                *string                `json:"properties_type,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProtectedSettings             map[string]v1.JSON     `json:"protectedSettings,omitempty"`
+	ProtectedSettingsFromKeyVault map[string]v1.JSON     `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProvisionAfterExtensions      []string               `json:"provisionAfterExtensions,omitempty"`
+	ProvisioningState             *string                `json:"provisioningState,omitempty"`
+	Publisher                     *string                `json:"publisher,omitempty"`
+	Settings                      map[string]v1.JSON     `json:"settings,omitempty"`
+	SuppressFailures              *bool                  `json:"suppressFailures,omitempty"`
+	Type                          *string                `json:"type,omitempty"`
+	TypeHandlerVersion            *string                `json:"typeHandlerVersion,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkConfiguration

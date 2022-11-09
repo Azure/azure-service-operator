@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 // Deprecated version of VirtualMachineScaleSet_STATUS. Use v1beta20201201.VirtualMachineScaleSet_STATUS instead
 type VirtualMachineScaleSet_STATUS_ARM struct {
 	ExtendedLocation *ExtendedLocation_STATUS_ARM                 `json:"extendedLocation,omitempty"`
@@ -200,7 +202,10 @@ type VirtualMachineScaleSetDataDisk_STATUS_ARM struct {
 
 // Deprecated version of VirtualMachineScaleSetExtension_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS instead
 type VirtualMachineScaleSetExtension_STATUS_ARM struct {
-	Id *string `json:"id,omitempty"`
+	Id         *string                                               `json:"id,omitempty"`
+	Name       *string                                               `json:"name,omitempty"`
+	Properties *VirtualMachineScaleSetExtensionProperties_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                               `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkConfiguration_STATUS. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration_STATUS instead
@@ -222,6 +227,20 @@ type VirtualMachineScaleSetOSDisk_STATUS_ARM struct {
 	OsType                  *VirtualMachineScaleSetOSDisk_OsType_STATUS             `json:"osType,omitempty"`
 	VhdContainers           []string                                                `json:"vhdContainers,omitempty"`
 	WriteAcceleratorEnabled *bool                                                   `json:"writeAcceleratorEnabled,omitempty"`
+}
+
+// Deprecated version of VirtualMachineScaleSetExtensionProperties_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtensionProperties_STATUS instead
+type VirtualMachineScaleSetExtensionProperties_STATUS_ARM struct {
+	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string            `json:"forceUpdateTag,omitempty"`
+	ProtectedSettings        map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string           `json:"provisionAfterExtensions,omitempty"`
+	ProvisioningState        *string            `json:"provisioningState,omitempty"`
+	Publisher                *string            `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON `json:"settings,omitempty"`
+	Type                     *string            `json:"type,omitempty"`
+	TypeHandlerVersion       *string            `json:"typeHandlerVersion,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetManagedDiskParameters_STATUS. Use v1beta20201201.VirtualMachineScaleSetManagedDiskParameters_STATUS instead

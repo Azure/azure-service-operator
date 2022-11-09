@@ -2106,8 +2106,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 
 // Deprecated version of PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded struct {
-	Id         *string            `json:"id,omitempty"`
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded{}
@@ -2130,17 +2129,6 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) Po
 		embedded.Id = &id
 	}
 
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		embedded.SystemData = &systemData
-	}
-
 	// No error
 	return nil
 }
@@ -2150,18 +2138,6 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
 
 	// No error
 	return nil
@@ -2174,18 +2150,6 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum alpha20211001s.SystemData_STATUS
-		err := embedded.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2862,8 +2826,7 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_To_Serverles
 
 // Deprecated version of SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded instead
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded struct {
-	Id         *string            `json:"id,omitempty"`
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded{}
@@ -2886,17 +2849,6 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) Po
 		embedded.Id = &id
 	}
 
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		embedded.SystemData = &systemData
-	}
-
 	// No error
 	return nil
 }
@@ -2906,18 +2858,6 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
 
 	// No error
 	return nil
@@ -2930,18 +2870,6 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum alpha20211001s.SystemData_STATUS
-		err := embedded.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

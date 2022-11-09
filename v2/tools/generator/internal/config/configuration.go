@@ -207,20 +207,20 @@ func (config *Configuration) VerifyIsSecretConsumed() error {
 	return config.ObjectModelConfiguration.VerifyIsSecretConsumed()
 }
 
-// IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
+// ResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
 // by the parent resource.
-func (config *Configuration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	return config.ObjectModelConfiguration.IsResourceLifecycleOwnedByParent(name, property)
+func (config *Configuration) ResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
+	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent(name, property)
 }
 
-// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
-func (config *Configuration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
-	return config.ObjectModelConfiguration.MarkIsResourceLifecycleOwnedByParentUnconsumed()
+// MarkResourceLifecycleOwnedByParentUnconsumed marks all ResourceLifecycleOwnedByParent as unconsumed
+func (config *Configuration) MarkResourceLifecycleOwnedByParentUnconsumed() error {
+	return config.ObjectModelConfiguration.MarkResourceLifecycleOwnedByParentUnconsumed()
 }
 
-// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent flag is not consumed
-func (config *Configuration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
-	return config.ObjectModelConfiguration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+// VerifyResourceLifecycleOwnedByParentConsumed returns an error if any ResourceLifecycleOwnedByParent flag is not consumed
+func (config *Configuration) VerifyResourceLifecycleOwnedByParentConsumed() error {
+	return config.ObjectModelConfiguration.VerifyResourceLifecycleOwnedByParentConsumed()
 }
 
 // ImportConfigMapMode looks up a property to determine its import configMap mode.

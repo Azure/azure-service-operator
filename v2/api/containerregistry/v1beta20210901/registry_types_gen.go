@@ -2958,9 +2958,6 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 type PrivateEndpointConnection_STATUS struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
@@ -2983,17 +2980,6 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		connection.Id = &id
 	}
 
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		connection.SystemData = &systemData
-	}
-
 	// No error
 	return nil
 }
@@ -3003,18 +2989,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		connection.SystemData = &systemDatum
-	} else {
-		connection.SystemData = nil
-	}
 
 	// No error
 	return nil
@@ -3027,18 +3001,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// SystemData
-	if connection.SystemData != nil {
-		var systemDatum v20210901s.SystemData_STATUS
-		err := connection.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

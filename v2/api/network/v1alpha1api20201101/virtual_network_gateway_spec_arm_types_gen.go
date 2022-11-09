@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of VirtualNetworkGateway_Spec. Use v1beta20201101.VirtualNetworkGateway_Spec instead
 type VirtualNetworkGateway_Spec_ARM struct {
 	ExtendedLocation *ExtendedLocation_ARM                      `json:"extendedLocation,omitempty"`
-	Id               *string                                    `json:"id,omitempty"`
 	Location         *string                                    `json:"location,omitempty"`
 	Name             string                                     `json:"name,omitempty"`
 	Properties       *VirtualNetworkGatewayPropertiesFormat_ARM `json:"properties,omitempty"`
@@ -65,7 +64,6 @@ type BgpSettings_ARM struct {
 
 // Deprecated version of VirtualNetworkGatewayIPConfiguration. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration instead
 type VirtualNetworkGatewayIPConfiguration_ARM struct {
-	Id         *string                                                   `json:"id,omitempty"`
 	Name       *string                                                   `json:"name,omitempty"`
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
@@ -126,14 +124,12 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
 
 // Deprecated version of VpnClientRevokedCertificate. Use v1beta20201101.VpnClientRevokedCertificate instead
 type VpnClientRevokedCertificate_ARM struct {
-	Id         *string                                          `json:"id,omitempty"`
 	Name       *string                                          `json:"name,omitempty"`
 	Properties *VpnClientRevokedCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of VpnClientRootCertificate. Use v1beta20201101.VpnClientRootCertificate instead
 type VpnClientRootCertificate_ARM struct {
-	Id         *string                                       `json:"id,omitempty"`
 	Name       *string                                       `json:"name,omitempty"`
 	Properties *VpnClientRootCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }

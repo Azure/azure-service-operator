@@ -142,7 +142,6 @@ func AddIndependentPropertyGeneratorsForRouteTables_Route_Spec(gens map[string]g
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RouteTables_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -49,9 +49,6 @@ type SBNamespaceProperties_ARM struct {
 	// Encryption: Properties of BYOK Encryption description
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
-	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_ARM `json:"privateEndpointConnections,omitempty"`
-
 	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
@@ -88,11 +85,6 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-type PrivateEndpointConnection_ARM struct {
-	// Properties: Properties of the PrivateEndpointConnection.
-	Properties *PrivateEndpointConnectionProperties_ARM `json:"properties,omitempty"`
-}
-
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSku_Name string
 
@@ -122,30 +114,6 @@ type KeyVaultProperties_ARM struct {
 
 	// KeyVersion: Version of KeyVault
 	KeyVersion *string `json:"keyVersion,omitempty"`
-}
-
-type PrivateEndpointConnectionProperties_ARM struct {
-	// PrivateEndpoint: The Private Endpoint resource for this Connection.
-	PrivateEndpoint *PrivateEndpoint_ARM `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkServiceConnectionState: Details about the state of the connection.
-	PrivateLinkServiceConnectionState *ConnectionState_ARM `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// ProvisioningState: Provisioning state of the Private Endpoint Connection.
-	ProvisioningState *PrivateEndpointConnectionProperties_ProvisioningState `json:"provisioningState,omitempty"`
-}
-
-type ConnectionState_ARM struct {
-	// Description: Description of the connection state.
-	Description *string `json:"description,omitempty"`
-
-	// Status: Status of the connection.
-	Status *ConnectionState_Status `json:"status,omitempty"`
-}
-
-type PrivateEndpoint_ARM struct {
-	// Id: The ARM identifier for Private Endpoint.
-	Id *string `json:"id,omitempty"`
 }
 
 type UserAssignedIdentityProperties_ARM struct {

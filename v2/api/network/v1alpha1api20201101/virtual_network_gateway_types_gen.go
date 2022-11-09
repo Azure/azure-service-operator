@@ -353,7 +353,6 @@ type VirtualNetworkGateway_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                                 *genruntime.KnownResourceReference                          `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Reference                             *genruntime.ResourceReference                               `armReference:"Id" json:"reference,omitempty"`
 	Sku                                   *VirtualNetworkGatewaySku                                   `json:"sku,omitempty"`
 	Tags                                  map[string]string                                           `json:"tags,omitempty"`
 	VNetExtendedLocationResourceReference *genruntime.ResourceReference                               `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
@@ -379,16 +378,6 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 		}
 		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Id’:
-	if gateway.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*gateway.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
 	}
 
 	// Set property ‘Location’:
@@ -646,8 +635,6 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 	// Set property ‘Owner’:
 	gateway.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘Sku’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -881,14 +868,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 		gateway.Owner = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		gateway.Reference = &reference
-	} else {
-		gateway.Reference = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku VirtualNetworkGatewaySku
@@ -1070,14 +1049,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// Reference
-	if gateway.Reference != nil {
-		reference := gateway.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Sku
@@ -2195,11 +2166,10 @@ func (settings *BgpSettings_STATUS) AssignProperties_To_BgpSettings_STATUS(desti
 
 // Deprecated version of VirtualNetworkGatewayIPConfiguration. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration instead
 type VirtualNetworkGatewayIPConfiguration struct {
-	Name                      *string                       `json:"name,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod           `json:"privateIPAllocationMethod,omitempty"`
-	PublicIPAddress           *SubResource                  `json:"publicIPAddress,omitempty"`
-	Reference                 *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet                    *SubResource                  `json:"subnet,omitempty"`
+	Name                      *string             `json:"name,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress           *SubResource        `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource        `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkGatewayIPConfiguration{}
@@ -2210,16 +2180,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) ConvertToARM(resolved
 		return nil, nil
 	}
 	result := &VirtualNetworkGatewayIPConfiguration_ARM{}
-
-	// Set property ‘Id’:
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
 
 	// Set property ‘Name’:
 	if configuration.Name != nil {
@@ -2297,8 +2257,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) PopulateFromARM(owner
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘Subnet’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -2343,14 +2301,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_From
 		configuration.PublicIPAddress = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
-
 	// Subnet
 	if source.Subnet != nil {
 		var subnet SubResource
@@ -2393,14 +2343,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
 		destination.PublicIPAddress = nil
-	}
-
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Subnet
@@ -4834,9 +4776,8 @@ const (
 
 // Deprecated version of VpnClientRevokedCertificate. Use v1beta20201101.VpnClientRevokedCertificate instead
 type VpnClientRevokedCertificate struct {
-	Name       *string                       `json:"name,omitempty"`
-	Reference  *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Thumbprint *string                       `json:"thumbprint,omitempty"`
+	Name       *string `json:"name,omitempty"`
+	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VpnClientRevokedCertificate{}
@@ -4847,16 +4788,6 @@ func (certificate *VpnClientRevokedCertificate) ConvertToARM(resolved genruntime
 		return nil, nil
 	}
 	result := &VpnClientRevokedCertificate_ARM{}
-
-	// Set property ‘Id’:
-	if certificate.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*certificate.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
 
 	// Set property ‘Name’:
 	if certificate.Name != nil {
@@ -4893,8 +4824,6 @@ func (certificate *VpnClientRevokedCertificate) PopulateFromARM(owner genruntime
 		certificate.Name = &name
 	}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘Thumbprint’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -4914,14 +4843,6 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_From_VpnClientR
 	// Name
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		certificate.Reference = &reference
-	} else {
-		certificate.Reference = nil
-	}
-
 	// Thumbprint
 	certificate.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
 
@@ -4936,14 +4857,6 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_To_VpnClientRev
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
-
-	// Reference
-	if certificate.Reference != nil {
-		reference := certificate.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Thumbprint
 	destination.Thumbprint = genruntime.ClonePointerToString(certificate.Thumbprint)
@@ -5090,8 +5003,7 @@ type VpnClientRootCertificate struct {
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	PublicCertData *string                       `json:"publicCertData,omitempty"`
-	Reference      *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	PublicCertData *string `json:"publicCertData,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VpnClientRootCertificate{}
@@ -5102,16 +5014,6 @@ func (certificate *VpnClientRootCertificate) ConvertToARM(resolved genruntime.Co
 		return nil, nil
 	}
 	result := &VpnClientRootCertificate_ARM{}
-
-	// Set property ‘Id’:
-	if certificate.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*certificate.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
 
 	// Set property ‘Name’:
 	if certificate.Name != nil {
@@ -5157,8 +5059,6 @@ func (certificate *VpnClientRootCertificate) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// no assignment for property ‘Reference’
-
 	// No error
 	return nil
 }
@@ -5171,14 +5071,6 @@ func (certificate *VpnClientRootCertificate) AssignProperties_From_VpnClientRoot
 
 	// PublicCertData
 	certificate.PublicCertData = genruntime.ClonePointerToString(source.PublicCertData)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		certificate.Reference = &reference
-	} else {
-		certificate.Reference = nil
-	}
 
 	// No error
 	return nil
@@ -5194,14 +5086,6 @@ func (certificate *VpnClientRootCertificate) AssignProperties_To_VpnClientRootCe
 
 	// PublicCertData
 	destination.PublicCertData = genruntime.ClonePointerToString(certificate.PublicCertData)
-
-	// Reference
-	if certificate.Reference != nil {
-		reference := certificate.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

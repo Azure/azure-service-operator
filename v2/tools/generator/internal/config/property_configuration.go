@@ -23,13 +23,13 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	name                             string
-	nameInNextVersion                configurable[string] // Name this property has in the next version
-	armReference                     configurable[bool]   // Specify whether this property is an ARM reference
-	isSecret                         configurable[bool]   // Specify whether this property is a secret
-	isResourceLifecycleOwnedByParent configurable[bool]
-	exportAsConfigMapPropertyName    configurable[string]              // The name of the exportAsConfigMap property.
-	importConfigMapMode              configurable[ImportConfigMapMode] // The config map mode
+	name                           string
+	nameInNextVersion              configurable[string] // Name this property has in the next version
+	armReference                   configurable[bool]   // Specify whether this property is an ARM reference
+	isSecret                       configurable[bool]   // Specify whether this property is a secret
+	resourceLifecycleOwnedByParent configurable[string]
+	exportAsConfigMapPropertyName  configurable[string]              // The name of the exportAsConfigMap property.
+	importConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 }
 
 type ImportConfigMapMode string
@@ -40,11 +40,11 @@ const (
 )
 
 const (
-	armReferenceTag                     = "$armReference"                     // Bool specifying whether a property is an ARM reference
-	isSecretTag                         = "$isSecret"                         // Bool specifying whether a property contains a secret
-	isResourceLifecycleOwnedByParentTag = "$isResourceLifecycleOwnedByParent" // Bool specifying whether a property represents a subresource whose lifecycle is owned by the parent resource
-	exportAsConfigMapPropertyNameTag    = "$exportAsConfigMapPropertyName"    // String specifying the name of the property set to export this property as a config map.
-	importConfigMapModeTag              = "$importConfigMapMode"              // string specifying the importConfigMapMode mode
+	armReferenceTag                   = "$armReference"                   // Bool specifying whether a property is an ARM reference
+	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
+	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
+	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
+	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the importConfigMapMode mode
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -121,28 +121,28 @@ func (pc *PropertyConfiguration) VerifyRenamedInNextVersionConsumed() error {
 	return nil
 }
 
-// IsResourceLifecycleOwnedByParent looks up a property to determine if it's a misbehaving embedded resource
-func (pc *PropertyConfiguration) IsResourceLifecycleOwnedByParent() (bool, error) {
-	isResourceLifecycleOwnedByParent, ok := pc.isResourceLifecycleOwnedByParent.read()
+// ResourceLifecycleOwnedByParent looks up a property to determine what parent owns this resource lifecycle
+func (pc *PropertyConfiguration) ResourceLifecycleOwnedByParent() (string, error) {
+	resourceLifecycleOwnedByParent, ok := pc.resourceLifecycleOwnedByParent.read()
 	if !ok {
-		msg := fmt.Sprintf(isResourceLifecycleOwnedByParentTag+" not specified for property %s", pc.name)
-		return false, NewNotConfiguredError(msg)
+		msg := fmt.Sprintf(resourceLifecycleOwnedByParentTag+" not specified for property %s", pc.name)
+		return "", NewNotConfiguredError(msg)
 	}
 
-	return isResourceLifecycleOwnedByParent, nil
+	return resourceLifecycleOwnedByParent, nil
 }
 
 // ClearResourceLifecycleOwnedByParentConsumed clears the consumed bit for this flag so that it can be reused
 func (pc *PropertyConfiguration) ClearResourceLifecycleOwnedByParentConsumed() {
-	pc.isResourceLifecycleOwnedByParent.markUnconsumed()
+	pc.resourceLifecycleOwnedByParent.markUnconsumed()
 }
 
-// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if our configuration has the
-// misbehavingEmbeddedResource flag, and was not consumed.
-func (pc *PropertyConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
-	if pc.isResourceLifecycleOwnedByParent.isUnconsumed() {
-		v, _ := pc.isResourceLifecycleOwnedByParent.read()
-		return errors.Errorf("property %s: "+isResourceLifecycleOwnedByParentTag+": %t not consumed", pc.name, v)
+// VerifyResourceLifecycleOwnedByParentConsumed returns an error if our configuration has the
+// $resourceLifecycleOwnedByParent flag, and was not consumed.
+func (pc *PropertyConfiguration) VerifyResourceLifecycleOwnedByParentConsumed() error {
+	if pc.resourceLifecycleOwnedByParent.isUnconsumed() {
+		v, _ := pc.resourceLifecycleOwnedByParent.read()
+		return errors.Errorf("property %s: "+resourceLifecycleOwnedByParentTag+": %s not consumed", pc.name, v)
 	}
 
 	return nil
@@ -236,15 +236,15 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $isResourceLifecycleOwnedByParent: <bool>
-		if strings.EqualFold(lastId, isResourceLifecycleOwnedByParentTag) && c.Kind == yaml.ScalarNode {
-			var isResourceLifecycleOwnedByParent bool
-			err := c.Decode(&isResourceLifecycleOwnedByParent)
+		// $resourceLifecycleOwnedByParent: string
+		if strings.EqualFold(lastId, resourceLifecycleOwnedByParentTag) && c.Kind == yaml.ScalarNode {
+			var resourceLifecycleOwnedByParent string
+			err := c.Decode(&resourceLifecycleOwnedByParent)
 			if err != nil {
-				return errors.Wrapf(err, "decoding %s", isResourceLifecycleOwnedByParentTag)
+				return errors.Wrapf(err, "decoding %s", resourceLifecycleOwnedByParentTag)
 			}
 
-			pc.isResourceLifecycleOwnedByParent.write(isResourceLifecycleOwnedByParent)
+			pc.resourceLifecycleOwnedByParent.write(resourceLifecycleOwnedByParent)
 			continue
 		}
 

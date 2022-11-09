@@ -39,15 +39,14 @@ type Identity_ARM struct {
 
 // Deprecated version of Namespace_Properties_Spec. Use v1beta20211101.Namespace_Properties_Spec instead
 type Namespace_Properties_Spec_ARM struct {
-	AlternateName              *string                         `json:"alternateName,omitempty"`
-	ClusterArmId               *string                         `json:"clusterArmId,omitempty"`
-	DisableLocalAuth           *bool                           `json:"disableLocalAuth,omitempty"`
-	Encryption                 *Encryption_ARM                 `json:"encryption,omitempty"`
-	IsAutoInflateEnabled       *bool                           `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled               *bool                           `json:"kafkaEnabled,omitempty"`
-	MaximumThroughputUnits     *int                            `json:"maximumThroughputUnits,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_ARM `json:"privateEndpointConnections,omitempty"`
-	ZoneRedundant              *bool                           `json:"zoneRedundant,omitempty"`
+	AlternateName          *string         `json:"alternateName,omitempty"`
+	ClusterArmId           *string         `json:"clusterArmId,omitempty"`
+	DisableLocalAuth       *bool           `json:"disableLocalAuth,omitempty"`
+	Encryption             *Encryption_ARM `json:"encryption,omitempty"`
+	IsAutoInflateEnabled   *bool           `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled           *bool           `json:"kafkaEnabled,omitempty"`
+	MaximumThroughputUnits *int            `json:"maximumThroughputUnits,omitempty"`
+	ZoneRedundant          *bool           `json:"zoneRedundant,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20211101.Sku instead
@@ -75,11 +74,6 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-// Deprecated version of PrivateEndpointConnection. Use v1beta20211101.PrivateEndpointConnection instead
-type PrivateEndpointConnection_ARM struct {
-	Properties *PrivateEndpointConnectionProperties_ARM `json:"properties,omitempty"`
-}
-
 // Deprecated version of Sku_Name. Use v1beta20211101.Sku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
@@ -106,16 +100,6 @@ type KeyVaultProperties_ARM struct {
 	KeyName     *string                             `json:"keyName,omitempty"`
 	KeyVaultUri *string                             `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                             `json:"keyVersion,omitempty"`
-}
-
-// Deprecated version of PrivateEndpointConnectionProperties. Use v1beta20211101.PrivateEndpointConnectionProperties instead
-type PrivateEndpointConnectionProperties_ARM struct {
-	PrivateEndpoint *PrivateEndpoint_ARM `json:"privateEndpoint,omitempty"`
-}
-
-// Deprecated version of PrivateEndpoint. Use v1beta20211101.PrivateEndpoint instead
-type PrivateEndpoint_ARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of UserAssignedIdentityProperties. Use v1beta20211101.UserAssignedIdentityProperties instead

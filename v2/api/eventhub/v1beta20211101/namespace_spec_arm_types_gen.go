@@ -66,9 +66,6 @@ type Namespace_Properties_Spec_ARM struct {
 	// throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
-	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_ARM `json:"privateEndpointConnections,omitempty"`
-
 	// ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
@@ -106,11 +103,6 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-type PrivateEndpointConnection_ARM struct {
-	// Properties: Properties of the PrivateEndpointConnection.
-	Properties *PrivateEndpointConnectionProperties_ARM `json:"properties,omitempty"`
-}
-
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
 
@@ -140,15 +132,6 @@ type KeyVaultProperties_ARM struct {
 
 	// KeyVersion: Key Version
 	KeyVersion *string `json:"keyVersion,omitempty"`
-}
-
-type PrivateEndpointConnectionProperties_ARM struct {
-	// PrivateEndpoint: The Private Endpoint resource for this Connection.
-	PrivateEndpoint *PrivateEndpoint_ARM `json:"privateEndpoint,omitempty"`
-}
-
-type PrivateEndpoint_ARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 type UserAssignedIdentityProperties_ARM struct {

@@ -122,38 +122,8 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── StatusCode: *int
 │       │   └── ResourceId: *string
 │       ├── PrimaryUserAssignedIdentity: *string
-│       ├── PrivateEndpointConnections: Object (4 properties)
-│       │   ├── Id: *string
-│       │   ├── Identity: Object (4 properties)
-│       │   │   ├── PrincipalId: *string
-│       │   │   ├── TenantId: *string
-│       │   │   ├── Type: Enum (4 values)
-│       │   │   │   ├── "None"
-│       │   │   │   ├── "SystemAssigned"
-│       │   │   │   ├── "SystemAssigned,UserAssigned"
-│       │   │   │   └── "UserAssigned"
-│       │   │   └── UserAssignedIdentities: Object (3 properties)
-│       │   │       ├── ClientId: *string
-│       │   │       ├── PrincipalId: *string
-│       │   │       └── TenantId: *string
-│       │   ├── Sku: Object (2 properties)
-│       │   │   ├── Name: *string
-│       │   │   └── Tier: *string
-│       │   └── SystemData: Object (6 properties)
-│       │       ├── CreatedAt: *string
-│       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: Enum (4 values)
-│       │       │   ├── "Application"
-│       │       │   ├── "Key"
-│       │       │   ├── "ManagedIdentity"
-│       │       │   └── "User"
-│       │       ├── LastModifiedAt: *string
-│       │       ├── LastModifiedBy: *string
-│       │       └── LastModifiedByType: Enum (4 values)
-│       │           ├── "Application"
-│       │           ├── "Key"
-│       │           ├── "ManagedIdentity"
-│       │           └── "User"
+│       ├── PrivateEndpointConnections: Object (1 property)
+│       │   └── Id: *string
 │       ├── PrivateLinkCount: *int
 │       ├── ProvisioningState: Enum (7 values)
 │       │   ├── "Canceled"
@@ -249,38 +219,8 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── StatusCode: *int
 │   │   │   └── ResourceId: *string
 │   │   ├── PrimaryUserAssignedIdentity: *string
-│   │   ├── PrivateEndpointConnections: Object (4 properties)
-│   │   │   ├── Id: *string
-│   │   │   ├── Identity: Object (4 properties)
-│   │   │   │   ├── PrincipalId: *string
-│   │   │   │   ├── TenantId: *string
-│   │   │   │   ├── Type: Enum (4 values)
-│   │   │   │   │   ├── "None"
-│   │   │   │   │   ├── "SystemAssigned"
-│   │   │   │   │   ├── "SystemAssigned,UserAssigned"
-│   │   │   │   │   └── "UserAssigned"
-│   │   │   │   └── UserAssignedIdentities: Object (3 properties)
-│   │   │   │       ├── ClientId: *string
-│   │   │   │       ├── PrincipalId: *string
-│   │   │   │       └── TenantId: *string
-│   │   │   ├── Sku: Object (2 properties)
-│   │   │   │   ├── Name: *string
-│   │   │   │   └── Tier: *string
-│   │   │   └── SystemData: Object (6 properties)
-│   │   │       ├── CreatedAt: *string
-│   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: Enum (4 values)
-│   │   │       │   ├── "Application"
-│   │   │       │   ├── "Key"
-│   │   │       │   ├── "ManagedIdentity"
-│   │   │       │   └── "User"
-│   │   │       ├── LastModifiedAt: *string
-│   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: Enum (4 values)
-│   │   │           ├── "Application"
-│   │   │           ├── "Key"
-│   │   │           ├── "ManagedIdentity"
-│   │   │           └── "User"
+│   │   ├── PrivateEndpointConnections: Object (1 property)
+│   │   │   └── Id: *string
 │   │   ├── PrivateLinkCount: *int
 │   │   ├── ProvisioningState: Enum (7 values)
 │   │   │   ├── "Canceled"

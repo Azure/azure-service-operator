@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -4769,7 +4770,8 @@ const (
 
 // Deprecated version of VirtualMachineScaleSetExtensionProfile. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile instead
 type VirtualMachineScaleSetExtensionProfile struct {
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                           `json:"extensionsTimeBudget,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetExtensionProfile{}
@@ -4780,6 +4782,15 @@ func (profile *VirtualMachineScaleSetExtensionProfile) ConvertToARM(resolved gen
 		return nil, nil
 	}
 	result := &VirtualMachineScaleSetExtensionProfile_ARM{}
+
+	// Set property ‘Extensions’:
+	for _, item := range profile.Extensions {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Extensions = append(result.Extensions, *item_ARM.(*VirtualMachineScaleSetExtension_ARM))
+	}
 
 	// Set property ‘ExtensionsTimeBudget’:
 	if profile.ExtensionsTimeBudget != nil {
@@ -4801,6 +4812,16 @@ func (profile *VirtualMachineScaleSetExtensionProfile) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtensionProfile_ARM, got %T", armInput)
 	}
 
+	// Set property ‘Extensions’:
+	for _, item := range typedInput.Extensions {
+		var item1 VirtualMachineScaleSetExtension
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.Extensions = append(profile.Extensions, item1)
+	}
+
 	// Set property ‘ExtensionsTimeBudget’:
 	if typedInput.ExtensionsTimeBudget != nil {
 		extensionsTimeBudget := *typedInput.ExtensionsTimeBudget
@@ -4814,6 +4835,24 @@ func (profile *VirtualMachineScaleSetExtensionProfile) PopulateFromARM(owner gen
 // AssignProperties_From_VirtualMachineScaleSetExtensionProfile populates our VirtualMachineScaleSetExtensionProfile from the provided source VirtualMachineScaleSetExtensionProfile
 func (profile *VirtualMachineScaleSetExtensionProfile) AssignProperties_From_VirtualMachineScaleSetExtensionProfile(source *alpha20201201s.VirtualMachineScaleSetExtensionProfile) error {
 
+	// Extensions
+	if source.Extensions != nil {
+		extensionList := make([]VirtualMachineScaleSetExtension, len(source.Extensions))
+		for extensionIndex, extensionItem := range source.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension VirtualMachineScaleSetExtension
+			err := extension.AssignProperties_From_VirtualMachineScaleSetExtension(&extensionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetExtension() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
+		}
+		profile.Extensions = extensionList
+	} else {
+		profile.Extensions = nil
+	}
+
 	// ExtensionsTimeBudget
 	profile.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
 
@@ -4825,6 +4864,24 @@ func (profile *VirtualMachineScaleSetExtensionProfile) AssignProperties_From_Vir
 func (profile *VirtualMachineScaleSetExtensionProfile) AssignProperties_To_VirtualMachineScaleSetExtensionProfile(destination *alpha20201201s.VirtualMachineScaleSetExtensionProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// Extensions
+	if profile.Extensions != nil {
+		extensionList := make([]alpha20201201s.VirtualMachineScaleSetExtension, len(profile.Extensions))
+		for extensionIndex, extensionItem := range profile.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension alpha20201201s.VirtualMachineScaleSetExtension
+			err := extensionItem.AssignProperties_To_VirtualMachineScaleSetExtension(&extension)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetExtension() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
+		}
+		destination.Extensions = extensionList
+	} else {
+		destination.Extensions = nil
+	}
 
 	// ExtensionsTimeBudget
 	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(profile.ExtensionsTimeBudget)
@@ -6911,9 +6968,353 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) AssignProperties_To_VirtualMa
 	return nil
 }
 
+// Deprecated version of VirtualMachineScaleSetExtension. Use v1beta20201201.VirtualMachineScaleSetExtension instead
+type VirtualMachineScaleSetExtension struct {
+	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string            `json:"forceUpdateTag,omitempty"`
+	Name                     *string            `json:"name,omitempty"`
+	ProtectedSettings        map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string           `json:"provisionAfterExtensions,omitempty"`
+	Publisher                *string            `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON `json:"settings,omitempty"`
+	Type                     *string            `json:"type,omitempty"`
+	TypeHandlerVersion       *string            `json:"typeHandlerVersion,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachineScaleSetExtension{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (extension *VirtualMachineScaleSetExtension) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if extension == nil {
+		return nil, nil
+	}
+	result := &VirtualMachineScaleSetExtension_ARM{}
+
+	// Set property ‘Name’:
+	if extension.Name != nil {
+		name := *extension.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if extension.AutoUpgradeMinorVersion != nil ||
+		extension.EnableAutomaticUpgrade != nil ||
+		extension.ForceUpdateTag != nil ||
+		extension.ProtectedSettings != nil ||
+		extension.ProvisionAfterExtensions != nil ||
+		extension.Publisher != nil ||
+		extension.Settings != nil ||
+		extension.Type != nil ||
+		extension.TypeHandlerVersion != nil {
+		result.Properties = &VirtualMachineScaleSetExtensionProperties_ARM{}
+	}
+	if extension.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
+		result.Properties.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	}
+	if extension.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *extension.EnableAutomaticUpgrade
+		result.Properties.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	}
+	if extension.ForceUpdateTag != nil {
+		forceUpdateTag := *extension.ForceUpdateTag
+		result.Properties.ForceUpdateTag = &forceUpdateTag
+	}
+	if extension.ProtectedSettings != nil {
+		result.Properties.ProtectedSettings = make(map[string]v1.JSON, len(extension.ProtectedSettings))
+		for key, value := range extension.ProtectedSettings {
+			result.Properties.ProtectedSettings[key] = *value.DeepCopy()
+		}
+	}
+	for _, item := range extension.ProvisionAfterExtensions {
+		result.Properties.ProvisionAfterExtensions = append(result.Properties.ProvisionAfterExtensions, item)
+	}
+	if extension.Publisher != nil {
+		publisher := *extension.Publisher
+		result.Properties.Publisher = &publisher
+	}
+	if extension.Settings != nil {
+		result.Properties.Settings = make(map[string]v1.JSON, len(extension.Settings))
+		for key, value := range extension.Settings {
+			result.Properties.Settings[key] = *value.DeepCopy()
+		}
+	}
+	if extension.Type != nil {
+		typeVar := *extension.Type
+		result.Properties.Type = &typeVar
+	}
+	if extension.TypeHandlerVersion != nil {
+		typeHandlerVersion := *extension.TypeHandlerVersion
+		result.Properties.TypeHandlerVersion = &typeHandlerVersion
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extension *VirtualMachineScaleSetExtension) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachineScaleSetExtension_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (extension *VirtualMachineScaleSetExtension) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachineScaleSetExtension_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtension_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AutoUpgradeMinorVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoUpgradeMinorVersion != nil {
+			autoUpgradeMinorVersion := *typedInput.Properties.AutoUpgradeMinorVersion
+			extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+		}
+	}
+
+	// Set property ‘EnableAutomaticUpgrade’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAutomaticUpgrade != nil {
+			enableAutomaticUpgrade := *typedInput.Properties.EnableAutomaticUpgrade
+			extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+		}
+	}
+
+	// Set property ‘ForceUpdateTag’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForceUpdateTag != nil {
+			forceUpdateTag := *typedInput.Properties.ForceUpdateTag
+			extension.ForceUpdateTag = &forceUpdateTag
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		extension.Name = &name
+	}
+
+	// Set property ‘ProtectedSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProtectedSettings != nil {
+			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
+			for key, value := range typedInput.Properties.ProtectedSettings {
+				extension.ProtectedSettings[key] = *value.DeepCopy()
+			}
+		}
+	}
+
+	// Set property ‘ProvisionAfterExtensions’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ProvisionAfterExtensions {
+			extension.ProvisionAfterExtensions = append(extension.ProvisionAfterExtensions, item)
+		}
+	}
+
+	// Set property ‘Publisher’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Publisher != nil {
+			publisher := *typedInput.Properties.Publisher
+			extension.Publisher = &publisher
+		}
+	}
+
+	// Set property ‘Settings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Settings != nil {
+			extension.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
+			for key, value := range typedInput.Properties.Settings {
+				extension.Settings[key] = *value.DeepCopy()
+			}
+		}
+	}
+
+	// Set property ‘Type’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Type != nil {
+			typeVar := *typedInput.Properties.Type
+			extension.Type = &typeVar
+		}
+	}
+
+	// Set property ‘TypeHandlerVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TypeHandlerVersion != nil {
+			typeHandlerVersion := *typedInput.Properties.TypeHandlerVersion
+			extension.TypeHandlerVersion = &typeHandlerVersion
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_VirtualMachineScaleSetExtension populates our VirtualMachineScaleSetExtension from the provided source VirtualMachineScaleSetExtension
+func (extension *VirtualMachineScaleSetExtension) AssignProperties_From_VirtualMachineScaleSetExtension(source *alpha20201201s.VirtualMachineScaleSetExtension) error {
+
+	// AutoUpgradeMinorVersion
+	if source.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
+		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		extension.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if source.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
+		extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		extension.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	extension.ForceUpdateTag = genruntime.ClonePointerToString(source.ForceUpdateTag)
+
+	// Name
+	extension.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProtectedSettings
+	if source.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		extension.ProtectedSettings = protectedSettingMap
+	} else {
+		extension.ProtectedSettings = nil
+	}
+
+	// ProvisionAfterExtensions
+	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
+
+	// Publisher
+	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
+
+	// Settings
+	if source.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(source.Settings))
+		for settingKey, settingValue := range source.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		extension.Settings = settingMap
+	} else {
+		extension.Settings = nil
+	}
+
+	// Type
+	extension.Type = genruntime.ClonePointerToString(source.Type)
+
+	// TypeHandlerVersion
+	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachineScaleSetExtension populates the provided destination VirtualMachineScaleSetExtension from our VirtualMachineScaleSetExtension
+func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMachineScaleSetExtension(destination *alpha20201201s.VirtualMachineScaleSetExtension) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AutoUpgradeMinorVersion
+	if extension.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
+		destination.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		destination.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if extension.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *extension.EnableAutomaticUpgrade
+		destination.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		destination.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	destination.ForceUpdateTag = genruntime.ClonePointerToString(extension.ForceUpdateTag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(extension.Name)
+
+	// ProtectedSettings
+	if extension.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		destination.ProtectedSettings = protectedSettingMap
+	} else {
+		destination.ProtectedSettings = nil
+	}
+
+	// ProvisionAfterExtensions
+	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)
+
+	// Publisher
+	destination.Publisher = genruntime.ClonePointerToString(extension.Publisher)
+
+	// Settings
+	if extension.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(extension.Settings))
+		for settingKey, settingValue := range extension.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		destination.Settings = settingMap
+	} else {
+		destination.Settings = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(extension.Type)
+
+	// TypeHandlerVersion
+	destination.TypeHandlerVersion = genruntime.ClonePointerToString(extension.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of VirtualMachineScaleSetExtension_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS instead
 type VirtualMachineScaleSetExtension_STATUS struct {
-	Id *string `json:"id,omitempty"`
+	AutoUpgradeMinorVersion  *bool              `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade   *bool              `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag           *string            `json:"forceUpdateTag,omitempty"`
+	Id                       *string            `json:"id,omitempty"`
+	Name                     *string            `json:"name,omitempty"`
+	PropertiesType           *string            `json:"properties_type,omitempty"`
+	ProtectedSettings        map[string]v1.JSON `json:"protectedSettings,omitempty"`
+	ProvisionAfterExtensions []string           `json:"provisionAfterExtensions,omitempty"`
+	ProvisioningState        *string            `json:"provisioningState,omitempty"`
+	Publisher                *string            `json:"publisher,omitempty"`
+	Settings                 map[string]v1.JSON `json:"settings,omitempty"`
+	Type                     *string            `json:"type,omitempty"`
+	TypeHandlerVersion       *string            `json:"typeHandlerVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtension_STATUS{}
@@ -6930,10 +7331,115 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) PopulateFromARM(owner g
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtension_STATUS_ARM, got %T", armInput)
 	}
 
+	// Set property ‘AutoUpgradeMinorVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoUpgradeMinorVersion != nil {
+			autoUpgradeMinorVersion := *typedInput.Properties.AutoUpgradeMinorVersion
+			extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+		}
+	}
+
+	// Set property ‘EnableAutomaticUpgrade’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAutomaticUpgrade != nil {
+			enableAutomaticUpgrade := *typedInput.Properties.EnableAutomaticUpgrade
+			extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+		}
+	}
+
+	// Set property ‘ForceUpdateTag’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForceUpdateTag != nil {
+			forceUpdateTag := *typedInput.Properties.ForceUpdateTag
+			extension.ForceUpdateTag = &forceUpdateTag
+		}
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		extension.Id = &id
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		extension.Name = &name
+	}
+
+	// Set property ‘PropertiesType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Type != nil {
+			propertiesType := *typedInput.Properties.Type
+			extension.PropertiesType = &propertiesType
+		}
+	}
+
+	// Set property ‘ProtectedSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProtectedSettings != nil {
+			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
+			for key, value := range typedInput.Properties.ProtectedSettings {
+				extension.ProtectedSettings[key] = *value.DeepCopy()
+			}
+		}
+	}
+
+	// Set property ‘ProvisionAfterExtensions’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.ProvisionAfterExtensions {
+			extension.ProvisionAfterExtensions = append(extension.ProvisionAfterExtensions, item)
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			extension.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘Publisher’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Publisher != nil {
+			publisher := *typedInput.Properties.Publisher
+			extension.Publisher = &publisher
+		}
+	}
+
+	// Set property ‘Settings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Settings != nil {
+			extension.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
+			for key, value := range typedInput.Properties.Settings {
+				extension.Settings[key] = *value.DeepCopy()
+			}
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		extension.Type = &typeVar
+	}
+
+	// Set property ‘TypeHandlerVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TypeHandlerVersion != nil {
+			typeHandlerVersion := *typedInput.Properties.TypeHandlerVersion
+			extension.TypeHandlerVersion = &typeHandlerVersion
+		}
 	}
 
 	// No error
@@ -6943,8 +7449,74 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) PopulateFromARM(owner g
 // AssignProperties_From_VirtualMachineScaleSetExtension_STATUS populates our VirtualMachineScaleSetExtension_STATUS from the provided source VirtualMachineScaleSetExtension_STATUS
 func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_From_VirtualMachineScaleSetExtension_STATUS(source *alpha20201201s.VirtualMachineScaleSetExtension_STATUS) error {
 
+	// AutoUpgradeMinorVersion
+	if source.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
+		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		extension.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if source.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
+		extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		extension.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	extension.ForceUpdateTag = genruntime.ClonePointerToString(source.ForceUpdateTag)
+
 	// Id
 	extension.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	extension.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PropertiesType
+	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
+
+	// ProtectedSettings
+	if source.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		extension.ProtectedSettings = protectedSettingMap
+	} else {
+		extension.ProtectedSettings = nil
+	}
+
+	// ProvisionAfterExtensions
+	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
+
+	// ProvisioningState
+	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Publisher
+	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
+
+	// Settings
+	if source.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(source.Settings))
+		for settingKey, settingValue := range source.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		extension.Settings = settingMap
+	} else {
+		extension.Settings = nil
+	}
+
+	// Type
+	extension.Type = genruntime.ClonePointerToString(source.Type)
+
+	// TypeHandlerVersion
+	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
 
 	// No error
 	return nil
@@ -6955,8 +7527,74 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_To_Vir
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// AutoUpgradeMinorVersion
+	if extension.AutoUpgradeMinorVersion != nil {
+		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
+		destination.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
+	} else {
+		destination.AutoUpgradeMinorVersion = nil
+	}
+
+	// EnableAutomaticUpgrade
+	if extension.EnableAutomaticUpgrade != nil {
+		enableAutomaticUpgrade := *extension.EnableAutomaticUpgrade
+		destination.EnableAutomaticUpgrade = &enableAutomaticUpgrade
+	} else {
+		destination.EnableAutomaticUpgrade = nil
+	}
+
+	// ForceUpdateTag
+	destination.ForceUpdateTag = genruntime.ClonePointerToString(extension.ForceUpdateTag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(extension.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(extension.Name)
+
+	// PropertiesType
+	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
+
+	// ProtectedSettings
+	if extension.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		destination.ProtectedSettings = protectedSettingMap
+	} else {
+		destination.ProtectedSettings = nil
+	}
+
+	// ProvisionAfterExtensions
+	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
+
+	// Publisher
+	destination.Publisher = genruntime.ClonePointerToString(extension.Publisher)
+
+	// Settings
+	if extension.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(extension.Settings))
+		for settingKey, settingValue := range extension.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		destination.Settings = settingMap
+	} else {
+		destination.Settings = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(extension.Type)
+
+	// TypeHandlerVersion
+	destination.TypeHandlerVersion = genruntime.ClonePointerToString(extension.TypeHandlerVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

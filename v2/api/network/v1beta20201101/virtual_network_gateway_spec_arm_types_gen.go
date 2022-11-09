@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type VirtualNetworkGateway_Spec_ARM struct {
 	// ExtendedLocation: The extended location of type local virtual network gateway.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -104,8 +103,6 @@ type BgpSettings_ARM struct {
 }
 
 type VirtualNetworkGatewayIPConfiguration_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
@@ -221,8 +218,6 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
 }
 
 type VpnClientRevokedCertificate_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
@@ -231,8 +226,6 @@ type VpnClientRevokedCertificate_ARM struct {
 }
 
 type VpnClientRootCertificate_ARM struct {
-	Id *string `json:"id,omitempty"`
-
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 

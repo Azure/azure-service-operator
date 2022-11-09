@@ -5,15 +5,15 @@ package v1alpha1api20201101
 
 // Deprecated version of NetworkSecurityGroups_SecurityRule_STATUS. Use v1beta20201101.NetworkSecurityGroups_SecurityRule_STATUS instead
 type NetworkSecurityGroups_SecurityRule_STATUS_ARM struct {
-	Etag       *string                                                      `json:"etag,omitempty"`
-	Id         *string                                                      `json:"id,omitempty"`
-	Name       *string                                                      `json:"name,omitempty"`
-	Properties *SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
-	Type       *string                                                      `json:"type,omitempty"`
+	Etag       *string                                  `json:"etag,omitempty"`
+	Id         *string                                  `json:"id,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Properties *SecurityRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
-// Deprecated version of SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded. Use v1beta20201101.SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded instead
-type SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
+// Deprecated version of SecurityRulePropertiesFormat_STATUS. Use v1beta20201101.SecurityRulePropertiesFormat_STATUS instead
+type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	Access                               *SecurityRuleAccess_STATUS                                                                   `json:"access,omitempty"`
 	Description                          *string                                                                                      `json:"description,omitempty"`
 	DestinationAddressPrefix             *string                                                                                      `json:"destinationAddressPrefix,omitempty"`

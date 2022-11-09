@@ -260,7 +260,6 @@ type ManagedIdentity_STATUS struct {
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20211001.ResourceLogConfiguration
@@ -309,7 +308,6 @@ type ServerlessUpstreamSettings_STATUS struct {
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20211001.SignalRCorsSettings

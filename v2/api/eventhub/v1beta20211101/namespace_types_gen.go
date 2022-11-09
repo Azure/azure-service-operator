@@ -365,9 +365,6 @@ type Namespace_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection `json:"privateEndpointConnections,omitempty"`
-
 	// Sku: Properties of sku resource
 	Sku *Sku `json:"sku,omitempty"`
 
@@ -414,7 +411,6 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		namespace.IsAutoInflateEnabled != nil ||
 		namespace.KafkaEnabled != nil ||
 		namespace.MaximumThroughputUnits != nil ||
-		namespace.PrivateEndpointConnections != nil ||
 		namespace.ZoneRedundant != nil {
 		result.Properties = &Namespace_Properties_Spec_ARM{}
 	}
@@ -453,13 +449,6 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if namespace.MaximumThroughputUnits != nil {
 		maximumThroughputUnits := *namespace.MaximumThroughputUnits
 		result.Properties.MaximumThroughputUnits = &maximumThroughputUnits
-	}
-	for _, item := range namespace.PrivateEndpointConnections {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *item_ARM.(*PrivateEndpointConnection_ARM))
 	}
 	if namespace.ZoneRedundant != nil {
 		zoneRedundant := *namespace.ZoneRedundant
@@ -581,19 +570,6 @@ func (namespace *Namespace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Owner’:
 	namespace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
-
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			namespace.PrivateEndpointConnections = append(namespace.PrivateEndpointConnections, item1)
-		}
-	}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
@@ -756,24 +732,6 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection
-			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		namespace.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		namespace.PrivateEndpointConnections = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
@@ -883,24 +841,6 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PrivateEndpointConnections
-	if namespace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20211101s.PrivateEndpointConnection, len(namespace.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20211101s.PrivateEndpointConnection
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
 	}
 
 	// Sku
@@ -2156,119 +2096,10 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
-type PrivateEndpointConnection struct {
-	// PrivateEndpoint: The Private Endpoint resource for this Connection.
-	PrivateEndpoint *PrivateEndpoint `json:"privateEndpoint,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpointConnection{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (connection *PrivateEndpointConnection) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if connection == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointConnection_ARM{}
-
-	// Set property ‘Properties’:
-	if connection.PrivateEndpoint != nil {
-		result.Properties = &PrivateEndpointConnectionProperties_ARM{}
-	}
-	if connection.PrivateEndpoint != nil {
-		privateEndpoint_ARM, err := (*connection.PrivateEndpoint).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		privateEndpoint := *privateEndpoint_ARM.(*PrivateEndpoint_ARM)
-		result.Properties.PrivateEndpoint = &privateEndpoint
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connection *PrivateEndpointConnection) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connection *PrivateEndpointConnection) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_ARM, got %T", armInput)
-	}
-
-	// Set property ‘PrivateEndpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateEndpoint != nil {
-			var privateEndpoint1 PrivateEndpoint
-			err := privateEndpoint1.PopulateFromARM(owner, *typedInput.Properties.PrivateEndpoint)
-			if err != nil {
-				return err
-			}
-			privateEndpoint := privateEndpoint1
-			connection.PrivateEndpoint = &privateEndpoint
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignProperties_From_PrivateEndpointConnection(source *v20211101s.PrivateEndpointConnection) error {
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint
-		err := privateEndpoint.AssignProperties_From_PrivateEndpoint(source.PrivateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint() to populate field PrivateEndpoint")
-		}
-		connection.PrivateEndpoint = &privateEndpoint
-	} else {
-		connection.PrivateEndpoint = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateEndpointConnection populates the provided destination PrivateEndpointConnection from our PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignProperties_To_PrivateEndpointConnection(destination *v20211101s.PrivateEndpointConnection) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PrivateEndpoint
-	if connection.PrivateEndpoint != nil {
-		var privateEndpoint v20211101s.PrivateEndpoint
-		err := connection.PrivateEndpoint.AssignProperties_To_PrivateEndpoint(&privateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint() to populate field PrivateEndpoint")
-		}
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
@@ -2291,17 +2122,6 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		connection.Id = &id
 	}
 
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		connection.SystemData = &systemData
-	}
-
 	// No error
 	return nil
 }
@@ -2311,18 +2131,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		connection.SystemData = &systemDatum
-	} else {
-		connection.SystemData = nil
-	}
 
 	// No error
 	return nil
@@ -2335,18 +2143,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// SystemData
-	if connection.SystemData != nil {
-		var systemDatum v20211101s.SystemData_STATUS
-		err := connection.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3053,89 +2849,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 
 	// KeyVersion
 	destination.KeyVersion = genruntime.ClonePointerToString(properties.KeyVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type PrivateEndpoint struct {
-	// Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpoint{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoint *PrivateEndpoint) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if endpoint == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpoint_ARM{}
-
-	// Set property ‘Id’:
-	if endpoint.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*endpoint.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *PrivateEndpoint) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpoint_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *PrivateEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(PrivateEndpoint_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v20211101s.PrivateEndpoint) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		endpoint.Reference = &reference
-	} else {
-		endpoint.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateEndpoint populates the provided destination PrivateEndpoint from our PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination *v20211101s.PrivateEndpoint) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if endpoint.Reference != nil {
-		reference := endpoint.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

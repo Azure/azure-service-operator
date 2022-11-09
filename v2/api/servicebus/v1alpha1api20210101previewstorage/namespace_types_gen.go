@@ -221,12 +221,11 @@ type Namespace_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Sku                        *SBSku                             `json:"sku,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
+	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku           *SBSku                             `json:"sku,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundant *bool                              `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
@@ -337,24 +336,6 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection
-			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		namespace.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		namespace.PrivateEndpointConnections = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku SBSku
@@ -445,24 +426,6 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PrivateEndpointConnections
-	if namespace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210101ps.PrivateEndpointConnection, len(namespace.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210101ps.PrivateEndpointConnection
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
 	}
 
 	// Sku
@@ -1227,107 +1190,11 @@ func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec
 	return nil
 }
 
-// Storage version of v1alpha1api20210101preview.PrivateEndpointConnection
-// Deprecated version of PrivateEndpointConnection. Use v1beta20210101preview.PrivateEndpointConnection instead
-type PrivateEndpointConnection struct {
-	PrivateEndpoint                   *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *ConnectionState       `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                `json:"provisioningState,omitempty"`
-}
-
-// AssignProperties_From_PrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignProperties_From_PrivateEndpointConnection(source *v20210101ps.PrivateEndpointConnection) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint
-		err := privateEndpoint.AssignProperties_From_PrivateEndpoint(source.PrivateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint() to populate field PrivateEndpoint")
-		}
-		connection.PrivateEndpoint = &privateEndpoint
-	} else {
-		connection.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState ConnectionState
-		err := privateLinkServiceConnectionState.AssignProperties_From_ConnectionState(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ConnectionState() to populate field PrivateLinkServiceConnectionState")
-		}
-		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		connection.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	connection.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		connection.PropertyBag = propertyBag
-	} else {
-		connection.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateEndpointConnection populates the provided destination PrivateEndpointConnection from our PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignProperties_To_PrivateEndpointConnection(destination *v20210101ps.PrivateEndpointConnection) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
-
-	// PrivateEndpoint
-	if connection.PrivateEndpoint != nil {
-		var privateEndpoint v20210101ps.PrivateEndpoint
-		err := connection.PrivateEndpoint.AssignProperties_To_PrivateEndpoint(&privateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint() to populate field PrivateEndpoint")
-		}
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20210101ps.ConnectionState
-		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_ConnectionState(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ConnectionState() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(connection.ProvisioningState)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20210101preview.PrivateEndpointConnection_STATUS
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210101preview.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
@@ -1337,18 +1204,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		connection.SystemData = &systemDatum
-	} else {
-		connection.SystemData = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1368,18 +1223,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// SystemData
-	if connection.SystemData != nil {
-		var systemDatum v20210101ps.SystemData_STATUS
-		err := connection.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1578,58 +1421,6 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 	// LastModifiedByType
 	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210101preview.ConnectionState
-// Deprecated version of ConnectionState. Use v1beta20210101preview.ConnectionState instead
-type ConnectionState struct {
-	Description *string                `json:"description,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status      *string                `json:"status,omitempty"`
-}
-
-// AssignProperties_From_ConnectionState populates our ConnectionState from the provided source ConnectionState
-func (state *ConnectionState) AssignProperties_From_ConnectionState(source *v20210101ps.ConnectionState) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	state.Status = genruntime.ClonePointerToString(source.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		state.PropertyBag = propertyBag
-	} else {
-		state.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ConnectionState populates the provided destination ConnectionState from our ConnectionState
-func (state *ConnectionState) AssignProperties_To_ConnectionState(destination *v20210101ps.ConnectionState) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(state.PropertyBag)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(state.Description)
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(state.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1904,51 +1695,6 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSe
 	} else {
 		destination.Endpoint = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210101preview.PrivateEndpoint
-// Deprecated version of PrivateEndpoint. Use v1beta20210101preview.PrivateEndpoint instead
-type PrivateEndpoint struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_PrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_From_PrivateEndpoint(source *v20210101ps.PrivateEndpoint) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	endpoint.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		endpoint.PropertyBag = propertyBag
-	} else {
-		endpoint.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateEndpoint populates the provided destination PrivateEndpoint from our PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignProperties_To_PrivateEndpoint(destination *v20210101ps.PrivateEndpoint) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
