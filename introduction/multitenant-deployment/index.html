@@ -19,25 +19,28 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Deploying Azure Service Operator v2 in multi-tenant mode | Azure Service Operator</title>
-<meta name="description" content="The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode:
-deployed in the …">
+<meta name="description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
+Single operator multitenancy …">
 <meta property="og:title" content="Deploying Azure Service Operator v2 in multi-tenant mode" />
-<meta property="og:description" content="The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
-ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces." />
+<meta property="og:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
+Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+ Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" /><meta property="article:section" content="introduction" />
 
 
 
 <meta itemprop="name" content="Deploying Azure Service Operator v2 in multi-tenant mode">
-<meta itemprop="description" content="The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
-ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.">
+<meta itemprop="description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
+Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+ Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential.">
 
-<meta itemprop="wordCount" content="707">
+<meta itemprop="wordCount" content="996">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Service Operator v2 in multi-tenant mode"/>
-<meta name="twitter:description" content="The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
-ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces."/>
+<meta name="twitter:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
+Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+ Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential."/>
 
 
 
@@ -497,10 +500,21 @@ ASO may also be deployed in a multi-tenant configuration, enabling the use of se
 
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#example-files">Example files</a></li>
-    <li><a href="#per-tenant-configuration">Per-tenant configuration</a></li>
-    <li><a href="#role-handling">Role handling</a></li>
-    <li><a href="#upgrading">Upgrading</a></li>
+    <li><a href="#single-operator-multitenancy-default">Single operator multitenancy (default)</a>
+      <ul>
+        <li><a href="#deployment">Deployment</a></li>
+        <li><a href="#example-secret">Example Secret</a></li>
+      </ul>
+    </li>
+    <li><a href="#multiple-operator-multitenancy">Multiple operator multitenancy</a>
+      <ul>
+        <li><a href="#multiple-operator-multitenancy-deployment">Multiple operator multitenancy deployment</a></li>
+        <li><a href="#yaml-installation">YAML Installation</a></li>
+        <li><a href="#helm-installation">Helm Installation</a></li>
+        <li><a href="#role-handling">Role handling</a></li>
+        <li><a href="#upgrading">Upgrading</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
 
@@ -560,13 +574,39 @@ ASO may also be deployed in a multi-tenant configuration, enabling the use of se
 
 		
 	</header>    
-	<p>The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in <em>single-tenant</em> mode:
-deployed in the <code>azureserviceoperator-system</code> namespace with <em>a single set of Azure credentials</em>,
-and manages resources in <em>any namespace</em> in the cluster.
-That single operator deployment handles webhooks fired when Azure resources are changed.</p>
+	<p>Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.</p>
+<h2 id="single-operator-multitenancy-default">Single operator multitenancy (default)</h2>
+<p>Single operator deployed in the <code>azureserviceoperator-system</code> namespace.
+This operator can be configured to manage resources with multiple different identities:</p>
+<ul>
+<li>Single global credential <code>aso-controller-settings</code> deployed as part of operator deployment in operator&rsquo;s namespace.
+Per-namespace credential <code>aso-credential</code>. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential. This credential can be in a different tenant or subscription than the global credential.</li>
+<li>Per-resource credential, indicated by the <code>serviceoperator.azure.com/credential-from</code> annotation. Create this annotation on each resource to configure the credential used for that resource. The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different tenant or subscription than both the global credential and per-namespace credential.</li>
+</ul>
+<p>When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.</p>
+<h3 id="deployment">Deployment</h3>
+<p>To deploy the operator in single-operator multi-tenant mode:</p>
+<ol>
+<li>Follow the normal ASO <a href="https://azure.github.io/azure-service-operator/#installation">installation</a></li>
+<li>To use namespace scoped credential, create a credential secret named <code>aso-credential</code> in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.</li>
+<li>To use per-resource credential, create a credential secret and add an annotation to the resource like <code>serviceoperator.azure.com/credential-from: &lt;SECRET_NAMESPACE&gt;/&lt;SECRET_NAME&gt;</code></li>
+</ol>
+<h3 id="example-secret">Example Secret</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+   <span style="color:#f92672">metadata</span>:
+     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential </span>
+     <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">any-namespace</span>
+   <span style="color:#f92672">stringData</span>:
+     <span style="color:#f92672">AZURE_SUBSCRIPTION_ID</span>: <span style="color:#e6db74">&#34;$AZURE_SUBSCRIPTION_ID&#34;</span>
+     <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>
+     <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>
+     <span style="color:#f92672">AZURE_CLIENT_SECRET</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_SECRET&#34;</span>
+</code></pre></div><h2 id="multiple-operator-multitenancy">Multiple operator multitenancy</h2>
+<p>Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.</p>
 <p>ASO may also be deployed in a <em>multi-tenant</em> configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</p>
-<p>Running the operator in multi-tenant mode requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.</p>
-<p>To deploy the operator in multi-tenant mode the release YAML has been split into two parts:</p>
+<h3 id="multiple-operator-multitenancy-deployment">Multiple operator multitenancy deployment</h3>
+<p>To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:</p>
 <ol>
 <li>
 <p><strong>Cluster-wide resources</strong>:</p>
@@ -602,33 +642,33 @@ It won&rsquo;t try to reconcile Azure resources with ARM, and so doesn&rsquo;t n
 </ul>
 </li>
 </ol>
-<h2 id="example-files">Example files</h2>
+<h3 id="yaml-installation">YAML Installation</h3>
 <p>Examples of the deployment YAML files are available on the release page for ASO v2 releases from <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-beta.0">v2.0.0-beta.0</a>.
 The cluster-wide file <code>multitenant-cluster_v2.0.0-beta.0.yaml</code> can be used as-is (the webhook deployment namespace is fixed as <code>azureserviceoperator-system</code>),
 but the namespaces and cluster role binding in the per-tenant file <code>multitenant-tenant_v2.0.0-beta.0.yaml</code> will need to be customised in each tenant&rsquo;s YAML file from <code>tenant1</code> to the desired name for that tenant.</p>
-<h2 id="per-tenant-configuration">Per-tenant configuration</h2>
+<h4 id="per-tenant-configuration">Per-tenant configuration</h4>
 <p>Create the <code>aso-controller-settings</code> secret as described in the <a href="https://azure.github.io/azure-service-operator/introduction/authentication/">authentication docs</a>,
 but create the secret in the tenant namespace and add an extra target namespaces key to it:</p>
-<pre tabindex="0"><code>export TENANT_NAMESPACE=&quot;&lt;tenant namespace&gt;&quot;
-export AZURE_SUBSCRIPTION_ID=&quot;&lt;subscription id&gt;&quot;
-export AZURE_TENANT_ID=&quot;&lt;tenant id&gt;&quot;
-export AZURE_CLIENT_ID=&quot;&lt;client id&gt;&quot;
-export AZURE_CLIENT_SECRET=&quot;&lt;client secret&gt;&quot;
-export AZURE_TARGET_NAMESPACES=&quot;&lt;comma-separated namespace names&gt;&quot;
-kubectl create namespace &quot;$TENANT_NAMESPACE&quot;
-cat &lt;&lt;EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aso-controller-settings
-  namespace: $TENANT_NAMESPACE
-stringData:
-  AZURE_SUBSCRIPTION_ID: &quot;$AZURE_SUBSCRIPTION_ID&quot;
-  AZURE_TENANT_ID: &quot;$AZURE_TENANT_ID&quot;
-  AZURE_CLIENT_ID: &quot;$AZURE_CLIENT_ID&quot;
-  AZURE_CLIENT_SECRET: &quot;$AZURE_CLIENT_SECRET&quot;
-  AZURE_TARGET_NAMESPACES: &quot;$AZURE_TARGET_NAMESPACES&quot;
-EOF
+<pre tabindex="0"><code>   export TENANT_NAMESPACE=&quot;&lt;tenant namespace&gt;&quot;
+   export AZURE_SUBSCRIPTION_ID=&quot;&lt;subscription id&gt;&quot;
+   export AZURE_TENANT_ID=&quot;&lt;tenant id&gt;&quot;
+   export AZURE_CLIENT_ID=&quot;&lt;client id&gt;&quot;
+   export AZURE_CLIENT_SECRET=&quot;&lt;client secret&gt;&quot;
+   export AZURE_TARGET_NAMESPACES=&quot;&lt;comma-separated namespace names&gt;&quot;
+   kubectl create namespace &quot;$TENANT_NAMESPACE&quot;
+   cat &lt;&lt;EOF | kubectl apply -f -
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: aso-controller-settings
+     namespace: $TENANT_NAMESPACE
+   stringData:
+     AZURE_SUBSCRIPTION_ID: &quot;$AZURE_SUBSCRIPTION_ID&quot;
+     AZURE_TENANT_ID: &quot;$AZURE_TENANT_ID&quot;
+     AZURE_CLIENT_ID: &quot;$AZURE_CLIENT_ID&quot;
+     AZURE_CLIENT_SECRET: &quot;$AZURE_CLIENT_SECRET&quot;
+     AZURE_TARGET_NAMESPACES: &quot;$AZURE_TARGET_NAMESPACES&quot;
+     EOF
 </code></pre><p>Once the tenant operator is deployed and configured the contents of the tenant namespace will look something like the following:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl get pods,replicasets,deployments,serviceaccounts,secrets  -n tenant1-system
 NAME                                                           READY   STATUS    RESTARTS   AGE
@@ -646,10 +686,40 @@ serviceaccount/default   <span style="color:#ae81ff">1</span>         3d
 NAME                             TYPE                                  DATA   AGE
 secret/aso-controller-settings   Opaque                                <span style="color:#ae81ff">5</span>      3d
 secret/default-token-mqmpb       kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      3d
-</code></pre></div><h2 id="role-handling">Role handling</h2>
+</code></pre></div><h3 id="helm-installation">Helm Installation</h3>
+<p>To deploy the operator in multi-operator multi-tenant using helm is split into two parts:</p>
+<ol>
+<li>
+<p><strong>Cluster-wide operator installation</strong>:</p>
+<pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+</code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
+   --create-namespace \
+   --namespace=azureserviceoperator-system \
+   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+   --set azureTenantID=$AZURE_TENANT_ID \
+   --set azureClientID=$AZURE_CLIENT_ID \
+   --set azureClientSecret=$AZURE_CLIENT_SECRET
+   --set multitenant.enable=true
+   --set azureOperatorMode=webhooks
+</code></pre></li>
+<li>
+<p><strong>Per-tenant operator installation</strong>:</p>
+<pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+</code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
+   --create-namespace \
+   --namespace=azureserviceoperator-system \
+   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+   --set azureTenantID=$AZURE_TENANT_ID \
+   --set azureClientID=$AZURE_CLIENT_ID \
+   --set azureClientSecret=$AZURE_CLIENT_SECRET
+   --set multitenant.enable=true
+   --set azureOperatorMode=watchers
+</code></pre></li>
+</ol>
+<h3 id="role-handling">Role handling</h3>
 <p>The multi-tenant deployment example files have a single <code>ClusterRole</code> that grants access to the Azure resource types,
 and then a binding to that <code>ClusterRole</code> for the service account in each tenant-operator namespace.
-Each <code>ClusterRoleBinding</code> is named for the specific tenant so they don&rsquo;t collide and can be managed separately:</p>
+Each <code>ClusterRoleBinding</code> is named for the specific tenant, so they don&rsquo;t collide and can be managed separately:</p>
 <p><img src="../multitenant-simple-roles.png" alt="diagram showing cluster-level role bindings pointing to tenant namespace service accounts"></p>
 <p>This is convenient since there&rsquo;s no need to permit access for Azure resources in each of the target namespaces individually,
 but it means that the only thing preventing one tenant operator from reading another&rsquo;s resources is the <code>AZURE_TARGET_NAMESPACES</code> setting for each operator.</p>
@@ -657,7 +727,7 @@ but it means that the only thing preventing one tenant operator from reading ano
 <p>In those cases the <code>azureserviceoperator-manager-role</code> should be changed from a <code>ClusterRole</code> into <code>Role</code>s in each of the target namespaces (where the Azure resources will be created, rather than where the tenant-operator pods run),
 and a <code>RoleBinding</code> should be created in that namespace linking the <code>Role</code> to the service account for the tenant operator that will be managing Azure resources in this target namespace:</p>
 <p><img src="../multitenant-restrictive-roles.png" alt="diagram showing namespace-scoped roles and bindings pointing to tenant operator service accounts"></p>
-<h2 id="upgrading">Upgrading</h2>
+<h3 id="upgrading">Upgrading</h3>
 <p>When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook deployment must be upgraded before upgrading the tenant operators.</p>
 <p>Applying the new version of the <code>multitenant-cluster</code> YAML file will add new and updated CRDs, then update the webhook configuration and cluster roles.
 After that the new version of the <code>multitenant-tenant</code> YAML files (customised for the specific tenant names) can be applied.</p>

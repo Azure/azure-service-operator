@@ -33,7 +33,7 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
 <meta itemprop="description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
 Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources">
 
-<meta itemprop="wordCount" content="1291">
+<meta itemprop="wordCount" content="1487">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-09: Support For Multiple Credentials Under Global Operator"/>
 <meta name="twitter:description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
@@ -510,7 +510,11 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
     <li><a href="#decision">Decision</a></li>
     <li><a href="#example-secret">Example Secret</a></li>
     <li><a href="#steps-to-support-workload-identity">Steps to support workload identity</a></li>
-    <li><a href="#handling-for-the-failure-cases-and-logging">Handling for the failure cases and logging</a></li>
+    <li><a href="#handling-for-the-failure-cases-and-logging">Handling for the failure cases and logging</a>
+      <ul>
+        <li><a href="#per-resource-group-secrets">Per resource group secrets</a></li>
+      </ul>
+    </li>
     <li><a href="#milestones">Milestones</a></li>
     <li><a href="#consequences">Consequences</a></li>
     <li><a href="#experience-report">Experience Report</a></li>
@@ -719,13 +723,26 @@ Then only these loaded secrets would be used further for per-resource and per-re
 <li>Logging should be clear about the credential load/authentication failure</li>
 <li>Errors can be reported through the standard <code>Condition</code> mechanism</li>
 </ul>
+<h3 id="per-resource-group-secrets">Per resource group secrets</h3>
+<p>To use credential for resources under parent ResourceGroup, we will traverse up the resource hierarchy to find the containing Resource Group and look up credential for it through the <code>ArmClientCache</code>.</p>
+<h4 id="issue">Issue</h4>
+<p>Looking the resource group credential up for create or update is straightforward as we can easily access the annotation on any existing resource group. However, looking it up for delete is hard when we have already deleted the resource group, and any associated annotations are gone.</p>
+<p>Then we run into problems of</p>
+<ul>
+<li>what secret to use for children?</li>
+<li>where to get the annotation from? and,</li>
+<li>if we re-create a ResourceGroup with a different objectID later, how do we avoid using the wrong credentials accidentally.</li>
+</ul>
+<h4 id="solution">Solution</h4>
+<p>When using per resource group credentials, we&rsquo;ll add an ASO managed annotation (TBD) on each Kubernetes resource recording the name of the credential secret last used with that resource. The annotation will be updated each time the resource is reconciled by ASO.
+If the resource group is deleted from the cluster first, we will fall back to the annotation on the resource to identify the credential to use for deletion.</p>
 <h2 id="milestones">Milestones</h2>
 <ol>
-<li>Namespaced secrets: TBD</li>
-<li>Per-ResourceGroup secrets: TBD</li>
+<li>Namespaced secrets: Completed in <a href="https://github.com/Azure/azure-service-operator/pull/2559">PR #2559</a></li>
+<li>Per-Resource secrets: Completed in <a href="https://github.com/Azure/azure-service-operator/pull/2576">PR #2576</a></li>
 <li>Support for workload identity: TBD</li>
-<li>Caching secrets: TBD</li>
-<li>Per-Resource secrets: Will not be implemented unless there is strong user demand. We believe that per-ResourceGroup secrets should be sufficiently granular.</li>
+<li>Watch secrets: TBD</li>
+<li>Per-ResourceGroup secrets: Will not be implemented unless there is strong user demand. We believe that per-Resource secrets should be sufficiently granular.</li>
 </ol>
 <h2 id="consequences">Consequences</h2>
 <p>TBC</p>
