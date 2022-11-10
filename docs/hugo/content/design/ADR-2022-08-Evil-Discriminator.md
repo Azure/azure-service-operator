@@ -198,6 +198,14 @@ Not every "ancestor" of a OneOf will necessarily itself be a OneOf; they may als
 
 When we walk the parents of a leaf OneOf to find all the potential properties, we need to walk these references as well.
 
+For example, in the above diagram, we need to hoist properties from multiple levels to the leaf `MLTableData`:
+
+* `dataType` and `dataUri` from `DataVersionBase`;
+* `isAnonymous` and `isArchived` from `AssetBase`; and 
+* `Description`, `Properties`, and `Tags`, from `ResourceBase`.
+
+
+
 ## References
 
 TBC.
