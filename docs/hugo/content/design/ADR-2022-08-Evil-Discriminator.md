@@ -190,6 +190,14 @@ However, this is not required and some derived types don't declare one.
 
 We handle this by synthesizing a discriminator property for each derived type that doesn't have one. The single value of the enumeration is the discriminator value for the type.
 
+### Challenge: Non-OneOf ancestors
+
+Not every "ancestor" of a OneOf will necessarily itself be a OneOf; they may also be a regular object type or an AllOf type. 
+
+![Non-OneOf Ancestors](images/adr-2022-08-non-oneof-ancestors.png)
+
+When we walk the parents of a leaf OneOf to find all the potential properties, we need to walk these references as well.
+
 ## References
 
 TBC.
