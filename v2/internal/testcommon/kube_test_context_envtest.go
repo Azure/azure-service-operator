@@ -129,16 +129,6 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
 
-	var clientFactory arm.ARMClientFactory = func(_ context.Context, mo genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
-		result := namespaceResources.Lookup(mo.GetNamespace())
-		if result == nil {
-			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
-				mo.GetNamespace()))
-		}
-
-		return result.armClient, mo.GetNamespace(), nil
-	}
-
 	loggerFactory := func(obj metav1.Object) logr.Logger {
 		result := namespaceResources.Lookup(obj.GetNamespace())
 		if result == nil {
@@ -164,6 +154,16 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		testIndexer := NewIndexer(mgr.GetScheme())
 		indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
 		kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
+
+		var clientFactory arm.ARMClientFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+			result := namespaceResources.Lookup(mo.GetNamespace())
+			if result == nil {
+				panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
+					mo.GetNamespace()))
+			}
+
+			return result.armClientCache.GetClient(ctx, mo, kubeClient)
+		}
 
 		options := controllers.Options{
 			LoggerFactory: loggerFactory,
@@ -385,8 +385,8 @@ type runningEnvTest struct {
 // in order for the controller to access the
 // right ARM client and logger we store them in here
 type perNamespace struct {
-	armClient *genericarmclient.GenericClient
-	logger    logr.Logger
+	armClientCache *arm.ARMClientCache
+	logger         logr.Logger
 }
 
 type namespaceResources struct {
@@ -437,8 +437,8 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 		// register resources needed by controller for namespace
 		{
 			resources := &perNamespace{
-				armClient: perTestContext.AzureClient,
-				logger:    perTestContext.logger,
+				armClientCache: perTestContext.ARMClientCache,
+				logger:         perTestContext.logger,
 			}
 
 			namespace := perTestContext.Namespace

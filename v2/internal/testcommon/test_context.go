@@ -32,6 +32,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.
@@ -49,6 +50,7 @@ type PerTestContext struct {
 	logger                logr.Logger
 	AzureClientRecorder   *recorder.Recorder
 	AzureClient           *genericarmclient.GenericClient
+	ARMClientCache        *arm.ARMClientCache
 	AzureSubscription     string
 	AzureTenant           string
 	AzureBillingInvoiceID string
@@ -112,11 +114,13 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		Transport: addCountHeader(translateErrors(details.recorder, cassetteName, t)),
 	}
 
-	var armClient *genericarmclient.GenericClient
-	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), details.creds, httpClient, details.ids.subscriptionID, metrics.NewARMClientMetrics())
+	var globalARMClient *genericarmclient.GenericClient
+	globalARMClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), details.creds, httpClient, details.ids.subscriptionID, metrics.NewARMClientMetrics())
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}
+
+	armClientCache := arm.NewARMClientCache(globalARMClient, cfg.PodNamespace, cfg.Cloud(), httpClient)
 
 	t.Cleanup(func() {
 		if !t.Failed() {
@@ -152,11 +156,12 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		logger:                logger,
 		Namer:                 namer,
 		NoSpaceNamer:          namer.WithSeparator(""),
-		AzureClient:           armClient,
+		AzureClient:           globalARMClient,
+		ARMClientCache:        armClientCache,
 		AzureSubscription:     details.ids.subscriptionID,
 		AzureTenant:           details.ids.tenantID,
 		AzureBillingInvoiceID: details.ids.billingInvoiceID,
-		AzureMatch:            NewARMMatcher(armClient),
+		AzureMatch:            NewARMMatcher(globalARMClient),
 		AzureClientRecorder:   details.recorder,
 		TestName:              t.Name(),
 		Namespace:             createTestNamespaceName(t),

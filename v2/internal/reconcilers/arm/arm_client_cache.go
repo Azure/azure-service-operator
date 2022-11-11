@@ -33,18 +33,17 @@ const (
 	// #nosec
 	globalCredentialSecretName = "aso-controller-settings"
 	// #nosec
-	namespacedSecretName        = "aso-credential"
-	perResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
+	NamespacedSecretName        = "aso-credential"
+	PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
 	namespacedNameSeparator     = "/"
 )
 
-// armClientCache is a cache for armClients to hold multiple credential clients and global credential client.
-type armClientCache struct {
+// ARMClientCache is a cache for armClients to hold multiple credential clients and global credential client.
+type ARMClientCache struct {
 	lock sync.Mutex
 	// clients allows quick lookup of an armClient for each namespace
 	clients      map[string]*armClient
 	globalClient *armClient
-	kubeClient   kubeclient.Client
 	cloudConfig  cloud.Configuration
 	httpClient   *http.Client
 }
@@ -52,32 +51,30 @@ type armClientCache struct {
 func NewARMClientCache(
 	client *genericarmclient.GenericClient,
 	podNamespace string,
-	kubeClient kubeclient.Client,
 	configuration cloud.Configuration,
-	httpClient *http.Client) *armClientCache {
+	httpClient *http.Client) *ARMClientCache {
 
 	globalClient := &armClient{
 		genericClient:  client,
 		credentialFrom: types.NamespacedName{Name: globalCredentialSecretName, Namespace: podNamespace},
 	}
 
-	return &armClientCache{
+	return &ARMClientCache{
 		lock:         sync.Mutex{},
 		clients:      make(map[string]*armClient),
 		globalClient: globalClient,
-		kubeClient:   kubeClient,
 		cloudConfig:  configuration,
 		httpClient:   httpClient,
 	}
 }
 
-func (c *armClientCache) register(client *armClient) {
+func (c *ARMClientCache) register(client *armClient) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	c.clients[client.CredentialFrom()] = client
 }
 
-func (c *armClientCache) lookup(key string) (*armClient, bool) {
+func (c *ARMClientCache) lookup(key string) (*armClient, bool) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	client, ok := c.clients[key]
@@ -85,9 +82,9 @@ func (c *armClientCache) lookup(key string) (*armClient, bool) {
 }
 
 // GetClient finds and returns a client and credential to be used for a given resource
-func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+func (c *ARMClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaObject, kubeClient kubeclient.Client) (*genericarmclient.GenericClient, string, error) {
 
-	client, err := c.getPerResourceCredential(ctx, obj)
+	client, err := c.getPerResourceCredential(ctx, obj, kubeClient)
 	if err != nil {
 		return nil, "", err
 	} else if client != nil {
@@ -95,7 +92,7 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 	}
 
 	// Namespaced secret
-	client, err = c.getNamespacedCredential(ctx, obj.GetNamespace())
+	client, err = c.getNamespacedCredential(ctx, kubeClient, obj.GetNamespace())
 	if err != nil {
 		return nil, "", err
 	} else if client != nil {
@@ -106,12 +103,12 @@ func (c *armClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
 }
 
-func (c *armClientCache) getPerResourceCredential(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
-	return c.getCredentialFromAnnotation(ctx, obj, perResourceSecretAnnotation)
+func (c *ARMClientCache) getPerResourceCredential(ctx context.Context, obj genruntime.ARMMetaObject, kubeClient kubeclient.Client) (*armClient, error) {
+	return c.getCredentialFromAnnotation(ctx, obj, kubeClient, PerResourceSecretAnnotation)
 }
 
-func (c *armClientCache) getNamespacedCredential(ctx context.Context, namespace string) (*armClient, error) {
-	secret, err := c.getSecret(ctx, namespace, namespacedSecretName)
+func (c *ARMClientCache) getNamespacedCredential(ctx context.Context, kubeClient kubeclient.Client, namespace string) (*armClient, error) {
+	secret, err := c.getSecret(ctx, kubeClient, namespace, NamespacedSecretName)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			return nil, nil // Not finding this secret is allowed, allow caller to proceed to higher scope secret
@@ -127,7 +124,7 @@ func (c *armClientCache) getNamespacedCredential(ctx context.Context, namespace 
 	return armClient, nil
 }
 
-func (c *armClientCache) getCredentialFromAnnotation(ctx context.Context, obj genruntime.ARMMetaObject, annotation string) (*armClient, error) {
+func (c *ARMClientCache) getCredentialFromAnnotation(ctx context.Context, obj genruntime.ARMMetaObject, kubeClient kubeclient.Client, annotation string) (*armClient, error) {
 	credentialFrom, ok := obj.GetAnnotations()[annotation]
 	if !ok {
 		return nil, nil
@@ -136,7 +133,7 @@ func (c *armClientCache) getCredentialFromAnnotation(ctx context.Context, obj ge
 	// annotation exists, use specified secret
 	secretNamespacedName := getSecretNameFromAnnotation(credentialFrom, obj.GetNamespace())
 
-	secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
+	secret, err := c.getSecret(ctx, kubeClient, secretNamespacedName.Namespace, secretNamespacedName.Name)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
 			return nil, core.NewSecretNotFoundError(secretNamespacedName, errors.Wrapf(err, "credential secret not found"))
@@ -161,7 +158,7 @@ func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string
 	}
 }
 
-func (c *armClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, error) {
+func (c *ARMClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, error) {
 	nsName := types.NamespacedName{Namespace: secret.Namespace, Name: secret.Name}
 	client, ok := c.lookup(nsName.String())
 
@@ -185,7 +182,7 @@ func (c *armClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, 
 	return armClient, nil
 }
 
-func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
+func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
 	var errs []error
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
@@ -221,10 +218,10 @@ func (c *armClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 	return credential, string(subscriptionID), nil
 }
 
-func (c *armClientCache) getSecret(ctx context.Context, namespace string, secretName string) (*v1.Secret, error) {
+func (c *ARMClientCache) getSecret(ctx context.Context, kubeClient kubeclient.Client, namespace string, secretName string) (*v1.Secret, error) {
 	secret := &v1.Secret{}
 
-	err := c.kubeClient.Get(
+	err := kubeClient.Get(
 		ctx,
 		types.NamespacedName{Namespace: namespace, Name: secretName},
 		secret)

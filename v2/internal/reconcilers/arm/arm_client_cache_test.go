@@ -36,7 +36,7 @@ func NewFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
 	return kubeclient.NewClient(fakeClient)
 }
 
-func NewTestARMClientCache(client kubeclient.Client) (*armClientCache, error) {
+func NewTestARMClientCache() (*ARMClientCache, error) {
 	cfg, err := config.ReadFromEnvironment()
 	if err != nil {
 		return nil, err
@@ -52,11 +52,11 @@ func NewTestARMClientCache(client kubeclient.Client) (*armClientCache, error) {
 		return nil, err
 	}
 
-	return NewARMClientCache(globalARMClient, cfg.PodNamespace, client, cfg.Cloud(), nil), nil
+	return NewARMClientCache(globalARMClient, cfg.PodNamespace, cfg.Cloud(), nil), nil
 }
 
 type testResources struct {
-	armClientCache *armClientCache
+	armClientCache *ARMClientCache
 	kubeClient     kubeclient.Client
 }
 
@@ -73,7 +73,7 @@ func testSetup() (*testResources, error) {
 	s := createTestScheme()
 
 	client := NewFakeKubeClient(s)
-	cache, err := NewTestARMClientCache(client)
+	cache, err := NewTestARMClientCache()
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 
 	namespacedSecretName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      namespacedSecretName,
+		Name:      NamespacedSecretName,
 	}
 
 	secret := newSecret(namespacedSecretName.Name, namespacedSecretName.Namespace)
@@ -113,12 +113,12 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{perResourceSecretAnnotation: perResourceCredentialName.String()}
+	rg.Annotations = map[string]string{PerResourceSecretAnnotation: perResourceCredentialName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(credentialFrom).To(BeEquivalentTo(perResourceCredentialName.String()))
@@ -141,12 +141,12 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	}
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{perResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{PerResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, _, err := res.armClientCache.GetClient(ctx, rg)
+	client, _, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
@@ -172,12 +172,12 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{perResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{PerResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
@@ -196,7 +196,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 
 	credentialNamespacedName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      namespacedSecretName,
+		Name:      NamespacedSecretName,
 	}
 
 	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
@@ -209,7 +209,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
@@ -228,7 +228,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	credentialNamespacedName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      namespacedSecretName,
+		Name:      NamespacedSecretName,
 	}
 
 	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
@@ -241,7 +241,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	oldClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	oldClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
@@ -255,7 +255,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
-	newClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	newClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
@@ -277,7 +277,7 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, _, err := res.armClientCache.GetClient(ctx, rg)
+	client, _, err := res.armClientCache.GetClient(ctx, rg, res.kubeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
