@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -91,7 +92,7 @@ func (r *AzureDeploymentReconciler) asARMObj(obj genruntime.MetaObject) (genrunt
 	return typedObj, nil
 }
 
-func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (*azureDeploymentReconcilerInstance, error) {
+func (r *AzureDeploymentReconciler) makeInstance(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (*azureDeploymentReconcilerInstance, error) {
 	typedObj, err := r.asARMObj(obj)
 	if err != nil {
 		return nil, err
@@ -99,12 +100,19 @@ func (r *AzureDeploymentReconciler) makeInstance(log logr.Logger, eventRecorder 
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
+	armClient, credentialFrom, err := r.ARMClientFactory(ctx, typedObj)
+	if err != nil {
+		return nil, err
+	}
+
+	eventRecorder.Eventf(obj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", credentialFrom)
+
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
-	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, r.ARMClientFactory(typedObj), *r), nil
+	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, armClient, *r), nil
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -112,7 +120,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr
 }
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -131,7 +139,7 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 		return err
 	}
 
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return err
 	}
@@ -145,7 +153,7 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 }
 
 func (r *AzureDeploymentReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
-	instance, err := r.makeInstance(log, eventRecorder, obj)
+	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return err
 	}

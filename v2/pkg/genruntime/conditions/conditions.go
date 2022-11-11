@@ -219,11 +219,11 @@ func SetCondition(o Conditioner, new Condition) {
 // v2/tools/generator/internal/readonly/readonly_map.go but given
 // Golang generics bugs for now we go with the simpler approach
 var reasonPriority = map[string]int{
-	ReasonReferenceNotFound: -2,
-	ReasonSecretNotFound:    -2,
-	ReasonConfigMapNotFound: -2,
-	ReasonWaitingForOwner:   -2,
-	ReasonReconciling:       -1,
+	ReasonReferenceNotFound.Name: -2,
+	ReasonSecretNotFound.Name:    -2,
+	ReasonConfigMapNotFound.Name: -2,
+	ReasonWaitingForOwner.Name:   -2,
+	ReasonReconciling.Name:       -1,
 }
 
 // SetConditionReasonAware sets the provided Condition on the Conditioner. This is similar to SetCondition

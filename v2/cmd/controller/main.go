@@ -6,7 +6,9 @@ Licensed under the MIT license.
 package main
 
 import (
+	"context"
 	"flag"
+	"math/rand"
 	"os"
 	"time"
 
@@ -28,7 +30,9 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -90,22 +94,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	armClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
 	if err != nil {
 		setupLog.Error(err, "failed to get new genericArmClient")
 		os.Exit(1)
 	}
 
-	var clientFactory armreconciler.ARMClientFactory = func(_ genruntime.ARMMetaObject) *genericarmclient.GenericClient {
-		// always use the configured ARM client
-		return armClient
+	kubeClient := kubeclient.NewClient(mgr.GetClient())
+	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil)
+
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+		return armClientCache.GetClient(ctx, obj)
 	}
 
 	log := ctrl.Log.WithName("controllers")
 	log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		kubeClient := kubeclient.NewClient(mgr.GetClient())
 		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
 		options := makeControllerOptions(log, cfg)
@@ -168,7 +173,18 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Optio
 				// TODO: do we need GVK here too?
 				return log.WithValues("namespace", req.Namespace, "name", req.Name)
 			},
+			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
 			RateLimiter: controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
+		RequeueIntervalCalculator: interval.NewCalculator(
+			// These rate limits are primarily for ReadyConditionImpactingError's
+			interval.CalculatorParameters{
+				//nolint:gosec // do not want cryptographic randomness here
+				Rand:              rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+				ErrorBaseDelay:    1 * time.Second,
+				ErrorMaxFastDelay: 30 * time.Second,
+				ErrorMaxSlowDelay: 3 * time.Minute,
+				SyncPeriod:        cfg.SyncPeriod,
+			}),
 	}
 }

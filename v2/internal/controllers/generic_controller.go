@@ -8,7 +8,6 @@ package controllers
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"reflect"
 	"time"
 
@@ -34,9 +33,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
-	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -54,15 +52,14 @@ type (
 
 // GenericReconciler reconciles resources
 type GenericReconciler struct {
-	Reconciler           genruntime.Reconciler
-	LoggerFactory        LoggerFactory
-	KubeClient           kubeclient.Client
-	Recorder             record.EventRecorder
-	Config               config.Values
-	Rand                 *rand.Rand
-	GVK                  schema.GroupVersionKind
-	PositiveConditions   *conditions.PositiveConditionBuilder
-	RequeueDelayOverride time.Duration
+	Reconciler                genruntime.Reconciler
+	LoggerFactory             LoggerFactory
+	KubeClient                kubeclient.Client
+	Recorder                  record.EventRecorder
+	Config                    config.Values
+	GVK                       schema.GroupVersionKind
+	PositiveConditions        *conditions.PositiveConditionBuilder
+	RequeueIntervalCalculator interval.Calculator
 }
 
 var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
@@ -71,9 +68,9 @@ type Options struct {
 	controller.Options
 
 	// options specific to our controller
-	RequeueDelay  time.Duration
-	Config        config.Values
-	LoggerFactory func(obj metav1.Object) logr.Logger
+	RequeueIntervalCalculator interval.Calculator
+	Config                    config.Values
+	LoggerFactory             func(obj metav1.Object) logr.Logger
 }
 
 func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
@@ -156,16 +153,14 @@ func register(
 	options.LogConstructor(nil).V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
-		Reconciler:         info.Reconciler,
-		KubeClient:         kubeClient,
-		Config:             options.Config,
-		LoggerFactory:      loggerFactory,
-		Recorder:           eventRecorder,
-		GVK:                gvk,
-		PositiveConditions: positiveConditions,
-		//nolint:gosec // do not want cryptographic randomness here
-		Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
-		RequeueDelayOverride: options.RequeueDelay,
+		Reconciler:                info.Reconciler,
+		KubeClient:                kubeClient,
+		Config:                    options.Config,
+		LoggerFactory:             loggerFactory,
+		Recorder:                  eventRecorder,
+		GVK:                       gvk,
+		PositiveConditions:        positiveConditions,
+		RequeueIntervalCalculator: options.RequeueIntervalCalculator,
 	}
 
 	// Note: These predicates prevent status updates from triggering a reconcile.
@@ -225,28 +220,30 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	}
 
 	if err != nil {
-		var severity conditions.ConditionSeverity
-		severity, err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
-		if err != nil {
-			// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-			// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-			// We must also ignore conflict here because updating a resource that
-			// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985. This is OK
-			// to ignore because a conflict means either the resource has been deleted (in which case there's nothing to do) or
-			// it has been updated, in which case there's going to be a new event triggered for it and we can count this
-			// round of reconciliation as a success and wait for the next event.
-			return ctrl.Result{}, kubeclient.IgnoreNotFoundAndConflict(err)
-		}
-		if severity == conditions.ConditionSeverityError {
-			// Severity error is fatal, return fast and block requeue
-			return ctrl.Result{}, nil
-		}
+		err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
+		return gr.RequeueIntervalCalculator.NextInterval(req, result, err)
 	}
 
 	if (result == ctrl.Result{}) {
-		// If result is a success, ensure that we requeue for monitoring state in Azure
+		// If result is a success, ensure that we note that on Ready condition
 		conditions.SetCondition(metaObj, gr.PositiveConditions.Ready.Succeeded(metaObj.GetGeneration()))
-		result = gr.makeSuccessResult()
+	}
+
+	// There are (unfortunately) two ways that an interval can get produced:
+	// 1. By this IntervalCalculator
+	// 2. By the controller-runtime RateLimiter when a raw ctrl.Result{Requeue: true} is returned, or an error is returned.
+	// We used to only have the controller-runtime RateLimiter, but it is quite limited in what information it has access
+	// to when generating a backoff. It only has access to the req and a history of how many times that req has been requeued.
+	// It doesn't know what error triggered the requeue (or if it was a success).
+	// 1m max retry is too aggressive in some cases (see https://github.com/Azure/azure-service-operator/issues/2575),
+	// and not aggressive enough in other situations (such as when detecting parent resources have been created, see
+	// https://github.com/Azure/azure-service-operator/issues/2556).
+	// In order to cater to the above scenarios we calculate some intervals ourselves using this IntervalCalculator and pass others
+	// up to the controller-runtime RateLimiter.
+	result, err = gr.RequeueIntervalCalculator.NextInterval(req, result, nil)
+	if err != nil {
+		// This isn't really going to happen but just do it defensively anyway
+		return result, err
 	}
 
 	// Write the object
@@ -260,15 +257,6 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		// it has been updated, in which case there's going to be a new event triggered for it and we can count this
 		// round of reconciliation as a success and wait for the next event.
 		return ctrl.Result{}, kubeclient.IgnoreNotFoundAndConflict(err)
-	}
-
-	// If we have a requeue delay override, set it for all situations where
-	// we are requeueing.
-	hasRequeueDelayOverride := gr.RequeueDelayOverride != time.Duration(0)
-	isRequeueing := result.Requeue || result.RequeueAfter > time.Duration(0)
-	if hasRequeueDelayOverride && isRequeueing {
-		result.RequeueAfter = gr.RequeueDelayOverride
-		result.Requeue = true
 	}
 
 	return result, nil
@@ -399,18 +387,7 @@ func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration) workqueu
 	)
 }
 
-func (gr *GenericReconciler) makeSuccessResult() ctrl.Result {
-	result := ctrl.Result{}
-	// This has a RequeueAfter because we want to force a re-sync at some point in the future in order to catch
-	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
-	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
-	if gr.Config.SyncPeriod != nil {
-		result.RequeueAfter = randextensions.Jitter(gr.Rand, *gr.Config.SyncPeriod, 0.1)
-	}
-	return result
-}
-
-func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log logr.Logger, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) (conditions.ConditionSeverity, error) {
+func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log logr.Logger, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {
 	conditions.SetCondition(obj, gr.PositiveConditions.Ready.ReadyCondition(
 		err.Severity,
 		obj.GetGeneration(),
@@ -418,17 +395,10 @@ func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log l
 		err.Error()))
 	commitErr := gr.CommitUpdate(ctx, log, nil, obj)
 	if commitErr != nil {
-		return conditions.ConditionSeverityNone, errors.Wrap(commitErr, "updating resource error")
+		return errors.Wrap(commitErr, "updating resource error")
 	}
 
-	if err.Severity == conditions.ConditionSeverityError {
-		// This is a bit weird, but fatal errors shouldn't trigger a fresh reconcile, so
-		// returning nil results in reconcile "succeeding" meaning an event won't be
-		// queued to reconcile again.
-		return conditions.ConditionSeverityError, nil
-	}
-
-	return err.Severity, err
+	return err
 }
 
 // takeOwnership marks this resource as owned by this operator. It returns a ctrl.Result ptr to indicate if the result
@@ -486,7 +456,12 @@ func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.L
 	return nil
 }
 
-func (gr *GenericReconciler) writeReadyConditionErrorOrDefault(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject, err error) (conditions.ConditionSeverity, error) {
+func (gr *GenericReconciler) writeReadyConditionErrorOrDefault(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject, err error) error {
+	// If the error in question is NotFound or Conflict from KubeClient just return it right away as there is no reason to wrap it
+	if kubeclient.IsNotFoundOrConflict(err) {
+		return err
+	}
+
 	readyErr, ok := conditions.AsReadyConditionImpactingError(err)
 	if !ok {
 		// An unknown error, we wrap it as a ready condition error so that the user will always see something, even if
@@ -495,5 +470,6 @@ func (gr *GenericReconciler) writeReadyConditionErrorOrDefault(ctx context.Conte
 	}
 
 	log.Error(readyErr, "Encountered error impacting Ready condition")
-	return gr.WriteReadyConditionError(ctx, log, metaObj, readyErr)
+	err = gr.WriteReadyConditionError(ctx, log, metaObj, readyErr)
+	return err
 }

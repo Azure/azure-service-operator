@@ -303,19 +303,19 @@ func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityInfo,
 		1,
-		conditions.ReasonReconciling,
+		conditions.ReasonReconciling.Name,
 		"a message")
 	referenceNotFoundCondition := builder.MakeFalseCondition(
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityWarning,
 		1,
-		conditions.ReasonReferenceNotFound,
+		conditions.ReasonReferenceNotFound.Name,
 		"a message")
 	secretNotFoundCondition := builder.MakeFalseCondition(
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityWarning,
 		1,
-		conditions.ReasonSecretNotFound,
+		conditions.ReasonSecretNotFound.Name,
 		"a message")
 	arbitraryInfoCondition := builder.MakeFalseCondition(
 		conditions.ConditionTypeReady,
@@ -339,7 +339,7 @@ func Test_SetConditionReasonAware_OverwritesAsExpected(t *testing.T) {
 		conditions.ConditionTypeReady,
 		conditions.ConditionSeverityWarning,
 		1,
-		conditions.ReasonWaitingForOwner,
+		conditions.ReasonWaitingForOwner.Name,
 		"a message")
 	successCondition := builder.MakeTrueCondition(conditions.ConditionTypeReady, 1)
 

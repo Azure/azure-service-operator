@@ -73,7 +73,7 @@ func Test_MissingConfigMap_ReturnsError(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(roleAssignment, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound))
+	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
 	tc.Expect(roleAssignment.Status.Conditions[0].Message).To(
 		ContainSubstring("failed resolving config map references: %s/%s does not exist", tc.Namespace, configMapName))
 }
@@ -184,7 +184,7 @@ func Test_MissingConfigMapKey_ReturnsError(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(roleAssignment, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound))
+	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
 	tc.Expect(roleAssignment.Status.Conditions[0].Message).To(
 		ContainSubstring("ConfigMap \"%s/%s\" does not contain key \"%s\"", tc.Namespace, configMap.Name, principalIdKey))
 
@@ -236,7 +236,7 @@ func Test_ConfigMapInDifferentNamespace_ConfigMapNotFound(t *testing.T) {
 
 	tc.CreateResourceAndWaitForState(roleAssignment, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 	// We expect the ready condition to include details of the error
-	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound))
+	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
 	tc.Expect(roleAssignment.Status.Conditions[0].Message).To(
 		ContainSubstring("failed resolving config map references: %s/%s does not exist", tc.Namespace, configMapName))
 

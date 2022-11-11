@@ -134,13 +134,30 @@ As part of this, we decided to publish `Last Credential Used` events for each re
 - Logging should be clear about the credential load/authentication failure
 - Errors can be reported through the standard `Condition` mechanism
 
+### Per resource group secrets
+
+To use credential for resources under parent ResourceGroup, we will traverse up the resource hierarchy to find the containing Resource Group and look up credential for it through the `ArmClientCache`.
+
+#### Issue
+
+Looking the resource group credential up for create or update is straightforward as we can easily access the annotation on any existing resource group. However, looking it up for delete is hard when we have already deleted the resource group, and any associated annotations are gone.
+
+Then we run into problems of
+* what secret to use for children?
+* where to get the annotation from? and,
+* if we re-create a ResourceGroup with a different objectID later, how do we avoid using the wrong credentials accidentally.
+#### Solution
+
+When using per resource group credentials, we'll add an ASO managed annotation (TBD) on each Kubernetes resource recording the name of the credential secret last used with that resource. The annotation will be updated each time the resource is reconciled by ASO.
+If the resource group is deleted from the cluster first, we will fall back to the annotation on the resource to identify the credential to use for deletion.
+
 ## Milestones
 
-1. Namespaced secrets: TBD
-2. Per-ResourceGroup secrets: TBD
+1. Namespaced secrets: Completed in [PR #2559](https://github.com/Azure/azure-service-operator/pull/2559)
+2. Per-Resource secrets: Completed in [PR #2576](https://github.com/Azure/azure-service-operator/pull/2576)
 4. Support for workload identity: TBD
-3. Caching secrets: TBD
-5. Per-Resource secrets: Will not be implemented unless there is strong user demand. We believe that per-ResourceGroup secrets should be sufficiently granular.
+3. Watch secrets: TBD
+5. Per-ResourceGroup secrets: Will not be implemented unless there is strong user demand. We believe that per-Resource secrets should be sufficiently granular.
 
 ## Consequences
 
