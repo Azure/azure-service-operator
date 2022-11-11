@@ -1816,8 +1816,9 @@ func (properties *ApiProperties_STATUS) AssignProperties_To_ApiProperties_STATUS
 // Storage version of v1alpha1api20210515.BackupPolicy
 // Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy `json:"continuous,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy   `json:"periodic,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_BackupPolicy populates our BackupPolicy from the provided source BackupPolicy
@@ -1825,8 +1826,29 @@ func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *v20210515
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Type
-	policy.Type = genruntime.ClonePointerToString(source.Type)
+	// Continuous
+	if source.Continuous != nil {
+		var continuou ContinuousModeBackupPolicy
+		err := continuou.AssignProperties_From_ContinuousModeBackupPolicy(source.Continuous)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContinuousModeBackupPolicy() to populate field Continuous")
+		}
+		policy.Continuous = &continuou
+	} else {
+		policy.Continuous = nil
+	}
+
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy
+		err := periodic.AssignProperties_From_PeriodicModeBackupPolicy(source.Periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeBackupPolicy() to populate field Periodic")
+		}
+		policy.Periodic = &periodic
+	} else {
+		policy.Periodic = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1844,8 +1866,29 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20210
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(policy.Type)
+	// Continuous
+	if policy.Continuous != nil {
+		var continuou v20210515s.ContinuousModeBackupPolicy
+		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy(&continuou)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContinuousModeBackupPolicy() to populate field Continuous")
+		}
+		destination.Continuous = &continuou
+	} else {
+		destination.Continuous = nil
+	}
+
+	// Periodic
+	if policy.Periodic != nil {
+		var periodic v20210515s.PeriodicModeBackupPolicy
+		err := policy.Periodic.AssignProperties_To_PeriodicModeBackupPolicy(&periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeBackupPolicy() to populate field Periodic")
+		}
+		destination.Periodic = &periodic
+	} else {
+		destination.Periodic = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1861,8 +1904,9 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20210
 // Storage version of v1alpha1api20210515.BackupPolicy_STATUS
 // Deprecated version of BackupPolicy_STATUS. Use v1beta20210515.BackupPolicy_STATUS instead
 type BackupPolicy_STATUS struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy_STATUS `json:"continuous,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy_STATUS   `json:"periodic,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_BackupPolicy_STATUS populates our BackupPolicy_STATUS from the provided source BackupPolicy_STATUS
@@ -1870,8 +1914,29 @@ func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(sou
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Type
-	policy.Type = genruntime.ClonePointerToString(source.Type)
+	// Continuous
+	if source.Continuous != nil {
+		var continuou ContinuousModeBackupPolicy_STATUS
+		err := continuou.AssignProperties_From_ContinuousModeBackupPolicy_STATUS(source.Continuous)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
+		}
+		policy.Continuous = &continuou
+	} else {
+		policy.Continuous = nil
+	}
+
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy_STATUS
+		err := periodic.AssignProperties_From_PeriodicModeBackupPolicy_STATUS(source.Periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeBackupPolicy_STATUS() to populate field Periodic")
+		}
+		policy.Periodic = &periodic
+	} else {
+		policy.Periodic = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1889,8 +1954,29 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(policy.Type)
+	// Continuous
+	if policy.Continuous != nil {
+		var continuou v20210515s.ContinuousModeBackupPolicy_STATUS
+		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy_STATUS(&continuou)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
+		}
+		destination.Continuous = &continuou
+	} else {
+		destination.Continuous = nil
+	}
+
+	// Periodic
+	if policy.Periodic != nil {
+		var periodic v20210515s.PeriodicModeBackupPolicy_STATUS
+		err := policy.Periodic.AssignProperties_To_PeriodicModeBackupPolicy_STATUS(&periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeBackupPolicy_STATUS() to populate field Periodic")
+		}
+		destination.Periodic = &periodic
+	} else {
+		destination.Periodic = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2948,6 +3034,96 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 	return nil
 }
 
+// Storage version of v1alpha1api20210515.ContinuousModeBackupPolicy
+// Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
+type ContinuousModeBackupPolicy struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+// AssignProperties_From_ContinuousModeBackupPolicy populates our ContinuousModeBackupPolicy from the provided source ContinuousModeBackupPolicy
+func (policy *ContinuousModeBackupPolicy) AssignProperties_From_ContinuousModeBackupPolicy(source *v20210515s.ContinuousModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ContinuousModeBackupPolicy populates the provided destination ContinuousModeBackupPolicy from our ContinuousModeBackupPolicy
+func (policy *ContinuousModeBackupPolicy) AssignProperties_To_ContinuousModeBackupPolicy(destination *v20210515s.ContinuousModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210515.ContinuousModeBackupPolicy_STATUS
+// Deprecated version of ContinuousModeBackupPolicy_STATUS. Use v1beta20210515.ContinuousModeBackupPolicy_STATUS instead
+type ContinuousModeBackupPolicy_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+// AssignProperties_From_ContinuousModeBackupPolicy_STATUS populates our ContinuousModeBackupPolicy_STATUS from the provided source ContinuousModeBackupPolicy_STATUS
+func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_From_ContinuousModeBackupPolicy_STATUS(source *v20210515s.ContinuousModeBackupPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ContinuousModeBackupPolicy_STATUS populates the provided destination ContinuousModeBackupPolicy_STATUS from our ContinuousModeBackupPolicy_STATUS
+func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_To_ContinuousModeBackupPolicy_STATUS(destination *v20210515s.ContinuousModeBackupPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210515.DatabaseAccountOperatorSecrets
 type DatabaseAccountOperatorSecrets struct {
 	DocumentEndpoint           *genruntime.SecretDestination `json:"documentEndpoint,omitempty"`
@@ -3110,6 +3286,250 @@ func (identities *ManagedServiceIdentity_UserAssignedIdentities_STATUS) AssignPr
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210515.PeriodicModeBackupPolicy
+// Deprecated version of PeriodicModeBackupPolicy. Use v1beta20210515.PeriodicModeBackupPolicy instead
+type PeriodicModeBackupPolicy struct {
+	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
+	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	Type                   *string                 `json:"type,omitempty"`
+}
+
+// AssignProperties_From_PeriodicModeBackupPolicy populates our PeriodicModeBackupPolicy from the provided source PeriodicModeBackupPolicy
+func (policy *PeriodicModeBackupPolicy) AssignProperties_From_PeriodicModeBackupPolicy(source *v20210515s.PeriodicModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PeriodicModeProperties
+	if source.PeriodicModeProperties != nil {
+		var periodicModeProperty PeriodicModeProperties
+		err := periodicModeProperty.AssignProperties_From_PeriodicModeProperties(source.PeriodicModeProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeProperties() to populate field PeriodicModeProperties")
+		}
+		policy.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		policy.PeriodicModeProperties = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeBackupPolicy populates the provided destination PeriodicModeBackupPolicy from our PeriodicModeBackupPolicy
+func (policy *PeriodicModeBackupPolicy) AssignProperties_To_PeriodicModeBackupPolicy(destination *v20210515s.PeriodicModeBackupPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// PeriodicModeProperties
+	if policy.PeriodicModeProperties != nil {
+		var periodicModeProperty v20210515s.PeriodicModeProperties
+		err := policy.PeriodicModeProperties.AssignProperties_To_PeriodicModeProperties(&periodicModeProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeProperties() to populate field PeriodicModeProperties")
+		}
+		destination.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		destination.PeriodicModeProperties = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210515.PeriodicModeBackupPolicy_STATUS
+// Deprecated version of PeriodicModeBackupPolicy_STATUS. Use v1beta20210515.PeriodicModeBackupPolicy_STATUS instead
+type PeriodicModeBackupPolicy_STATUS struct {
+	PeriodicModeProperties *PeriodicModeProperties_STATUS `json:"periodicModeProperties,omitempty"`
+	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Type                   *string                        `json:"type,omitempty"`
+}
+
+// AssignProperties_From_PeriodicModeBackupPolicy_STATUS populates our PeriodicModeBackupPolicy_STATUS from the provided source PeriodicModeBackupPolicy_STATUS
+func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_From_PeriodicModeBackupPolicy_STATUS(source *v20210515s.PeriodicModeBackupPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PeriodicModeProperties
+	if source.PeriodicModeProperties != nil {
+		var periodicModeProperty PeriodicModeProperties_STATUS
+		err := periodicModeProperty.AssignProperties_From_PeriodicModeProperties_STATUS(source.PeriodicModeProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PeriodicModeProperties_STATUS() to populate field PeriodicModeProperties")
+		}
+		policy.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		policy.PeriodicModeProperties = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeBackupPolicy_STATUS populates the provided destination PeriodicModeBackupPolicy_STATUS from our PeriodicModeBackupPolicy_STATUS
+func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_To_PeriodicModeBackupPolicy_STATUS(destination *v20210515s.PeriodicModeBackupPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// PeriodicModeProperties
+	if policy.PeriodicModeProperties != nil {
+		var periodicModeProperty v20210515s.PeriodicModeProperties_STATUS
+		err := policy.PeriodicModeProperties.AssignProperties_To_PeriodicModeProperties_STATUS(&periodicModeProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PeriodicModeProperties_STATUS() to populate field PeriodicModeProperties")
+		}
+		destination.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		destination.PeriodicModeProperties = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210515.PeriodicModeProperties
+// Deprecated version of PeriodicModeProperties. Use v1beta20210515.PeriodicModeProperties instead
+type PeriodicModeProperties struct {
+	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
+	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_PeriodicModeProperties populates our PeriodicModeProperties from the provided source PeriodicModeProperties
+func (properties *PeriodicModeProperties) AssignProperties_From_PeriodicModeProperties(source *v20210515s.PeriodicModeProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BackupIntervalInMinutes
+	properties.BackupIntervalInMinutes = genruntime.ClonePointerToInt(source.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	properties.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(source.BackupRetentionIntervalInHours)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeProperties populates the provided destination PeriodicModeProperties from our PeriodicModeProperties
+func (properties *PeriodicModeProperties) AssignProperties_To_PeriodicModeProperties(destination *v20210515s.PeriodicModeProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// BackupIntervalInMinutes
+	destination.BackupIntervalInMinutes = genruntime.ClonePointerToInt(properties.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	destination.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(properties.BackupRetentionIntervalInHours)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210515.PeriodicModeProperties_STATUS
+// Deprecated version of PeriodicModeProperties_STATUS. Use v1beta20210515.PeriodicModeProperties_STATUS instead
+type PeriodicModeProperties_STATUS struct {
+	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
+	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_PeriodicModeProperties_STATUS populates our PeriodicModeProperties_STATUS from the provided source PeriodicModeProperties_STATUS
+func (properties *PeriodicModeProperties_STATUS) AssignProperties_From_PeriodicModeProperties_STATUS(source *v20210515s.PeriodicModeProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BackupIntervalInMinutes
+	properties.BackupIntervalInMinutes = genruntime.ClonePointerToInt(source.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	properties.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(source.BackupRetentionIntervalInHours)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PeriodicModeProperties_STATUS populates the provided destination PeriodicModeProperties_STATUS from our PeriodicModeProperties_STATUS
+func (properties *PeriodicModeProperties_STATUS) AssignProperties_To_PeriodicModeProperties_STATUS(destination *v20210515s.PeriodicModeProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// BackupIntervalInMinutes
+	destination.BackupIntervalInMinutes = genruntime.ClonePointerToInt(properties.BackupIntervalInMinutes)
+
+	// BackupRetentionIntervalInHours
+	destination.BackupRetentionIntervalInHours = genruntime.ClonePointerToInt(properties.BackupRetentionIntervalInHours)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

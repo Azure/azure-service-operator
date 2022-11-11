@@ -48,12 +48,7 @@ func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 		},
 	}
 
-	wrappedSchema := MakeOpenAPISchema(
-		schema,
-		schemaPath,
-		schemaPackage,
-		astmodel.NewIdentifierFactory(),
-		loader)
+	wrappedSchema := MakeOpenAPISchema("name", schema, schemaPath, schemaPackage, astmodel.NewIdentifierFactory(), loader)
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -96,12 +91,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 		},
 	}
 
-	wrappedSchema := MakeOpenAPISchema(
-		schema,
-		schemaPath,
-		schemaPackage,
-		astmodel.NewIdentifierFactory(),
-		loader)
+	wrappedSchema := MakeOpenAPISchema("name", schema, schemaPath, schemaPackage, astmodel.NewIdentifierFactory(), loader)
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -146,12 +136,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 		},
 	}
 
-	wrappedSchema := MakeOpenAPISchema(
-		schema,
-		schemaPath,
-		schemaPackage,
-		astmodel.NewIdentifierFactory(),
-		loader)
+	wrappedSchema := MakeOpenAPISchema("name", schema, schemaPath, schemaPackage, astmodel.NewIdentifierFactory(), loader)
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -194,12 +179,7 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 		},
 	}
 
-	wrappedSchema := MakeOpenAPISchema(
-		schema,
-		schemaPath,
-		schemaPackage,
-		astmodel.NewIdentifierFactory(),
-		loader)
+	wrappedSchema := MakeOpenAPISchema("name", schema, schemaPath, schemaPackage, astmodel.NewIdentifierFactory(), loader)
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())
@@ -261,12 +241,7 @@ func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T)
 		},
 	}
 
-	wrappedSchema := MakeOpenAPISchema(
-		schema,
-		schemaPath,
-		schemaPackage,
-		astmodel.NewIdentifierFactory(),
-		loader)
+	wrappedSchema := MakeOpenAPISchema("name", schema, schemaPath, schemaPackage, astmodel.NewIdentifierFactory(), loader)
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())

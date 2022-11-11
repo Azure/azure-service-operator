@@ -89,7 +89,7 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 func DebugDescription(t Type, pkgs ...PackageReference) string {
 	var currentPackage PackageReference
 	if len(pkgs) > 0 {
-		// If we're passed a package, use that as the current packge
+		// If we're passed a package, use that as the current package
 		currentPackage = pkgs[0]
 	} else if tn, ok := AsTypeName(t); ok {
 		// Otherwise, If we're given a TypeName, use it's package as "current" to simplify what we write

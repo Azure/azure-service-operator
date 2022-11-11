@@ -302,7 +302,7 @@ func (b *operatorSpecBuilder) newEmptyOperatorSpec() astmodel.TypeDefinition {
 	operatorSpecDefinition := astmodel.MakeTypeDefinition(operatorSpecTypeName, operatorSpec)
 	description := "Details for configuring operator behavior. Fields in this struct are " +
 		"interpreted by the operator directly rather than being passed to Azure"
-	operatorSpecDefinition = operatorSpecDefinition.WithDescription([]string{description})
+	operatorSpecDefinition = operatorSpecDefinition.WithDescription(description)
 
 	return operatorSpecDefinition
 }

@@ -1407,25 +1407,17 @@ const (
 )
 
 type ServerPropertiesForCreate struct {
-	// +kubebuilder:validation:Required
-	// CreateMode: The mode to create a new server.
-	CreateMode *ServerPropertiesForCreate_CreateMode `json:"createMode,omitempty"`
+	// Default: Mutually exclusive with all other properties
+	Default *ServerPropertiesForDefaultCreate `json:"def,omitempty"`
 
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	// GeoRestore: Mutually exclusive with all other properties
+	GeoRestore *ServerPropertiesForGeoRestore `json:"geoRestore,omitempty"`
 
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// PointInTimeRestore: Mutually exclusive with all other properties
+	PointInTimeRestore *ServerPropertiesForRestore `json:"pointInTimeRestore,omitempty"`
 
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	// Replica: Mutually exclusive with all other properties
+	Replica *ServerPropertiesForReplica `json:"replica,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForCreate{}
@@ -1437,44 +1429,44 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &ServerPropertiesForCreate_ARM{}
 
-	// Set property ‘CreateMode’:
-	if create.CreateMode != nil {
-		createMode := *create.CreateMode
-		result.CreateMode = &createMode
-	}
-
-	// Set property ‘MinimalTlsVersion’:
-	if create.MinimalTlsVersion != nil {
-		minimalTlsVersion := *create.MinimalTlsVersion
-		result.MinimalTlsVersion = &minimalTlsVersion
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	if create.PublicNetworkAccess != nil {
-		publicNetworkAccess := *create.PublicNetworkAccess
-		result.PublicNetworkAccess = &publicNetworkAccess
-	}
-
-	// Set property ‘SslEnforcement’:
-	if create.SslEnforcement != nil {
-		sslEnforcement := *create.SslEnforcement
-		result.SslEnforcement = &sslEnforcement
-	}
-
-	// Set property ‘StorageProfile’:
-	if create.StorageProfile != nil {
-		storageProfile_ARM, err := (*create.StorageProfile).ConvertToARM(resolved)
+	// Set property ‘Default’:
+	if create.Default != nil {
+		default_ARM, err := (*create.Default).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
-		result.StorageProfile = &storageProfile
+		def := *default_ARM.(*ServerPropertiesForDefaultCreate_ARM)
+		result.Default = &def
 	}
 
-	// Set property ‘Version’:
-	if create.Version != nil {
-		version := *create.Version
-		result.Version = &version
+	// Set property ‘GeoRestore’:
+	if create.GeoRestore != nil {
+		geoRestore_ARM, err := (*create.GeoRestore).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		geoRestore := *geoRestore_ARM.(*ServerPropertiesForGeoRestore_ARM)
+		result.GeoRestore = &geoRestore
+	}
+
+	// Set property ‘PointInTimeRestore’:
+	if create.PointInTimeRestore != nil {
+		pointInTimeRestore_ARM, err := (*create.PointInTimeRestore).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		pointInTimeRestore := *pointInTimeRestore_ARM.(*ServerPropertiesForRestore_ARM)
+		result.PointInTimeRestore = &pointInTimeRestore
+	}
+
+	// Set property ‘Replica’:
+	if create.Replica != nil {
+		replica_ARM, err := (*create.Replica).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		replica := *replica_ARM.(*ServerPropertiesForReplica_ARM)
+		result.Replica = &replica
 	}
 	return result, nil
 }
@@ -1491,45 +1483,48 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘CreateMode’:
-	if typedInput.CreateMode != nil {
-		createMode := *typedInput.CreateMode
-		create.CreateMode = &createMode
-	}
-
-	// Set property ‘MinimalTlsVersion’:
-	if typedInput.MinimalTlsVersion != nil {
-		minimalTlsVersion := *typedInput.MinimalTlsVersion
-		create.MinimalTlsVersion = &minimalTlsVersion
-	}
-
-	// Set property ‘PublicNetworkAccess’:
-	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
-		create.PublicNetworkAccess = &publicNetworkAccess
-	}
-
-	// Set property ‘SslEnforcement’:
-	if typedInput.SslEnforcement != nil {
-		sslEnforcement := *typedInput.SslEnforcement
-		create.SslEnforcement = &sslEnforcement
-	}
-
-	// Set property ‘StorageProfile’:
-	if typedInput.StorageProfile != nil {
-		var storageProfile1 StorageProfile
-		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
+	// Set property ‘Default’:
+	if typedInput.Default != nil {
+		var default1 ServerPropertiesForDefaultCreate
+		err := default1.PopulateFromARM(owner, *typedInput.Default)
 		if err != nil {
 			return err
 		}
-		storageProfile := storageProfile1
-		create.StorageProfile = &storageProfile
+		def := default1
+		create.Default = &def
 	}
 
-	// Set property ‘Version’:
-	if typedInput.Version != nil {
-		version := *typedInput.Version
-		create.Version = &version
+	// Set property ‘GeoRestore’:
+	if typedInput.GeoRestore != nil {
+		var geoRestore1 ServerPropertiesForGeoRestore
+		err := geoRestore1.PopulateFromARM(owner, *typedInput.GeoRestore)
+		if err != nil {
+			return err
+		}
+		geoRestore := geoRestore1
+		create.GeoRestore = &geoRestore
+	}
+
+	// Set property ‘PointInTimeRestore’:
+	if typedInput.PointInTimeRestore != nil {
+		var pointInTimeRestore1 ServerPropertiesForRestore
+		err := pointInTimeRestore1.PopulateFromARM(owner, *typedInput.PointInTimeRestore)
+		if err != nil {
+			return err
+		}
+		pointInTimeRestore := pointInTimeRestore1
+		create.PointInTimeRestore = &pointInTimeRestore
+	}
+
+	// Set property ‘Replica’:
+	if typedInput.Replica != nil {
+		var replica1 ServerPropertiesForReplica
+		err := replica1.PopulateFromARM(owner, *typedInput.Replica)
+		if err != nil {
+			return err
+		}
+		replica := replica1
+		create.Replica = &replica
 	}
 
 	// No error
@@ -1539,56 +1534,52 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 // AssignProperties_From_ServerPropertiesForCreate populates our ServerPropertiesForCreate from the provided source ServerPropertiesForCreate
 func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesForCreate(source *v20180601s.ServerPropertiesForCreate) error {
 
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := ServerPropertiesForCreate_CreateMode(*source.CreateMode)
-		create.CreateMode = &createMode
-	} else {
-		create.CreateMode = nil
-	}
-
-	// MinimalTlsVersion
-	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
-		create.MinimalTlsVersion = &minimalTlsVersion
-	} else {
-		create.MinimalTlsVersion = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
-		create.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		create.PublicNetworkAccess = nil
-	}
-
-	// SslEnforcement
-	if source.SslEnforcement != nil {
-		sslEnforcement := SslEnforcement(*source.SslEnforcement)
-		create.SslEnforcement = &sslEnforcement
-	} else {
-		create.SslEnforcement = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile StorageProfile
-		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+	// Default
+	if source.Default != nil {
+		var def ServerPropertiesForDefaultCreate
+		err := def.AssignProperties_From_ServerPropertiesForDefaultCreate(source.Default)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
-		create.StorageProfile = &storageProfile
+		create.Default = &def
 	} else {
-		create.StorageProfile = nil
+		create.Default = nil
 	}
 
-	// Version
-	if source.Version != nil {
-		version := ServerVersion(*source.Version)
-		create.Version = &version
+	// GeoRestore
+	if source.GeoRestore != nil {
+		var geoRestore ServerPropertiesForGeoRestore
+		err := geoRestore.AssignProperties_From_ServerPropertiesForGeoRestore(source.GeoRestore)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field GeoRestore")
+		}
+		create.GeoRestore = &geoRestore
 	} else {
-		create.Version = nil
+		create.GeoRestore = nil
+	}
+
+	// PointInTimeRestore
+	if source.PointInTimeRestore != nil {
+		var pointInTimeRestore ServerPropertiesForRestore
+		err := pointInTimeRestore.AssignProperties_From_ServerPropertiesForRestore(source.PointInTimeRestore)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field PointInTimeRestore")
+		}
+		create.PointInTimeRestore = &pointInTimeRestore
+	} else {
+		create.PointInTimeRestore = nil
+	}
+
+	// Replica
+	if source.Replica != nil {
+		var replica ServerPropertiesForReplica
+		err := replica.AssignProperties_From_ServerPropertiesForReplica(source.Replica)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field Replica")
+		}
+		create.Replica = &replica
+	} else {
+		create.Replica = nil
 	}
 
 	// No error
@@ -1600,56 +1591,52 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// CreateMode
-	if create.CreateMode != nil {
-		createMode := string(*create.CreateMode)
-		destination.CreateMode = &createMode
-	} else {
-		destination.CreateMode = nil
-	}
-
-	// MinimalTlsVersion
-	if create.MinimalTlsVersion != nil {
-		minimalTlsVersion := string(*create.MinimalTlsVersion)
-		destination.MinimalTlsVersion = &minimalTlsVersion
-	} else {
-		destination.MinimalTlsVersion = nil
-	}
-
-	// PublicNetworkAccess
-	if create.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*create.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
-
-	// SslEnforcement
-	if create.SslEnforcement != nil {
-		sslEnforcement := string(*create.SslEnforcement)
-		destination.SslEnforcement = &sslEnforcement
-	} else {
-		destination.SslEnforcement = nil
-	}
-
-	// StorageProfile
-	if create.StorageProfile != nil {
-		var storageProfile v20180601s.StorageProfile
-		err := create.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+	// Default
+	if create.Default != nil {
+		var def v20180601s.ServerPropertiesForDefaultCreate
+		err := create.Default.AssignProperties_To_ServerPropertiesForDefaultCreate(&def)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
-		destination.StorageProfile = &storageProfile
+		destination.Default = &def
 	} else {
-		destination.StorageProfile = nil
+		destination.Default = nil
 	}
 
-	// Version
-	if create.Version != nil {
-		version := string(*create.Version)
-		destination.Version = &version
+	// GeoRestore
+	if create.GeoRestore != nil {
+		var geoRestore v20180601s.ServerPropertiesForGeoRestore
+		err := create.GeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&geoRestore)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field GeoRestore")
+		}
+		destination.GeoRestore = &geoRestore
 	} else {
-		destination.Version = nil
+		destination.GeoRestore = nil
+	}
+
+	// PointInTimeRestore
+	if create.PointInTimeRestore != nil {
+		var pointInTimeRestore v20180601s.ServerPropertiesForRestore
+		err := create.PointInTimeRestore.AssignProperties_To_ServerPropertiesForRestore(&pointInTimeRestore)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field PointInTimeRestore")
+		}
+		destination.PointInTimeRestore = &pointInTimeRestore
+	} else {
+		destination.PointInTimeRestore = nil
+	}
+
+	// Replica
+	if create.Replica != nil {
+		var replica v20180601s.ServerPropertiesForReplica
+		err := create.Replica.AssignProperties_To_ServerPropertiesForReplica(&replica)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field Replica")
+		}
+		destination.Replica = &replica
+	} else {
+		destination.Replica = nil
 	}
 
 	// Update the property bag
@@ -2296,150 +2283,1123 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 	return nil
 }
 
-type StorageProfile struct {
-	// BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
+type ServerPropertiesForDefaultCreate struct {
+	// +kubebuilder:validation:Required
+	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	// (and is required for creation).
+	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	// +kubebuilder:validation:Required
+	// AdministratorLoginPassword: The password of the administrator login.
+	AdministratorLoginPassword genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow `json:"storageAutogrow,omitempty"`
+	// +kubebuilder:validation:Required
+	// CreateMode: The mode to create a new server.
+	CreateMode ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
 
-	// StorageMB: Max storage allowed for a server.
-	StorageMB *int `json:"storageMB,omitempty"`
+	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+
+	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+
+	// StorageProfile: Storage profile of a server.
+	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+
+	// Version: Server version.
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &StorageProfile{}
+var _ genruntime.ARMTransformer = &ServerPropertiesForDefaultCreate{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
+func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if create == nil {
 		return nil, nil
 	}
-	result := &StorageProfile_ARM{}
+	result := &ServerPropertiesForDefaultCreate_ARM{}
 
-	// Set property ‘BackupRetentionDays’:
-	if profile.BackupRetentionDays != nil {
-		backupRetentionDays := *profile.BackupRetentionDays
-		result.BackupRetentionDays = &backupRetentionDays
+	// Set property ‘AdministratorLogin’:
+	if create.AdministratorLogin != nil {
+		administratorLogin := *create.AdministratorLogin
+		result.AdministratorLogin = &administratorLogin
 	}
 
-	// Set property ‘GeoRedundantBackup’:
-	if profile.GeoRedundantBackup != nil {
-		geoRedundantBackup := *profile.GeoRedundantBackup
-		result.GeoRedundantBackup = &geoRedundantBackup
+	// Set property ‘AdministratorLoginPassword’:
+	administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(create.AdministratorLoginPassword)
+	if err != nil {
+		return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
+	}
+	result.AdministratorLoginPassword = administratorLoginPasswordSecret
+
+	// Set property ‘CreateMode’:
+	result.CreateMode = create.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if create.MinimalTlsVersion != nil {
+		minimalTlsVersion := *create.MinimalTlsVersion
+		result.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘StorageAutogrow’:
-	if profile.StorageAutogrow != nil {
-		storageAutogrow := *profile.StorageAutogrow
-		result.StorageAutogrow = &storageAutogrow
+	// Set property ‘PublicNetworkAccess’:
+	if create.PublicNetworkAccess != nil {
+		publicNetworkAccess := *create.PublicNetworkAccess
+		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘StorageMB’:
-	if profile.StorageMB != nil {
-		storageMB := *profile.StorageMB
-		result.StorageMB = &storageMB
+	// Set property ‘SslEnforcement’:
+	if create.SslEnforcement != nil {
+		sslEnforcement := *create.SslEnforcement
+		result.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if create.StorageProfile != nil {
+		storageProfile_ARM, err := (*create.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		result.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if create.Version != nil {
+		version := *create.Version
+		result.Version = &version
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *StorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageProfile_ARM{}
+func (create *ServerPropertiesForDefaultCreate) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPropertiesForDefaultCreate_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageProfile_ARM)
+func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPropertiesForDefaultCreate_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForDefaultCreate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘BackupRetentionDays’:
-	if typedInput.BackupRetentionDays != nil {
-		backupRetentionDays := *typedInput.BackupRetentionDays
-		profile.BackupRetentionDays = &backupRetentionDays
+	// Set property ‘AdministratorLogin’:
+	if typedInput.AdministratorLogin != nil {
+		administratorLogin := *typedInput.AdministratorLogin
+		create.AdministratorLogin = &administratorLogin
 	}
 
-	// Set property ‘GeoRedundantBackup’:
-	if typedInput.GeoRedundantBackup != nil {
-		geoRedundantBackup := *typedInput.GeoRedundantBackup
-		profile.GeoRedundantBackup = &geoRedundantBackup
+	// no assignment for property ‘AdministratorLoginPassword’
+
+	// Set property ‘CreateMode’:
+	create.CreateMode = typedInput.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if typedInput.MinimalTlsVersion != nil {
+		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		create.MinimalTlsVersion = &minimalTlsVersion
 	}
 
-	// Set property ‘StorageAutogrow’:
-	if typedInput.StorageAutogrow != nil {
-		storageAutogrow := *typedInput.StorageAutogrow
-		profile.StorageAutogrow = &storageAutogrow
+	// Set property ‘PublicNetworkAccess’:
+	if typedInput.PublicNetworkAccess != nil {
+		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		create.PublicNetworkAccess = &publicNetworkAccess
 	}
 
-	// Set property ‘StorageMB’:
-	if typedInput.StorageMB != nil {
-		storageMB := *typedInput.StorageMB
-		profile.StorageMB = &storageMB
+	// Set property ‘SslEnforcement’:
+	if typedInput.SslEnforcement != nil {
+		sslEnforcement := *typedInput.SslEnforcement
+		create.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if typedInput.StorageProfile != nil {
+		var storageProfile1 StorageProfile
+		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
+		if err != nil {
+			return err
+		}
+		storageProfile := storageProfile1
+		create.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if typedInput.Version != nil {
+		version := *typedInput.Version
+		create.Version = &version
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_StorageProfile populates our StorageProfile from the provided source StorageProfile
-func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *v20180601s.StorageProfile) error {
+// AssignProperties_From_ServerPropertiesForDefaultCreate populates our ServerPropertiesForDefaultCreate from the provided source ServerPropertiesForDefaultCreate
+func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerPropertiesForDefaultCreate(source *v20180601s.ServerPropertiesForDefaultCreate) error {
 
-	// BackupRetentionDays
-	profile.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
+	// AdministratorLogin
+	create.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
-	// GeoRedundantBackup
-	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := StorageProfile_GeoRedundantBackup(*source.GeoRedundantBackup)
-		profile.GeoRedundantBackup = &geoRedundantBackup
+	// AdministratorLoginPassword
+	if source.AdministratorLoginPassword != nil {
+		create.AdministratorLoginPassword = source.AdministratorLoginPassword.Copy()
 	} else {
-		profile.GeoRedundantBackup = nil
+		create.AdministratorLoginPassword = genruntime.SecretReference{}
 	}
 
-	// StorageAutogrow
-	if source.StorageAutogrow != nil {
-		storageAutogrow := StorageProfile_StorageAutogrow(*source.StorageAutogrow)
-		profile.StorageAutogrow = &storageAutogrow
+	// CreateMode
+	if source.CreateMode != nil {
+		create.CreateMode = ServerPropertiesForDefaultCreate_CreateMode(*source.CreateMode)
 	} else {
-		profile.StorageAutogrow = nil
+		create.CreateMode = ""
 	}
 
-	// StorageMB
-	profile.StorageMB = genruntime.ClonePointerToInt(source.StorageMB)
+	// MinimalTlsVersion
+	if source.MinimalTlsVersion != nil {
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
+		create.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		create.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+		create.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		create.PublicNetworkAccess = nil
+	}
+
+	// SslEnforcement
+	if source.SslEnforcement != nil {
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
+		create.SslEnforcement = &sslEnforcement
+	} else {
+		create.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile StorageProfile
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+		}
+		create.StorageProfile = &storageProfile
+	} else {
+		create.StorageProfile = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		version := ServerVersion(*source.Version)
+		create.Version = &version
+	} else {
+		create.Version = nil
+	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_StorageProfile populates the provided destination StorageProfile from our StorageProfile
-func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v20180601s.StorageProfile) error {
+// AssignProperties_To_ServerPropertiesForDefaultCreate populates the provided destination ServerPropertiesForDefaultCreate from our ServerPropertiesForDefaultCreate
+func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerPropertiesForDefaultCreate(destination *v20180601s.ServerPropertiesForDefaultCreate) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// BackupRetentionDays
-	destination.BackupRetentionDays = genruntime.ClonePointerToInt(profile.BackupRetentionDays)
+	// AdministratorLogin
+	destination.AdministratorLogin = genruntime.ClonePointerToString(create.AdministratorLogin)
 
-	// GeoRedundantBackup
-	if profile.GeoRedundantBackup != nil {
-		geoRedundantBackup := string(*profile.GeoRedundantBackup)
-		destination.GeoRedundantBackup = &geoRedundantBackup
+	// AdministratorLoginPassword
+	administratorLoginPassword := create.AdministratorLoginPassword.Copy()
+	destination.AdministratorLoginPassword = &administratorLoginPassword
+
+	// CreateMode
+	createMode := string(create.CreateMode)
+	destination.CreateMode = &createMode
+
+	// MinimalTlsVersion
+	if create.MinimalTlsVersion != nil {
+		minimalTlsVersion := string(*create.MinimalTlsVersion)
+		destination.MinimalTlsVersion = &minimalTlsVersion
 	} else {
-		destination.GeoRedundantBackup = nil
+		destination.MinimalTlsVersion = nil
 	}
 
-	// StorageAutogrow
-	if profile.StorageAutogrow != nil {
-		storageAutogrow := string(*profile.StorageAutogrow)
-		destination.StorageAutogrow = &storageAutogrow
+	// PublicNetworkAccess
+	if create.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*create.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
-		destination.StorageAutogrow = nil
+		destination.PublicNetworkAccess = nil
 	}
 
-	// StorageMB
-	destination.StorageMB = genruntime.ClonePointerToInt(profile.StorageMB)
+	// SslEnforcement
+	if create.SslEnforcement != nil {
+		sslEnforcement := string(*create.SslEnforcement)
+		destination.SslEnforcement = &sslEnforcement
+	} else {
+		destination.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if create.StorageProfile != nil {
+		var storageProfile v20180601s.StorageProfile
+		err := create.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Version
+	if create.Version != nil {
+		version := string(*create.Version)
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ServerPropertiesForGeoRestore struct {
+	// +kubebuilder:validation:Required
+	// CreateMode: The mode to create a new server.
+	CreateMode ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
+
+	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+
+	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// SourceServerId: The source server id to restore from.
+	SourceServerId *string `json:"sourceServerId,omitempty"`
+
+	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+
+	// StorageProfile: Storage profile of a server.
+	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+
+	// Version: Server version.
+	Version *ServerVersion `json:"version,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ServerPropertiesForGeoRestore{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if restore == nil {
+		return nil, nil
+	}
+	result := &ServerPropertiesForGeoRestore_ARM{}
+
+	// Set property ‘CreateMode’:
+	result.CreateMode = restore.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if restore.MinimalTlsVersion != nil {
+		minimalTlsVersion := *restore.MinimalTlsVersion
+		result.MinimalTlsVersion = &minimalTlsVersion
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if restore.PublicNetworkAccess != nil {
+		publicNetworkAccess := *restore.PublicNetworkAccess
+		result.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘SourceServerId’:
+	if restore.SourceServerId != nil {
+		sourceServerId := *restore.SourceServerId
+		result.SourceServerId = &sourceServerId
+	}
+
+	// Set property ‘SslEnforcement’:
+	if restore.SslEnforcement != nil {
+		sslEnforcement := *restore.SslEnforcement
+		result.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if restore.StorageProfile != nil {
+		storageProfile_ARM, err := (*restore.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		result.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if restore.Version != nil {
+		version := *restore.Version
+		result.Version = &version
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (restore *ServerPropertiesForGeoRestore) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPropertiesForGeoRestore_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPropertiesForGeoRestore_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForGeoRestore_ARM, got %T", armInput)
+	}
+
+	// Set property ‘CreateMode’:
+	restore.CreateMode = typedInput.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if typedInput.MinimalTlsVersion != nil {
+		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		restore.MinimalTlsVersion = &minimalTlsVersion
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if typedInput.PublicNetworkAccess != nil {
+		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		restore.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘SourceServerId’:
+	if typedInput.SourceServerId != nil {
+		sourceServerId := *typedInput.SourceServerId
+		restore.SourceServerId = &sourceServerId
+	}
+
+	// Set property ‘SslEnforcement’:
+	if typedInput.SslEnforcement != nil {
+		sslEnforcement := *typedInput.SslEnforcement
+		restore.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if typedInput.StorageProfile != nil {
+		var storageProfile1 StorageProfile
+		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
+		if err != nil {
+			return err
+		}
+		storageProfile := storageProfile1
+		restore.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if typedInput.Version != nil {
+		version := *typedInput.Version
+		restore.Version = &version
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ServerPropertiesForGeoRestore populates our ServerPropertiesForGeoRestore from the provided source ServerPropertiesForGeoRestore
+func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerPropertiesForGeoRestore(source *v20180601s.ServerPropertiesForGeoRestore) error {
+
+	// CreateMode
+	if source.CreateMode != nil {
+		restore.CreateMode = ServerPropertiesForGeoRestore_CreateMode(*source.CreateMode)
+	} else {
+		restore.CreateMode = ""
+	}
+
+	// MinimalTlsVersion
+	if source.MinimalTlsVersion != nil {
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
+		restore.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		restore.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+		restore.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		restore.PublicNetworkAccess = nil
+	}
+
+	// SourceServerId
+	restore.SourceServerId = genruntime.ClonePointerToString(source.SourceServerId)
+
+	// SslEnforcement
+	if source.SslEnforcement != nil {
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
+		restore.SslEnforcement = &sslEnforcement
+	} else {
+		restore.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile StorageProfile
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+		}
+		restore.StorageProfile = &storageProfile
+	} else {
+		restore.StorageProfile = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		version := ServerVersion(*source.Version)
+		restore.Version = &version
+	} else {
+		restore.Version = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServerPropertiesForGeoRestore populates the provided destination ServerPropertiesForGeoRestore from our ServerPropertiesForGeoRestore
+func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerPropertiesForGeoRestore(destination *v20180601s.ServerPropertiesForGeoRestore) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreateMode
+	createMode := string(restore.CreateMode)
+	destination.CreateMode = &createMode
+
+	// MinimalTlsVersion
+	if restore.MinimalTlsVersion != nil {
+		minimalTlsVersion := string(*restore.MinimalTlsVersion)
+		destination.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		destination.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if restore.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*restore.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// SourceServerId
+	destination.SourceServerId = genruntime.ClonePointerToString(restore.SourceServerId)
+
+	// SslEnforcement
+	if restore.SslEnforcement != nil {
+		sslEnforcement := string(*restore.SslEnforcement)
+		destination.SslEnforcement = &sslEnforcement
+	} else {
+		destination.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if restore.StorageProfile != nil {
+		var storageProfile v20180601s.StorageProfile
+		err := restore.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Version
+	if restore.Version != nil {
+		version := string(*restore.Version)
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ServerPropertiesForReplica struct {
+	// +kubebuilder:validation:Required
+	// CreateMode: The mode to create a new server.
+	CreateMode ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
+
+	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+
+	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// SourceServerId: The master server id to create replica from.
+	SourceServerId *string `json:"sourceServerId,omitempty"`
+
+	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+
+	// StorageProfile: Storage profile of a server.
+	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+
+	// Version: Server version.
+	Version *ServerVersion `json:"version,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ServerPropertiesForReplica{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if replica == nil {
+		return nil, nil
+	}
+	result := &ServerPropertiesForReplica_ARM{}
+
+	// Set property ‘CreateMode’:
+	result.CreateMode = replica.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if replica.MinimalTlsVersion != nil {
+		minimalTlsVersion := *replica.MinimalTlsVersion
+		result.MinimalTlsVersion = &minimalTlsVersion
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if replica.PublicNetworkAccess != nil {
+		publicNetworkAccess := *replica.PublicNetworkAccess
+		result.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘SourceServerId’:
+	if replica.SourceServerId != nil {
+		sourceServerId := *replica.SourceServerId
+		result.SourceServerId = &sourceServerId
+	}
+
+	// Set property ‘SslEnforcement’:
+	if replica.SslEnforcement != nil {
+		sslEnforcement := *replica.SslEnforcement
+		result.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if replica.StorageProfile != nil {
+		storageProfile_ARM, err := (*replica.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		result.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if replica.Version != nil {
+		version := *replica.Version
+		result.Version = &version
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (replica *ServerPropertiesForReplica) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPropertiesForReplica_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPropertiesForReplica_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForReplica_ARM, got %T", armInput)
+	}
+
+	// Set property ‘CreateMode’:
+	replica.CreateMode = typedInput.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if typedInput.MinimalTlsVersion != nil {
+		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		replica.MinimalTlsVersion = &minimalTlsVersion
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if typedInput.PublicNetworkAccess != nil {
+		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		replica.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘SourceServerId’:
+	if typedInput.SourceServerId != nil {
+		sourceServerId := *typedInput.SourceServerId
+		replica.SourceServerId = &sourceServerId
+	}
+
+	// Set property ‘SslEnforcement’:
+	if typedInput.SslEnforcement != nil {
+		sslEnforcement := *typedInput.SslEnforcement
+		replica.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if typedInput.StorageProfile != nil {
+		var storageProfile1 StorageProfile
+		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
+		if err != nil {
+			return err
+		}
+		storageProfile := storageProfile1
+		replica.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if typedInput.Version != nil {
+		version := *typedInput.Version
+		replica.Version = &version
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ServerPropertiesForReplica populates our ServerPropertiesForReplica from the provided source ServerPropertiesForReplica
+func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertiesForReplica(source *v20180601s.ServerPropertiesForReplica) error {
+
+	// CreateMode
+	if source.CreateMode != nil {
+		replica.CreateMode = ServerPropertiesForReplica_CreateMode(*source.CreateMode)
+	} else {
+		replica.CreateMode = ""
+	}
+
+	// MinimalTlsVersion
+	if source.MinimalTlsVersion != nil {
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
+		replica.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		replica.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+		replica.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		replica.PublicNetworkAccess = nil
+	}
+
+	// SourceServerId
+	replica.SourceServerId = genruntime.ClonePointerToString(source.SourceServerId)
+
+	// SslEnforcement
+	if source.SslEnforcement != nil {
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
+		replica.SslEnforcement = &sslEnforcement
+	} else {
+		replica.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile StorageProfile
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+		}
+		replica.StorageProfile = &storageProfile
+	} else {
+		replica.StorageProfile = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		version := ServerVersion(*source.Version)
+		replica.Version = &version
+	} else {
+		replica.Version = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServerPropertiesForReplica populates the provided destination ServerPropertiesForReplica from our ServerPropertiesForReplica
+func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesForReplica(destination *v20180601s.ServerPropertiesForReplica) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreateMode
+	createMode := string(replica.CreateMode)
+	destination.CreateMode = &createMode
+
+	// MinimalTlsVersion
+	if replica.MinimalTlsVersion != nil {
+		minimalTlsVersion := string(*replica.MinimalTlsVersion)
+		destination.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		destination.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if replica.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*replica.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// SourceServerId
+	destination.SourceServerId = genruntime.ClonePointerToString(replica.SourceServerId)
+
+	// SslEnforcement
+	if replica.SslEnforcement != nil {
+		sslEnforcement := string(*replica.SslEnforcement)
+		destination.SslEnforcement = &sslEnforcement
+	} else {
+		destination.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if replica.StorageProfile != nil {
+		var storageProfile v20180601s.StorageProfile
+		err := replica.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Version
+	if replica.Version != nil {
+		version := string(*replica.Version)
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ServerPropertiesForRestore struct {
+	// +kubebuilder:validation:Required
+	// CreateMode: The mode to create a new server.
+	CreateMode ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
+
+	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+
+	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
+	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// SourceServerId: The source server id to restore from.
+	SourceServerId *string `json:"sourceServerId,omitempty"`
+
+	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
+
+	// StorageProfile: Storage profile of a server.
+	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+
+	// Version: Server version.
+	Version *ServerVersion `json:"version,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ServerPropertiesForRestore{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if restore == nil {
+		return nil, nil
+	}
+	result := &ServerPropertiesForRestore_ARM{}
+
+	// Set property ‘CreateMode’:
+	result.CreateMode = restore.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if restore.MinimalTlsVersion != nil {
+		minimalTlsVersion := *restore.MinimalTlsVersion
+		result.MinimalTlsVersion = &minimalTlsVersion
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if restore.PublicNetworkAccess != nil {
+		publicNetworkAccess := *restore.PublicNetworkAccess
+		result.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘RestorePointInTime’:
+	if restore.RestorePointInTime != nil {
+		restorePointInTime := *restore.RestorePointInTime
+		result.RestorePointInTime = &restorePointInTime
+	}
+
+	// Set property ‘SourceServerId’:
+	if restore.SourceServerId != nil {
+		sourceServerId := *restore.SourceServerId
+		result.SourceServerId = &sourceServerId
+	}
+
+	// Set property ‘SslEnforcement’:
+	if restore.SslEnforcement != nil {
+		sslEnforcement := *restore.SslEnforcement
+		result.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if restore.StorageProfile != nil {
+		storageProfile_ARM, err := (*restore.StorageProfile).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		storageProfile := *storageProfile_ARM.(*StorageProfile_ARM)
+		result.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if restore.Version != nil {
+		version := *restore.Version
+		result.Version = &version
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (restore *ServerPropertiesForRestore) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ServerPropertiesForRestore_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ServerPropertiesForRestore_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForRestore_ARM, got %T", armInput)
+	}
+
+	// Set property ‘CreateMode’:
+	restore.CreateMode = typedInput.CreateMode
+
+	// Set property ‘MinimalTlsVersion’:
+	if typedInput.MinimalTlsVersion != nil {
+		minimalTlsVersion := *typedInput.MinimalTlsVersion
+		restore.MinimalTlsVersion = &minimalTlsVersion
+	}
+
+	// Set property ‘PublicNetworkAccess’:
+	if typedInput.PublicNetworkAccess != nil {
+		publicNetworkAccess := *typedInput.PublicNetworkAccess
+		restore.PublicNetworkAccess = &publicNetworkAccess
+	}
+
+	// Set property ‘RestorePointInTime’:
+	if typedInput.RestorePointInTime != nil {
+		restorePointInTime := *typedInput.RestorePointInTime
+		restore.RestorePointInTime = &restorePointInTime
+	}
+
+	// Set property ‘SourceServerId’:
+	if typedInput.SourceServerId != nil {
+		sourceServerId := *typedInput.SourceServerId
+		restore.SourceServerId = &sourceServerId
+	}
+
+	// Set property ‘SslEnforcement’:
+	if typedInput.SslEnforcement != nil {
+		sslEnforcement := *typedInput.SslEnforcement
+		restore.SslEnforcement = &sslEnforcement
+	}
+
+	// Set property ‘StorageProfile’:
+	if typedInput.StorageProfile != nil {
+		var storageProfile1 StorageProfile
+		err := storageProfile1.PopulateFromARM(owner, *typedInput.StorageProfile)
+		if err != nil {
+			return err
+		}
+		storageProfile := storageProfile1
+		restore.StorageProfile = &storageProfile
+	}
+
+	// Set property ‘Version’:
+	if typedInput.Version != nil {
+		version := *typedInput.Version
+		restore.Version = &version
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ServerPropertiesForRestore populates our ServerPropertiesForRestore from the provided source ServerPropertiesForRestore
+func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertiesForRestore(source *v20180601s.ServerPropertiesForRestore) error {
+
+	// CreateMode
+	if source.CreateMode != nil {
+		restore.CreateMode = ServerPropertiesForRestore_CreateMode(*source.CreateMode)
+	} else {
+		restore.CreateMode = ""
+	}
+
+	// MinimalTlsVersion
+	if source.MinimalTlsVersion != nil {
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
+		restore.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		restore.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+		restore.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		restore.PublicNetworkAccess = nil
+	}
+
+	// RestorePointInTime
+	if source.RestorePointInTime != nil {
+		restorePointInTime := *source.RestorePointInTime
+		restore.RestorePointInTime = &restorePointInTime
+	} else {
+		restore.RestorePointInTime = nil
+	}
+
+	// SourceServerId
+	restore.SourceServerId = genruntime.ClonePointerToString(source.SourceServerId)
+
+	// SslEnforcement
+	if source.SslEnforcement != nil {
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
+		restore.SslEnforcement = &sslEnforcement
+	} else {
+		restore.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if source.StorageProfile != nil {
+		var storageProfile StorageProfile
+		err := storageProfile.AssignProperties_From_StorageProfile(source.StorageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageProfile() to populate field StorageProfile")
+		}
+		restore.StorageProfile = &storageProfile
+	} else {
+		restore.StorageProfile = nil
+	}
+
+	// Version
+	if source.Version != nil {
+		version := ServerVersion(*source.Version)
+		restore.Version = &version
+	} else {
+		restore.Version = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServerPropertiesForRestore populates the provided destination ServerPropertiesForRestore from our ServerPropertiesForRestore
+func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesForRestore(destination *v20180601s.ServerPropertiesForRestore) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreateMode
+	createMode := string(restore.CreateMode)
+	destination.CreateMode = &createMode
+
+	// MinimalTlsVersion
+	if restore.MinimalTlsVersion != nil {
+		minimalTlsVersion := string(*restore.MinimalTlsVersion)
+		destination.MinimalTlsVersion = &minimalTlsVersion
+	} else {
+		destination.MinimalTlsVersion = nil
+	}
+
+	// PublicNetworkAccess
+	if restore.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*restore.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
+	}
+
+	// RestorePointInTime
+	if restore.RestorePointInTime != nil {
+		restorePointInTime := *restore.RestorePointInTime
+		destination.RestorePointInTime = &restorePointInTime
+	} else {
+		destination.RestorePointInTime = nil
+	}
+
+	// SourceServerId
+	destination.SourceServerId = genruntime.ClonePointerToString(restore.SourceServerId)
+
+	// SslEnforcement
+	if restore.SslEnforcement != nil {
+		sslEnforcement := string(*restore.SslEnforcement)
+		destination.SslEnforcement = &sslEnforcement
+	} else {
+		destination.SslEnforcement = nil
+	}
+
+	// StorageProfile
+	if restore.StorageProfile != nil {
+		var storageProfile v20180601s.StorageProfile
+		err := restore.StorageProfile.AssignProperties_To_StorageProfile(&storageProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageProfile() to populate field StorageProfile")
+		}
+		destination.StorageProfile = &storageProfile
+	} else {
+		destination.StorageProfile = nil
+	}
+
+	// Version
+	if restore.Version != nil {
+		version := string(*restore.Version)
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2630,6 +3590,162 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 	} else {
 		destination.Status = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type StorageProfile struct {
+	// BackupRetentionDays: Backup retention days for the server.
+	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
+
+	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
+	GeoRedundantBackup *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+
+	// StorageAutogrow: Enable Storage Auto Grow.
+	StorageAutogrow *StorageProfile_StorageAutogrow `json:"storageAutogrow,omitempty"`
+
+	// StorageMB: Max storage allowed for a server.
+	StorageMB *int `json:"storageMB,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &StorageProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *StorageProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &StorageProfile_ARM{}
+
+	// Set property ‘BackupRetentionDays’:
+	if profile.BackupRetentionDays != nil {
+		backupRetentionDays := *profile.BackupRetentionDays
+		result.BackupRetentionDays = &backupRetentionDays
+	}
+
+	// Set property ‘GeoRedundantBackup’:
+	if profile.GeoRedundantBackup != nil {
+		geoRedundantBackup := *profile.GeoRedundantBackup
+		result.GeoRedundantBackup = &geoRedundantBackup
+	}
+
+	// Set property ‘StorageAutogrow’:
+	if profile.StorageAutogrow != nil {
+		storageAutogrow := *profile.StorageAutogrow
+		result.StorageAutogrow = &storageAutogrow
+	}
+
+	// Set property ‘StorageMB’:
+	if profile.StorageMB != nil {
+		storageMB := *profile.StorageMB
+		result.StorageMB = &storageMB
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *StorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageProfile_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *StorageProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageProfile_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageProfile_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BackupRetentionDays’:
+	if typedInput.BackupRetentionDays != nil {
+		backupRetentionDays := *typedInput.BackupRetentionDays
+		profile.BackupRetentionDays = &backupRetentionDays
+	}
+
+	// Set property ‘GeoRedundantBackup’:
+	if typedInput.GeoRedundantBackup != nil {
+		geoRedundantBackup := *typedInput.GeoRedundantBackup
+		profile.GeoRedundantBackup = &geoRedundantBackup
+	}
+
+	// Set property ‘StorageAutogrow’:
+	if typedInput.StorageAutogrow != nil {
+		storageAutogrow := *typedInput.StorageAutogrow
+		profile.StorageAutogrow = &storageAutogrow
+	}
+
+	// Set property ‘StorageMB’:
+	if typedInput.StorageMB != nil {
+		storageMB := *typedInput.StorageMB
+		profile.StorageMB = &storageMB
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_StorageProfile populates our StorageProfile from the provided source StorageProfile
+func (profile *StorageProfile) AssignProperties_From_StorageProfile(source *v20180601s.StorageProfile) error {
+
+	// BackupRetentionDays
+	profile.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
+
+	// GeoRedundantBackup
+	if source.GeoRedundantBackup != nil {
+		geoRedundantBackup := StorageProfile_GeoRedundantBackup(*source.GeoRedundantBackup)
+		profile.GeoRedundantBackup = &geoRedundantBackup
+	} else {
+		profile.GeoRedundantBackup = nil
+	}
+
+	// StorageAutogrow
+	if source.StorageAutogrow != nil {
+		storageAutogrow := StorageProfile_StorageAutogrow(*source.StorageAutogrow)
+		profile.StorageAutogrow = &storageAutogrow
+	} else {
+		profile.StorageAutogrow = nil
+	}
+
+	// StorageMB
+	profile.StorageMB = genruntime.ClonePointerToInt(source.StorageMB)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageProfile populates the provided destination StorageProfile from our StorageProfile
+func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v20180601s.StorageProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BackupRetentionDays
+	destination.BackupRetentionDays = genruntime.ClonePointerToInt(profile.BackupRetentionDays)
+
+	// GeoRedundantBackup
+	if profile.GeoRedundantBackup != nil {
+		geoRedundantBackup := string(*profile.GeoRedundantBackup)
+		destination.GeoRedundantBackup = &geoRedundantBackup
+	} else {
+		destination.GeoRedundantBackup = nil
+	}
+
+	// StorageAutogrow
+	if profile.StorageAutogrow != nil {
+		storageAutogrow := string(*profile.StorageAutogrow)
+		destination.StorageAutogrow = &storageAutogrow
+	} else {
+		destination.StorageAutogrow = nil
+	}
+
+	// StorageMB
+	destination.StorageMB = genruntime.ClonePointerToInt(profile.StorageMB)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

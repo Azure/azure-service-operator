@@ -7,9 +7,12 @@ package astmodel
 
 import (
 	"fmt"
+	"github.com/kylelemons/godebug/diff"
+	"math/big"
 	"regexp"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/kr/pretty"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
@@ -70,15 +73,22 @@ func (set TypeDefinitionSet) Add(def TypeDefinition) {
 
 // FullyResolve turns something that might be a TypeName into something that isn't
 func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
-	tName, ok := t.(TypeName)
+	seen := NewTypeNameSet()
+
+	tn, ok := t.(TypeName)
 	for ok {
-		tDef, found := set[tName]
+		seen.Add(tn)
+
+		def, found := set[tn]
 		if !found {
-			return nil, errors.Errorf("couldn't find definition for %s", tName)
+			return nil, errors.Errorf("couldn't find definition for %s", tn)
 		}
 
-		t = tDef.Type()
-		tName, ok = t.(TypeName)
+		t = def.Type()
+		tn, ok = t.(TypeName)
+		if ok && seen.Contains(tn) {
+			return nil, errors.Errorf("cycle detected in type definition for %s", tn)
+		}
 	}
 
 	return t, nil
@@ -123,7 +133,7 @@ func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
 
 	existing := set[def.Name()]
 	if !TypeEquals(def.Type(), existing.Type()) {
-		return errors.Errorf("type definition for %q has two shapes: %s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
+		return errors.Errorf("type definition for %q has two shapes: \r\n%s", existing.Name(), DiffTypes(existing.Type(), def.Type()))
 	}
 
 	// Can safely skip this add
@@ -141,6 +151,7 @@ func DiffTypes(x, y interface{}) string {
 		PrimitiveType{},
 		ResourceType{},
 		EnumType{},
+		FlaggedType{},
 		TypeName{},
 		LocalPackageReference{},
 		InterfaceImplementer{},
@@ -151,12 +162,22 @@ func DiffTypes(x, y interface{}) string {
 		readonly.Map[string, []string]{},
 		MapType{},
 		ResourceType{},
+		big.Rat{},
+		big.Int{},
 	)
 
 	regexCompare := cmp.Comparer(func(x, y regexp.Regexp) bool {
 		return x.String() == y.String()
 	})
-	return cmp.Diff(x, y, allowAll, regexCompare)
+
+	if cmp.Equal(x, y, allowAll, regexCompare) {
+		return ""
+	}
+
+	// prefer diff.Diff() over cmp.Diff() as the results are more readable
+	return diff.Diff(
+		pretty.Sprint(x),
+		pretty.Sprint(y))
 }
 
 // AddAllAllowDuplicates adds multiple definitions to the set.

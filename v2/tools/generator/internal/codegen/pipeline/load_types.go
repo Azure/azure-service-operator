@@ -88,11 +88,11 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 				// document origin of resource
 				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
 				resourceDefinition = resourceDefinition.
-					WithDescription(([]string{
+					WithDescription(
 						"Generator information:",
 						fmt.Sprintf(" - Generated from: %s", filepath.ToSlash(sourceFile)),
 						fmt.Sprintf(" - ARM URI: %s", resourceInfo.ARMURI),
-					}))
+					)
 
 				err := defs.AddAllowDuplicates(resourceDefinition)
 				if err != nil {

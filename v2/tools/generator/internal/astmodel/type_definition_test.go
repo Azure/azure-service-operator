@@ -57,7 +57,7 @@ func Test_TypeDefinitionWithDescription_GivenDescription_ReturnsExpected(t *test
 
 	ref := MakeTypeName(makeTestLocalPackageReference(group, version), name)
 	objectType := NewObjectType().WithProperties(fullName, familyName, knownAs)
-	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(description)
+	objectDefinition := MakeTypeDefinition(ref, objectType).WithDescription(description...)
 
 	g.Expect(objectDefinition.Description()).To(Equal(description))
 }

@@ -36,7 +36,11 @@ func RemoveResourceScope() *Stage {
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to remove scope property from %s", updatedDef.Name())
 				}
-				newDefs.Add(updatedDef)
+
+				// Sometimes resources share definitions
+				// For example, in v2019-01-01 of security, both Settings_MCAS and Settings_WDATP share the same spec, DataExportSettings
+				// When this happens, we process the type twice, but harmlessly end up with the same result
+				newDefs.AddAllowDuplicates(updatedDef)
 			}
 
 			result := state.Definitions().OverlayWith(newDefs)

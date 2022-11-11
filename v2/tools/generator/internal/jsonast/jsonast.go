@@ -8,6 +8,7 @@ package jsonast
 import (
 	"context"
 	"fmt"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"math"
 	"math/big"
 	"net/url"
@@ -112,6 +113,38 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema Sc
 	}
 
 	return scanner.RunHandler(ctx, schemaType, schema)
+}
+
+// RunHandlersForSchemas inspects each passed schema and runs the appropriate handler
+func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas []Schema) ([]astmodel.Type, error) {
+	var results []astmodel.Type
+	var errs []error
+	for _, schema := range schemas {
+		t, err := scanner.RunHandlerForSchema(ctx, schema)
+		if err != nil {
+			var unknownSchema *UnknownSchemaError
+			if errors.As(err, &unknownSchema) {
+				if unknownSchema.Schema.description() != nil {
+					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
+					klog.V(2).Infof("skipping description-only schema type with description %q", *unknownSchema.Schema.description())
+					continue
+				}
+			}
+
+			errs = append(errs, errors.Wrapf(err, "unable to handle schema %s", schema.Id()))
+		}
+
+		if t != nil {
+			results = append(results, t)
+		}
+	}
+
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, err
+	}
+
+	return results, nil
 }
 
 // GenerateDefinitionsFromDeploymentTemplate takes in the resources section of the Azure deployment template schema and returns golang AST Packages
@@ -289,7 +322,7 @@ func defaultTypeHandlers() map[SchemaType]TypeHandler {
 	}
 }
 
-func stringHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.StringType
 
 	maxLength := schema.maxLength()
@@ -346,7 +379,7 @@ func formatToPattern(format string) *regexp.Regexp {
 	}
 }
 
-func numberHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func numberHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.FloatType
 	v := getNumberValidations(schema)
 	if v != nil {
@@ -389,7 +422,7 @@ var (
 	maxUint32 *big.Rat = big.NewRat(1, 1).SetUint64(math.MaxUint32)
 )
 
-func intHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func intHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel.Type, error) {
 	t := astmodel.IntType
 	v := getNumberValidations(schema)
 	if v != nil {
@@ -429,7 +462,7 @@ func getNumberValidations(schema Schema) *astmodel.NumberValidations {
 	return nil
 }
 
-func boolHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
+func boolHandler(_ context.Context, _ *SchemaScanner, _ Schema) (astmodel.Type, error) {
 	return astmodel.BoolType, nil
 }
 
@@ -453,7 +486,6 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 	enumValues := schema.enumValues()
 	values := make([]astmodel.EnumValue, 0, len(enumValues))
 	for _, v := range enumValues {
-
 		vTrimmed := strings.Trim(v, "\"")
 
 		// Some specs include boolean (or float, int) enums with quotes around the literals.
@@ -466,7 +498,7 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 		// TODO: for an arbitrary non-renderable character
 		// use vTrimmed as seed for identifier as it doesn't have quotes surrounding it
 		id := scanner.idFactory.CreateIdentifier(vTrimmed, astmodel.Exported)
-		values = append(values, astmodel.EnumValue{Identifier: id, Value: v})
+		values = append(values, astmodel.MakeEnumValue(id, v))
 	}
 
 	enumType := astmodel.NewEnumType(baseType, values...)
@@ -490,7 +522,7 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 		return properties[0].PropertyType(), nil
 	}
 
-	isResource := schema.extensions("x-ms-azure-resource") == true
+	isResource := schema.extensionAsBool("x-ms-azure-resource")
 
 	// If we're a resource, our 'Id' property needs to have a special type
 	if isResource {
@@ -576,10 +608,11 @@ func getProperties(
 		}
 
 		// add flattening
-		property = property.SetFlatten(propSchema.extensions("x-ms-client-flatten") == true)
+		property = property.SetFlatten(propSchema.extensionAsBool("x-ms-client-flatten") == true)
 
 		// add secret flag
-		hasSecretExtension := propSchema.extensions("x-ms-secret") == true
+		hasSecretExtension := propSchema.extensionAsBool("x-ms-secret")
+
 		hasFormatPassword := propSchema.format() == "password"
 		if hasSecretExtension || hasFormatPassword {
 			property = property.WithIsSecret(true)
@@ -696,10 +729,10 @@ func generateDefinitionsFor(
 	scanner *SchemaScanner,
 	typeName astmodel.TypeName,
 	schema Schema,
-) (astmodel.Type, error) {
+) (astmodel.TypeName, error) {
 	schemaType, err := getSubSchemaType(schema)
 	if err != nil {
-		return nil, err
+		return astmodel.EmptyTypeName, err
 	}
 
 	url := schema.url()
@@ -715,7 +748,7 @@ func generateDefinitionsFor(
 	result, err := scanner.RunHandler(ctx, schemaType, schema)
 	if err != nil {
 		scanner.removeTypeDefinition(typeName) // we weren't able to generate it, remove placeholder
-		return nil, err
+		return astmodel.EmptyTypeName, err
 	}
 
 	//TODO(donotmerge): This code and below does nothing. schema.url() is always empty?
@@ -732,7 +765,7 @@ func generateDefinitionsFor(
 			fmt.Sprintf("Generated from: %s", schema.url().String()),
 		}
 
-		definition = definition.WithDescription(description)
+		definition = definition.WithDescription(description...)
 	}
 
 	scanner.addTypeDefinition(definition)
@@ -749,26 +782,9 @@ func allOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "allOfHandler")
 	defer span.End()
 
-	var types []astmodel.Type
-	for _, all := range schema.allOf() {
-
-		d, err := scanner.RunHandlerForSchema(ctx, all)
-		if err != nil {
-			var unknownSchema *UnknownSchemaError
-			if errors.As(err, &unknownSchema) {
-				if unknownSchema.Schema.description() != nil {
-					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
-					klog.V(2).Infof("skipping description-only schema type with description %q", *unknownSchema.Schema.description())
-					continue
-				}
-			}
-
-			return nil, err
-		}
-
-		if d != nil {
-			types = append(types, d)
-		}
+	types, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
+	if err != nil {
+		return nil, err
 	}
 
 	// if the node that contains the allOf defines other properties, create an object type with them inside to merge
@@ -788,37 +804,82 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 	ctx, span := tab.StartSpan(ctx, "oneOfHandler")
 	defer span.End()
 
-	return generateOneOfUnionType(ctx, schema, schema.oneOf(), scanner)
-}
+	result := astmodel.NewOneOfType(schema.Id())
 
-func generateOneOfUnionType(ctx context.Context, schema Schema, subschemas []Schema, scanner *SchemaScanner) (astmodel.Type, error) {
-	// make sure we visit everything before bailing out,
-	// to get all types generated even if we can't use them
-	var types []astmodel.Type
-	for _, one := range subschemas {
-		result, err := scanner.RunHandlerForSchema(ctx, one)
-		if err != nil {
-			return nil, err
-		}
-
-		if result != nil {
-			types = append(types, result)
-		}
+	// Capture the discriminator property name, if we have one
+	if schema.discriminator() != "" {
+		result = result.WithDiscriminatorProperty(schema.discriminator())
 	}
 
-	result := astmodel.BuildOneOfType(types...)
+	// Capture the discriminator value, if we have one
+	if discriminatorValue, ok := schema.extensionAsString("x-ms-discriminator-value"); ok {
+		result = result.WithDiscriminatorValue(discriminatorValue)
+	}
 
-	// if the node that contains the oneOf(/anyOf) defines other properties, create an object type with them inside to merge
-	if len(schema.properties()) > 0 {
-		objectType, err := scanner.RunHandler(ctx, Object, schema)
-		if err != nil {
-			return nil, err
+	// Handle any nested OneOf options
+	// These will each be either a TypeName or an Object
+	types, err := scanner.RunHandlersForSchemas(ctx, schema.oneOf())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate oneOf types for %s", schema.Id())
+	}
+
+	result = result.WithTypes(types)
+
+	// Also need to pick up any nested AllOf options
+	// If an object, these are properties that are required for this option
+	// Otherwise, add as an option
+	allOfTypes, err := scanner.RunHandlersForSchemas(ctx, schema.allOf())
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to generate allOf types for %s", schema.Id())
+	}
+
+	// Our AllOf contains either properties to add to our OneOf, or references to parent types
+	for _, t := range allOfTypes {
+		if obj, ok := asCommonProperties(t, scanner.definitions); ok {
+			// If we have an object, add its properties
+			result = result.WithAdditionalPropertyObject(obj)
+			continue
 		}
 
-		result = astmodel.BuildAllOfType(objectType, result)
+		// Treat it as an option
+		result = result.WithType(t)
+	}
+
+	// If there are any properties, we need to create an object type to wrap them
+	if len(schema.properties()) > 0 {
+		t, err := scanner.RunHandler(ctx, Object, schema)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to generate object for properties of %s", schema.Id())
+		}
+
+		obj, ok := t.(*astmodel.ObjectType)
+		if !ok {
+			return nil, errors.Errorf(
+				"expected object type for properties of %s, got %T", schema.Id(), t)
+		}
+
+		result = result.WithAdditionalPropertyObject(obj)
 	}
 
 	return result, nil
+}
+
+// attempts to resolve the passed type to an object type that represents properties
+func asCommonProperties(
+	t astmodel.Type,
+	defs map[astmodel.TypeName]*astmodel.TypeDefinition,
+) (*astmodel.ObjectType, bool) {
+	if obj, isObject := astmodel.AsObjectType(t); isObject {
+		return obj, true
+	}
+
+	if tn, isTypeName := astmodel.AsTypeName(t); isTypeName {
+		if def, found := defs[tn]; found {
+			return asCommonProperties(def.Type(), defs)
+		}
+	}
+
+	return nil, false
 }
 
 func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -827,7 +888,7 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (a
 
 	// See https://github.com/Azure/azure-service-operator/issues/1518 for details about why this is treated as oneOf
 	klog.V(2).Infof("Handling anyOf type as if it were oneOf: %s\n", schema.url()) // TODO: was Ref.URL
-	return generateOneOfUnionType(ctx, schema, schema.anyOf(), scanner)
+	return oneOfHandler(ctx, scanner, schema)
 }
 
 func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (astmodel.Type, error) {
@@ -882,11 +943,13 @@ func withArrayValidations(schema Schema, t *astmodel.ArrayType) astmodel.Type {
 }
 
 func getSubSchemaType(schema Schema) (SchemaType, error) {
+
 	// handle special nodes:
 	switch {
 	case len(schema.enumValues()) > 0: // this should come before the primitive checks below
 		return Enum, nil
-	case schema.hasOneOf():
+	// Handle the three cases of oneOf: complete/root/leaf
+	case schema.hasOneOf() || schema.discriminator() != "" || schema.hasExtension("x-ms-discriminator-value"):
 		return OneOf, nil
 	case schema.hasAllOf():
 		return AllOf, nil

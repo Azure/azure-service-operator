@@ -20,7 +20,14 @@
 | ServerPrivateLinkServiceConnectionStateProperty_STATUS                 | v1beta20180601 |
 | ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS          | v1beta20180601 |
 | ServerPropertiesForCreate                                              | v1beta20180601 |
-| ServerPropertiesForCreate_CreateMode                                   | v1beta20180601 |
+| ServerPropertiesForDefaultCreate                                       | v1beta20180601 |
+| ServerPropertiesForDefaultCreate_CreateMode                            | v1beta20180601 |
+| ServerPropertiesForGeoRestore                                          | v1beta20180601 |
+| ServerPropertiesForGeoRestore_CreateMode                               | v1beta20180601 |
+| ServerPropertiesForReplica                                             | v1beta20180601 |
+| ServerPropertiesForReplica_CreateMode                                  | v1beta20180601 |
+| ServerPropertiesForRestore                                             | v1beta20180601 |
+| ServerPropertiesForRestore_CreateMode                                  | v1beta20180601 |
 | ServerProperties_STATUS                                                | v1beta20180601 |
 | ServerProperties_UserVisibleState_STATUS                               | v1beta20180601 |
 | ServerVersion                                                          | v1beta20180601 |

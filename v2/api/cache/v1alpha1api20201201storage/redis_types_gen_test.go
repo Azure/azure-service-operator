@@ -413,7 +413,6 @@ func AddIndependentPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen)
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["RedisConfiguration"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
@@ -433,6 +432,7 @@ func AddRelatedPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen) {
 	gens["Instances"] = gen.SliceOf(RedisInstanceDetails_STATUSGenerator())
 	gens["LinkedServers"] = gen.SliceOf(RedisLinkedServer_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
+	gens["RedisConfiguration"] = gen.PtrOf(RedisProperties_RedisConfiguration_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 }
 
@@ -954,6 +954,123 @@ func RedisOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedisOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(RedisOperatorSecretsGenerator())
+}
+
+func Test_RedisProperties_RedisConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisProperties_RedisConfiguration_STATUS to RedisProperties_RedisConfiguration_STATUS via AssignProperties_To_RedisProperties_RedisConfiguration_STATUS & AssignProperties_From_RedisProperties_RedisConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisProperties_RedisConfiguration_STATUS, RedisProperties_RedisConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisProperties_RedisConfiguration_STATUS tests if a specific instance of RedisProperties_RedisConfiguration_STATUS can be assigned to v1beta20201201storage and back losslessly
+func RunPropertyAssignmentTestForRedisProperties_RedisConfiguration_STATUS(subject RedisProperties_RedisConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201201s.RedisProperties_RedisConfiguration_STATUS
+	err := copied.AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisProperties_RedisConfiguration_STATUS
+	err = actual.AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisProperties_RedisConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of RedisProperties_RedisConfiguration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisProperties_RedisConfiguration_STATUS, RedisProperties_RedisConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisProperties_RedisConfiguration_STATUS runs a test to see if a specific instance of RedisProperties_RedisConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisProperties_RedisConfiguration_STATUS(subject RedisProperties_RedisConfiguration_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual RedisProperties_RedisConfiguration_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of RedisProperties_RedisConfiguration_STATUS instances for property testing - lazily instantiated by
+// RedisProperties_RedisConfiguration_STATUSGenerator()
+var redisProperties_RedisConfiguration_STATUSGenerator gopter.Gen
+
+// RedisProperties_RedisConfiguration_STATUSGenerator returns a generator of RedisProperties_RedisConfiguration_STATUS instances for property testing.
+func RedisProperties_RedisConfiguration_STATUSGenerator() gopter.Gen {
+	if redisProperties_RedisConfiguration_STATUSGenerator != nil {
+		return redisProperties_RedisConfiguration_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_STATUS(generators)
+	redisProperties_RedisConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisProperties_RedisConfiguration_STATUS{}), generators)
+
+	return redisProperties_RedisConfiguration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisProperties_RedisConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["AdditionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["AofBackupEnabled"] = gen.PtrOf(gen.AlphaString())
+	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
+	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())
+	gens["Authnotrequired"] = gen.PtrOf(gen.AlphaString())
+	gens["Maxclients"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxfragmentationmemoryReserved"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxmemoryDelta"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxmemoryPolicy"] = gen.PtrOf(gen.AlphaString())
+	gens["MaxmemoryReserved"] = gen.PtrOf(gen.AlphaString())
+	gens["RdbBackupEnabled"] = gen.PtrOf(gen.AlphaString())
+	gens["RdbBackupFrequency"] = gen.PtrOf(gen.AlphaString())
+	gens["RdbBackupMaxSnapshotCount"] = gen.PtrOf(gen.AlphaString())
+	gens["RdbStorageConnectionString"] = gen.PtrOf(gen.AlphaString())
+	gens["ZonalConfiguration"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

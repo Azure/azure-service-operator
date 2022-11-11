@@ -16,8 +16,6 @@
 | AutoscaleSettingsResource_STATUS                                       | v1alpha1api20210515 | v1beta20210515 |
 | AutoscaleSettings_STATUS                                               | v1alpha1api20210515 | v1beta20210515 |
 | BackupPolicy                                                           | v1alpha1api20210515 | v1beta20210515 |
-| BackupPolicyType                                                       | v1alpha1api20210515 | v1beta20210515 |
-| BackupPolicyType_STATUS                                                | v1alpha1api20210515 | v1beta20210515 |
 | BackupPolicy_STATUS                                                    | v1alpha1api20210515 | v1beta20210515 |
 | Capability                                                             | v1alpha1api20210515 | v1beta20210515 |
 | Capability_STATUS                                                      | v1alpha1api20210515 | v1beta20210515 |
@@ -39,6 +37,10 @@
 | ContainerPartitionKey_Kind                                             | v1alpha1api20210515 | v1beta20210515 |
 | ContainerPartitionKey_Kind_STATUS                                      | v1alpha1api20210515 | v1beta20210515 |
 | ContainerPartitionKey_STATUS                                           | v1alpha1api20210515 | v1beta20210515 |
+| ContinuousModeBackupPolicy                                             | v1alpha1api20210515 | v1beta20210515 |
+| ContinuousModeBackupPolicy_STATUS                                      | v1alpha1api20210515 | v1beta20210515 |
+| ContinuousModeBackupPolicy_Type                                        | v1alpha1api20210515 | v1beta20210515 |
+| ContinuousModeBackupPolicy_Type_STATUS                                 | v1alpha1api20210515 | v1beta20210515 |
 | CorsPolicy                                                             | v1alpha1api20210515 | v1beta20210515 |
 | CorsPolicy_STATUS                                                      | v1alpha1api20210515 | v1beta20210515 |
 | CreateUpdateOptions                                                    | v1alpha1api20210515 | v1beta20210515 |
@@ -120,6 +122,12 @@
 | NetworkAclBypass                                                       | v1alpha1api20210515 | v1beta20210515 |
 | NetworkAclBypass_STATUS                                                | v1alpha1api20210515 | v1beta20210515 |
 | OptionsResource_STATUS                                                 | v1alpha1api20210515 | v1beta20210515 |
+| PeriodicModeBackupPolicy                                               | v1alpha1api20210515 | v1beta20210515 |
+| PeriodicModeBackupPolicy_STATUS                                        | v1alpha1api20210515 | v1beta20210515 |
+| PeriodicModeBackupPolicy_Type                                          | v1alpha1api20210515 | v1beta20210515 |
+| PeriodicModeBackupPolicy_Type_STATUS                                   | v1alpha1api20210515 | v1beta20210515 |
+| PeriodicModeProperties                                                 | v1alpha1api20210515 | v1beta20210515 |
+| PeriodicModeProperties_STATUS                                          | v1alpha1api20210515 | v1beta20210515 |
 | PrivateEndpointConnection_STATUS                                       | v1alpha1api20210515 | v1beta20210515 |
 | PublicNetworkAccess                                                    | v1alpha1api20210515 | v1beta20210515 |
 | PublicNetworkAccess_STATUS                                             | v1alpha1api20210515 | v1beta20210515 |

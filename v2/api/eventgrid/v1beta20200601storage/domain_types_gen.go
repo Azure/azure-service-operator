@@ -236,14 +236,14 @@ type InboundIpRule_STATUS struct {
 
 // Storage version of v1beta20200601.InputSchemaMapping
 type InputSchemaMapping struct {
-	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200601.InputSchemaMapping_STATUS
 type InputSchemaMapping_STATUS struct {
-	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping_STATUS `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
@@ -261,6 +261,56 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20200601.JsonInputSchemaMapping
+type JsonInputSchemaMapping struct {
+	DataVersion            *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
+	EventTime              *JsonField             `json:"eventTime,omitempty"`
+	EventType              *JsonFieldWithDefault  `json:"eventType,omitempty"`
+	Id                     *JsonField             `json:"id,omitempty"`
+	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subject                *JsonFieldWithDefault  `json:"subject,omitempty"`
+	Topic                  *JsonField             `json:"topic,omitempty"`
+}
+
+// Storage version of v1beta20200601.JsonInputSchemaMapping_STATUS
+type JsonInputSchemaMapping_STATUS struct {
+	DataVersion            *JsonFieldWithDefault_STATUS `json:"dataVersion,omitempty"`
+	EventTime              *JsonField_STATUS            `json:"eventTime,omitempty"`
+	EventType              *JsonFieldWithDefault_STATUS `json:"eventType,omitempty"`
+	Id                     *JsonField_STATUS            `json:"id,omitempty"`
+	InputSchemaMappingType *string                      `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Subject                *JsonFieldWithDefault_STATUS `json:"subject,omitempty"`
+	Topic                  *JsonField_STATUS            `json:"topic,omitempty"`
+}
+
+// Storage version of v1beta20200601.JsonField
+type JsonField struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourceField *string                `json:"sourceField,omitempty"`
+}
+
+// Storage version of v1beta20200601.JsonField_STATUS
+type JsonField_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourceField *string                `json:"sourceField,omitempty"`
+}
+
+// Storage version of v1beta20200601.JsonFieldWithDefault
+type JsonFieldWithDefault struct {
+	DefaultValue *string                `json:"defaultValue,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourceField  *string                `json:"sourceField,omitempty"`
+}
+
+// Storage version of v1beta20200601.JsonFieldWithDefault_STATUS
+type JsonFieldWithDefault_STATUS struct {
+	DefaultValue *string                `json:"defaultValue,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourceField  *string                `json:"sourceField,omitempty"`
 }
 
 func init() {

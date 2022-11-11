@@ -7,10 +7,12 @@ package jsonast
 
 import (
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/go-openapi/jsonpointer"
 	"github.com/go-openapi/spec"
@@ -22,8 +24,9 @@ import (
 
 // OpenAPISchema implements the Schema abstraction for go-openapi
 type OpenAPISchema struct {
+	name          string // name of the schema (may be empty if nested)
 	inner         spec.Schema
-	fileName      string
+	fileName      string // fully qualified file path of the file from which this schema was loaded
 	outputPackage astmodel.LocalPackageReference
 	idFactory     astmodel.IdentifierFactory
 	loader        OpenAPIFileLoader
@@ -31,18 +34,30 @@ type OpenAPISchema struct {
 
 // MakeOpenAPISchema wraps a spec.Swagger to conform to the Schema abstraction
 func MakeOpenAPISchema(
+	name string,
 	schema spec.Schema,
 	fileName string,
 	outputPackage astmodel.LocalPackageReference,
 	idFactory astmodel.IdentifierFactory,
-	cache OpenAPIFileLoader,
-) Schema {
-	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
+	cache OpenAPIFileLoader) Schema {
+	return &OpenAPISchema{
+		name:          name,
+		inner:         schema,
+		fileName:      fileName,
+		outputPackage: outputPackage,
+		idFactory:     idFactory,
+		loader:        cache}
 }
 
 func (schema *OpenAPISchema) withNewSchema(newSchema spec.Schema) Schema {
 	result := *schema
 	result.inner = newSchema
+	return &result
+}
+
+func (schema *OpenAPISchema) withName(name string) *OpenAPISchema {
+	result := *schema
+	result.name = name
 	return &result
 }
 
@@ -55,6 +70,10 @@ func (schema *OpenAPISchema) transformOpenAPISlice(slice []spec.Schema) []Schema
 	}
 
 	return result
+}
+
+func (schema *OpenAPISchema) Id() string {
+	return schema.name
 }
 
 func (schema *OpenAPISchema) title() *string {
@@ -98,8 +117,38 @@ func (schema *OpenAPISchema) hasOneOf() bool {
 	return len(schema.inner.OneOf) > 0
 }
 
+// oneOf returns any directly embedded definitions held within this definition
 func (schema *OpenAPISchema) oneOf() []Schema {
 	return schema.transformOpenAPISlice(schema.inner.OneOf)
+}
+
+func (schema *OpenAPISchema) discriminatorValues() set.Set[string] {
+	// Must have a discriminator
+	discriminator := schema.inner.Discriminator
+	if discriminator == "" {
+		// No options, no error
+		return nil
+	}
+
+	// Find the discriminator property
+	discriminatorProperty, ok := schema.properties()[discriminator]
+	if !ok {
+		// For now, if there is no discriminator property, we just ignore it
+		return nil
+	}
+
+	// Expect the discriminator property to be an enum
+	enumValues := discriminatorProperty.enumValues()
+	if len(enumValues) == 0 {
+		return nil
+	}
+
+	result := set.Make[string]()
+	for _, v := range enumValues {
+		result.Add(strings.Trim(v, "\""))
+	}
+
+	return result
 }
 
 func (schema *OpenAPISchema) discriminator() string {
@@ -113,7 +162,7 @@ func (schema *OpenAPISchema) requiredProperties() []string {
 func (schema *OpenAPISchema) properties() map[string]Schema {
 	result := make(map[string]Schema, len(schema.inner.Properties))
 	for propName, propSchema := range schema.inner.Properties {
-		result[propName] = schema.withNewSchema(propSchema)
+		result[propName] = schema.withName(schema.name + "." + propName).withNewSchema(propSchema)
 	}
 
 	return result
@@ -256,13 +305,18 @@ func (schema *OpenAPISchema) enumValues() []string {
 	return enumValuesToLiterals(schema.inner.Enum)
 }
 
-func (schema *OpenAPISchema) extensions(key string) interface{} {
-	exts := schema.inner.Extensions
-	if exts == nil {
-		return nil
-	}
+func (schema *OpenAPISchema) extensionAsString(key string) (string, bool) {
+	return schema.inner.Extensions.GetString(key)
+}
 
-	return exts[key]
+func (schema *OpenAPISchema) extensionAsBool(key string) bool {
+	value, ok := schema.inner.Extensions.GetBool(key)
+	return ok && value
+}
+
+func (schema *OpenAPISchema) hasExtension(key string) bool {
+	_, found := schema.inner.Extensions[strings.ToLower(key)]
+	return found
 }
 
 func (schema *OpenAPISchema) isRef() bool {
@@ -329,23 +383,25 @@ func (schema *OpenAPISchema) readOnly() bool {
 }
 
 func (schema *OpenAPISchema) refSchema() Schema {
-	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.loader)
+	ref := schema.inner.Ref
+	fileName, result, packageAndSwagger := loadRefSchema(ref, schema.fileName, schema.loader)
 
 	// if the pkg comes back nil, that means we should keep using the current package
 	// this happens for some ‘common’ types defined in files that don’t have groups or versions
+	//!! TODO Maybe we need to detect these (like the 'v1' and such) and make them a special case too
 
 	outputPackage := schema.outputPackage
-	if pkg != nil {
-		outputPackage = *pkg
+	if packageAndSwagger.Package != nil {
+		outputPackage = *packageAndSwagger.Package
 	}
 
-	return &OpenAPISchema{
+	return MakeOpenAPISchema(
+		nameFromRef(ref),
 		result,
 		fileName,
 		outputPackage,
 		schema.idFactory,
-		schema.loader,
-	}
+		schema.loader)
 }
 
 // findFileForRef identifies the schema path for a ref, relative to the give schema path
@@ -363,7 +419,7 @@ func loadRef(
 	ref spec.Ref,
 	relativeToSchemaPath string,
 	loader OpenAPIFileLoader,
-) (string, interface{}, *astmodel.LocalPackageReference) {
+) (string, interface{}, PackageAndSwagger) {
 	absPath, err := findFileForRef(relativeToSchemaPath, ref)
 	if err != nil {
 		panic(err)
@@ -379,17 +435,17 @@ func loadRef(
 		panic(fmt.Sprintf("cannot resolve ref %s in file %s (from %s): %s", ref.String(), absPath, relativeToSchemaPath, err))
 	}
 
-	return absPath, result, packageAndSwagger.Package
+	return absPath, result, packageAndSwagger
 }
 
-func loadRefSchema(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
+func loadRefSchema(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Schema, PackageAndSwagger) {
 	absPath, result, pkg := loadRef(ref, relativeToSchemaPath, loader)
 	return absPath, result.(spec.Schema), pkg
 }
 
-func loadRefParameter(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Parameter, *astmodel.LocalPackageReference) {
-	absPath, result, pkg := loadRef(ref, relativeToSchemaPath, loader)
-	return absPath, result.(spec.Parameter), pkg
+func loadRefParameter(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Parameter) {
+	absPath, result, _ := loadRef(ref, relativeToSchemaPath, loader)
+	return absPath, result.(spec.Parameter)
 }
 
 func (schema *OpenAPISchema) refObjectName() string {

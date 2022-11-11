@@ -3,10 +3,11 @@
  * Licensed under the MIT license.
  */
 
-package reporting
+package reporting_test
 
 import (
 	"bytes"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 
 	"github.com/onsi/gomega"
 
@@ -26,7 +27,7 @@ func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
 	defs := createDefinitionSet()
 
 	var content bytes.Buffer
-	rpt := NewTypeCatalogReport(defs)
+	rpt := reporting.NewTypeCatalogReport(defs)
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 
 	golden.Assert(t, t.Name(), content.Bytes())
@@ -41,14 +42,14 @@ func Test_TypeCatalogReport_GivenTypes_WhenInlined_ShowsExpectedDetails(t *testi
 	defs := createDefinitionSet()
 
 	var content bytes.Buffer
-	rpt := NewTypeCatalogReport(defs)
+	rpt := reporting.NewTypeCatalogReport(defs)
 	rpt.InlineTypes()
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
 	golden.Assert(t, t.Name(), content.Bytes())
 }
 
-func Test_TypeCateaLogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpectedDetails(t *testing.T) {
+func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpectedDetails(t *testing.T) {
 	t.Parallel()
 
 	golden := goldie.New(t)
@@ -88,7 +89,7 @@ func Test_TypeCateaLogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpecte
 	defs.Add(relationship)
 
 	var content bytes.Buffer
-	rpt := NewTypeCatalogReport(defs)
+	rpt := reporting.NewTypeCatalogReport(defs)
 	rpt.InlineTypes()
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())

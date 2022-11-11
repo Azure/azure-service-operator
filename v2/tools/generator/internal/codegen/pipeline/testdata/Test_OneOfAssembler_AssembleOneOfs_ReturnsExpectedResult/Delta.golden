@@ -1,0 +1,11 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Delta: OneOf (3 objects, 0 options)
+    ├── discriminator value: Delta
+    └── Property Objects (3 objects):
+        ├── Object (1 property)
+        │   └── Status: string
+        ├── Object (1 property)
+        │   └── FullName: string
+        └── Object (1 property)
+            └── Discriminator: Enum (1 value)
+                └── "Delta"

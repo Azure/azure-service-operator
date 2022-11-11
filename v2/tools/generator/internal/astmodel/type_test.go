@@ -24,10 +24,10 @@ func TestWriteDebugDescription(t *testing.T) {
 	otherPersonId := MakeTypeName(there, "PersonId")
 
 	suit := MakeTypeName(here, "Suit")
-	diamonds := EnumValue{"diamonds", "Diamonds"}
-	hearts := EnumValue{"hearts", "Hearts"}
-	clubs := EnumValue{"clubs", "Clubs"}
-	spades := EnumValue{"spades", "Spades"}
+	diamonds := MakeEnumValue("diamonds", "Diamonds")
+	hearts := MakeEnumValue("hearts", "Hearts")
+	clubs := MakeEnumValue("clubs", "Clubs")
+	spades := MakeEnumValue("spades", "Spades")
 	suitEnum := NewEnumType(StringType, diamonds, hearts, clubs, spades)
 
 	armAge := ARMFlag.ApplyTo(age)

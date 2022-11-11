@@ -1,6 +1,7 @@
 Expected Pipeline Stages for ARM Code Generation
 ------------------------------------------------
 loadTypes                                          Load all types from Swagger files
+assembleOneOfTypes                                 Assemble OneOf types from OpenAPI Fragments
 allof-anyof-objects                                Convert allOf and oneOf to object types
 flattenResources                                   Flatten nested resource types
 stripUnreferenced                                  Strip unreferenced types

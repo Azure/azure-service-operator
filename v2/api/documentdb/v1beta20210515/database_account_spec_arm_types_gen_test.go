@@ -428,15 +428,26 @@ func BackupPolicy_ARMGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBackupPolicy_ARM(generators)
-	backupPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(BackupPolicy_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForBackupPolicy_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	backupPolicy_ARMGenerator = gen.OneGenOf(gens...)
 
 	return backupPolicy_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBackupPolicy_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBackupPolicy_ARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BackupPolicyType_Continuous, BackupPolicyType_Periodic))
+// AddRelatedPropertyGeneratorsForBackupPolicy_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupPolicy_ARM(gens map[string]gopter.Gen) {
+	gens["Continuous"] = ContinuousModeBackupPolicy_ARMGenerator().Map(func(it ContinuousModeBackupPolicy_ARM) *ContinuousModeBackupPolicy_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["Periodic"] = PeriodicModeBackupPolicy_ARMGenerator().Map(func(it PeriodicModeBackupPolicy_ARM) *PeriodicModeBackupPolicy_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_Capability_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -814,4 +825,202 @@ func VirtualNetworkRule_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkRule_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreMissingVNetServiceEndpoint"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_ContinuousModeBackupPolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ContinuousModeBackupPolicy_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContinuousModeBackupPolicy_ARM, ContinuousModeBackupPolicy_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForContinuousModeBackupPolicy_ARM runs a test to see if a specific instance of ContinuousModeBackupPolicy_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContinuousModeBackupPolicy_ARM(subject ContinuousModeBackupPolicy_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ContinuousModeBackupPolicy_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ContinuousModeBackupPolicy_ARM instances for property testing - lazily instantiated by
+// ContinuousModeBackupPolicy_ARMGenerator()
+var continuousModeBackupPolicy_ARMGenerator gopter.Gen
+
+// ContinuousModeBackupPolicy_ARMGenerator returns a generator of ContinuousModeBackupPolicy_ARM instances for property testing.
+func ContinuousModeBackupPolicy_ARMGenerator() gopter.Gen {
+	if continuousModeBackupPolicy_ARMGenerator != nil {
+		return continuousModeBackupPolicy_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy_ARM(generators)
+	continuousModeBackupPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(ContinuousModeBackupPolicy_ARM{}), generators)
+
+	return continuousModeBackupPolicy_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContinuousModeBackupPolicy_ARM(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.OneConstOf(ContinuousModeBackupPolicy_Type_Continuous)
+}
+
+func Test_PeriodicModeBackupPolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PeriodicModeBackupPolicy_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPeriodicModeBackupPolicy_ARM, PeriodicModeBackupPolicy_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPeriodicModeBackupPolicy_ARM runs a test to see if a specific instance of PeriodicModeBackupPolicy_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPeriodicModeBackupPolicy_ARM(subject PeriodicModeBackupPolicy_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PeriodicModeBackupPolicy_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PeriodicModeBackupPolicy_ARM instances for property testing - lazily instantiated by
+// PeriodicModeBackupPolicy_ARMGenerator()
+var periodicModeBackupPolicy_ARMGenerator gopter.Gen
+
+// PeriodicModeBackupPolicy_ARMGenerator returns a generator of PeriodicModeBackupPolicy_ARM instances for property testing.
+// We first initialize periodicModeBackupPolicy_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PeriodicModeBackupPolicy_ARMGenerator() gopter.Gen {
+	if periodicModeBackupPolicy_ARMGenerator != nil {
+		return periodicModeBackupPolicy_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicy_ARM(generators)
+	periodicModeBackupPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(PeriodicModeBackupPolicy_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicy_ARM(generators)
+	AddRelatedPropertyGeneratorsForPeriodicModeBackupPolicy_ARM(generators)
+	periodicModeBackupPolicy_ARMGenerator = gen.Struct(reflect.TypeOf(PeriodicModeBackupPolicy_ARM{}), generators)
+
+	return periodicModeBackupPolicy_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicy_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPeriodicModeBackupPolicy_ARM(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.OneConstOf(PeriodicModeBackupPolicy_Type_Periodic)
+}
+
+// AddRelatedPropertyGeneratorsForPeriodicModeBackupPolicy_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPeriodicModeBackupPolicy_ARM(gens map[string]gopter.Gen) {
+	gens["PeriodicModeProperties"] = gen.PtrOf(PeriodicModeProperties_ARMGenerator())
+}
+
+func Test_PeriodicModeProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PeriodicModeProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPeriodicModeProperties_ARM, PeriodicModeProperties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPeriodicModeProperties_ARM runs a test to see if a specific instance of PeriodicModeProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPeriodicModeProperties_ARM(subject PeriodicModeProperties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PeriodicModeProperties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PeriodicModeProperties_ARM instances for property testing - lazily instantiated by
+// PeriodicModeProperties_ARMGenerator()
+var periodicModeProperties_ARMGenerator gopter.Gen
+
+// PeriodicModeProperties_ARMGenerator returns a generator of PeriodicModeProperties_ARM instances for property testing.
+func PeriodicModeProperties_ARMGenerator() gopter.Gen {
+	if periodicModeProperties_ARMGenerator != nil {
+		return periodicModeProperties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPeriodicModeProperties_ARM(generators)
+	periodicModeProperties_ARMGenerator = gen.Struct(reflect.TypeOf(PeriodicModeProperties_ARM{}), generators)
+
+	return periodicModeProperties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPeriodicModeProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPeriodicModeProperties_ARM(gens map[string]gopter.Gen) {
+	gens["BackupIntervalInMinutes"] = gen.PtrOf(gen.Int())
+	gens["BackupRetentionIntervalInHours"] = gen.PtrOf(gen.Int())
 }

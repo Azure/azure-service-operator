@@ -1431,9 +1431,8 @@ func (rule *InboundIpRule_STATUS) AssignProperties_To_InboundIpRule_STATUS(desti
 }
 
 type InputSchemaMapping struct {
-	// +kubebuilder:validation:Required
-	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	// Json: Mutually exclusive with all other properties
+	Json *JsonInputSchemaMapping `json:"json,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InputSchemaMapping{}
@@ -1445,10 +1444,14 @@ func (mapping *InputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &InputSchemaMapping_ARM{}
 
-	// Set property ‘InputSchemaMappingType’:
-	if mapping.InputSchemaMappingType != nil {
-		inputSchemaMappingType := *mapping.InputSchemaMappingType
-		result.InputSchemaMappingType = &inputSchemaMappingType
+	// Set property ‘Json’:
+	if mapping.Json != nil {
+		json_ARM, err := (*mapping.Json).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		json := *json_ARM.(*JsonInputSchemaMapping_ARM)
+		result.Json = &json
 	}
 	return result, nil
 }
@@ -1465,10 +1468,15 @@ func (mapping *InputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_ARM, got %T", armInput)
 	}
 
-	// Set property ‘InputSchemaMappingType’:
-	if typedInput.InputSchemaMappingType != nil {
-		inputSchemaMappingType := *typedInput.InputSchemaMappingType
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
+	// Set property ‘Json’:
+	if typedInput.Json != nil {
+		var json1 JsonInputSchemaMapping
+		err := json1.PopulateFromARM(owner, *typedInput.Json)
+		if err != nil {
+			return err
+		}
+		json := json1
+		mapping.Json = &json
 	}
 
 	// No error
@@ -1478,12 +1486,16 @@ func (mapping *InputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwn
 // AssignProperties_From_InputSchemaMapping populates our InputSchemaMapping from the provided source InputSchemaMapping
 func (mapping *InputSchemaMapping) AssignProperties_From_InputSchemaMapping(source *v20200601s.InputSchemaMapping) error {
 
-	// InputSchemaMappingType
-	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := InputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping
+		err := json.AssignProperties_From_JsonInputSchemaMapping(source.Json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field Json")
+		}
+		mapping.Json = &json
 	} else {
-		mapping.InputSchemaMappingType = nil
+		mapping.Json = nil
 	}
 
 	// No error
@@ -1495,12 +1507,16 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// InputSchemaMappingType
-	if mapping.InputSchemaMappingType != nil {
-		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
-		destination.InputSchemaMappingType = &inputSchemaMappingType
+	// Json
+	if mapping.Json != nil {
+		var json v20200601s.JsonInputSchemaMapping
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping(&json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field Json")
+		}
+		destination.Json = &json
 	} else {
-		destination.InputSchemaMappingType = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag
@@ -1515,8 +1531,8 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 }
 
 type InputSchemaMapping_STATUS struct {
-	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	// Json: Mutually exclusive with all other properties
+	Json *JsonInputSchemaMapping_STATUS `json:"json,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InputSchemaMapping_STATUS{}
@@ -1533,10 +1549,15 @@ func (mapping *InputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.Arbit
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘InputSchemaMappingType’:
-	if typedInput.InputSchemaMappingType != nil {
-		inputSchemaMappingType := *typedInput.InputSchemaMappingType
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
+	// Set property ‘Json’:
+	if typedInput.Json != nil {
+		var json1 JsonInputSchemaMapping_STATUS
+		err := json1.PopulateFromARM(owner, *typedInput.Json)
+		if err != nil {
+			return err
+		}
+		json := json1
+		mapping.Json = &json
 	}
 
 	// No error
@@ -1546,12 +1567,16 @@ func (mapping *InputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.Arbit
 // AssignProperties_From_InputSchemaMapping_STATUS populates our InputSchemaMapping_STATUS from the provided source InputSchemaMapping_STATUS
 func (mapping *InputSchemaMapping_STATUS) AssignProperties_From_InputSchemaMapping_STATUS(source *v20200601s.InputSchemaMapping_STATUS) error {
 
-	// InputSchemaMappingType
-	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := InputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping_STATUS
+		err := json.AssignProperties_From_JsonInputSchemaMapping_STATUS(source.Json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping_STATUS() to populate field Json")
+		}
+		mapping.Json = &json
 	} else {
-		mapping.InputSchemaMappingType = nil
+		mapping.Json = nil
 	}
 
 	// No error
@@ -1563,12 +1588,16 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_To_InputSchemaMapping
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// InputSchemaMappingType
-	if mapping.InputSchemaMappingType != nil {
-		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
-		destination.InputSchemaMappingType = &inputSchemaMappingType
+	// Json
+	if mapping.Json != nil {
+		var json v20200601s.JsonInputSchemaMapping_STATUS
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping_STATUS(&json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping_STATUS() to populate field Json")
+		}
+		destination.Json = &json
 	} else {
-		destination.InputSchemaMappingType = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag
@@ -1802,14 +1831,997 @@ type InboundIpRule_Action_STATUS string
 
 const InboundIpRule_Action_STATUS_Allow = InboundIpRule_Action_STATUS("Allow")
 
+type JsonInputSchemaMapping struct {
+	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
+	DataVersion *JsonFieldWithDefault `json:"dataVersion,omitempty"`
+
+	// EventTime: The mapping information for the EventTime property of the Event Grid Event.
+	EventTime *JsonField `json:"eventTime,omitempty"`
+
+	// EventType: The mapping information for the EventType property of the Event Grid Event.
+	EventType *JsonFieldWithDefault `json:"eventType,omitempty"`
+
+	// Id: The mapping information for the Id property of the Event Grid Event.
+	Id *JsonField `json:"id,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// InputSchemaMappingType: Type of the custom mapping
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+
+	// Subject: The mapping information for the Subject property of the Event Grid Event.
+	Subject *JsonFieldWithDefault `json:"subject,omitempty"`
+
+	// Topic: The mapping information for the Topic property of the Event Grid Event.
+	Topic *JsonField `json:"topic,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &JsonInputSchemaMapping{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if mapping == nil {
+		return nil, nil
+	}
+	result := &JsonInputSchemaMapping_ARM{}
+
+	// Set property ‘InputSchemaMappingType’:
+	result.InputSchemaMappingType = mapping.InputSchemaMappingType
+
+	// Set property ‘Properties’:
+	if mapping.DataVersion != nil ||
+		mapping.EventTime != nil ||
+		mapping.EventType != nil ||
+		mapping.Id != nil ||
+		mapping.Subject != nil ||
+		mapping.Topic != nil {
+		result.Properties = &JsonInputSchemaMappingProperties_ARM{}
+	}
+	if mapping.DataVersion != nil {
+		dataVersion_ARM, err := (*mapping.DataVersion).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		dataVersion := *dataVersion_ARM.(*JsonFieldWithDefault_ARM)
+		result.Properties.DataVersion = &dataVersion
+	}
+	if mapping.EventTime != nil {
+		eventTime_ARM, err := (*mapping.EventTime).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		eventTime := *eventTime_ARM.(*JsonField_ARM)
+		result.Properties.EventTime = &eventTime
+	}
+	if mapping.EventType != nil {
+		eventType_ARM, err := (*mapping.EventType).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		eventType := *eventType_ARM.(*JsonFieldWithDefault_ARM)
+		result.Properties.EventType = &eventType
+	}
+	if mapping.Id != nil {
+		id_ARM, err := (*mapping.Id).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		id := *id_ARM.(*JsonField_ARM)
+		result.Properties.Id = &id
+	}
+	if mapping.Subject != nil {
+		subject_ARM, err := (*mapping.Subject).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		subject := *subject_ARM.(*JsonFieldWithDefault_ARM)
+		result.Properties.Subject = &subject
+	}
+	if mapping.Topic != nil {
+		topic_ARM, err := (*mapping.Topic).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		topic := *topic_ARM.(*JsonField_ARM)
+		result.Properties.Topic = &topic
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mapping *JsonInputSchemaMapping) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &JsonInputSchemaMapping_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(JsonInputSchemaMapping_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonInputSchemaMapping_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DataVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataVersion != nil {
+			var dataVersion1 JsonFieldWithDefault
+			err := dataVersion1.PopulateFromARM(owner, *typedInput.Properties.DataVersion)
+			if err != nil {
+				return err
+			}
+			dataVersion := dataVersion1
+			mapping.DataVersion = &dataVersion
+		}
+	}
+
+	// Set property ‘EventTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EventTime != nil {
+			var eventTime1 JsonField
+			err := eventTime1.PopulateFromARM(owner, *typedInput.Properties.EventTime)
+			if err != nil {
+				return err
+			}
+			eventTime := eventTime1
+			mapping.EventTime = &eventTime
+		}
+	}
+
+	// Set property ‘EventType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EventType != nil {
+			var eventType1 JsonFieldWithDefault
+			err := eventType1.PopulateFromARM(owner, *typedInput.Properties.EventType)
+			if err != nil {
+				return err
+			}
+			eventType := eventType1
+			mapping.EventType = &eventType
+		}
+	}
+
+	// Set property ‘Id’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Id != nil {
+			var id1 JsonField
+			err := id1.PopulateFromARM(owner, *typedInput.Properties.Id)
+			if err != nil {
+				return err
+			}
+			id := id1
+			mapping.Id = &id
+		}
+	}
+
+	// Set property ‘InputSchemaMappingType’:
+	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+
+	// Set property ‘Subject’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subject != nil {
+			var subject1 JsonFieldWithDefault
+			err := subject1.PopulateFromARM(owner, *typedInput.Properties.Subject)
+			if err != nil {
+				return err
+			}
+			subject := subject1
+			mapping.Subject = &subject
+		}
+	}
+
+	// Set property ‘Topic’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Topic != nil {
+			var topic1 JsonField
+			err := topic1.PopulateFromARM(owner, *typedInput.Properties.Topic)
+			if err != nil {
+				return err
+			}
+			topic := topic1
+			mapping.Topic = &topic
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_JsonInputSchemaMapping populates our JsonInputSchemaMapping from the provided source JsonInputSchemaMapping
+func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapping(source *v20200601s.JsonInputSchemaMapping) error {
+
+	// DataVersion
+	if source.DataVersion != nil {
+		var dataVersion JsonFieldWithDefault
+		err := dataVersion.AssignProperties_From_JsonFieldWithDefault(source.DataVersion)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault() to populate field DataVersion")
+		}
+		mapping.DataVersion = &dataVersion
+	} else {
+		mapping.DataVersion = nil
+	}
+
+	// EventTime
+	if source.EventTime != nil {
+		var eventTime JsonField
+		err := eventTime.AssignProperties_From_JsonField(source.EventTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField() to populate field EventTime")
+		}
+		mapping.EventTime = &eventTime
+	} else {
+		mapping.EventTime = nil
+	}
+
+	// EventType
+	if source.EventType != nil {
+		var eventType JsonFieldWithDefault
+		err := eventType.AssignProperties_From_JsonFieldWithDefault(source.EventType)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault() to populate field EventType")
+		}
+		mapping.EventType = &eventType
+	} else {
+		mapping.EventType = nil
+	}
+
+	// Id
+	if source.Id != nil {
+		var id JsonField
+		err := id.AssignProperties_From_JsonField(source.Id)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField() to populate field Id")
+		}
+		mapping.Id = &id
+	} else {
+		mapping.Id = nil
+	}
+
+	// InputSchemaMappingType
+	if source.InputSchemaMappingType != nil {
+		mapping.InputSchemaMappingType = JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
+	} else {
+		mapping.InputSchemaMappingType = ""
+	}
+
+	// Subject
+	if source.Subject != nil {
+		var subject JsonFieldWithDefault
+		err := subject.AssignProperties_From_JsonFieldWithDefault(source.Subject)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault() to populate field Subject")
+		}
+		mapping.Subject = &subject
+	} else {
+		mapping.Subject = nil
+	}
+
+	// Topic
+	if source.Topic != nil {
+		var topic JsonField
+		err := topic.AssignProperties_From_JsonField(source.Topic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField() to populate field Topic")
+		}
+		mapping.Topic = &topic
+	} else {
+		mapping.Topic = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonInputSchemaMapping populates the provided destination JsonInputSchemaMapping from our JsonInputSchemaMapping
+func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMapping(destination *v20200601s.JsonInputSchemaMapping) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DataVersion
+	if mapping.DataVersion != nil {
+		var dataVersion v20200601s.JsonFieldWithDefault
+		err := mapping.DataVersion.AssignProperties_To_JsonFieldWithDefault(&dataVersion)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault() to populate field DataVersion")
+		}
+		destination.DataVersion = &dataVersion
+	} else {
+		destination.DataVersion = nil
+	}
+
+	// EventTime
+	if mapping.EventTime != nil {
+		var eventTime v20200601s.JsonField
+		err := mapping.EventTime.AssignProperties_To_JsonField(&eventTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField() to populate field EventTime")
+		}
+		destination.EventTime = &eventTime
+	} else {
+		destination.EventTime = nil
+	}
+
+	// EventType
+	if mapping.EventType != nil {
+		var eventType v20200601s.JsonFieldWithDefault
+		err := mapping.EventType.AssignProperties_To_JsonFieldWithDefault(&eventType)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault() to populate field EventType")
+		}
+		destination.EventType = &eventType
+	} else {
+		destination.EventType = nil
+	}
+
+	// Id
+	if mapping.Id != nil {
+		var id v20200601s.JsonField
+		err := mapping.Id.AssignProperties_To_JsonField(&id)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField() to populate field Id")
+		}
+		destination.Id = &id
+	} else {
+		destination.Id = nil
+	}
+
+	// InputSchemaMappingType
+	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
+	destination.InputSchemaMappingType = &inputSchemaMappingType
+
+	// Subject
+	if mapping.Subject != nil {
+		var subject v20200601s.JsonFieldWithDefault
+		err := mapping.Subject.AssignProperties_To_JsonFieldWithDefault(&subject)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault() to populate field Subject")
+		}
+		destination.Subject = &subject
+	} else {
+		destination.Subject = nil
+	}
+
+	// Topic
+	if mapping.Topic != nil {
+		var topic v20200601s.JsonField
+		err := mapping.Topic.AssignProperties_To_JsonField(&topic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField() to populate field Topic")
+		}
+		destination.Topic = &topic
+	} else {
+		destination.Topic = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type JsonInputSchemaMapping_STATUS struct {
+	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
+	DataVersion *JsonFieldWithDefault_STATUS `json:"dataVersion,omitempty"`
+
+	// EventTime: The mapping information for the EventTime property of the Event Grid Event.
+	EventTime *JsonField_STATUS `json:"eventTime,omitempty"`
+
+	// EventType: The mapping information for the EventType property of the Event Grid Event.
+	EventType *JsonFieldWithDefault_STATUS `json:"eventType,omitempty"`
+
+	// Id: The mapping information for the Id property of the Event Grid Event.
+	Id *JsonField_STATUS `json:"id,omitempty"`
+
+	// InputSchemaMappingType: Type of the custom mapping
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+
+	// Subject: The mapping information for the Subject property of the Event Grid Event.
+	Subject *JsonFieldWithDefault_STATUS `json:"subject,omitempty"`
+
+	// Topic: The mapping information for the Topic property of the Event Grid Event.
+	Topic *JsonField_STATUS `json:"topic,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &JsonInputSchemaMapping_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mapping *JsonInputSchemaMapping_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &JsonInputSchemaMapping_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(JsonInputSchemaMapping_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonInputSchemaMapping_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DataVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataVersion != nil {
+			var dataVersion1 JsonFieldWithDefault_STATUS
+			err := dataVersion1.PopulateFromARM(owner, *typedInput.Properties.DataVersion)
+			if err != nil {
+				return err
+			}
+			dataVersion := dataVersion1
+			mapping.DataVersion = &dataVersion
+		}
+	}
+
+	// Set property ‘EventTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EventTime != nil {
+			var eventTime1 JsonField_STATUS
+			err := eventTime1.PopulateFromARM(owner, *typedInput.Properties.EventTime)
+			if err != nil {
+				return err
+			}
+			eventTime := eventTime1
+			mapping.EventTime = &eventTime
+		}
+	}
+
+	// Set property ‘EventType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EventType != nil {
+			var eventType1 JsonFieldWithDefault_STATUS
+			err := eventType1.PopulateFromARM(owner, *typedInput.Properties.EventType)
+			if err != nil {
+				return err
+			}
+			eventType := eventType1
+			mapping.EventType = &eventType
+		}
+	}
+
+	// Set property ‘Id’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Id != nil {
+			var id1 JsonField_STATUS
+			err := id1.PopulateFromARM(owner, *typedInput.Properties.Id)
+			if err != nil {
+				return err
+			}
+			id := id1
+			mapping.Id = &id
+		}
+	}
+
+	// Set property ‘InputSchemaMappingType’:
+	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+
+	// Set property ‘Subject’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subject != nil {
+			var subject1 JsonFieldWithDefault_STATUS
+			err := subject1.PopulateFromARM(owner, *typedInput.Properties.Subject)
+			if err != nil {
+				return err
+			}
+			subject := subject1
+			mapping.Subject = &subject
+		}
+	}
+
+	// Set property ‘Topic’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Topic != nil {
+			var topic1 JsonField_STATUS
+			err := topic1.PopulateFromARM(owner, *typedInput.Properties.Topic)
+			if err != nil {
+				return err
+			}
+			topic := topic1
+			mapping.Topic = &topic
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_JsonInputSchemaMapping_STATUS populates our JsonInputSchemaMapping_STATUS from the provided source JsonInputSchemaMapping_STATUS
+func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_From_JsonInputSchemaMapping_STATUS(source *v20200601s.JsonInputSchemaMapping_STATUS) error {
+
+	// DataVersion
+	if source.DataVersion != nil {
+		var dataVersion JsonFieldWithDefault_STATUS
+		err := dataVersion.AssignProperties_From_JsonFieldWithDefault_STATUS(source.DataVersion)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault_STATUS() to populate field DataVersion")
+		}
+		mapping.DataVersion = &dataVersion
+	} else {
+		mapping.DataVersion = nil
+	}
+
+	// EventTime
+	if source.EventTime != nil {
+		var eventTime JsonField_STATUS
+		err := eventTime.AssignProperties_From_JsonField_STATUS(source.EventTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField_STATUS() to populate field EventTime")
+		}
+		mapping.EventTime = &eventTime
+	} else {
+		mapping.EventTime = nil
+	}
+
+	// EventType
+	if source.EventType != nil {
+		var eventType JsonFieldWithDefault_STATUS
+		err := eventType.AssignProperties_From_JsonFieldWithDefault_STATUS(source.EventType)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault_STATUS() to populate field EventType")
+		}
+		mapping.EventType = &eventType
+	} else {
+		mapping.EventType = nil
+	}
+
+	// Id
+	if source.Id != nil {
+		var id JsonField_STATUS
+		err := id.AssignProperties_From_JsonField_STATUS(source.Id)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField_STATUS() to populate field Id")
+		}
+		mapping.Id = &id
+	} else {
+		mapping.Id = nil
+	}
+
+	// InputSchemaMappingType
+	if source.InputSchemaMappingType != nil {
+		mapping.InputSchemaMappingType = JsonInputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
+	} else {
+		mapping.InputSchemaMappingType = ""
+	}
+
+	// Subject
+	if source.Subject != nil {
+		var subject JsonFieldWithDefault_STATUS
+		err := subject.AssignProperties_From_JsonFieldWithDefault_STATUS(source.Subject)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault_STATUS() to populate field Subject")
+		}
+		mapping.Subject = &subject
+	} else {
+		mapping.Subject = nil
+	}
+
+	// Topic
+	if source.Topic != nil {
+		var topic JsonField_STATUS
+		err := topic.AssignProperties_From_JsonField_STATUS(source.Topic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField_STATUS() to populate field Topic")
+		}
+		mapping.Topic = &topic
+	} else {
+		mapping.Topic = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonInputSchemaMapping_STATUS populates the provided destination JsonInputSchemaMapping_STATUS from our JsonInputSchemaMapping_STATUS
+func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchemaMapping_STATUS(destination *v20200601s.JsonInputSchemaMapping_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DataVersion
+	if mapping.DataVersion != nil {
+		var dataVersion v20200601s.JsonFieldWithDefault_STATUS
+		err := mapping.DataVersion.AssignProperties_To_JsonFieldWithDefault_STATUS(&dataVersion)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault_STATUS() to populate field DataVersion")
+		}
+		destination.DataVersion = &dataVersion
+	} else {
+		destination.DataVersion = nil
+	}
+
+	// EventTime
+	if mapping.EventTime != nil {
+		var eventTime v20200601s.JsonField_STATUS
+		err := mapping.EventTime.AssignProperties_To_JsonField_STATUS(&eventTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField_STATUS() to populate field EventTime")
+		}
+		destination.EventTime = &eventTime
+	} else {
+		destination.EventTime = nil
+	}
+
+	// EventType
+	if mapping.EventType != nil {
+		var eventType v20200601s.JsonFieldWithDefault_STATUS
+		err := mapping.EventType.AssignProperties_To_JsonFieldWithDefault_STATUS(&eventType)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault_STATUS() to populate field EventType")
+		}
+		destination.EventType = &eventType
+	} else {
+		destination.EventType = nil
+	}
+
+	// Id
+	if mapping.Id != nil {
+		var id v20200601s.JsonField_STATUS
+		err := mapping.Id.AssignProperties_To_JsonField_STATUS(&id)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField_STATUS() to populate field Id")
+		}
+		destination.Id = &id
+	} else {
+		destination.Id = nil
+	}
+
+	// InputSchemaMappingType
+	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
+	destination.InputSchemaMappingType = &inputSchemaMappingType
+
+	// Subject
+	if mapping.Subject != nil {
+		var subject v20200601s.JsonFieldWithDefault_STATUS
+		err := mapping.Subject.AssignProperties_To_JsonFieldWithDefault_STATUS(&subject)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault_STATUS() to populate field Subject")
+		}
+		destination.Subject = &subject
+	} else {
+		destination.Subject = nil
+	}
+
+	// Topic
+	if mapping.Topic != nil {
+		var topic v20200601s.JsonField_STATUS
+		err := mapping.Topic.AssignProperties_To_JsonField_STATUS(&topic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField_STATUS() to populate field Topic")
+		}
+		destination.Topic = &topic
+	} else {
+		destination.Topic = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type JsonField struct {
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &JsonField{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (field *JsonField) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if field == nil {
+		return nil, nil
+	}
+	result := &JsonField_ARM{}
+
+	// Set property ‘SourceField’:
+	if field.SourceField != nil {
+		sourceField := *field.SourceField
+		result.SourceField = &sourceField
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (field *JsonField) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &JsonField_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (field *JsonField) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(JsonField_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonField_ARM, got %T", armInput)
+	}
+
+	// Set property ‘SourceField’:
+	if typedInput.SourceField != nil {
+		sourceField := *typedInput.SourceField
+		field.SourceField = &sourceField
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_JsonField populates our JsonField from the provided source JsonField
+func (field *JsonField) AssignProperties_From_JsonField(source *v20200601s.JsonField) error {
+
+	// SourceField
+	field.SourceField = genruntime.ClonePointerToString(source.SourceField)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonField populates the provided destination JsonField from our JsonField
+func (field *JsonField) AssignProperties_To_JsonField(destination *v20200601s.JsonField) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// SourceField
+	destination.SourceField = genruntime.ClonePointerToString(field.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type JsonField_STATUS struct {
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &JsonField_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (field *JsonField_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &JsonField_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (field *JsonField_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(JsonField_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonField_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘SourceField’:
+	if typedInput.SourceField != nil {
+		sourceField := *typedInput.SourceField
+		field.SourceField = &sourceField
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_JsonField_STATUS populates our JsonField_STATUS from the provided source JsonField_STATUS
+func (field *JsonField_STATUS) AssignProperties_From_JsonField_STATUS(source *v20200601s.JsonField_STATUS) error {
+
+	// SourceField
+	field.SourceField = genruntime.ClonePointerToString(source.SourceField)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonField_STATUS populates the provided destination JsonField_STATUS from our JsonField_STATUS
+func (field *JsonField_STATUS) AssignProperties_To_JsonField_STATUS(destination *v20200601s.JsonField_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// SourceField
+	destination.SourceField = genruntime.ClonePointerToString(field.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type JsonFieldWithDefault struct {
+	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
+	// the specified name in the published JSON event payload.
+	DefaultValue *string `json:"defaultValue,omitempty"`
+
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &JsonFieldWithDefault{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (withDefault *JsonFieldWithDefault) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if withDefault == nil {
+		return nil, nil
+	}
+	result := &JsonFieldWithDefault_ARM{}
+
+	// Set property ‘DefaultValue’:
+	if withDefault.DefaultValue != nil {
+		defaultValue := *withDefault.DefaultValue
+		result.DefaultValue = &defaultValue
+	}
+
+	// Set property ‘SourceField’:
+	if withDefault.SourceField != nil {
+		sourceField := *withDefault.SourceField
+		result.SourceField = &sourceField
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (withDefault *JsonFieldWithDefault) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &JsonFieldWithDefault_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (withDefault *JsonFieldWithDefault) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(JsonFieldWithDefault_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonFieldWithDefault_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DefaultValue’:
+	if typedInput.DefaultValue != nil {
+		defaultValue := *typedInput.DefaultValue
+		withDefault.DefaultValue = &defaultValue
+	}
+
+	// Set property ‘SourceField’:
+	if typedInput.SourceField != nil {
+		sourceField := *typedInput.SourceField
+		withDefault.SourceField = &sourceField
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_JsonFieldWithDefault populates our JsonFieldWithDefault from the provided source JsonFieldWithDefault
+func (withDefault *JsonFieldWithDefault) AssignProperties_From_JsonFieldWithDefault(source *v20200601s.JsonFieldWithDefault) error {
+
+	// DefaultValue
+	withDefault.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
+
+	// SourceField
+	withDefault.SourceField = genruntime.ClonePointerToString(source.SourceField)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonFieldWithDefault populates the provided destination JsonFieldWithDefault from our JsonFieldWithDefault
+func (withDefault *JsonFieldWithDefault) AssignProperties_To_JsonFieldWithDefault(destination *v20200601s.JsonFieldWithDefault) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DefaultValue
+	destination.DefaultValue = genruntime.ClonePointerToString(withDefault.DefaultValue)
+
+	// SourceField
+	destination.SourceField = genruntime.ClonePointerToString(withDefault.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type JsonFieldWithDefault_STATUS struct {
+	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
+	// the specified name in the published JSON event payload.
+	DefaultValue *string `json:"defaultValue,omitempty"`
+
+	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
+	SourceField *string `json:"sourceField,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &JsonFieldWithDefault_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (withDefault *JsonFieldWithDefault_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &JsonFieldWithDefault_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (withDefault *JsonFieldWithDefault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(JsonFieldWithDefault_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected JsonFieldWithDefault_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DefaultValue’:
+	if typedInput.DefaultValue != nil {
+		defaultValue := *typedInput.DefaultValue
+		withDefault.DefaultValue = &defaultValue
+	}
+
+	// Set property ‘SourceField’:
+	if typedInput.SourceField != nil {
+		sourceField := *typedInput.SourceField
+		withDefault.SourceField = &sourceField
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_JsonFieldWithDefault_STATUS populates our JsonFieldWithDefault_STATUS from the provided source JsonFieldWithDefault_STATUS
+func (withDefault *JsonFieldWithDefault_STATUS) AssignProperties_From_JsonFieldWithDefault_STATUS(source *v20200601s.JsonFieldWithDefault_STATUS) error {
+
+	// DefaultValue
+	withDefault.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
+
+	// SourceField
+	withDefault.SourceField = genruntime.ClonePointerToString(source.SourceField)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonFieldWithDefault_STATUS populates the provided destination JsonFieldWithDefault_STATUS from our JsonFieldWithDefault_STATUS
+func (withDefault *JsonFieldWithDefault_STATUS) AssignProperties_To_JsonFieldWithDefault_STATUS(destination *v20200601s.JsonFieldWithDefault_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DefaultValue
+	destination.DefaultValue = genruntime.ClonePointerToString(withDefault.DefaultValue)
+
+	// SourceField
+	destination.SourceField = genruntime.ClonePointerToString(withDefault.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"Json"}
-type InputSchemaMapping_InputSchemaMappingType string
+type JsonInputSchemaMapping_InputSchemaMappingType string
 
-const InputSchemaMapping_InputSchemaMappingType_Json = InputSchemaMapping_InputSchemaMappingType("Json")
+const JsonInputSchemaMapping_InputSchemaMappingType_Json = JsonInputSchemaMapping_InputSchemaMappingType("Json")
 
-type InputSchemaMapping_InputSchemaMappingType_STATUS string
+type JsonInputSchemaMapping_InputSchemaMappingType_STATUS string
 
-const InputSchemaMapping_InputSchemaMappingType_STATUS_Json = InputSchemaMapping_InputSchemaMappingType_STATUS("Json")
+const JsonInputSchemaMapping_InputSchemaMappingType_STATUS_Json = JsonInputSchemaMapping_InputSchemaMappingType_STATUS("Json")
 
 func init() {
 	SchemeBuilder.Register(&Domain{}, &DomainList{})

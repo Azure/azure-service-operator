@@ -1,0 +1,13 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Epsilon: OneOf (4 objects, 0 options)
+    ├── discriminator value: Epsilon
+    └── Property Objects (4 objects):
+        ├── Object (1 property)
+        │   └── KnownAs: string
+        ├── Object (1 property)
+        │   └── Status: string
+        ├── Object (1 property)
+        │   └── FullName: string
+        └── Object (1 property)
+            └── Discriminator: Enum (1 value)
+                └── "Epsilon"

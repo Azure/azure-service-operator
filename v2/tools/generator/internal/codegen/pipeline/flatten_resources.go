@@ -26,7 +26,7 @@ func FlattenResources() *Stage {
 					return nil, err
 				}
 
-				newResource, err := flattenResource(defs, visited)
+				newResource, err := flattenResource(defs, visited, 0)
 				if err != nil {
 					return nil, err
 				}
@@ -54,7 +54,11 @@ func FlattenResources() *Stage {
 		})
 }
 
-func flattenResource(defs astmodel.TypeDefinitionSet, t astmodel.Type) (astmodel.Type, error) {
+func flattenResource(defs astmodel.TypeDefinitionSet, t astmodel.Type, depth int) (astmodel.Type, error) {
+	if depth > 10 {
+		return nil, errors.Errorf("too many levels of nesting while flattening resource")
+	}
+
 	if resource, ok := t.(*astmodel.ResourceType); ok {
 
 		changed := false
@@ -88,7 +92,7 @@ func flattenResource(defs astmodel.TypeDefinitionSet, t astmodel.Type) (astmodel
 		if changed {
 			t = resource
 			// do it again, can be multiply nested
-			return flattenResource(defs, t)
+			return flattenResource(defs, t, depth+1)
 		}
 	}
 
