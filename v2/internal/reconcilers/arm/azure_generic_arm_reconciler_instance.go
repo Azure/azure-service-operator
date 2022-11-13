@@ -114,7 +114,10 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 	if !isCloudErr {
 		// This shouldn't happen, as all errors from ARM should be in one of the shapes that CloudError supports. In case
 		// we've somehow gotten one that isn't formatted correctly, create a sensible default error
-		return conditions.NewReadyConditionImpactingError(azureErr, conditions.ConditionSeverityWarning, core.UnknownErrorCode)
+		return conditions.NewReadyConditionImpactingError(
+			azureErr,
+			conditions.ConditionSeverityWarning,
+			conditions.MakeReason(core.UnknownErrorCode))
 	}
 
 	apiVersion, verr := r.GetAPIVersion()
@@ -146,7 +149,8 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 
 	// Stick errorDetails.Message into an error so that it will be displayed as the message on the condition
 	err = errors.Wrapf(cloudError, details.Message)
-	result := conditions.NewReadyConditionImpactingError(err, severity, details.Code)
+	reason := conditions.MakeReason(details.Code)
+	result := conditions.NewReadyConditionImpactingError(err, severity, reason)
 
 	return result
 }
@@ -174,7 +178,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (Cre
 	ready := genruntime.GetReadyCondition(r.Obj)
 	_, _, hasPollerResumeToken := GetPollerResumeToken(r.Obj)
 
-	if ready != nil && ready.Reason == conditions.ReasonDeleting {
+	if ready != nil && ready.Reason == conditions.ReasonDeleting.Name {
 		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf("resource is currently deleting; it can not be applied")
 	}
 

@@ -8,6 +8,7 @@ package main
 import (
 	"context"
 	"flag"
+	"math/rand"
 	"os"
 	"time"
 
@@ -29,7 +30,9 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -170,7 +173,18 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Optio
 				// TODO: do we need GVK here too?
 				return log.WithValues("namespace", req.Namespace, "name", req.Name)
 			},
+			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
 			RateLimiter: controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
+		RequeueIntervalCalculator: interval.NewCalculator(
+			// These rate limits are primarily for ReadyConditionImpactingError's
+			interval.CalculatorParameters{
+				//nolint:gosec // do not want cryptographic randomness here
+				Rand:              rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+				ErrorBaseDelay:    1 * time.Second,
+				ErrorMaxFastDelay: 30 * time.Second,
+				ErrorMaxSlowDelay: 3 * time.Minute,
+				SyncPeriod:        cfg.SyncPeriod,
+			}),
 	}
 }

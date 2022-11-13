@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"os/exec"
 	"path/filepath"
 	"runtime"
@@ -35,7 +36,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -148,7 +151,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	if cfg.OperatorMode.IncludesWatchers() {
 
 		var requeueDelay time.Duration
-		minBackoff := 5 * time.Second
+		minBackoff := 1 * time.Second
 		maxBackoff := 1 * time.Minute
 		if cfg.Replaying {
 			requeueDelay = 10 * time.Millisecond
@@ -164,7 +167,6 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 		options := controllers.Options{
 			LoggerFactory: loggerFactory,
-			RequeueDelay:  requeueDelay,
 			Config:        cfg.Values,
 			Options: controller.Options{
 				// Allow concurrent reconciliation in tests
@@ -177,6 +179,15 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 					return ctrl.Log
 				},
 			},
+			RequeueIntervalCalculator: interval.NewCalculator(
+				interval.CalculatorParameters{
+					//nolint:gosec // do not want cryptographic randomness here
+					Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+					ErrorBaseDelay:       minBackoff,
+					ErrorMaxFastDelay:    maxBackoff,
+					ErrorMaxSlowDelay:    maxBackoff,
+					RequeueDelayOverride: requeueDelay,
+				}),
 		}
 		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
