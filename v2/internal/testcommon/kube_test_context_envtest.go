@@ -162,7 +162,9 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 					mo.GetNamespace()))
 			}
 
-			return result.armClientCache.GetClient(ctx, mo, kubeClient)
+			result.armClientCache.SetKubeClient(kubeClient)
+
+			return result.armClientCache.GetClient(ctx, mo)
 		}
 
 		options := controllers.Options{
@@ -435,9 +437,10 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
 		// register resources needed by controller for namespace
+		armClientCache := arm.NewARMClientCache(perTestContext.AzureClient, cfg.PodNamespace, nil, cfg.Cloud(), perTestContext.HttpClient)
 		{
 			resources := &perNamespace{
-				armClientCache: perTestContext.ARMClientCache,
+				armClientCache: armClientCache,
 				logger:         perTestContext.logger,
 			}
 

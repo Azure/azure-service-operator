@@ -32,7 +32,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.
@@ -50,11 +49,11 @@ type PerTestContext struct {
 	logger                logr.Logger
 	AzureClientRecorder   *recorder.Recorder
 	AzureClient           *genericarmclient.GenericClient
-	ARMClientCache        *arm.ARMClientCache
 	AzureSubscription     string
 	AzureTenant           string
 	AzureBillingInvoiceID string
 	AzureMatch            *ARMMatcher
+	HttpClient            *http.Client
 	Namer                 ResourceNamer
 	NoSpaceNamer          ResourceNamer
 	TestName              string
@@ -120,8 +119,6 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}
 
-	armClientCache := arm.NewARMClientCache(globalARMClient, cfg.PodNamespace, cfg.Cloud(), httpClient)
-
 	t.Cleanup(func() {
 		if !t.Failed() {
 			err := details.recorder.Stop()
@@ -157,12 +154,12 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		Namer:                 namer,
 		NoSpaceNamer:          namer.WithSeparator(""),
 		AzureClient:           globalARMClient,
-		ARMClientCache:        armClientCache,
 		AzureSubscription:     details.ids.subscriptionID,
 		AzureTenant:           details.ids.tenantID,
 		AzureBillingInvoiceID: details.ids.billingInvoiceID,
 		AzureMatch:            NewARMMatcher(globalARMClient),
 		AzureClientRecorder:   details.recorder,
+		HttpClient:            httpClient,
 		TestName:              t.Name(),
 		Namespace:             createTestNamespaceName(t),
 		Ctx:                   context,

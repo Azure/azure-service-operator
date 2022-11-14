@@ -101,10 +101,10 @@ func main() {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, cfg.Cloud(), nil)
+	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil)
 
 	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
-		return armClientCache.GetClient(ctx, obj, kubeClient)
+		return armClientCache.GetClient(ctx, obj)
 	}
 
 	log := ctrl.Log.WithName("controllers")
