@@ -28,6 +28,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-02-backward-compatibility/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2022-08-evil-discriminator/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-09-multiple-credential-operator/</loc>
