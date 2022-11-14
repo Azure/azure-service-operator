@@ -378,9 +378,6 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &NetworkInterface_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = networkInterface.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if networkInterface.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*networkInterface.ExtendedLocation).ConvertToARM(resolved)

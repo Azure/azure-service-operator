@@ -439,9 +439,6 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Workspace_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = workspace.AzureName
-
 	// Set property ‘Identity’:
 	if workspace.Identity != nil {
 		identity_ARM, err := (*workspace.Identity).ConvertToARM(resolved)

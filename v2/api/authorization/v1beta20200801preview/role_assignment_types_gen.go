@@ -386,9 +386,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &RoleAssignment_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = assignment.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

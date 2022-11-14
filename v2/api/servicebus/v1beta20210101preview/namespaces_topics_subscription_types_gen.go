@@ -381,9 +381,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 	}
 	result := &Namespaces_Topics_Subscription_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = subscription.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

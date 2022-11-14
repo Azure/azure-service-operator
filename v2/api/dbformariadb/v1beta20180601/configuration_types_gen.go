@@ -353,9 +353,6 @@ func (configuration *Servers_Configuration_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &Servers_Configuration_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = configuration.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

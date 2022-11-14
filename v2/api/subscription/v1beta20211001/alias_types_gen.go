@@ -334,9 +334,6 @@ func (alias *Alias_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Alias_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = alias.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

@@ -10,7 +10,6 @@ import (
 
 // Deprecated version of Webtest_Spec. Use v1beta20180501preview.Webtest_Spec instead
 type Webtest_Spec_ARM struct {
-	AzureName  string                 `json:"azureName,omitempty"`
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *WebTestProperties_ARM `json:"properties,omitempty"`

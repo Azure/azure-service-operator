@@ -9,8 +9,6 @@ import (
 )
 
 type Domain_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

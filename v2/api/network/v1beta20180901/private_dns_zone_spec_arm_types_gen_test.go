@@ -75,7 +75,6 @@ func PrivateDnsZone_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }

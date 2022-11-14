@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead
 type Redis_Spec_ARM struct {
-	AzureName  string                     `json:"azureName,omitempty"`
 	Location   *string                    `json:"location,omitempty"`
 	Name       string                     `json:"name,omitempty"`
 	Properties *RedisCreateProperties_ARM `json:"properties,omitempty"`

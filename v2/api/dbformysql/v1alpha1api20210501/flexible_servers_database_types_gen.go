@@ -354,9 +354,6 @@ func (database *FlexibleServers_Database_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &FlexibleServers_Database_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = database.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

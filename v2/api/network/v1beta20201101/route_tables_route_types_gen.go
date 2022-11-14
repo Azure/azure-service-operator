@@ -362,9 +362,6 @@ func (route *RouteTables_Route_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &RouteTables_Route_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = route.AzureName
-
 	// Set property ‘Id’:
 	if route.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*route.Reference)

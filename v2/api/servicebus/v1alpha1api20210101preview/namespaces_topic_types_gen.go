@@ -362,9 +362,6 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &Namespaces_Topic_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = topic.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

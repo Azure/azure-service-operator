@@ -402,9 +402,6 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) ConvertToARM(resolved genru
 	}
 	result := &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = rule.AzureName
-
 	// Set property ‘Id’:
 	if rule.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)

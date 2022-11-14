@@ -6,7 +6,6 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Site_Spec_ARM struct {
-	AzureName        string                      `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation_ARM       `json:"extendedLocation,omitempty"`
 	Identity         *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 

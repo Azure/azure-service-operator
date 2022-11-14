@@ -370,9 +370,6 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertToARM(resolved
 	}
 	result := &DatabaseAccounts_SqlRoleAssignment_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = assignment.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

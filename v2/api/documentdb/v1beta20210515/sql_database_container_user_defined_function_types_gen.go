@@ -354,9 +354,6 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = function.AzureName
-
 	// Set property ‘Location’:
 	if function.Location != nil {
 		location := *function.Location

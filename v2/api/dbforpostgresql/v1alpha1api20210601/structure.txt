@@ -217,8 +217,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── FlexibleServer_Spec_ARM: Object (6 properties)
-│   ├── AzureName: string
+├── FlexibleServer_Spec_ARM: Object (5 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (12 properties)
@@ -398,8 +397,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── FlexibleServers_Configuration_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── FlexibleServers_Configuration_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (2 properties)
 │       ├── Source: *string
@@ -426,8 +424,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── FlexibleServers_Database_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── FlexibleServers_Database_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (2 properties)
 │       ├── Charset: *string
@@ -454,8 +451,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-└── FlexibleServers_FirewallRule_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── FlexibleServers_FirewallRule_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (2 properties)
         ├── EndIpAddress: *string

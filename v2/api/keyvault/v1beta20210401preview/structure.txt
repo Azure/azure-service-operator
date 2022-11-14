@@ -392,8 +392,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Vault_Spec_ARM: Object (5 properties)
-    ├── AzureName: string
+└── Vault_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
     ├── Properties: Object (14 properties)

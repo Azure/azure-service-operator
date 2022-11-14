@@ -6,8 +6,6 @@ package v1beta20210701
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Image_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location of the Image.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 

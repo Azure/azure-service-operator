@@ -83,7 +83,6 @@ func Component_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForComponent_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComponent_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())

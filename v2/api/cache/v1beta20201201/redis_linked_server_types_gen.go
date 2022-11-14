@@ -354,9 +354,6 @@ func (server *Redis_LinkedServer_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Redis_LinkedServer_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = server.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

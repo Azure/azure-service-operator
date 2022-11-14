@@ -361,9 +361,6 @@ func (compute *Workspaces_Compute_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &Workspaces_Compute_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = compute.AzureName
-
 	// Set property ‘Identity’:
 	if compute.Identity != nil {
 		identity_ARM, err := (*compute.Identity).ConvertToARM(resolved)

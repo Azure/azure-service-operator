@@ -6,8 +6,6 @@ package v1beta20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServer_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The cmk identity for the server.
 	Identity *Identity_ARM `json:"identity,omitempty"`
 

@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_ManagementPolicy_Spec. Use v1beta20210401.StorageAccounts_ManagementPolicy_Spec instead
 type StorageAccounts_ManagementPolicy_Spec_ARM struct {
-	AzureName  string                          `json:"azureName,omitempty"`
 	Name       string                          `json:"name,omitempty"`
 	Properties *ManagementPolicyProperties_ARM `json:"properties,omitempty"`
 }

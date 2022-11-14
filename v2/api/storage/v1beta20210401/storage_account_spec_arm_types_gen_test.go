@@ -84,7 +84,6 @@ func StorageAccount_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccount_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccount_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccount_Kind_Spec_BlobStorage,
 		StorageAccount_Kind_Spec_BlockBlobStorage,

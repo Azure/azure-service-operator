@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of PublicIPAddress_Spec. Use v1beta20201101.PublicIPAddress_Spec instead
 type PublicIPAddress_Spec_ARM struct {
-	AzureName        string                                                   `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation_ARM                                    `json:"extendedLocation,omitempty"`
 	Id               *string                                                  `json:"id,omitempty"`
 	Location         *string                                                  `json:"location,omitempty"`

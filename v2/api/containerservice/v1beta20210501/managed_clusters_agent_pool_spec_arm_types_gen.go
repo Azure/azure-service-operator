@@ -6,8 +6,7 @@ package v1beta20210501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ManagedClusters_AgentPool_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of an agent pool.
 	Properties *ManagedClusterAgentPoolProfileProperties_ARM `json:"properties,omitempty"`

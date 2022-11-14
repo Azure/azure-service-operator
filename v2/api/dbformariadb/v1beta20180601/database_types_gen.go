@@ -348,9 +348,6 @@ func (database *Servers_Database_Spec) ConvertToARM(resolved genruntime.ConvertT
 	}
 	result := &Servers_Database_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = database.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

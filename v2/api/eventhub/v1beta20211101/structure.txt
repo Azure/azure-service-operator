@@ -210,8 +210,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Namespace_Spec_ARM: Object (7 properties)
-│   ├── AzureName: string
+├── Namespace_Spec_ARM: Object (6 properties)
 │   ├── Identity: Object (1 property)
 │   │   └── Type: Enum (4 values)
 │   │       ├── "None"
@@ -450,8 +449,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── Namespaces_AuthorizationRule_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── Namespaces_AuthorizationRule_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (1 property)
 │       └── Rights: Enum (3 values)
@@ -511,8 +509,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── Namespaces_Eventhub_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── Namespaces_Eventhub_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (3 properties)
 │       ├── CaptureDescription: Object (6 properties)
@@ -559,8 +556,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── Namespaces_Eventhubs_AuthorizationRule_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── Namespaces_Eventhubs_AuthorizationRule_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (1 property)
 │       └── Rights: Enum (3 values)
@@ -591,8 +587,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-└── Namespaces_Eventhubs_Consumergroup_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── Namespaces_Eventhubs_Consumergroup_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (1 property)
         └── UserMetadata: *string

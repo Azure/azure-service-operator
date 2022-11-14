@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec instead
 type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM struct {
-	AzureName  string                                  `json:"azureName,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
 	Name       string                                  `json:"name,omitempty"`
 	Properties *ThroughputSettingsUpdateProperties_ARM `json:"properties,omitempty"`

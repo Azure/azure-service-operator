@@ -355,9 +355,6 @@ func (schedule *Redis_PatchSchedule_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &Redis_PatchSchedule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = schedule.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

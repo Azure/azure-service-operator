@@ -6,8 +6,7 @@ package v1beta20200801preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RoleAssignment_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Role assignment properties.
 	Properties *RoleAssignmentProperties_ARM `json:"properties,omitempty"`

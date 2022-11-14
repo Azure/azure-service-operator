@@ -350,9 +350,6 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &PrivateDnsZone_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = zone.AzureName
-
 	// Set property ‘Etag’:
 	if zone.Etag != nil {
 		etag := *zone.Etag

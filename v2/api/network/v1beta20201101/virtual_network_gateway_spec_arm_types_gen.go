@@ -6,8 +6,6 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworkGateway_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location of type local virtual network gateway.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 	Id               *string               `json:"id,omitempty"`

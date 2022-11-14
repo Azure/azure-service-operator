@@ -299,8 +299,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │       └── "MemoryOptimized"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Server_Spec_ARM: Object (6 properties)
-│   ├── AzureName: string
+├── Server_Spec_ARM: Object (5 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (4 properties)
@@ -435,8 +434,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   ├── Source: *string
 │   │   └── Value: *string
 │   └── Type: *string
-├── Servers_Configuration_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── Servers_Configuration_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (2 properties)
 │       ├── Source: *string
@@ -448,8 +446,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   ├── Charset: *string
 │   │   └── Collation: *string
 │   └── Type: *string
-└── Servers_Database_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── Servers_Database_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (2 properties)
         ├── Charset: *string

@@ -364,9 +364,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &VirtualNetwork_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = network.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if network.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)

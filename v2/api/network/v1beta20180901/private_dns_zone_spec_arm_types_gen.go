@@ -6,8 +6,6 @@ package v1beta20180901
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type PrivateDnsZone_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Etag: The ETag of the zone.
 	Etag *string `json:"etag,omitempty"`
 	Name string  `json:"name,omitempty"`

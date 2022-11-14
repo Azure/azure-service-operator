@@ -84,7 +84,6 @@ func Workspaces_Compute_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaces_Compute_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

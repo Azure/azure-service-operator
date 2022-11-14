@@ -6,8 +6,7 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Eventhub_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
 	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`

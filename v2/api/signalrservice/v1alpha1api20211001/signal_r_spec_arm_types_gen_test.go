@@ -83,7 +83,6 @@ func SignalR_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalR_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalR_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_RawWebSockets, ServiceKind_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()

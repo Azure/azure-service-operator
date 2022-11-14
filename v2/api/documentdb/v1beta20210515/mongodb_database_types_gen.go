@@ -354,9 +354,6 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertToARM(resolved gen
 	}
 	result := &DatabaseAccounts_MongodbDatabase_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = database.AzureName
-
 	// Set property ‘Location’:
 	if database.Location != nil {
 		location := *database.Location

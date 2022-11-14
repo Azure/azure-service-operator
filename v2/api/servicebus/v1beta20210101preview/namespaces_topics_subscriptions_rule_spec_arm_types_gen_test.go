@@ -84,7 +84,6 @@ func Namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 

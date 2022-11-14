@@ -320,8 +320,7 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Registry_Spec_ARM: Object (7 properties)
-    ├── AzureName: string
+└── Registry_Spec_ARM: Object (6 properties)
     ├── Identity: Object (4 properties)
     │   ├── PrincipalId: *string
     │   ├── TenantId: *string

@@ -6,8 +6,6 @@ package v1beta20210901
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Registry_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The identity of the container registry.
 	Identity *IdentityProperties_ARM `json:"identity,omitempty"`
 

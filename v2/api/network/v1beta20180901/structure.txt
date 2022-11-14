@@ -38,7 +38,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │           ├── "Failed"
 │           ├── "Succeeded"
 │           └── "Updating"
-└── PrivateDnsZone_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── PrivateDnsZone_Spec_ARM: Object (2 properties)
     ├── Etag: *string
     └── Name: string

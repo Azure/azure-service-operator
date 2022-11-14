@@ -197,8 +197,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701
 │   │       └── ZoneResilient: *bool
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Image_Spec_ARM: Object (6 properties)
-    ├── AzureName: string
+└── Image_Spec_ARM: Object (5 properties)
     ├── ExtendedLocation: Object (2 properties)
     │   ├── Name: *string
     │   └── Type: Enum (1 value)

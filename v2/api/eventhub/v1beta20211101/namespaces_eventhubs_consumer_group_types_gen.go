@@ -347,9 +347,6 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) ConvertToARM(resol
 	}
 	result := &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = consumergroup.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

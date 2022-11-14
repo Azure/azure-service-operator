@@ -355,9 +355,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertToARM(resolved gen
 	}
 	result := &Namespaces_Topics_Subscriptions_Rule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = rule.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

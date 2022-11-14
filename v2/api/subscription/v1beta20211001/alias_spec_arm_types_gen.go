@@ -6,8 +6,7 @@ package v1beta20211001
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Alias_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Put alias request properties.
 	Properties *PutAliasRequestProperties_ARM `json:"properties,omitempty"`

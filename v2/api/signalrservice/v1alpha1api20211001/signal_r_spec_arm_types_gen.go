@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of SignalR_Spec. Use v1beta20211001.SignalR_Spec instead
 type SignalR_Spec_ARM struct {
-	AzureName  string                 `json:"azureName,omitempty"`
 	Identity   *ManagedIdentity_ARM   `json:"identity,omitempty"`
 	Kind       *ServiceKind           `json:"kind,omitempty"`
 	Location   *string                `json:"location,omitempty"`

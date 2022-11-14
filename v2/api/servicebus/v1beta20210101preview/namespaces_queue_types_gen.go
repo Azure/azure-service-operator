@@ -393,9 +393,6 @@ func (queue *Namespaces_Queue_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &Namespaces_Queue_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = queue.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

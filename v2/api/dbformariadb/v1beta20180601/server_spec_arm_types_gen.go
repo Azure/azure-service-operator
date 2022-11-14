@@ -9,8 +9,6 @@ import (
 )
 
 type Server_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

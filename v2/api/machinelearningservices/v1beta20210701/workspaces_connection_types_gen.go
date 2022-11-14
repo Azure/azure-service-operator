@@ -357,9 +357,6 @@ func (connection *Workspaces_Connection_Spec) ConvertToARM(resolved genruntime.C
 	}
 	result := &Workspaces_Connection_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = connection.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

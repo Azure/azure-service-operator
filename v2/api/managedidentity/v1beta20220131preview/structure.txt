@@ -24,8 +24,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131pre
 │   │   ├── Issuer: *string
 │   │   └── Subject: *string
 │   └── Type: *string
-└── UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (3 properties)
         ├── Audiences: string[]

@@ -353,9 +353,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) ConvertToARM(resolved gen
 	}
 	result := &StorageAccounts_QueueServices_Queue_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = queue.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

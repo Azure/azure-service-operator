@@ -347,9 +347,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertToARM(resolved genru
 	}
 	result := &StorageAccounts_ManagementPolicy_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = policy.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

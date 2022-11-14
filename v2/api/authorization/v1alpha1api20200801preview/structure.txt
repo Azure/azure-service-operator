@@ -59,8 +59,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 │   │   ├── UpdatedBy: *string
 │   │   └── UpdatedOn: *string
 │   └── Type: *string
-└── RoleAssignment_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── RoleAssignment_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (7 properties)
         ├── Condition: *string

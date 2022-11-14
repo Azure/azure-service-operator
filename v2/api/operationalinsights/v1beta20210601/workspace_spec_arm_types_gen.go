@@ -6,8 +6,6 @@ package v1beta20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspace_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Etag: The etag of the workspace.
 	Etag *string `json:"etag,omitempty"`
 

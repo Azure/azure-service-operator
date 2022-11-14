@@ -358,9 +358,6 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) ConvertToAR
 	}
 	result := &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = collection.AzureName
-
 	// Set property ‘Location’:
 	if collection.Location != nil {
 		location := *collection.Location

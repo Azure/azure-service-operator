@@ -6,8 +6,6 @@ package v1beta20200930
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Disk_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 

@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Eventhub_Spec. Use v1beta20211101.Namespaces_Eventhub_Spec instead
 type Namespaces_Eventhub_Spec_ARM struct {
-	AzureName  string                                   `json:"azureName,omitempty"`
 	Name       string                                   `json:"name,omitempty"`
 	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`
 }

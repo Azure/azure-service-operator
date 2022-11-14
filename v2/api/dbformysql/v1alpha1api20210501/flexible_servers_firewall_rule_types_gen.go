@@ -360,9 +360,6 @@ func (rule *FlexibleServers_FirewallRule_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &FlexibleServers_FirewallRule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = rule.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

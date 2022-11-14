@@ -6,8 +6,7 @@ package v1beta20210701
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspaces_Connection_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of workspace connection.
 	Properties *WorkspaceConnectionProps_ARM `json:"properties,omitempty"`

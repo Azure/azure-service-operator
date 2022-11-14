@@ -6,8 +6,6 @@ package v1beta20210401preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Vault_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: The supported Azure location where the key vault should be created.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

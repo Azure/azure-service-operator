@@ -358,9 +358,6 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = procedure.AzureName
-
 	// Set property ‘Location’:
 	if procedure.Location != nil {
 		location := *procedure.Location

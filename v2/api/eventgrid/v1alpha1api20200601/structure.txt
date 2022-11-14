@@ -164,8 +164,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Domain_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── Domain_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (4 properties)
@@ -259,8 +258,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── Domains_Topic_Spec_ARM: Object (2 properties)
-│   ├── AzureName: string
+├── Domains_Topic_Spec_ARM: Object (1 property)
 │   └── Name: string
 ├── EventSubscription: Resource
 │   ├── Spec: Object (9 properties)
@@ -683,8 +681,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── EventSubscription_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── EventSubscription_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (7 properties)
 │       ├── DeadLetterDestination: Object (1 property)
@@ -945,8 +942,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Topic_Spec_ARM: Object (4 properties)
-    ├── AzureName: string
+└── Topic_Spec_ARM: Object (3 properties)
     ├── Location: *string
     ├── Name: string
     └── Tags: map[string]string

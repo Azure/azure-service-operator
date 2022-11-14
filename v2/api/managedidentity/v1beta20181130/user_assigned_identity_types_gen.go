@@ -404,9 +404,6 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &UserAssignedIdentity_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = identity.AzureName
-
 	// Set property ‘Location’:
 	if identity.Location != nil {
 		location := *identity.Location

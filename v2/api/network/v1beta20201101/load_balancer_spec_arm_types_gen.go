@@ -6,8 +6,6 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type LoadBalancer_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 	Id               *string               `json:"id,omitempty"`

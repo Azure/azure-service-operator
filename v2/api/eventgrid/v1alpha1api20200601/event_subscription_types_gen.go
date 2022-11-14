@@ -358,9 +358,6 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	result := &EventSubscription_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = subscription.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

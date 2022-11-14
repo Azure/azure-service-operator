@@ -125,7 +125,6 @@ func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 }
 
 var requiredSpecFields = astmodel.NewObjectType().WithProperties(
-	astmodel.NewPropertyDefinition(astmodel.AzureNameProperty, "azureName", astmodel.StringType),
 	astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", astmodel.StringType))
 
 func addRequiredSpecFields(t astmodel.Type) astmodel.Type {

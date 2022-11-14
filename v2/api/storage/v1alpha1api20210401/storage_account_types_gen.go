@@ -416,9 +416,6 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &StorageAccount_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = account.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if account.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*account.ExtendedLocation).ConvertToARM(resolved)

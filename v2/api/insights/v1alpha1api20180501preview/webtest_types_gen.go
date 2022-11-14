@@ -383,9 +383,6 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &Webtest_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = webtest.AzureName
-
 	// Set property ‘Location’:
 	if webtest.Location != nil {
 		location := *webtest.Location

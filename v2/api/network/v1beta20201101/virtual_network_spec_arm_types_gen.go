@@ -6,8 +6,6 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetwork_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 	Id               *string               `json:"id,omitempty"`

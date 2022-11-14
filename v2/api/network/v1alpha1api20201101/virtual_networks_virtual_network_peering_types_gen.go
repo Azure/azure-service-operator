@@ -364,9 +364,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) ConvertToARM(resolved
 	}
 	result := &VirtualNetworks_VirtualNetworkPeering_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = peering.AzureName
-
 	// Set property ‘Id’:
 	if peering.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*peering.Reference)

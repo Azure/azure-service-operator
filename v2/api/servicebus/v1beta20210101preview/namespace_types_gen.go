@@ -391,9 +391,6 @@ func (namespace *Namespace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Namespace_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = namespace.AzureName
-
 	// Set property ‘Identity’:
 	if namespace.Identity != nil {
 		identity_ARM, err := (*namespace.Identity).ConvertToARM(resolved)

@@ -10,7 +10,6 @@ import (
 
 // Deprecated version of DatabaseAccount_Spec. Use v1beta20210515.DatabaseAccount_Spec instead
 type DatabaseAccount_Spec_ARM struct {
-	AzureName  string                                     `json:"azureName,omitempty"`
 	Identity   *ManagedServiceIdentity_ARM                `json:"identity,omitempty"`
 	Kind       *DatabaseAccount_Kind_Spec                 `json:"kind,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`

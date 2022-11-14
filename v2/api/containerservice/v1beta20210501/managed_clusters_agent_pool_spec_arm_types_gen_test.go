@@ -84,7 +84,6 @@ func ManagedClusters_AgentPool_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusters_AgentPool_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 

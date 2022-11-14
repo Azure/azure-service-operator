@@ -322,8 +322,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── ProvisioningState: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccount_Spec_ARM: Object (7 properties)
-│   ├── AzureName: string
+├── DatabaseAccount_Spec_ARM: Object (6 properties)
 │   ├── Identity: Object (1 property)
 │   │   └── Type: Enum (4 values)
 │   │       ├── "None"
@@ -419,8 +418,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_MongodbDatabase_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_MongodbDatabase_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -455,8 +453,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -496,8 +493,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (1 property)
@@ -531,8 +527,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (1 property)
@@ -563,8 +558,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Users: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabase_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabase_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -645,8 +639,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │               └── Paths: string[]
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabases_Container_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabases_Container_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -723,8 +716,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -757,8 +749,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (1 property)
@@ -793,8 +784,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -828,8 +818,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (2 properties)
@@ -862,8 +851,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │       └── Ts: *float64
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM: Object (5 properties)
-│   ├── AzureName: string
+├── DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: Object (1 property)

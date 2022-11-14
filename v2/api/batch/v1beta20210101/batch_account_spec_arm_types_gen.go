@@ -6,8 +6,6 @@ package v1beta20210101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type BatchAccount_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity_ARM `json:"identity,omitempty"`
 

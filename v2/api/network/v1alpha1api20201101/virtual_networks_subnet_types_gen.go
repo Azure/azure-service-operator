@@ -367,9 +367,6 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &VirtualNetworks_Subnet_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = subnet.AzureName
-
 	// Set property ‘Id’:
 	if subnet.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*subnet.Reference)

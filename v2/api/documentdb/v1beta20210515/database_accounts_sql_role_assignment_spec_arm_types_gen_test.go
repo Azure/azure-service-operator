@@ -84,7 +84,6 @@ func DatabaseAccounts_SqlRoleAssignment_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 

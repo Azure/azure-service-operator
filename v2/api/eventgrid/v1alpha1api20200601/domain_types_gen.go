@@ -366,9 +366,6 @@ func (domain *Domain_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 	result := &Domain_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = domain.AzureName
-
 	// Set property ‘Location’:
 	if domain.Location != nil {
 		location := *domain.Location

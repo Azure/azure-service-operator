@@ -125,8 +125,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview
 │   │       └── SSLCheck: *bool
 │   ├── Tags: *v1.JSON
 │   └── Type: *string
-└── Webtest_Spec_ARM: Object (5 properties)
-    ├── AzureName: string
+└── Webtest_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
     ├── Properties: Object (12 properties)

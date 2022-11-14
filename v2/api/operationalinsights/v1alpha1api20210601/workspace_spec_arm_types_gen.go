@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Workspace_Spec. Use v1beta20210601.Workspace_Spec instead
 type Workspace_Spec_ARM struct {
-	AzureName  string                   `json:"azureName,omitempty"`
 	Etag       *string                  `json:"etag,omitempty"`
 	Location   *string                  `json:"location,omitempty"`
 	Name       string                   `json:"name,omitempty"`

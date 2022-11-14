@@ -354,9 +354,6 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &NetworkSecurityGroup_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = group.AzureName
-
 	// Set property ‘Id’:
 	if group.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*group.Reference)

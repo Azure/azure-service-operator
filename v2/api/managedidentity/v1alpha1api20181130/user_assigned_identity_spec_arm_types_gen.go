@@ -7,10 +7,9 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of UserAssignedIdentity_Spec. Use v1beta20181130.UserAssignedIdentity_Spec instead
 type UserAssignedIdentity_Spec_ARM struct {
-	AzureName string            `json:"azureName,omitempty"`
-	Location  *string           `json:"location,omitempty"`
-	Name      string            `json:"name,omitempty"`
-	Tags      map[string]string `json:"tags,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_Spec_ARM{}

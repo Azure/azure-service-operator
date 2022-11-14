@@ -170,8 +170,7 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101
 │   │       └── "Enabled"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── BatchAccount_Spec_ARM: Object (6 properties)
-    ├── AzureName: string
+└── BatchAccount_Spec_ARM: Object (5 properties)
     ├── Identity: Object (1 property)
     │   └── Type: Enum (3 values)
     │       ├── "None"

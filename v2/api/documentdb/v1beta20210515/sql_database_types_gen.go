@@ -354,9 +354,6 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) ConvertToARM(resolved genrunt
 	}
 	result := &DatabaseAccounts_SqlDatabase_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = database.AzureName
-
 	// Set property ‘Location’:
 	if database.Location != nil {
 		location := *database.Location

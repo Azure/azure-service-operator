@@ -355,9 +355,6 @@ func (rule *Namespaces_AuthorizationRule_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &Namespaces_AuthorizationRule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = rule.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

@@ -6,8 +6,6 @@ package v1beta20210701
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspace_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The identity of the resource.
 	Identity *Identity_ARM `json:"identity,omitempty"`
 

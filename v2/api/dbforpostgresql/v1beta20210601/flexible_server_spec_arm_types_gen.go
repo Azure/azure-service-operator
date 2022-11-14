@@ -6,8 +6,6 @@ package v1beta20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServer_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

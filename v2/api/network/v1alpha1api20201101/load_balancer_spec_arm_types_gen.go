@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of LoadBalancer_Spec. Use v1beta20201101.LoadBalancer_Spec instead
 type LoadBalancer_Spec_ARM struct {
-	AzureName        string                            `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation_ARM             `json:"extendedLocation,omitempty"`
 	Id               *string                           `json:"id,omitempty"`
 	Location         *string                           `json:"location,omitempty"`

@@ -6,8 +6,7 @@ package v1beta20220131preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: The properties associated with the federated identity credential.
 	Properties *FederatedIdentityCredentialProperties_ARM `json:"properties,omitempty"`
