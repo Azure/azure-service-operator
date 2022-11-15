@@ -26,6 +26,11 @@ const (
 	resourceManagerAudienceVar = "AZURE_RESOURCE_MANAGER_AUDIENCE"
 	azureAuthorityHostVar      = "AZURE_AUTHORITY_HOST"
 	podNamespaceVar            = "POD_NAMESPACE"
+
+	// TODO: These values are used for single operator multitenancy tests. We can get rid of them once we have Managed Identity support.
+	AzureClientIDMultitenantVar = "AZURE_CLIENT_ID_MULTITENANT"
+	// #nosec
+	AzureClientSecretMultitenantVar = "AZURE_CLIENT_SECRET_MULTITENANT"
 )
 
 // These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which

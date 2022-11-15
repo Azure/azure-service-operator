@@ -180,7 +180,7 @@ jobs:
       - name: Run integration tests
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "$container_id" task controller:ci-integration-tests
+          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT "$container_id" task controller:ci-integration-tests
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}

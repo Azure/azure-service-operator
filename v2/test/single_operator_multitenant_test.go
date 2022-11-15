@@ -2,11 +2,13 @@
 Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
-package controllers_test
+package test
 
 import (
+	"os"
 	"testing"
 
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -15,9 +17,11 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -27,9 +31,10 @@ func Test_Multitenant_SingleOperator_NamespacedCredential(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	secret := newCredentialSecret(tc.AzureSubscription, arm.NamespacedSecretName, tc.Namespace)
-	tc.CreateResource(secret)
+	secret, err := newCredentialSecret(tc.AzureSubscription, tc.AzureTenant, arm.NamespacedSecretName, tc.Namespace)
+	tc.Expect(err).To(BeNil())
 
+	tc.CreateResource(secret)
 	rg := tc.NewTestResourceGroup()
 
 	tc.CreateResourcesAndWait(rg)
@@ -63,7 +68,9 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	secret := newCredentialSecret(tc.AzureSubscription, "credential", tc.Namespace)
+	secret, err := newCredentialSecret(tc.AzureSubscription, tc.AzureTenant, "credential", tc.Namespace)
+	tc.Expect(err).To(BeNil())
+
 	tc.CreateResource(secret)
 
 	nsName := types.NamespacedName{
@@ -100,12 +107,23 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 }
 
-func newCredentialSecret(subscriptionID string, name, namespaceName string) *v1.Secret {
+func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) (*v1.Secret, error) {
 	secretData := make(map[string][]byte)
 	// TODO: find a way to provision creds into secret
-	secretData[config.AzureClientIDVar] = []byte("")
-	secretData[config.AzureClientSecretVar] = []byte("")
-	secretData[config.TenantIDVar] = []byte("")
+
+	clientSecret := os.Getenv(config.AzureClientSecretMultitenantVar)
+	if clientSecret == "" {
+		return nil, errors.Errorf("required environment variable %q was not supplied", config.AzureClientSecretMultitenantVar)
+	}
+
+	clientID := os.Getenv(config.AzureClientIDMultitenantVar)
+	if clientID == "" {
+		return nil, errors.Errorf("required environment variable %q was not supplied", config.AzureClientIDMultitenantVar)
+	}
+
+	secretData[config.AzureClientIDVar] = []byte(clientID)
+	secretData[config.AzureClientSecretVar] = []byte(clientSecret)
+	secretData[config.TenantIDVar] = []byte(tenantID)
 	secretData[config.SubscriptionIDVar] = []byte(subscriptionID)
 
 	return &v1.Secret{
@@ -114,6 +132,27 @@ func newCredentialSecret(subscriptionID string, name, namespaceName string) *v1.
 			Namespace: namespaceName,
 		},
 		Data: secretData,
-	}
+	}, nil
 
+}
+
+func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+	// Create a storage account
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccount_Kind_Spec_StorageV2
+	sku := storage.Sku_Name_Standard_LRS
+	acct := &storage.StorageAccount{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		Spec: storage.StorageAccount_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Kind:     &kind,
+			Sku: &storage.Sku{
+				Name: &sku,
+			},
+			// TODO: They mark this property as optional but actually it is required
+			AccessTier: &accessTier,
+		},
+	}
+	return acct
 }
