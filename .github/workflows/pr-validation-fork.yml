@@ -100,8 +100,8 @@ jobs:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          AZURE_CLIENT_SECRET_MULTITENANT: ${{secrets.AZURE_CLIENT_SECRET_MULTITENANT }}
-          AZURE_CLIENT_ID_MULTITENANT: ${{secrets.AZURE_CLIENT_ID_MULTITENANT }}
+          AZURE_CLIENT_SECRET_MULTITENANT: ${{ secrets.AZURE_CLIENT_SECRET_MULTITENANT }}
+          AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
 
       # Update check run called "integration-fork"
       - uses: actions/github-script@v1
