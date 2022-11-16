@@ -130,7 +130,6 @@ func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) (
 		},
 		Data: secretData,
 	}, nil
-
 }
 
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
