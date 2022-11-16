@@ -60,7 +60,6 @@ func Test_Multitenant_SingleOperator_NamespacedCredential(t *testing.T) {
 	tc.Expect(exists).To(BeTrue())
 
 	tc.DeleteResourcesAndWait(acct, rg)
-
 }
 
 func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
@@ -104,12 +103,10 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	tc.Expect(exists).To(BeTrue())
 
 	tc.DeleteResourcesAndWait(acct, rg)
-
 }
 
 func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) (*v1.Secret, error) {
 	secretData := make(map[string][]byte)
-	// TODO: find a way to provision creds into secret
 
 	clientSecret := os.Getenv(config.AzureClientSecretMultitenantVar)
 	if clientSecret == "" {
