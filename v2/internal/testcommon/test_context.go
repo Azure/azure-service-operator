@@ -53,6 +53,7 @@ type PerTestContext struct {
 	AzureTenant           string
 	AzureBillingInvoiceID string
 	AzureMatch            *ARMMatcher
+	HttpClient            *http.Client
 	Namer                 ResourceNamer
 	NoSpaceNamer          ResourceNamer
 	TestName              string
@@ -112,8 +113,8 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		Transport: addCountHeader(translateErrors(details.recorder, cassetteName, t)),
 	}
 
-	var armClient *genericarmclient.GenericClient
-	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), details.creds, httpClient, details.ids.subscriptionID, metrics.NewARMClientMetrics())
+	var globalARMClient *genericarmclient.GenericClient
+	globalARMClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), details.creds, httpClient, details.ids.subscriptionID, metrics.NewARMClientMetrics())
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}
@@ -152,12 +153,13 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 		logger:                logger,
 		Namer:                 namer,
 		NoSpaceNamer:          namer.WithSeparator(""),
-		AzureClient:           armClient,
+		AzureClient:           globalARMClient,
 		AzureSubscription:     details.ids.subscriptionID,
 		AzureTenant:           details.ids.tenantID,
 		AzureBillingInvoiceID: details.ids.billingInvoiceID,
-		AzureMatch:            NewARMMatcher(armClient),
+		AzureMatch:            NewARMMatcher(globalARMClient),
 		AzureClientRecorder:   details.recorder,
+		HttpClient:            httpClient,
 		TestName:              t.Name(),
 		Namespace:             createTestNamespaceName(t),
 		Ctx:                   context,
