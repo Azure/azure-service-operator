@@ -36,7 +36,7 @@ func NewFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
 	return kubeclient.NewClient(fakeClient)
 }
 
-func NewTestARMClientCache(client kubeclient.Client) (*armClientCache, error) {
+func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
 	cfg, err := config.ReadFromEnvironment()
 	if err != nil {
 		return nil, err
@@ -56,7 +56,7 @@ func NewTestARMClientCache(client kubeclient.Client) (*armClientCache, error) {
 }
 
 type testResources struct {
-	armClientCache *armClientCache
+	ARMClientCache *ARMClientCache
 	kubeClient     kubeclient.Client
 }
 
@@ -79,7 +79,7 @@ func testSetup() (*testResources, error) {
 	}
 
 	return &testResources{
-		armClientCache: cache,
+		ARMClientCache: cache,
 		kubeClient:     client,
 	}, nil
 }
@@ -104,7 +104,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 
 	namespacedSecretName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      namespacedSecretName,
+		Name:      NamespacedSecretName,
 	}
 
 	secret := newSecret(namespacedSecretName.Name, namespacedSecretName.Namespace)
@@ -113,18 +113,18 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{perResourceSecretAnnotation: perResourceCredentialName.String()}
+	rg.Annotations = map[string]string{PerResourceSecretAnnotation: perResourceCredentialName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	client, credentialFrom, err := res.ARMClientCache.GetClient(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(credentialFrom).To(BeEquivalentTo(perResourceCredentialName.String()))
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(fakeID))
-	g.Expect(client).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
+	g.Expect(client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
 }
 
 func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
@@ -141,16 +141,16 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	}
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{perResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{PerResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, _, err := res.armClientCache.GetClient(ctx, rg)
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	client, _, err := res.ARMClientCache.GetClient(ctx, rg)
 
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	g.Expect(client).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	g.Expect(client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
 }
 
 func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
@@ -172,18 +172,18 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{perResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{PerResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	client, credentialFrom, err := res.ARMClientCache.GetClient(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(fakeID))
-	g.Expect(client).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
+	g.Expect(client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
 }
 
 func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
@@ -196,7 +196,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 
 	credentialNamespacedName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      namespacedSecretName,
+		Name:      NamespacedSecretName,
 	}
 
 	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
@@ -208,14 +208,14 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	client, credentialFrom, err := res.ARMClientCache.GetClient(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
 	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(fakeID))
-	g.Expect(client).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
+	g.Expect(client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
 }
 
 func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T) {
@@ -228,7 +228,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	credentialNamespacedName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      namespacedSecretName,
+		Name:      NamespacedSecretName,
 	}
 
 	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
@@ -240,14 +240,14 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	oldClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	oldClient, credentialFrom, err := res.ARMClientCache.GetClient(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
 	g.Expect(oldClient.SubscriptionID()).To(BeEquivalentTo(fakeID))
-	g.Expect(oldClient).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
+	g.Expect(oldClient).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
 
 	// change secret and check if we get a new client
 	old := secret
@@ -255,13 +255,13 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
-	newClient, credentialFrom, err := res.armClientCache.GetClient(ctx, rg)
+	newClient, credentialFrom, err := res.ARMClientCache.GetClient(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(1))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(credentialFrom).To(BeEquivalentTo(credentialNamespacedName.String()))
 	g.Expect(newClient.SubscriptionID()).To(BeEquivalentTo(fakeID))
-	g.Expect(newClient).To(Not(BeEquivalentTo(res.armClientCache.globalClient.GenericClient())))
+	g.Expect(newClient).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
 }
 
 func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
@@ -276,13 +276,13 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	client, _, err := res.armClientCache.GetClient(ctx, rg)
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	client, _, err := res.ARMClientCache.GetClient(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.armClientCache.clients)).To(BeEquivalentTo(0))
-	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(res.armClientCache.globalClient.GenericClient().SubscriptionID()))
-	g.Expect(client).To(BeEquivalentTo(res.armClientCache.globalClient.GenericClient()))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	g.Expect(client.SubscriptionID()).To(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient().SubscriptionID()))
+	g.Expect(client).To(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient()))
 
 }
 
