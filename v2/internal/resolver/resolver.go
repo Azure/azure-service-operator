@@ -272,12 +272,12 @@ func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaO
 	}
 
 	// resolve them
-	resolvedSecrets, err := r.ResolveConfigMapReferences(ctx, namespacedConfigMapReferences)
+	resolvedConfigMaps, err := r.ResolveConfigMapReferences(ctx, namespacedConfigMapReferences)
 	if err != nil {
 		return genruntime.Resolved[genruntime.ConfigMapReference]{}, errors.Wrapf(err, "failed resolving config map references")
 	}
 
-	return resolvedSecrets, nil
+	return resolvedConfigMaps, nil
 }
 
 // ResolveAll resolves every reference on the provided genruntime.ARMMetaObject.

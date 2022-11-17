@@ -13,9 +13,15 @@ spec:
       family: A
       name: standard
     accessPolicies:
-      - applicationId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        objectId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
-        tenantId: "1C793267-c310-d4ae-7BD5-5Af5BEF875D3"
+      - applicationIdFromConfig:
+          name: identity-settings
+          key: clientId
+        objectIdFromConfig:
+          name: identity-settings
+          key: principalId
+        tenantIdFromConfig:
+          name: identity-settings
+          key: tenantId
         permissions:
           certificates:
             - "get"
