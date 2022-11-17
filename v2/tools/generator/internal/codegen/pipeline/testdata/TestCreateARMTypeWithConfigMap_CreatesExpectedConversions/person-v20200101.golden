@@ -155,6 +155,9 @@ type PersonProperties_ARM struct {
 
 	// KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs,omitempty"`
+
+	// RestrictedName: The name of the resource, restricted to max 25 character length
+	RestrictedName *string `json:"restrictedName,omitempty" optionalConfigMapPair:"RestrictedName"`
 }
 
 type PersonProperties struct {
@@ -169,6 +172,13 @@ type PersonProperties struct {
 
 	// KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=25
+	// RestrictedName: The name of the resource, restricted to max 25 character length
+	RestrictedName *string `json:"restrictedName,omitempty" optionalConfigMapPair:"RestrictedName"`
+
+	// RestrictedNameFromConfig: The name of the resource, restricted to max 25 character length
+	RestrictedNameFromConfig *genruntime.ConfigMapReference `json:"restrictedNameFromConfig,omitempty" optionalConfigMapPair:"RestrictedName"`
 }
 
 var _ genruntime.ARMTransformer = &PersonProperties{}
@@ -203,6 +213,20 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘KnownAs’:
 	result.KnownAs = properties.KnownAs
+
+	// Set property ‘RestrictedName’:
+	if properties.RestrictedName != nil {
+		restrictedName := *properties.RestrictedName
+		result.RestrictedName = &restrictedName
+	}
+	if properties.RestrictedNameFromConfig != nil {
+		restrictedNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.RestrictedNameFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property RestrictedName")
+		}
+		restrictedName := restrictedNameValue
+		result.RestrictedName = &restrictedName
+	}
 	return result, nil
 }
 
@@ -230,6 +254,14 @@ func (properties *PersonProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘KnownAs’:
 	properties.KnownAs = typedInput.KnownAs
+
+	// Set property ‘RestrictedName’:
+	if typedInput.RestrictedName != nil {
+		restrictedName := *typedInput.RestrictedName
+		properties.RestrictedName = &restrictedName
+	}
+
+	// no assignment for property ‘RestrictedNameFromConfig’
 
 	// No error
 	return nil
