@@ -193,7 +193,8 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 		"PersonProperties",
 		test.FullNameProperty,
 		test.FamilyNameProperty,
-		test.KnownAsProperty)
+		test.KnownAsProperty,
+		test.RestrictedNameProperty)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
 		"properties",
@@ -220,6 +221,15 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 		omc.ModifyProperty(
 			specProperties.Name(),
 			test.FamilyNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			test.RestrictedNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
 				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
 				return nil
