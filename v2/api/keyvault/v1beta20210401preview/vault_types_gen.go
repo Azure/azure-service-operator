@@ -2075,6 +2075,14 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 		applicationId := *entry.ApplicationId
 		result.ApplicationId = &applicationId
 	}
+	if entry.ApplicationIdFromConfig != nil {
+		applicationIdValue, err := resolved.ResolvedConfigMaps.Lookup(*entry.ApplicationIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ApplicationId")
+		}
+		applicationId := applicationIdValue
+		result.ApplicationId = &applicationId
+	}
 
 	// Set property ‘ObjectId’:
 	if entry.ObjectId != nil {
@@ -2103,6 +2111,14 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 	// Set property ‘TenantId’:
 	if entry.TenantId != nil {
 		tenantId := *entry.TenantId
+		result.TenantId = &tenantId
+	}
+	if entry.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*entry.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 	return result, nil

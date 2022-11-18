@@ -85,21 +85,22 @@ func Test_KeyVault_Vault_FromConfig_CRUD(t *testing.T) {
 			Name: configMapName,
 			Key:  principalIdKey,
 		},
+		TenantIdFromConfig: &genruntime.ConfigMapReference{
+			Name: configMapName,
+			Key:  tenantIdKey,
+		},
 		Permissions: &keyvault.Permissions{
 			Certificates: []keyvault.Permissions_Certificates{keyvault.Permissions_Certificates_Get},
 			Keys:         []keyvault.Permissions_Keys{keyvault.Permissions_Keys_Get},
 			Secrets:      []keyvault.Permissions_Secrets{keyvault.Permissions_Secrets_Get},
 			Storage:      []keyvault.Permissions_Storage{keyvault.Permissions_Storage_Get},
 		},
-		TenantId: to.StringPtr(tc.AzureTenant),
 	}
 
 	vault.Spec.Properties.AccessPolicies = append(vault.Spec.Properties.AccessPolicies, accessPolicyFromConfig)
 
-	tc.CreateResourceAndWait(mi)
-	tc.CreateResourceAndWait(vault)
-	tc.DeleteResourceAndWait(vault)
-	tc.DeleteResourceAndWait(mi)
+	tc.CreateResourcesAndWait(mi, vault)
+	tc.DeleteResourcesAndWait(vault, mi)
 
 }
 
