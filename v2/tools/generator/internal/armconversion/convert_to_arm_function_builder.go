@@ -168,14 +168,13 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
 
 	// This is just an optimization to avoid scanning excess properties collections
-	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
-	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.OptionalStringType)
+	_, isString := astmodel.AsPrimitiveType(toProp.PropertyType())
 
 	// TODO: Do we support slices or maps? Skipped for now
 	//isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
 	//isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
-	if !isString && !isOptionalString {
+	if !isString {
 		return nil, false
 	}
 
@@ -200,7 +199,10 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 		refProp = fromProps[0]
 	}
 
-	if !astmodel.TypeEquals(strProp.PropertyType(), astmodel.OptionalStringType) {
+	// This is technically more permissive than we would like as it allows collections too, but they won't make it this far because
+	// of the FindAllPropertiesWithTagValue above
+	optionalType, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
+	if !isOptional || !astmodel.TypeEquals(optionalType, astmodel.OptionalStringType) {
 		return nil, false
 	}
 	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
