@@ -34,7 +34,7 @@ How can I protect against accidentally deleting an important resource?  You can 
 <meta itemprop="description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
 How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.">
 
-<meta itemprop="wordCount" content="816">
+<meta itemprop="wordCount" content="964">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
@@ -510,6 +510,7 @@ How can I protect against accidentally deleting an important resource?  You can 
         <li><a href="#can-aso-be-used-with-iacgitops-tools">Can ASO be used with IAC/GitOps tools?</a></li>
         <li><a href="#whats-the-difference-between-aso-and-crossplaneio">What&rsquo;s the difference between ASO and Crossplane.io?</a></li>
         <li><a href="#can-i-configure-how-often-aso-re-syncs-to-azure-when-there-have-been-no-changes">Can I configure how often ASO re-syncs to Azure when there have been no changes?</a></li>
+        <li><a href="#im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</a></li>
       </ul>
     </li>
   </ul>
@@ -622,8 +623,40 @@ One example of this is references between resources such as linking a VMSS to a 
 Right now our focus is on getting ASO to GA, after which we will hopefully have more time to invest in that.</p>
 <h3 id="can-i-configure-how-often-aso-re-syncs-to-azure-when-there-have-been-no-changes">Can I configure how often ASO re-syncs to Azure when there have been no changes?</h3>
 <p>Yes, using the <code>azureSyncPeriod</code> argument in Helm&rsquo;s values.yaml, or using the <code>AZURE_SYNC_PERIOD</code>
-in the <code>aso-controller-settings</code> secret.</p>
+in the <code>aso-controller-settings</code> secret. This value is a string with format like: <code>15m</code>, <code>1h</code>, or <code>24h</code>.</p>
+<p>After changing this value, you must restart the <code>azureserviceoperator-controller-manager</code> pod in order for it to take effect
+if the pod is already running.</p>
 <p>Be careful setting this value too low as it can produce a lot of calls to Azure.</p>
+<h3 id="im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</h3>
+<p>Azure subscriptions have a default limit of ~1200 PUTs an hour. Prior to ASO-beta.4, ASO&rsquo;s default <code>azureSyncPeriod</code> was 15m.
+It was changed to 1h in ASO-beta.4.</p>
+<p>When <code>azureSyncPeriod</code> is up for a particular resource, a new PUT is issued to the resource RP to correct any drift from
+the goal state defined in ASO. There has been discussion about changing to do diffing locally to reduce requests to Azure,
+see <a href="https://github.com/Azure/azure-service-operator/issues/1491">#1491</a>.</p>
+<p>You can estimate the maximum number of resources ASO can support based on the configured <code>azureSyncPeriod</code> and the rough cap of
+1200 / hr.</p>
+<table>
+<thead>
+<tr>
+<th>azureSyncPeriod</th>
+<th>Maximum possible resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15m</td>
+<td>300</td>
+</tr>
+<tr>
+<td>1h</td>
+<td>1200</td>
+</tr>
+<tr>
+<td>24h</td>
+<td>~28000</td>
+</tr>
+</tbody>
+</table>
 
 	
 	
