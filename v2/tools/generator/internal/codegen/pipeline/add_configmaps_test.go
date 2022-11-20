@@ -21,7 +21,13 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	// Define a test resource
-	spec := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, test.KnownAsProperty)
+	spec := test.CreateSpec(
+		test.Pkg2020,
+		"Person",
+		test.FullNameProperty,
+		test.FamilyNameProperty,
+		test.KnownAsProperty,
+		test.RestrictedNameProperty)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
@@ -42,6 +48,15 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 		omc.ModifyProperty(
 			spec.Name(),
 			test.FamilyNameProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
+				return nil
+			})).
+		To(Succeed())
+	g.Expect(
+		omc.ModifyProperty(
+			spec.Name(),
+			test.RestrictedNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
 				pc.SetImportConfigMapMode(config.ImportConfigMapModeOptional)
 				return nil

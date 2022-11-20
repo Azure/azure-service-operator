@@ -36,6 +36,13 @@ type Person_Spec struct {
 
 	// KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs,omitempty"`
+
+	// +kubebuilder:validation:MaxLength=25
+	// RestrictedName: The name of the resource, restricted to max 25 character length
+	RestrictedName *string `json:"restrictedName,omitempty" optionalConfigMapPair:"RestrictedName"`
+
+	// RestrictedNameFromConfig: The name of the resource, restricted to max 25 character length
+	RestrictedNameFromConfig *genruntime.ConfigMapReference `json:"restrictedNameFromConfig,omitempty" optionalConfigMapPair:"RestrictedName"`
 }
 
 type Person_STATUS struct {

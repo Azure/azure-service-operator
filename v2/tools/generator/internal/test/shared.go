@@ -15,8 +15,9 @@ import (
 
 var (
 	// Common groups for testing
-	Group      = "person"
-	BatchGroup = "batch"
+	Group                   = "person"
+	BatchGroup              = "batch"
+	maxRestrictedNameLength = int64(25)
 
 	// Reusable Properties - any package version
 
@@ -32,6 +33,10 @@ var (
 
 	KnownAsProperty = astmodel.NewPropertyDefinition("KnownAs", "knownAs", astmodel.StringType).
 			WithDescription("How the person is generally known")
+
+	RestrictedNameProperty = astmodel.NewPropertyDefinition("RestrictedName", "restrictedName",
+		astmodel.NewValidatedType(astmodel.StringType, astmodel.StringValidations{MaxLength: &maxRestrictedNameLength})).
+		WithDescription("The name of the resource, restricted to max 25 character length")
 
 	FullAddressProperty = astmodel.NewPropertyDefinition("FullAddress", "fullAddress", astmodel.StringType).
 				WithDescription("Full written address for map or postal use")
