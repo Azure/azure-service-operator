@@ -353,9 +353,6 @@ func (eventhub *Namespaces_Eventhub_Spec) ConvertToARM(resolved genruntime.Conve
 	}
 	result := &Namespaces_Eventhub_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = eventhub.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

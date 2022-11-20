@@ -346,9 +346,6 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) ConvertToARM(resolved g
 	}
 	result := &Namespaces_Eventhubs_AuthorizationRule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = rule.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

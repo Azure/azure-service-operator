@@ -361,9 +361,6 @@ func (database *RedisEnterprise_Database_Spec) ConvertToARM(resolved genruntime.
 	}
 	result := &RedisEnterprise_Database_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = database.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

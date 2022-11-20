@@ -6,8 +6,6 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualMachine_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 

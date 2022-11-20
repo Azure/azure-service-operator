@@ -451,9 +451,6 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	result := &Site_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = site.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if site.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*site.ExtendedLocation).ConvertToARM(resolved)

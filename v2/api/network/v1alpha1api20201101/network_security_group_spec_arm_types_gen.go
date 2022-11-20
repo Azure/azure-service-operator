@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1beta20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_Spec_ARM struct {
-	AzureName  string                                                        `json:"azureName,omitempty"`
 	Id         *string                                                       `json:"id,omitempty"`
 	Location   *string                                                       `json:"location,omitempty"`
 	Name       string                                                        `json:"name,omitempty"`

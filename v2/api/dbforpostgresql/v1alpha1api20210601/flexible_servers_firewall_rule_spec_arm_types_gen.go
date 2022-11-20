@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of FlexibleServers_FirewallRule_Spec. Use v1beta20210601.FlexibleServers_FirewallRule_Spec instead
 type FlexibleServers_FirewallRule_Spec_ARM struct {
-	AzureName  string                      `json:"azureName,omitempty"`
 	Name       string                      `json:"name,omitempty"`
 	Properties *FirewallRuleProperties_ARM `json:"properties,omitempty"`
 }

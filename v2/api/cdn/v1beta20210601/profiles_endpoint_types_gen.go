@@ -412,9 +412,6 @@ func (endpoint *Profiles_Endpoint_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &Profiles_Endpoint_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = endpoint.AzureName
-
 	// Set property ‘Location’:
 	if endpoint.Location != nil {
 		location := *endpoint.Location

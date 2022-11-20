@@ -174,8 +174,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   └── Tier: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Serverfarm_Spec_ARM: Object (8 properties)
-│   ├── AzureName: string
+├── Serverfarm_Spec_ARM: Object (7 properties)
 │   ├── ExtendedLocation: Object (1 property)
 │   │   └── Name: *string
 │   ├── Kind: *string
@@ -1179,8 +1178,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   └── VnetRouteAllEnabled: *bool
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Site_Spec_ARM: Object (8 properties)
-    ├── AzureName: string
+└── Site_Spec_ARM: Object (7 properties)
     ├── ExtendedLocation: Object (1 property)
     │   └── Name: *string
     ├── Identity: Object (1 property)

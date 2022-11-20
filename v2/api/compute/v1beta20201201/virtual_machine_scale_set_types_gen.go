@@ -430,9 +430,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 	}
 	result := &VirtualMachineScaleSet_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = scaleSet.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if scaleSet.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*scaleSet.ExtendedLocation).ConvertToARM(resolved)

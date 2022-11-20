@@ -412,9 +412,6 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &ManagedCluster_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = cluster.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if cluster.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*cluster.ExtendedLocation).ConvertToARM(resolved)

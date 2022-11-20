@@ -84,7 +84,6 @@ func Redis_LinkedServer_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedis_LinkedServer_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_LinkedServer_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 

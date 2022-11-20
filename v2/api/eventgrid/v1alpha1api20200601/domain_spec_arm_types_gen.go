@@ -10,7 +10,6 @@ import (
 
 // Deprecated version of Domain_Spec. Use v1beta20200601.Domain_Spec instead
 type Domain_Spec_ARM struct {
-	AzureName  string                `json:"azureName,omitempty"`
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *DomainProperties_ARM `json:"properties,omitempty"`

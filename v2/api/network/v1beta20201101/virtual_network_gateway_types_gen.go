@@ -401,9 +401,6 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	result := &VirtualNetworkGateway_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = gateway.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if gateway.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*gateway.ExtendedLocation).ConvertToARM(resolved)

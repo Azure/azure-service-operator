@@ -383,9 +383,6 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 	}
 	result := &Disk_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = disk.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if disk.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*disk.ExtendedLocation).ConvertToARM(resolved)

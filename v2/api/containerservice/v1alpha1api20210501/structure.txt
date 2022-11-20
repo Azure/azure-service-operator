@@ -835,8 +835,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │       └── "Paid"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── ManagedCluster_Spec_ARM: Object (8 properties)
-│   ├── AzureName: string
+├── ManagedCluster_Spec_ARM: Object (7 properties)
 │   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: Enum (1 value)
@@ -1407,8 +1406,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   ├── VmSize: *string
 │   │   └── VnetSubnetID: *string
 │   └── Type: *string
-└── ManagedClusters_AgentPool_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── ManagedClusters_AgentPool_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (33 properties)
         ├── AvailabilityZones: string[]

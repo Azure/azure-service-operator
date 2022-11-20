@@ -6,9 +6,8 @@ package v1beta20211001
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type SignalR_Spec_ARM struct {
-	AzureName string               `json:"azureName,omitempty"`
-	Identity  *ManagedIdentity_ARM `json:"identity,omitempty"`
-	Kind      *ServiceKind         `json:"kind,omitempty"`
+	Identity *ManagedIdentity_ARM `json:"identity,omitempty"`
+	Kind     *ServiceKind         `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location   *string                `json:"location,omitempty"`

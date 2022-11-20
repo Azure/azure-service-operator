@@ -6,8 +6,6 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualMachineScaleSet_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 

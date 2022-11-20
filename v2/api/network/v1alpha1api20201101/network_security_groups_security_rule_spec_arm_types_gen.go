@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroups_SecurityRule_Spec. Use v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec instead
 type NetworkSecurityGroups_SecurityRule_Spec_ARM struct {
-	AzureName  string                            `json:"azureName,omitempty"`
 	Id         *string                           `json:"id,omitempty"`
 	Name       string                            `json:"name,omitempty"`
 	Properties *SecurityRulePropertiesFormat_ARM `json:"properties,omitempty"`

@@ -354,9 +354,6 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertToA
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = trigger.AzureName
-
 	// Set property ‘Location’:
 	if trigger.Location != nil {
 		location := *trigger.Location

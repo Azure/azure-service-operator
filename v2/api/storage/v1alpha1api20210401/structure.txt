@@ -615,8 +615,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │       └── "Standard"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── StorageAccount_Spec_ARM: Object (9 properties)
-│   ├── AzureName: string
+├── StorageAccount_Spec_ARM: Object (8 properties)
 │   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: Enum (1 value)
@@ -1157,8 +1156,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │       ├── "Premium"
 │   │       └── "Standard"
 │   └── Type: *string
-├── StorageAccounts_BlobService_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── StorageAccounts_BlobService_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (9 properties)
 │       ├── AutomaticSnapshotPolicyEnabled: *bool
@@ -1260,8 +1258,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   ├── RemainingRetentionDays: *int
 │   │   └── Version: *string
 │   └── Type: *string
-├── StorageAccounts_BlobServices_Container_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── StorageAccounts_BlobServices_Container_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (5 properties)
 │       ├── DefaultEncryptionScope: *string
@@ -1319,8 +1316,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │           └── Type: Enum (1 value)
 │   │               └── "Lifecycle"
 │   └── Type: *string
-├── StorageAccounts_ManagementPolicy_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── StorageAccounts_ManagementPolicy_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (1 property)
 │       └── Policy: Object (1 property)
@@ -1382,8 +1378,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │           ├── ExposedHeaders: string[]
 │   │           └── MaxAgeInSeconds: *int
 │   └── Type: *string
-├── StorageAccounts_QueueService_Spec_ARM: Object (3 properties)
-│   ├── AzureName: string
+├── StorageAccounts_QueueService_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: Object (1 property)
 │       └── Cors: Object (1 property)
@@ -1407,8 +1402,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401
 │   │   ├── ApproximateMessageCount: *int
 │   │   └── Metadata: map[string]string
 │   └── Type: *string
-└── StorageAccounts_QueueServices_Queue_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── StorageAccounts_QueueServices_Queue_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (1 property)
         └── Metadata: map[string]string

@@ -371,9 +371,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &Snapshot_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = snapshot.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if snapshot.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*snapshot.ExtendedLocation).ConvertToARM(resolved)

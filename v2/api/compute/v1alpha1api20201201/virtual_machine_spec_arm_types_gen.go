@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualMachine_Spec. Use v1beta20201201.VirtualMachine_Spec instead
 type VirtualMachine_Spec_ARM struct {
-	AzureName        string                        `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation_ARM         `json:"extendedLocation,omitempty"`
 	Identity         *VirtualMachineIdentity_ARM   `json:"identity,omitempty"`
 	Location         *string                       `json:"location,omitempty"`

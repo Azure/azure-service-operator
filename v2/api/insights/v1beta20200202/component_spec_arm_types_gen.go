@@ -9,8 +9,6 @@ import (
 )
 
 type Component_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
 

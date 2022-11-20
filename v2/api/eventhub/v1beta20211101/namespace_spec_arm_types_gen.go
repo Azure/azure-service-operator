@@ -6,8 +6,6 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespace_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: Properties of BYOK Identity description
 	Identity *Identity_ARM `json:"identity,omitempty"`
 

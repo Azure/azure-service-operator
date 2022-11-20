@@ -1680,8 +1680,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]
-├── VirtualMachineScaleSet_Spec_ARM: Object (10 properties)
-│   ├── AzureName: string
+├── VirtualMachineScaleSet_Spec_ARM: Object (9 properties)
 │   ├── ExtendedLocation: Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: Enum (1 value)
@@ -2482,8 +2481,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]
-└── VirtualMachine_Spec_ARM: Object (9 properties)
-    ├── AzureName: string
+└── VirtualMachine_Spec_ARM: Object (8 properties)
     ├── ExtendedLocation: Object (2 properties)
     │   ├── Name: *string
     │   └── Type: Enum (1 value)

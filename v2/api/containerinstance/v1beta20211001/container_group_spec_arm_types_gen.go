@@ -9,8 +9,6 @@ import (
 )
 
 type ContainerGroup_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The identity of the container group, if configured.
 	Identity *ContainerGroupIdentity_ARM `json:"identity,omitempty"`
 

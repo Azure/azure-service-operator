@@ -364,9 +364,6 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &RedisEnterprise_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = enterprise.AzureName
-
 	// Set property ‘Location’:
 	if enterprise.Location != nil {
 		location := *enterprise.Location

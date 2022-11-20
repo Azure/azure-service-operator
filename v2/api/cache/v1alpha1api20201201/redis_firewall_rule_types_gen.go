@@ -358,9 +358,6 @@ func (rule *Redis_FirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &Redis_FirewallRule_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = rule.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

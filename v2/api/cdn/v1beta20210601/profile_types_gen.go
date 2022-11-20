@@ -364,9 +364,6 @@ func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &Profile_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = profile.AzureName
-
 	// Set property ‘Location’:
 	if profile.Location != nil {
 		location := *profile.Location

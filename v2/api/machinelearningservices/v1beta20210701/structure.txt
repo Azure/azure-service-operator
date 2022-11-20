@@ -333,8 +333,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Workspace_Spec_ARM: Object (8 properties)
-│   ├── AzureName: string
+├── Workspace_Spec_ARM: Object (7 properties)
 │   ├── Identity: Object (1 property)
 │   │   └── Type: Enum (4 values)
 │   │       ├── "None"
@@ -1850,8 +1849,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │       └── "User"
 │   ├── Tags: map[string]string
 │   └── Type: *string
-├── Workspaces_Compute_Spec_ARM: Object (8 properties)
-│   ├── AzureName: string
+├── Workspaces_Compute_Spec_ARM: Object (7 properties)
 │   ├── Identity: Object (1 property)
 │   │   └── Type: Enum (4 values)
 │   │       ├── "None"
@@ -2096,8 +2094,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   └── ValueFormat: Enum (1 value)
 │   │       └── "JSON"
 │   └── Type: *string
-└── Workspaces_Connection_Spec_ARM: Object (3 properties)
-    ├── AzureName: string
+└── Workspaces_Connection_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: Object (5 properties)
         ├── AuthType: *string

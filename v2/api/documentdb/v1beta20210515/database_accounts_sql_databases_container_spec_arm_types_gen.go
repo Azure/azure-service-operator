@@ -6,8 +6,6 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccounts_SqlDatabases_Container_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

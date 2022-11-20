@@ -183,8 +183,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
 │   │       └── QuotaNextResetTime: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
-└── Workspace_Spec_ARM: Object (6 properties)
-    ├── AzureName: string
+└── Workspace_Spec_ARM: Object (5 properties)
     ├── Etag: *string
     ├── Location: *string
     ├── Name: string

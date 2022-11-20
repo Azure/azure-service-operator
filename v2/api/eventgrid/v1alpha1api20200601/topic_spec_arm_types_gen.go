@@ -7,10 +7,9 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Topic_Spec. Use v1beta20200601.Topic_Spec instead
 type Topic_Spec_ARM struct {
-	AzureName string            `json:"azureName,omitempty"`
-	Location  *string           `json:"location,omitempty"`
-	Name      string            `json:"name,omitempty"`
-	Tags      map[string]string `json:"tags,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Topic_Spec_ARM{}

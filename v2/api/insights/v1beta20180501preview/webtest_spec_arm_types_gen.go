@@ -9,8 +9,6 @@ import (
 )
 
 type Webtest_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

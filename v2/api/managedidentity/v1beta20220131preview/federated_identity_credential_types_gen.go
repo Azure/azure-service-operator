@@ -359,9 +359,6 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Conve
 	}
 	result := &UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = credential.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

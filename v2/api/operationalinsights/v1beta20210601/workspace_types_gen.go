@@ -382,9 +382,6 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Workspace_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = workspace.AzureName
-
 	// Set property ‘Etag’:
 	if workspace.Etag != nil {
 		etag := *workspace.Etag

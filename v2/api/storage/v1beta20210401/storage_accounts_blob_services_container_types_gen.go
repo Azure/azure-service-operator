@@ -358,9 +358,6 @@ func (container *StorageAccounts_BlobServices_Container_Spec) ConvertToARM(resol
 	}
 	result := &StorageAccounts_BlobServices_Container_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = container.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

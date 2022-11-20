@@ -84,7 +84,6 @@ func FlexibleServers_FirewallRule_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 

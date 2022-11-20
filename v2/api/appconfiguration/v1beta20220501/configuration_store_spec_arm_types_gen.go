@@ -6,8 +6,6 @@ package v1beta20220501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ConfigurationStore_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The managed identity information, if configured.
 	Identity *ResourceIdentity_ARM `json:"identity,omitempty"`
 

@@ -9,8 +9,7 @@ import (
 )
 
 type EventSubscription_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the event subscription.
 	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`

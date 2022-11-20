@@ -398,9 +398,6 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &FlexibleServer_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = server.AzureName
-
 	// Set property ‘Location’:
 	if server.Location != nil {
 		location := *server.Location

@@ -349,9 +349,6 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Topic_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = topic.AzureName
-
 	// Set property ‘Location’:
 	if topic.Location != nil {
 		location := *topic.Location

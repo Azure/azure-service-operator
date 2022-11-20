@@ -369,9 +369,6 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &BatchAccount_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = account.AzureName
-
 	// Set property ‘Identity’:
 	if account.Identity != nil {
 		identity_ARM, err := (*account.Identity).ConvertToARM(resolved)

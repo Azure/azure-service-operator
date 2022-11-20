@@ -6,8 +6,7 @@ package v1beta20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Domains_Topic_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Domains_Topic_Spec_ARM{}

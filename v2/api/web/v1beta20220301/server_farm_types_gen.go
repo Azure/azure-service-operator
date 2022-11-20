@@ -407,9 +407,6 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &Serverfarm_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = serverfarm.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if serverfarm.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*serverfarm.ExtendedLocation).ConvertToARM(resolved)

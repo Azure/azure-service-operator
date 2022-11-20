@@ -385,9 +385,6 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 	result := &VirtualMachine_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = machine.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if machine.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*machine.ExtendedLocation).ConvertToARM(resolved)

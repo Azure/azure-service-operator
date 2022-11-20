@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Eventhubs_AuthorizationRule_Spec. Use v1beta20211101.Namespaces_Eventhubs_AuthorizationRule_Spec instead
 type Namespaces_Eventhubs_AuthorizationRule_Spec_ARM struct {
-	AzureName  string                                                      `json:"azureName,omitempty"`
 	Name       string                                                      `json:"name,omitempty"`
 	Properties *Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM `json:"properties,omitempty"`
 }

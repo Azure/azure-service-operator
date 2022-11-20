@@ -6,8 +6,7 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccounts_SqlRoleAssignment_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties to create and update an Azure Cosmos DB SQL Role Assignment.
 	Properties *SqlRoleAssignmentResource_ARM `json:"properties,omitempty"`

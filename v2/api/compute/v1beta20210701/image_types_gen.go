@@ -383,9 +383,6 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Image_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = image.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if image.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)

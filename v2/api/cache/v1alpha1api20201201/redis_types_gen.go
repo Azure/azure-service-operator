@@ -405,9 +405,6 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Redis_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = redis.AzureName
-
 	// Set property ‘Location’:
 	if redis.Location != nil {
 		location := *redis.Location

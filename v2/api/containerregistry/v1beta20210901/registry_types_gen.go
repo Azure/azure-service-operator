@@ -385,9 +385,6 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	result := &Registry_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = registry.AzureName
-
 	// Set property ‘Identity’:
 	if registry.Identity != nil {
 		identity_ARM, err := (*registry.Identity).ConvertToARM(resolved)

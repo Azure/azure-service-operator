@@ -6,8 +6,7 @@ package v1beta20180601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Servers_Database_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a database.
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`

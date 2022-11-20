@@ -7,8 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Domains_Topic_Spec. Use v1beta20200601.Domains_Topic_Spec instead
 type Domains_Topic_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Domains_Topic_Spec_ARM{}

@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_SqlDatabases_Container_Spec. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Container_Spec instead
 type DatabaseAccounts_SqlDatabases_Container_Spec_ARM struct {
-	AzureName  string                                  `json:"azureName,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
 	Name       string                                  `json:"name,omitempty"`
 	Properties *SqlContainerCreateUpdateProperties_ARM `json:"properties,omitempty"`

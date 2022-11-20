@@ -128,8 +128,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │   │   └── WorkspaceResourceId: *string
 │   ├── Tags: *v1.JSON
 │   └── Type: *string
-└── Component_Spec_ARM: Object (7 properties)
-    ├── AzureName: string
+└── Component_Spec_ARM: Object (6 properties)
     ├── Etag: *string
     ├── Kind: *string
     ├── Location: *string

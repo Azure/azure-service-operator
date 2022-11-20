@@ -6,8 +6,7 @@ package v1beta20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Redis_FirewallRule_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: redis cache firewall rule properties
 	Properties *RedisFirewallRuleProperties_ARM `json:"properties,omitempty"`

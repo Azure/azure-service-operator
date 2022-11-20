@@ -357,9 +357,6 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Convert
 	}
 	result := &DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = setting.AzureName
-
 	// Set property ‘Location’:
 	if setting.Location != nil {
 		location := *setting.Location

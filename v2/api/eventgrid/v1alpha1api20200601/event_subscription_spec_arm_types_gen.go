@@ -10,7 +10,6 @@ import (
 
 // Deprecated version of EventSubscription_Spec. Use v1beta20200601.EventSubscription_Spec instead
 type EventSubscription_Spec_ARM struct {
-	AzureName  string                           `json:"azureName,omitempty"`
 	Name       string                           `json:"name,omitempty"`
 	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`
 }

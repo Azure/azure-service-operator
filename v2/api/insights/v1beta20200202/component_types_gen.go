@@ -411,9 +411,6 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &Component_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = component.AzureName
-
 	// Set property ‘Etag’:
 	if component.Etag != nil {
 		etag := *component.Etag

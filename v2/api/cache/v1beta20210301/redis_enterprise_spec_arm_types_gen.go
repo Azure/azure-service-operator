@@ -6,8 +6,6 @@ package v1beta20210301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RedisEnterprise_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`

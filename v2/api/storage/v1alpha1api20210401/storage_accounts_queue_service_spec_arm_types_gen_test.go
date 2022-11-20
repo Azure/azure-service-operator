@@ -84,7 +84,6 @@ func StorageAccounts_QueueService_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccounts_QueueService_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccounts_QueueService_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 }
 

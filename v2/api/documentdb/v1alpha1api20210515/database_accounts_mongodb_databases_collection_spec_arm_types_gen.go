@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_Spec. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collection_Spec instead
 type DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM struct {
-	AzureName  string                                       `json:"azureName,omitempty"`
 	Location   *string                                      `json:"location,omitempty"`
 	Name       string                                       `json:"name,omitempty"`
 	Properties *MongoDBCollectionCreateUpdateProperties_ARM `json:"properties,omitempty"`

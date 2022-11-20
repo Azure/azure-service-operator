@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Topic_Spec. Use v1beta20210101preview.Namespaces_Topic_Spec instead
 type Namespaces_Topic_Spec_ARM struct {
-	AzureName  string                 `json:"azureName,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *SBTopicProperties_ARM `json:"properties,omitempty"`
 }

@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespace_Spec. Use v1beta20210101preview.Namespace_Spec instead
 type Namespace_Spec_ARM struct {
-	AzureName  string                     `json:"azureName,omitempty"`
 	Identity   *Identity_ARM              `json:"identity,omitempty"`
 	Location   *string                    `json:"location,omitempty"`
 	Name       string                     `json:"name,omitempty"`

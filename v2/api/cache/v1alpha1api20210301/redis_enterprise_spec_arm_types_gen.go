@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead
 type RedisEnterprise_Spec_ARM struct {
-	AzureName  string                 `json:"azureName,omitempty"`
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *ClusterProperties_ARM `json:"properties,omitempty"`

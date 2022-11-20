@@ -350,9 +350,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 	}
 	result := &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = setting.AzureName
-
 	// Set property ‘Location’:
 	if setting.Location != nil {
 		location := *setting.Location

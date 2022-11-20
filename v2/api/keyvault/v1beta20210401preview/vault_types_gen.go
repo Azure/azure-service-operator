@@ -358,9 +358,6 @@ func (vault *Vault_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	}
 	result := &Vault_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = vault.AzureName
-
 	// Set property ‘Location’:
 	if vault.Location != nil {
 		location := *vault.Location

@@ -396,9 +396,6 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	result := &PublicIPAddress_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = address.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if address.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*address.ExtendedLocation).ConvertToARM(resolved)

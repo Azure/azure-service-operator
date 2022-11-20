@@ -372,9 +372,6 @@ func (service *StorageAccounts_BlobService_Spec) ConvertToARM(resolved genruntim
 	}
 	result := &StorageAccounts_BlobService_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = service.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

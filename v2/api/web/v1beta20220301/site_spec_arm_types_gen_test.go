@@ -83,7 +83,6 @@ func Site_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSite_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSite_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()

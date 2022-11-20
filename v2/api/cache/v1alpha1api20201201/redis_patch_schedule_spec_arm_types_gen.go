@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_PatchSchedule_Spec. Use v1beta20201201.Redis_PatchSchedule_Spec instead
 type Redis_PatchSchedule_Spec_ARM struct {
-	AzureName  string               `json:"azureName,omitempty"`
 	Name       string               `json:"name,omitempty"`
 	Properties *ScheduleEntries_ARM `json:"properties,omitempty"`
 }

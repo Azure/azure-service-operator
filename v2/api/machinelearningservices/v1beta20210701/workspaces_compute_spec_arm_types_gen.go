@@ -9,8 +9,6 @@ import (
 )
 
 type Workspaces_Compute_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// Identity: The identity of the resource.
 	Identity *Identity_ARM `json:"identity,omitempty"`
 

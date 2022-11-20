@@ -401,9 +401,6 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	result := &ContainerGroup_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = group.AzureName
-
 	// Set property ‘Identity’:
 	if group.Identity != nil {
 		identity_ARM, err := (*group.Identity).ConvertToARM(resolved)

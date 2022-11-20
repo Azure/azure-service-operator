@@ -84,7 +84,6 @@ func NetworkSecurityGroups_SecurityRule_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroups_SecurityRule_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

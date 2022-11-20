@@ -354,9 +354,6 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 	result := &RouteTable_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = table.AzureName
-
 	// Set property ‘Id’:
 	if table.Reference != nil {
 		referenceARMID, err := resolved.ResolvedReferences.Lookup(*table.Reference)

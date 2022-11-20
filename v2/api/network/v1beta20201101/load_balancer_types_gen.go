@@ -390,9 +390,6 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &LoadBalancer_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = balancer.AzureName
-
 	// Set property ‘ExtendedLocation’:
 	if balancer.ExtendedLocation != nil {
 		extendedLocation_ARM, err := (*balancer.ExtendedLocation).ConvertToARM(resolved)

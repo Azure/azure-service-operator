@@ -386,9 +386,6 @@ func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.Con
 	}
 	result := &ManagedClusters_AgentPool_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = pool.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

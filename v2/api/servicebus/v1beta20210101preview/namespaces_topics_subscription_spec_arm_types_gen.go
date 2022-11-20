@@ -6,8 +6,7 @@ package v1beta20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Topics_Subscription_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of subscriptions resource.
 	Properties *SBSubscriptionProperties_ARM `json:"properties,omitempty"`

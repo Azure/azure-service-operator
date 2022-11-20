@@ -9,8 +9,7 @@ import (
 )
 
 type DatabaseAccount_Spec_ARM struct {
-	AzureName string                      `json:"azureName,omitempty"`
-	Identity  *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
+	Identity *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
 	Kind *DatabaseAccount_Kind_Spec `json:"kind,omitempty"`

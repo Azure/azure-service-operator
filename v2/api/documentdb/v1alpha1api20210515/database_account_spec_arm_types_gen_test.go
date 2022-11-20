@@ -84,7 +84,6 @@ func DatabaseAccount_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccount_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccount_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_Spec_GlobalDocumentDB, DatabaseAccount_Kind_Spec_MongoDB, DatabaseAccount_Kind_Spec_Parse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()

@@ -6,8 +6,7 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Eventhubs_AuthorizationRule_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to create or update AuthorizationRule
 	Properties *Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM `json:"properties,omitempty"`

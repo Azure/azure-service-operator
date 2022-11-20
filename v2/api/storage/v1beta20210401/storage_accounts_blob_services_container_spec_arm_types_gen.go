@@ -6,8 +6,7 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_BlobServices_Container_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the blob container.
 	Properties *ContainerProperties_ARM `json:"properties,omitempty"`

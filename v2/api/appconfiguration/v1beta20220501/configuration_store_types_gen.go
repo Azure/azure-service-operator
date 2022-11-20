@@ -417,9 +417,6 @@ func (store *ConfigurationStore_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	}
 	result := &ConfigurationStore_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = store.AzureName
-
 	// Set property ‘Identity’:
 	if store.Identity != nil {
 		identity_ARM, err := (*store.Identity).ConvertToARM(resolved)

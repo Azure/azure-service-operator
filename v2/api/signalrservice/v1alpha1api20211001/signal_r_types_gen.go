@@ -372,9 +372,6 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	}
 	result := &SignalR_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = signalR.AzureName
-
 	// Set property ‘Identity’:
 	if signalR.Identity != nil {
 		identity_ARM, err := (*signalR.Identity).ConvertToARM(resolved)

@@ -6,8 +6,7 @@ package v1beta20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServers_Database_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-	Name      string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a database.
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`

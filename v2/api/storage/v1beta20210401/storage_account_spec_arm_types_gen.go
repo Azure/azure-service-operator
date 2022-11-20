@@ -6,8 +6,6 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccount_Spec_ARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// ExtendedLocation: Optional. Set the extended location of the resource. If not set, the storage account will be created
 	// in Azure main region. Otherwise it will be created in the specified extended location
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`

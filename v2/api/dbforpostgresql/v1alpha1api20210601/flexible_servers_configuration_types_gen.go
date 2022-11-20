@@ -354,9 +354,6 @@ func (configuration *FlexibleServers_Configuration_Spec) ConvertToARM(resolved g
 	}
 	result := &FlexibleServers_Configuration_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = configuration.AzureName
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 

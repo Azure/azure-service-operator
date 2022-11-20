@@ -358,9 +358,6 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertToARM(reso
 	}
 	result := &DatabaseAccounts_SqlDatabases_Container_Spec_ARM{}
 
-	// Set property ‘AzureName’:
-	result.AzureName = container.AzureName
-
 	// Set property ‘Location’:
 	if container.Location != nil {
 		location := *container.Location
