@@ -148,7 +148,7 @@ func (i *calculator) makeSuccessResult() ctrl.Result {
 	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
 	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
 	if i.syncPeriod != nil {
-		result.RequeueAfter = randextensions.Jitter(i.rand, *i.syncPeriod, 0.1)
+		result.RequeueAfter = randextensions.Jitter(i.rand, *i.syncPeriod, 0.25)
 	}
 
 	return result
