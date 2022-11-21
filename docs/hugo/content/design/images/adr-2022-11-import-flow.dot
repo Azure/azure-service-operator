@@ -9,7 +9,7 @@ graph {
     
     rsrc_spec [label="«spec»\nResource"]
     rsrc_status [label="«status»\nResource"]
-    rsrc_yaml [label="«yaml\nResource"]
+    rsrc_yaml [label="«yaml»\nResource"]
 
     edge [arrowhead=vee, arrowtail=vee, dir=forward]
 

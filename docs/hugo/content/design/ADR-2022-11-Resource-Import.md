@@ -67,7 +67,7 @@ That said, we're aware of some challenges.
 
 **Defaulting**: Some services will fill in missing values, so the YAML we emit will be more explicit than a handwritten resource. Sometimes defaults are documented in Swagger but more often they're not, and sometimes they're dynamic (like in AKS)
 
-**Ordering**: When a resource contains a list of items, we may in some cases need to do an ordinal comparision (based on index) and in other cases a nominal comparison (based on name). We may be to be able to detect which is required, but it's likely we'll need configuration too.
+**Ordering**: When a resource contains a list of items, we may in some cases need to do an ordinal comparison (based on index) and in other cases a nominal comparison (based on name). We may be to be able to detect which is required, but it's likely we'll need configuration too.
 
 ## Status
 
