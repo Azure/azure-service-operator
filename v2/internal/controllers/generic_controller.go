@@ -382,8 +382,11 @@ func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration) workqueu
 		workqueue.NewItemExponentialFailureRateLimiter(minBackoff, maxBackoff),
 		// TODO: We could have an azure global (or per subscription) bucket rate limiter to prevent running into subscription
 		// TODO: level throttling. For now though just stay with the default that client-go uses.
-		// 10 rps, 100 bucket (spike) size. This is across all requests (not per item)
-		&workqueue.BucketRateLimiter{Limiter: rate.NewLimiter(rate.Limit(10), 100)},
+		// Setting the limiter to 1 every 3 seconds & a burst of 40
+		// Based on ARM limits of 1200 puts per hour (20 per minute),
+		&workqueue.BucketRateLimiter{
+			Limiter: rate.NewLimiter(rate.Limit(0.2), 20),
+		},
 	)
 }
 
