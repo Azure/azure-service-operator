@@ -24,9 +24,19 @@ func (in *AccessPolicyEntry) DeepCopyInto(out *AccessPolicyEntry) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ApplicationIdFromConfig != nil {
+		in, out := &in.ApplicationIdFromConfig, &out.ApplicationIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.ObjectId != nil {
 		in, out := &in.ObjectId, &out.ObjectId
 		*out = new(string)
+		**out = **in
+	}
+	if in.ObjectIdFromConfig != nil {
+		in, out := &in.ObjectIdFromConfig, &out.ObjectIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.Permissions != nil {
@@ -37,6 +47,11 @@ func (in *AccessPolicyEntry) DeepCopyInto(out *AccessPolicyEntry) {
 	if in.TenantId != nil {
 		in, out := &in.TenantId, &out.TenantId
 		*out = new(string)
+		**out = **in
+	}
+	if in.TenantIdFromConfig != nil {
+		in, out := &in.TenantIdFromConfig, &out.TenantIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 }
