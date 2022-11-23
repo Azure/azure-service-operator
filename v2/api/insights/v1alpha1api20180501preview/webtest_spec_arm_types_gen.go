@@ -3,17 +3,14 @@
 // Licensed under the MIT license.
 package v1alpha1api20180501preview
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Webtest_Spec. Use v1beta20180501preview.Webtest_Spec instead
 type Webtest_Spec_ARM struct {
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *WebTestProperties_ARM `json:"properties,omitempty"`
-	Tags       *v1.JSON               `json:"tags,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Webtest_Spec_ARM{}

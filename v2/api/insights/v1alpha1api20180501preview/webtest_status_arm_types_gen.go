@@ -3,15 +3,13 @@
 // Licensed under the MIT license.
 package v1alpha1api20180501preview
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 // Deprecated version of Webtest_STATUS. Use v1beta20180501preview.Webtest_STATUS instead
 type Webtest_STATUS_ARM struct {
 	Id         *string                       `json:"id,omitempty"`
 	Location   *string                       `json:"location,omitempty"`
 	Name       *string                       `json:"name,omitempty"`
 	Properties *WebTestProperties_STATUS_ARM `json:"properties,omitempty"`
-	Tags       *v1.JSON                      `json:"tags,omitempty"`
+	Tags       map[string]string             `json:"tags,omitempty"`
 	Type       *string                       `json:"type,omitempty"`
 }
 

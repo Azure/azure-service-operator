@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -164,7 +163,7 @@ type Webtest_Spec struct {
 	Request            *WebTestProperties_Request         `json:"Request,omitempty"`
 	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
-	Tags               *v1.JSON                           `json:"tags,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
 	Timeout            *int                               `json:"Timeout,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
@@ -207,7 +206,7 @@ type Webtest_STATUS struct {
 	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
-	Tags               *v1.JSON                                  `json:"tags,omitempty"`
+	Tags               map[string]string                         `json:"tags,omitempty"`
 	Timeout            *int                                      `json:"Timeout,omitempty"`
 	Type               *string                                   `json:"type,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`

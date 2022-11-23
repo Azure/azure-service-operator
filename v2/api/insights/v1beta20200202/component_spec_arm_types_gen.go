@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200202
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Component_Spec_ARM struct {
 	// Etag: Resource etag
@@ -24,7 +21,7 @@ type Component_Spec_ARM struct {
 	Properties *ApplicationInsightsComponentProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Component_Spec_ARM{}

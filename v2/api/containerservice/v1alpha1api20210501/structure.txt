@@ -11,7 +11,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: *v1.JSON
+│   │   ├── AddonProfiles: Object (2 properties)
+│   │   │   ├── Config: map[string]string
+│   │   │   └── Enabled: *bool
 │   │   ├── AgentPoolProfiles: Object (34 properties)
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
@@ -171,7 +173,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │       ├── "None"
 │   │   │       ├── "SystemAssigned"
 │   │   │       └── "UserAssigned"
-│   │   ├── IdentityProfile: *v1.JSON
+│   │   ├── IdentityProfile: Object (3 properties)
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: Object (2 properties)
 │   │   │   ├── AdminUsername: Validated<*string> (1 rule)
@@ -276,7 +281,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │       │   ├── ServerAppID: *string
 │       │   ├── ServerAppSecret: *string
 │       │   └── TenantID: *string
-│       ├── AddonProfiles: *v1.JSON
+│       ├── AddonProfiles: Object (3 properties)
+│       │   ├── Config: map[string]string
+│       │   ├── Enabled: *bool
+│       │   └── Identity: Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── ObjectId: *string
+│       │       └── ResourceId: *string
 │       ├── AgentPoolProfiles: Object (37 properties)
 │       │   ├── AvailabilityZones: string[]
 │       │   ├── Count: *int
@@ -446,7 +457,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │       │   └── UserAssignedIdentities: Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
-│       ├── IdentityProfile: *v1.JSON
+│       ├── IdentityProfile: Object (3 properties)
+│       │   ├── ClientId: *string
+│       │   ├── ObjectId: *string
+│       │   └── ResourceId: *string
 │       ├── KubernetesVersion: *string
 │       ├── LinuxProfile: Object (2 properties)
 │       │   ├── AdminUsername: *string
@@ -578,7 +592,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: *v1.JSON
+│   │   ├── AddonProfiles: Object (3 properties)
+│   │   │   ├── Config: map[string]string
+│   │   │   ├── Enabled: *bool
+│   │   │   └── Identity: Object (3 properties)
+│   │   │       ├── ClientId: *string
+│   │   │       ├── ObjectId: *string
+│   │   │       └── ResourceId: *string
 │   │   ├── AgentPoolProfiles: Object (37 properties)
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
@@ -732,7 +752,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── IdentityProfile: *v1.JSON
+│   │   ├── IdentityProfile: Object (3 properties)
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   └── ResourceId: *string
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: Object (2 properties)
 │   │   │   ├── AdminUsername: *string
@@ -856,7 +879,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: *v1.JSON
+│   │   ├── AddonProfiles: Object (2 properties)
+│   │   │   ├── Config: map[string]string
+│   │   │   └── Enabled: *bool
 │   │   ├── AgentPoolProfiles: Object (34 properties)
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
@@ -1004,7 +1029,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── IdentityProfile: *v1.JSON
+│   │   ├── IdentityProfile: Object (3 properties)
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   └── ResourceId: *string
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: Object (2 properties)
 │   │   │   ├── AdminUsername: *string

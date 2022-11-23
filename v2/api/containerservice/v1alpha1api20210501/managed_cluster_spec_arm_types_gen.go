@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of ManagedCluster_Spec. Use v1beta20210501.ManagedCluster_Spec instead
 type ManagedCluster_Spec_ARM struct {
@@ -50,7 +47,7 @@ type ManagedClusterIdentity_ARM struct {
 // Deprecated version of ManagedClusterProperties. Use v1beta20210501.ManagedClusterProperties instead
 type ManagedClusterProperties_ARM struct {
 	AadProfile              *ManagedClusterAADProfile_ARM                   `json:"aadProfile,omitempty"`
-	AddonProfiles           *v1.JSON                                        `json:"addonProfiles,omitempty"`
+	AddonProfiles           map[string]ManagedClusterAddonProfile_ARM       `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_ARM            `json:"agentPoolProfiles,omitempty"`
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_ARM       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_ARM `json:"autoScalerProfile,omitempty"`
@@ -62,7 +59,7 @@ type ManagedClusterProperties_ARM struct {
 	EnableRBAC              *bool                                           `json:"enableRBAC,omitempty"`
 	FqdnSubdomain           *string                                         `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_ARM              `json:"httpProxyConfig,omitempty"`
-	IdentityProfile         *v1.JSON                                        `json:"identityProfile,omitempty"`
+	IdentityProfile         map[string]UserAssignedIdentity_ARM             `json:"identityProfile,omitempty"`
 	KubernetesVersion       *string                                         `json:"kubernetesVersion,omitempty"`
 	LinuxProfile            *ContainerServiceLinuxProfile_ARM               `json:"linuxProfile,omitempty"`
 	NetworkProfile          *ContainerServiceNetworkProfile_ARM             `json:"networkProfile,omitempty"`
@@ -114,6 +111,12 @@ type ManagedClusterAADProfile_ARM struct {
 	ServerAppID         *string  `json:"serverAppID,omitempty"`
 	ServerAppSecret     *string  `json:"serverAppSecret,omitempty"`
 	TenantID            *string  `json:"tenantID,omitempty"`
+}
+
+// Deprecated version of ManagedClusterAddonProfile. Use v1beta20210501.ManagedClusterAddonProfile instead
+type ManagedClusterAddonProfile_ARM struct {
+	Config  map[string]string `json:"config,omitempty"`
+	Enabled *bool             `json:"enabled,omitempty"`
 }
 
 // Deprecated version of ManagedClusterAgentPoolProfile. Use v1beta20210501.ManagedClusterAgentPoolProfile instead
@@ -252,6 +255,13 @@ type PrivateLinkResource_ARM struct {
 	Type            *string  `json:"type,omitempty"`
 }
 
+// Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
+type UserAssignedIdentity_ARM struct {
+	ClientId   *string `json:"clientId,omitempty"`
+	ObjectId   *string `json:"objectId,omitempty"`
+	ResourceId *string `json:"resourceId,omitempty"`
+}
+
 // Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
 type ContainerServiceSshConfiguration_ARM struct {
 	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys,omitempty"`
@@ -305,11 +315,4 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs_ARM struct {
 // Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
 type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
-type UserAssignedIdentity_ARM struct {
-	ClientId   *string `json:"clientId,omitempty"`
-	ObjectId   *string `json:"objectId,omitempty"`
-	ResourceId *string `json:"resourceId,omitempty"`
 }

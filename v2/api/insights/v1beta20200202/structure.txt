@@ -32,7 +32,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202
 │   │   │   └── "rest"
 │   │   ├── RetentionInDays: *int
 │   │   ├── SamplingPercentage: *float64
-│   │   ├── Tags: *v1.JSON
+│   │   ├── Tags: map[string]string
 │   │   └── WorkspaceResourceReference: *genruntime.ResourceReference
 │   └── Status: Object (33 properties)
 │       ├── AppId: *string
@@ -77,7 +77,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202
 │       │   └── "rest"
 │       ├── RetentionInDays: *int
 │       ├── SamplingPercentage: *float64
-│       ├── Tags: *v1.JSON
+│       ├── Tags: map[string]string
 │       ├── TenantId: *string
 │       ├── Type: *string
 │       └── WorkspaceResourceId: *string
@@ -126,7 +126,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202
 │   │   ├── SamplingPercentage: *float64
 │   │   ├── TenantId: *string
 │   │   └── WorkspaceResourceId: *string
-│   ├── Tags: *v1.JSON
+│   ├── Tags: map[string]string
 │   └── Type: *string
 └── Component_Spec_ARM: Object (6 properties)
     ├── Etag: *string
@@ -159,4 +159,4 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202
     │   ├── RetentionInDays: *int
     │   ├── SamplingPercentage: *float64
     │   └── WorkspaceResourceId: *string
-    └── Tags: *v1.JSON
+    └── Tags: map[string]string

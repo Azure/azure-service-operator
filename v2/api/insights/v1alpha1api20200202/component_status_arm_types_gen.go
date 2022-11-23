@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20200202
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 // Deprecated version of Component_STATUS. Use v1beta20200202.Component_STATUS instead
 type Component_STATUS_ARM struct {
 	Etag       *string                                            `json:"etag,omitempty"`
@@ -13,7 +11,7 @@ type Component_STATUS_ARM struct {
 	Location   *string                                            `json:"location,omitempty"`
 	Name       *string                                            `json:"name,omitempty"`
 	Properties *ApplicationInsightsComponentProperties_STATUS_ARM `json:"properties,omitempty"`
-	Tags       *v1.JSON                                           `json:"tags,omitempty"`
+	Tags       map[string]string                                  `json:"tags,omitempty"`
 	Type       *string                                            `json:"type,omitempty"`
 }
 

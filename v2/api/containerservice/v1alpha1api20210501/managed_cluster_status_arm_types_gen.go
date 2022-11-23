@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 // Deprecated version of ManagedCluster_STATUS. Use v1beta20210501.ManagedCluster_STATUS instead
 type ManagedCluster_STATUS_ARM struct {
 	ExtendedLocation *ExtendedLocation_STATUS_ARM         `json:"extendedLocation,omitempty"`
@@ -35,7 +33,7 @@ type ManagedClusterIdentity_STATUS_ARM struct {
 // Deprecated version of ManagedClusterProperties_STATUS. Use v1beta20210501.ManagedClusterProperties_STATUS instead
 type ManagedClusterProperties_STATUS_ARM struct {
 	AadProfile              *ManagedClusterAADProfile_STATUS_ARM                   `json:"aadProfile,omitempty"`
-	AddonProfiles           *v1.JSON                                               `json:"addonProfiles,omitempty"`
+	AddonProfiles           map[string]ManagedClusterAddonProfile_STATUS_ARM       `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS_ARM            `json:"agentPoolProfiles,omitempty"`
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS_ARM       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS_ARM `json:"autoScalerProfile,omitempty"`
@@ -49,7 +47,7 @@ type ManagedClusterProperties_STATUS_ARM struct {
 	Fqdn                    *string                                                `json:"fqdn,omitempty"`
 	FqdnSubdomain           *string                                                `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_STATUS_ARM              `json:"httpProxyConfig,omitempty"`
-	IdentityProfile         *v1.JSON                                               `json:"identityProfile,omitempty"`
+	IdentityProfile         map[string]UserAssignedIdentity_STATUS_ARM             `json:"identityProfile,omitempty"`
 	KubernetesVersion       *string                                                `json:"kubernetesVersion,omitempty"`
 	LinuxProfile            *ContainerServiceLinuxProfile_STATUS_ARM               `json:"linuxProfile,omitempty"`
 	MaxAgentPools           *int                                                   `json:"maxAgentPools,omitempty"`
@@ -104,6 +102,13 @@ type ManagedClusterAADProfile_STATUS_ARM struct {
 	ServerAppID         *string  `json:"serverAppID,omitempty"`
 	ServerAppSecret     *string  `json:"serverAppSecret,omitempty"`
 	TenantID            *string  `json:"tenantID,omitempty"`
+}
+
+// Deprecated version of ManagedClusterAddonProfile_STATUS. Use v1beta20210501.ManagedClusterAddonProfile_STATUS instead
+type ManagedClusterAddonProfile_STATUS_ARM struct {
+	Config   map[string]string                `json:"config,omitempty"`
+	Enabled  *bool                            `json:"enabled,omitempty"`
+	Identity *UserAssignedIdentity_STATUS_ARM `json:"identity,omitempty"`
 }
 
 // Deprecated version of ManagedClusterAgentPoolProfile_STATUS. Use v1beta20210501.ManagedClusterAgentPoolProfile_STATUS instead
@@ -254,6 +259,13 @@ type PrivateLinkResource_STATUS_ARM struct {
 	Type                 *string  `json:"type,omitempty"`
 }
 
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20210501.UserAssignedIdentity_STATUS instead
+type UserAssignedIdentity_STATUS_ARM struct {
+	ClientId   *string `json:"clientId,omitempty"`
+	ObjectId   *string `json:"objectId,omitempty"`
+	ResourceId *string `json:"resourceId,omitempty"`
+}
+
 // Deprecated version of ContainerServiceSshConfiguration_STATUS. Use v1beta20210501.ContainerServiceSshConfiguration_STATUS instead
 type ContainerServiceSshConfiguration_STATUS_ARM struct {
 	PublicKeys []ContainerServiceSshPublicKey_STATUS_ARM `json:"publicKeys,omitempty"`
@@ -314,13 +326,6 @@ type ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM struct {
 // Deprecated version of ResourceReference_STATUS. Use v1beta20210501.ResourceReference_STATUS instead
 type ResourceReference_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20210501.UserAssignedIdentity_STATUS instead
-type UserAssignedIdentity_STATUS_ARM struct {
-	ClientId   *string `json:"clientId,omitempty"`
-	ObjectId   *string `json:"objectId,omitempty"`
-	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of ManagedClusterPodIdentityProvisioningError_STATUS. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError_STATUS instead
