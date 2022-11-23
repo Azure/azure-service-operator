@@ -9,7 +9,10 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── ApiProperties: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ServerVersion: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=3)}
+│   │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
 │   │   ├── BackupPolicy: Object (3 properties)
 │   │   │   ├── Continuous: Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -729,7 +732,10 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       └── Type: *string
 └── SqlRoleAssignment: Resource
     ├── Spec: Object (8 properties)
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+    │   │   ├── Rule 1: {MinLength %!s(int64=3)}
+    │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PrincipalId: *string

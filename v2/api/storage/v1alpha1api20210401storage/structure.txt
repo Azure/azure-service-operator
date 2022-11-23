@@ -19,7 +19,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   │   ├── DefaultSharePermission: *string
 │   │   │   ├── DirectoryServiceOptions: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── CustomDomain: Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -397,7 +398,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
 │   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── ImmutableStorageWithVersioning: Object (2 properties)
@@ -617,7 +619,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Type: *string
 └── StorageAccountsQueueServicesQueue: Resource
     ├── Spec: Object (5 properties)
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (2 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+    │   │   └── Rule 1: {MinLength %!s(int64=3)}
     │   ├── Metadata: map[string]string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

@@ -3,7 +3,10 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501
 │   └── "2022-05-01"
 ├── ConfigurationStore: Resource
 │   ├── Spec: Object (14 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=5)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9_-]*$"}
 │   │   ├── CreateMode: Enum (2 values)
 │   │   │   ├── "Default"
 │   │   │   └── "Recover"

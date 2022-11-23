@@ -3,7 +3,8 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 │   └── "2021-06-01"
 └── Workspace: Resource
     ├── Spec: Object (15 properties)
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (1 rule)
+    │   │   └── Rule 0: {MinLength %!s(int64=1)}
     │   ├── Etag: *string
     │   ├── Features: Object (6 properties)
     │   │   ├── ClusterResourceReference: *genruntime.ResourceReference

@@ -118,9 +118,11 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 			continue
 		}
 
-		operationPaths, _ := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, op.Put.Parameters)
-		for _, operationPath := range operationPaths {
+		operationPaths, parameterTypes := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, op.Put.Parameters)
+		// Find the name schema for this resource from the URL parameter
+		nameParameter, nameFound := extractor.extractLastPathParam(op.Put.Parameters)
 
+		for _, operationPath := range operationPaths {
 			armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
 				klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
@@ -151,6 +153,19 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 			if resourceSpec == nil {
 				// this indicates a type filtered out by RunHandlerForSchema, skip
 				continue
+			}
+
+			// An enum name parameter means the resource has a fixed name. We don't want to merge in the name parameter in that case.
+			// In all other cases we want to use the name field documented on the PUT parameter as it's likely to have better
+			// validation attached to it than the name specified in the request body (which is usually readonly and has no validation)
+			if nameFound && len(nameParameter.Enum) == 0 {
+				// Union the name into the type
+				nameParameterType, ok := parameterTypes[nameParameter.Name]
+				if !ok {
+					return errors.Errorf("couldn't find parameter type for parameter %s for operation %s", nameParameter.Name, rawOperationPath)
+				}
+				nameProperty := astmodel.NewPropertyDefinition("Name", "name", nameParameterType)
+				resourceSpec = astmodel.NewAllOfType(resourceSpec, astmodel.NewObjectType().WithProperty(nameProperty))
 			}
 
 			var resourceStatus astmodel.Type
@@ -333,18 +348,30 @@ func (extractor *SwaggerTypeExtractor) fullyResolveParameter(param spec.Paramete
 func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter) *Schema {
 	paramPath, param := extractor.fullyResolveParameter(param)
 
+	var result Schema
 	if param.Schema == nil {
-		klog.Warningf("schemaFromParameter invoked on parameter without schema")
-		return nil
-	}
+		// We're dealing with a simple schema here
+		if param.SimpleSchema.Type == "" {
+			klog.Warningf("schemaFromParameter invoked on parameter without schema or simpleschema")
+			return nil
+		}
 
-	result := MakeOpenAPISchema(
-		nameFromRef(param.Schema.Ref),
-		*param.Schema,
-		paramPath,
-		extractor.outputPackage,
-		extractor.idFactory,
-		extractor.cache)
+		result = MakeOpenAPISchema(
+			param.Name,
+			*makeSchemaFromSimpleSchemaParam(schemaAndValidations{param.SimpleSchema, param.CommonValidations}),
+			paramPath,
+			extractor.outputPackage,
+			extractor.idFactory,
+			extractor.cache)
+	} else {
+		result = MakeOpenAPISchema(
+			nameFromRef(param.Schema.Ref),
+			*param.Schema,
+			paramPath,
+			extractor.outputPackage,
+			extractor.idFactory,
+			extractor.cache)
+	}
 
 	return &result
 }
@@ -465,7 +492,12 @@ func isMarkedAsARMResource(schema Schema) bool {
 
 // Final result here is unused, but removing it has flow on effects. Leaving for now, needs to be fixed up [donotmerge] [theunrepentantgeek]
 // nolint:unparam
-func (extractor *SwaggerTypeExtractor) expandEnumsInPath(ctx context.Context, operationPath string, scanner *SchemaScanner, parameters []spec.Parameter) ([]string, map[string]astmodel.Type) {
+func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
+	ctx context.Context,
+	operationPath string,
+	scanner *SchemaScanner,
+	parameters []spec.Parameter) ([]string, map[string]astmodel.Type) {
+
 	results := []string{operationPath}
 	urlParams := make(map[string]astmodel.Type)
 
@@ -497,22 +529,14 @@ func (extractor *SwaggerTypeExtractor) expandEnumsInPath(ctx context.Context, op
 				// non-enum parameter
 				var err error
 				var paramType astmodel.Type
-				if parameter.SimpleSchema.Type != "" {
-					// handle "SimpleSchema"
-					paramType, err = GetPrimitiveType(SchemaType(parameter.SimpleSchema.Type))
-					if err != nil {
-						panic(err)
-					}
-				} else {
-					schema := extractor.schemaFromParameter(parameter)
-					if schema == nil {
-						panic(fmt.Sprintf("no schema generated for parameter %s in path %q", parameter.Name, operationPath))
-					}
+				schema := extractor.schemaFromParameter(parameter)
+				if schema == nil {
+					panic(fmt.Sprintf("no schema generated for parameter %s in path %q", parameter.Name, operationPath))
+				}
 
-					paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
-					if err != nil {
-						panic(err)
-					}
+				paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
+				if err != nil {
+					panic(err)
 				}
 
 				urlParams[parameter.Name] = paramType
@@ -632,3 +656,49 @@ func nameFromRef(ref spec.Ref) string {
 // SwaggerGroupRegex matches a “group” (Swagger ‘namespace’)
 // based on: https://github.com/Azure/autorest/blob/85de19623bdce3ccc5000bae5afbf22a49bc4665/core/lib/pipeline/metadata-generation.ts#L25
 var SwaggerGroupRegex = regexp.MustCompile(`[Mm]icrosoft\.[^/\\]+`)
+
+func (extractor *SwaggerTypeExtractor) extractLastPathParam(params []spec.Parameter) (spec.Parameter, bool) {
+	var lastParam spec.Parameter
+	var found bool
+
+	for _, param := range params {
+		_, resolved := extractor.fullyResolveParameter(param)
+		if resolved.In == "path" {
+			lastParam = resolved
+			found = true
+		}
+	}
+
+	return lastParam, found
+}
+
+type schemaAndValidations struct {
+	spec.SimpleSchema
+	spec.CommonValidations
+}
+
+func makeSchemaFromSimpleSchemaParam(param schemaAndValidations) *spec.Schema {
+	if param.SimpleSchema.Type == "" {
+		panic("cannot make schema from simple schema for non-simple-schema param")
+	}
+	var itemsSchema *spec.Schema
+	if param.Items != nil {
+		// TODO: Possibly need to consume CollectionFormat here
+		itemsSchema = makeSchemaFromSimpleSchemaParam(schemaAndValidations{param.Items.SimpleSchema, param.Items.CommonValidations})
+	}
+
+	schema := &spec.Schema{
+		SchemaProps: spec.SchemaProps{
+			Type:    spec.StringOrArray{param.SimpleSchema.Type},
+			Default: param.SimpleSchema.Default,
+			Format:  param.SimpleSchema.Format,
+			Items: &spec.SchemaOrArray{
+				Schema: itemsSchema,
+			},
+			Nullable: param.SimpleSchema.Nullable,
+		},
+	}
+	schema = schema.WithValidations(param.Validations())
+
+	return schema
+}

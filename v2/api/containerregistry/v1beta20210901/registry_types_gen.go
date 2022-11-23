@@ -330,6 +330,9 @@ type Registry_Spec struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=5
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

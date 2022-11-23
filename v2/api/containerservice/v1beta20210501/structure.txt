@@ -152,7 +152,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │       ├── "patch"
 │   │   │       ├── "rapid"
 │   │   │       └── "stable"
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string

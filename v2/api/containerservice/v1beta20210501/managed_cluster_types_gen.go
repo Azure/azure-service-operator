@@ -364,6 +364,9 @@ type ManagedCluster_Spec struct {
 	// AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

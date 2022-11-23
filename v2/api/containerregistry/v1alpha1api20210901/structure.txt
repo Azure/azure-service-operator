@@ -4,7 +4,10 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api2021
 ├── Registry: Resource
 │   ├── Spec: Object (14 properties)
 │   │   ├── AdminUserEnabled: *bool
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=5)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]*$"}
 │   │   ├── DataEndpointEnabled: *bool
 │   │   ├── Encryption: Object (2 properties)
 │   │   │   ├── KeyVaultProperties: Object (2 properties)
