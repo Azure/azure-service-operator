@@ -8,10 +8,12 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 const AssembleOneOfTypesID = "assembleOneOfTypes"
