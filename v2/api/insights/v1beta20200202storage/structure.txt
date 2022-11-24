@@ -47,7 +47,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage
         ├── LaMigrationDate: *string
         ├── Location: *string
         ├── Name: *string
-        ├── PrivateLinkScopedResources: Object (3 properties)
+        ├── PrivateLinkScopedResources: Object (3 properties)[]
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── ResourceId: *string
         │   └── ScopeId: *string

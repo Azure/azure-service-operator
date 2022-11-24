@@ -10,19 +10,19 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501st
     │   ├── CreateMode: *string
     │   ├── DisableLocalAuth: *bool
     │   ├── EnablePurgeProtection: *bool
-    │   ├── Encryption: Object (2 properties)
-    │   │   ├── KeyVaultProperties: Object (3 properties)
+    │   ├── Encryption: *Object (2 properties)
+    │   │   ├── KeyVaultProperties: *Object (3 properties)
     │   │   │   ├── IdentityClientId: *string
     │   │   │   ├── KeyIdentifier: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Identity: Object (2 properties)
+    │   ├── Identity: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
     │   ├── Location: *string
-    │   ├── OperatorSpec: Object (2 properties)
+    │   ├── OperatorSpec: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Secrets: Object (13 properties)
+    │   │   └── Secrets: *Object (13 properties)
     │   │       ├── PrimaryConnectionString: *genruntime.SecretDestination
     │   │       ├── PrimaryKey: *genruntime.SecretDestination
     │   │       ├── PrimaryKeyID: *genruntime.SecretDestination
@@ -40,11 +40,11 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501st
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── PublicNetworkAccess: *string
-    │   ├── Sku: Object (2 properties)
+    │   ├── Sku: *Object (2 properties)
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── SoftDeleteRetentionInDays: *int
-    │   ├── SystemData: Object (7 properties)
+    │   ├── SystemData: *Object (7 properties)
     │   │   ├── CreatedAt: *string
     │   │   ├── CreatedBy: *string
     │   │   ├── CreatedByType: *string
@@ -59,36 +59,36 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501st
         ├── CreationDate: *string
         ├── DisableLocalAuth: *bool
         ├── EnablePurgeProtection: *bool
-        ├── Encryption: Object (2 properties)
-        │   ├── KeyVaultProperties: Object (3 properties)
+        ├── Encryption: *Object (2 properties)
+        │   ├── KeyVaultProperties: *Object (3 properties)
         │   │   ├── IdentityClientId: *string
         │   │   ├── KeyIdentifier: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Endpoint: *string
         ├── Id: *string
-        ├── Identity: Object (5 properties)
+        ├── Identity: *Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: Object (3 properties)
+        │   └── UserAssignedIdentities: map[string]Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
         ├── Location: *string
         ├── Name: *string
-        ├── PrivateEndpointConnections: Object (2 properties)
+        ├── PrivateEndpointConnections: Object (2 properties)[]
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string
-        ├── Sku: Object (2 properties)
+        ├── Sku: *Object (2 properties)
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── SoftDeleteRetentionInDays: *int
-        ├── SystemData: Object (7 properties)
+        ├── SystemData: *Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string

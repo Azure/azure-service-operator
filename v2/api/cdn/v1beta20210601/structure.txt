@@ -5,20 +5,20 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (20 properties)
+│   ├── Properties: *Object (20 properties)
 │   │   ├── ContentTypesToCompress: string[]
-│   │   ├── CustomDomains: Object (2 properties)
+│   │   ├── CustomDomains: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (2 properties)
+│   │   │   └── Properties: *Object (2 properties)
 │   │   │       ├── HostName: *string
 │   │   │       └── ValidationData: *string
-│   │   ├── DefaultOriginGroup: Object (1 property)
+│   │   ├── DefaultOriginGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── DeliveryPolicy: Object (2 properties)
+│   │   ├── DeliveryPolicy: *Object (2 properties)
 │   │   │   ├── Description: *string
-│   │   │   └── Rules: Object (4 properties)
-│   │   │       ├── Actions: Object (1 property)
-│   │   │       │   └── Name: Enum (9 values)
+│   │   │   └── Rules: Object (4 properties)[]
+│   │   │       ├── Actions: Object (1 property)[]
+│   │   │       │   └── Name: *Enum (9 values)
 │   │   │       │       ├── "CacheExpiration"
 │   │   │       │       ├── "CacheKeyQueryString"
 │   │   │       │       ├── "ModifyRequestHeader"
@@ -28,8 +28,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │       ├── "UrlRedirect"
 │   │   │       │       ├── "UrlRewrite"
 │   │   │       │       └── "UrlSigning"
-│   │   │       ├── Conditions: Object (1 property)
-│   │   │       │   └── Name: Enum (19 values)
+│   │   │       ├── Conditions: Object (1 property)[]
+│   │   │       │   └── Name: *Enum (19 values)
 │   │   │       │       ├── "ClientPort"
 │   │   │       │       ├── "Cookies"
 │   │   │       │       ├── "HostName"
@@ -51,8 +51,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │       └── "UrlPath"
 │   │   │       ├── Name: *string
 │   │   │       └── Order: *int
-│   │   ├── GeoFilters: Object (3 properties)
-│   │   │   ├── Action: Enum (2 values)
+│   │   ├── GeoFilters: Object (3 properties)[]
+│   │   │   ├── Action: *Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Block"
 │   │   │   ├── CountryCodes: string[]
@@ -61,33 +61,33 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   ├── IsCompressionEnabled: *bool
 │   │   ├── IsHttpAllowed: *bool
 │   │   ├── IsHttpsAllowed: *bool
-│   │   ├── OptimizationType: Enum (5 values)
+│   │   ├── OptimizationType: *Enum (5 values)
 │   │   │   ├── "DynamicSiteAcceleration"
 │   │   │   ├── "GeneralMediaStreaming"
 │   │   │   ├── "GeneralWebDelivery"
 │   │   │   ├── "LargeFileDownload"
 │   │   │   └── "VideoOnDemandMediaStreaming"
-│   │   ├── OriginGroups: Object (2 properties)
+│   │   ├── OriginGroups: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (4 properties)
-│   │   │       ├── HealthProbeSettings: Object (4 properties)
+│   │   │   └── Properties: *Object (4 properties)
+│   │   │       ├── HealthProbeSettings: *Object (4 properties)
 │   │   │       │   ├── ProbeIntervalInSeconds: *int
 │   │   │       │   ├── ProbePath: *string
-│   │   │       │   ├── ProbeProtocol: Enum (3 values)
+│   │   │       │   ├── ProbeProtocol: *Enum (3 values)
 │   │   │       │   │   ├── "Http"
 │   │   │       │   │   ├── "Https"
 │   │   │       │   │   └── "NotSet"
-│   │   │       │   └── ProbeRequestType: Enum (3 values)
+│   │   │       │   └── ProbeRequestType: *Enum (3 values)
 │   │   │       │       ├── "GET"
 │   │   │       │       ├── "HEAD"
 │   │   │       │       └── "NotSet"
-│   │   │       ├── Origins: Object (1 property)
+│   │   │       ├── Origins: Object (1 property)[]
 │   │   │       │   └── Id: *string
-│   │   │       ├── ResponseBasedOriginErrorDetectionSettings: Object (3 properties)
-│   │   │       │   ├── HttpErrorRanges: Object (2 properties)
+│   │   │       ├── ResponseBasedOriginErrorDetectionSettings: *Object (3 properties)
+│   │   │       │   ├── HttpErrorRanges: Object (2 properties)[]
 │   │   │       │   │   ├── Begin: *int
 │   │   │       │   │   └── End: *int
-│   │   │       │   ├── ResponseBasedDetectedErrorTypes: Enum (3 values)
+│   │   │       │   ├── ResponseBasedDetectedErrorTypes: *Enum (3 values)
 │   │   │       │   │   ├── "None"
 │   │   │       │   │   ├── "TcpAndHttpErrors"
 │   │   │       │   │   └── "TcpErrorsOnly"
@@ -95,16 +95,16 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
 │   │   ├── OriginHostHeader: *string
 │   │   ├── OriginPath: *string
-│   │   ├── Origins: Object (2 properties)
+│   │   ├── Origins: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (12 properties)
+│   │   │   └── Properties: *Object (12 properties)
 │   │   │       ├── Enabled: *bool
 │   │   │       ├── HostName: *string
 │   │   │       ├── HttpPort: *int
 │   │   │       ├── HttpsPort: *int
 │   │   │       ├── OriginHostHeader: *string
 │   │   │       ├── Priority: *int
-│   │   │       ├── PrivateEndpointStatus: Enum (5 values)
+│   │   │       ├── PrivateEndpointStatus: *Enum (5 values)
 │   │   │       │   ├── "Approved"
 │   │   │       │   ├── "Disconnected"
 │   │   │       │   ├── "Pending"
@@ -116,47 +116,47 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       ├── PrivateLinkResourceId: *string
 │   │   │       └── Weight: *int
 │   │   ├── ProbePath: *string
-│   │   ├── ProvisioningState: Enum (5 values)
+│   │   ├── ProvisioningState: *Enum (5 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── QueryStringCachingBehavior: Enum (4 values)
+│   │   ├── QueryStringCachingBehavior: *Enum (4 values)
 │   │   │   ├── "BypassCaching"
 │   │   │   ├── "IgnoreQueryString"
 │   │   │   ├── "NotSet"
 │   │   │   └── "UseQueryString"
-│   │   ├── ResourceState: Enum (6 values)
+│   │   ├── ResourceState: *Enum (6 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Running"
 │   │   │   ├── "Starting"
 │   │   │   ├── "Stopped"
 │   │   │   └── "Stopping"
-│   │   ├── UrlSigningKeys: Object (2 properties)
+│   │   ├── UrlSigningKeys: Object (2 properties)[]
 │   │   │   ├── KeyId: *string
-│   │   │   └── KeySourceParameters: Object (6 properties)
+│   │   │   └── KeySourceParameters: *Object (6 properties)
 │   │   │       ├── ResourceGroupName: *string
 │   │   │       ├── SecretName: *string
 │   │   │       ├── SecretVersion: *string
 │   │   │       ├── SubscriptionId: *string
-│   │   │       ├── TypeName: Enum (1 value)
+│   │   │       ├── TypeName: *Enum (1 value)
 │   │   │       │   └── "KeyVaultSigningKeyParameters"
 │   │   │       └── VaultName: *string
-│   │   └── WebApplicationFirewallPolicyLink: Object (1 property)
+│   │   └── WebApplicationFirewallPolicyLink: *Object (1 property)
 │   │       └── Id: *string
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "application"
 │   │   │   ├── "key"
 │   │   │   ├── "managedIdentity"
 │   │   │   └── "user"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "application"
 │   │       ├── "key"
 │   │       ├── "managedIdentity"
@@ -170,8 +170,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   ├── OriginResponseTimeoutSeconds: Validated<*int> (1 rule)
 │   │   │   └── Rule 0: {Minimum 16}
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Sku: Object (1 property)
-│   │   │   └── Name: Enum (13 values)
+│   │   ├── Sku: *Object (1 property)
+│   │   │   └── Name: *Enum (13 values)
 │   │   │       ├── "Custom_Verizon"
 │   │   │       ├── "Premium_AzureFrontDoor"
 │   │   │       ├── "Premium_Verizon"
@@ -194,19 +194,19 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── OriginResponseTimeoutSeconds: *int
-│       ├── ProvisioningState: Enum (5 values)
+│       ├── ProvisioningState: *Enum (5 values)
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── ResourceState: Enum (4 values)
+│       ├── ResourceState: *Enum (4 values)
 │       │   ├── "Active"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   └── "Disabled"
-│       ├── Sku: Object (1 property)
-│       │   └── Name: Enum (13 values)
+│       ├── Sku: *Object (1 property)
+│       │   └── Name: *Enum (13 values)
 │       │       ├── "Custom_Verizon"
 │       │       ├── "Premium_AzureFrontDoor"
 │       │       ├── "Premium_Verizon"
@@ -220,17 +220,17 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       ├── "Standard_ChinaCdn"
 │       │       ├── "Standard_Microsoft"
 │       │       └── "Standard_Verizon"
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "application"
 │       │   │   ├── "key"
 │       │   │   ├── "managedIdentity"
 │       │   │   └── "user"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "application"
 │       │       ├── "key"
 │       │       ├── "managedIdentity"
@@ -242,22 +242,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (4 properties)
+│   ├── Properties: *Object (4 properties)
 │   │   ├── FrontDoorId: *string
 │   │   ├── OriginResponseTimeoutSeconds: *int
-│   │   ├── ProvisioningState: Enum (5 values)
+│   │   ├── ProvisioningState: *Enum (5 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   └── ResourceState: Enum (4 values)
+│   │   └── ResourceState: *Enum (4 values)
 │   │       ├── "Active"
 │   │       ├── "Creating"
 │   │       ├── "Deleting"
 │   │       └── "Disabled"
-│   ├── Sku: Object (1 property)
-│   │   └── Name: Enum (13 values)
+│   ├── Sku: *Object (1 property)
+│   │   └── Name: *Enum (13 values)
 │   │       ├── "Custom_Verizon"
 │   │       ├── "Premium_AzureFrontDoor"
 │   │       ├── "Premium_Verizon"
@@ -271,17 +271,17 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │       ├── "Standard_ChinaCdn"
 │   │       ├── "Standard_Microsoft"
 │   │       └── "Standard_Verizon"
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "application"
 │   │   │   ├── "key"
 │   │   │   ├── "managedIdentity"
 │   │   │   └── "user"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "application"
 │   │       ├── "key"
 │   │       ├── "managedIdentity"
@@ -291,10 +291,10 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 ├── Profile_Spec_ARM: Object (5 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (1 property)
+│   ├── Properties: *Object (1 property)
 │   │   └── OriginResponseTimeoutSeconds: *int
-│   ├── Sku: Object (1 property)
-│   │   └── Name: Enum (13 values)
+│   ├── Sku: *Object (1 property)
+│   │   └── Name: *Enum (13 values)
 │   │       ├── "Custom_Verizon"
 │   │       ├── "Premium_AzureFrontDoor"
 │   │       ├── "Premium_Verizon"
@@ -313,147 +313,147 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   ├── Spec: Object (20 properties)
 │   │   ├── AzureName: string
 │   │   ├── ContentTypesToCompress: string[]
-│   │   ├── DefaultOriginGroup: Object (1 property)
+│   │   ├── DefaultOriginGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── DeliveryPolicy: Object (2 properties)
+│   │   ├── DeliveryPolicy: *Object (2 properties)
 │   │   │   ├── Description: *string
-│   │   │   └── Rules: Object (4 properties)
-│   │   │       ├── Actions: Object (9 properties)
-│   │   │       │   ├── DeliveryRuleCacheExpiration: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │   └── Rules: Object (4 properties)[]
+│   │   │       ├── Actions: Object (9 properties)[]
+│   │   │       │   ├── DeliveryRuleCacheExpiration: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "CacheExpiration"
-│   │   │       │   │   └── Parameters: Object (4 properties)
-│   │   │       │   │       ├── CacheBehavior: Enum (3 values)
+│   │   │       │   │   └── Parameters: *Object (4 properties)
+│   │   │       │   │       ├── CacheBehavior: *Enum (3 values)
 │   │   │       │   │       │   ├── "BypassCache"
 │   │   │       │   │       │   ├── "Override"
 │   │   │       │   │       │   └── "SetIfMissing"
 │   │   │       │   │       ├── CacheDuration: *string
-│   │   │       │   │       ├── CacheType: Enum (1 value)
+│   │   │       │   │       ├── CacheType: *Enum (1 value)
 │   │   │       │   │       │   └── "All"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
-│   │   │       │   ├── DeliveryRuleCacheKeyQueryString: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleCacheKeyQueryString: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "CacheKeyQueryString"
-│   │   │       │   │   └── Parameters: Object (3 properties)
+│   │   │       │   │   └── Parameters: *Object (3 properties)
 │   │   │       │   │       ├── QueryParameters: *string
-│   │   │       │   │       ├── QueryStringBehavior: Enum (4 values)
+│   │   │       │   │       ├── QueryStringBehavior: *Enum (4 values)
 │   │   │       │   │       │   ├── "Exclude"
 │   │   │       │   │       │   ├── "ExcludeAll"
 │   │   │       │   │       │   ├── "Include"
 │   │   │       │   │       │   └── "IncludeAll"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-│   │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRequestHeader: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "ModifyRequestHeader"
-│   │   │       │   │   └── Parameters: Object (4 properties)
-│   │   │       │   │       ├── HeaderAction: Enum (3 values)
+│   │   │       │   │   └── Parameters: *Object (4 properties)
+│   │   │       │   │       ├── HeaderAction: *Enum (3 values)
 │   │   │       │   │       │   ├── "Append"
 │   │   │       │   │       │   ├── "Delete"
 │   │   │       │   │       │   └── "Overwrite"
 │   │   │       │   │       ├── HeaderName: *string
-│   │   │       │   │       ├── TypeName: Enum (1 value)
+│   │   │       │   │       ├── TypeName: *Enum (1 value)
 │   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │   │   │       │   │       └── Value: *string
-│   │   │       │   ├── DeliveryRuleResponseHeader: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleResponseHeader: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "ModifyResponseHeader"
-│   │   │       │   │   └── Parameters: Object (4 properties)
-│   │   │       │   │       ├── HeaderAction: Enum (3 values)
+│   │   │       │   │   └── Parameters: *Object (4 properties)
+│   │   │       │   │       ├── HeaderAction: *Enum (3 values)
 │   │   │       │   │       │   ├── "Append"
 │   │   │       │   │       │   ├── "Delete"
 │   │   │       │   │       │   └── "Overwrite"
 │   │   │       │   │       ├── HeaderName: *string
-│   │   │       │   │       ├── TypeName: Enum (1 value)
+│   │   │       │   │       ├── TypeName: *Enum (1 value)
 │   │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
 │   │   │       │   │       └── Value: *string
-│   │   │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRouteConfigurationOverride: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RouteConfigurationOverride"
-│   │   │       │   │   └── Parameters: Object (3 properties)
-│   │   │       │   │       ├── CacheConfiguration: Object (5 properties)
-│   │   │       │   │       │   ├── CacheBehavior: Enum (3 values)
+│   │   │       │   │   └── Parameters: *Object (3 properties)
+│   │   │       │   │       ├── CacheConfiguration: *Object (5 properties)
+│   │   │       │   │       │   ├── CacheBehavior: *Enum (3 values)
 │   │   │       │   │       │   │   ├── "HonorOrigin"
 │   │   │       │   │       │   │   ├── "OverrideAlways"
 │   │   │       │   │       │   │   └── "OverrideIfOriginMissing"
 │   │   │       │   │       │   ├── CacheDuration: *string
-│   │   │       │   │       │   ├── IsCompressionEnabled: Enum (2 values)
+│   │   │       │   │       │   ├── IsCompressionEnabled: *Enum (2 values)
 │   │   │       │   │       │   │   ├── "Disabled"
 │   │   │       │   │       │   │   └── "Enabled"
 │   │   │       │   │       │   ├── QueryParameters: *string
-│   │   │       │   │       │   └── QueryStringCachingBehavior: Enum (4 values)
+│   │   │       │   │       │   └── QueryStringCachingBehavior: *Enum (4 values)
 │   │   │       │   │       │       ├── "IgnoreQueryString"
 │   │   │       │   │       │       ├── "IgnoreSpecifiedQueryStrings"
 │   │   │       │   │       │       ├── "IncludeSpecifiedQueryStrings"
 │   │   │       │   │       │       └── "UseQueryString"
-│   │   │       │   │       ├── OriginGroupOverride: Object (2 properties)
-│   │   │       │   │       │   ├── ForwardingProtocol: Enum (3 values)
+│   │   │       │   │       ├── OriginGroupOverride: *Object (2 properties)
+│   │   │       │   │       │   ├── ForwardingProtocol: *Enum (3 values)
 │   │   │       │   │       │   │   ├── "HttpOnly"
 │   │   │       │   │       │   │   ├── "HttpsOnly"
 │   │   │       │   │       │   │   └── "MatchRequest"
-│   │   │       │   │       │   └── OriginGroup: Object (1 property)
+│   │   │       │   │       │   └── OriginGroup: *Object (1 property)
 │   │   │       │   │       │       └── Reference: *genruntime.ResourceReference
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
-│   │   │       │   ├── OriginGroupOverride: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── OriginGroupOverride: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "OriginGroupOverride"
-│   │   │       │   │   └── Parameters: Object (2 properties)
-│   │   │       │   │       ├── OriginGroup: Object (1 property)
+│   │   │       │   │   └── Parameters: *Object (2 properties)
+│   │   │       │   │       ├── OriginGroup: *Object (1 property)
 │   │   │       │   │       │   └── Reference: *genruntime.ResourceReference
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
-│   │   │       │   ├── UrlRedirect: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── UrlRedirect: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "UrlRedirect"
-│   │   │       │   │   └── Parameters: Object (7 properties)
+│   │   │       │   │   └── Parameters: *Object (7 properties)
 │   │   │       │   │       ├── CustomFragment: *string
 │   │   │       │   │       ├── CustomHostname: *string
 │   │   │       │   │       ├── CustomPath: *string
 │   │   │       │   │       ├── CustomQueryString: *string
-│   │   │       │   │       ├── DestinationProtocol: Enum (3 values)
+│   │   │       │   │       ├── DestinationProtocol: *Enum (3 values)
 │   │   │       │   │       │   ├── "Http"
 │   │   │       │   │       │   ├── "Https"
 │   │   │       │   │       │   └── "MatchRequest"
-│   │   │       │   │       ├── RedirectType: Enum (4 values)
+│   │   │       │   │       ├── RedirectType: *Enum (4 values)
 │   │   │       │   │       │   ├── "Found"
 │   │   │       │   │       │   ├── "Moved"
 │   │   │       │   │       │   ├── "PermanentRedirect"
 │   │   │       │   │       │   └── "TemporaryRedirect"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlRedirectActionParameters"
-│   │   │       │   ├── UrlRewrite: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── UrlRewrite: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "UrlRewrite"
-│   │   │       │   │   └── Parameters: Object (4 properties)
+│   │   │       │   │   └── Parameters: *Object (4 properties)
 │   │   │       │   │       ├── Destination: *string
 │   │   │       │   │       ├── PreserveUnmatchedPath: *bool
 │   │   │       │   │       ├── SourcePattern: *string
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlRewriteActionParameters"
-│   │   │       │   └── UrlSigning: Object (2 properties)
-│   │   │       │       ├── Name: Enum (1 value)
+│   │   │       │   └── UrlSigning: *Object (2 properties)
+│   │   │       │       ├── Name: *Enum (1 value)
 │   │   │       │       │   └── "UrlSigning"
-│   │   │       │       └── Parameters: Object (3 properties)
-│   │   │       │           ├── Algorithm: Enum (1 value)
+│   │   │       │       └── Parameters: *Object (3 properties)
+│   │   │       │           ├── Algorithm: *Enum (1 value)
 │   │   │       │           │   └── "SHA256"
-│   │   │       │           ├── ParameterNameOverride: Object (2 properties)
-│   │   │       │           │   ├── ParamIndicator: Enum (3 values)
+│   │   │       │           ├── ParameterNameOverride: Object (2 properties)[]
+│   │   │       │           │   ├── ParamIndicator: *Enum (3 values)
 │   │   │       │           │   │   ├── "Expires"
 │   │   │       │           │   │   ├── "KeyId"
 │   │   │       │           │   │   └── "Signature"
 │   │   │       │           │   └── ParamName: *string
-│   │   │       │           └── TypeName: Enum (1 value)
+│   │   │       │           └── TypeName: *Enum (1 value)
 │   │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
-│   │   │       ├── Conditions: Object (19 properties)
-│   │   │       │   ├── DeliveryRuleClientPort: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       ├── Conditions: Object (19 properties)[]
+│   │   │       │   ├── DeliveryRuleClientPort: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "ClientPort"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -464,22 +464,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
-│   │   │       │   ├── DeliveryRuleCookies: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleCookies: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "Cookies"
-│   │   │       │   │   └── Parameters: Object (6 properties)
+│   │   │       │   │   └── Parameters: *Object (6 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -491,22 +491,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
 │   │   │       │   │       ├── Selector: *string
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
-│   │   │       │   ├── DeliveryRuleHostName: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleHostName: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "HostName"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -517,58 +517,58 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
-│   │   │       │   ├── DeliveryRuleHttpVersion: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleHttpVersion: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "HttpVersion"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (1 value)
+│   │   │       │   │       ├── Operator: *Enum (1 value)
 │   │   │       │   │       │   └── "Equal"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
-│   │   │       │   ├── DeliveryRuleIsDevice: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleIsDevice: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "IsDevice"
-│   │   │       │   │   └── Parameters: Object (5 properties)
-│   │   │       │   │       ├── MatchValues: Enum (2 values)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
+│   │   │       │   │       ├── MatchValues: Enum (2 values)[]
 │   │   │       │   │       │   ├── "Desktop"
 │   │   │       │   │       │   └── "Mobile"
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (1 value)
+│   │   │       │   │       ├── Operator: *Enum (1 value)
 │   │   │       │   │       │   └── "Equal"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
-│   │   │       │   ├── DeliveryRulePostArgs: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRulePostArgs: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "PostArgs"
-│   │   │       │   │   └── Parameters: Object (6 properties)
+│   │   │       │   │   └── Parameters: *Object (6 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -580,22 +580,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
 │   │   │       │   │       ├── Selector: *string
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
-│   │   │       │   ├── DeliveryRuleQueryString: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleQueryString: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "QueryString"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -606,41 +606,41 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
-│   │   │       │   ├── DeliveryRuleRemoteAddress: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRemoteAddress: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RemoteAddress"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (3 values)
+│   │   │       │   │       ├── Operator: *Enum (3 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "GeoMatch"
 │   │   │       │   │       │   └── "IPMatch"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestBody: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRequestBody: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RequestBody"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -651,22 +651,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRequestHeader: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RequestHeader"
-│   │   │       │   │   └── Parameters: Object (6 properties)
+│   │   │       │   │   └── Parameters: *Object (6 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -678,20 +678,20 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
 │   │   │       │   │       ├── Selector: *string
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestMethod: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRequestMethod: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RequestMethod"
-│   │   │       │   │   └── Parameters: Object (5 properties)
-│   │   │       │   │       ├── MatchValues: Enum (7 values)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
+│   │   │       │   │       ├── MatchValues: Enum (7 values)[]
 │   │   │       │   │       │   ├── "DELETE"
 │   │   │       │   │       │   ├── "GET"
 │   │   │       │   │       │   ├── "HEAD"
@@ -700,43 +700,43 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "PUT"
 │   │   │       │   │       │   └── "TRACE"
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (1 value)
+│   │   │       │   │       ├── Operator: *Enum (1 value)
 │   │   │       │   │       │   └── "Equal"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestScheme: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRequestScheme: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RequestScheme"
-│   │   │       │   │   └── Parameters: Object (5 properties)
-│   │   │       │   │       ├── MatchValues: Enum (2 values)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
+│   │   │       │   │       ├── MatchValues: Enum (2 values)[]
 │   │   │       │   │       │   ├── "HTTP"
 │   │   │       │   │       │   └── "HTTPS"
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (1 value)
+│   │   │       │   │       ├── Operator: *Enum (1 value)
 │   │   │       │   │       │   └── "Equal"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
-│   │   │       │   ├── DeliveryRuleRequestUri: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleRequestUri: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "RequestUri"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -747,22 +747,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
-│   │   │       │   ├── DeliveryRuleServerPort: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleServerPort: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "ServerPort"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -773,60 +773,60 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
-│   │   │       │   ├── DeliveryRuleSocketAddr: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleSocketAddr: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "SocketAddr"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (2 values)
+│   │   │       │   │       ├── Operator: *Enum (2 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   └── "IPMatch"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
-│   │   │       │   ├── DeliveryRuleSslProtocol: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleSslProtocol: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "SslProtocol"
-│   │   │       │   │   └── Parameters: Object (5 properties)
-│   │   │       │   │       ├── MatchValues: Enum (3 values)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
+│   │   │       │   │       ├── MatchValues: Enum (3 values)[]
 │   │   │       │   │       │   ├── "TLSv1"
 │   │   │       │   │       │   ├── "TLSv1.1"
 │   │   │       │   │       │   └── "TLSv1.2"
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (1 value)
+│   │   │       │   │       ├── Operator: *Enum (1 value)
 │   │   │       │   │       │   └── "Equal"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
-│   │   │       │   ├── DeliveryRuleUrlFileExtension: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleUrlFileExtension: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "UrlFileExtension"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -837,22 +837,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-│   │   │       │   ├── DeliveryRuleUrlFileName: Object (2 properties)
-│   │   │       │   │   ├── Name: Enum (1 value)
+│   │   │       │   ├── DeliveryRuleUrlFileName: *Object (2 properties)
+│   │   │       │   │   ├── Name: *Enum (1 value)
 │   │   │       │   │   │   └── "UrlFileName"
-│   │   │       │   │   └── Parameters: Object (5 properties)
+│   │   │       │   │   └── Parameters: *Object (5 properties)
 │   │   │       │   │       ├── MatchValues: string[]
 │   │   │       │   │       ├── NegateCondition: *bool
-│   │   │       │   │       ├── Operator: Enum (10 values)
+│   │   │       │   │       ├── Operator: *Enum (10 values)
 │   │   │       │   │       │   ├── "Any"
 │   │   │       │   │       │   ├── "BeginsWith"
 │   │   │       │   │       │   ├── "Contains"
@@ -863,22 +863,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │   │       │   ├── "LessThan"
 │   │   │       │   │       │   ├── "LessThanOrEqual"
 │   │   │       │   │       │   └── "RegEx"
-│   │   │       │   │       ├── Transforms: Enum (6 values)
+│   │   │       │   │       ├── Transforms: Enum (6 values)[]
 │   │   │       │   │       │   ├── "Lowercase"
 │   │   │       │   │       │   ├── "RemoveNulls"
 │   │   │       │   │       │   ├── "Trim"
 │   │   │       │   │       │   ├── "Uppercase"
 │   │   │       │   │       │   ├── "UrlDecode"
 │   │   │       │   │       │   └── "UrlEncode"
-│   │   │       │   │       └── TypeName: Enum (1 value)
+│   │   │       │   │       └── TypeName: *Enum (1 value)
 │   │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
-│   │   │       │   └── DeliveryRuleUrlPath: Object (2 properties)
-│   │   │       │       ├── Name: Enum (1 value)
+│   │   │       │   └── DeliveryRuleUrlPath: *Object (2 properties)
+│   │   │       │       ├── Name: *Enum (1 value)
 │   │   │       │       │   └── "UrlPath"
-│   │   │       │       └── Parameters: Object (5 properties)
+│   │   │       │       └── Parameters: *Object (5 properties)
 │   │   │       │           ├── MatchValues: string[]
 │   │   │       │           ├── NegateCondition: *bool
-│   │   │       │           ├── Operator: Enum (11 values)
+│   │   │       │           ├── Operator: *Enum (11 values)
 │   │   │       │           │   ├── "Any"
 │   │   │       │           │   ├── "BeginsWith"
 │   │   │       │           │   ├── "Contains"
@@ -890,19 +890,19 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       │           │   ├── "LessThanOrEqual"
 │   │   │       │           │   ├── "RegEx"
 │   │   │       │           │   └── "Wildcard"
-│   │   │       │           ├── Transforms: Enum (6 values)
+│   │   │       │           ├── Transforms: Enum (6 values)[]
 │   │   │       │           │   ├── "Lowercase"
 │   │   │       │           │   ├── "RemoveNulls"
 │   │   │       │           │   ├── "Trim"
 │   │   │       │           │   ├── "Uppercase"
 │   │   │       │           │   ├── "UrlDecode"
 │   │   │       │           │   └── "UrlEncode"
-│   │   │       │           └── TypeName: Enum (1 value)
+│   │   │       │           └── TypeName: *Enum (1 value)
 │   │   │       │               └── "DeliveryRuleUrlPathMatchConditionParameters"
 │   │   │       ├── Name: *string
 │   │   │       └── Order: *int
-│   │   ├── GeoFilters: Object (3 properties)
-│   │   │   ├── Action: Enum (2 values)
+│   │   ├── GeoFilters: Object (3 properties)[]
+│   │   │   ├── Action: *Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Block"
 │   │   │   ├── CountryCodes: string[]
@@ -911,38 +911,38 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   ├── IsHttpAllowed: *bool
 │   │   ├── IsHttpsAllowed: *bool
 │   │   ├── Location: *string
-│   │   ├── OptimizationType: Enum (5 values)
+│   │   ├── OptimizationType: *Enum (5 values)
 │   │   │   ├── "DynamicSiteAcceleration"
 │   │   │   ├── "GeneralMediaStreaming"
 │   │   │   ├── "GeneralWebDelivery"
 │   │   │   ├── "LargeFileDownload"
 │   │   │   └── "VideoOnDemandMediaStreaming"
-│   │   ├── OriginGroups: Object (5 properties)
-│   │   │   ├── HealthProbeSettings: Object (4 properties)
+│   │   ├── OriginGroups: Object (5 properties)[]
+│   │   │   ├── HealthProbeSettings: *Object (4 properties)
 │   │   │   │   ├── ProbeIntervalInSeconds: Validated<*int> (2 rules)
 │   │   │   │   │   ├── Rule 0: {Maximum 255}
 │   │   │   │   │   └── Rule 1: {Minimum 1}
 │   │   │   │   ├── ProbePath: *string
-│   │   │   │   ├── ProbeProtocol: Enum (3 values)
+│   │   │   │   ├── ProbeProtocol: *Enum (3 values)
 │   │   │   │   │   ├── "Http"
 │   │   │   │   │   ├── "Https"
 │   │   │   │   │   └── "NotSet"
-│   │   │   │   └── ProbeRequestType: Enum (3 values)
+│   │   │   │   └── ProbeRequestType: *Enum (3 values)
 │   │   │   │       ├── "GET"
 │   │   │   │       ├── "HEAD"
 │   │   │   │       └── "NotSet"
 │   │   │   ├── Name: *string
-│   │   │   ├── Origins: Object (1 property)
+│   │   │   ├── Origins: Object (1 property)[]
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── ResponseBasedOriginErrorDetectionSettings: Object (3 properties)
-│   │   │   │   ├── HttpErrorRanges: Object (2 properties)
+│   │   │   ├── ResponseBasedOriginErrorDetectionSettings: *Object (3 properties)
+│   │   │   │   ├── HttpErrorRanges: Object (2 properties)[]
 │   │   │   │   │   ├── Begin: Validated<*int> (2 rules)
 │   │   │   │   │   │   ├── Rule 0: {Maximum 999}
 │   │   │   │   │   │   └── Rule 1: {Minimum 100}
 │   │   │   │   │   └── End: Validated<*int> (2 rules)
 │   │   │   │   │       ├── Rule 0: {Maximum 999}
 │   │   │   │   │       └── Rule 1: {Minimum 100}
-│   │   │   │   ├── ResponseBasedDetectedErrorTypes: Enum (3 values)
+│   │   │   │   ├── ResponseBasedDetectedErrorTypes: *Enum (3 values)
 │   │   │   │   │   ├── "None"
 │   │   │   │   │   ├── "TcpAndHttpErrors"
 │   │   │   │   │   └── "TcpErrorsOnly"
@@ -954,7 +954,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       └── Rule 1: {Minimum 0}
 │   │   ├── OriginHostHeader: *string
 │   │   ├── OriginPath: *string
-│   │   ├── Origins: Object (12 properties)
+│   │   ├── Origins: Object (12 properties)[]
 │   │   │   ├── Enabled: *bool
 │   │   │   ├── HostName: *string
 │   │   │   ├── HttpPort: Validated<*int> (2 rules)
@@ -977,38 +977,38 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │       └── Rule 1: {Minimum 1}
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── ProbePath: *string
-│   │   ├── QueryStringCachingBehavior: Enum (4 values)
+│   │   ├── QueryStringCachingBehavior: *Enum (4 values)
 │   │   │   ├── "BypassCaching"
 │   │   │   ├── "IgnoreQueryString"
 │   │   │   ├── "NotSet"
 │   │   │   └── "UseQueryString"
 │   │   ├── Tags: map[string]string
-│   │   ├── UrlSigningKeys: Object (2 properties)
+│   │   ├── UrlSigningKeys: Object (2 properties)[]
 │   │   │   ├── KeyId: *string
-│   │   │   └── KeySourceParameters: Object (6 properties)
+│   │   │   └── KeySourceParameters: *Object (6 properties)
 │   │   │       ├── ResourceGroupName: *string
 │   │   │       ├── SecretName: *string
 │   │   │       ├── SecretVersion: *string
 │   │   │       ├── SubscriptionId: *string
-│   │   │       ├── TypeName: Enum (1 value)
+│   │   │       ├── TypeName: *Enum (1 value)
 │   │   │       │   └── "KeyVaultSigningKeyParameters"
 │   │   │       └── VaultName: *string
-│   │   └── WebApplicationFirewallPolicyLink: Object (1 property)
+│   │   └── WebApplicationFirewallPolicyLink: *Object (1 property)
 │   │       └── Reference: *genruntime.ResourceReference
 │   └── Status: Object (27 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── ContentTypesToCompress: string[]
-│       ├── CustomDomains: Object (3 properties)
+│       ├── CustomDomains: Object (3 properties)[]
 │       │   ├── HostName: *string
 │       │   ├── Name: *string
 │       │   └── ValidationData: *string
-│       ├── DefaultOriginGroup: Object (1 property)
+│       ├── DefaultOriginGroup: *Object (1 property)
 │       │   └── Id: *string
-│       ├── DeliveryPolicy: Object (2 properties)
+│       ├── DeliveryPolicy: *Object (2 properties)
 │       │   ├── Description: *string
-│       │   └── Rules: Object (4 properties)
-│       │       ├── Actions: Object (1 property)
-│       │       │   └── Name: Enum (9 values)
+│       │   └── Rules: Object (4 properties)[]
+│       │       ├── Actions: Object (1 property)[]
+│       │       │   └── Name: *Enum (9 values)
 │       │       │       ├── "CacheExpiration"
 │       │       │       ├── "CacheKeyQueryString"
 │       │       │       ├── "ModifyRequestHeader"
@@ -1018,8 +1018,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │       ├── "UrlRedirect"
 │       │       │       ├── "UrlRewrite"
 │       │       │       └── "UrlSigning"
-│       │       ├── Conditions: Object (1 property)
-│       │       │   └── Name: Enum (19 values)
+│       │       ├── Conditions: Object (1 property)[]
+│       │       │   └── Name: *Enum (19 values)
 │       │       │       ├── "ClientPort"
 │       │       │       ├── "Cookies"
 │       │       │       ├── "HostName"
@@ -1041,8 +1041,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │       │       └── "UrlPath"
 │       │       ├── Name: *string
 │       │       └── Order: *int
-│       ├── GeoFilters: Object (3 properties)
-│       │   ├── Action: Enum (2 values)
+│       ├── GeoFilters: Object (3 properties)[]
+│       │   ├── Action: *Enum (2 values)
 │       │   │   ├── "Allow"
 │       │   │   └── "Block"
 │       │   ├── CountryCodes: string[]
@@ -1054,32 +1054,32 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       ├── IsHttpsAllowed: *bool
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── OptimizationType: Enum (5 values)
+│       ├── OptimizationType: *Enum (5 values)
 │       │   ├── "DynamicSiteAcceleration"
 │       │   ├── "GeneralMediaStreaming"
 │       │   ├── "GeneralWebDelivery"
 │       │   ├── "LargeFileDownload"
 │       │   └── "VideoOnDemandMediaStreaming"
-│       ├── OriginGroups: Object (5 properties)
-│       │   ├── HealthProbeSettings: Object (4 properties)
+│       ├── OriginGroups: Object (5 properties)[]
+│       │   ├── HealthProbeSettings: *Object (4 properties)
 │       │   │   ├── ProbeIntervalInSeconds: *int
 │       │   │   ├── ProbePath: *string
-│       │   │   ├── ProbeProtocol: Enum (3 values)
+│       │   │   ├── ProbeProtocol: *Enum (3 values)
 │       │   │   │   ├── "Http"
 │       │   │   │   ├── "Https"
 │       │   │   │   └── "NotSet"
-│       │   │   └── ProbeRequestType: Enum (3 values)
+│       │   │   └── ProbeRequestType: *Enum (3 values)
 │       │   │       ├── "GET"
 │       │   │       ├── "HEAD"
 │       │   │       └── "NotSet"
 │       │   ├── Name: *string
-│       │   ├── Origins: Object (1 property)
+│       │   ├── Origins: Object (1 property)[]
 │       │   │   └── Id: *string
-│       │   ├── ResponseBasedOriginErrorDetectionSettings: Object (3 properties)
-│       │   │   ├── HttpErrorRanges: Object (2 properties)
+│       │   ├── ResponseBasedOriginErrorDetectionSettings: *Object (3 properties)
+│       │   │   ├── HttpErrorRanges: Object (2 properties)[]
 │       │   │   │   ├── Begin: *int
 │       │   │   │   └── End: *int
-│       │   │   ├── ResponseBasedDetectedErrorTypes: Enum (3 values)
+│       │   │   ├── ResponseBasedDetectedErrorTypes: *Enum (3 values)
 │       │   │   │   ├── "None"
 │       │   │   │   ├── "TcpAndHttpErrors"
 │       │   │   │   └── "TcpErrorsOnly"
@@ -1087,7 +1087,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │   └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
 │       ├── OriginHostHeader: *string
 │       ├── OriginPath: *string
-│       ├── Origins: Object (13 properties)
+│       ├── Origins: Object (13 properties)[]
 │       │   ├── Enabled: *bool
 │       │   ├── HostName: *string
 │       │   ├── HttpPort: *int
@@ -1095,7 +1095,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │   ├── Name: *string
 │       │   ├── OriginHostHeader: *string
 │       │   ├── Priority: *int
-│       │   ├── PrivateEndpointStatus: Enum (5 values)
+│       │   ├── PrivateEndpointStatus: *Enum (5 values)
 │       │   │   ├── "Approved"
 │       │   │   ├── "Disconnected"
 │       │   │   ├── "Pending"
@@ -1107,199 +1107,199 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │       │   ├── PrivateLinkResourceId: *string
 │       │   └── Weight: *int
 │       ├── ProbePath: *string
-│       ├── ProvisioningState: Enum (5 values)
+│       ├── ProvisioningState: *Enum (5 values)
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── QueryStringCachingBehavior: Enum (4 values)
+│       ├── QueryStringCachingBehavior: *Enum (4 values)
 │       │   ├── "BypassCaching"
 │       │   ├── "IgnoreQueryString"
 │       │   ├── "NotSet"
 │       │   └── "UseQueryString"
-│       ├── ResourceState: Enum (6 values)
+│       ├── ResourceState: *Enum (6 values)
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Running"
 │       │   ├── "Starting"
 │       │   ├── "Stopped"
 │       │   └── "Stopping"
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "application"
 │       │   │   ├── "key"
 │       │   │   ├── "managedIdentity"
 │       │   │   └── "user"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "application"
 │       │       ├── "key"
 │       │       ├── "managedIdentity"
 │       │       └── "user"
 │       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── UrlSigningKeys: Object (2 properties)
+│       ├── UrlSigningKeys: Object (2 properties)[]
 │       │   ├── KeyId: *string
-│       │   └── KeySourceParameters: Object (6 properties)
+│       │   └── KeySourceParameters: *Object (6 properties)
 │       │       ├── ResourceGroupName: *string
 │       │       ├── SecretName: *string
 │       │       ├── SecretVersion: *string
 │       │       ├── SubscriptionId: *string
-│       │       ├── TypeName: Enum (1 value)
+│       │       ├── TypeName: *Enum (1 value)
 │       │       │   └── "KeyVaultSigningKeyParameters"
 │       │       └── VaultName: *string
-│       └── WebApplicationFirewallPolicyLink: Object (1 property)
+│       └── WebApplicationFirewallPolicyLink: *Object (1 property)
 │           └── Id: *string
 └── Profiles_Endpoint_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: Object (16 properties)
+    ├── Properties: *Object (16 properties)
     │   ├── ContentTypesToCompress: string[]
-    │   ├── DefaultOriginGroup: Object (1 property)
+    │   ├── DefaultOriginGroup: *Object (1 property)
     │   │   └── Id: *string
-    │   ├── DeliveryPolicy: Object (2 properties)
+    │   ├── DeliveryPolicy: *Object (2 properties)
     │   │   ├── Description: *string
-    │   │   └── Rules: Object (4 properties)
-    │   │       ├── Actions: Object (9 properties)
-    │   │       │   ├── DeliveryRuleCacheExpiration: Object (2 properties)
+    │   │   └── Rules: Object (4 properties)[]
+    │   │       ├── Actions: Object (9 properties)[]
+    │   │       │   ├── DeliveryRuleCacheExpiration: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "CacheExpiration"
-    │   │       │   │   └── Parameters: Object (4 properties)
-    │   │       │   │       ├── CacheBehavior: Enum (3 values)
+    │   │       │   │   └── Parameters: *Object (4 properties)
+    │   │       │   │       ├── CacheBehavior: *Enum (3 values)
     │   │       │   │       │   ├── "BypassCache"
     │   │       │   │       │   ├── "Override"
     │   │       │   │       │   └── "SetIfMissing"
     │   │       │   │       ├── CacheDuration: *string
-    │   │       │   │       ├── CacheType: Enum (1 value)
+    │   │       │   │       ├── CacheType: *Enum (1 value)
     │   │       │   │       │   └── "All"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleCacheExpirationActionParameters"
-    │   │       │   ├── DeliveryRuleCacheKeyQueryString: Object (2 properties)
+    │   │       │   ├── DeliveryRuleCacheKeyQueryString: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "CacheKeyQueryString"
-    │   │       │   │   └── Parameters: Object (3 properties)
+    │   │       │   │   └── Parameters: *Object (3 properties)
     │   │       │   │       ├── QueryParameters: *string
-    │   │       │   │       ├── QueryStringBehavior: Enum (4 values)
+    │   │       │   │       ├── QueryStringBehavior: *Enum (4 values)
     │   │       │   │       │   ├── "Exclude"
     │   │       │   │       │   ├── "ExcludeAll"
     │   │       │   │       │   ├── "Include"
     │   │       │   │       │   └── "IncludeAll"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"
-    │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRequestHeader: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ModifyRequestHeader"
-    │   │       │   │   └── Parameters: Object (4 properties)
-    │   │       │   │       ├── HeaderAction: Enum (3 values)
+    │   │       │   │   └── Parameters: *Object (4 properties)
+    │   │       │   │       ├── HeaderAction: *Enum (3 values)
     │   │       │   │       │   ├── "Append"
     │   │       │   │       │   ├── "Delete"
     │   │       │   │       │   └── "Overwrite"
     │   │       │   │       ├── HeaderName: *string
-    │   │       │   │       ├── TypeName: Enum (1 value)
+    │   │       │   │       ├── TypeName: *Enum (1 value)
     │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
     │   │       │   │       └── Value: *string
-    │   │       │   ├── DeliveryRuleResponseHeader: Object (2 properties)
+    │   │       │   ├── DeliveryRuleResponseHeader: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ModifyResponseHeader"
-    │   │       │   │   └── Parameters: Object (4 properties)
-    │   │       │   │       ├── HeaderAction: Enum (3 values)
+    │   │       │   │   └── Parameters: *Object (4 properties)
+    │   │       │   │       ├── HeaderAction: *Enum (3 values)
     │   │       │   │       │   ├── "Append"
     │   │       │   │       │   ├── "Delete"
     │   │       │   │       │   └── "Overwrite"
     │   │       │   │       ├── HeaderName: *string
-    │   │       │   │       ├── TypeName: Enum (1 value)
+    │   │       │   │       ├── TypeName: *Enum (1 value)
     │   │       │   │       │   └── "DeliveryRuleHeaderActionParameters"
     │   │       │   │       └── Value: *string
-    │   │       │   ├── DeliveryRuleRouteConfigurationOverride: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRouteConfigurationOverride: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RouteConfigurationOverride"
-    │   │       │   │   └── Parameters: Object (3 properties)
-    │   │       │   │       ├── CacheConfiguration: Object (5 properties)
-    │   │       │   │       │   ├── CacheBehavior: Enum (3 values)
+    │   │       │   │   └── Parameters: *Object (3 properties)
+    │   │       │   │       ├── CacheConfiguration: *Object (5 properties)
+    │   │       │   │       │   ├── CacheBehavior: *Enum (3 values)
     │   │       │   │       │   │   ├── "HonorOrigin"
     │   │       │   │       │   │   ├── "OverrideAlways"
     │   │       │   │       │   │   └── "OverrideIfOriginMissing"
     │   │       │   │       │   ├── CacheDuration: *string
-    │   │       │   │       │   ├── IsCompressionEnabled: Enum (2 values)
+    │   │       │   │       │   ├── IsCompressionEnabled: *Enum (2 values)
     │   │       │   │       │   │   ├── "Disabled"
     │   │       │   │       │   │   └── "Enabled"
     │   │       │   │       │   ├── QueryParameters: *string
-    │   │       │   │       │   └── QueryStringCachingBehavior: Enum (4 values)
+    │   │       │   │       │   └── QueryStringCachingBehavior: *Enum (4 values)
     │   │       │   │       │       ├── "IgnoreQueryString"
     │   │       │   │       │       ├── "IgnoreSpecifiedQueryStrings"
     │   │       │   │       │       ├── "IncludeSpecifiedQueryStrings"
     │   │       │   │       │       └── "UseQueryString"
-    │   │       │   │       ├── OriginGroupOverride: Object (2 properties)
-    │   │       │   │       │   ├── ForwardingProtocol: Enum (3 values)
+    │   │       │   │       ├── OriginGroupOverride: *Object (2 properties)
+    │   │       │   │       │   ├── ForwardingProtocol: *Enum (3 values)
     │   │       │   │       │   │   ├── "HttpOnly"
     │   │       │   │       │   │   ├── "HttpsOnly"
     │   │       │   │       │   │   └── "MatchRequest"
-    │   │       │   │       │   └── OriginGroup: Object (1 property)
+    │   │       │   │       │   └── OriginGroup: *Object (1 property)
     │   │       │   │       │       └── Id: *string
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRouteConfigurationOverrideActionParameters"
-    │   │       │   ├── OriginGroupOverride: Object (2 properties)
+    │   │       │   ├── OriginGroupOverride: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "OriginGroupOverride"
-    │   │       │   │   └── Parameters: Object (2 properties)
-    │   │       │   │       ├── OriginGroup: Object (1 property)
+    │   │       │   │   └── Parameters: *Object (2 properties)
+    │   │       │   │       ├── OriginGroup: *Object (1 property)
     │   │       │   │       │   └── Id: *string
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleOriginGroupOverrideActionParameters"
-    │   │       │   ├── UrlRedirect: Object (2 properties)
+    │   │       │   ├── UrlRedirect: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlRedirect"
-    │   │       │   │   └── Parameters: Object (7 properties)
+    │   │       │   │   └── Parameters: *Object (7 properties)
     │   │       │   │       ├── CustomFragment: *string
     │   │       │   │       ├── CustomHostname: *string
     │   │       │   │       ├── CustomPath: *string
     │   │       │   │       ├── CustomQueryString: *string
-    │   │       │   │       ├── DestinationProtocol: Enum (3 values)
+    │   │       │   │       ├── DestinationProtocol: *Enum (3 values)
     │   │       │   │       │   ├── "Http"
     │   │       │   │       │   ├── "Https"
     │   │       │   │       │   └── "MatchRequest"
-    │   │       │   │       ├── RedirectType: Enum (4 values)
+    │   │       │   │       ├── RedirectType: *Enum (4 values)
     │   │       │   │       │   ├── "Found"
     │   │       │   │       │   ├── "Moved"
     │   │       │   │       │   ├── "PermanentRedirect"
     │   │       │   │       │   └── "TemporaryRedirect"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleUrlRedirectActionParameters"
-    │   │       │   ├── UrlRewrite: Object (2 properties)
+    │   │       │   ├── UrlRewrite: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlRewrite"
-    │   │       │   │   └── Parameters: Object (4 properties)
+    │   │       │   │   └── Parameters: *Object (4 properties)
     │   │       │   │       ├── Destination: *string
     │   │       │   │       ├── PreserveUnmatchedPath: *bool
     │   │       │   │       ├── SourcePattern: *string
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleUrlRewriteActionParameters"
-    │   │       │   └── UrlSigning: Object (2 properties)
+    │   │       │   └── UrlSigning: *Object (2 properties)
     │   │       │       ├── Name: Enum (1 value)
     │   │       │       │   └── "UrlSigning"
-    │   │       │       └── Parameters: Object (3 properties)
-    │   │       │           ├── Algorithm: Enum (1 value)
+    │   │       │       └── Parameters: *Object (3 properties)
+    │   │       │           ├── Algorithm: *Enum (1 value)
     │   │       │           │   └── "SHA256"
-    │   │       │           ├── ParameterNameOverride: Object (2 properties)
-    │   │       │           │   ├── ParamIndicator: Enum (3 values)
+    │   │       │           ├── ParameterNameOverride: Object (2 properties)[]
+    │   │       │           │   ├── ParamIndicator: *Enum (3 values)
     │   │       │           │   │   ├── "Expires"
     │   │       │           │   │   ├── "KeyId"
     │   │       │           │   │   └── "Signature"
     │   │       │           │   └── ParamName: *string
-    │   │       │           └── TypeName: Enum (1 value)
+    │   │       │           └── TypeName: *Enum (1 value)
     │   │       │               └── "DeliveryRuleUrlSigningActionParameters"
-    │   │       ├── Conditions: Object (19 properties)
-    │   │       │   ├── DeliveryRuleClientPort: Object (2 properties)
+    │   │       ├── Conditions: Object (19 properties)[]
+    │   │       │   ├── DeliveryRuleClientPort: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ClientPort"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1310,22 +1310,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleClientPortConditionParameters"
-    │   │       │   ├── DeliveryRuleCookies: Object (2 properties)
+    │   │       │   ├── DeliveryRuleCookies: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "Cookies"
-    │   │       │   │   └── Parameters: Object (6 properties)
+    │   │       │   │   └── Parameters: *Object (6 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1337,22 +1337,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
     │   │       │   │       ├── Selector: *string
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleCookiesConditionParameters"
-    │   │       │   ├── DeliveryRuleHostName: Object (2 properties)
+    │   │       │   ├── DeliveryRuleHostName: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "HostName"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1363,58 +1363,58 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleHostNameConditionParameters"
-    │   │       │   ├── DeliveryRuleHttpVersion: Object (2 properties)
+    │   │       │   ├── DeliveryRuleHttpVersion: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "HttpVersion"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (1 value)
+    │   │       │   │       ├── Operator: *Enum (1 value)
     │   │       │   │       │   └── "Equal"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleHttpVersionConditionParameters"
-    │   │       │   ├── DeliveryRuleIsDevice: Object (2 properties)
+    │   │       │   ├── DeliveryRuleIsDevice: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "IsDevice"
-    │   │       │   │   └── Parameters: Object (5 properties)
-    │   │       │   │       ├── MatchValues: Enum (2 values)
+    │   │       │   │   └── Parameters: *Object (5 properties)
+    │   │       │   │       ├── MatchValues: Enum (2 values)[]
     │   │       │   │       │   ├── "Desktop"
     │   │       │   │       │   └── "Mobile"
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (1 value)
+    │   │       │   │       ├── Operator: *Enum (1 value)
     │   │       │   │       │   └── "Equal"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleIsDeviceConditionParameters"
-    │   │       │   ├── DeliveryRulePostArgs: Object (2 properties)
+    │   │       │   ├── DeliveryRulePostArgs: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "PostArgs"
-    │   │       │   │   └── Parameters: Object (6 properties)
+    │   │       │   │   └── Parameters: *Object (6 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1426,22 +1426,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
     │   │       │   │       ├── Selector: *string
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRulePostArgsConditionParameters"
-    │   │       │   ├── DeliveryRuleQueryString: Object (2 properties)
+    │   │       │   ├── DeliveryRuleQueryString: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "QueryString"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1452,41 +1452,41 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleQueryStringConditionParameters"
-    │   │       │   ├── DeliveryRuleRemoteAddress: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRemoteAddress: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RemoteAddress"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (3 values)
+    │   │       │   │       ├── Operator: *Enum (3 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "GeoMatch"
     │   │       │   │       │   └── "IPMatch"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRemoteAddressConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestBody: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRequestBody: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestBody"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1497,22 +1497,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestBodyConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestHeader: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRequestHeader: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestHeader"
-    │   │       │   │   └── Parameters: Object (6 properties)
+    │   │       │   │   └── Parameters: *Object (6 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1524,20 +1524,20 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
     │   │       │   │       ├── Selector: *string
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestHeaderConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestMethod: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRequestMethod: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestMethod"
-    │   │       │   │   └── Parameters: Object (5 properties)
-    │   │       │   │       ├── MatchValues: Enum (7 values)
+    │   │       │   │   └── Parameters: *Object (5 properties)
+    │   │       │   │       ├── MatchValues: Enum (7 values)[]
     │   │       │   │       │   ├── "DELETE"
     │   │       │   │       │   ├── "GET"
     │   │       │   │       │   ├── "HEAD"
@@ -1546,43 +1546,43 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "PUT"
     │   │       │   │       │   └── "TRACE"
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (1 value)
+    │   │       │   │       ├── Operator: *Enum (1 value)
     │   │       │   │       │   └── "Equal"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestMethodConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestScheme: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRequestScheme: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestScheme"
-    │   │       │   │   └── Parameters: Object (5 properties)
-    │   │       │   │       ├── MatchValues: Enum (2 values)
+    │   │       │   │   └── Parameters: *Object (5 properties)
+    │   │       │   │       ├── MatchValues: Enum (2 values)[]
     │   │       │   │       │   ├── "HTTP"
     │   │       │   │       │   └── "HTTPS"
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (1 value)
+    │   │       │   │       ├── Operator: *Enum (1 value)
     │   │       │   │       │   └── "Equal"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestSchemeConditionParameters"
-    │   │       │   ├── DeliveryRuleRequestUri: Object (2 properties)
+    │   │       │   ├── DeliveryRuleRequestUri: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "RequestUri"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1593,22 +1593,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleRequestUriConditionParameters"
-    │   │       │   ├── DeliveryRuleServerPort: Object (2 properties)
+    │   │       │   ├── DeliveryRuleServerPort: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "ServerPort"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1619,60 +1619,60 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleServerPortConditionParameters"
-    │   │       │   ├── DeliveryRuleSocketAddr: Object (2 properties)
+    │   │       │   ├── DeliveryRuleSocketAddr: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "SocketAddr"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (2 values)
+    │   │       │   │       ├── Operator: *Enum (2 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   └── "IPMatch"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleSocketAddrConditionParameters"
-    │   │       │   ├── DeliveryRuleSslProtocol: Object (2 properties)
+    │   │       │   ├── DeliveryRuleSslProtocol: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "SslProtocol"
-    │   │       │   │   └── Parameters: Object (5 properties)
-    │   │       │   │       ├── MatchValues: Enum (3 values)
+    │   │       │   │   └── Parameters: *Object (5 properties)
+    │   │       │   │       ├── MatchValues: Enum (3 values)[]
     │   │       │   │       │   ├── "TLSv1"
     │   │       │   │       │   ├── "TLSv1.1"
     │   │       │   │       │   └── "TLSv1.2"
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (1 value)
+    │   │       │   │       ├── Operator: *Enum (1 value)
     │   │       │   │       │   └── "Equal"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleSslProtocolConditionParameters"
-    │   │       │   ├── DeliveryRuleUrlFileExtension: Object (2 properties)
+    │   │       │   ├── DeliveryRuleUrlFileExtension: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlFileExtension"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1683,22 +1683,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleUrlFileExtensionMatchConditionParameters"
-    │   │       │   ├── DeliveryRuleUrlFileName: Object (2 properties)
+    │   │       │   ├── DeliveryRuleUrlFileName: *Object (2 properties)
     │   │       │   │   ├── Name: Enum (1 value)
     │   │       │   │   │   └── "UrlFileName"
-    │   │       │   │   └── Parameters: Object (5 properties)
+    │   │       │   │   └── Parameters: *Object (5 properties)
     │   │       │   │       ├── MatchValues: string[]
     │   │       │   │       ├── NegateCondition: *bool
-    │   │       │   │       ├── Operator: Enum (10 values)
+    │   │       │   │       ├── Operator: *Enum (10 values)
     │   │       │   │       │   ├── "Any"
     │   │       │   │       │   ├── "BeginsWith"
     │   │       │   │       │   ├── "Contains"
@@ -1709,22 +1709,22 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │   │       │   ├── "LessThan"
     │   │       │   │       │   ├── "LessThanOrEqual"
     │   │       │   │       │   └── "RegEx"
-    │   │       │   │       ├── Transforms: Enum (6 values)
+    │   │       │   │       ├── Transforms: Enum (6 values)[]
     │   │       │   │       │   ├── "Lowercase"
     │   │       │   │       │   ├── "RemoveNulls"
     │   │       │   │       │   ├── "Trim"
     │   │       │   │       │   ├── "Uppercase"
     │   │       │   │       │   ├── "UrlDecode"
     │   │       │   │       │   └── "UrlEncode"
-    │   │       │   │       └── TypeName: Enum (1 value)
+    │   │       │   │       └── TypeName: *Enum (1 value)
     │   │       │   │           └── "DeliveryRuleUrlFilenameConditionParameters"
-    │   │       │   └── DeliveryRuleUrlPath: Object (2 properties)
+    │   │       │   └── DeliveryRuleUrlPath: *Object (2 properties)
     │   │       │       ├── Name: Enum (1 value)
     │   │       │       │   └── "UrlPath"
-    │   │       │       └── Parameters: Object (5 properties)
+    │   │       │       └── Parameters: *Object (5 properties)
     │   │       │           ├── MatchValues: string[]
     │   │       │           ├── NegateCondition: *bool
-    │   │       │           ├── Operator: Enum (11 values)
+    │   │       │           ├── Operator: *Enum (11 values)
     │   │       │           │   ├── "Any"
     │   │       │           │   ├── "BeginsWith"
     │   │       │           │   ├── "Contains"
@@ -1736,19 +1736,19 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       │           │   ├── "LessThanOrEqual"
     │   │       │           │   ├── "RegEx"
     │   │       │           │   └── "Wildcard"
-    │   │       │           ├── Transforms: Enum (6 values)
+    │   │       │           ├── Transforms: Enum (6 values)[]
     │   │       │           │   ├── "Lowercase"
     │   │       │           │   ├── "RemoveNulls"
     │   │       │           │   ├── "Trim"
     │   │       │           │   ├── "Uppercase"
     │   │       │           │   ├── "UrlDecode"
     │   │       │           │   └── "UrlEncode"
-    │   │       │           └── TypeName: Enum (1 value)
+    │   │       │           └── TypeName: *Enum (1 value)
     │   │       │               └── "DeliveryRuleUrlPathMatchConditionParameters"
     │   │       ├── Name: *string
     │   │       └── Order: *int
-    │   ├── GeoFilters: Object (3 properties)
-    │   │   ├── Action: Enum (2 values)
+    │   ├── GeoFilters: Object (3 properties)[]
+    │   │   ├── Action: *Enum (2 values)
     │   │   │   ├── "Allow"
     │   │   │   └── "Block"
     │   │   ├── CountryCodes: string[]
@@ -1756,33 +1756,33 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   ├── IsCompressionEnabled: *bool
     │   ├── IsHttpAllowed: *bool
     │   ├── IsHttpsAllowed: *bool
-    │   ├── OptimizationType: Enum (5 values)
+    │   ├── OptimizationType: *Enum (5 values)
     │   │   ├── "DynamicSiteAcceleration"
     │   │   ├── "GeneralMediaStreaming"
     │   │   ├── "GeneralWebDelivery"
     │   │   ├── "LargeFileDownload"
     │   │   └── "VideoOnDemandMediaStreaming"
-    │   ├── OriginGroups: Object (2 properties)
+    │   ├── OriginGroups: Object (2 properties)[]
     │   │   ├── Name: *string
-    │   │   └── Properties: Object (4 properties)
-    │   │       ├── HealthProbeSettings: Object (4 properties)
+    │   │   └── Properties: *Object (4 properties)
+    │   │       ├── HealthProbeSettings: *Object (4 properties)
     │   │       │   ├── ProbeIntervalInSeconds: *int
     │   │       │   ├── ProbePath: *string
-    │   │       │   ├── ProbeProtocol: Enum (3 values)
+    │   │       │   ├── ProbeProtocol: *Enum (3 values)
     │   │       │   │   ├── "Http"
     │   │       │   │   ├── "Https"
     │   │       │   │   └── "NotSet"
-    │   │       │   └── ProbeRequestType: Enum (3 values)
+    │   │       │   └── ProbeRequestType: *Enum (3 values)
     │   │       │       ├── "GET"
     │   │       │       ├── "HEAD"
     │   │       │       └── "NotSet"
-    │   │       ├── Origins: Object (1 property)
+    │   │       ├── Origins: Object (1 property)[]
     │   │       │   └── Id: *string
-    │   │       ├── ResponseBasedOriginErrorDetectionSettings: Object (3 properties)
-    │   │       │   ├── HttpErrorRanges: Object (2 properties)
+    │   │       ├── ResponseBasedOriginErrorDetectionSettings: *Object (3 properties)
+    │   │       │   ├── HttpErrorRanges: Object (2 properties)[]
     │   │       │   │   ├── Begin: *int
     │   │       │   │   └── End: *int
-    │   │       │   ├── ResponseBasedDetectedErrorTypes: Enum (3 values)
+    │   │       │   ├── ResponseBasedDetectedErrorTypes: *Enum (3 values)
     │   │       │   │   ├── "None"
     │   │       │   │   ├── "TcpAndHttpErrors"
     │   │       │   │   └── "TcpErrorsOnly"
@@ -1790,9 +1790,9 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: *int
     │   ├── OriginHostHeader: *string
     │   ├── OriginPath: *string
-    │   ├── Origins: Object (2 properties)
+    │   ├── Origins: Object (2 properties)[]
     │   │   ├── Name: *string
-    │   │   └── Properties: Object (11 properties)
+    │   │   └── Properties: *Object (11 properties)
     │   │       ├── Enabled: *bool
     │   │       ├── HostName: *string
     │   │       ├── HttpPort: *int
@@ -1805,21 +1805,21 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
     │   │       ├── PrivateLinkResourceId: *string
     │   │       └── Weight: *int
     │   ├── ProbePath: *string
-    │   ├── QueryStringCachingBehavior: Enum (4 values)
+    │   ├── QueryStringCachingBehavior: *Enum (4 values)
     │   │   ├── "BypassCaching"
     │   │   ├── "IgnoreQueryString"
     │   │   ├── "NotSet"
     │   │   └── "UseQueryString"
-    │   ├── UrlSigningKeys: Object (2 properties)
+    │   ├── UrlSigningKeys: Object (2 properties)[]
     │   │   ├── KeyId: *string
-    │   │   └── KeySourceParameters: Object (6 properties)
+    │   │   └── KeySourceParameters: *Object (6 properties)
     │   │       ├── ResourceGroupName: *string
     │   │       ├── SecretName: *string
     │   │       ├── SecretVersion: *string
     │   │       ├── SubscriptionId: *string
-    │   │       ├── TypeName: Enum (1 value)
+    │   │       ├── TypeName: *Enum (1 value)
     │   │       │   └── "KeyVaultSigningKeyParameters"
     │   │       └── VaultName: *string
-    │   └── WebApplicationFirewallPolicyLink: Object (1 property)
+    │   └── WebApplicationFirewallPolicyLink: *Object (1 property)
     │       └── Id: *string
     └── Tags: map[string]string
