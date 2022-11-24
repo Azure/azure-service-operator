@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v1beta20180501preview
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 type Webtest_STATUS_ARM struct {
 	// Id: Azure resource Id
 	Id *string `json:"id,omitempty"`
@@ -19,7 +17,7 @@ type Webtest_STATUS_ARM struct {
 	Properties *WebTestProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// Type: Azure resource type
 	Type *string `json:"type,omitempty"`

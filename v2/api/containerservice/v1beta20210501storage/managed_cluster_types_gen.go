@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -143,12 +142,15 @@ const APIVersion_Value = APIVersion("2021-05-01")
 // Storage version of v1beta20210501.ManagedCluster_Spec
 type ManagedCluster_Spec struct {
 	AadProfile             *ManagedClusterAADProfile                   `json:"aadProfile,omitempty"`
-	AddonProfiles          *v1.JSON                                    `json:"addonProfiles,omitempty"`
+	AddonProfiles          map[string]ManagedClusterAddonProfile       `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles      []ManagedClusterAgentPoolProfile            `json:"agentPoolProfiles,omitempty"`
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile      *ManagedClusterProperties_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
 	AutoUpgradeProfile     *ManagedClusterAutoUpgradeProfile           `json:"autoUpgradeProfile,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string `json:"azureName,omitempty"`
@@ -164,7 +166,7 @@ type ManagedCluster_Spec struct {
 	FqdnSubdomain                *string                         `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig              *ManagedClusterHTTPProxyConfig  `json:"httpProxyConfig,omitempty"`
 	Identity                     *ManagedClusterIdentity         `json:"identity,omitempty"`
-	IdentityProfile              *v1.JSON                        `json:"identityProfile,omitempty"`
+	IdentityProfile              map[string]UserAssignedIdentity `json:"identityProfile,omitempty"`
 	KubernetesVersion            *string                         `json:"kubernetesVersion,omitempty"`
 	LinuxProfile                 *ContainerServiceLinuxProfile   `json:"linuxProfile,omitempty"`
 	Location                     *string                         `json:"location,omitempty"`
@@ -210,7 +212,7 @@ func (cluster *ManagedCluster_Spec) ConvertSpecTo(destination genruntime.Convert
 // Storage version of v1beta20210501.ManagedCluster_STATUS
 type ManagedCluster_STATUS struct {
 	AadProfile              *ManagedClusterAADProfile_STATUS                   `json:"aadProfile,omitempty"`
-	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
+	AddonProfiles           map[string]ManagedClusterAddonProfile_STATUS       `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS            `json:"agentPoolProfiles,omitempty"`
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS `json:"autoScalerProfile,omitempty"`
@@ -228,7 +230,7 @@ type ManagedCluster_STATUS struct {
 	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_STATUS              `json:"httpProxyConfig,omitempty"`
 	Id                      *string                                            `json:"id,omitempty"`
 	Identity                *ManagedClusterIdentity_STATUS                     `json:"identity,omitempty"`
-	IdentityProfile         *v1.JSON                                           `json:"identityProfile,omitempty"`
+	IdentityProfile         map[string]UserAssignedIdentity_STATUS             `json:"identityProfile,omitempty"`
 	KubernetesVersion       *string                                            `json:"kubernetesVersion,omitempty"`
 	LinuxProfile            *ContainerServiceLinuxProfile_STATUS               `json:"linuxProfile,omitempty"`
 	Location                *string                                            `json:"location,omitempty"`
@@ -349,6 +351,21 @@ type ManagedClusterAADProfile_STATUS struct {
 	ServerAppID         *string                `json:"serverAppID,omitempty"`
 	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
 	TenantID            *string                `json:"tenantID,omitempty"`
+}
+
+// Storage version of v1beta20210501.ManagedClusterAddonProfile
+type ManagedClusterAddonProfile struct {
+	Config      map[string]string      `json:"config,omitempty"`
+	Enabled     *bool                  `json:"enabled,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210501.ManagedClusterAddonProfile_STATUS
+type ManagedClusterAddonProfile_STATUS struct {
+	Config      map[string]string            `json:"config,omitempty"`
+	Enabled     *bool                        `json:"enabled,omitempty"`
+	Identity    *UserAssignedIdentity_STATUS `json:"identity,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterAgentPoolProfile
@@ -650,6 +667,24 @@ type PrivateLinkResource_STATUS struct {
 	Type                 *string                `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20210501.UserAssignedIdentity
+type UserAssignedIdentity struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	ObjectId    *string                `json:"objectId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// ResourceReference: The resource ID of the user assigned identity.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+// Storage version of v1beta20210501.UserAssignedIdentity_STATUS
+type UserAssignedIdentity_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	ObjectId    *string                `json:"objectId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId  *string                `json:"resourceId,omitempty"`
+}
+
 // Storage version of v1beta20210501.ContainerServiceSshConfiguration
 type ContainerServiceSshConfiguration struct {
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
@@ -800,24 +835,6 @@ type ResourceReference struct {
 type ResourceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210501.UserAssignedIdentity
-type UserAssignedIdentity struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// Storage version of v1beta20210501.UserAssignedIdentity_STATUS
-type UserAssignedIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ResourceId  *string                `json:"resourceId,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningError_STATUS

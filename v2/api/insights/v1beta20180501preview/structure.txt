@@ -30,7 +30,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview
 │   │   │   └── RequestUrl: *string
 │   │   ├── RetryEnabled: *bool
 │   │   ├── SyntheticMonitorId: *string
-│   │   ├── Tags: *v1.JSON
+│   │   ├── Tags: map[string]string
 │   │   ├── Timeout: *int
 │   │   └── ValidationRules: Object (5 properties)
 │   │       ├── ContentValidation: Object (3 properties)
@@ -71,7 +71,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview
 │       │   └── RequestUrl: *string
 │       ├── RetryEnabled: *bool
 │       ├── SyntheticMonitorId: *string
-│       ├── Tags: *v1.JSON
+│       ├── Tags: map[string]string
 │       ├── Timeout: *int
 │       ├── Type: *string
 │       └── ValidationRules: Object (5 properties)
@@ -123,7 +123,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview
 │   │       ├── IgnoreHttpsStatusCode: *bool
 │   │       ├── SSLCertRemainingLifetimeCheck: *int
 │   │       └── SSLCheck: *bool
-│   ├── Tags: *v1.JSON
+│   ├── Tags: map[string]string
 │   └── Type: *string
 └── Webtest_Spec_ARM: Object (4 properties)
     ├── Location: *string
@@ -163,4 +163,4 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview
     │       ├── IgnoreHttpsStatusCode: *bool
     │       ├── SSLCertRemainingLifetimeCheck: *int
     │       └── SSLCheck: *bool
-    └── Tags: *v1.JSON
+    └── Tags: map[string]string

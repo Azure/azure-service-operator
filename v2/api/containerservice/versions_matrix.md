@@ -43,6 +43,8 @@
 | ManagedClusterAADProfile_STATUS                                | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterAPIServerAccessProfile                           | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterAPIServerAccessProfile_STATUS                    | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAddonProfile                                     | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClusterAddonProfile_STATUS                              | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterAgentPoolProfile                                 | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterAgentPoolProfileProperties                       | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterAgentPoolProfileProperties_STATUS                | v1alpha1api20210501 | v1beta20210501 |

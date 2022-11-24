@@ -280,6 +280,7 @@ func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Ge
 	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_Rest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_Component_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -417,6 +418,7 @@ func AddIndependentPropertyGeneratorsForComponent_STATUS(gens map[string]gopter.
 	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())

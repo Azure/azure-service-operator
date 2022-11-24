@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -170,7 +169,7 @@ type Component_Spec struct {
 	Request_Source                  *string                            `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
-	Tags                            *v1.JSON                           `json:"tags,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
 
 	// WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
 	// is required to create an application with this API version. Applications from older versions will not have this property.
@@ -229,7 +228,7 @@ type Component_STATUS struct {
 	Request_Source                  *string                            `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
-	Tags                            *v1.JSON                           `json:"tags,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
 	TenantId                        *string                            `json:"TenantId,omitempty"`
 	Type                            *string                            `json:"type,omitempty"`
 	WorkspaceResourceId             *string                            `json:"WorkspaceResourceId,omitempty"`

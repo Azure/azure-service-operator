@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 type ManagedCluster_STATUS_ARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
@@ -63,7 +61,7 @@ type ManagedClusterProperties_STATUS_ARM struct {
 	AadProfile *ManagedClusterAADProfile_STATUS_ARM `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
+	AddonProfiles map[string]ManagedClusterAddonProfile_STATUS_ARM `json:"addonProfiles,omitempty"`
 
 	// AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile_STATUS_ARM `json:"agentPoolProfiles,omitempty"`
@@ -111,7 +109,7 @@ type ManagedClusterProperties_STATUS_ARM struct {
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig_STATUS_ARM `json:"httpProxyConfig,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]UserAssignedIdentity_STATUS_ARM `json:"identityProfile,omitempty"`
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -236,6 +234,17 @@ type ManagedClusterAADProfile_STATUS_ARM struct {
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
 	TenantID *string `json:"tenantID,omitempty"`
+}
+
+type ManagedClusterAddonProfile_STATUS_ARM struct {
+	// Config: Key-value pairs for configuring an add-on.
+	Config map[string]string `json:"config,omitempty"`
+
+	// Enabled: Whether the add-on is enabled or not.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Identity: Information of user assigned identity used by this add-on.
+	Identity *UserAssignedIdentity_STATUS_ARM `json:"identity,omitempty"`
 }
 
 type ManagedClusterAgentPoolProfile_STATUS_ARM struct {
@@ -570,6 +579,17 @@ type PrivateLinkResource_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+type UserAssignedIdentity_STATUS_ARM struct {
+	// ClientId: The client ID of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// ObjectId: The object ID of the user assigned identity.
+	ObjectId *string `json:"objectId,omitempty"`
+
+	// ResourceId: The resource ID of the user assigned identity.
+	ResourceId *string `json:"resourceId,omitempty"`
+}
+
 type ContainerServiceSshConfiguration_STATUS_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey_STATUS_ARM `json:"publicKeys,omitempty"`
@@ -656,17 +676,6 @@ type ManagedClusterPodIdentity_ProvisioningInfo_STATUS_ARM struct {
 type ResourceReference_STATUS_ARM struct {
 	// Id: The fully qualified Azure resource id.
 	Id *string `json:"id,omitempty"`
-}
-
-type UserAssignedIdentity_STATUS_ARM struct {
-	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// ResourceId: The resource ID of the user assigned identity.
-	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 type ManagedClusterPodIdentityProvisioningError_STATUS_ARM struct {

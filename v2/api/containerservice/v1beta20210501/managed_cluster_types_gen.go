@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -351,7 +350,7 @@ type ManagedCluster_Spec struct {
 	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
+	AddonProfiles map[string]ManagedClusterAddonProfile `json:"addonProfiles,omitempty"`
 
 	// AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile `json:"agentPoolProfiles,omitempty"`
@@ -365,6 +364,9 @@ type ManagedCluster_Spec struct {
 	// AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -401,7 +403,7 @@ type ManagedCluster_Spec struct {
 	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]UserAssignedIdentity `json:"identityProfile,omitempty"`
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -525,8 +527,14 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.AadProfile = &aadProfile
 	}
 	if cluster.AddonProfiles != nil {
-		addonProfiles := *(*cluster.AddonProfiles).DeepCopy()
-		result.Properties.AddonProfiles = &addonProfiles
+		result.Properties.AddonProfiles = make(map[string]ManagedClusterAddonProfile_ARM, len(cluster.AddonProfiles))
+		for key, value := range cluster.AddonProfiles {
+			value_ARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.Properties.AddonProfiles[key] = *value_ARM.(*ManagedClusterAddonProfile_ARM)
+		}
 	}
 	for _, item := range cluster.AgentPoolProfiles {
 		item_ARM, err := item.ConvertToARM(resolved)
@@ -596,8 +604,14 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.HttpProxyConfig = &httpProxyConfig
 	}
 	if cluster.IdentityProfile != nil {
-		identityProfile := *(*cluster.IdentityProfile).DeepCopy()
-		result.Properties.IdentityProfile = &identityProfile
+		result.Properties.IdentityProfile = make(map[string]UserAssignedIdentity_ARM, len(cluster.IdentityProfile))
+		for key, value := range cluster.IdentityProfile {
+			value_ARM, err := value.ConvertToARM(resolved)
+			if err != nil {
+				return nil, err
+			}
+			result.Properties.IdentityProfile[key] = *value_ARM.(*UserAssignedIdentity_ARM)
+		}
 	}
 	if cluster.KubernetesVersion != nil {
 		kubernetesVersion := *cluster.KubernetesVersion
@@ -705,8 +719,15 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddonProfiles != nil {
-			addonProfiles := *(*typedInput.Properties.AddonProfiles).DeepCopy()
-			cluster.AddonProfiles = &addonProfiles
+			cluster.AddonProfiles = make(map[string]ManagedClusterAddonProfile, len(typedInput.Properties.AddonProfiles))
+			for key, value := range typedInput.Properties.AddonProfiles {
+				var value1 ManagedClusterAddonProfile
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.AddonProfiles[key] = value1
+			}
 		}
 	}
 
@@ -855,8 +876,15 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
-			identityProfile := *(*typedInput.Properties.IdentityProfile).DeepCopy()
-			cluster.IdentityProfile = &identityProfile
+			cluster.IdentityProfile = make(map[string]UserAssignedIdentity, len(typedInput.Properties.IdentityProfile))
+			for key, value := range typedInput.Properties.IdentityProfile {
+				var value1 UserAssignedIdentity
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.IdentityProfile[key] = value1
+			}
 		}
 	}
 
@@ -1062,8 +1090,18 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// AddonProfiles
 	if source.AddonProfiles != nil {
-		addonProfile := *source.AddonProfiles.DeepCopy()
-		cluster.AddonProfiles = &addonProfile
+		addonProfileMap := make(map[string]ManagedClusterAddonProfile, len(source.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile ManagedClusterAddonProfile
+			err := addonProfile.AssignProperties_From_ManagedClusterAddonProfile(&addonProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAddonProfile() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		cluster.AddonProfiles = addonProfileMap
 	} else {
 		cluster.AddonProfiles = nil
 	}
@@ -1201,8 +1239,18 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// IdentityProfile
 	if source.IdentityProfile != nil {
-		identityProfile := *source.IdentityProfile.DeepCopy()
-		cluster.IdentityProfile = &identityProfile
+		identityProfileMap := make(map[string]UserAssignedIdentity, len(source.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile UserAssignedIdentity
+			err := identityProfile.AssignProperties_From_UserAssignedIdentity(&identityProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		cluster.IdentityProfile = identityProfileMap
 	} else {
 		cluster.IdentityProfile = nil
 	}
@@ -1352,8 +1400,18 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AddonProfiles
 	if cluster.AddonProfiles != nil {
-		addonProfile := *cluster.AddonProfiles.DeepCopy()
-		destination.AddonProfiles = &addonProfile
+		addonProfileMap := make(map[string]v20210501s.ManagedClusterAddonProfile, len(cluster.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile v20210501s.ManagedClusterAddonProfile
+			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile(&addonProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		destination.AddonProfiles = addonProfileMap
 	} else {
 		destination.AddonProfiles = nil
 	}
@@ -1491,8 +1549,18 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
-		identityProfile := *cluster.IdentityProfile.DeepCopy()
-		destination.IdentityProfile = &identityProfile
+		identityProfileMap := make(map[string]v20210501s.UserAssignedIdentity, len(cluster.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile v20210501s.UserAssignedIdentity
+			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity(&identityProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		destination.IdentityProfile = identityProfileMap
 	} else {
 		destination.IdentityProfile = nil
 	}
@@ -1646,7 +1714,7 @@ type ManagedCluster_STATUS struct {
 	AadProfile *ManagedClusterAADProfile_STATUS `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
+	AddonProfiles map[string]ManagedClusterAddonProfile_STATUS `json:"addonProfiles,omitempty"`
 
 	// AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile_STATUS `json:"agentPoolProfiles,omitempty"`
@@ -1706,7 +1774,7 @@ type ManagedCluster_STATUS struct {
 	Identity *ManagedClusterIdentity_STATUS `json:"identity,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]UserAssignedIdentity_STATUS `json:"identityProfile,omitempty"`
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -1847,8 +1915,15 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddonProfiles != nil {
-			addonProfiles := *(*typedInput.Properties.AddonProfiles).DeepCopy()
-			cluster.AddonProfiles = &addonProfiles
+			cluster.AddonProfiles = make(map[string]ManagedClusterAddonProfile_STATUS, len(typedInput.Properties.AddonProfiles))
+			for key, value := range typedInput.Properties.AddonProfiles {
+				var value1 ManagedClusterAddonProfile_STATUS
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.AddonProfiles[key] = value1
+			}
 		}
 	}
 
@@ -2027,8 +2102,15 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
-			identityProfile := *(*typedInput.Properties.IdentityProfile).DeepCopy()
-			cluster.IdentityProfile = &identityProfile
+			cluster.IdentityProfile = make(map[string]UserAssignedIdentity_STATUS, len(typedInput.Properties.IdentityProfile))
+			for key, value := range typedInput.Properties.IdentityProfile {
+				var value1 UserAssignedIdentity_STATUS
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.IdentityProfile[key] = value1
+			}
 		}
 	}
 
@@ -2232,8 +2314,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// AddonProfiles
 	if source.AddonProfiles != nil {
-		addonProfile := *source.AddonProfiles.DeepCopy()
-		cluster.AddonProfiles = &addonProfile
+		addonProfileMap := make(map[string]ManagedClusterAddonProfile_STATUS, len(source.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile ManagedClusterAddonProfile_STATUS
+			err := addonProfile.AssignProperties_From_ManagedClusterAddonProfile_STATUS(&addonProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAddonProfile_STATUS() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		cluster.AddonProfiles = addonProfileMap
 	} else {
 		cluster.AddonProfiles = nil
 	}
@@ -2375,8 +2467,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// IdentityProfile
 	if source.IdentityProfile != nil {
-		identityProfile := *source.IdentityProfile.DeepCopy()
-		cluster.IdentityProfile = &identityProfile
+		identityProfileMap := make(map[string]UserAssignedIdentity_STATUS, len(source.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile UserAssignedIdentity_STATUS
+			err := identityProfile.AssignProperties_From_UserAssignedIdentity_STATUS(&identityProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		cluster.IdentityProfile = identityProfileMap
 	} else {
 		cluster.IdentityProfile = nil
 	}
@@ -2533,8 +2635,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AddonProfiles
 	if cluster.AddonProfiles != nil {
-		addonProfile := *cluster.AddonProfiles.DeepCopy()
-		destination.AddonProfiles = &addonProfile
+		addonProfileMap := make(map[string]v20210501s.ManagedClusterAddonProfile_STATUS, len(cluster.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile v20210501s.ManagedClusterAddonProfile_STATUS
+			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile_STATUS(&addonProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile_STATUS() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		destination.AddonProfiles = addonProfileMap
 	} else {
 		destination.AddonProfiles = nil
 	}
@@ -2676,8 +2788,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
-		identityProfile := *cluster.IdentityProfile.DeepCopy()
-		destination.IdentityProfile = &identityProfile
+		identityProfileMap := make(map[string]v20210501s.UserAssignedIdentity_STATUS, len(cluster.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile v20210501s.UserAssignedIdentity_STATUS
+			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity_STATUS(&identityProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		destination.IdentityProfile = identityProfileMap
 	} else {
 		destination.IdentityProfile = nil
 	}
@@ -4274,6 +4396,238 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ManagedClusterAddonProfile struct {
+	// Config: Key-value pairs for configuring an add-on.
+	Config map[string]string `json:"config,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Enabled: Whether the add-on is enabled or not.
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedClusterAddonProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *ManagedClusterAddonProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &ManagedClusterAddonProfile_ARM{}
+
+	// Set property ‘Config’:
+	if profile.Config != nil {
+		result.Config = make(map[string]string, len(profile.Config))
+		for key, value := range profile.Config {
+			result.Config[key] = value
+		}
+	}
+
+	// Set property ‘Enabled’:
+	if profile.Enabled != nil {
+		enabled := *profile.Enabled
+		result.Enabled = &enabled
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *ManagedClusterAddonProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAddonProfile_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *ManagedClusterAddonProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterAddonProfile_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAddonProfile_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Config’:
+	if typedInput.Config != nil {
+		profile.Config = make(map[string]string, len(typedInput.Config))
+		for key, value := range typedInput.Config {
+			profile.Config[key] = value
+		}
+	}
+
+	// Set property ‘Enabled’:
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		profile.Enabled = &enabled
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterAddonProfile populates our ManagedClusterAddonProfile from the provided source ManagedClusterAddonProfile
+func (profile *ManagedClusterAddonProfile) AssignProperties_From_ManagedClusterAddonProfile(source *v20210501s.ManagedClusterAddonProfile) error {
+
+	// Config
+	profile.Config = genruntime.CloneMapOfStringToString(source.Config)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		profile.Enabled = &enabled
+	} else {
+		profile.Enabled = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterAddonProfile populates the provided destination ManagedClusterAddonProfile from our ManagedClusterAddonProfile
+func (profile *ManagedClusterAddonProfile) AssignProperties_To_ManagedClusterAddonProfile(destination *v20210501s.ManagedClusterAddonProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Config
+	destination.Config = genruntime.CloneMapOfStringToString(profile.Config)
+
+	// Enabled
+	if profile.Enabled != nil {
+		enabled := *profile.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ManagedClusterAddonProfile_STATUS struct {
+	// Config: Key-value pairs for configuring an add-on.
+	Config map[string]string `json:"config,omitempty"`
+
+	// Enabled: Whether the add-on is enabled or not.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Identity: Information of user assigned identity used by this add-on.
+	Identity *UserAssignedIdentity_STATUS `json:"identity,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ManagedClusterAddonProfile_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *ManagedClusterAddonProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAddonProfile_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *ManagedClusterAddonProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterAddonProfile_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAddonProfile_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Config’:
+	if typedInput.Config != nil {
+		profile.Config = make(map[string]string, len(typedInput.Config))
+		for key, value := range typedInput.Config {
+			profile.Config[key] = value
+		}
+	}
+
+	// Set property ‘Enabled’:
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		profile.Enabled = &enabled
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 UserAssignedIdentity_STATUS
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		profile.Identity = &identity
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterAddonProfile_STATUS populates our ManagedClusterAddonProfile_STATUS from the provided source ManagedClusterAddonProfile_STATUS
+func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedClusterAddonProfile_STATUS(source *v20210501s.ManagedClusterAddonProfile_STATUS) error {
+
+	// Config
+	profile.Config = genruntime.CloneMapOfStringToString(source.Config)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		profile.Enabled = &enabled
+	} else {
+		profile.Enabled = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity UserAssignedIdentity_STATUS
+		err := identity.AssignProperties_From_UserAssignedIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity")
+		}
+		profile.Identity = &identity
+	} else {
+		profile.Identity = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterAddonProfile_STATUS populates the provided destination ManagedClusterAddonProfile_STATUS from our ManagedClusterAddonProfile_STATUS
+func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClusterAddonProfile_STATUS(destination *v20210501s.ManagedClusterAddonProfile_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Config
+	destination.Config = genruntime.CloneMapOfStringToString(profile.Config)
+
+	// Enabled
+	if profile.Enabled != nil {
+		enabled := *profile.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Identity
+	if profile.Identity != nil {
+		var identity v20210501s.UserAssignedIdentity_STATUS
+		err := profile.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9402,6 +9756,219 @@ func (resource *PrivateLinkResource_STATUS) AssignProperties_To_PrivateLinkResou
 	return nil
 }
 
+type UserAssignedIdentity struct {
+	// ClientId: The client ID of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// ObjectId: The object ID of the user assigned identity.
+	ObjectId *string `json:"objectId,omitempty"`
+
+	// ResourceReference: The resource ID of the user assigned identity.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &UserAssignedIdentity{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if identity == nil {
+		return nil, nil
+	}
+	result := &UserAssignedIdentity_ARM{}
+
+	// Set property ‘ClientId’:
+	if identity.ClientId != nil {
+		clientId := *identity.ClientId
+		result.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if identity.ObjectId != nil {
+		objectId := *identity.ObjectId
+		result.ObjectId = &objectId
+	}
+
+	// Set property ‘ResourceId’:
+	if identity.ResourceReference != nil {
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.ResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceReference := resourceReferenceARMID
+		result.ResourceId = &resourceReference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *UserAssignedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentity_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentity_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ClientId’:
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		identity.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if typedInput.ObjectId != nil {
+		objectId := *typedInput.ObjectId
+		identity.ObjectId = &objectId
+	}
+
+	// no assignment for property ‘ResourceReference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20210501s.UserAssignedIdentity) error {
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ObjectId
+	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		identity.ResourceReference = &resourceReference
+	} else {
+		identity.ResourceReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20210501s.UserAssignedIdentity) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ResourceReference
+	if identity.ResourceReference != nil {
+		resourceReference := identity.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type UserAssignedIdentity_STATUS struct {
+	// ClientId: The client ID of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// ObjectId: The object ID of the user assigned identity.
+	ObjectId *string `json:"objectId,omitempty"`
+
+	// ResourceId: The resource ID of the user assigned identity.
+	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentity_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentity_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ClientId’:
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		identity.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if typedInput.ObjectId != nil {
+		objectId := *typedInput.ObjectId
+		identity.ObjectId = &objectId
+	}
+
+	// Set property ‘ResourceId’:
+	if typedInput.ResourceId != nil {
+		resourceId := *typedInput.ResourceId
+		identity.ResourceId = &resourceId
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20210501s.UserAssignedIdentity_STATUS) error {
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ObjectId
+	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ResourceId
+	identity.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20210501s.UserAssignedIdentity_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(identity.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"basic","standard"}
 type ContainerServiceNetworkProfile_LoadBalancerSku string
 
@@ -11907,219 +12474,6 @@ func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(reference.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserAssignedIdentity struct {
-	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UserAssignedIdentity{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identity == nil {
-		return nil, nil
-	}
-	result := &UserAssignedIdentity_ARM{}
-
-	// Set property ‘ClientId’:
-	if identity.ClientId != nil {
-		clientId := *identity.ClientId
-		result.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if identity.ObjectId != nil {
-		objectId := *identity.ObjectId
-		result.ObjectId = &objectId
-	}
-
-	// Set property ‘ResourceId’:
-	if identity.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.ResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		resourceReference := resourceReferenceARMID
-		result.ResourceId = &resourceReference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *UserAssignedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identity.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if typedInput.ObjectId != nil {
-		objectId := *typedInput.ObjectId
-		identity.ObjectId = &objectId
-	}
-
-	// no assignment for property ‘ResourceReference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20210501s.UserAssignedIdentity) error {
-
-	// ClientId
-	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ObjectId
-	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		identity.ResourceReference = &resourceReference
-	} else {
-		identity.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20210501s.UserAssignedIdentity) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
-
-	// ObjectId
-	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
-
-	// ResourceReference
-	if identity.ResourceReference != nil {
-		resourceReference := identity.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserAssignedIdentity_STATUS struct {
-	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// ResourceId: The resource ID of the user assigned identity.
-	ResourceId *string `json:"resourceId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identity.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if typedInput.ObjectId != nil {
-		objectId := *typedInput.ObjectId
-		identity.ObjectId = &objectId
-	}
-
-	// Set property ‘ResourceId’:
-	if typedInput.ResourceId != nil {
-		resourceId := *typedInput.ResourceId
-		identity.ResourceId = &resourceId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20210501s.UserAssignedIdentity_STATUS) error {
-
-	// ClientId
-	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ObjectId
-	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ResourceId
-	identity.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20210501s.UserAssignedIdentity_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
-
-	// ObjectId
-	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
-
-	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(identity.ResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -11,8 +11,9 @@ import (
 	"os"
 	"sort"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 type TypeCatalogReport struct {

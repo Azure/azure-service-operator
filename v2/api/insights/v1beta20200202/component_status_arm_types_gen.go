@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v1beta20200202
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 type Component_STATUS_ARM struct {
 	// Etag: Resource etag
 	Etag *string `json:"etag,omitempty"`
@@ -26,7 +24,7 @@ type Component_STATUS_ARM struct {
 	Properties *ApplicationInsightsComponentProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// Type: Azure resource type
 	Type *string `json:"type,omitempty"`

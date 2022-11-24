@@ -355,6 +355,9 @@ type DatabaseAccount_Spec struct {
 	// ApiProperties: API specific properties. Currently, supported only for MongoDB API.
 	ApiProperties *ApiProperties `json:"apiProperties,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

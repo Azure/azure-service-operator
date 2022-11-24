@@ -147,116 +147,6 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 	return results, nil
 }
 
-// GenerateDefinitionsFromDeploymentTemplate takes in the resources section of the Azure deployment template schema and returns golang AST Packages
-//    containing the types described in the schema which match the {resource_type}/{version} filters provided.
-//
-// 		The schema we are working with is something like the following (in yaml for brevity):
-//
-// 		resources:
-// 			items:
-// 				oneOf:
-// 					allOf:
-// 						$ref: {{ base resource schema for ARM }}
-// 						oneOf:
-// 							- ARM resources
-// 				oneOf:
-// 					allOf:
-// 						$ref: {{ base resource for external resources, think SendGrid }}
-// 						oneOf:
-// 							- External ARM resources
-// 				oneOf:
-// 					allOf:
-// 						$ref: {{ base resource for ARM specific stuff like locks, deployments, etc }}
-// 						oneOf:
-// 							- ARM specific resources. I'm not 100% sure why...
-//
-// 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
-func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx context.Context, root Schema) (astmodel.TypeDefinitionSet, error) {
-	ctx, span := tab.StartSpan(ctx, "GenerateDefinitionsFromDeploymentTemplate")
-	defer span.End()
-
-	resourcesProp, ok := root.properties()["resources"]
-	if !ok {
-		return nil, errors.Errorf("unable to find 'resources' property in deployment template")
-	}
-
-	resourcesOneOfJSON := resourcesProp.oneOf()
-	if len(resourcesOneOfJSON) != 2 {
-		return nil, errors.Errorf("expected 'resources' property to be a oneOf of length 2")
-	}
-
-	resourcesWithoutSymbolicName := resourcesOneOfJSON[0].refSchema()
-	if resourcesWithoutSymbolicName == nil {
-		return nil, errors.Errorf("expected 'resourcesWithoutSymbolicName' to be a ref")
-	}
-
-	if len(resourcesWithoutSymbolicName.items()) != 1 {
-		return nil, errors.Errorf("expected 'resourcesWithoutSymbolicName' items to be length 1")
-	}
-
-	resourcesArrayJSON := resourcesWithoutSymbolicName.items()[0].refSchema()
-
-	resourcesTypes, err := scanner.RunHandlerForSchema(ctx, resourcesArrayJSON)
-	if err != nil {
-		return nil, err
-	}
-
-	resourcesOneOf, ok := resourcesTypes.(*astmodel.OneOfType)
-	if !ok {
-		return nil, errors.Errorf("expected 'resources' property to be a oneOf")
-	}
-
-	err = resourcesOneOf.Types().ForEachError(func(oneType astmodel.Type, _ int) error {
-		allOf, ok := oneType.(*astmodel.AllOfType)
-		if !ok {
-			return errors.Errorf("unexpected resource shape: not an allOf")
-		}
-
-		var resourceRef astmodel.TypeName
-		var objectBase astmodel.TypeName
-		found := 0
-		allOf.Types().ForEach(func(t astmodel.Type, _ int) {
-			if typeName, match := t.(astmodel.TypeName); match {
-				if !strings.Contains(strings.ToLower(typeName.Name()), "resourcebase") {
-					resourceRef = typeName
-				} else {
-					objectBase = typeName
-				}
-				found++
-			}
-		})
-
-		if found != 2 {
-			return errors.Errorf("unexpected resource shape: expected a ref to base and ref to object")
-		}
-
-		resourceDef, ok := scanner.findTypeDefinition(resourceRef)
-		if !ok {
-			return errors.Errorf("unable to resolve resource definition for %s", resourceRef)
-		}
-
-		resourceType, ok := resourceDef.Type().(*astmodel.ResourceType)
-		if !ok {
-			// safety check
-			return errors.Errorf("resource reference %s in deployment template did not resolve to resource type", resourceRef)
-		}
-
-		// now we will remove the existing resource definition and replace it with a new one that includes the base type
-		// first, reconstruct the allof with an anonymous type instead of the typename
-		specType := astmodel.BuildAllOfType(objectBase, resourceType.SpecType())
-		// now replace it
-		scanner.removeTypeDefinition(resourceRef)
-		scanner.addTypeDefinition(resourceDef.WithType(astmodel.NewAzureResourceType(specType, nil, resourceDef.Name(), resourceType.Scope())))
-		return nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return scanner.Definitions(), nil
-}
-
 func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema Schema) (astmodel.TypeDefinitionSet, error) {
 	title := schema.title()
 	if title == nil {
@@ -967,7 +857,7 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 
 	// TODO: this whole switch is a bit wrong because type: 'object' can
 	// be combined with OneOf/AnyOf/etc. still, it works okay for now...
-	if len(schema.properties()) > 0 {
+	if len(schema.properties()) > 0 || schema.additionalPropertiesSchema() != nil {
 		// haven't figured out a type but it has properties, treat it as an object
 		return Object, nil
 	}

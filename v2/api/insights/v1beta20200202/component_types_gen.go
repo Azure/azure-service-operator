@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -395,7 +394,7 @@ type Component_Spec struct {
 	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
 
 	// Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
 	// is required to create an application with this API version. Applications from older versions will not have this property.
@@ -512,8 +511,10 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property ‘Tags’:
 	if component.Tags != nil {
-		tags := *(*component.Tags).DeepCopy()
-		result.Tags = &tags
+		result.Tags = make(map[string]string, len(component.Tags))
+		for key, value := range component.Tags {
+			result.Tags[key] = value
+		}
 	}
 	return result, nil
 }
@@ -673,8 +674,10 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		tags := *(*typedInput.Tags).DeepCopy()
-		component.Tags = &tags
+		component.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			component.Tags[key] = value
+		}
 	}
 
 	// no assignment for property ‘WorkspaceResourceReference’
@@ -851,12 +854,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 	}
 
 	// Tags
-	if source.Tags != nil {
-		tag := *source.Tags.DeepCopy()
-		component.Tags = &tag
-	} else {
-		component.Tags = nil
-	}
+	component.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// WorkspaceResourceReference
 	if source.WorkspaceResourceReference != nil {
@@ -993,12 +991,7 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 	}
 
 	// Tags
-	if component.Tags != nil {
-		tag := *component.Tags.DeepCopy()
-		destination.Tags = &tag
-	} else {
-		destination.Tags = nil
-	}
+	destination.Tags = genruntime.CloneMapOfStringToString(component.Tags)
 
 	// WorkspaceResourceReference
 	if component.WorkspaceResourceReference != nil {
@@ -1125,7 +1118,7 @@ type Component_STATUS struct {
 	SamplingPercentage *float64 `json:"SamplingPercentage,omitempty"`
 
 	// Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// TenantId: Azure Tenant Id.
 	TenantId *string `json:"TenantId,omitempty"`
@@ -1447,8 +1440,10 @@ func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		tags := *(*typedInput.Tags).DeepCopy()
-		component.Tags = &tags
+		component.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			component.Tags[key] = value
+		}
 	}
 
 	// Set property ‘TenantId’:
@@ -1640,12 +1635,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 	}
 
 	// Tags
-	if source.Tags != nil {
-		tag := *source.Tags.DeepCopy()
-		component.Tags = &tag
-	} else {
-		component.Tags = nil
-	}
+	component.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TenantId
 	component.TenantId = genruntime.ClonePointerToString(source.TenantId)
@@ -1823,12 +1813,7 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 	}
 
 	// Tags
-	if component.Tags != nil {
-		tag := *component.Tags.DeepCopy()
-		destination.Tags = &tag
-	} else {
-		destination.Tags = nil
-	}
+	destination.Tags = genruntime.CloneMapOfStringToString(component.Tags)
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(component.TenantId)

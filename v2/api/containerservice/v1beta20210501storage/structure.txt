@@ -12,7 +12,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: *v1.JSON
+│   │   ├── AddonProfiles: Object (3 properties)
+│   │   │   ├── Config: map[string]string
+│   │   │   ├── Enabled: *bool
+│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── AgentPoolProfiles: Object (35 properties)
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
@@ -125,7 +128,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   ├── AutoUpgradeProfile: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UpgradeChannel: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (3 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string
@@ -145,7 +151,11 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   ├── Identity: Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
-│   │   ├── IdentityProfile: *v1.JSON
+│   │   ├── IdentityProfile: Object (4 properties)
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: Object (3 properties)
 │   │   │   ├── AdminUsername: *string
@@ -248,7 +258,15 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │   ├── ServerAppID: *string
 │       │   ├── ServerAppSecret: *string
 │       │   └── TenantID: *string
-│       ├── AddonProfiles: *v1.JSON
+│       ├── AddonProfiles: Object (4 properties)
+│       │   ├── Config: map[string]string
+│       │   ├── Enabled: *bool
+│       │   ├── Identity: Object (4 properties)
+│       │   │   ├── ClientId: *string
+│       │   │   ├── ObjectId: *string
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   └── ResourceId: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── AgentPoolProfiles: Object (38 properties)
 │       │   ├── AvailabilityZones: string[]
 │       │   ├── Count: *int
@@ -395,7 +413,11 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── PropertyBag: genruntime.PropertyBag
-│       ├── IdentityProfile: *v1.JSON
+│       ├── IdentityProfile: Object (4 properties)
+│       │   ├── ClientId: *string
+│       │   ├── ObjectId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── ResourceId: *string
 │       ├── KubernetesVersion: *string
 │       ├── LinuxProfile: Object (3 properties)
 │       │   ├── AdminUsername: *string

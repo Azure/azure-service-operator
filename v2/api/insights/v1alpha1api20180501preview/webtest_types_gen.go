@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -369,7 +368,7 @@ type Webtest_Spec struct {
 
 	// +kubebuilder:validation:Required
 	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
-	Tags               *v1.JSON                           `json:"tags,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
 	Timeout            *int                               `json:"Timeout,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
@@ -473,8 +472,10 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Tags’:
 	if webtest.Tags != nil {
-		tags := *(*webtest.Tags).DeepCopy()
-		result.Tags = &tags
+		result.Tags = make(map[string]string, len(webtest.Tags))
+		for key, value := range webtest.Tags {
+			result.Tags[key] = value
+		}
 	}
 	return result, nil
 }
@@ -609,8 +610,10 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		tags := *(*typedInput.Tags).DeepCopy()
-		webtest.Tags = &tags
+		webtest.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			webtest.Tags[key] = value
+		}
 	}
 
 	// Set property ‘Timeout’:
@@ -786,12 +789,7 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *alpha201
 	webtest.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
 
 	// Tags
-	if source.Tags != nil {
-		tag := *source.Tags.DeepCopy()
-		webtest.Tags = &tag
-	} else {
-		webtest.Tags = nil
-	}
+	webtest.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Timeout
 	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
@@ -913,12 +911,7 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *alpha
 	destination.SyntheticMonitorId = genruntime.ClonePointerToString(webtest.SyntheticMonitorId)
 
 	// Tags
-	if webtest.Tags != nil {
-		tag := *webtest.Tags.DeepCopy()
-		destination.Tags = &tag
-	} else {
-		destination.Tags = nil
-	}
+	destination.Tags = genruntime.CloneMapOfStringToString(webtest.Tags)
 
 	// Timeout
 	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
@@ -972,7 +965,7 @@ type Webtest_STATUS struct {
 	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
-	Tags               *v1.JSON                                  `json:"tags,omitempty"`
+	Tags               map[string]string                         `json:"tags,omitempty"`
 	Timeout            *int                                      `json:"Timeout,omitempty"`
 	Type               *string                                   `json:"type,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
@@ -1177,8 +1170,10 @@ func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		tags := *(*typedInput.Tags).DeepCopy()
-		webtest.Tags = &tags
+		webtest.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			webtest.Tags[key] = value
+		}
 	}
 
 	// Set property ‘Timeout’:
@@ -1311,12 +1306,7 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *alph
 	webtest.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
 
 	// Tags
-	if source.Tags != nil {
-		tag := *source.Tags.DeepCopy()
-		webtest.Tags = &tag
-	} else {
-		webtest.Tags = nil
-	}
+	webtest.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Timeout
 	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
@@ -1439,12 +1429,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *a
 	destination.SyntheticMonitorId = genruntime.ClonePointerToString(webtest.SyntheticMonitorId)
 
 	// Tags
-	if webtest.Tags != nil {
-		tag := *webtest.Tags.DeepCopy()
-		destination.Tags = &tag
-	} else {
-		destination.Tags = nil
-	}
+	destination.Tags = genruntime.CloneMapOfStringToString(webtest.Tags)
 
 	// Timeout
 	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
