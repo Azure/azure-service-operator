@@ -8,6 +8,8 @@ stripUnreferenced                                            Strip unreferenced 
 removeAliases                                                Remove type aliases
 nameTypes                                                    Name inner types for CRD
 propertyRewrites                                             Modify property types using configured transforms
+applyIsResourceOverrides                                     Apply $isResource overrides to objects
+fixIdFields                                                  Remove ARM ID annotations from status, and Id from Spec types
 add-api-version-enums                                        Add enums for API Versions in each package
 removeAliases                                                Remove type aliases
 removeResourceScope                                          Remove scope from all resources
