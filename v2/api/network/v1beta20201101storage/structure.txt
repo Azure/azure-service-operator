@@ -431,12 +431,15 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │           ├── Id: *string
 │           └── PropertyBag: genruntime.PropertyBag
 ├── NetworkSecurityGroup: Resource
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecurityRules: Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── Tags: map[string]string
 │   └── Status: Object (15 properties)
 │       ├── Conditions: conditions.Condition[]

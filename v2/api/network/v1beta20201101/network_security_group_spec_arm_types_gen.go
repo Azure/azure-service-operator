@@ -10,6 +10,9 @@ type NetworkSecurityGroup_Spec_ARM struct {
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
+	// Properties: Properties of the network security group.
+	Properties *NetworkSecurityGroupPropertiesFormat_ARM `json:"properties,omitempty"`
+
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -29,4 +32,13 @@ func (group *NetworkSecurityGroup_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (group *NetworkSecurityGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
+}
+
+type NetworkSecurityGroupPropertiesFormat_ARM struct {
+	// SecurityRules: A collection of security rules of the network security group.
+	SecurityRules []SecurityRule_ARM `json:"securityRules,omitempty"`
+}
+
+type SecurityRule_ARM struct {
+	Id *string `json:"id,omitempty"`
 }

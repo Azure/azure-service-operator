@@ -7,9 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1beta20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_Spec_ARM struct {
-	Location *string           `json:"location,omitempty"`
-	Name     string            `json:"name,omitempty"`
-	Tags     map[string]string `json:"tags,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Name       string                                    `json:"name,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                         `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_Spec_ARM{}
@@ -27,4 +28,14 @@ func (group *NetworkSecurityGroup_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (group *NetworkSecurityGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
+}
+
+// Deprecated version of NetworkSecurityGroupPropertiesFormat. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat instead
+type NetworkSecurityGroupPropertiesFormat_ARM struct {
+	SecurityRules []SecurityRule_ARM `json:"securityRules,omitempty"`
+}
+
+// Deprecated version of SecurityRule. Use v1beta20201101.SecurityRule instead
+type SecurityRule_ARM struct {
+	Id *string `json:"id,omitempty"`
 }
