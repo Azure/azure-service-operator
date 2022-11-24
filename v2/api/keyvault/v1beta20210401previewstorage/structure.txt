@@ -8,9 +8,11 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── Properties: Object (15 properties)
-    │   │   ├── AccessPolicies: Object (5 properties)
+    │   │   ├── AccessPolicies: Object (8 properties)
     │   │   │   ├── ApplicationId: *string
+    │   │   │   ├── ApplicationIdFromConfig: *genruntime.ConfigMapReference
     │   │   │   ├── ObjectId: *string
+    │   │   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
     │   │   │   ├── Permissions: Object (5 properties)
     │   │   │   │   ├── Certificates: string[]
     │   │   │   │   ├── Keys: string[]
@@ -18,7 +20,8 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
     │   │   │   │   ├── Secrets: string[]
     │   │   │   │   └── Storage: string[]
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── TenantId: *string
+    │   │   │   ├── TenantId: *string
+    │   │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
     │   │   ├── CreateMode: *string
     │   │   ├── EnablePurgeProtection: *bool
     │   │   ├── EnableRbacAuthorization: *bool

@@ -66,21 +66,57 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"asotestbwkwxe","properties":{"accessPolicies":[{"applicationId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]},"tenantId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3"}],"sku":{"family":"A","name":"standard"},"tenantId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3"}}'
+    body: '{"location":"westcentralus","name":"sampleuserassignedidentity"}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "421"
+      - "64"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"e34593c5-d040-46ec-8a7a-c943fc959bf2","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","accessPolicies":[{"tenantId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","clientId":"75b1b21b-a566-4625-85f5-adb687c97d93"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "478"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"location":"westcentralus","name":"sampleuserassignedidentity"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "64"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","clientId":"75b1b21b-a566-4625-85f5-adb687c97d93"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -90,18 +126,12 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
-      X-Aspnet-Version:
-      - 4.0.30319
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Keyvault-Service-Version:
-      - 1.5.534.0
     status: 200 OK
     code: 200
     duration: ""
@@ -113,10 +143,44 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"e34593c5-d040-46ec-8a7a-c943fc959bf2","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","accessPolicies":[{"tenantId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity","name":"sampleuserassignedidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westcentralus","tags":{},"properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","clientId":"75b1b21b-a566-4625-85f5-adb687c97d93"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westcentralus","name":"asotestbwkwxe","properties":{"accessPolicies":[{"applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"},{"applicationId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]},"tenantId":"00000000-0000-0000-0000-000000000000"}],"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "668"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}},{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net","provisioningState":"RegisteringDns"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -137,7 +201,179 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Keyvault-Service-Version:
-      - 1.5.534.0
+      - 1.5.564.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}},{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"RegisteringDns"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.564.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}},{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"RegisteringDns"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.564.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}},{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"RegisteringDns"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.564.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}},{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.564.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe?api-version=2021-04-01-preview
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.KeyVault/vaults/asotestbwkwxe","name":"asotestbwkwxe","type":"Microsoft.KeyVault/vaults","location":"westcentralus","tags":{},"systemData":{"createdBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"4bf23efa-966f-4c61-a4a7-1cdd0831bf60","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"properties":{"sku":{"family":"A","name":"standard"},"tenantId":"00000000-0000-0000-0000-000000000000","accessPolicies":[{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"b3a37a8c-6b32-48ad-99c5-700be0e9ea19","applicationId":"75b1b21b-a566-4625-85f5-adb687c97d93","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}},{"tenantId":"00000000-0000-0000-0000-000000000000","objectId":"1C793267-c310-d4ae-7BD5-5Af5BEF875D3","applicationId":"1c793267-c310-d4ae-7bd5-5af5bef875d3","permissions":{"certificates":["get"],"keys":["get"],"secrets":["get"],"storage":["get"]}}],"enabledForDeployment":false,"enableSoftDelete":true,"vaultUri":"https://asotestbwkwxe.vault.azure.net/","provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Keyvault-Service-Version:
+      - 1.5.564.0
     status: 200 OK
     code: 200
     duration: ""
@@ -318,6 +554,39 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ddhnin/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sampleuserassignedidentity?api-version=2018-11-30
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ddhnin''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
 - request:
     body: ""

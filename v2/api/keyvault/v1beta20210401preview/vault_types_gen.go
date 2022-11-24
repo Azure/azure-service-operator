@@ -214,7 +214,7 @@ func (vault *Vault) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (vault *Vault) createValidations() []func() error {
-	return []func() error{vault.validateResourceReferences}
+	return []func() error{vault.validateResourceReferences, vault.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,7 +228,20 @@ func (vault *Vault) updateValidations() []func(old runtime.Object) error {
 		func(old runtime.Object) error {
 			return vault.validateResourceReferences()
 		},
-		vault.validateWriteOnceProperties}
+		vault.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return vault.validateOptionalConfigMapReferences()
+		},
+	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (vault *Vault) validateOptionalConfigMapReferences() error {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&vault.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -2024,21 +2037,30 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 type AccessPolicyEntry struct {
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
-	ApplicationId *string `json:"applicationId,omitempty"`
+	ApplicationId *string `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
 
-	// +kubebuilder:validation:Required
+	// ApplicationIdFromConfig:  Application ID of the client making request on behalf of a principal
+	ApplicationIdFromConfig *genruntime.ConfigMapReference `json:"applicationIdFromConfig,omitempty" optionalConfigMapPair:"ApplicationId"`
+
 	// ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
 	// vault. The object ID must be unique for the list of access policies.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+
+	// ObjectIdFromConfig: The object ID of a user, service principal or security group in the Azure Active Directory tenant
+	// for the vault. The object ID must be unique for the list of access policies.
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// +kubebuilder:validation:Required
 	// Permissions: Permissions the identity has for keys, secrets and certificates.
 	Permissions *Permissions `json:"permissions,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: The Azure Active Directory tenant ID that should be used for authenticating requests to the key
+	// vault.
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &AccessPolicyEntry{}
@@ -2055,10 +2077,26 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 		applicationId := *entry.ApplicationId
 		result.ApplicationId = &applicationId
 	}
+	if entry.ApplicationIdFromConfig != nil {
+		applicationIdValue, err := resolved.ResolvedConfigMaps.Lookup(*entry.ApplicationIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ApplicationId")
+		}
+		applicationId := applicationIdValue
+		result.ApplicationId = &applicationId
+	}
 
 	// Set property ‘ObjectId’:
 	if entry.ObjectId != nil {
 		objectId := *entry.ObjectId
+		result.ObjectId = &objectId
+	}
+	if entry.ObjectIdFromConfig != nil {
+		objectIdValue, err := resolved.ResolvedConfigMaps.Lookup(*entry.ObjectIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property ObjectId")
+		}
+		objectId := objectIdValue
 		result.ObjectId = &objectId
 	}
 
@@ -2075,6 +2113,14 @@ func (entry *AccessPolicyEntry) ConvertToARM(resolved genruntime.ConvertToARMRes
 	// Set property ‘TenantId’:
 	if entry.TenantId != nil {
 		tenantId := *entry.TenantId
+		result.TenantId = &tenantId
+	}
+	if entry.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*entry.TenantIdFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 	return result, nil
@@ -2098,11 +2144,15 @@ func (entry *AccessPolicyEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		entry.ApplicationId = &applicationId
 	}
 
+	// no assignment for property ‘ApplicationIdFromConfig’
+
 	// Set property ‘ObjectId’:
 	if typedInput.ObjectId != nil {
 		objectId := *typedInput.ObjectId
 		entry.ObjectId = &objectId
 	}
+
+	// no assignment for property ‘ObjectIdFromConfig’
 
 	// Set property ‘Permissions’:
 	if typedInput.Permissions != nil {
@@ -2121,6 +2171,8 @@ func (entry *AccessPolicyEntry) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		entry.TenantId = &tenantId
 	}
 
+	// no assignment for property ‘TenantIdFromConfig’
+
 	// No error
 	return nil
 }
@@ -2136,8 +2188,24 @@ func (entry *AccessPolicyEntry) AssignProperties_From_AccessPolicyEntry(source *
 		entry.ApplicationId = nil
 	}
 
+	// ApplicationIdFromConfig
+	if source.ApplicationIdFromConfig != nil {
+		applicationIdFromConfig := source.ApplicationIdFromConfig.Copy()
+		entry.ApplicationIdFromConfig = &applicationIdFromConfig
+	} else {
+		entry.ApplicationIdFromConfig = nil
+	}
+
 	// ObjectId
 	entry.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		entry.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		entry.ObjectIdFromConfig = nil
+	}
 
 	// Permissions
 	if source.Permissions != nil {
@@ -2159,6 +2227,14 @@ func (entry *AccessPolicyEntry) AssignProperties_From_AccessPolicyEntry(source *
 		entry.TenantId = nil
 	}
 
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		entry.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		entry.TenantIdFromConfig = nil
+	}
+
 	// No error
 	return nil
 }
@@ -2176,8 +2252,24 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 		destination.ApplicationId = nil
 	}
 
+	// ApplicationIdFromConfig
+	if entry.ApplicationIdFromConfig != nil {
+		applicationIdFromConfig := entry.ApplicationIdFromConfig.Copy()
+		destination.ApplicationIdFromConfig = &applicationIdFromConfig
+	} else {
+		destination.ApplicationIdFromConfig = nil
+	}
+
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(entry.ObjectId)
+
+	// ObjectIdFromConfig
+	if entry.ObjectIdFromConfig != nil {
+		objectIdFromConfig := entry.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
 
 	// Permissions
 	if entry.Permissions != nil {
@@ -2197,6 +2289,14 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 		destination.TenantId = &tenantId
 	} else {
 		destination.TenantId = nil
+	}
+
+	// TenantIdFromConfig
+	if entry.TenantIdFromConfig != nil {
+		tenantIdFromConfig := entry.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
 	}
 
 	// Update the property bag

@@ -94,17 +94,17 @@ type VaultProperties_ARM struct {
 
 type AccessPolicyEntry_ARM struct {
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
-	ApplicationId *string `json:"applicationId,omitempty"`
+	ApplicationId *string `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
 
 	// ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
 	// vault. The object ID must be unique for the list of access policies.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// Permissions: Permissions the identity has for keys, secrets and certificates.
 	Permissions *Permissions_ARM `json:"permissions,omitempty"`
 
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 type NetworkRuleSet_ARM struct {

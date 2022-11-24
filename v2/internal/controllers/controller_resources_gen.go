@@ -344,7 +344,29 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20180501ps.Webtest)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20200202s.Component)})
-	result = append(result, &registration.StorageType{Obj: new(keyvault_v20210401ps.Vault)})
+	result = append(result, &registration.StorageType{
+		Obj: new(keyvault_v20210401ps.Vault),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.accessPolicies.applicationIdFromConfig",
+				Func: indexKeyvaultVaultApplicationIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.accessPolicies.objectIdFromConfig",
+				Func: indexKeyvaultVaultObjectIdFromConfig,
+			},
+			{
+				Key:  ".spec.properties.accessPolicies.tenantIdFromConfig",
+				Func: indexKeyvaultVaultTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.properties.accessPolicies.applicationIdFromConfig", ".spec.properties.accessPolicies.objectIdFromConfig", ".spec.properties.accessPolicies.tenantIdFromConfig"}, &keyvault_v20210401ps.VaultList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v20210701s.Workspace)})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
@@ -1211,6 +1233,63 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexKeyvaultVaultApplicationIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.applicationIdFromConfig
+func indexKeyvaultVaultApplicationIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, accessPolicyItem := range obj.Spec.Properties.AccessPolicies {
+		if accessPolicyItem.ApplicationIdFromConfig == nil {
+			continue
+		}
+		result = append(result, accessPolicyItem.ApplicationIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexKeyvaultVaultObjectIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.objectIdFromConfig
+func indexKeyvaultVaultObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, accessPolicyItem := range obj.Spec.Properties.AccessPolicies {
+		if accessPolicyItem.ObjectIdFromConfig == nil {
+			continue
+		}
+		result = append(result, accessPolicyItem.ObjectIdFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexKeyvaultVaultTenantIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.tenantIdFromConfig
+func indexKeyvaultVaultTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*keyvault_v20210401ps.Vault)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, accessPolicyItem := range obj.Spec.Properties.AccessPolicies {
+		if accessPolicyItem.TenantIdFromConfig == nil {
+			continue
+		}
+		result = append(result, accessPolicyItem.TenantIdFromConfig.Index()...)
+	}
+	return result
 }
 
 // indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
