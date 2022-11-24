@@ -73,7 +73,8 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 				spec := resourceToSpec.MustGetDefinition(resourceName)
 				status := resourceToStatus.MustGetDefinition(resourceName)
 
-				specType := addRequiredSpecFields(spec.Type())
+				specType := spec.Type()
+				specType = addRequiredSpecFields(specType)
 				statusType := status.Type()
 
 				resourceType := astmodel.NewResourceType(specType, statusType)
@@ -94,9 +95,18 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 						fmt.Sprintf(" - ARM URI: %s", resourceInfo.ARMURI),
 					)
 
-				err := defs.AddAllowDuplicates(resourceDefinition)
+				err = defs.AddAllowDuplicates(resourceDefinition)
 				if err != nil {
 					return nil, err
+				}
+
+				err = addObjectResourceLinkIfNeeded(defs, spec, resourceName)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to add resource link to %s", spec.Name())
+				}
+				err = addObjectResourceLinkIfNeeded(defs, status, resourceName)
+				if err != nil {
+					return nil, errors.Wrapf(err, "failed to add resource link to %s", status.Name())
 				}
 			}
 
@@ -129,50 +139,6 @@ var requiredSpecFields = astmodel.NewObjectType().WithProperties(
 
 func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
 	return astmodel.BuildAllOfType(t, requiredSpecFields)
-}
-
-type statusTypes struct {
-	// resourceTypes maps Spec name to corresponding Status type
-	// the typeName is lowercased to be case-insensitive
-	resourceTypes resourceLookup
-
-	// otherDefinitions has all other Status types renamed to avoid clashes with Spec types
-	otherDefinitions astmodel.TypeDefinitionSet
-}
-
-func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
-	if statusDef, ok := st.resourceTypes.tryFind(typeName); ok {
-		klog.V(4).Infof("Swagger information found for %s", typeName)
-		return statusDef, true
-	} else {
-		klog.V(3).Infof("Swagger information missing for %s", typeName)
-		// add a warning that the status is missing
-		// this will be reported if the type is not pruned
-		return astmodel.NewErroredType(nil, []string{fmt.Sprintf("missing status information for %s", typeName)}, nil), false
-	}
-}
-
-type resourceLookup map[astmodel.TypeName]astmodel.Type
-
-func asKey(name astmodel.TypeName) astmodel.TypeName {
-	n := strings.ToLower(name.Name())
-	n = strings.ReplaceAll(n, "_", "")
-
-	return astmodel.MakeTypeName(name.PackageReference, n)
-}
-
-func (resourceLookup resourceLookup) tryFind(name astmodel.TypeName) (astmodel.Type, bool) {
-	result, ok := resourceLookup[asKey(name)]
-	return result, ok
-}
-
-func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmodel.Type) {
-	lower := asKey(name)
-	if _, ok := resourceLookup[lower]; ok {
-		panic(fmt.Sprintf("lowercase name collision: %s", name))
-	}
-
-	resourceLookup[lower] = theType
 }
 
 // generateStatusTypes returns the statusTypes for the input Swagger types
@@ -761,4 +727,49 @@ func versionFromPath(filePath string, rootPath string) string {
 	// must trim leading & trailing '/' as golang does not support lookaround
 	fp := filepath.ToSlash(filePath)
 	return strings.Trim(swaggerVersionRegex.FindString(fp), "/")
+}
+
+func addResource(spec astmodel.TypeDefinition, resourceName astmodel.TypeName) (astmodel.TypeDefinition, error) {
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+			it = it.WithResource(resourceName).WithIsResource(true)
+			return it, nil
+		},
+	}.Build()
+
+	updatedSpec, err := visitor.VisitDefinition(spec, nil)
+	if err != nil {
+		return astmodel.TypeDefinition{}, err
+	}
+	return updatedSpec, nil
+}
+
+func compareObjectTypeIgnoreIsResource(left *astmodel.ObjectType, right *astmodel.ObjectType) bool {
+	left = left.ClearResources().WithIsResource(false)
+	right = right.ClearResources().WithIsResource(false)
+
+	return astmodel.TypeEquals(left, right)
+}
+
+func addObjectResourceLinkIfNeeded(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinition, resourceName astmodel.TypeName) error {
+	// Determine if this resource spec is pointing to a type defined elsewhere in the module
+	resolvedDef, err := defs.FullyResolveDefinition(def)
+	if err != nil {
+		return err
+	}
+
+	if astmodel.TypeEquals(resolvedDef.Type(), def.Type()) {
+		return nil
+	}
+	updatedDef, err := addResource(resolvedDef, resourceName)
+	if err != nil {
+		return err
+	}
+	existing, ok := defs[updatedDef.Name()]
+	// TODO: Is this spendy?
+	if !ok || astmodel.TypeEquals(existing.Type(), updatedDef.Type(), astmodel.EqualityOverrides{ObjectType: compareObjectTypeIgnoreIsResource}) {
+		defs[updatedDef.Name()] = updatedDef
+	}
+
+	return nil
 }

@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 ├── APIVersion: Enum (1 value)
 │   └── "2021-11-01"
 ├── Namespace: Resource
-│   ├── Spec: Object (15 properties)
+│   ├── Spec: Object (14 properties)
 │   │   ├── AlternateName: *string
 │   │   ├── AzureName: string
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
@@ -28,9 +28,6 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   ├── Location: *string
 │   │   ├── MaximumThroughputUnits: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PrivateEndpointConnections: Object (1 property)
-│   │   │   └── PrivateEndpoint: Object (1 property)
-│   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Sku: Object (3 properties)
 │   │   │   ├── Capacity: Validated<*int> (1 rule)
 │   │   │   │   └── Rule 0: {Minimum 0}
@@ -78,23 +75,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │       ├── MaximumThroughputUnits: *int
 │       ├── MetricId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: Object (2 properties)
-│       │   ├── Id: *string
-│       │   └── SystemData: Object (6 properties)
-│       │       ├── CreatedAt: *string
-│       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: Enum (4 values)
-│       │       │   ├── "Application"
-│       │       │   ├── "Key"
-│       │       │   ├── "ManagedIdentity"
-│       │       │   └── "User"
-│       │       ├── LastModifiedAt: *string
-│       │       ├── LastModifiedBy: *string
-│       │       └── LastModifiedByType: Enum (4 values)
-│       │           ├── "Application"
-│       │           ├── "Key"
-│       │           ├── "ManagedIdentity"
-│       │           └── "User"
+│       ├── PrivateEndpointConnections: Object (1 property)
+│       │   └── Id: *string
 │       ├── ProvisioningState: *string
 │       ├── ServiceBusEndpoint: *string
 │       ├── Sku: Object (3 properties)
@@ -161,23 +143,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   ├── KafkaEnabled: *bool
 │   │   ├── MaximumThroughputUnits: *int
 │   │   ├── MetricId: *string
-│   │   ├── PrivateEndpointConnections: Object (2 properties)
-│   │   │   ├── Id: *string
-│   │   │   └── SystemData: Object (6 properties)
-│   │   │       ├── CreatedAt: *string
-│   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: Enum (4 values)
-│   │   │       │   ├── "Application"
-│   │   │       │   ├── "Key"
-│   │   │       │   ├── "ManagedIdentity"
-│   │   │       │   └── "User"
-│   │   │       ├── LastModifiedAt: *string
-│   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: Enum (4 values)
-│   │   │           ├── "Application"
-│   │   │           ├── "Key"
-│   │   │           ├── "ManagedIdentity"
-│   │   │           └── "User"
+│   │   ├── PrivateEndpointConnections: Object (1 property)
+│   │   │   └── Id: *string
 │   │   ├── ProvisioningState: *string
 │   │   ├── ServiceBusEndpoint: *string
 │   │   ├── Status: *string
@@ -219,7 +186,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       └── "UserAssigned"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (9 properties)
+│   ├── Properties: Object (8 properties)
 │   │   ├── AlternateName: *string
 │   │   ├── ClusterArmId: *string
 │   │   ├── DisableLocalAuth: *bool
@@ -236,10 +203,6 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   ├── IsAutoInflateEnabled: *bool
 │   │   ├── KafkaEnabled: *bool
 │   │   ├── MaximumThroughputUnits: *int
-│   │   ├── PrivateEndpointConnections: Object (1 property)
-│   │   │   └── Properties: Object (1 property)
-│   │   │       └── PrivateEndpoint: Object (1 property)
-│   │   │           └── Id: *string
 │   │   └── ZoneRedundant: *bool
 │   ├── Sku: Object (3 properties)
 │   │   ├── Capacity: *int

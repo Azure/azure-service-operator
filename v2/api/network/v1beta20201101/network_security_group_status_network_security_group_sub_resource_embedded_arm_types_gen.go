@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-type NetworkSecurityGroup_STATUS_SubResourceEmbedded_ARM struct {
+type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
 
@@ -17,7 +17,7 @@ type NetworkSecurityGroup_STATUS_SubResourceEmbedded_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -26,12 +26,12 @@ type NetworkSecurityGroup_STATUS_SubResourceEmbedded_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
+type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	// DefaultSecurityRules: The default security rules of network security group.
-	DefaultSecurityRules []SecurityRule_STATUS_SubResourceEmbedded_ARM `json:"defaultSecurityRules,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS_ARM `json:"defaultSecurityRules,omitempty"`
 
 	// FlowLogs: A collection of references to flow log resources.
-	FlowLogs []FlowLog_STATUS_SubResourceEmbedded_ARM `json:"flowLogs,omitempty"`
+	FlowLogs []FlowLog_STATUS_ARM `json:"flowLogs,omitempty"`
 
 	// NetworkInterfaces: A collection of references to network interfaces.
 	NetworkInterfaces []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
@@ -43,26 +43,23 @@ type NetworkSecurityGroupPropertiesFormat_STATUS_SubResourceEmbedded_ARM struct 
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_STATUS_SubResourceEmbedded_ARM `json:"securityRules,omitempty"`
+	SecurityRules []SecurityRule_STATUS_ARM `json:"securityRules,omitempty"`
 
 	// Subnets: A collection of references to subnets.
 	Subnets []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"subnets,omitempty"`
 }
 
-type FlowLog_STATUS_SubResourceEmbedded_ARM struct {
+type FlowLog_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
 type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
-	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
-
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-type SecurityRule_STATUS_SubResourceEmbedded_ARM struct {
+type SecurityRule_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

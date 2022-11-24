@@ -25,8 +25,8 @@ import (
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkInterface_Spec   `json:"spec,omitempty"`
-	Status            NetworkInterface_STATUS `json:"status,omitempty"`
+	Spec              NetworkInterface_Spec                                        `json:"spec,omitempty"`
+	Status            NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NetworkInterface{}
@@ -97,7 +97,7 @@ func (networkInterface *NetworkInterface) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (networkInterface *NetworkInterface) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NetworkInterface_STATUS{}
+	return &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (networkInterface *NetworkInterface) Owner() *genruntime.ResourceReference 
 // SetStatus sets the status of this resource
 func (networkInterface *NetworkInterface) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NetworkInterface_STATUS); ok {
+	if st, ok := status.(*NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		networkInterface.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NetworkInterface_STATUS
+	var st NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (networkInterface *NetworkInterface) AssignProperties_From_NetworkInterface
 	networkInterface.Spec = spec
 
 	// Status
-	var status NetworkInterface_STATUS
-	err = status.AssignProperties_From_NetworkInterface_STATUS(&source.Status)
+	var status NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+	err = status.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
 	}
 	networkInterface.Status = status
 
@@ -170,10 +170,10 @@ func (networkInterface *NetworkInterface) AssignProperties_To_NetworkInterface(d
 	destination.Spec = spec
 
 	// Status
-	var status v20201101s.NetworkInterface_STATUS
-	err = networkInterface.Status.AssignProperties_To_NetworkInterface_STATUS(&status)
+	var status v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+	err = networkInterface.Status.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -203,17 +203,16 @@ type NetworkInterfaceList struct {
 type NetworkInterface_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                   string                            `json:"azureName,omitempty"`
-	DnsSettings                 *NetworkInterfaceDnsSettings      `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                             `json:"enableAcceleratedNetworking,omitempty"`
-	EnableIPForwarding          *bool                             `json:"enableIPForwarding,omitempty"`
-	ExtendedLocation            *ExtendedLocation                 `json:"extendedLocation,omitempty"`
-	IpConfigurations            []NetworkInterfaceIPConfiguration `json:"ipConfigurations,omitempty"`
-	Location                    *string                           `json:"location,omitempty"`
-	MigrationPhase              *string                           `json:"migrationPhase,omitempty"`
-	NetworkSecurityGroup        *NetworkSecurityGroupSpec         `json:"networkSecurityGroup,omitempty"`
-	NicType                     *string                           `json:"nicType,omitempty"`
-	OriginalVersion             string                            `json:"originalVersion,omitempty"`
+	AzureName                   string                                                                 `json:"azureName,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings                                           `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                  `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                  `json:"enableIPForwarding,omitempty"`
+	ExtendedLocation            *ExtendedLocation                                                      `json:"extendedLocation,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                `json:"location,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded         `json:"networkSecurityGroup,omitempty"`
+	NicType                     *string                                                                `json:"nicType,omitempty"`
+	OriginalVersion             string                                                                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -222,7 +221,6 @@ type NetworkInterface_Spec struct {
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PrivateLinkService *PrivateLinkServiceSpec            `json:"privateLinkService,omitempty"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Reference          *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
 	Tags               map[string]string                  `json:"tags,omitempty"`
 }
 
@@ -326,14 +324,14 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]NetworkInterfaceIPConfiguration, len(source.IpConfigurations))
+		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration NetworkInterfaceIPConfiguration
-			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration(&ipConfigurationItem)
+			var ipConfiguration NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -345,15 +343,12 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 	// Location
 	networkInterface.Location = genruntime.ClonePointerToString(source.Location)
 
-	// MigrationPhase
-	networkInterface.MigrationPhase = genruntime.ClonePointerToString(source.MigrationPhase)
-
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup NetworkSecurityGroupSpec
-		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroupSpec(source.NetworkSecurityGroup)
+		var networkSecurityGroup NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupSpec() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		networkInterface.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -384,14 +379,6 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		networkInterface.PrivateLinkService = &privateLinkService
 	} else {
 		networkInterface.PrivateLinkService = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		networkInterface.Reference = &reference
-	} else {
-		networkInterface.Reference = nil
 	}
 
 	// Tags
@@ -458,14 +445,14 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 
 	// IpConfigurations
 	if networkInterface.IpConfigurations != nil {
-		ipConfigurationList := make([]v20201101s.NetworkInterfaceIPConfiguration, len(networkInterface.IpConfigurations))
+		ipConfigurationList := make([]v20201101s.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(networkInterface.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range networkInterface.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v20201101s.NetworkInterfaceIPConfiguration
-			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration(&ipConfiguration)
+			var ipConfiguration v20201101s.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -477,15 +464,12 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 	// Location
 	destination.Location = genruntime.ClonePointerToString(networkInterface.Location)
 
-	// MigrationPhase
-	destination.MigrationPhase = genruntime.ClonePointerToString(networkInterface.MigrationPhase)
-
 	// NetworkSecurityGroup
 	if networkInterface.NetworkSecurityGroup != nil {
-		var networkSecurityGroup v20201101s.NetworkSecurityGroupSpec
-		err := networkInterface.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroupSpec(&networkSecurityGroup)
+		var networkSecurityGroup v20201101s.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+		err := networkInterface.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupSpec() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -518,14 +502,6 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		destination.PrivateLinkService = nil
 	}
 
-	// Reference
-	if networkInterface.Reference != nil {
-		reference := networkInterface.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(networkInterface.Tags)
 
@@ -540,56 +516,56 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkInterface_STATUS
-// Deprecated version of NetworkInterface_STATUS. Use v1beta20201101.NetworkInterface_STATUS instead
-type NetworkInterface_STATUS struct {
-	Conditions                  []conditions.Condition                    `json:"conditions,omitempty"`
-	DnsSettings                 *NetworkInterfaceDnsSettings_STATUS       `json:"dnsSettings,omitempty"`
-	DscpConfiguration           *SubResource_STATUS                       `json:"dscpConfiguration,omitempty"`
-	EnableAcceleratedNetworking *bool                                     `json:"enableAcceleratedNetworking,omitempty"`
-	EnableIPForwarding          *bool                                     `json:"enableIPForwarding,omitempty"`
-	Etag                        *string                                   `json:"etag,omitempty"`
-	ExtendedLocation            *ExtendedLocation_STATUS                  `json:"extendedLocation,omitempty"`
-	HostedWorkloads             []string                                  `json:"hostedWorkloads,omitempty"`
-	Id                          *string                                   `json:"id,omitempty"`
-	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS  `json:"ipConfigurations,omitempty"`
-	Location                    *string                                   `json:"location,omitempty"`
-	MacAddress                  *string                                   `json:"macAddress,omitempty"`
-	MigrationPhase              *string                                   `json:"migrationPhase,omitempty"`
-	Name                        *string                                   `json:"name,omitempty"`
-	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS              `json:"networkSecurityGroup,omitempty"`
-	NicType                     *string                                   `json:"nicType,omitempty"`
-	Primary                     *bool                                     `json:"primary,omitempty"`
-	PrivateEndpoint             *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkService          *PrivateLinkService_STATUS                `json:"privateLinkService,omitempty"`
-	PropertyBag                 genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState           *string                                   `json:"provisioningState,omitempty"`
-	ResourceGuid                *string                                   `json:"resourceGuid,omitempty"`
-	Tags                        map[string]string                         `json:"tags,omitempty"`
-	TapConfigurations           []NetworkInterfaceTapConfiguration_STATUS `json:"tapConfigurations,omitempty"`
-	Type                        *string                                   `json:"type,omitempty"`
-	VirtualMachine              *SubResource_STATUS                       `json:"virtualMachine,omitempty"`
+// Storage version of v1alpha1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded instead
+type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Conditions                  []conditions.Condition                                                         `json:"conditions,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings_STATUS                                            `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource_STATUS                                                            `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                          `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                          `json:"enableIPForwarding,omitempty"`
+	Etag                        *string                                                                        `json:"etag,omitempty"`
+	ExtendedLocation            *ExtendedLocation_STATUS                                                       `json:"extendedLocation,omitempty"`
+	HostedWorkloads             []string                                                                       `json:"hostedWorkloads,omitempty"`
+	Id                          *string                                                                        `json:"id,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded  `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                        `json:"location,omitempty"`
+	MacAddress                  *string                                                                        `json:"macAddress,omitempty"`
+	MigrationPhase              *string                                                                        `json:"migrationPhase,omitempty"`
+	Name                        *string                                                                        `json:"name,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *string                                                                        `json:"nicType,omitempty"`
+	Primary                     *bool                                                                          `json:"primary,omitempty"`
+	PrivateEndpoint             *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkService          *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                `json:"privateLinkService,omitempty"`
+	PropertyBag                 genruntime.PropertyBag                                                         `json:"$propertyBag,omitempty"`
+	ProvisioningState           *string                                                                        `json:"provisioningState,omitempty"`
+	ResourceGuid                *string                                                                        `json:"resourceGuid,omitempty"`
+	Tags                        map[string]string                                                              `json:"tags,omitempty"`
+	TapConfigurations           []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded `json:"tapConfigurations,omitempty"`
+	Type                        *string                                                                        `json:"type,omitempty"`
+	VirtualMachine              *SubResource_STATUS                                                            `json:"virtualMachine,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NetworkInterface_STATUS{}
+var _ genruntime.ConvertibleStatus = &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 
-// ConvertStatusFrom populates our NetworkInterface_STATUS from the provided source
-func (networkInterface *NetworkInterface_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.NetworkInterface_STATUS)
+// ConvertStatusFrom populates our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from the provided source
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded)
 	if ok {
 		// Populate our instance from source
-		return networkInterface.AssignProperties_From_NetworkInterface_STATUS(src)
+		return embedded.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201101s.NetworkInterface_STATUS{}
+	src = &v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = networkInterface.AssignProperties_From_NetworkInterface_STATUS(src)
+	err = embedded.AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -597,17 +573,17 @@ func (networkInterface *NetworkInterface_STATUS) ConvertStatusFrom(source genrun
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our NetworkInterface_STATUS
-func (networkInterface *NetworkInterface_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.NetworkInterface_STATUS)
+// ConvertStatusTo populates the provided destination from our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded)
 	if ok {
 		// Populate destination from our instance
-		return networkInterface.AssignProperties_To_NetworkInterface_STATUS(dst)
+		return embedded.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201101s.NetworkInterface_STATUS{}
-	err := networkInterface.AssignProperties_To_NetworkInterface_STATUS(dst)
+	dst = &v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
+	err := embedded.AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -621,13 +597,13 @@ func (networkInterface *NetworkInterface_STATUS) ConvertStatusTo(destination gen
 	return nil
 }
 
-// AssignProperties_From_NetworkInterface_STATUS populates our NetworkInterface_STATUS from the provided source NetworkInterface_STATUS
-func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkInterface_STATUS(source *v20201101s.NetworkInterface_STATUS) error {
+// AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Conditions
-	networkInterface.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	embedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DnsSettings
 	if source.DnsSettings != nil {
@@ -636,9 +612,9 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
 		}
-		networkInterface.DnsSettings = &dnsSetting
+		embedded.DnsSettings = &dnsSetting
 	} else {
-		networkInterface.DnsSettings = nil
+		embedded.DnsSettings = nil
 	}
 
 	// DscpConfiguration
@@ -648,29 +624,29 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DscpConfiguration")
 		}
-		networkInterface.DscpConfiguration = &dscpConfiguration
+		embedded.DscpConfiguration = &dscpConfiguration
 	} else {
-		networkInterface.DscpConfiguration = nil
+		embedded.DscpConfiguration = nil
 	}
 
 	// EnableAcceleratedNetworking
 	if source.EnableAcceleratedNetworking != nil {
 		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
-		networkInterface.EnableAcceleratedNetworking = &enableAcceleratedNetworking
+		embedded.EnableAcceleratedNetworking = &enableAcceleratedNetworking
 	} else {
-		networkInterface.EnableAcceleratedNetworking = nil
+		embedded.EnableAcceleratedNetworking = nil
 	}
 
 	// EnableIPForwarding
 	if source.EnableIPForwarding != nil {
 		enableIPForwarding := *source.EnableIPForwarding
-		networkInterface.EnableIPForwarding = &enableIPForwarding
+		embedded.EnableIPForwarding = &enableIPForwarding
 	} else {
-		networkInterface.EnableIPForwarding = nil
+		embedded.EnableIPForwarding = nil
 	}
 
 	// Etag
-	networkInterface.Etag = genruntime.ClonePointerToString(source.Etag)
+	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -679,123 +655,123 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		networkInterface.ExtendedLocation = &extendedLocation
+		embedded.ExtendedLocation = &extendedLocation
 	} else {
-		networkInterface.ExtendedLocation = nil
+		embedded.ExtendedLocation = nil
 	}
 
 	// HostedWorkloads
-	networkInterface.HostedWorkloads = genruntime.CloneSliceOfString(source.HostedWorkloads)
+	embedded.HostedWorkloads = genruntime.CloneSliceOfString(source.HostedWorkloads)
 
 	// Id
-	networkInterface.Id = genruntime.ClonePointerToString(source.Id)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_STATUS, len(source.IpConfigurations))
+		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
 		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration NetworkInterfaceIPConfiguration_STATUS
-			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS(&ipConfigurationItem)
+			var ipConfiguration NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+			err := ipConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		networkInterface.IpConfigurations = ipConfigurationList
+		embedded.IpConfigurations = ipConfigurationList
 	} else {
-		networkInterface.IpConfigurations = nil
+		embedded.IpConfigurations = nil
 	}
 
 	// Location
-	networkInterface.Location = genruntime.ClonePointerToString(source.Location)
+	embedded.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MacAddress
-	networkInterface.MacAddress = genruntime.ClonePointerToString(source.MacAddress)
+	embedded.MacAddress = genruntime.ClonePointerToString(source.MacAddress)
 
 	// MigrationPhase
-	networkInterface.MigrationPhase = genruntime.ClonePointerToString(source.MigrationPhase)
+	embedded.MigrationPhase = genruntime.ClonePointerToString(source.MigrationPhase)
 
 	// Name
-	networkInterface.Name = genruntime.ClonePointerToString(source.Name)
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkSecurityGroup
 	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup NetworkSecurityGroup_STATUS
-		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroup_STATUS(source.NetworkSecurityGroup)
+		var networkSecurityGroup NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+		err := networkSecurityGroup.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
-		networkInterface.NetworkSecurityGroup = &networkSecurityGroup
+		embedded.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
-		networkInterface.NetworkSecurityGroup = nil
+		embedded.NetworkSecurityGroup = nil
 	}
 
 	// NicType
-	networkInterface.NicType = genruntime.ClonePointerToString(source.NicType)
+	embedded.NicType = genruntime.ClonePointerToString(source.NicType)
 
 	// Primary
 	if source.Primary != nil {
 		primary := *source.Primary
-		networkInterface.Primary = &primary
+		embedded.Primary = &primary
 	} else {
-		networkInterface.Primary = nil
+		embedded.Primary = nil
 	}
 
 	// PrivateEndpoint
 	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint_STATUS
-		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS(source.PrivateEndpoint)
+		var privateEndpoint PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
 		}
-		networkInterface.PrivateEndpoint = &privateEndpoint
+		embedded.PrivateEndpoint = &privateEndpoint
 	} else {
-		networkInterface.PrivateEndpoint = nil
+		embedded.PrivateEndpoint = nil
 	}
 
 	// PrivateLinkService
 	if source.PrivateLinkService != nil {
-		var privateLinkService PrivateLinkService_STATUS
-		err := privateLinkService.AssignProperties_From_PrivateLinkService_STATUS(source.PrivateLinkService)
+		var privateLinkService PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+		err := privateLinkService.AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateLinkService)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkService_STATUS() to populate field PrivateLinkService")
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
 		}
-		networkInterface.PrivateLinkService = &privateLinkService
+		embedded.PrivateLinkService = &privateLinkService
 	} else {
-		networkInterface.PrivateLinkService = nil
+		embedded.PrivateLinkService = nil
 	}
 
 	// ProvisioningState
-	networkInterface.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ResourceGuid
-	networkInterface.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	embedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Tags
-	networkInterface.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TapConfigurations
 	if source.TapConfigurations != nil {
-		tapConfigurationList := make([]NetworkInterfaceTapConfiguration_STATUS, len(source.TapConfigurations))
+		tapConfigurationList := make([]NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(source.TapConfigurations))
 		for tapConfigurationIndex, tapConfigurationItem := range source.TapConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			tapConfigurationItem := tapConfigurationItem
-			var tapConfiguration NetworkInterfaceTapConfiguration_STATUS
-			err := tapConfiguration.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS(&tapConfigurationItem)
+			var tapConfiguration NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+			err := tapConfiguration.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS() to populate field TapConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
 			}
 			tapConfigurationList[tapConfigurationIndex] = tapConfiguration
 		}
-		networkInterface.TapConfigurations = tapConfigurationList
+		embedded.TapConfigurations = tapConfigurationList
 	} else {
-		networkInterface.TapConfigurations = nil
+		embedded.TapConfigurations = nil
 	}
 
 	// Type
-	networkInterface.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualMachine
 	if source.VirtualMachine != nil {
@@ -804,34 +780,34 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_From_NetworkIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachine")
 		}
-		networkInterface.VirtualMachine = &virtualMachine
+		embedded.VirtualMachine = &virtualMachine
 	} else {
-		networkInterface.VirtualMachine = nil
+		embedded.VirtualMachine = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		networkInterface.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		networkInterface.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkInterface_STATUS populates the provided destination NetworkInterface_STATUS from our NetworkInterface_STATUS
-func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInterface_STATUS(destination *v20201101s.NetworkInterface_STATUS) error {
+// AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(networkInterface.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(networkInterface.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(embedded.Conditions)
 
 	// DnsSettings
-	if networkInterface.DnsSettings != nil {
+	if embedded.DnsSettings != nil {
 		var dnsSetting v20201101s.NetworkInterfaceDnsSettings_STATUS
-		err := networkInterface.DnsSettings.AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(&dnsSetting)
+		err := embedded.DnsSettings.AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(&dnsSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
 		}
@@ -841,9 +817,9 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// DscpConfiguration
-	if networkInterface.DscpConfiguration != nil {
+	if embedded.DscpConfiguration != nil {
 		var dscpConfiguration v20201101s.SubResource_STATUS
-		err := networkInterface.DscpConfiguration.AssignProperties_To_SubResource_STATUS(&dscpConfiguration)
+		err := embedded.DscpConfiguration.AssignProperties_To_SubResource_STATUS(&dscpConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DscpConfiguration")
 		}
@@ -853,28 +829,28 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// EnableAcceleratedNetworking
-	if networkInterface.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *networkInterface.EnableAcceleratedNetworking
+	if embedded.EnableAcceleratedNetworking != nil {
+		enableAcceleratedNetworking := *embedded.EnableAcceleratedNetworking
 		destination.EnableAcceleratedNetworking = &enableAcceleratedNetworking
 	} else {
 		destination.EnableAcceleratedNetworking = nil
 	}
 
 	// EnableIPForwarding
-	if networkInterface.EnableIPForwarding != nil {
-		enableIPForwarding := *networkInterface.EnableIPForwarding
+	if embedded.EnableIPForwarding != nil {
+		enableIPForwarding := *embedded.EnableIPForwarding
 		destination.EnableIPForwarding = &enableIPForwarding
 	} else {
 		destination.EnableIPForwarding = nil
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(networkInterface.Etag)
+	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
 
 	// ExtendedLocation
-	if networkInterface.ExtendedLocation != nil {
+	if embedded.ExtendedLocation != nil {
 		var extendedLocation v20201101s.ExtendedLocation_STATUS
-		err := networkInterface.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
@@ -884,21 +860,21 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// HostedWorkloads
-	destination.HostedWorkloads = genruntime.CloneSliceOfString(networkInterface.HostedWorkloads)
+	destination.HostedWorkloads = genruntime.CloneSliceOfString(embedded.HostedWorkloads)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(networkInterface.Id)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// IpConfigurations
-	if networkInterface.IpConfigurations != nil {
-		ipConfigurationList := make([]v20201101s.NetworkInterfaceIPConfiguration_STATUS, len(networkInterface.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range networkInterface.IpConfigurations {
+	if embedded.IpConfigurations != nil {
+		ipConfigurationList := make([]v20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range embedded.IpConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v20201101s.NetworkInterfaceIPConfiguration_STATUS
-			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS(&ipConfiguration)
+			var ipConfiguration v20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+			err := ipConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS() to populate field IpConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -908,23 +884,23 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(networkInterface.Location)
+	destination.Location = genruntime.ClonePointerToString(embedded.Location)
 
 	// MacAddress
-	destination.MacAddress = genruntime.ClonePointerToString(networkInterface.MacAddress)
+	destination.MacAddress = genruntime.ClonePointerToString(embedded.MacAddress)
 
 	// MigrationPhase
-	destination.MigrationPhase = genruntime.ClonePointerToString(networkInterface.MigrationPhase)
+	destination.MigrationPhase = genruntime.ClonePointerToString(embedded.MigrationPhase)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(networkInterface.Name)
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// NetworkSecurityGroup
-	if networkInterface.NetworkSecurityGroup != nil {
-		var networkSecurityGroup v20201101s.NetworkSecurityGroup_STATUS
-		err := networkInterface.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroup_STATUS(&networkSecurityGroup)
+	if embedded.NetworkSecurityGroup != nil {
+		var networkSecurityGroup v20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+		err := embedded.NetworkSecurityGroup.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&networkSecurityGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS() to populate field NetworkSecurityGroup")
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
 		}
 		destination.NetworkSecurityGroup = &networkSecurityGroup
 	} else {
@@ -932,22 +908,22 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// NicType
-	destination.NicType = genruntime.ClonePointerToString(networkInterface.NicType)
+	destination.NicType = genruntime.ClonePointerToString(embedded.NicType)
 
 	// Primary
-	if networkInterface.Primary != nil {
-		primary := *networkInterface.Primary
+	if embedded.Primary != nil {
+		primary := *embedded.Primary
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
 	}
 
 	// PrivateEndpoint
-	if networkInterface.PrivateEndpoint != nil {
-		var privateEndpoint v20201101s.PrivateEndpoint_STATUS
-		err := networkInterface.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS(&privateEndpoint)
+	if embedded.PrivateEndpoint != nil {
+		var privateEndpoint v20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+		err := embedded.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateEndpoint")
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -955,11 +931,11 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// PrivateLinkService
-	if networkInterface.PrivateLinkService != nil {
-		var privateLinkService v20201101s.PrivateLinkService_STATUS
-		err := networkInterface.PrivateLinkService.AssignProperties_To_PrivateLinkService_STATUS(&privateLinkService)
+	if embedded.PrivateLinkService != nil {
+		var privateLinkService v20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+		err := embedded.PrivateLinkService.AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&privateLinkService)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkService_STATUS() to populate field PrivateLinkService")
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
 		}
 		destination.PrivateLinkService = &privateLinkService
 	} else {
@@ -967,24 +943,24 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(networkInterface.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(networkInterface.ResourceGuid)
+	destination.ResourceGuid = genruntime.ClonePointerToString(embedded.ResourceGuid)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(networkInterface.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
 
 	// TapConfigurations
-	if networkInterface.TapConfigurations != nil {
-		tapConfigurationList := make([]v20201101s.NetworkInterfaceTapConfiguration_STATUS, len(networkInterface.TapConfigurations))
-		for tapConfigurationIndex, tapConfigurationItem := range networkInterface.TapConfigurations {
+	if embedded.TapConfigurations != nil {
+		tapConfigurationList := make([]v20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.TapConfigurations))
+		for tapConfigurationIndex, tapConfigurationItem := range embedded.TapConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			tapConfigurationItem := tapConfigurationItem
-			var tapConfiguration v20201101s.NetworkInterfaceTapConfiguration_STATUS
-			err := tapConfigurationItem.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS(&tapConfiguration)
+			var tapConfiguration v20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+			err := tapConfigurationItem.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&tapConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS() to populate field TapConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field TapConfigurations")
 			}
 			tapConfigurationList[tapConfigurationIndex] = tapConfiguration
 		}
@@ -994,12 +970,12 @@ func (networkInterface *NetworkInterface_STATUS) AssignProperties_To_NetworkInte
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(networkInterface.Type)
+	destination.Type = genruntime.ClonePointerToString(embedded.Type)
 
 	// VirtualMachine
-	if networkInterface.VirtualMachine != nil {
+	if embedded.VirtualMachine != nil {
 		var virtualMachine v20201101s.SubResource_STATUS
-		err := networkInterface.VirtualMachine.AssignProperties_To_SubResource_STATUS(&virtualMachine)
+		err := embedded.VirtualMachine.AssignProperties_To_SubResource_STATUS(&virtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachine")
 		}
@@ -1144,202 +1120,189 @@ func (settings *NetworkInterfaceDnsSettings_STATUS) AssignProperties_To_NetworkI
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkInterfaceIPConfiguration
-// Deprecated version of NetworkInterfaceIPConfiguration. Use v1beta20201101.NetworkInterfaceIPConfiguration instead
-type NetworkInterfaceIPConfiguration struct {
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec         `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []BackendAddressPool                   `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []InboundNatRule                       `json:"loadBalancerInboundNatRules,omitempty"`
-	Name                                  *string                                `json:"name,omitempty"`
-	Primary                               *bool                                  `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *string                                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *string                                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	PublicIPAddress                       *PublicIPAddressSpec                   `json:"publicIPAddress,omitempty"`
-	Reference                             *genruntime.ResourceReference          `armReference:"Id" json:"reference,omitempty"`
-	Subnet                                *Subnet                                `json:"subnet,omitempty"`
-	Type                                  *string                                `json:"type,omitempty"`
-	VirtualNetworkTaps                    []VirtualNetworkTapSpec                `json:"virtualNetworkTaps,omitempty"`
+// Storage version of v1alpha1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+// Deprecated version of NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded instead
+type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded struct {
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded         `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_NetworkInterface_SubResourceEmbedded                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_NetworkInterface_SubResourceEmbedded                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                                                                     `json:"name,omitempty"`
+	Primary                               *bool                                                                       `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                     `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *string                                                                     `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                                                                     `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag                           genruntime.PropertyBag                                                      `json:"$propertyBag,omitempty"`
+	PublicIPAddress                       *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                   `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                `json:"virtualNetworkTaps,omitempty"`
 }
 
-// AssignProperties_From_NetworkInterfaceIPConfiguration populates our NetworkInterfaceIPConfiguration from the provided source NetworkInterfaceIPConfiguration
-func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_From_NetworkInterfaceIPConfiguration(source *v20201101s.NetworkInterfaceIPConfiguration) error {
+// AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(source *v20201101s.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// ApplicationGatewayBackendAddressPools
 	if source.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool, len(source.ApplicationGatewayBackendAddressPools))
+		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool
-			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool(&applicationGatewayBackendAddressPoolItem)
+			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool() to populate field ApplicationGatewayBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
-		configuration.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+		embedded.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
 	} else {
-		configuration.ApplicationGatewayBackendAddressPools = nil
+		embedded.ApplicationGatewayBackendAddressPools = nil
 	}
 
 	// ApplicationSecurityGroups
 	if source.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec, len(source.ApplicationSecurityGroups))
+		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup ApplicationSecurityGroupSpec
-			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec(&applicationSecurityGroupItem)
+			var applicationSecurityGroup ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec() to populate field ApplicationSecurityGroups")
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		configuration.ApplicationSecurityGroups = applicationSecurityGroupList
+		embedded.ApplicationSecurityGroups = applicationSecurityGroupList
 	} else {
-		configuration.ApplicationSecurityGroups = nil
+		embedded.ApplicationSecurityGroups = nil
 	}
 
 	// LoadBalancerBackendAddressPools
 	if source.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]BackendAddressPool, len(source.LoadBalancerBackendAddressPools))
+		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool BackendAddressPool
-			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool(&loadBalancerBackendAddressPoolItem)
+			var loadBalancerBackendAddressPool BackendAddressPool_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool() to populate field LoadBalancerBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
-		configuration.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+		embedded.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
 	} else {
-		configuration.LoadBalancerBackendAddressPools = nil
+		embedded.LoadBalancerBackendAddressPools = nil
 	}
 
 	// LoadBalancerInboundNatRules
 	if source.LoadBalancerInboundNatRules != nil {
-		loadBalancerInboundNatRuleList := make([]InboundNatRule, len(source.LoadBalancerInboundNatRules))
+		loadBalancerInboundNatRuleList := make([]InboundNatRule_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
-			var loadBalancerInboundNatRule InboundNatRule
-			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule(&loadBalancerInboundNatRuleItem)
+			var loadBalancerInboundNatRule InboundNatRule_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule() to populate field LoadBalancerInboundNatRules")
+				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
-		configuration.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
+		embedded.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
 	} else {
-		configuration.LoadBalancerInboundNatRules = nil
+		embedded.LoadBalancerInboundNatRules = nil
 	}
 
 	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Primary
 	if source.Primary != nil {
 		primary := *source.Primary
-		configuration.Primary = &primary
+		embedded.Primary = &primary
 	} else {
-		configuration.Primary = nil
+		embedded.Primary = nil
 	}
 
 	// PrivateIPAddress
-	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	configuration.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
+	embedded.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	configuration.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
-		var publicIPAddress PublicIPAddressSpec
-		err := publicIPAddress.AssignProperties_From_PublicIPAddressSpec(source.PublicIPAddress)
+		var publicIPAddress PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+		err := publicIPAddress.AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
-		configuration.PublicIPAddress = &publicIPAddress
+		embedded.PublicIPAddress = &publicIPAddress
 	} else {
-		configuration.PublicIPAddress = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
+		embedded.PublicIPAddress = nil
 	}
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet Subnet
-		err := subnet.AssignProperties_From_Subnet(source.Subnet)
+		var subnet Subnet_NetworkInterface_SubResourceEmbedded
+		err := subnet.AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
-		configuration.Subnet = &subnet
+		embedded.Subnet = &subnet
 	} else {
-		configuration.Subnet = nil
+		embedded.Subnet = nil
 	}
-
-	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkTaps
 	if source.VirtualNetworkTaps != nil {
-		virtualNetworkTapList := make([]VirtualNetworkTapSpec, len(source.VirtualNetworkTaps))
+		virtualNetworkTapList := make([]VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkTapItem := virtualNetworkTapItem
-			var virtualNetworkTap VirtualNetworkTapSpec
-			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTapSpec(&virtualNetworkTapItem)
+			var virtualNetworkTap VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTapSpec() to populate field VirtualNetworkTaps")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
-		configuration.VirtualNetworkTaps = virtualNetworkTapList
+		embedded.VirtualNetworkTaps = virtualNetworkTapList
 	} else {
-		configuration.VirtualNetworkTaps = nil
+		embedded.VirtualNetworkTaps = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configuration.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		configuration.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkInterfaceIPConfiguration populates the provided destination NetworkInterfaceIPConfiguration from our NetworkInterfaceIPConfiguration
-func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_To_NetworkInterfaceIPConfiguration(destination *v20201101s.NetworkInterfaceIPConfiguration) error {
+// AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(destination *v20201101s.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// ApplicationGatewayBackendAddressPools
-	if configuration.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]v20201101s.ApplicationGatewayBackendAddressPool, len(configuration.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configuration.ApplicationGatewayBackendAddressPools {
+	if embedded.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v20201101s.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range embedded.ApplicationGatewayBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool v20201101s.ApplicationGatewayBackendAddressPool
-			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool(&applicationGatewayBackendAddressPool)
+			var applicationGatewayBackendAddressPool v20201101s.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool() to populate field ApplicationGatewayBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -1349,15 +1312,15 @@ func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_To_Networ
 	}
 
 	// ApplicationSecurityGroups
-	if configuration.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroupSpec, len(configuration.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configuration.ApplicationSecurityGroups {
+	if embedded.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v20201101s.ApplicationSecurityGroupSpec
-			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec(&applicationSecurityGroup)
+			var applicationSecurityGroup v20201101s.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec() to populate field ApplicationSecurityGroups")
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -1367,15 +1330,15 @@ func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_To_Networ
 	}
 
 	// LoadBalancerBackendAddressPools
-	if configuration.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]v20201101s.BackendAddressPool, len(configuration.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configuration.LoadBalancerBackendAddressPools {
+	if embedded.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v20201101s.BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range embedded.LoadBalancerBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool v20201101s.BackendAddressPool
-			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool(&loadBalancerBackendAddressPool)
+			var loadBalancerBackendAddressPool v20201101s.BackendAddressPool_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool() to populate field LoadBalancerBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -1385,15 +1348,15 @@ func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_To_Networ
 	}
 
 	// LoadBalancerInboundNatRules
-	if configuration.LoadBalancerInboundNatRules != nil {
-		loadBalancerInboundNatRuleList := make([]v20201101s.InboundNatRule, len(configuration.LoadBalancerInboundNatRules))
-		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range configuration.LoadBalancerInboundNatRules {
+	if embedded.LoadBalancerInboundNatRules != nil {
+		loadBalancerInboundNatRuleList := make([]v20201101s.InboundNatRule_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerInboundNatRules))
+		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range embedded.LoadBalancerInboundNatRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
-			var loadBalancerInboundNatRule v20201101s.InboundNatRule
-			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule(&loadBalancerInboundNatRule)
+			var loadBalancerInboundNatRule v20201101s.InboundNatRule_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule() to populate field LoadBalancerInboundNatRules")
+				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -1403,70 +1366,59 @@ func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_To_Networ
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// Primary
-	if configuration.Primary != nil {
-		primary := *configuration.Primary
+	if embedded.Primary != nil {
+		primary := *embedded.Primary
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
 	}
 
 	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configuration.PrivateIPAddressVersion)
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(embedded.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(configuration.PrivateIPAllocationMethod)
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// PublicIPAddress
-	if configuration.PublicIPAddress != nil {
-		var publicIPAddress v20201101s.PublicIPAddressSpec
-		err := configuration.PublicIPAddress.AssignProperties_To_PublicIPAddressSpec(&publicIPAddress)
+	if embedded.PublicIPAddress != nil {
+		var publicIPAddress v20201101s.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+		err := embedded.PublicIPAddress.AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
 		destination.PublicIPAddress = nil
 	}
 
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
 	// Subnet
-	if configuration.Subnet != nil {
-		var subnet v20201101s.Subnet
-		err := configuration.Subnet.AssignProperties_To_Subnet(&subnet)
+	if embedded.Subnet != nil {
+		var subnet v20201101s.Subnet_NetworkInterface_SubResourceEmbedded
+		err := embedded.Subnet.AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
 		destination.Subnet = nil
 	}
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
-
 	// VirtualNetworkTaps
-	if configuration.VirtualNetworkTaps != nil {
-		virtualNetworkTapList := make([]v20201101s.VirtualNetworkTapSpec, len(configuration.VirtualNetworkTaps))
-		for virtualNetworkTapIndex, virtualNetworkTapItem := range configuration.VirtualNetworkTaps {
+	if embedded.VirtualNetworkTaps != nil {
+		virtualNetworkTapList := make([]v20201101s.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(embedded.VirtualNetworkTaps))
+		for virtualNetworkTapIndex, virtualNetworkTapItem := range embedded.VirtualNetworkTaps {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkTapItem := virtualNetworkTapItem
-			var virtualNetworkTap v20201101s.VirtualNetworkTapSpec
-			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTapSpec(&virtualNetworkTap)
+			var virtualNetworkTap v20201101s.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTapSpec() to populate field VirtualNetworkTaps")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -1486,131 +1438,131 @@ func (configuration *NetworkInterfaceIPConfiguration) AssignProperties_To_Networ
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkInterfaceIPConfiguration_STATUS
-// Deprecated version of NetworkInterfaceIPConfiguration_STATUS. Use v1beta20201101.NetworkInterfaceIPConfiguration_STATUS instead
-type NetworkInterfaceIPConfiguration_STATUS struct {
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS                          `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []ApplicationSecurityGroup_STATUS                                      `json:"applicationSecurityGroups,omitempty"`
-	Etag                                  *string                                                                `json:"etag,omitempty"`
-	Id                                    *string                                                                `json:"id,omitempty"`
-	LoadBalancerBackendAddressPools       []BackendAddressPool_STATUS                                            `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []InboundNatRule_STATUS                                                `json:"loadBalancerInboundNatRules,omitempty"`
-	Name                                  *string                                                                `json:"name,omitempty"`
-	Primary                               *bool                                                                  `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                                                                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *string                                                                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *string                                                                `json:"privateIPAllocationMethod,omitempty"`
-	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS `json:"privateLinkConnectionProperties,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState                     *string                                                                `json:"provisioningState,omitempty"`
-	PublicIPAddress                       *PublicIPAddress_STATUS                                                `json:"publicIPAddress,omitempty"`
-	Subnet                                *Subnet_STATUS                                                         `json:"subnet,omitempty"`
-	Type                                  *string                                                                `json:"type,omitempty"`
-	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS                                             `json:"virtualNetworkTaps,omitempty"`
+// Storage version of v1alpha1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded instead
+type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded             `json:"applicationSecurityGroups,omitempty"`
+	Etag                                  *string                                                                            `json:"etag,omitempty"`
+	Id                                    *string                                                                            `json:"id,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                                                                            `json:"name,omitempty"`
+	Primary                               *bool                                                                              `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                            `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *string                                                                            `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                                                                            `json:"privateIPAllocationMethod,omitempty"`
+	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS             `json:"privateLinkConnectionProperties,omitempty"`
+	PropertyBag                           genruntime.PropertyBag                                                             `json:"$propertyBag,omitempty"`
+	ProvisioningState                     *string                                                                            `json:"provisioningState,omitempty"`
+	PublicIPAddress                       *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                       `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
+	Type                                  *string                                                                            `json:"type,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                    `json:"virtualNetworkTaps,omitempty"`
 }
 
-// AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS populates our NetworkInterfaceIPConfiguration_STATUS from the provided source NetworkInterfaceIPConfiguration_STATUS
-func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS(source *v20201101s.NetworkInterfaceIPConfiguration_STATUS) error {
+// AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// ApplicationGatewayBackendAddressPools
 	if source.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_STATUS, len(source.ApplicationGatewayBackendAddressPools))
+		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
 		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_STATUS
-			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS(&applicationGatewayBackendAddressPoolItem)
+			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+			err := applicationGatewayBackendAddressPool.AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS() to populate field ApplicationGatewayBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
-		configuration.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+		embedded.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
 	} else {
-		configuration.ApplicationGatewayBackendAddressPools = nil
+		embedded.ApplicationGatewayBackendAddressPools = nil
 	}
 
 	// ApplicationSecurityGroups
 	if source.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS, len(source.ApplicationSecurityGroups))
+		applicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
 		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup ApplicationSecurityGroup_STATUS
-			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS(&applicationSecurityGroupItem)
+			var applicationSecurityGroup ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+			err := applicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS() to populate field ApplicationSecurityGroups")
+				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		configuration.ApplicationSecurityGroups = applicationSecurityGroupList
+		embedded.ApplicationSecurityGroups = applicationSecurityGroupList
 	} else {
-		configuration.ApplicationSecurityGroups = nil
+		embedded.ApplicationSecurityGroups = nil
 	}
 
 	// Etag
-	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
+	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// LoadBalancerBackendAddressPools
 	if source.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_STATUS, len(source.LoadBalancerBackendAddressPools))
+		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
 		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool BackendAddressPool_STATUS
-			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_STATUS(&loadBalancerBackendAddressPoolItem)
+			var loadBalancerBackendAddressPool BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerBackendAddressPool.AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_STATUS() to populate field LoadBalancerBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
-		configuration.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+		embedded.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
 	} else {
-		configuration.LoadBalancerBackendAddressPools = nil
+		embedded.LoadBalancerBackendAddressPools = nil
 	}
 
 	// LoadBalancerInboundNatRules
 	if source.LoadBalancerInboundNatRules != nil {
-		loadBalancerInboundNatRuleList := make([]InboundNatRule_STATUS, len(source.LoadBalancerInboundNatRules))
+		loadBalancerInboundNatRuleList := make([]InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
 		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
-			var loadBalancerInboundNatRule InboundNatRule_STATUS
-			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_STATUS(&loadBalancerInboundNatRuleItem)
+			var loadBalancerInboundNatRule InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerInboundNatRule.AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_STATUS() to populate field LoadBalancerInboundNatRules")
+				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
-		configuration.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
+		embedded.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
 	} else {
-		configuration.LoadBalancerInboundNatRules = nil
+		embedded.LoadBalancerInboundNatRules = nil
 	}
 
 	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Primary
 	if source.Primary != nil {
 		primary := *source.Primary
-		configuration.Primary = &primary
+		embedded.Primary = &primary
 	} else {
-		configuration.Primary = nil
+		embedded.Primary = nil
 	}
 
 	// PrivateIPAddress
-	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	configuration.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
+	embedded.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	configuration.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
+	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// PrivateLinkConnectionProperties
 	if source.PrivateLinkConnectionProperties != nil {
@@ -1619,85 +1571,85 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_Fr
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
 		}
-		configuration.PrivateLinkConnectionProperties = &privateLinkConnectionProperty
+		embedded.PrivateLinkConnectionProperties = &privateLinkConnectionProperty
 	} else {
-		configuration.PrivateLinkConnectionProperties = nil
+		embedded.PrivateLinkConnectionProperties = nil
 	}
 
 	// ProvisioningState
-	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
-		var publicIPAddress PublicIPAddress_STATUS
-		err := publicIPAddress.AssignProperties_From_PublicIPAddress_STATUS(source.PublicIPAddress)
+		var publicIPAddress PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+		err := publicIPAddress.AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
-		configuration.PublicIPAddress = &publicIPAddress
+		embedded.PublicIPAddress = &publicIPAddress
 	} else {
-		configuration.PublicIPAddress = nil
+		embedded.PublicIPAddress = nil
 	}
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet Subnet_STATUS
-		err := subnet.AssignProperties_From_Subnet_STATUS(source.Subnet)
+		var subnet Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+		err := subnet.AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
-		configuration.Subnet = &subnet
+		embedded.Subnet = &subnet
 	} else {
-		configuration.Subnet = nil
+		embedded.Subnet = nil
 	}
 
 	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkTaps
 	if source.VirtualNetworkTaps != nil {
-		virtualNetworkTapList := make([]VirtualNetworkTap_STATUS, len(source.VirtualNetworkTaps))
+		virtualNetworkTapList := make([]VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
 		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkTapItem := virtualNetworkTapItem
-			var virtualNetworkTap VirtualNetworkTap_STATUS
-			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTap_STATUS(&virtualNetworkTapItem)
+			var virtualNetworkTap VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+			err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTap_STATUS() to populate field VirtualNetworkTaps")
+				return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
-		configuration.VirtualNetworkTaps = virtualNetworkTapList
+		embedded.VirtualNetworkTaps = virtualNetworkTapList
 	} else {
-		configuration.VirtualNetworkTaps = nil
+		embedded.VirtualNetworkTaps = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configuration.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		configuration.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS populates the provided destination NetworkInterfaceIPConfiguration_STATUS from our NetworkInterfaceIPConfiguration_STATUS
-func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS(destination *v20201101s.NetworkInterfaceIPConfiguration_STATUS) error {
+// AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// ApplicationGatewayBackendAddressPools
-	if configuration.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]v20201101s.ApplicationGatewayBackendAddressPool_STATUS, len(configuration.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range configuration.ApplicationGatewayBackendAddressPools {
+	if embedded.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range embedded.ApplicationGatewayBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool v20201101s.ApplicationGatewayBackendAddressPool_STATUS
-			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS(&applicationGatewayBackendAddressPool)
+			var applicationGatewayBackendAddressPool v20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+			err := applicationGatewayBackendAddressPoolItem.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS() to populate field ApplicationGatewayBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
 			}
 			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
@@ -1707,15 +1659,15 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// ApplicationSecurityGroups
-	if configuration.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroup_STATUS, len(configuration.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range configuration.ApplicationSecurityGroups {
+	if embedded.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range embedded.ApplicationSecurityGroups {
 			// Shadow the loop variable to avoid aliasing
 			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup v20201101s.ApplicationSecurityGroup_STATUS
-			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS(&applicationSecurityGroup)
+			var applicationSecurityGroup v20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+			err := applicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS() to populate field ApplicationSecurityGroups")
+				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
 			}
 			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
@@ -1725,21 +1677,21 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(configuration.Etag)
+	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// LoadBalancerBackendAddressPools
-	if configuration.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]v20201101s.BackendAddressPool_STATUS, len(configuration.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range configuration.LoadBalancerBackendAddressPools {
+	if embedded.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range embedded.LoadBalancerBackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool v20201101s.BackendAddressPool_STATUS
-			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_STATUS(&loadBalancerBackendAddressPool)
+			var loadBalancerBackendAddressPool v20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerBackendAddressPoolItem.AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_STATUS() to populate field LoadBalancerBackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
 			}
 			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
@@ -1749,15 +1701,15 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// LoadBalancerInboundNatRules
-	if configuration.LoadBalancerInboundNatRules != nil {
-		loadBalancerInboundNatRuleList := make([]v20201101s.InboundNatRule_STATUS, len(configuration.LoadBalancerInboundNatRules))
-		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range configuration.LoadBalancerInboundNatRules {
+	if embedded.LoadBalancerInboundNatRules != nil {
+		loadBalancerInboundNatRuleList := make([]v20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.LoadBalancerInboundNatRules))
+		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range embedded.LoadBalancerInboundNatRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
-			var loadBalancerInboundNatRule v20201101s.InboundNatRule_STATUS
-			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_STATUS(&loadBalancerInboundNatRule)
+			var loadBalancerInboundNatRule v20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+			err := loadBalancerInboundNatRuleItem.AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_STATUS() to populate field LoadBalancerInboundNatRules")
+				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
 			}
 			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
 		}
@@ -1767,29 +1719,29 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// Primary
-	if configuration.Primary != nil {
-		primary := *configuration.Primary
+	if embedded.Primary != nil {
+		primary := *embedded.Primary
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
 	}
 
 	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
 
 	// PrivateIPAddressVersion
-	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configuration.PrivateIPAddressVersion)
+	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(embedded.PrivateIPAddressVersion)
 
 	// PrivateIPAllocationMethod
-	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(configuration.PrivateIPAllocationMethod)
+	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
 
 	// PrivateLinkConnectionProperties
-	if configuration.PrivateLinkConnectionProperties != nil {
+	if embedded.PrivateLinkConnectionProperties != nil {
 		var privateLinkConnectionProperty v20201101s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
-		err := configuration.PrivateLinkConnectionProperties.AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&privateLinkConnectionProperty)
+		err := embedded.PrivateLinkConnectionProperties.AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&privateLinkConnectionProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS() to populate field PrivateLinkConnectionProperties")
 		}
@@ -1799,14 +1751,14 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
 
 	// PublicIPAddress
-	if configuration.PublicIPAddress != nil {
-		var publicIPAddress v20201101s.PublicIPAddress_STATUS
-		err := configuration.PublicIPAddress.AssignProperties_To_PublicIPAddress_STATUS(&publicIPAddress)
+	if embedded.PublicIPAddress != nil {
+		var publicIPAddress v20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+		err := embedded.PublicIPAddress.AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1814,11 +1766,11 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// Subnet
-	if configuration.Subnet != nil {
-		var subnet v20201101s.Subnet_STATUS
-		err := configuration.Subnet.AssignProperties_To_Subnet_STATUS(&subnet)
+	if embedded.Subnet != nil {
+		var subnet v20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -1826,18 +1778,18 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
+	destination.Type = genruntime.ClonePointerToString(embedded.Type)
 
 	// VirtualNetworkTaps
-	if configuration.VirtualNetworkTaps != nil {
-		virtualNetworkTapList := make([]v20201101s.VirtualNetworkTap_STATUS, len(configuration.VirtualNetworkTaps))
-		for virtualNetworkTapIndex, virtualNetworkTapItem := range configuration.VirtualNetworkTaps {
+	if embedded.VirtualNetworkTaps != nil {
+		virtualNetworkTapList := make([]v20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded, len(embedded.VirtualNetworkTaps))
+		for virtualNetworkTapIndex, virtualNetworkTapItem := range embedded.VirtualNetworkTaps {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkTapItem := virtualNetworkTapItem
-			var virtualNetworkTap v20201101s.VirtualNetworkTap_STATUS
-			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTap_STATUS(&virtualNetworkTap)
+			var virtualNetworkTap v20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+			err := virtualNetworkTapItem.AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTap)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTap_STATUS() to populate field VirtualNetworkTaps")
+				return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
 			}
 			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
 		}
@@ -1857,92 +1809,39 @@ func (configuration *NetworkInterfaceIPConfiguration_STATUS) AssignProperties_To
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkInterfaceTapConfiguration_STATUS
-// Deprecated version of NetworkInterfaceTapConfiguration_STATUS. Use v1beta20201101.NetworkInterfaceTapConfiguration_STATUS instead
-type NetworkInterfaceTapConfiguration_STATUS struct {
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                   `json:"provisioningState,omitempty"`
-	Type              *string                   `json:"type,omitempty"`
-	VirtualNetworkTap *VirtualNetworkTap_STATUS `json:"virtualNetworkTap,omitempty"`
+// Storage version of v1alpha1api20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded instead
+type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS populates our NetworkInterfaceTapConfiguration_STATUS from the provided source NetworkInterfaceTapConfiguration_STATUS
-func (configuration *NetworkInterfaceTapConfiguration_STATUS) AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS(source *v20201101s.NetworkInterfaceTapConfiguration_STATUS) error {
+// AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Etag
-	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
-
-	// VirtualNetworkTap
-	if source.VirtualNetworkTap != nil {
-		var virtualNetworkTap VirtualNetworkTap_STATUS
-		err := virtualNetworkTap.AssignProperties_From_VirtualNetworkTap_STATUS(source.VirtualNetworkTap)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualNetworkTap_STATUS() to populate field VirtualNetworkTap")
-		}
-		configuration.VirtualNetworkTap = &virtualNetworkTap
-	} else {
-		configuration.VirtualNetworkTap = nil
-	}
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configuration.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		configuration.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS populates the provided destination NetworkInterfaceTapConfiguration_STATUS from our NetworkInterfaceTapConfiguration_STATUS
-func (configuration *NetworkInterfaceTapConfiguration_STATUS) AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS(destination *v20201101s.NetworkInterfaceTapConfiguration_STATUS) error {
+// AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(configuration.Etag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
-
-	// VirtualNetworkTap
-	if configuration.VirtualNetworkTap != nil {
-		var virtualNetworkTap v20201101s.VirtualNetworkTap_STATUS
-		err := configuration.VirtualNetworkTap.AssignProperties_To_VirtualNetworkTap_STATUS(&virtualNetworkTap)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualNetworkTap_STATUS() to populate field VirtualNetworkTap")
-		}
-		destination.VirtualNetworkTap = &virtualNetworkTap
-	} else {
-		destination.VirtualNetworkTap = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1955,273 +1854,39 @@ func (configuration *NetworkInterfaceTapConfiguration_STATUS) AssignProperties_T
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkSecurityGroup_STATUS
-// Deprecated version of NetworkSecurityGroup_STATUS. Use v1beta20201101.NetworkSecurityGroup_STATUS instead
-type NetworkSecurityGroup_STATUS struct {
-	DefaultSecurityRules []SecurityRule_STATUS     `json:"defaultSecurityRules,omitempty"`
-	Etag                 *string                   `json:"etag,omitempty"`
-	FlowLogs             []FlowLog_STATUS          `json:"flowLogs,omitempty"`
-	Id                   *string                   `json:"id,omitempty"`
-	Location             *string                   `json:"location,omitempty"`
-	Name                 *string                   `json:"name,omitempty"`
-	NetworkInterfaces    []NetworkInterface_STATUS `json:"networkInterfaces,omitempty"`
-	PropertyBag          genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                   `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                   `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS     `json:"securityRules,omitempty"`
-	Subnets              []Subnet_STATUS           `json:"subnets,omitempty"`
-	Tags                 map[string]string         `json:"tags,omitempty"`
-	Type                 *string                   `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded instead
+type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_NetworkSecurityGroup_STATUS populates our NetworkSecurityGroup_STATUS from the provided source NetworkSecurityGroup_STATUS
-func (group *NetworkSecurityGroup_STATUS) AssignProperties_From_NetworkSecurityGroup_STATUS(source *v20201101s.NetworkSecurityGroup_STATUS) error {
+// AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// DefaultSecurityRules
-	if source.DefaultSecurityRules != nil {
-		defaultSecurityRuleList := make([]SecurityRule_STATUS, len(source.DefaultSecurityRules))
-		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range source.DefaultSecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			defaultSecurityRuleItem := defaultSecurityRuleItem
-			var defaultSecurityRule SecurityRule_STATUS
-			err := defaultSecurityRule.AssignProperties_From_SecurityRule_STATUS(&defaultSecurityRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule_STATUS() to populate field DefaultSecurityRules")
-			}
-			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
-		}
-		group.DefaultSecurityRules = defaultSecurityRuleList
-	} else {
-		group.DefaultSecurityRules = nil
-	}
-
-	// Etag
-	group.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// FlowLogs
-	if source.FlowLogs != nil {
-		flowLogList := make([]FlowLog_STATUS, len(source.FlowLogs))
-		for flowLogIndex, flowLogItem := range source.FlowLogs {
-			// Shadow the loop variable to avoid aliasing
-			flowLogItem := flowLogItem
-			var flowLog FlowLog_STATUS
-			err := flowLog.AssignProperties_From_FlowLog_STATUS(&flowLogItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FlowLog_STATUS() to populate field FlowLogs")
-			}
-			flowLogList[flowLogIndex] = flowLog
-		}
-		group.FlowLogs = flowLogList
-	} else {
-		group.FlowLogs = nil
-	}
-
 	// Id
-	group.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	group.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]NetworkInterface_STATUS, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface NetworkInterface_STATUS
-			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		group.NetworkInterfaces = networkInterfaceList
-	} else {
-		group.NetworkInterfaces = nil
-	}
-
-	// ProvisioningState
-	group.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceGuid
-	group.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
-
-	// SecurityRules
-	if source.SecurityRules != nil {
-		securityRuleList := make([]SecurityRule_STATUS, len(source.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule SecurityRule_STATUS
-			err := securityRule.AssignProperties_From_SecurityRule_STATUS(&securityRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule_STATUS() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		group.SecurityRules = securityRuleList
-	} else {
-		group.SecurityRules = nil
-	}
-
-	// Subnets
-	if source.Subnets != nil {
-		subnetList := make([]Subnet_STATUS, len(source.Subnets))
-		for subnetIndex, subnetItem := range source.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
-			var subnet Subnet_STATUS
-			err := subnet.AssignProperties_From_Subnet_STATUS(&subnetItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS() to populate field Subnets")
-			}
-			subnetList[subnetIndex] = subnet
-		}
-		group.Subnets = subnetList
-	} else {
-		group.Subnets = nil
-	}
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	group.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		group.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		group.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkSecurityGroup_STATUS populates the provided destination NetworkSecurityGroup_STATUS from our NetworkSecurityGroup_STATUS
-func (group *NetworkSecurityGroup_STATUS) AssignProperties_To_NetworkSecurityGroup_STATUS(destination *v20201101s.NetworkSecurityGroup_STATUS) error {
+// AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from our NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
-
-	// DefaultSecurityRules
-	if group.DefaultSecurityRules != nil {
-		defaultSecurityRuleList := make([]v20201101s.SecurityRule_STATUS, len(group.DefaultSecurityRules))
-		for defaultSecurityRuleIndex, defaultSecurityRuleItem := range group.DefaultSecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			defaultSecurityRuleItem := defaultSecurityRuleItem
-			var defaultSecurityRule v20201101s.SecurityRule_STATUS
-			err := defaultSecurityRuleItem.AssignProperties_To_SecurityRule_STATUS(&defaultSecurityRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule_STATUS() to populate field DefaultSecurityRules")
-			}
-			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
-		}
-		destination.DefaultSecurityRules = defaultSecurityRuleList
-	} else {
-		destination.DefaultSecurityRules = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(group.Etag)
-
-	// FlowLogs
-	if group.FlowLogs != nil {
-		flowLogList := make([]v20201101s.FlowLog_STATUS, len(group.FlowLogs))
-		for flowLogIndex, flowLogItem := range group.FlowLogs {
-			// Shadow the loop variable to avoid aliasing
-			flowLogItem := flowLogItem
-			var flowLog v20201101s.FlowLog_STATUS
-			err := flowLogItem.AssignProperties_To_FlowLog_STATUS(&flowLog)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FlowLog_STATUS() to populate field FlowLogs")
-			}
-			flowLogList[flowLogIndex] = flowLog
-		}
-		destination.FlowLogs = flowLogList
-	} else {
-		destination.FlowLogs = nil
-	}
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(group.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(group.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(group.Name)
-
-	// NetworkInterfaces
-	if group.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20201101s.NetworkInterface_STATUS, len(group.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range group.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20201101s.NetworkInterface_STATUS
-			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(group.ProvisioningState)
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(group.ResourceGuid)
-
-	// SecurityRules
-	if group.SecurityRules != nil {
-		securityRuleList := make([]v20201101s.SecurityRule_STATUS, len(group.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range group.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule v20201101s.SecurityRule_STATUS
-			err := securityRuleItem.AssignProperties_To_SecurityRule_STATUS(&securityRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule_STATUS() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		destination.SecurityRules = securityRuleList
-	} else {
-		destination.SecurityRules = nil
-	}
-
-	// Subnets
-	if group.Subnets != nil {
-		subnetList := make([]v20201101s.Subnet_STATUS, len(group.Subnets))
-		for subnetIndex, subnetItem := range group.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
-			var subnet v20201101s.Subnet_STATUS
-			err := subnetItem.AssignProperties_To_Subnet_STATUS(&subnet)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS() to populate field Subnets")
-			}
-			subnetList[subnetIndex] = subnet
-		}
-		destination.Subnets = subnetList
-	} else {
-		destination.Subnets = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(group.Type)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2234,100 +1899,94 @@ func (group *NetworkSecurityGroup_STATUS) AssignProperties_To_NetworkSecurityGro
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NetworkSecurityGroupSpec
-// Deprecated version of NetworkSecurityGroupSpec. Use v1beta20201101.NetworkSecurityGroupSpec instead
-type NetworkSecurityGroupSpec struct {
-	Location      *string                       `json:"location,omitempty"`
-	PropertyBag   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference     *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	SecurityRules []SecurityRule                `json:"securityRules,omitempty"`
-	Tags          map[string]string             `json:"tags,omitempty"`
+// Storage version of v1alpha1api20201101.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+// Deprecated version of NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded instead
+type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_NetworkSecurityGroupSpec populates our NetworkSecurityGroupSpec from the provided source NetworkSecurityGroupSpec
-func (group *NetworkSecurityGroupSpec) AssignProperties_From_NetworkSecurityGroupSpec(source *v20201101s.NetworkSecurityGroupSpec) error {
+// AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded populates our NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from the provided source NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_From_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(source *v20201101s.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
-		group.Reference = &reference
+		embedded.Reference = &reference
 	} else {
-		group.Reference = nil
+		embedded.Reference = nil
 	}
-
-	// SecurityRules
-	if source.SecurityRules != nil {
-		securityRuleList := make([]SecurityRule, len(source.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule SecurityRule
-			err := securityRule.AssignProperties_From_SecurityRule(&securityRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		group.SecurityRules = securityRuleList
-	} else {
-		group.SecurityRules = nil
-	}
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		group.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		group.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NetworkSecurityGroupSpec populates the provided destination NetworkSecurityGroupSpec from our NetworkSecurityGroupSpec
-func (group *NetworkSecurityGroupSpec) AssignProperties_To_NetworkSecurityGroupSpec(destination *v20201101s.NetworkSecurityGroupSpec) error {
+// AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded populates the provided destination NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from our NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(destination *v20201101s.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(group.Location)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Reference
-	if group.Reference != nil {
-		reference := group.Reference.Copy()
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
 	}
 
-	// SecurityRules
-	if group.SecurityRules != nil {
-		securityRuleList := make([]v20201101s.SecurityRule, len(group.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range group.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule v20201101s.SecurityRule
-			err := securityRuleItem.AssignProperties_To_SecurityRule(&securityRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		destination.SecurityRules = securityRuleList
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
 	} else {
-		destination.SecurityRules = nil
+		destination.PropertyBag = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201101.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded instead
+type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded from our PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2340,620 +1999,39 @@ func (group *NetworkSecurityGroupSpec) AssignProperties_To_NetworkSecurityGroupS
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.PrivateEndpoint_STATUS
-// Deprecated version of PrivateEndpoint_STATUS. Use v1beta20201101.PrivateEndpoint_STATUS instead
-type PrivateEndpoint_STATUS struct {
-	CustomDnsConfigs                    []CustomDnsConfigPropertiesFormat_STATUS `json:"customDnsConfigs,omitempty"`
-	Etag                                *string                                  `json:"etag,omitempty"`
-	ExtendedLocation                    *ExtendedLocation_STATUS                 `json:"extendedLocation,omitempty"`
-	Id                                  *string                                  `json:"id,omitempty"`
-	Location                            *string                                  `json:"location,omitempty"`
-	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUS    `json:"manualPrivateLinkServiceConnections,omitempty"`
-	Name                                *string                                  `json:"name,omitempty"`
-	NetworkInterfaces                   []NetworkInterface_STATUS                `json:"networkInterfaces,omitempty"`
-	PrivateLinkServiceConnections       []PrivateLinkServiceConnection_STATUS    `json:"privateLinkServiceConnections,omitempty"`
-	PropertyBag                         genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	ProvisioningState                   *string                                  `json:"provisioningState,omitempty"`
-	Subnet                              *Subnet_STATUS                           `json:"subnet,omitempty"`
-	Tags                                map[string]string                        `json:"tags,omitempty"`
-	Type                                *string                                  `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded instead
+type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_PrivateEndpoint_STATUS populates our PrivateEndpoint_STATUS from the provided source PrivateEndpoint_STATUS
-func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_STATUS(source *v20201101s.PrivateEndpoint_STATUS) error {
+// AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CustomDnsConfigs
-	if source.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]CustomDnsConfigPropertiesFormat_STATUS, len(source.CustomDnsConfigs))
-		for customDnsConfigIndex, customDnsConfigItem := range source.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig CustomDnsConfigPropertiesFormat_STATUS
-			err := customDnsConfig.AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfigItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
-			}
-			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
-		}
-		endpoint.CustomDnsConfigs = customDnsConfigList
-	} else {
-		endpoint.CustomDnsConfigs = nil
-	}
-
-	// Etag
-	endpoint.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		endpoint.ExtendedLocation = &extendedLocation
-	} else {
-		endpoint.ExtendedLocation = nil
-	}
-
 	// Id
-	endpoint.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	endpoint.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManualPrivateLinkServiceConnections
-	if source.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]PrivateLinkServiceConnection_STATUS, len(source.ManualPrivateLinkServiceConnections))
-		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range source.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
-			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection_STATUS
-			err := manualPrivateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
-			}
-			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
-		}
-		endpoint.ManualPrivateLinkServiceConnections = manualPrivateLinkServiceConnectionList
-	} else {
-		endpoint.ManualPrivateLinkServiceConnections = nil
-	}
-
-	// Name
-	endpoint.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]NetworkInterface_STATUS, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface NetworkInterface_STATUS
-			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		endpoint.NetworkInterfaces = networkInterfaceList
-	} else {
-		endpoint.NetworkInterfaces = nil
-	}
-
-	// PrivateLinkServiceConnections
-	if source.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]PrivateLinkServiceConnection_STATUS, len(source.PrivateLinkServiceConnections))
-		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range source.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
-			var privateLinkServiceConnection PrivateLinkServiceConnection_STATUS
-			err := privateLinkServiceConnection.AssignProperties_From_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
-			}
-			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
-		}
-		endpoint.PrivateLinkServiceConnections = privateLinkServiceConnectionList
-	} else {
-		endpoint.PrivateLinkServiceConnections = nil
-	}
-
-	// ProvisioningState
-	endpoint.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet_STATUS
-		err := subnet.AssignProperties_From_Subnet_STATUS(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS() to populate field Subnet")
-		}
-		endpoint.Subnet = &subnet
-	} else {
-		endpoint.Subnet = nil
-	}
-
-	// Tags
-	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	endpoint.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		endpoint.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		endpoint.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_PrivateEndpoint_STATUS populates the provided destination PrivateEndpoint_STATUS from our PrivateEndpoint_STATUS
-func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STATUS(destination *v20201101s.PrivateEndpoint_STATUS) error {
+// AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded from our PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
-
-	// CustomDnsConfigs
-	if endpoint.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]v20201101s.CustomDnsConfigPropertiesFormat_STATUS, len(endpoint.CustomDnsConfigs))
-		for customDnsConfigIndex, customDnsConfigItem := range endpoint.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig v20201101s.CustomDnsConfigPropertiesFormat_STATUS
-			err := customDnsConfigItem.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfig)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
-			}
-			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
-		}
-		destination.CustomDnsConfigs = customDnsConfigList
-	} else {
-		destination.CustomDnsConfigs = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(endpoint.Etag)
-
-	// ExtendedLocation
-	if endpoint.ExtendedLocation != nil {
-		var extendedLocation v20201101s.ExtendedLocation_STATUS
-		err := endpoint.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
-
-	// ManualPrivateLinkServiceConnections
-	if endpoint.ManualPrivateLinkServiceConnections != nil {
-		manualPrivateLinkServiceConnectionList := make([]v20201101s.PrivateLinkServiceConnection_STATUS, len(endpoint.ManualPrivateLinkServiceConnections))
-		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range endpoint.ManualPrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
-			var manualPrivateLinkServiceConnection v20201101s.PrivateLinkServiceConnection_STATUS
-			err := manualPrivateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
-			}
-			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
-		}
-		destination.ManualPrivateLinkServiceConnections = manualPrivateLinkServiceConnectionList
-	} else {
-		destination.ManualPrivateLinkServiceConnections = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(endpoint.Name)
-
-	// NetworkInterfaces
-	if endpoint.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20201101s.NetworkInterface_STATUS, len(endpoint.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range endpoint.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20201101s.NetworkInterface_STATUS
-			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// PrivateLinkServiceConnections
-	if endpoint.PrivateLinkServiceConnections != nil {
-		privateLinkServiceConnectionList := make([]v20201101s.PrivateLinkServiceConnection_STATUS, len(endpoint.PrivateLinkServiceConnections))
-		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range endpoint.PrivateLinkServiceConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
-			var privateLinkServiceConnection v20201101s.PrivateLinkServiceConnection_STATUS
-			err := privateLinkServiceConnectionItem.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
-			}
-			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
-		}
-		destination.PrivateLinkServiceConnections = privateLinkServiceConnectionList
-	} else {
-		destination.PrivateLinkServiceConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(endpoint.ProvisioningState)
-
-	// Subnet
-	if endpoint.Subnet != nil {
-		var subnet v20201101s.Subnet_STATUS
-		err := endpoint.Subnet.AssignProperties_To_Subnet_STATUS(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS() to populate field Subnet")
-		}
-		destination.Subnet = &subnet
-	} else {
-		destination.Subnet = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(endpoint.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.PrivateLinkService_STATUS
-// Deprecated version of PrivateLinkService_STATUS. Use v1beta20201101.PrivateLinkService_STATUS instead
-type PrivateLinkService_STATUS struct {
-	Alias                                *string                                    `json:"alias,omitempty"`
-	AutoApproval                         *ResourceSet_STATUS                        `json:"autoApproval,omitempty"`
-	EnableProxyProtocol                  *bool                                      `json:"enableProxyProtocol,omitempty"`
-	Etag                                 *string                                    `json:"etag,omitempty"`
-	ExtendedLocation                     *ExtendedLocation_STATUS                   `json:"extendedLocation,omitempty"`
-	Fqdns                                []string                                   `json:"fqdns,omitempty"`
-	Id                                   *string                                    `json:"id,omitempty"`
-	IpConfigurations                     []PrivateLinkServiceIpConfiguration_STATUS `json:"ipConfigurations,omitempty"`
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_STATUS           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
-	Location                             *string                                    `json:"location,omitempty"`
-	Name                                 *string                                    `json:"name,omitempty"`
-	NetworkInterfaces                    []NetworkInterface_STATUS                  `json:"networkInterfaces,omitempty"`
-	PrivateEndpointConnections           []PrivateEndpointConnection_STATUS         `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                          genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
-	ProvisioningState                    *string                                    `json:"provisioningState,omitempty"`
-	Tags                                 map[string]string                          `json:"tags,omitempty"`
-	Type                                 *string                                    `json:"type,omitempty"`
-	Visibility                           *ResourceSet_STATUS                        `json:"visibility,omitempty"`
-}
-
-// AssignProperties_From_PrivateLinkService_STATUS populates our PrivateLinkService_STATUS from the provided source PrivateLinkService_STATUS
-func (service *PrivateLinkService_STATUS) AssignProperties_From_PrivateLinkService_STATUS(source *v20201101s.PrivateLinkService_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Alias
-	service.Alias = genruntime.ClonePointerToString(source.Alias)
-
-	// AutoApproval
-	if source.AutoApproval != nil {
-		var autoApproval ResourceSet_STATUS
-		err := autoApproval.AssignProperties_From_ResourceSet_STATUS(source.AutoApproval)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceSet_STATUS() to populate field AutoApproval")
-		}
-		service.AutoApproval = &autoApproval
-	} else {
-		service.AutoApproval = nil
-	}
-
-	// EnableProxyProtocol
-	if source.EnableProxyProtocol != nil {
-		enableProxyProtocol := *source.EnableProxyProtocol
-		service.EnableProxyProtocol = &enableProxyProtocol
-	} else {
-		service.EnableProxyProtocol = nil
-	}
-
-	// Etag
-	service.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		service.ExtendedLocation = &extendedLocation
-	} else {
-		service.ExtendedLocation = nil
-	}
-
-	// Fqdns
-	service.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
-
-	// Id
-	service.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration_STATUS, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration PrivateLinkServiceIpConfiguration_STATUS
-			err := ipConfiguration.AssignProperties_From_PrivateLinkServiceIpConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceIpConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		service.IpConfigurations = ipConfigurationList
-	} else {
-		service.IpConfigurations = nil
-	}
-
-	// LoadBalancerFrontendIpConfigurations
-	if source.LoadBalancerFrontendIpConfigurations != nil {
-		loadBalancerFrontendIpConfigurationList := make([]FrontendIPConfiguration_STATUS, len(source.LoadBalancerFrontendIpConfigurations))
-		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range source.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
-			var loadBalancerFrontendIpConfiguration FrontendIPConfiguration_STATUS
-			err := loadBalancerFrontendIpConfiguration.AssignProperties_From_FrontendIPConfiguration_STATUS(&loadBalancerFrontendIpConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FrontendIPConfiguration_STATUS() to populate field LoadBalancerFrontendIpConfigurations")
-			}
-			loadBalancerFrontendIpConfigurationList[loadBalancerFrontendIpConfigurationIndex] = loadBalancerFrontendIpConfiguration
-		}
-		service.LoadBalancerFrontendIpConfigurations = loadBalancerFrontendIpConfigurationList
-	} else {
-		service.LoadBalancerFrontendIpConfigurations = nil
-	}
-
-	// Location
-	service.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	service.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]NetworkInterface_STATUS, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface NetworkInterface_STATUS
-			err := networkInterface.AssignProperties_From_NetworkInterface_STATUS(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterface_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		service.NetworkInterfaces = networkInterfaceList
-	} else {
-		service.NetworkInterfaces = nil
-	}
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS
-			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		service.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		service.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	service.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Tags
-	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	service.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Visibility
-	if source.Visibility != nil {
-		var visibility ResourceSet_STATUS
-		err := visibility.AssignProperties_From_ResourceSet_STATUS(source.Visibility)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceSet_STATUS() to populate field Visibility")
-		}
-		service.Visibility = &visibility
-	} else {
-		service.Visibility = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		service.PropertyBag = propertyBag
-	} else {
-		service.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkService_STATUS populates the provided destination PrivateLinkService_STATUS from our PrivateLinkService_STATUS
-func (service *PrivateLinkService_STATUS) AssignProperties_To_PrivateLinkService_STATUS(destination *v20201101s.PrivateLinkService_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
-
-	// Alias
-	destination.Alias = genruntime.ClonePointerToString(service.Alias)
-
-	// AutoApproval
-	if service.AutoApproval != nil {
-		var autoApproval v20201101s.ResourceSet_STATUS
-		err := service.AutoApproval.AssignProperties_To_ResourceSet_STATUS(&autoApproval)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceSet_STATUS() to populate field AutoApproval")
-		}
-		destination.AutoApproval = &autoApproval
-	} else {
-		destination.AutoApproval = nil
-	}
-
-	// EnableProxyProtocol
-	if service.EnableProxyProtocol != nil {
-		enableProxyProtocol := *service.EnableProxyProtocol
-		destination.EnableProxyProtocol = &enableProxyProtocol
-	} else {
-		destination.EnableProxyProtocol = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(service.Etag)
-
-	// ExtendedLocation
-	if service.ExtendedLocation != nil {
-		var extendedLocation v20201101s.ExtendedLocation_STATUS
-		err := service.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// Fqdns
-	destination.Fqdns = genruntime.CloneSliceOfString(service.Fqdns)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(service.Id)
-
-	// IpConfigurations
-	if service.IpConfigurations != nil {
-		ipConfigurationList := make([]v20201101s.PrivateLinkServiceIpConfiguration_STATUS, len(service.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range service.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v20201101s.PrivateLinkServiceIpConfiguration_STATUS
-			err := ipConfigurationItem.AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS(&ipConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		destination.IpConfigurations = ipConfigurationList
-	} else {
-		destination.IpConfigurations = nil
-	}
-
-	// LoadBalancerFrontendIpConfigurations
-	if service.LoadBalancerFrontendIpConfigurations != nil {
-		loadBalancerFrontendIpConfigurationList := make([]v20201101s.FrontendIPConfiguration_STATUS, len(service.LoadBalancerFrontendIpConfigurations))
-		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range service.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
-			var loadBalancerFrontendIpConfiguration v20201101s.FrontendIPConfiguration_STATUS
-			err := loadBalancerFrontendIpConfigurationItem.AssignProperties_To_FrontendIPConfiguration_STATUS(&loadBalancerFrontendIpConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FrontendIPConfiguration_STATUS() to populate field LoadBalancerFrontendIpConfigurations")
-			}
-			loadBalancerFrontendIpConfigurationList[loadBalancerFrontendIpConfigurationIndex] = loadBalancerFrontendIpConfiguration
-		}
-		destination.LoadBalancerFrontendIpConfigurations = loadBalancerFrontendIpConfigurationList
-	} else {
-		destination.LoadBalancerFrontendIpConfigurations = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(service.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(service.Name)
-
-	// NetworkInterfaces
-	if service.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20201101s.NetworkInterface_STATUS, len(service.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range service.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20201101s.NetworkInterface_STATUS
-			err := networkInterfaceItem.AssignProperties_To_NetworkInterface_STATUS(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterface_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// PrivateEndpointConnections
-	if service.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20201101s.PrivateEndpointConnection_STATUS, len(service.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range service.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20201101s.PrivateEndpointConnection_STATUS
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(service.ProvisioningState)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(service.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(service.Type)
-
-	// Visibility
-	if service.Visibility != nil {
-		var visibility v20201101s.ResourceSet_STATUS
-		err := service.Visibility.AssignProperties_To_ResourceSet_STATUS(&visibility)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceSet_STATUS() to populate field Visibility")
-		}
-		destination.Visibility = &visibility
-	} else {
-		destination.Visibility = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2969,17 +2047,8 @@ func (service *PrivateLinkService_STATUS) AssignProperties_To_PrivateLinkService
 // Storage version of v1alpha1api20201101.PrivateLinkServiceSpec
 // Deprecated version of PrivateLinkServiceSpec. Use v1beta20201101.PrivateLinkServiceSpec instead
 type PrivateLinkServiceSpec struct {
-	AutoApproval                         *ResourceSet                        `json:"autoApproval,omitempty"`
-	EnableProxyProtocol                  *bool                               `json:"enableProxyProtocol,omitempty"`
-	ExtendedLocation                     *ExtendedLocation                   `json:"extendedLocation,omitempty"`
-	Fqdns                                []string                            `json:"fqdns,omitempty"`
-	IpConfigurations                     []PrivateLinkServiceIpConfiguration `json:"ipConfigurations,omitempty"`
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
-	Location                             *string                             `json:"location,omitempty"`
-	PropertyBag                          genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
-	Reference                            *genruntime.ResourceReference       `armReference:"Id" json:"reference,omitempty"`
-	Tags                                 map[string]string                   `json:"tags,omitempty"`
-	Visibility                           *ResourceSet                        `json:"visibility,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignProperties_From_PrivateLinkServiceSpec populates our PrivateLinkServiceSpec from the provided source PrivateLinkServiceSpec
@@ -2987,101 +2056,12 @@ func (service *PrivateLinkServiceSpec) AssignProperties_From_PrivateLinkServiceS
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AutoApproval
-	if source.AutoApproval != nil {
-		var autoApproval ResourceSet
-		err := autoApproval.AssignProperties_From_ResourceSet(source.AutoApproval)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceSet() to populate field AutoApproval")
-		}
-		service.AutoApproval = &autoApproval
-	} else {
-		service.AutoApproval = nil
-	}
-
-	// EnableProxyProtocol
-	if source.EnableProxyProtocol != nil {
-		enableProxyProtocol := *source.EnableProxyProtocol
-		service.EnableProxyProtocol = &enableProxyProtocol
-	} else {
-		service.EnableProxyProtocol = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		service.ExtendedLocation = &extendedLocation
-	} else {
-		service.ExtendedLocation = nil
-	}
-
-	// Fqdns
-	service.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration PrivateLinkServiceIpConfiguration
-			err := ipConfiguration.AssignProperties_From_PrivateLinkServiceIpConfiguration(&ipConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceIpConfiguration() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		service.IpConfigurations = ipConfigurationList
-	} else {
-		service.IpConfigurations = nil
-	}
-
-	// LoadBalancerFrontendIpConfigurations
-	if source.LoadBalancerFrontendIpConfigurations != nil {
-		loadBalancerFrontendIpConfigurationList := make([]FrontendIPConfiguration, len(source.LoadBalancerFrontendIpConfigurations))
-		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range source.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
-			var loadBalancerFrontendIpConfiguration FrontendIPConfiguration
-			err := loadBalancerFrontendIpConfiguration.AssignProperties_From_FrontendIPConfiguration(&loadBalancerFrontendIpConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_FrontendIPConfiguration() to populate field LoadBalancerFrontendIpConfigurations")
-			}
-			loadBalancerFrontendIpConfigurationList[loadBalancerFrontendIpConfigurationIndex] = loadBalancerFrontendIpConfiguration
-		}
-		service.LoadBalancerFrontendIpConfigurations = loadBalancerFrontendIpConfigurationList
-	} else {
-		service.LoadBalancerFrontendIpConfigurations = nil
-	}
-
-	// Location
-	service.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
 		service.Reference = &reference
 	} else {
 		service.Reference = nil
-	}
-
-	// Tags
-	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Visibility
-	if source.Visibility != nil {
-		var visibility ResourceSet
-		err := visibility.AssignProperties_From_ResourceSet(source.Visibility)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceSet() to populate field Visibility")
-		}
-		service.Visibility = &visibility
-	} else {
-		service.Visibility = nil
 	}
 
 	// Update the property bag
@@ -3100,101 +2080,12 @@ func (service *PrivateLinkServiceSpec) AssignProperties_To_PrivateLinkServiceSpe
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
-	// AutoApproval
-	if service.AutoApproval != nil {
-		var autoApproval v20201101s.ResourceSet
-		err := service.AutoApproval.AssignProperties_To_ResourceSet(&autoApproval)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceSet() to populate field AutoApproval")
-		}
-		destination.AutoApproval = &autoApproval
-	} else {
-		destination.AutoApproval = nil
-	}
-
-	// EnableProxyProtocol
-	if service.EnableProxyProtocol != nil {
-		enableProxyProtocol := *service.EnableProxyProtocol
-		destination.EnableProxyProtocol = &enableProxyProtocol
-	} else {
-		destination.EnableProxyProtocol = nil
-	}
-
-	// ExtendedLocation
-	if service.ExtendedLocation != nil {
-		var extendedLocation v20201101s.ExtendedLocation
-		err := service.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// Fqdns
-	destination.Fqdns = genruntime.CloneSliceOfString(service.Fqdns)
-
-	// IpConfigurations
-	if service.IpConfigurations != nil {
-		ipConfigurationList := make([]v20201101s.PrivateLinkServiceIpConfiguration, len(service.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range service.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration v20201101s.PrivateLinkServiceIpConfiguration
-			err := ipConfigurationItem.AssignProperties_To_PrivateLinkServiceIpConfiguration(&ipConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceIpConfiguration() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		destination.IpConfigurations = ipConfigurationList
-	} else {
-		destination.IpConfigurations = nil
-	}
-
-	// LoadBalancerFrontendIpConfigurations
-	if service.LoadBalancerFrontendIpConfigurations != nil {
-		loadBalancerFrontendIpConfigurationList := make([]v20201101s.FrontendIPConfiguration, len(service.LoadBalancerFrontendIpConfigurations))
-		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range service.LoadBalancerFrontendIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
-			var loadBalancerFrontendIpConfiguration v20201101s.FrontendIPConfiguration
-			err := loadBalancerFrontendIpConfigurationItem.AssignProperties_To_FrontendIPConfiguration(&loadBalancerFrontendIpConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_FrontendIPConfiguration() to populate field LoadBalancerFrontendIpConfigurations")
-			}
-			loadBalancerFrontendIpConfigurationList[loadBalancerFrontendIpConfigurationIndex] = loadBalancerFrontendIpConfiguration
-		}
-		destination.LoadBalancerFrontendIpConfigurations = loadBalancerFrontendIpConfigurationList
-	} else {
-		destination.LoadBalancerFrontendIpConfigurations = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(service.Location)
-
 	// Reference
 	if service.Reference != nil {
 		reference := service.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(service.Tags)
-
-	// Visibility
-	if service.Visibility != nil {
-		var visibility v20201101s.ResourceSet
-		err := service.Visibility.AssignProperties_To_ResourceSet(&visibility)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceSet() to populate field Visibility")
-		}
-		destination.Visibility = &visibility
-	} else {
-		destination.Visibility = nil
 	}
 
 	// Update the property bag
@@ -3253,89 +2144,45 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddressPool
-// Deprecated version of ApplicationGatewayBackendAddressPool. Use v1beta20201101.ApplicationGatewayBackendAddressPool instead
-type ApplicationGatewayBackendAddressPool struct {
-	BackendAddresses []ApplicationGatewayBackendAddress `json:"backendAddresses,omitempty"`
-	Name             *string                            `json:"name,omitempty"`
-	PropertyBag      genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Reference        *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
+// Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+// Deprecated version of ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded instead
+type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_ApplicationGatewayBackendAddressPool populates our ApplicationGatewayBackendAddressPool from the provided source ApplicationGatewayBackendAddressPool
-func (pool *ApplicationGatewayBackendAddressPool) AssignProperties_From_ApplicationGatewayBackendAddressPool(source *v20201101s.ApplicationGatewayBackendAddressPool) error {
+// AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded populates our ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded from the provided source ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignProperties_From_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(source *v20201101s.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// BackendAddresses
-	if source.BackendAddresses != nil {
-		backendAddressList := make([]ApplicationGatewayBackendAddress, len(source.BackendAddresses))
-		for backendAddressIndex, backendAddressItem := range source.BackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressItem := backendAddressItem
-			var backendAddress ApplicationGatewayBackendAddress
-			err := backendAddress.AssignProperties_From_ApplicationGatewayBackendAddress(&backendAddressItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddress() to populate field BackendAddresses")
-			}
-			backendAddressList[backendAddressIndex] = backendAddress
-		}
-		pool.BackendAddresses = backendAddressList
-	} else {
-		pool.BackendAddresses = nil
-	}
-
-	// Name
-	pool.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
-		pool.Reference = &reference
+		embedded.Reference = &reference
 	} else {
-		pool.Reference = nil
+		embedded.Reference = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		pool.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		pool.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_ApplicationGatewayBackendAddressPool populates the provided destination ApplicationGatewayBackendAddressPool from our ApplicationGatewayBackendAddressPool
-func (pool *ApplicationGatewayBackendAddressPool) AssignProperties_To_ApplicationGatewayBackendAddressPool(destination *v20201101s.ApplicationGatewayBackendAddressPool) error {
+// AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded from our ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(destination *v20201101s.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
-
-	// BackendAddresses
-	if pool.BackendAddresses != nil {
-		backendAddressList := make([]v20201101s.ApplicationGatewayBackendAddress, len(pool.BackendAddresses))
-		for backendAddressIndex, backendAddressItem := range pool.BackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressItem := backendAddressItem
-			var backendAddress v20201101s.ApplicationGatewayBackendAddress
-			err := backendAddressItem.AssignProperties_To_ApplicationGatewayBackendAddress(&backendAddress)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddress() to populate field BackendAddresses")
-			}
-			backendAddressList[backendAddressIndex] = backendAddress
-		}
-		destination.BackendAddresses = backendAddressList
-	} else {
-		destination.BackendAddresses = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(pool.Name)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Reference
-	if pool.Reference != nil {
-		reference := pool.Reference.Copy()
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
@@ -3352,287 +2199,39 @@ func (pool *ApplicationGatewayBackendAddressPool) AssignProperties_To_Applicatio
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddressPool_STATUS
-// Deprecated version of ApplicationGatewayBackendAddressPool_STATUS. Use v1beta20201101.ApplicationGatewayBackendAddressPool_STATUS instead
-type ApplicationGatewayBackendAddressPool_STATUS struct {
-	BackendAddresses        []ApplicationGatewayBackendAddress_STATUS `json:"backendAddresses,omitempty"`
-	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS  `json:"backendIPConfigurations,omitempty"`
-	Etag                    *string                                   `json:"etag,omitempty"`
-	Id                      *string                                   `json:"id,omitempty"`
-	Name                    *string                                   `json:"name,omitempty"`
-	PropertyBag             genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                                   `json:"provisioningState,omitempty"`
-	Type                    *string                                   `json:"type,omitempty"`
-}
-
-// AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS populates our ApplicationGatewayBackendAddressPool_STATUS from the provided source ApplicationGatewayBackendAddressPool_STATUS
-func (pool *ApplicationGatewayBackendAddressPool_STATUS) AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS(source *v20201101s.ApplicationGatewayBackendAddressPool_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// BackendAddresses
-	if source.BackendAddresses != nil {
-		backendAddressList := make([]ApplicationGatewayBackendAddress_STATUS, len(source.BackendAddresses))
-		for backendAddressIndex, backendAddressItem := range source.BackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressItem := backendAddressItem
-			var backendAddress ApplicationGatewayBackendAddress_STATUS
-			err := backendAddress.AssignProperties_From_ApplicationGatewayBackendAddress_STATUS(&backendAddressItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationGatewayBackendAddress_STATUS() to populate field BackendAddresses")
-			}
-			backendAddressList[backendAddressIndex] = backendAddress
-		}
-		pool.BackendAddresses = backendAddressList
-	} else {
-		pool.BackendAddresses = nil
-	}
-
-	// BackendIPConfigurations
-	if source.BackendIPConfigurations != nil {
-		backendIPConfigurationList := make([]NetworkInterfaceIPConfiguration_STATUS, len(source.BackendIPConfigurations))
-		for backendIPConfigurationIndex, backendIPConfigurationItem := range source.BackendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			backendIPConfigurationItem := backendIPConfigurationItem
-			var backendIPConfiguration NetworkInterfaceIPConfiguration_STATUS
-			err := backendIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS(&backendIPConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS() to populate field BackendIPConfigurations")
-			}
-			backendIPConfigurationList[backendIPConfigurationIndex] = backendIPConfiguration
-		}
-		pool.BackendIPConfigurations = backendIPConfigurationList
-	} else {
-		pool.BackendIPConfigurations = nil
-	}
-
-	// Etag
-	pool.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	pool.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	pool.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Type
-	pool.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		pool.PropertyBag = propertyBag
-	} else {
-		pool.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS populates the provided destination ApplicationGatewayBackendAddressPool_STATUS from our ApplicationGatewayBackendAddressPool_STATUS
-func (pool *ApplicationGatewayBackendAddressPool_STATUS) AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS(destination *v20201101s.ApplicationGatewayBackendAddressPool_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
-
-	// BackendAddresses
-	if pool.BackendAddresses != nil {
-		backendAddressList := make([]v20201101s.ApplicationGatewayBackendAddress_STATUS, len(pool.BackendAddresses))
-		for backendAddressIndex, backendAddressItem := range pool.BackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			backendAddressItem := backendAddressItem
-			var backendAddress v20201101s.ApplicationGatewayBackendAddress_STATUS
-			err := backendAddressItem.AssignProperties_To_ApplicationGatewayBackendAddress_STATUS(&backendAddress)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationGatewayBackendAddress_STATUS() to populate field BackendAddresses")
-			}
-			backendAddressList[backendAddressIndex] = backendAddress
-		}
-		destination.BackendAddresses = backendAddressList
-	} else {
-		destination.BackendAddresses = nil
-	}
-
-	// BackendIPConfigurations
-	if pool.BackendIPConfigurations != nil {
-		backendIPConfigurationList := make([]v20201101s.NetworkInterfaceIPConfiguration_STATUS, len(pool.BackendIPConfigurations))
-		for backendIPConfigurationIndex, backendIPConfigurationItem := range pool.BackendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			backendIPConfigurationItem := backendIPConfigurationItem
-			var backendIPConfiguration v20201101s.NetworkInterfaceIPConfiguration_STATUS
-			err := backendIPConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS(&backendIPConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS() to populate field BackendIPConfigurations")
-			}
-			backendIPConfigurationList[backendIPConfigurationIndex] = backendIPConfiguration
-		}
-		destination.BackendIPConfigurations = backendIPConfigurationList
-	} else {
-		destination.BackendIPConfigurations = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(pool.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(pool.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(pool.Name)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(pool.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.ApplicationSecurityGroup_STATUS
-// Deprecated version of ApplicationSecurityGroup_STATUS. Use v1beta20201101.ApplicationSecurityGroup_STATUS instead
-type ApplicationSecurityGroup_STATUS struct {
-	Etag              *string                `json:"etag,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Location          *string                `json:"location,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	ResourceGuid      *string                `json:"resourceGuid,omitempty"`
-	Tags              map[string]string      `json:"tags,omitempty"`
-	Type              *string                `json:"type,omitempty"`
-}
-
-// AssignProperties_From_ApplicationSecurityGroup_STATUS populates our ApplicationSecurityGroup_STATUS from the provided source ApplicationSecurityGroup_STATUS
-func (group *ApplicationSecurityGroup_STATUS) AssignProperties_From_ApplicationSecurityGroup_STATUS(source *v20201101s.ApplicationSecurityGroup_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Etag
-	group.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	group.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	group.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	group.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceGuid
-	group.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	group.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		group.PropertyBag = propertyBag
-	} else {
-		group.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ApplicationSecurityGroup_STATUS populates the provided destination ApplicationSecurityGroup_STATUS from our ApplicationSecurityGroup_STATUS
-func (group *ApplicationSecurityGroup_STATUS) AssignProperties_To_ApplicationSecurityGroup_STATUS(destination *v20201101s.ApplicationSecurityGroup_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(group.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(group.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(group.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(group.Name)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(group.ProvisioningState)
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(group.ResourceGuid)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(group.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.CustomDnsConfigPropertiesFormat_STATUS
-// Deprecated version of CustomDnsConfigPropertiesFormat_STATUS. Use v1beta20201101.CustomDnsConfigPropertiesFormat_STATUS instead
-type CustomDnsConfigPropertiesFormat_STATUS struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddresses []string               `json:"ipAddresses,omitempty"`
+// Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded instead
+type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS populates our CustomDnsConfigPropertiesFormat_STATUS from the provided source CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_From_CustomDnsConfigPropertiesFormat_STATUS(source *v20201101s.CustomDnsConfigPropertiesFormat_STATUS) error {
+// AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from the provided source ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Fqdn
-	format.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
-
-	// IpAddresses
-	format.IpAddresses = genruntime.CloneSliceOfString(source.IpAddresses)
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		format.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		format.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS populates the provided destination CustomDnsConfigPropertiesFormat_STATUS from our CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(destination *v20201101s.CustomDnsConfigPropertiesFormat_STATUS) error {
+// AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from our ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(format.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
-	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(format.Fqdn)
-
-	// IpAddresses
-	destination.IpAddresses = genruntime.CloneSliceOfString(format.IpAddresses)
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3645,194 +2244,294 @@ func (format *CustomDnsConfigPropertiesFormat_STATUS) AssignProperties_To_Custom
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.FlowLog_STATUS
-// Deprecated version of FlowLog_STATUS. Use v1beta20201101.FlowLog_STATUS instead
-type FlowLog_STATUS struct {
-	Enabled                    *bool                              `json:"enabled,omitempty"`
-	Etag                       *string                            `json:"etag,omitempty"`
-	FlowAnalyticsConfiguration *TrafficAnalyticsProperties_STATUS `json:"flowAnalyticsConfiguration,omitempty"`
-	Format                     *FlowLogFormatParameters_STATUS    `json:"format,omitempty"`
-	Id                         *string                            `json:"id,omitempty"`
-	Location                   *string                            `json:"location,omitempty"`
-	Name                       *string                            `json:"name,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	RetentionPolicy            *RetentionPolicyParameters_STATUS  `json:"retentionPolicy,omitempty"`
-	StorageId                  *string                            `json:"storageId,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	TargetResourceGuid         *string                            `json:"targetResourceGuid,omitempty"`
-	TargetResourceId           *string                            `json:"targetResourceId,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded instead
+type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_FlowLog_STATUS populates our FlowLog_STATUS from the provided source FlowLog_STATUS
-func (flowLog *FlowLog_STATUS) AssignProperties_From_FlowLog_STATUS(source *v20201101s.FlowLog_STATUS) error {
+// AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		flowLog.Enabled = &enabled
-	} else {
-		flowLog.Enabled = nil
-	}
-
-	// Etag
-	flowLog.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// FlowAnalyticsConfiguration
-	if source.FlowAnalyticsConfiguration != nil {
-		var flowAnalyticsConfiguration TrafficAnalyticsProperties_STATUS
-		err := flowAnalyticsConfiguration.AssignProperties_From_TrafficAnalyticsProperties_STATUS(source.FlowAnalyticsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TrafficAnalyticsProperties_STATUS() to populate field FlowAnalyticsConfiguration")
-		}
-		flowLog.FlowAnalyticsConfiguration = &flowAnalyticsConfiguration
-	} else {
-		flowLog.FlowAnalyticsConfiguration = nil
-	}
-
-	// Format
-	if source.Format != nil {
-		var format FlowLogFormatParameters_STATUS
-		err := format.AssignProperties_From_FlowLogFormatParameters_STATUS(source.Format)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FlowLogFormatParameters_STATUS() to populate field Format")
-		}
-		flowLog.Format = &format
-	} else {
-		flowLog.Format = nil
-	}
-
 	// Id
-	flowLog.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	flowLog.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	flowLog.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	flowLog.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// RetentionPolicy
-	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicyParameters_STATUS
-		err := retentionPolicy.AssignProperties_From_RetentionPolicyParameters_STATUS(source.RetentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RetentionPolicyParameters_STATUS() to populate field RetentionPolicy")
-		}
-		flowLog.RetentionPolicy = &retentionPolicy
-	} else {
-		flowLog.RetentionPolicy = nil
-	}
-
-	// StorageId
-	flowLog.StorageId = genruntime.ClonePointerToString(source.StorageId)
-
-	// Tags
-	flowLog.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TargetResourceGuid
-	flowLog.TargetResourceGuid = genruntime.ClonePointerToString(source.TargetResourceGuid)
-
-	// TargetResourceId
-	flowLog.TargetResourceId = genruntime.ClonePointerToString(source.TargetResourceId)
-
-	// Type
-	flowLog.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		flowLog.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		flowLog.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_FlowLog_STATUS populates the provided destination FlowLog_STATUS from our FlowLog_STATUS
-func (flowLog *FlowLog_STATUS) AssignProperties_To_FlowLog_STATUS(destination *v20201101s.FlowLog_STATUS) error {
+// AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded from our ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(flowLog.PropertyBag)
-
-	// Enabled
-	if flowLog.Enabled != nil {
-		enabled := *flowLog.Enabled
-		destination.Enabled = &enabled
-	} else {
-		destination.Enabled = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(flowLog.Etag)
-
-	// FlowAnalyticsConfiguration
-	if flowLog.FlowAnalyticsConfiguration != nil {
-		var flowAnalyticsConfiguration v20201101s.TrafficAnalyticsProperties_STATUS
-		err := flowLog.FlowAnalyticsConfiguration.AssignProperties_To_TrafficAnalyticsProperties_STATUS(&flowAnalyticsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TrafficAnalyticsProperties_STATUS() to populate field FlowAnalyticsConfiguration")
-		}
-		destination.FlowAnalyticsConfiguration = &flowAnalyticsConfiguration
-	} else {
-		destination.FlowAnalyticsConfiguration = nil
-	}
-
-	// Format
-	if flowLog.Format != nil {
-		var format v20201101s.FlowLogFormatParameters_STATUS
-		err := flowLog.Format.AssignProperties_To_FlowLogFormatParameters_STATUS(&format)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FlowLogFormatParameters_STATUS() to populate field Format")
-		}
-		destination.Format = &format
-	} else {
-		destination.Format = nil
-	}
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(flowLog.Id)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(flowLog.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(flowLog.Name)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(flowLog.ProvisioningState)
-
-	// RetentionPolicy
-	if flowLog.RetentionPolicy != nil {
-		var retentionPolicy v20201101s.RetentionPolicyParameters_STATUS
-		err := flowLog.RetentionPolicy.AssignProperties_To_RetentionPolicyParameters_STATUS(&retentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RetentionPolicyParameters_STATUS() to populate field RetentionPolicy")
-		}
-		destination.RetentionPolicy = &retentionPolicy
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
 	} else {
-		destination.RetentionPolicy = nil
+		destination.PropertyBag = nil
 	}
 
-	// StorageId
-	destination.StorageId = genruntime.ClonePointerToString(flowLog.StorageId)
+	// No error
+	return nil
+}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(flowLog.Tags)
+// Storage version of v1alpha1api20201101.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded instead
+type ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
 
-	// TargetResourceGuid
-	destination.TargetResourceGuid = genruntime.ClonePointerToString(flowLog.TargetResourceGuid)
+// AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from the provided source ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_From_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(source *v20201101s.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// TargetResourceId
-	destination.TargetResourceId = genruntime.ClonePointerToString(flowLog.TargetResourceId)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(flowLog.Type)
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded populates the provided destination ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from our ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(destination *v20201101s.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded
+// Deprecated version of BackendAddressPool_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded instead
+type BackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded populates our BackendAddressPool_NetworkInterface_SubResourceEmbedded from the provided source BackendAddressPool_NetworkInterface_SubResourceEmbedded
+func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignProperties_From_BackendAddressPool_NetworkInterface_SubResourceEmbedded(source *v20201101s.BackendAddressPool_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded populates the provided destination BackendAddressPool_NetworkInterface_SubResourceEmbedded from our BackendAddressPool_NetworkInterface_SubResourceEmbedded
+func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded(destination *v20201101s.BackendAddressPool_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201101.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded instead
+type BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded from our BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201101.InboundNatRule_NetworkInterface_SubResourceEmbedded
+// Deprecated version of InboundNatRule_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_NetworkInterface_SubResourceEmbedded instead
+type InboundNatRule_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded populates our InboundNatRule_NetworkInterface_SubResourceEmbedded from the provided source InboundNatRule_NetworkInterface_SubResourceEmbedded
+func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) AssignProperties_From_InboundNatRule_NetworkInterface_SubResourceEmbedded(source *v20201101s.InboundNatRule_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded populates the provided destination InboundNatRule_NetworkInterface_SubResourceEmbedded from our InboundNatRule_NetworkInterface_SubResourceEmbedded
+func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded(destination *v20201101s.InboundNatRule_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201101.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded instead
+type InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates our InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded from the provided source InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded from our InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3904,124 +2603,39 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.PrivateEndpointConnection_STATUS
-// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20201101.PrivateEndpointConnection_STATUS instead
-type PrivateEndpointConnection_STATUS struct {
-	Etag                              *string                                   `json:"etag,omitempty"`
-	Id                                *string                                   `json:"id,omitempty"`
-	LinkIdentifier                    *string                                   `json:"linkIdentifier,omitempty"`
-	Name                              *string                                   `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
-	Type                              *string                                   `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded instead
+type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20201101s.PrivateEndpointConnection_STATUS) error {
+// AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates our PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Etag
-	connection.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Id
-	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// LinkIdentifier
-	connection.LinkIdentifier = genruntime.ClonePointerToString(source.LinkIdentifier)
-
-	// Name
-	connection.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint_STATUS
-		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS(source.PrivateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
-		}
-		connection.PrivateEndpoint = &privateEndpoint
-	} else {
-		connection.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
-		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		connection.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	connection.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Type
-	connection.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		connection.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		connection.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
-func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20201101s.PrivateEndpointConnection_STATUS) error {
+// AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded from our PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(connection.Etag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// LinkIdentifier
-	destination.LinkIdentifier = genruntime.ClonePointerToString(connection.LinkIdentifier)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(connection.Name)
-
-	// PrivateEndpoint
-	if connection.PrivateEndpoint != nil {
-		var privateEndpoint v20201101s.PrivateEndpoint_STATUS
-		err := connection.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS(&privateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
-		}
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20201101s.PrivateLinkServiceConnectionState_STATUS
-		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(connection.ProvisioningState)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(connection.Type)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4034,239 +2648,50 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.PrivateLinkServiceConnection_STATUS
-// Deprecated version of PrivateLinkServiceConnection_STATUS. Use v1beta20201101.PrivateLinkServiceConnection_STATUS instead
-type PrivateLinkServiceConnection_STATUS struct {
-	Etag                              *string                                   `json:"etag,omitempty"`
-	GroupIds                          []string                                  `json:"groupIds,omitempty"`
-	Id                                *string                                   `json:"id,omitempty"`
-	Name                              *string                                   `json:"name,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-	PrivateLinkServiceId              *string                                   `json:"privateLinkServiceId,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
-	RequestMessage                    *string                                   `json:"requestMessage,omitempty"`
-	Type                              *string                                   `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+// Deprecated version of PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded instead
+type PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_PrivateLinkServiceConnection_STATUS populates our PrivateLinkServiceConnection_STATUS from the provided source PrivateLinkServiceConnection_STATUS
-func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_From_PrivateLinkServiceConnection_STATUS(source *v20201101s.PrivateLinkServiceConnection_STATUS) error {
+// AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded populates our PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded from the provided source PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_From_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(source *v20201101s.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Etag
-	connection.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// GroupIds
-	connection.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
-
-	// Id
-	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	connection.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
-		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		connection.PrivateLinkServiceConnectionState = nil
-	}
-
-	// PrivateLinkServiceId
-	connection.PrivateLinkServiceId = genruntime.ClonePointerToString(source.PrivateLinkServiceId)
-
-	// ProvisioningState
-	connection.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// RequestMessage
-	connection.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
-
-	// Type
-	connection.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		connection.PropertyBag = propertyBag
-	} else {
-		connection.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkServiceConnection_STATUS populates the provided destination PrivateLinkServiceConnection_STATUS from our PrivateLinkServiceConnection_STATUS
-func (connection *PrivateLinkServiceConnection_STATUS) AssignProperties_To_PrivateLinkServiceConnection_STATUS(destination *v20201101s.PrivateLinkServiceConnection_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(connection.Etag)
-
-	// GroupIds
-	destination.GroupIds = genruntime.CloneSliceOfString(connection.GroupIds)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(connection.Name)
-
-	// PrivateLinkServiceConnectionState
-	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20201101s.PrivateLinkServiceConnectionState_STATUS
-		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// PrivateLinkServiceId
-	destination.PrivateLinkServiceId = genruntime.ClonePointerToString(connection.PrivateLinkServiceId)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(connection.ProvisioningState)
-
-	// RequestMessage
-	destination.RequestMessage = genruntime.ClonePointerToString(connection.RequestMessage)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(connection.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.PrivateLinkServiceIpConfiguration
-// Deprecated version of PrivateLinkServiceIpConfiguration. Use v1beta20201101.PrivateLinkServiceIpConfiguration instead
-type PrivateLinkServiceIpConfiguration struct {
-	Name                      *string                       `json:"name,omitempty"`
-	Primary                   *bool                         `json:"primary,omitempty"`
-	PrivateIPAddress          *string                       `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *string                       `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *string                       `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference                 *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet                    *Subnet                       `json:"subnet,omitempty"`
-}
-
-// AssignProperties_From_PrivateLinkServiceIpConfiguration populates our PrivateLinkServiceIpConfiguration from the provided source PrivateLinkServiceIpConfiguration
-func (configuration *PrivateLinkServiceIpConfiguration) AssignProperties_From_PrivateLinkServiceIpConfiguration(source *v20201101s.PrivateLinkServiceIpConfiguration) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configuration.Primary = &primary
-	} else {
-		configuration.Primary = nil
-	}
-
-	// PrivateIPAddress
-	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	configuration.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
-
-	// PrivateIPAllocationMethod
-	configuration.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
 
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
-		configuration.Reference = &reference
+		embedded.Reference = &reference
 	} else {
-		configuration.Reference = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet
-		err := subnet.AssignProperties_From_Subnet(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet() to populate field Subnet")
-		}
-		configuration.Subnet = &subnet
-	} else {
-		configuration.Subnet = nil
+		embedded.Reference = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configuration.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		configuration.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_PrivateLinkServiceIpConfiguration populates the provided destination PrivateLinkServiceIpConfiguration from our PrivateLinkServiceIpConfiguration
-func (configuration *PrivateLinkServiceIpConfiguration) AssignProperties_To_PrivateLinkServiceIpConfiguration(destination *v20201101s.PrivateLinkServiceIpConfiguration) error {
+// AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded populates the provided destination PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded from our PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(destination *v20201101s.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
-
-	// Primary
-	if configuration.Primary != nil {
-		primary := *configuration.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configuration.PrivateIPAddressVersion)
-
-	// PrivateIPAllocationMethod
-	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(configuration.PrivateIPAllocationMethod)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
 	}
 
-	// Subnet
-	if configuration.Subnet != nil {
-		var subnet v20201101s.Subnet
-		err := configuration.Subnet.AssignProperties_To_Subnet(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet() to populate field Subnet")
-		}
-		destination.Subnet = &subnet
-	} else {
-		destination.Subnet = nil
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -4278,454 +2703,94 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignProperties_To_Priv
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.PrivateLinkServiceIpConfiguration_STATUS
-// Deprecated version of PrivateLinkServiceIpConfiguration_STATUS. Use v1beta20201101.PrivateLinkServiceIpConfiguration_STATUS instead
-type PrivateLinkServiceIpConfiguration_STATUS struct {
-	Etag                      *string                `json:"etag,omitempty"`
-	Id                        *string                `json:"id,omitempty"`
-	Name                      *string                `json:"name,omitempty"`
-	Primary                   *bool                  `json:"primary,omitempty"`
-	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                `json:"provisioningState,omitempty"`
-	Subnet                    *Subnet_STATUS         `json:"subnet,omitempty"`
-	Type                      *string                `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.Subnet_NetworkInterface_SubResourceEmbedded
+// Deprecated version of Subnet_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_NetworkInterface_SubResourceEmbedded instead
+type Subnet_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_PrivateLinkServiceIpConfiguration_STATUS populates our PrivateLinkServiceIpConfiguration_STATUS from the provided source PrivateLinkServiceIpConfiguration_STATUS
-func (configuration *PrivateLinkServiceIpConfiguration_STATUS) AssignProperties_From_PrivateLinkServiceIpConfiguration_STATUS(source *v20201101s.PrivateLinkServiceIpConfiguration_STATUS) error {
+// AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded populates our Subnet_NetworkInterface_SubResourceEmbedded from the provided source Subnet_NetworkInterface_SubResourceEmbedded
+func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) AssignProperties_From_Subnet_NetworkInterface_SubResourceEmbedded(source *v20201101s.Subnet_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Etag
-	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configuration.Primary = &primary
-	} else {
-		configuration.Primary = nil
-	}
-
-	// PrivateIPAddress
-	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	configuration.PrivateIPAddressVersion = genruntime.ClonePointerToString(source.PrivateIPAddressVersion)
-
-	// PrivateIPAllocationMethod
-	configuration.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
-
-	// ProvisioningState
-	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet_STATUS
-		err := subnet.AssignProperties_From_Subnet_STATUS(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS() to populate field Subnet")
-		}
-		configuration.Subnet = &subnet
-	} else {
-		configuration.Subnet = nil
-	}
-
-	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		configuration.PropertyBag = propertyBag
-	} else {
-		configuration.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS populates the provided destination PrivateLinkServiceIpConfiguration_STATUS from our PrivateLinkServiceIpConfiguration_STATUS
-func (configuration *PrivateLinkServiceIpConfiguration_STATUS) AssignProperties_To_PrivateLinkServiceIpConfiguration_STATUS(destination *v20201101s.PrivateLinkServiceIpConfiguration_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(configuration.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configuration.Name)
-
-	// Primary
-	if configuration.Primary != nil {
-		primary := *configuration.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	destination.PrivateIPAddressVersion = genruntime.ClonePointerToString(configuration.PrivateIPAddressVersion)
-
-	// PrivateIPAllocationMethod
-	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(configuration.PrivateIPAllocationMethod)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
-
-	// Subnet
-	if configuration.Subnet != nil {
-		var subnet v20201101s.Subnet_STATUS
-		err := configuration.Subnet.AssignProperties_To_Subnet_STATUS(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS() to populate field Subnet")
-		}
-		destination.Subnet = &subnet
-	} else {
-		destination.Subnet = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.ResourceSet
-// Deprecated version of ResourceSet. Use v1beta20201101.ResourceSet instead
-type ResourceSet struct {
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subscriptions []string               `json:"subscriptions,omitempty"`
-}
-
-// AssignProperties_From_ResourceSet populates our ResourceSet from the provided source ResourceSet
-func (resourceSet *ResourceSet) AssignProperties_From_ResourceSet(source *v20201101s.ResourceSet) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Subscriptions
-	resourceSet.Subscriptions = genruntime.CloneSliceOfString(source.Subscriptions)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resourceSet.PropertyBag = propertyBag
-	} else {
-		resourceSet.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ResourceSet populates the provided destination ResourceSet from our ResourceSet
-func (resourceSet *ResourceSet) AssignProperties_To_ResourceSet(destination *v20201101s.ResourceSet) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resourceSet.PropertyBag)
-
-	// Subscriptions
-	destination.Subscriptions = genruntime.CloneSliceOfString(resourceSet.Subscriptions)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.ResourceSet_STATUS
-// Deprecated version of ResourceSet_STATUS. Use v1beta20201101.ResourceSet_STATUS instead
-type ResourceSet_STATUS struct {
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subscriptions []string               `json:"subscriptions,omitempty"`
-}
-
-// AssignProperties_From_ResourceSet_STATUS populates our ResourceSet_STATUS from the provided source ResourceSet_STATUS
-func (resourceSet *ResourceSet_STATUS) AssignProperties_From_ResourceSet_STATUS(source *v20201101s.ResourceSet_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Subscriptions
-	resourceSet.Subscriptions = genruntime.CloneSliceOfString(source.Subscriptions)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resourceSet.PropertyBag = propertyBag
-	} else {
-		resourceSet.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ResourceSet_STATUS populates the provided destination ResourceSet_STATUS from our ResourceSet_STATUS
-func (resourceSet *ResourceSet_STATUS) AssignProperties_To_ResourceSet_STATUS(destination *v20201101s.ResourceSet_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resourceSet.PropertyBag)
-
-	// Subscriptions
-	destination.Subscriptions = genruntime.CloneSliceOfString(resourceSet.Subscriptions)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.SecurityRule
-// Deprecated version of SecurityRule. Use v1beta20201101.SecurityRule instead
-type SecurityRule struct {
-	Access                               *string                        `json:"access,omitempty"`
-	Description                          *string                        `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                        `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                       `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                        `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                       `json:"destinationPortRanges,omitempty"`
-	Direction                            *string                        `json:"direction,omitempty"`
-	Name                                 *string                        `json:"name,omitempty"`
-	Priority                             *int                           `json:"priority,omitempty"`
-	PropertyBag                          genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Protocol                             *string                        `json:"protocol,omitempty"`
-	Reference                            *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
-	SourceAddressPrefix                  *string                        `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes                []string                       `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups      []ApplicationSecurityGroupSpec `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                      *string                        `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                     []string                       `json:"sourcePortRanges,omitempty"`
-	Type                                 *string                        `json:"type,omitempty"`
-}
-
-// AssignProperties_From_SecurityRule populates our SecurityRule from the provided source SecurityRule
-func (rule *SecurityRule) AssignProperties_From_SecurityRule(source *v20201101s.SecurityRule) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Access
-	rule.Access = genruntime.ClonePointerToString(source.Access)
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddressPrefix
-	rule.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
-
-	// DestinationAddressPrefixes
-	rule.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
-
-	// DestinationApplicationSecurityGroups
-	if source.DestinationApplicationSecurityGroups != nil {
-		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec, len(source.DestinationApplicationSecurityGroups))
-		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-			var destinationApplicationSecurityGroup ApplicationSecurityGroupSpec
-			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec(&destinationApplicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec() to populate field DestinationApplicationSecurityGroups")
-			}
-			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
-		}
-		rule.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
-	} else {
-		rule.DestinationApplicationSecurityGroups = nil
-	}
-
-	// DestinationPortRange
-	rule.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
-
-	// DestinationPortRanges
-	rule.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
-
-	// Direction
-	rule.Direction = genruntime.ClonePointerToString(source.Direction)
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Priority
-	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// Protocol
-	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
 
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
-		rule.Reference = &reference
+		embedded.Reference = &reference
 	} else {
-		rule.Reference = nil
+		embedded.Reference = nil
 	}
-
-	// SourceAddressPrefix
-	rule.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
-
-	// SourceAddressPrefixes
-	rule.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
-
-	// SourceApplicationSecurityGroups
-	if source.SourceApplicationSecurityGroups != nil {
-		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroupSpec, len(source.SourceApplicationSecurityGroups))
-		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-			var sourceApplicationSecurityGroup ApplicationSecurityGroupSpec
-			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroupSpec(&sourceApplicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroupSpec() to populate field SourceApplicationSecurityGroups")
-			}
-			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
-		}
-		rule.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
-	} else {
-		rule.SourceApplicationSecurityGroups = nil
-	}
-
-	// SourcePortRange
-	rule.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
-
-	// SourcePortRanges
-	rule.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		rule.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		rule.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SecurityRule populates the provided destination SecurityRule from our SecurityRule
-func (rule *SecurityRule) AssignProperties_To_SecurityRule(destination *v20201101s.SecurityRule) error {
+// AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded populates the provided destination Subnet_NetworkInterface_SubResourceEmbedded from our Subnet_NetworkInterface_SubResourceEmbedded
+func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded(destination *v20201101s.Subnet_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
-
-	// Access
-	destination.Access = genruntime.ClonePointerToString(rule.Access)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(rule.Description)
-
-	// DestinationAddressPrefix
-	destination.DestinationAddressPrefix = genruntime.ClonePointerToString(rule.DestinationAddressPrefix)
-
-	// DestinationAddressPrefixes
-	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(rule.DestinationAddressPrefixes)
-
-	// DestinationApplicationSecurityGroups
-	if rule.DestinationApplicationSecurityGroups != nil {
-		destinationApplicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroupSpec, len(rule.DestinationApplicationSecurityGroups))
-		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-			var destinationApplicationSecurityGroup v20201101s.ApplicationSecurityGroupSpec
-			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec(&destinationApplicationSecurityGroup)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec() to populate field DestinationApplicationSecurityGroups")
-			}
-			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
-		}
-		destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
-	} else {
-		destination.DestinationApplicationSecurityGroups = nil
-	}
-
-	// DestinationPortRange
-	destination.DestinationPortRange = genruntime.ClonePointerToString(rule.DestinationPortRange)
-
-	// DestinationPortRanges
-	destination.DestinationPortRanges = genruntime.CloneSliceOfString(rule.DestinationPortRanges)
-
-	// Direction
-	destination.Direction = genruntime.ClonePointerToString(rule.Direction)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(rule.Name)
-
-	// Priority
-	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
-
-	// Protocol
-	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
 	}
 
-	// SourceAddressPrefix
-	destination.SourceAddressPrefix = genruntime.ClonePointerToString(rule.SourceAddressPrefix)
-
-	// SourceAddressPrefixes
-	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(rule.SourceAddressPrefixes)
-
-	// SourceApplicationSecurityGroups
-	if rule.SourceApplicationSecurityGroups != nil {
-		sourceApplicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroupSpec, len(rule.SourceApplicationSecurityGroups))
-		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-			var sourceApplicationSecurityGroup v20201101s.ApplicationSecurityGroupSpec
-			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroupSpec(&sourceApplicationSecurityGroup)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroupSpec() to populate field SourceApplicationSecurityGroups")
-			}
-			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
-		}
-		destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
 	} else {
-		destination.SourceApplicationSecurityGroups = nil
+		destination.PropertyBag = nil
 	}
 
-	// SourcePortRange
-	destination.SourcePortRange = genruntime.ClonePointerToString(rule.SourcePortRange)
+	// No error
+	return nil
+}
 
-	// SourcePortRanges
-	destination.SourcePortRanges = genruntime.CloneSliceOfString(rule.SourcePortRanges)
+// Storage version of v1alpha1api20201101.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of Subnet_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_NetworkInterface_SubResourceEmbedded instead
+type Subnet_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
+// AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded populates our Subnet_STATUS_NetworkInterface_SubResourceEmbedded from the provided source Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination Subnet_STATUS_NetworkInterface_SubResourceEmbedded from our Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4738,232 +2803,39 @@ func (rule *SecurityRule) AssignProperties_To_SecurityRule(destination *v2020110
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.SecurityRule_STATUS
-// Deprecated version of SecurityRule_STATUS. Use v1beta20201101.SecurityRule_STATUS instead
-type SecurityRule_STATUS struct {
-	Access                               *string                           `json:"access,omitempty"`
-	Description                          *string                           `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                           `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                          `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                           `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                          `json:"destinationPortRanges,omitempty"`
-	Direction                            *string                           `json:"direction,omitempty"`
-	Etag                                 *string                           `json:"etag,omitempty"`
-	Id                                   *string                           `json:"id,omitempty"`
-	Name                                 *string                           `json:"name,omitempty"`
-	Priority                             *int                              `json:"priority,omitempty"`
-	PropertyBag                          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Protocol                             *string                           `json:"protocol,omitempty"`
-	ProvisioningState                    *string                           `json:"provisioningState,omitempty"`
-	SourceAddressPrefix                  *string                           `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes                []string                          `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_STATUS `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                      *string                           `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                     []string                          `json:"sourcePortRanges,omitempty"`
-	Type                                 *string                           `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+// Deprecated version of VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded instead
+type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_SecurityRule_STATUS populates our SecurityRule_STATUS from the provided source SecurityRule_STATUS
-func (rule *SecurityRule_STATUS) AssignProperties_From_SecurityRule_STATUS(source *v20201101s.SecurityRule_STATUS) error {
+// AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates our VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded from the provided source VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(source *v20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Access
-	rule.Access = genruntime.ClonePointerToString(source.Access)
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddressPrefix
-	rule.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
-
-	// DestinationAddressPrefixes
-	rule.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
-
-	// DestinationApplicationSecurityGroups
-	if source.DestinationApplicationSecurityGroups != nil {
-		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS, len(source.DestinationApplicationSecurityGroups))
-		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-			var destinationApplicationSecurityGroup ApplicationSecurityGroup_STATUS
-			err := destinationApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS(&destinationApplicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS() to populate field DestinationApplicationSecurityGroups")
-			}
-			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
-		}
-		rule.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
-	} else {
-		rule.DestinationApplicationSecurityGroups = nil
-	}
-
-	// DestinationPortRange
-	rule.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
-
-	// DestinationPortRanges
-	rule.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
-
-	// Direction
-	rule.Direction = genruntime.ClonePointerToString(source.Direction)
-
-	// Etag
-	rule.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Priority
-	rule.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// Protocol
-	rule.Protocol = genruntime.ClonePointerToString(source.Protocol)
-
-	// ProvisioningState
-	rule.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// SourceAddressPrefix
-	rule.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
-
-	// SourceAddressPrefixes
-	rule.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
-
-	// SourceApplicationSecurityGroups
-	if source.SourceApplicationSecurityGroups != nil {
-		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroup_STATUS, len(source.SourceApplicationSecurityGroups))
-		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-			var sourceApplicationSecurityGroup ApplicationSecurityGroup_STATUS
-			err := sourceApplicationSecurityGroup.AssignProperties_From_ApplicationSecurityGroup_STATUS(&sourceApplicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ApplicationSecurityGroup_STATUS() to populate field SourceApplicationSecurityGroups")
-			}
-			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
-		}
-		rule.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
-	} else {
-		rule.SourceApplicationSecurityGroups = nil
-	}
-
-	// SourcePortRange
-	rule.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
-
-	// SourcePortRanges
-	rule.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		rule.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		rule.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SecurityRule_STATUS populates the provided destination SecurityRule_STATUS from our SecurityRule_STATUS
-func (rule *SecurityRule_STATUS) AssignProperties_To_SecurityRule_STATUS(destination *v20201101s.SecurityRule_STATUS) error {
+// AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates the provided destination VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded from our VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(destination *v20201101s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
-
-	// Access
-	destination.Access = genruntime.ClonePointerToString(rule.Access)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(rule.Description)
-
-	// DestinationAddressPrefix
-	destination.DestinationAddressPrefix = genruntime.ClonePointerToString(rule.DestinationAddressPrefix)
-
-	// DestinationAddressPrefixes
-	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(rule.DestinationAddressPrefixes)
-
-	// DestinationApplicationSecurityGroups
-	if rule.DestinationApplicationSecurityGroups != nil {
-		destinationApplicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroup_STATUS, len(rule.DestinationApplicationSecurityGroups))
-		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range rule.DestinationApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-			var destinationApplicationSecurityGroup v20201101s.ApplicationSecurityGroup_STATUS
-			err := destinationApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS(&destinationApplicationSecurityGroup)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS() to populate field DestinationApplicationSecurityGroups")
-			}
-			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
-		}
-		destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
-	} else {
-		destination.DestinationApplicationSecurityGroups = nil
-	}
-
-	// DestinationPortRange
-	destination.DestinationPortRange = genruntime.ClonePointerToString(rule.DestinationPortRange)
-
-	// DestinationPortRanges
-	destination.DestinationPortRanges = genruntime.CloneSliceOfString(rule.DestinationPortRanges)
-
-	// Direction
-	destination.Direction = genruntime.ClonePointerToString(rule.Direction)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(rule.Etag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(rule.Name)
-
-	// Priority
-	destination.Priority = genruntime.ClonePointerToInt(rule.Priority)
-
-	// Protocol
-	destination.Protocol = genruntime.ClonePointerToString(rule.Protocol)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(rule.ProvisioningState)
-
-	// SourceAddressPrefix
-	destination.SourceAddressPrefix = genruntime.ClonePointerToString(rule.SourceAddressPrefix)
-
-	// SourceAddressPrefixes
-	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(rule.SourceAddressPrefixes)
-
-	// SourceApplicationSecurityGroups
-	if rule.SourceApplicationSecurityGroups != nil {
-		sourceApplicationSecurityGroupList := make([]v20201101s.ApplicationSecurityGroup_STATUS, len(rule.SourceApplicationSecurityGroups))
-		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range rule.SourceApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-			var sourceApplicationSecurityGroup v20201101s.ApplicationSecurityGroup_STATUS
-			err := sourceApplicationSecurityGroupItem.AssignProperties_To_ApplicationSecurityGroup_STATUS(&sourceApplicationSecurityGroup)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ApplicationSecurityGroup_STATUS() to populate field SourceApplicationSecurityGroups")
-			}
-			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
-		}
-		destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
-	} else {
-		destination.SourceApplicationSecurityGroups = nil
-	}
-
-	// SourcePortRange
-	destination.SourcePortRange = genruntime.ClonePointerToString(rule.SourcePortRange)
-
-	// SourcePortRanges
-	destination.SourcePortRanges = genruntime.CloneSliceOfString(rule.SourcePortRanges)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4976,731 +2848,49 @@ func (rule *SecurityRule_STATUS) AssignProperties_To_SecurityRule_STATUS(destina
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.VirtualNetworkTap_STATUS
-// Deprecated version of VirtualNetworkTap_STATUS. Use v1beta20201101.VirtualNetworkTap_STATUS instead
-type VirtualNetworkTap_STATUS struct {
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_STATUS           `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
-	DestinationNetworkInterfaceIPConfiguration     *NetworkInterfaceIPConfiguration_STATUS   `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
-	DestinationPort                                *int                                      `json:"destinationPort,omitempty"`
-	Etag                                           *string                                   `json:"etag,omitempty"`
-	Id                                             *string                                   `json:"id,omitempty"`
-	Location                                       *string                                   `json:"location,omitempty"`
-	Name                                           *string                                   `json:"name,omitempty"`
-	NetworkInterfaceTapConfigurations              []NetworkInterfaceTapConfiguration_STATUS `json:"networkInterfaceTapConfigurations,omitempty"`
-	PropertyBag                                    genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                              *string                                   `json:"provisioningState,omitempty"`
-	ResourceGuid                                   *string                                   `json:"resourceGuid,omitempty"`
-	Tags                                           map[string]string                         `json:"tags,omitempty"`
-	Type                                           *string                                   `json:"type,omitempty"`
+// Storage version of v1alpha1api20201101.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+// Deprecated version of VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded. Use v1beta20201101.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded instead
+type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_VirtualNetworkTap_STATUS populates our VirtualNetworkTap_STATUS from the provided source VirtualNetworkTap_STATUS
-func (networkTap *VirtualNetworkTap_STATUS) AssignProperties_From_VirtualNetworkTap_STATUS(source *v20201101s.VirtualNetworkTap_STATUS) error {
+// AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded populates our VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded from the provided source VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_From_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(source *v20201101s.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// DestinationLoadBalancerFrontEndIPConfiguration
-	if source.DestinationLoadBalancerFrontEndIPConfiguration != nil {
-		var destinationLoadBalancerFrontEndIPConfiguration FrontendIPConfiguration_STATUS
-		err := destinationLoadBalancerFrontEndIPConfiguration.AssignProperties_From_FrontendIPConfiguration_STATUS(source.DestinationLoadBalancerFrontEndIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FrontendIPConfiguration_STATUS() to populate field DestinationLoadBalancerFrontEndIPConfiguration")
-		}
-		networkTap.DestinationLoadBalancerFrontEndIPConfiguration = &destinationLoadBalancerFrontEndIPConfiguration
-	} else {
-		networkTap.DestinationLoadBalancerFrontEndIPConfiguration = nil
-	}
-
-	// DestinationNetworkInterfaceIPConfiguration
-	if source.DestinationNetworkInterfaceIPConfiguration != nil {
-		var destinationNetworkInterfaceIPConfiguration NetworkInterfaceIPConfiguration_STATUS
-		err := destinationNetworkInterfaceIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS(source.DestinationNetworkInterfaceIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS() to populate field DestinationNetworkInterfaceIPConfiguration")
-		}
-		networkTap.DestinationNetworkInterfaceIPConfiguration = &destinationNetworkInterfaceIPConfiguration
-	} else {
-		networkTap.DestinationNetworkInterfaceIPConfiguration = nil
-	}
-
-	// DestinationPort
-	networkTap.DestinationPort = genruntime.ClonePointerToInt(source.DestinationPort)
-
-	// Etag
-	networkTap.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	networkTap.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	networkTap.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	networkTap.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkInterfaceTapConfigurations
-	if source.NetworkInterfaceTapConfigurations != nil {
-		networkInterfaceTapConfigurationList := make([]NetworkInterfaceTapConfiguration_STATUS, len(source.NetworkInterfaceTapConfigurations))
-		for networkInterfaceTapConfigurationIndex, networkInterfaceTapConfigurationItem := range source.NetworkInterfaceTapConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceTapConfigurationItem := networkInterfaceTapConfigurationItem
-			var networkInterfaceTapConfiguration NetworkInterfaceTapConfiguration_STATUS
-			err := networkInterfaceTapConfiguration.AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS(&networkInterfaceTapConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceTapConfiguration_STATUS() to populate field NetworkInterfaceTapConfigurations")
-			}
-			networkInterfaceTapConfigurationList[networkInterfaceTapConfigurationIndex] = networkInterfaceTapConfiguration
-		}
-		networkTap.NetworkInterfaceTapConfigurations = networkInterfaceTapConfigurationList
-	} else {
-		networkTap.NetworkInterfaceTapConfigurations = nil
-	}
-
-	// ProvisioningState
-	networkTap.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceGuid
-	networkTap.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
-
-	// Tags
-	networkTap.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	networkTap.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		networkTap.PropertyBag = propertyBag
-	} else {
-		networkTap.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualNetworkTap_STATUS populates the provided destination VirtualNetworkTap_STATUS from our VirtualNetworkTap_STATUS
-func (networkTap *VirtualNetworkTap_STATUS) AssignProperties_To_VirtualNetworkTap_STATUS(destination *v20201101s.VirtualNetworkTap_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(networkTap.PropertyBag)
-
-	// DestinationLoadBalancerFrontEndIPConfiguration
-	if networkTap.DestinationLoadBalancerFrontEndIPConfiguration != nil {
-		var destinationLoadBalancerFrontEndIPConfiguration v20201101s.FrontendIPConfiguration_STATUS
-		err := networkTap.DestinationLoadBalancerFrontEndIPConfiguration.AssignProperties_To_FrontendIPConfiguration_STATUS(&destinationLoadBalancerFrontEndIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FrontendIPConfiguration_STATUS() to populate field DestinationLoadBalancerFrontEndIPConfiguration")
-		}
-		destination.DestinationLoadBalancerFrontEndIPConfiguration = &destinationLoadBalancerFrontEndIPConfiguration
-	} else {
-		destination.DestinationLoadBalancerFrontEndIPConfiguration = nil
-	}
-
-	// DestinationNetworkInterfaceIPConfiguration
-	if networkTap.DestinationNetworkInterfaceIPConfiguration != nil {
-		var destinationNetworkInterfaceIPConfiguration v20201101s.NetworkInterfaceIPConfiguration_STATUS
-		err := networkTap.DestinationNetworkInterfaceIPConfiguration.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS(&destinationNetworkInterfaceIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS() to populate field DestinationNetworkInterfaceIPConfiguration")
-		}
-		destination.DestinationNetworkInterfaceIPConfiguration = &destinationNetworkInterfaceIPConfiguration
-	} else {
-		destination.DestinationNetworkInterfaceIPConfiguration = nil
-	}
-
-	// DestinationPort
-	destination.DestinationPort = genruntime.ClonePointerToInt(networkTap.DestinationPort)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(networkTap.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(networkTap.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(networkTap.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(networkTap.Name)
-
-	// NetworkInterfaceTapConfigurations
-	if networkTap.NetworkInterfaceTapConfigurations != nil {
-		networkInterfaceTapConfigurationList := make([]v20201101s.NetworkInterfaceTapConfiguration_STATUS, len(networkTap.NetworkInterfaceTapConfigurations))
-		for networkInterfaceTapConfigurationIndex, networkInterfaceTapConfigurationItem := range networkTap.NetworkInterfaceTapConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceTapConfigurationItem := networkInterfaceTapConfigurationItem
-			var networkInterfaceTapConfiguration v20201101s.NetworkInterfaceTapConfiguration_STATUS
-			err := networkInterfaceTapConfigurationItem.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS(&networkInterfaceTapConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS() to populate field NetworkInterfaceTapConfigurations")
-			}
-			networkInterfaceTapConfigurationList[networkInterfaceTapConfigurationIndex] = networkInterfaceTapConfiguration
-		}
-		destination.NetworkInterfaceTapConfigurations = networkInterfaceTapConfigurationList
-	} else {
-		destination.NetworkInterfaceTapConfigurations = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(networkTap.ProvisioningState)
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(networkTap.ResourceGuid)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(networkTap.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(networkTap.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.VirtualNetworkTapSpec
-// Deprecated version of VirtualNetworkTapSpec. Use v1beta20201101.VirtualNetworkTapSpec instead
-type VirtualNetworkTapSpec struct {
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration         `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
-	DestinationNetworkInterfaceIPConfiguration     *NetworkInterfaceIPConfiguration `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
-	DestinationPort                                *int                             `json:"destinationPort,omitempty"`
-	Location                                       *string                          `json:"location,omitempty"`
-	PropertyBag                                    genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	Reference                                      *genruntime.ResourceReference    `armReference:"Id" json:"reference,omitempty"`
-	Tags                                           map[string]string                `json:"tags,omitempty"`
-}
-
-// AssignProperties_From_VirtualNetworkTapSpec populates our VirtualNetworkTapSpec from the provided source VirtualNetworkTapSpec
-func (networkTap *VirtualNetworkTapSpec) AssignProperties_From_VirtualNetworkTapSpec(source *v20201101s.VirtualNetworkTapSpec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// DestinationLoadBalancerFrontEndIPConfiguration
-	if source.DestinationLoadBalancerFrontEndIPConfiguration != nil {
-		var destinationLoadBalancerFrontEndIPConfiguration FrontendIPConfiguration
-		err := destinationLoadBalancerFrontEndIPConfiguration.AssignProperties_From_FrontendIPConfiguration(source.DestinationLoadBalancerFrontEndIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FrontendIPConfiguration() to populate field DestinationLoadBalancerFrontEndIPConfiguration")
-		}
-		networkTap.DestinationLoadBalancerFrontEndIPConfiguration = &destinationLoadBalancerFrontEndIPConfiguration
-	} else {
-		networkTap.DestinationLoadBalancerFrontEndIPConfiguration = nil
-	}
-
-	// DestinationNetworkInterfaceIPConfiguration
-	if source.DestinationNetworkInterfaceIPConfiguration != nil {
-		var destinationNetworkInterfaceIPConfiguration NetworkInterfaceIPConfiguration
-		err := destinationNetworkInterfaceIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration(source.DestinationNetworkInterfaceIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration() to populate field DestinationNetworkInterfaceIPConfiguration")
-		}
-		networkTap.DestinationNetworkInterfaceIPConfiguration = &destinationNetworkInterfaceIPConfiguration
-	} else {
-		networkTap.DestinationNetworkInterfaceIPConfiguration = nil
-	}
-
-	// DestinationPort
-	networkTap.DestinationPort = genruntime.ClonePointerToInt(source.DestinationPort)
-
-	// Location
-	networkTap.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
-		networkTap.Reference = &reference
+		embedded.Reference = &reference
 	} else {
-		networkTap.Reference = nil
+		embedded.Reference = nil
 	}
-
-	// Tags
-	networkTap.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		networkTap.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		networkTap.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_VirtualNetworkTapSpec populates the provided destination VirtualNetworkTapSpec from our VirtualNetworkTapSpec
-func (networkTap *VirtualNetworkTapSpec) AssignProperties_To_VirtualNetworkTapSpec(destination *v20201101s.VirtualNetworkTapSpec) error {
+// AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded populates the provided destination VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded from our VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(destination *v20201101s.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(networkTap.PropertyBag)
-
-	// DestinationLoadBalancerFrontEndIPConfiguration
-	if networkTap.DestinationLoadBalancerFrontEndIPConfiguration != nil {
-		var destinationLoadBalancerFrontEndIPConfiguration v20201101s.FrontendIPConfiguration
-		err := networkTap.DestinationLoadBalancerFrontEndIPConfiguration.AssignProperties_To_FrontendIPConfiguration(&destinationLoadBalancerFrontEndIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FrontendIPConfiguration() to populate field DestinationLoadBalancerFrontEndIPConfiguration")
-		}
-		destination.DestinationLoadBalancerFrontEndIPConfiguration = &destinationLoadBalancerFrontEndIPConfiguration
-	} else {
-		destination.DestinationLoadBalancerFrontEndIPConfiguration = nil
-	}
-
-	// DestinationNetworkInterfaceIPConfiguration
-	if networkTap.DestinationNetworkInterfaceIPConfiguration != nil {
-		var destinationNetworkInterfaceIPConfiguration v20201101s.NetworkInterfaceIPConfiguration
-		err := networkTap.DestinationNetworkInterfaceIPConfiguration.AssignProperties_To_NetworkInterfaceIPConfiguration(&destinationNetworkInterfaceIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration() to populate field DestinationNetworkInterfaceIPConfiguration")
-		}
-		destination.DestinationNetworkInterfaceIPConfiguration = &destinationNetworkInterfaceIPConfiguration
-	} else {
-		destination.DestinationNetworkInterfaceIPConfiguration = nil
-	}
-
-	// DestinationPort
-	destination.DestinationPort = genruntime.ClonePointerToInt(networkTap.DestinationPort)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(networkTap.Location)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Reference
-	if networkTap.Reference != nil {
-		reference := networkTap.Reference.Copy()
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
 	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(networkTap.Tags)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddress
-// Deprecated version of ApplicationGatewayBackendAddress. Use v1beta20201101.ApplicationGatewayBackendAddress instead
-type ApplicationGatewayBackendAddress struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddress   *string                `json:"ipAddress,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_ApplicationGatewayBackendAddress populates our ApplicationGatewayBackendAddress from the provided source ApplicationGatewayBackendAddress
-func (address *ApplicationGatewayBackendAddress) AssignProperties_From_ApplicationGatewayBackendAddress(source *v20201101s.ApplicationGatewayBackendAddress) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Fqdn
-	address.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
-
-	// IpAddress
-	address.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		address.PropertyBag = propertyBag
-	} else {
-		address.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ApplicationGatewayBackendAddress populates the provided destination ApplicationGatewayBackendAddress from our ApplicationGatewayBackendAddress
-func (address *ApplicationGatewayBackendAddress) AssignProperties_To_ApplicationGatewayBackendAddress(destination *v20201101s.ApplicationGatewayBackendAddress) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(address.PropertyBag)
-
-	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(address.Fqdn)
-
-	// IpAddress
-	destination.IpAddress = genruntime.ClonePointerToString(address.IpAddress)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.ApplicationGatewayBackendAddress_STATUS
-// Deprecated version of ApplicationGatewayBackendAddress_STATUS. Use v1beta20201101.ApplicationGatewayBackendAddress_STATUS instead
-type ApplicationGatewayBackendAddress_STATUS struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddress   *string                `json:"ipAddress,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_ApplicationGatewayBackendAddress_STATUS populates our ApplicationGatewayBackendAddress_STATUS from the provided source ApplicationGatewayBackendAddress_STATUS
-func (address *ApplicationGatewayBackendAddress_STATUS) AssignProperties_From_ApplicationGatewayBackendAddress_STATUS(source *v20201101s.ApplicationGatewayBackendAddress_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Fqdn
-	address.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
-
-	// IpAddress
-	address.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		address.PropertyBag = propertyBag
-	} else {
-		address.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ApplicationGatewayBackendAddress_STATUS populates the provided destination ApplicationGatewayBackendAddress_STATUS from our ApplicationGatewayBackendAddress_STATUS
-func (address *ApplicationGatewayBackendAddress_STATUS) AssignProperties_To_ApplicationGatewayBackendAddress_STATUS(destination *v20201101s.ApplicationGatewayBackendAddress_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(address.PropertyBag)
-
-	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(address.Fqdn)
-
-	// IpAddress
-	destination.IpAddress = genruntime.ClonePointerToString(address.IpAddress)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.FlowLogFormatParameters_STATUS
-// Deprecated version of FlowLogFormatParameters_STATUS. Use v1beta20201101.FlowLogFormatParameters_STATUS instead
-type FlowLogFormatParameters_STATUS struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-	Version     *int                   `json:"version,omitempty"`
-}
-
-// AssignProperties_From_FlowLogFormatParameters_STATUS populates our FlowLogFormatParameters_STATUS from the provided source FlowLogFormatParameters_STATUS
-func (parameters *FlowLogFormatParameters_STATUS) AssignProperties_From_FlowLogFormatParameters_STATUS(source *v20201101s.FlowLogFormatParameters_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Version
-	parameters.Version = genruntime.ClonePointerToInt(source.Version)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
-	} else {
-		parameters.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_FlowLogFormatParameters_STATUS populates the provided destination FlowLogFormatParameters_STATUS from our FlowLogFormatParameters_STATUS
-func (parameters *FlowLogFormatParameters_STATUS) AssignProperties_To_FlowLogFormatParameters_STATUS(destination *v20201101s.FlowLogFormatParameters_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
-
-	// Version
-	destination.Version = genruntime.ClonePointerToInt(parameters.Version)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.PrivateLinkServiceConnectionState_STATUS
-// Deprecated version of PrivateLinkServiceConnectionState_STATUS. Use v1beta20201101.PrivateLinkServiceConnectionState_STATUS instead
-type PrivateLinkServiceConnectionState_STATUS struct {
-	ActionsRequired *string                `json:"actionsRequired,omitempty"`
-	Description     *string                `json:"description,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
-}
-
-// AssignProperties_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v20201101s.PrivateLinkServiceConnectionState_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ActionsRequired
-	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	state.Status = genruntime.ClonePointerToString(source.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		state.PropertyBag = propertyBag
-	} else {
-		state.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v20201101s.PrivateLinkServiceConnectionState_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(state.PropertyBag)
-
-	// ActionsRequired
-	destination.ActionsRequired = genruntime.ClonePointerToString(state.ActionsRequired)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(state.Description)
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(state.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.RetentionPolicyParameters_STATUS
-// Deprecated version of RetentionPolicyParameters_STATUS. Use v1beta20201101.RetentionPolicyParameters_STATUS instead
-type RetentionPolicyParameters_STATUS struct {
-	Days        *int                   `json:"days,omitempty"`
-	Enabled     *bool                  `json:"enabled,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_RetentionPolicyParameters_STATUS populates our RetentionPolicyParameters_STATUS from the provided source RetentionPolicyParameters_STATUS
-func (parameters *RetentionPolicyParameters_STATUS) AssignProperties_From_RetentionPolicyParameters_STATUS(source *v20201101s.RetentionPolicyParameters_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Days
-	parameters.Days = genruntime.ClonePointerToInt(source.Days)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		parameters.Enabled = &enabled
-	} else {
-		parameters.Enabled = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
-	} else {
-		parameters.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RetentionPolicyParameters_STATUS populates the provided destination RetentionPolicyParameters_STATUS from our RetentionPolicyParameters_STATUS
-func (parameters *RetentionPolicyParameters_STATUS) AssignProperties_To_RetentionPolicyParameters_STATUS(destination *v20201101s.RetentionPolicyParameters_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
-
-	// Days
-	destination.Days = genruntime.ClonePointerToInt(parameters.Days)
-
-	// Enabled
-	if parameters.Enabled != nil {
-		enabled := *parameters.Enabled
-		destination.Enabled = &enabled
-	} else {
-		destination.Enabled = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.TrafficAnalyticsProperties_STATUS
-// Deprecated version of TrafficAnalyticsProperties_STATUS. Use v1beta20201101.TrafficAnalyticsProperties_STATUS instead
-type TrafficAnalyticsProperties_STATUS struct {
-	NetworkWatcherFlowAnalyticsConfiguration *TrafficAnalyticsConfigurationProperties_STATUS `json:"networkWatcherFlowAnalyticsConfiguration,omitempty"`
-	PropertyBag                              genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_TrafficAnalyticsProperties_STATUS populates our TrafficAnalyticsProperties_STATUS from the provided source TrafficAnalyticsProperties_STATUS
-func (properties *TrafficAnalyticsProperties_STATUS) AssignProperties_From_TrafficAnalyticsProperties_STATUS(source *v20201101s.TrafficAnalyticsProperties_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// NetworkWatcherFlowAnalyticsConfiguration
-	if source.NetworkWatcherFlowAnalyticsConfiguration != nil {
-		var networkWatcherFlowAnalyticsConfiguration TrafficAnalyticsConfigurationProperties_STATUS
-		err := networkWatcherFlowAnalyticsConfiguration.AssignProperties_From_TrafficAnalyticsConfigurationProperties_STATUS(source.NetworkWatcherFlowAnalyticsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_TrafficAnalyticsConfigurationProperties_STATUS() to populate field NetworkWatcherFlowAnalyticsConfiguration")
-		}
-		properties.NetworkWatcherFlowAnalyticsConfiguration = &networkWatcherFlowAnalyticsConfiguration
-	} else {
-		properties.NetworkWatcherFlowAnalyticsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_TrafficAnalyticsProperties_STATUS populates the provided destination TrafficAnalyticsProperties_STATUS from our TrafficAnalyticsProperties_STATUS
-func (properties *TrafficAnalyticsProperties_STATUS) AssignProperties_To_TrafficAnalyticsProperties_STATUS(destination *v20201101s.TrafficAnalyticsProperties_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// NetworkWatcherFlowAnalyticsConfiguration
-	if properties.NetworkWatcherFlowAnalyticsConfiguration != nil {
-		var networkWatcherFlowAnalyticsConfiguration v20201101s.TrafficAnalyticsConfigurationProperties_STATUS
-		err := properties.NetworkWatcherFlowAnalyticsConfiguration.AssignProperties_To_TrafficAnalyticsConfigurationProperties_STATUS(&networkWatcherFlowAnalyticsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_TrafficAnalyticsConfigurationProperties_STATUS() to populate field NetworkWatcherFlowAnalyticsConfiguration")
-		}
-		destination.NetworkWatcherFlowAnalyticsConfiguration = &networkWatcherFlowAnalyticsConfiguration
-	} else {
-		destination.NetworkWatcherFlowAnalyticsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.TrafficAnalyticsConfigurationProperties_STATUS
-// Deprecated version of TrafficAnalyticsConfigurationProperties_STATUS. Use v1beta20201101.TrafficAnalyticsConfigurationProperties_STATUS instead
-type TrafficAnalyticsConfigurationProperties_STATUS struct {
-	Enabled                  *bool                  `json:"enabled,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TrafficAnalyticsInterval *int                   `json:"trafficAnalyticsInterval,omitempty"`
-	WorkspaceId              *string                `json:"workspaceId,omitempty"`
-	WorkspaceRegion          *string                `json:"workspaceRegion,omitempty"`
-	WorkspaceResourceId      *string                `json:"workspaceResourceId,omitempty"`
-}
-
-// AssignProperties_From_TrafficAnalyticsConfigurationProperties_STATUS populates our TrafficAnalyticsConfigurationProperties_STATUS from the provided source TrafficAnalyticsConfigurationProperties_STATUS
-func (properties *TrafficAnalyticsConfigurationProperties_STATUS) AssignProperties_From_TrafficAnalyticsConfigurationProperties_STATUS(source *v20201101s.TrafficAnalyticsConfigurationProperties_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		properties.Enabled = &enabled
-	} else {
-		properties.Enabled = nil
-	}
-
-	// TrafficAnalyticsInterval
-	properties.TrafficAnalyticsInterval = genruntime.ClonePointerToInt(source.TrafficAnalyticsInterval)
-
-	// WorkspaceId
-	properties.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
-
-	// WorkspaceRegion
-	properties.WorkspaceRegion = genruntime.ClonePointerToString(source.WorkspaceRegion)
-
-	// WorkspaceResourceId
-	properties.WorkspaceResourceId = genruntime.ClonePointerToString(source.WorkspaceResourceId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_TrafficAnalyticsConfigurationProperties_STATUS populates the provided destination TrafficAnalyticsConfigurationProperties_STATUS from our TrafficAnalyticsConfigurationProperties_STATUS
-func (properties *TrafficAnalyticsConfigurationProperties_STATUS) AssignProperties_To_TrafficAnalyticsConfigurationProperties_STATUS(destination *v20201101s.TrafficAnalyticsConfigurationProperties_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// Enabled
-	if properties.Enabled != nil {
-		enabled := *properties.Enabled
-		destination.Enabled = &enabled
-	} else {
-		destination.Enabled = nil
-	}
-
-	// TrafficAnalyticsInterval
-	destination.TrafficAnalyticsInterval = genruntime.ClonePointerToInt(properties.TrafficAnalyticsInterval)
-
-	// WorkspaceId
-	destination.WorkspaceId = genruntime.ClonePointerToString(properties.WorkspaceId)
-
-	// WorkspaceRegion
-	destination.WorkspaceRegion = genruntime.ClonePointerToString(properties.WorkspaceRegion)
-
-	// WorkspaceResourceId
-	destination.WorkspaceResourceId = genruntime.ClonePointerToString(properties.WorkspaceResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

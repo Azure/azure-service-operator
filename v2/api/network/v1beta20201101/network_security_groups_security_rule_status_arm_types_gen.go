@@ -14,13 +14,13 @@ type NetworkSecurityGroups_SecurityRule_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the security rule.
-	Properties *SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Properties *SecurityRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SecurityRulePropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
+type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 

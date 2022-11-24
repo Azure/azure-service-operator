@@ -28,8 +28,8 @@ import (
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NetworkInterface_Spec   `json:"spec,omitempty"`
-	Status            NetworkInterface_STATUS `json:"status,omitempty"`
+	Spec              NetworkInterface_Spec                                        `json:"spec,omitempty"`
+	Status            NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NetworkInterface{}
@@ -78,7 +78,7 @@ func (networkInterface *NetworkInterface) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (networkInterface *NetworkInterface) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &NetworkInterface_STATUS{}
+	return &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (networkInterface *NetworkInterface) Owner() *genruntime.ResourceReference 
 // SetStatus sets the status of this resource
 func (networkInterface *NetworkInterface) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*NetworkInterface_STATUS); ok {
+	if st, ok := status.(*NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		networkInterface.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st NetworkInterface_STATUS
+	var st NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,17 +137,16 @@ type NetworkInterfaceList struct {
 type NetworkInterface_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                   string                            `json:"azureName,omitempty"`
-	DnsSettings                 *NetworkInterfaceDnsSettings      `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                             `json:"enableAcceleratedNetworking,omitempty"`
-	EnableIPForwarding          *bool                             `json:"enableIPForwarding,omitempty"`
-	ExtendedLocation            *ExtendedLocation                 `json:"extendedLocation,omitempty"`
-	IpConfigurations            []NetworkInterfaceIPConfiguration `json:"ipConfigurations,omitempty"`
-	Location                    *string                           `json:"location,omitempty"`
-	MigrationPhase              *string                           `json:"migrationPhase,omitempty"`
-	NetworkSecurityGroup        *NetworkSecurityGroupSpec         `json:"networkSecurityGroup,omitempty"`
-	NicType                     *string                           `json:"nicType,omitempty"`
-	OriginalVersion             string                            `json:"originalVersion,omitempty"`
+	AzureName                   string                                                                 `json:"azureName,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings                                           `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                  `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                  `json:"enableIPForwarding,omitempty"`
+	ExtendedLocation            *ExtendedLocation                                                      `json:"extendedLocation,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                `json:"location,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded         `json:"networkSecurityGroup,omitempty"`
+	NicType                     *string                                                                `json:"nicType,omitempty"`
+	OriginalVersion             string                                                                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -156,10 +155,7 @@ type NetworkInterface_Spec struct {
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PrivateLinkService *PrivateLinkServiceSpec            `json:"privateLinkService,omitempty"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Tags      map[string]string             `json:"tags,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkInterface_Spec{}
@@ -182,54 +178,54 @@ func (networkInterface *NetworkInterface_Spec) ConvertSpecTo(destination genrunt
 	return destination.ConvertSpecFrom(networkInterface)
 }
 
-// Storage version of v1beta20201101.NetworkInterface_STATUS
-type NetworkInterface_STATUS struct {
-	Conditions                  []conditions.Condition                    `json:"conditions,omitempty"`
-	DnsSettings                 *NetworkInterfaceDnsSettings_STATUS       `json:"dnsSettings,omitempty"`
-	DscpConfiguration           *SubResource_STATUS                       `json:"dscpConfiguration,omitempty"`
-	EnableAcceleratedNetworking *bool                                     `json:"enableAcceleratedNetworking,omitempty"`
-	EnableIPForwarding          *bool                                     `json:"enableIPForwarding,omitempty"`
-	Etag                        *string                                   `json:"etag,omitempty"`
-	ExtendedLocation            *ExtendedLocation_STATUS                  `json:"extendedLocation,omitempty"`
-	HostedWorkloads             []string                                  `json:"hostedWorkloads,omitempty"`
-	Id                          *string                                   `json:"id,omitempty"`
-	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS  `json:"ipConfigurations,omitempty"`
-	Location                    *string                                   `json:"location,omitempty"`
-	MacAddress                  *string                                   `json:"macAddress,omitempty"`
-	MigrationPhase              *string                                   `json:"migrationPhase,omitempty"`
-	Name                        *string                                   `json:"name,omitempty"`
-	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS              `json:"networkSecurityGroup,omitempty"`
-	NicType                     *string                                   `json:"nicType,omitempty"`
-	Primary                     *bool                                     `json:"primary,omitempty"`
-	PrivateEndpoint             *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkService          *PrivateLinkService_STATUS                `json:"privateLinkService,omitempty"`
-	PropertyBag                 genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState           *string                                   `json:"provisioningState,omitempty"`
-	ResourceGuid                *string                                   `json:"resourceGuid,omitempty"`
-	Tags                        map[string]string                         `json:"tags,omitempty"`
-	TapConfigurations           []NetworkInterfaceTapConfiguration_STATUS `json:"tapConfigurations,omitempty"`
-	Type                        *string                                   `json:"type,omitempty"`
-	VirtualMachine              *SubResource_STATUS                       `json:"virtualMachine,omitempty"`
+// Storage version of v1beta20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Conditions                  []conditions.Condition                                                         `json:"conditions,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings_STATUS                                            `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource_STATUS                                                            `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                          `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                          `json:"enableIPForwarding,omitempty"`
+	Etag                        *string                                                                        `json:"etag,omitempty"`
+	ExtendedLocation            *ExtendedLocation_STATUS                                                       `json:"extendedLocation,omitempty"`
+	HostedWorkloads             []string                                                                       `json:"hostedWorkloads,omitempty"`
+	Id                          *string                                                                        `json:"id,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded  `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                        `json:"location,omitempty"`
+	MacAddress                  *string                                                                        `json:"macAddress,omitempty"`
+	MigrationPhase              *string                                                                        `json:"migrationPhase,omitempty"`
+	Name                        *string                                                                        `json:"name,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *string                                                                        `json:"nicType,omitempty"`
+	Primary                     *bool                                                                          `json:"primary,omitempty"`
+	PrivateEndpoint             *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkService          *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                `json:"privateLinkService,omitempty"`
+	PropertyBag                 genruntime.PropertyBag                                                         `json:"$propertyBag,omitempty"`
+	ProvisioningState           *string                                                                        `json:"provisioningState,omitempty"`
+	ResourceGuid                *string                                                                        `json:"resourceGuid,omitempty"`
+	Tags                        map[string]string                                                              `json:"tags,omitempty"`
+	TapConfigurations           []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded `json:"tapConfigurations,omitempty"`
+	Type                        *string                                                                        `json:"type,omitempty"`
+	VirtualMachine              *SubResource_STATUS                                                            `json:"virtualMachine,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &NetworkInterface_STATUS{}
+var _ genruntime.ConvertibleStatus = &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 
-// ConvertStatusFrom populates our NetworkInterface_STATUS from the provided source
-func (networkInterface *NetworkInterface_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == networkInterface {
+// ConvertStatusFrom populates our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded from the provided source
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(networkInterface)
+	return source.ConvertStatusTo(embedded)
 }
 
-// ConvertStatusTo populates the provided destination from our NetworkInterface_STATUS
-func (networkInterface *NetworkInterface_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == networkInterface {
+// ConvertStatusTo populates the provided destination from our NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(networkInterface)
+	return destination.ConvertStatusFrom(embedded)
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceDnsSettings
@@ -249,144 +245,83 @@ type NetworkInterfaceDnsSettings_STATUS struct {
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.NetworkInterfaceIPConfiguration
-type NetworkInterfaceIPConfiguration struct {
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec         `json:"applicationSecurityGroups,omitempty"`
-	LoadBalancerBackendAddressPools       []BackendAddressPool                   `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []InboundNatRule                       `json:"loadBalancerInboundNatRules,omitempty"`
-	Name                                  *string                                `json:"name,omitempty"`
-	Primary                               *bool                                  `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *string                                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *string                                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	PublicIPAddress                       *PublicIPAddressSpec                   `json:"publicIPAddress,omitempty"`
-
-	// Reference: Resource ID.
-	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet             *Subnet                       `json:"subnet,omitempty"`
-	Type               *string                       `json:"type,omitempty"`
-	VirtualNetworkTaps []VirtualNetworkTapSpec       `json:"virtualNetworkTaps,omitempty"`
+// Storage version of v1beta20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded struct {
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded         `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_NetworkInterface_SubResourceEmbedded                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_NetworkInterface_SubResourceEmbedded                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                                                                     `json:"name,omitempty"`
+	Primary                               *bool                                                                       `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                     `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *string                                                                     `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                                                                     `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag                           genruntime.PropertyBag                                                      `json:"$propertyBag,omitempty"`
+	PublicIPAddress                       *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                   `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                `json:"virtualNetworkTaps,omitempty"`
 }
 
-// Storage version of v1beta20201101.NetworkInterfaceIPConfiguration_STATUS
-type NetworkInterfaceIPConfiguration_STATUS struct {
-	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS                          `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []ApplicationSecurityGroup_STATUS                                      `json:"applicationSecurityGroups,omitempty"`
-	Etag                                  *string                                                                `json:"etag,omitempty"`
-	Id                                    *string                                                                `json:"id,omitempty"`
-	LoadBalancerBackendAddressPools       []BackendAddressPool_STATUS                                            `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatRules           []InboundNatRule_STATUS                                                `json:"loadBalancerInboundNatRules,omitempty"`
-	Name                                  *string                                                                `json:"name,omitempty"`
-	Primary                               *bool                                                                  `json:"primary,omitempty"`
-	PrivateIPAddress                      *string                                                                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion               *string                                                                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod             *string                                                                `json:"privateIPAllocationMethod,omitempty"`
-	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS `json:"privateLinkConnectionProperties,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState                     *string                                                                `json:"provisioningState,omitempty"`
-	PublicIPAddress                       *PublicIPAddress_STATUS                                                `json:"publicIPAddress,omitempty"`
-	Subnet                                *Subnet_STATUS                                                         `json:"subnet,omitempty"`
-	Type                                  *string                                                                `json:"type,omitempty"`
-	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS                                             `json:"virtualNetworkTaps,omitempty"`
+// Storage version of v1beta20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded             `json:"applicationSecurityGroups,omitempty"`
+	Etag                                  *string                                                                            `json:"etag,omitempty"`
+	Id                                    *string                                                                            `json:"id,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                                                                            `json:"name,omitempty"`
+	Primary                               *bool                                                                              `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                            `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *string                                                                            `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *string                                                                            `json:"privateIPAllocationMethod,omitempty"`
+	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS             `json:"privateLinkConnectionProperties,omitempty"`
+	PropertyBag                           genruntime.PropertyBag                                                             `json:"$propertyBag,omitempty"`
+	ProvisioningState                     *string                                                                            `json:"provisioningState,omitempty"`
+	PublicIPAddress                       *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                       `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
+	Type                                  *string                                                                            `json:"type,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                    `json:"virtualNetworkTaps,omitempty"`
 }
 
-// Storage version of v1beta20201101.NetworkInterfaceTapConfiguration_STATUS
-type NetworkInterfaceTapConfiguration_STATUS struct {
-	Etag              *string                   `json:"etag,omitempty"`
-	Id                *string                   `json:"id,omitempty"`
-	Name              *string                   `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                   `json:"provisioningState,omitempty"`
-	Type              *string                   `json:"type,omitempty"`
-	VirtualNetworkTap *VirtualNetworkTap_STATUS `json:"virtualNetworkTap,omitempty"`
+// Storage version of v1beta20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.NetworkSecurityGroup_STATUS
-type NetworkSecurityGroup_STATUS struct {
-	DefaultSecurityRules []SecurityRule_STATUS     `json:"defaultSecurityRules,omitempty"`
-	Etag                 *string                   `json:"etag,omitempty"`
-	FlowLogs             []FlowLog_STATUS          `json:"flowLogs,omitempty"`
-	Id                   *string                   `json:"id,omitempty"`
-	Location             *string                   `json:"location,omitempty"`
-	Name                 *string                   `json:"name,omitempty"`
-	NetworkInterfaces    []NetworkInterface_STATUS `json:"networkInterfaces,omitempty"`
-	PropertyBag          genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                   `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                   `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS     `json:"securityRules,omitempty"`
-	Subnets              []Subnet_STATUS           `json:"subnets,omitempty"`
-	Tags                 map[string]string         `json:"tags,omitempty"`
-	Type                 *string                   `json:"type,omitempty"`
+// Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.NetworkSecurityGroupSpec
-type NetworkSecurityGroupSpec struct {
-	Location    *string                `json:"location,omitempty"`
+// Storage version of v1beta20201101.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
-	Reference     *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	SecurityRules []SecurityRule                `json:"securityRules,omitempty"`
-	Tags          map[string]string             `json:"tags,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20201101.PrivateEndpoint_STATUS
-type PrivateEndpoint_STATUS struct {
-	CustomDnsConfigs                    []CustomDnsConfigPropertiesFormat_STATUS `json:"customDnsConfigs,omitempty"`
-	Etag                                *string                                  `json:"etag,omitempty"`
-	ExtendedLocation                    *ExtendedLocation_STATUS                 `json:"extendedLocation,omitempty"`
-	Id                                  *string                                  `json:"id,omitempty"`
-	Location                            *string                                  `json:"location,omitempty"`
-	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection_STATUS    `json:"manualPrivateLinkServiceConnections,omitempty"`
-	Name                                *string                                  `json:"name,omitempty"`
-	NetworkInterfaces                   []NetworkInterface_STATUS                `json:"networkInterfaces,omitempty"`
-	PrivateLinkServiceConnections       []PrivateLinkServiceConnection_STATUS    `json:"privateLinkServiceConnections,omitempty"`
-	PropertyBag                         genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	ProvisioningState                   *string                                  `json:"provisioningState,omitempty"`
-	Subnet                              *Subnet_STATUS                           `json:"subnet,omitempty"`
-	Tags                                map[string]string                        `json:"tags,omitempty"`
-	Type                                *string                                  `json:"type,omitempty"`
+// Storage version of v1beta20201101.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.PrivateLinkService_STATUS
-type PrivateLinkService_STATUS struct {
-	Alias                                *string                                    `json:"alias,omitempty"`
-	AutoApproval                         *ResourceSet_STATUS                        `json:"autoApproval,omitempty"`
-	EnableProxyProtocol                  *bool                                      `json:"enableProxyProtocol,omitempty"`
-	Etag                                 *string                                    `json:"etag,omitempty"`
-	ExtendedLocation                     *ExtendedLocation_STATUS                   `json:"extendedLocation,omitempty"`
-	Fqdns                                []string                                   `json:"fqdns,omitempty"`
-	Id                                   *string                                    `json:"id,omitempty"`
-	IpConfigurations                     []PrivateLinkServiceIpConfiguration_STATUS `json:"ipConfigurations,omitempty"`
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_STATUS           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
-	Location                             *string                                    `json:"location,omitempty"`
-	Name                                 *string                                    `json:"name,omitempty"`
-	NetworkInterfaces                    []NetworkInterface_STATUS                  `json:"networkInterfaces,omitempty"`
-	PrivateEndpointConnections           []PrivateEndpointConnection_STATUS         `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                          genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
-	ProvisioningState                    *string                                    `json:"provisioningState,omitempty"`
-	Tags                                 map[string]string                          `json:"tags,omitempty"`
-	Type                                 *string                                    `json:"type,omitempty"`
-	Visibility                           *ResourceSet_STATUS                        `json:"visibility,omitempty"`
+// Storage version of v1beta20201101.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.PrivateLinkServiceSpec
 type PrivateLinkServiceSpec struct {
-	AutoApproval                         *ResourceSet                        `json:"autoApproval,omitempty"`
-	EnableProxyProtocol                  *bool                               `json:"enableProxyProtocol,omitempty"`
-	ExtendedLocation                     *ExtendedLocation                   `json:"extendedLocation,omitempty"`
-	Fqdns                                []string                            `json:"fqdns,omitempty"`
-	IpConfigurations                     []PrivateLinkServiceIpConfiguration `json:"ipConfigurations,omitempty"`
-	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration           `json:"loadBalancerFrontendIpConfigurations,omitempty"`
-	Location                             *string                             `json:"location,omitempty"`
-	PropertyBag                          genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
-	Reference  *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Tags       map[string]string             `json:"tags,omitempty"`
-	Visibility *ResourceSet                  `json:"visibility,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1beta20201101.SubResource_STATUS
@@ -395,65 +330,60 @@ type SubResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.ApplicationGatewayBackendAddressPool
-type ApplicationGatewayBackendAddressPool struct {
-	BackendAddresses []ApplicationGatewayBackendAddress `json:"backendAddresses,omitempty"`
-	Name             *string                            `json:"name,omitempty"`
-	PropertyBag      genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20201101.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20201101.ApplicationGatewayBackendAddressPool_STATUS
-type ApplicationGatewayBackendAddressPool_STATUS struct {
-	BackendAddresses        []ApplicationGatewayBackendAddress_STATUS `json:"backendAddresses,omitempty"`
-	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS  `json:"backendIPConfigurations,omitempty"`
-	Etag                    *string                                   `json:"etag,omitempty"`
-	Id                      *string                                   `json:"id,omitempty"`
-	Name                    *string                                   `json:"name,omitempty"`
-	PropertyBag             genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                                   `json:"provisioningState,omitempty"`
-	Type                    *string                                   `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.ApplicationSecurityGroup_STATUS
-type ApplicationSecurityGroup_STATUS struct {
-	Etag              *string                `json:"etag,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Location          *string                `json:"location,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	ResourceGuid      *string                `json:"resourceGuid,omitempty"`
-	Tags              map[string]string      `json:"tags,omitempty"`
-	Type              *string                `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.CustomDnsConfigPropertiesFormat_STATUS
-type CustomDnsConfigPropertiesFormat_STATUS struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddresses []string               `json:"ipAddresses,omitempty"`
+// Storage version of v1beta20201101.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.FlowLog_STATUS
-type FlowLog_STATUS struct {
-	Enabled                    *bool                              `json:"enabled,omitempty"`
-	Etag                       *string                            `json:"etag,omitempty"`
-	FlowAnalyticsConfiguration *TrafficAnalyticsProperties_STATUS `json:"flowAnalyticsConfiguration,omitempty"`
-	Format                     *FlowLogFormatParameters_STATUS    `json:"format,omitempty"`
-	Id                         *string                            `json:"id,omitempty"`
-	Location                   *string                            `json:"location,omitempty"`
-	Name                       *string                            `json:"name,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	RetentionPolicy            *RetentionPolicyParameters_STATUS  `json:"retentionPolicy,omitempty"`
-	StorageId                  *string                            `json:"storageId,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	TargetResourceGuid         *string                            `json:"targetResourceGuid,omitempty"`
-	TargetResourceId           *string                            `json:"targetResourceId,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
+// Storage version of v1beta20201101.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+type ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1beta20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded
+type BackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1beta20201101.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+type BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.InboundNatRule_NetworkInterface_SubResourceEmbedded
+type InboundNatRule_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1beta20201101.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+type InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
@@ -464,204 +394,46 @@ type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS struc
 	RequiredMemberName *string                `json:"requiredMemberName,omitempty"`
 }
 
-// Storage version of v1beta20201101.PrivateEndpointConnection_STATUS
-type PrivateEndpointConnection_STATUS struct {
-	Etag                              *string                                   `json:"etag,omitempty"`
-	Id                                *string                                   `json:"id,omitempty"`
-	LinkIdentifier                    *string                                   `json:"linkIdentifier,omitempty"`
-	Name                              *string                                   `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
-	Type                              *string                                   `json:"type,omitempty"`
+// Storage version of v1beta20201101.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.PrivateLinkServiceConnection_STATUS
-type PrivateLinkServiceConnection_STATUS struct {
-	Etag                              *string                                   `json:"etag,omitempty"`
-	GroupIds                          []string                                  `json:"groupIds,omitempty"`
-	Id                                *string                                   `json:"id,omitempty"`
-	Name                              *string                                   `json:"name,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-	PrivateLinkServiceId              *string                                   `json:"privateLinkServiceId,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
-	RequestMessage                    *string                                   `json:"requestMessage,omitempty"`
-	Type                              *string                                   `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.PrivateLinkServiceIpConfiguration
-type PrivateLinkServiceIpConfiguration struct {
-	Name                      *string                `json:"name,omitempty"`
-	Primary                   *bool                  `json:"primary,omitempty"`
-	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20201101.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+type PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Subnet    *Subnet                       `json:"subnet,omitempty"`
 }
 
-// Storage version of v1beta20201101.PrivateLinkServiceIpConfiguration_STATUS
-type PrivateLinkServiceIpConfiguration_STATUS struct {
-	Etag                      *string                `json:"etag,omitempty"`
-	Id                        *string                `json:"id,omitempty"`
-	Name                      *string                `json:"name,omitempty"`
-	Primary                   *bool                  `json:"primary,omitempty"`
-	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *string                `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                `json:"provisioningState,omitempty"`
-	Subnet                    *Subnet_STATUS         `json:"subnet,omitempty"`
-	Type                      *string                `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.ResourceSet
-type ResourceSet struct {
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subscriptions []string               `json:"subscriptions,omitempty"`
-}
-
-// Storage version of v1beta20201101.ResourceSet_STATUS
-type ResourceSet_STATUS struct {
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subscriptions []string               `json:"subscriptions,omitempty"`
-}
-
-// Storage version of v1beta20201101.SecurityRule
-type SecurityRule struct {
-	Access                               *string                        `json:"access,omitempty"`
-	Description                          *string                        `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                        `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                       `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                        `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                       `json:"destinationPortRanges,omitempty"`
-	Direction                            *string                        `json:"direction,omitempty"`
-	Name                                 *string                        `json:"name,omitempty"`
-	Priority                             *int                           `json:"priority,omitempty"`
-	PropertyBag                          genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Protocol                             *string                        `json:"protocol,omitempty"`
-
-	// Reference: Resource ID.
-	Reference                       *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
-	SourceAddressPrefix             *string                        `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes           []string                       `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups []ApplicationSecurityGroupSpec `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                 *string                        `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                []string                       `json:"sourcePortRanges,omitempty"`
-	Type                            *string                        `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.SecurityRule_STATUS
-type SecurityRule_STATUS struct {
-	Access                               *string                           `json:"access,omitempty"`
-	Description                          *string                           `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                           `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                          `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                           `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                          `json:"destinationPortRanges,omitempty"`
-	Direction                            *string                           `json:"direction,omitempty"`
-	Etag                                 *string                           `json:"etag,omitempty"`
-	Id                                   *string                           `json:"id,omitempty"`
-	Name                                 *string                           `json:"name,omitempty"`
-	Priority                             *int                              `json:"priority,omitempty"`
-	PropertyBag                          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Protocol                             *string                           `json:"protocol,omitempty"`
-	ProvisioningState                    *string                           `json:"provisioningState,omitempty"`
-	SourceAddressPrefix                  *string                           `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes                []string                          `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_STATUS `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                      *string                           `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                     []string                          `json:"sourcePortRanges,omitempty"`
-	Type                                 *string                           `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.VirtualNetworkTap_STATUS
-type VirtualNetworkTap_STATUS struct {
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration_STATUS           `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
-	DestinationNetworkInterfaceIPConfiguration     *NetworkInterfaceIPConfiguration_STATUS   `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
-	DestinationPort                                *int                                      `json:"destinationPort,omitempty"`
-	Etag                                           *string                                   `json:"etag,omitempty"`
-	Id                                             *string                                   `json:"id,omitempty"`
-	Location                                       *string                                   `json:"location,omitempty"`
-	Name                                           *string                                   `json:"name,omitempty"`
-	NetworkInterfaceTapConfigurations              []NetworkInterfaceTapConfiguration_STATUS `json:"networkInterfaceTapConfigurations,omitempty"`
-	PropertyBag                                    genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                              *string                                   `json:"provisioningState,omitempty"`
-	ResourceGuid                                   *string                                   `json:"resourceGuid,omitempty"`
-	Tags                                           map[string]string                         `json:"tags,omitempty"`
-	Type                                           *string                                   `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.VirtualNetworkTapSpec
-type VirtualNetworkTapSpec struct {
-	DestinationLoadBalancerFrontEndIPConfiguration *FrontendIPConfiguration         `json:"destinationLoadBalancerFrontEndIPConfiguration,omitempty"`
-	DestinationNetworkInterfaceIPConfiguration     *NetworkInterfaceIPConfiguration `json:"destinationNetworkInterfaceIPConfiguration,omitempty"`
-	DestinationPort                                *int                             `json:"destinationPort,omitempty"`
-	Location                                       *string                          `json:"location,omitempty"`
-	PropertyBag                                    genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20201101.Subnet_NetworkInterface_SubResourceEmbedded
+type Subnet_NetworkInterface_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Tags      map[string]string             `json:"tags,omitempty"`
 }
 
-// Storage version of v1beta20201101.ApplicationGatewayBackendAddress
-type ApplicationGatewayBackendAddress struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddress   *string                `json:"ipAddress,omitempty"`
+// Storage version of v1beta20201101.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+type Subnet_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.ApplicationGatewayBackendAddress_STATUS
-type ApplicationGatewayBackendAddress_STATUS struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddress   *string                `json:"ipAddress,omitempty"`
+// Storage version of v1beta20201101.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.FlowLogFormatParameters_STATUS
-type FlowLogFormatParameters_STATUS struct {
+// Storage version of v1beta20201101.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-	Version     *int                   `json:"version,omitempty"`
-}
 
-// Storage version of v1beta20201101.PrivateLinkServiceConnectionState_STATUS
-type PrivateLinkServiceConnectionState_STATUS struct {
-	ActionsRequired *string                `json:"actionsRequired,omitempty"`
-	Description     *string                `json:"description,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
-}
-
-// Storage version of v1beta20201101.RetentionPolicyParameters_STATUS
-type RetentionPolicyParameters_STATUS struct {
-	Days        *int                   `json:"days,omitempty"`
-	Enabled     *bool                  `json:"enabled,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20201101.TrafficAnalyticsProperties_STATUS
-type TrafficAnalyticsProperties_STATUS struct {
-	NetworkWatcherFlowAnalyticsConfiguration *TrafficAnalyticsConfigurationProperties_STATUS `json:"networkWatcherFlowAnalyticsConfiguration,omitempty"`
-	PropertyBag                              genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20201101.TrafficAnalyticsConfigurationProperties_STATUS
-type TrafficAnalyticsConfigurationProperties_STATUS struct {
-	Enabled                  *bool                  `json:"enabled,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TrafficAnalyticsInterval *int                   `json:"trafficAnalyticsInterval,omitempty"`
-	WorkspaceId              *string                `json:"workspaceId,omitempty"`
-	WorkspaceRegion          *string                `json:"workspaceRegion,omitempty"`
-	WorkspaceResourceId      *string                `json:"workspaceResourceId,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 func init() {

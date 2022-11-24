@@ -94,6 +94,22 @@ func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
 	return t, nil
 }
 
+// FullyResolveDefinition turns a definition that might point to a TypeName that into a definition something that doesn't
+func (set TypeDefinitionSet) FullyResolveDefinition(def TypeDefinition) (TypeDefinition, error) {
+	tName, ok := def.Type().(TypeName)
+	for ok {
+		var found bool
+		def, found = set[tName]
+		if !found {
+			return TypeDefinition{}, errors.Errorf("couldn't find definition for %s", tName)
+		}
+
+		tName, ok = def.Type().(TypeName)
+	}
+
+	return def, nil
+}
+
 // AddAll adds multiple definitions to the set, with the same safety check as Add() to panic if a duplicate is included
 func (set TypeDefinitionSet) AddAll(otherDefinitions ...TypeDefinition) {
 	for _, t := range otherDefinitions {

@@ -293,14 +293,8 @@ type KeyVaultReference_STATUS struct {
 
 // Storage version of v1beta20210101.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
-	Etag                              *string                                   `json:"etag,omitempty"`
-	Id                                *string                                   `json:"id,omitempty"`
-	Name                              *string                                   `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
-	Type                              *string                                   `json:"type,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210101.VirtualMachineFamilyCoreQuota_STATUS
@@ -327,20 +321,6 @@ type KeyVaultProperties struct {
 type KeyVaultProperties_STATUS struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210101.PrivateEndpoint_STATUS
-type PrivateEndpoint_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210101.PrivateLinkServiceConnectionState_STATUS
-type PrivateLinkServiceConnectionState_STATUS struct {
-	ActionRequired *string                `json:"actionRequired,omitempty"`
-	Description    *string                `json:"description,omitempty"`
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status         *string                `json:"status,omitempty"`
 }
 
 func init() {

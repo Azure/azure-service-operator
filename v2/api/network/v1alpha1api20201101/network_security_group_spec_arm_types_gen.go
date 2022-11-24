@@ -7,11 +7,9 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1beta20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_Spec_ARM struct {
-	Id         *string                                                       `json:"id,omitempty"`
-	Location   *string                                                       `json:"location,omitempty"`
-	Name       string                                                        `json:"name,omitempty"`
-	Properties *NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                                             `json:"tags,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_Spec_ARM{}
@@ -29,14 +27,4 @@ func (group *NetworkSecurityGroup_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (group *NetworkSecurityGroup_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
-}
-
-// Deprecated version of NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded instead
-type NetworkSecurityGroupPropertiesFormat_SubResourceEmbedded_ARM struct {
-	SecurityRules []SecurityRule_SubResourceEmbedded_ARM `json:"securityRules,omitempty"`
-}
-
-// Deprecated version of SecurityRule_SubResourceEmbedded. Use v1beta20201101.SecurityRule_SubResourceEmbedded instead
-type SecurityRule_SubResourceEmbedded_ARM struct {
-	Id *string `json:"id,omitempty"`
 }

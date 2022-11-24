@@ -189,15 +189,6 @@ type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 type ServiceManagedResourcesSettings_STATUS_ARM struct {

@@ -68,25 +68,8 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101
 │       │   ├── "BatchService"
 │       │   └── "UserSubscription"
 │       ├── PoolQuota: *int
-│       ├── PrivateEndpointConnections: Object (7 properties)
-│       │   ├── Etag: *string
-│       │   ├── Id: *string
-│       │   ├── Name: *string
-│       │   ├── PrivateEndpoint: Object (1 property)
-│       │   │   └── Id: *string
-│       │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
-│       │   │   ├── ActionRequired: *string
-│       │   │   ├── Description: *string
-│       │   │   └── Status: Enum (4 values)
-│       │   │       ├── "Approved"
-│       │   │       ├── "Disconnected"
-│       │   │       ├── "Pending"
-│       │   │       └── "Rejected"
-│       │   ├── ProvisioningState: Enum (3 values)
-│       │   │   ├── "Failed"
-│       │   │   ├── "Succeeded"
-│       │   │   └── "Updating"
-│       │   └── Type: *string
+│       ├── PrivateEndpointConnections: Object (1 property)
+│       │   └── Id: *string
 │       ├── ProvisioningState: Enum (6 values)
 │       │   ├── "Cancelled"
 │       │   ├── "Creating"
@@ -138,26 +121,8 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101
 │   │   │   ├── "BatchService"
 │   │   │   └── "UserSubscription"
 │   │   ├── PoolQuota: *int
-│   │   ├── PrivateEndpointConnections: Object (5 properties)
-│   │   │   ├── Etag: *string
-│   │   │   ├── Id: *string
-│   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (3 properties)
-│   │   │   │   ├── PrivateEndpoint: Object (1 property)
-│   │   │   │   │   └── Id: *string
-│   │   │   │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
-│   │   │   │   │   ├── ActionRequired: *string
-│   │   │   │   │   ├── Description: *string
-│   │   │   │   │   └── Status: Enum (4 values)
-│   │   │   │   │       ├── "Approved"
-│   │   │   │   │       ├── "Disconnected"
-│   │   │   │   │       ├── "Pending"
-│   │   │   │   │       └── "Rejected"
-│   │   │   │   └── ProvisioningState: Enum (3 values)
-│   │   │   │       ├── "Failed"
-│   │   │   │       ├── "Succeeded"
-│   │   │   │       └── "Updating"
-│   │   │   └── Type: *string
+│   │   ├── PrivateEndpointConnections: Object (1 property)
+│   │   │   └── Id: *string
 │   │   ├── ProvisioningState: Enum (6 values)
 │   │   │   ├── "Cancelled"
 │   │   │   ├── "Creating"

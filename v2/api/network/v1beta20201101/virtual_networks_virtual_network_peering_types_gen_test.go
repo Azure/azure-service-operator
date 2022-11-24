@@ -280,7 +280,6 @@ func AddIndependentPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_Sp
 	gens["AzureName"] = gen.AlphaString()
 	gens["DoNotVerifyRemoteGateways"] = gen.PtrOf(gen.Bool())
 	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_Connected, VirtualNetworkPeeringPropertiesFormat_PeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 

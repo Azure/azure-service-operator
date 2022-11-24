@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 

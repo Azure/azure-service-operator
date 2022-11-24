@@ -150,8 +150,7 @@ const (
 
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified resource Id for the resource.
-	Id         *string                `json:"id,omitempty"`
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 type ResourceLogConfiguration_STATUS_ARM struct {
@@ -166,8 +165,7 @@ type ServerlessUpstreamSettings_STATUS_ARM struct {
 
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded_ARM struct {
 	// Id: Fully qualified resource Id for the resource.
-	Id         *string                `json:"id,omitempty"`
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 type SignalRCorsSettings_STATUS_ARM struct {

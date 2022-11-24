@@ -151,10 +151,6 @@ type RouteTables_Route_Spec struct {
 	// reference to a network.azure.com/RouteTable resource
 	Owner       *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"RouteTable"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Type      *string                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RouteTables_Route_Spec{}

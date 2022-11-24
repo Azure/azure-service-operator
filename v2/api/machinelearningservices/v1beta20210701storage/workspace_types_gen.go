@@ -310,10 +310,7 @@ type NotebookResourceInfo_STATUS struct {
 // Storage version of v1beta20210701.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
-	Identity    *Identity_STATUS       `json:"identity,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Sku         *Sku_STATUS            `json:"sku,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20210701.ServiceManagedResourcesSettings

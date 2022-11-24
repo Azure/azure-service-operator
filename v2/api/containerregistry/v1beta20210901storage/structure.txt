@@ -113,17 +113,9 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
         │       ├── PropertyBag: genruntime.PropertyBag
         │       ├── Status: *string
         │       └── Type: *string
-        ├── PrivateEndpointConnections: Object (3 properties)
+        ├── PrivateEndpointConnections: Object (2 properties)
         │   ├── Id: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── SystemData: Object (7 properties)
-        │       ├── CreatedAt: *string
-        │       ├── CreatedBy: *string
-        │       ├── CreatedByType: *string
-        │       ├── LastModifiedAt: *string
-        │       ├── LastModifiedBy: *string
-        │       ├── LastModifiedByType: *string
-        │       └── PropertyBag: genruntime.PropertyBag
+        │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string

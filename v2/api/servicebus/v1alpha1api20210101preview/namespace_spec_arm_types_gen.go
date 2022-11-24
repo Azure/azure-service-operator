@@ -39,9 +39,8 @@ type Identity_ARM struct {
 
 // Deprecated version of SBNamespaceProperties. Use v1beta20210101preview.SBNamespaceProperties instead
 type SBNamespaceProperties_ARM struct {
-	Encryption                 *Encryption_ARM                 `json:"encryption,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_ARM `json:"privateEndpointConnections,omitempty"`
-	ZoneRedundant              *bool                           `json:"zoneRedundant,omitempty"`
+	Encryption    *Encryption_ARM `json:"encryption,omitempty"`
+	ZoneRedundant *bool           `json:"zoneRedundant,omitempty"`
 }
 
 // Deprecated version of SBSku. Use v1beta20210101preview.SBSku instead
@@ -69,11 +68,6 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-// Deprecated version of PrivateEndpointConnection. Use v1beta20210101preview.PrivateEndpointConnection instead
-type PrivateEndpointConnection_ARM struct {
-	Properties *PrivateEndpointConnectionProperties_ARM `json:"properties,omitempty"`
-}
-
 // Deprecated version of SBSku_Name. Use v1beta20210101preview.SBSku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSku_Name string
@@ -100,24 +94,6 @@ type KeyVaultProperties_ARM struct {
 	KeyName     *string                             `json:"keyName,omitempty"`
 	KeyVaultUri *string                             `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                             `json:"keyVersion,omitempty"`
-}
-
-// Deprecated version of PrivateEndpointConnectionProperties. Use v1beta20210101preview.PrivateEndpointConnectionProperties instead
-type PrivateEndpointConnectionProperties_ARM struct {
-	PrivateEndpoint                   *PrivateEndpoint_ARM                                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *ConnectionState_ARM                                   `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState `json:"provisioningState,omitempty"`
-}
-
-// Deprecated version of ConnectionState. Use v1beta20210101preview.ConnectionState instead
-type ConnectionState_ARM struct {
-	Description *string                 `json:"description,omitempty"`
-	Status      *ConnectionState_Status `json:"status,omitempty"`
-}
-
-// Deprecated version of PrivateEndpoint. Use v1beta20210101preview.PrivateEndpoint instead
-type PrivateEndpoint_ARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead

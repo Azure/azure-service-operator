@@ -20,7 +20,7 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
 	Sku *PublicIPAddressSku_STATUS_ARM `json:"sku,omitempty"`
@@ -35,7 +35,7 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type PublicIPAddressPropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
+type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings_STATUS_ARM `json:"ddosSettings,omitempty"`
 
@@ -49,7 +49,7 @@ type PublicIPAddressPropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
 	IpAddress *string `json:"ipAddress,omitempty"`
 
 	// IpConfiguration: The IP configuration associated with the public IP address.
-	IpConfiguration *IPConfiguration_STATUS_SubResourceEmbedded_ARM `json:"ipConfiguration,omitempty"`
+	IpConfiguration *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM `json:"ipConfiguration,omitempty"`
 
 	// IpTags: The list of tags associated with the public IP address.
 	IpTags []IpTag_STATUS_ARM `json:"ipTags,omitempty"`
@@ -96,18 +96,9 @@ type DdosSettings_STATUS_ARM struct {
 	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS `json:"protectionCoverage,omitempty"`
 }
 
-type IPConfiguration_STATUS_SubResourceEmbedded_ARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
+type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the IP configuration.
-	Properties *IPConfigurationPropertiesFormat_STATUS_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 }
 
 type IpTag_STATUS_ARM struct {
@@ -121,12 +112,6 @@ type IpTag_STATUS_ARM struct {
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// Sku: The nat gateway SKU.
-	Sku *NatGatewaySku_STATUS_ARM `json:"sku,omitempty"`
-
-	// Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
-	Zones []string `json:"zones,omitempty"`
 }
 
 type PublicIPAddressDnsSettings_STATUS_ARM struct {
@@ -158,27 +143,3 @@ const (
 	PublicIPAddressSku_Tier_STATUS_Global   = PublicIPAddressSku_Tier_STATUS("Global")
 	PublicIPAddressSku_Tier_STATUS_Regional = PublicIPAddressSku_Tier_STATUS("Regional")
 )
-
-type IPConfigurationPropertiesFormat_STATUS_SubResourceEmbedded_ARM struct {
-	// PrivateIPAddress: The private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
-
-	// ProvisioningState: The provisioning state of the IP configuration resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_STATUS_PublicIPAddress_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
-}
-
-type NatGatewaySku_STATUS_ARM struct {
-	// Name: Name of Nat Gateway SKU.
-	Name *NatGatewaySku_Name_STATUS `json:"name,omitempty"`
-}
-
-type Subnet_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}

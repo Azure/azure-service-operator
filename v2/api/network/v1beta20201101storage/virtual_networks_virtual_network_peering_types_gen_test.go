@@ -153,7 +153,6 @@ func AddIndependentPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_Sp
 	gens["DoNotVerifyRemoteGateways"] = gen.PtrOf(gen.Bool())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PeeringState"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }
 

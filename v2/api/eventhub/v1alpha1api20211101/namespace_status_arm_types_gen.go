@@ -79,8 +79,7 @@ const (
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20211101.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS_ARM struct {
-	Id         *string                `json:"id,omitempty"`
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of Sku_Name_STATUS. Use v1beta20211101.Sku_Name_STATUS instead

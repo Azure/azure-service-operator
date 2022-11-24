@@ -338,9 +338,6 @@ type RouteTable_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -353,16 +350,6 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		return nil, nil
 	}
 	result := &RouteTable_Spec_ARM{}
-
-	// Set property ‘Id’:
-	if table.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*table.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
 
 	// Set property ‘Location’:
 	if table.Location != nil {
@@ -424,8 +411,6 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property ‘Owner’:
 	table.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
-
-	// no assignment for property ‘Reference’
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -514,14 +499,6 @@ func (table *RouteTable_Spec) AssignProperties_From_RouteTable_Spec(source *v202
 		table.Owner = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		table.Reference = &reference
-	} else {
-		table.Reference = nil
-	}
-
 	// Tags
 	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -557,14 +534,6 @@ func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// Reference
-	if table.Reference != nil {
-		reference := table.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Tags

@@ -203,33 +203,31 @@ type PublicIPAddressList struct {
 type PublicIPAddress_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName             string                                   `json:"azureName,omitempty"`
-	DdosSettings          *DdosSettings                            `json:"ddosSettings,omitempty"`
-	DnsSettings           *PublicIPAddressDnsSettings              `json:"dnsSettings,omitempty"`
-	ExtendedLocation      *ExtendedLocation                        `json:"extendedLocation,omitempty"`
-	IdleTimeoutInMinutes  *int                                     `json:"idleTimeoutInMinutes,omitempty"`
-	IpAddress             *string                                  `json:"ipAddress,omitempty"`
-	IpTags                []IpTag                                  `json:"ipTags,omitempty"`
-	LinkedPublicIPAddress *PublicIPAddressSpec_SubResourceEmbedded `json:"linkedPublicIPAddress,omitempty"`
-	Location              *string                                  `json:"location,omitempty"`
-	MigrationPhase        *string                                  `json:"migrationPhase,omitempty"`
-	NatGateway            *NatGatewaySpec                          `json:"natGateway,omitempty"`
-	OriginalVersion       string                                   `json:"originalVersion,omitempty"`
+	AzureName             string                                                   `json:"azureName,omitempty"`
+	DdosSettings          *DdosSettings                                            `json:"ddosSettings,omitempty"`
+	DnsSettings           *PublicIPAddressDnsSettings                              `json:"dnsSettings,omitempty"`
+	ExtendedLocation      *ExtendedLocation                                        `json:"extendedLocation,omitempty"`
+	IdleTimeoutInMinutes  *int                                                     `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress             *string                                                  `json:"ipAddress,omitempty"`
+	IpTags                []IpTag                                                  `json:"ipTags,omitempty"`
+	LinkedPublicIPAddress *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded `json:"linkedPublicIPAddress,omitempty"`
+	Location              *string                                                  `json:"location,omitempty"`
+	NatGateway            *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded      `json:"natGateway,omitempty"`
+	OriginalVersion       string                                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                    *genruntime.KnownResourceReference       `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag              genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	PublicIPAddressVersion   *string                                  `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *string                                  `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource                             `json:"publicIPPrefix,omitempty"`
-	Reference                *genruntime.ResourceReference            `armReference:"Id" json:"reference,omitempty"`
-	ServicePublicIPAddress   *PublicIPAddressSpec_SubResourceEmbedded `json:"servicePublicIPAddress,omitempty"`
-	Sku                      *PublicIPAddressSku                      `json:"sku,omitempty"`
-	Tags                     map[string]string                        `json:"tags,omitempty"`
-	Zones                    []string                                 `json:"zones,omitempty"`
+	Owner                    *genruntime.KnownResourceReference                       `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
+	PublicIPAddressVersion   *string                                                  `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                                                  `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource                                             `json:"publicIPPrefix,omitempty"`
+	ServicePublicIPAddress   *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded `json:"servicePublicIPAddress,omitempty"`
+	Sku                      *PublicIPAddressSku                                      `json:"sku,omitempty"`
+	Tags                     map[string]string                                        `json:"tags,omitempty"`
+	Zones                    []string                                                 `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &PublicIPAddress_Spec{}
@@ -352,10 +350,10 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 
 	// LinkedPublicIPAddress
 	if source.LinkedPublicIPAddress != nil {
-		var linkedPublicIPAddress PublicIPAddressSpec_SubResourceEmbedded
-		err := linkedPublicIPAddress.AssignProperties_From_PublicIPAddressSpec_SubResourceEmbedded(source.LinkedPublicIPAddress)
+		var linkedPublicIPAddress PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+		err := linkedPublicIPAddress.AssignProperties_From_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(source.LinkedPublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_SubResourceEmbedded() to populate field LinkedPublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded() to populate field LinkedPublicIPAddress")
 		}
 		address.LinkedPublicIPAddress = &linkedPublicIPAddress
 	} else {
@@ -365,15 +363,12 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 	// Location
 	address.Location = genruntime.ClonePointerToString(source.Location)
 
-	// MigrationPhase
-	address.MigrationPhase = genruntime.ClonePointerToString(source.MigrationPhase)
-
 	// NatGateway
 	if source.NatGateway != nil {
-		var natGateway NatGatewaySpec
-		err := natGateway.AssignProperties_From_NatGatewaySpec(source.NatGateway)
+		var natGateway NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+		err := natGateway.AssignProperties_From_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NatGatewaySpec() to populate field NatGateway")
+			return errors.Wrap(err, "calling AssignProperties_From_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded() to populate field NatGateway")
 		}
 		address.NatGateway = &natGateway
 	} else {
@@ -409,20 +404,12 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 		address.PublicIPPrefix = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		address.Reference = &reference
-	} else {
-		address.Reference = nil
-	}
-
 	// ServicePublicIPAddress
 	if source.ServicePublicIPAddress != nil {
-		var servicePublicIPAddress PublicIPAddressSpec_SubResourceEmbedded
-		err := servicePublicIPAddress.AssignProperties_From_PublicIPAddressSpec_SubResourceEmbedded(source.ServicePublicIPAddress)
+		var servicePublicIPAddress PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+		err := servicePublicIPAddress.AssignProperties_From_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(source.ServicePublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_SubResourceEmbedded() to populate field ServicePublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded() to populate field ServicePublicIPAddress")
 		}
 		address.ServicePublicIPAddress = &servicePublicIPAddress
 	} else {
@@ -528,10 +515,10 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 
 	// LinkedPublicIPAddress
 	if address.LinkedPublicIPAddress != nil {
-		var linkedPublicIPAddress v20201101s.PublicIPAddressSpec_SubResourceEmbedded
-		err := address.LinkedPublicIPAddress.AssignProperties_To_PublicIPAddressSpec_SubResourceEmbedded(&linkedPublicIPAddress)
+		var linkedPublicIPAddress v20201101s.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+		err := address.LinkedPublicIPAddress.AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(&linkedPublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_SubResourceEmbedded() to populate field LinkedPublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded() to populate field LinkedPublicIPAddress")
 		}
 		destination.LinkedPublicIPAddress = &linkedPublicIPAddress
 	} else {
@@ -541,15 +528,12 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 	// Location
 	destination.Location = genruntime.ClonePointerToString(address.Location)
 
-	// MigrationPhase
-	destination.MigrationPhase = genruntime.ClonePointerToString(address.MigrationPhase)
-
 	// NatGateway
 	if address.NatGateway != nil {
-		var natGateway v20201101s.NatGatewaySpec
-		err := address.NatGateway.AssignProperties_To_NatGatewaySpec(&natGateway)
+		var natGateway v20201101s.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+		err := address.NatGateway.AssignProperties_To_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded(&natGateway)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NatGatewaySpec() to populate field NatGateway")
+			return errors.Wrap(err, "calling AssignProperties_To_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded() to populate field NatGateway")
 		}
 		destination.NatGateway = &natGateway
 	} else {
@@ -585,20 +569,12 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 		destination.PublicIPPrefix = nil
 	}
 
-	// Reference
-	if address.Reference != nil {
-		reference := address.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
 	// ServicePublicIPAddress
 	if address.ServicePublicIPAddress != nil {
-		var servicePublicIPAddress v20201101s.PublicIPAddressSpec_SubResourceEmbedded
-		err := address.ServicePublicIPAddress.AssignProperties_To_PublicIPAddressSpec_SubResourceEmbedded(&servicePublicIPAddress)
+		var servicePublicIPAddress v20201101s.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+		err := address.ServicePublicIPAddress.AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(&servicePublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_SubResourceEmbedded() to populate field ServicePublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded() to populate field ServicePublicIPAddress")
 		}
 		destination.ServicePublicIPAddress = &servicePublicIPAddress
 	} else {
@@ -637,30 +613,30 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 // Storage version of v1alpha1api20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
 // Deprecated version of PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded instead
 type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
-	Conditions               []conditions.Condition                                 `json:"conditions,omitempty"`
-	DdosSettings             *DdosSettings_STATUS                                   `json:"ddosSettings,omitempty"`
-	DnsSettings              *PublicIPAddressDnsSettings_STATUS                     `json:"dnsSettings,omitempty"`
-	Etag                     *string                                                `json:"etag,omitempty"`
-	ExtendedLocation         *ExtendedLocation_STATUS                               `json:"extendedLocation,omitempty"`
-	Id                       *string                                                `json:"id,omitempty"`
-	IdleTimeoutInMinutes     *int                                                   `json:"idleTimeoutInMinutes,omitempty"`
-	IpAddress                *string                                                `json:"ipAddress,omitempty"`
-	IpConfiguration          *IPConfiguration_STATUS_SubResourceEmbedded            `json:"ipConfiguration,omitempty"`
-	IpTags                   []IpTag_STATUS                                         `json:"ipTags,omitempty"`
-	Location                 *string                                                `json:"location,omitempty"`
-	MigrationPhase           *string                                                `json:"migrationPhase,omitempty"`
-	Name                     *string                                                `json:"name,omitempty"`
-	NatGateway               *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded `json:"natGateway,omitempty"`
-	PropertyBag              genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState        *string                                                `json:"provisioningState,omitempty"`
-	PublicIPAddressVersion   *string                                                `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *string                                                `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource_STATUS                                    `json:"publicIPPrefix,omitempty"`
-	ResourceGuid             *string                                                `json:"resourceGuid,omitempty"`
-	Sku                      *PublicIPAddressSku_STATUS                             `json:"sku,omitempty"`
-	Tags                     map[string]string                                      `json:"tags,omitempty"`
-	Type                     *string                                                `json:"type,omitempty"`
-	Zones                    []string                                               `json:"zones,omitempty"`
+	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
+	DdosSettings             *DdosSettings_STATUS                                        `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettings_STATUS                          `json:"dnsSettings,omitempty"`
+	Etag                     *string                                                     `json:"etag,omitempty"`
+	ExtendedLocation         *ExtendedLocation_STATUS                                    `json:"extendedLocation,omitempty"`
+	Id                       *string                                                     `json:"id,omitempty"`
+	IdleTimeoutInMinutes     *int                                                        `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress                *string                                                     `json:"ipAddress,omitempty"`
+	IpConfiguration          *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded `json:"ipConfiguration,omitempty"`
+	IpTags                   []IpTag_STATUS                                              `json:"ipTags,omitempty"`
+	Location                 *string                                                     `json:"location,omitempty"`
+	MigrationPhase           *string                                                     `json:"migrationPhase,omitempty"`
+	Name                     *string                                                     `json:"name,omitempty"`
+	NatGateway               *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded      `json:"natGateway,omitempty"`
+	PropertyBag              genruntime.PropertyBag                                      `json:"$propertyBag,omitempty"`
+	ProvisioningState        *string                                                     `json:"provisioningState,omitempty"`
+	PublicIPAddressVersion   *string                                                     `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *string                                                     `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResource_STATUS                                         `json:"publicIPPrefix,omitempty"`
+	ResourceGuid             *string                                                     `json:"resourceGuid,omitempty"`
+	Sku                      *PublicIPAddressSku_STATUS                                  `json:"sku,omitempty"`
+	Tags                     map[string]string                                           `json:"tags,omitempty"`
+	Type                     *string                                                     `json:"type,omitempty"`
+	Zones                    []string                                                    `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
@@ -771,10 +747,10 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// IpConfiguration
 	if source.IpConfiguration != nil {
-		var ipConfiguration IPConfiguration_STATUS_SubResourceEmbedded
-		err := ipConfiguration.AssignProperties_From_IPConfiguration_STATUS_SubResourceEmbedded(source.IpConfiguration)
+		var ipConfiguration IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+		err := ipConfiguration.AssignProperties_From_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(source.IpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_IPConfiguration_STATUS_SubResourceEmbedded() to populate field IpConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field IpConfiguration")
 		}
 		embedded.IpConfiguration = &ipConfiguration
 	} else {
@@ -934,10 +910,10 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// IpConfiguration
 	if embedded.IpConfiguration != nil {
-		var ipConfiguration v20201101s.IPConfiguration_STATUS_SubResourceEmbedded
-		err := embedded.IpConfiguration.AssignProperties_To_IPConfiguration_STATUS_SubResourceEmbedded(&ipConfiguration)
+		var ipConfiguration v20201101s.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+		err := embedded.IpConfiguration.AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(&ipConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_IPConfiguration_STATUS_SubResourceEmbedded() to populate field IpConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field IpConfiguration")
 		}
 		destination.IpConfiguration = &ipConfiguration
 	} else {
@@ -1213,53 +1189,20 @@ func (settings *DdosSettings_STATUS) AssignProperties_To_DdosSettings_STATUS(des
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.IPConfiguration_STATUS_SubResourceEmbedded
-// Deprecated version of IPConfiguration_STATUS_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_STATUS_SubResourceEmbedded instead
-type IPConfiguration_STATUS_SubResourceEmbedded struct {
-	Etag                      *string                                            `json:"etag,omitempty"`
-	Id                        *string                                            `json:"id,omitempty"`
-	Name                      *string                                            `json:"name,omitempty"`
-	PrivateIPAddress          *string                                            `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *string                                            `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                                            `json:"provisioningState,omitempty"`
-	Subnet                    *Subnet_STATUS_PublicIPAddress_SubResourceEmbedded `json:"subnet,omitempty"`
+// Storage version of v1alpha1api20201101.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded instead
+type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_IPConfiguration_STATUS_SubResourceEmbedded populates our IPConfiguration_STATUS_SubResourceEmbedded from the provided source IPConfiguration_STATUS_SubResourceEmbedded
-func (embedded *IPConfiguration_STATUS_SubResourceEmbedded) AssignProperties_From_IPConfiguration_STATUS_SubResourceEmbedded(source *v20201101s.IPConfiguration_STATUS_SubResourceEmbedded) error {
+// AssignProperties_From_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded populates our IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded from the provided source IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) AssignProperties_From_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(source *v20201101s.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateIPAddress
-	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAllocationMethod
-	embedded.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
-
-	// ProvisioningState
-	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet_STATUS_PublicIPAddress_SubResourceEmbedded
-		err := subnet.AssignProperties_From_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field Subnet")
-		}
-		embedded.Subnet = &subnet
-	} else {
-		embedded.Subnet = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1272,40 +1215,13 @@ func (embedded *IPConfiguration_STATUS_SubResourceEmbedded) AssignProperties_Fro
 	return nil
 }
 
-// AssignProperties_To_IPConfiguration_STATUS_SubResourceEmbedded populates the provided destination IPConfiguration_STATUS_SubResourceEmbedded from our IPConfiguration_STATUS_SubResourceEmbedded
-func (embedded *IPConfiguration_STATUS_SubResourceEmbedded) AssignProperties_To_IPConfiguration_STATUS_SubResourceEmbedded(destination *v20201101s.IPConfiguration_STATUS_SubResourceEmbedded) error {
+// AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded populates the provided destination IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded from our IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) AssignProperties_To_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded(destination *v20201101s.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
-
-	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
-
-	// PrivateIPAllocationMethod
-	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(embedded.PrivateIPAllocationMethod)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
-
-	// Subnet
-	if embedded.Subnet != nil {
-		var subnet v20201101s.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded
-		err := embedded.Subnet.AssignProperties_To_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded() to populate field Subnet")
-		}
-		destination.Subnet = &subnet
-	} else {
-		destination.Subnet = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1427,8 +1343,6 @@ func (ipTag *IpTag_STATUS) AssignProperties_To_IpTag_STATUS(destination *v202011
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Sku         *NatGatewaySku_STATUS  `json:"sku,omitempty"`
-	Zones       []string               `json:"zones,omitempty"`
 }
 
 // AssignProperties_From_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded populates our NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded from the provided source NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
@@ -1438,21 +1352,6 @@ func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) AssignPro
 
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Sku
-	if source.Sku != nil {
-		var sku NatGatewaySku_STATUS
-		err := sku.AssignProperties_From_NatGatewaySku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NatGatewaySku_STATUS() to populate field Sku")
-		}
-		embedded.Sku = &sku
-	} else {
-		embedded.Sku = nil
-	}
-
-	// Zones
-	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1473,21 +1372,6 @@ func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) AssignPro
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
-	// Sku
-	if embedded.Sku != nil {
-		var sku v20201101s.NatGatewaySku_STATUS
-		err := embedded.Sku.AssignProperties_To_NatGatewaySku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NatGatewaySku_STATUS() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1499,176 +1383,49 @@ func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) AssignPro
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.NatGatewaySpec
-// Deprecated version of NatGatewaySpec. Use v1beta20201101.NatGatewaySpec instead
-type NatGatewaySpec struct {
-	IdleTimeoutInMinutes *int                          `json:"idleTimeoutInMinutes,omitempty"`
-	Location             *string                       `json:"location,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	PublicIpAddresses    []SubResource                 `json:"publicIpAddresses,omitempty"`
-	PublicIpPrefixes     []SubResource                 `json:"publicIpPrefixes,omitempty"`
-	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku                  *NatGatewaySku                `json:"sku,omitempty"`
-	Tags                 map[string]string             `json:"tags,omitempty"`
-	Zones                []string                      `json:"zones,omitempty"`
+// Storage version of v1alpha1api20201101.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of NatGatewaySpec_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded instead
+type NatGatewaySpec_PublicIPAddress_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_NatGatewaySpec populates our NatGatewaySpec from the provided source NatGatewaySpec
-func (gateway *NatGatewaySpec) AssignProperties_From_NatGatewaySpec(source *v20201101s.NatGatewaySpec) error {
+// AssignProperties_From_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded populates our NatGatewaySpec_PublicIPAddress_SubResourceEmbedded from the provided source NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) AssignProperties_From_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded(source *v20201101s.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// IdleTimeoutInMinutes
-	gateway.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// Location
-	gateway.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicIpAddresses
-	if source.PublicIpAddresses != nil {
-		publicIpAddressList := make([]SubResource, len(source.PublicIpAddresses))
-		for publicIpAddressIndex, publicIpAddressItem := range source.PublicIpAddresses {
-			// Shadow the loop variable to avoid aliasing
-			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress SubResource
-			err := publicIpAddress.AssignProperties_From_SubResource(&publicIpAddressItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIpAddresses")
-			}
-			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
-		}
-		gateway.PublicIpAddresses = publicIpAddressList
-	} else {
-		gateway.PublicIpAddresses = nil
-	}
-
-	// PublicIpPrefixes
-	if source.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]SubResource, len(source.PublicIpPrefixes))
-		for publicIpPrefixIndex, publicIpPrefixItem := range source.PublicIpPrefixes {
-			// Shadow the loop variable to avoid aliasing
-			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix SubResource
-			err := publicIpPrefix.AssignProperties_From_SubResource(&publicIpPrefixItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIpPrefixes")
-			}
-			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
-		}
-		gateway.PublicIpPrefixes = publicIpPrefixList
-	} else {
-		gateway.PublicIpPrefixes = nil
-	}
 
 	// Reference
 	if source.Reference != nil {
 		reference := source.Reference.Copy()
-		gateway.Reference = &reference
+		embedded.Reference = &reference
 	} else {
-		gateway.Reference = nil
+		embedded.Reference = nil
 	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku NatGatewaySku
-		err := sku.AssignProperties_From_NatGatewaySku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NatGatewaySku() to populate field Sku")
-		}
-		gateway.Sku = &sku
-	} else {
-		gateway.Sku = nil
-	}
-
-	// Tags
-	gateway.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	gateway.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		gateway.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		gateway.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_NatGatewaySpec populates the provided destination NatGatewaySpec from our NatGatewaySpec
-func (gateway *NatGatewaySpec) AssignProperties_To_NatGatewaySpec(destination *v20201101s.NatGatewaySpec) error {
+// AssignProperties_To_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded populates the provided destination NatGatewaySpec_PublicIPAddress_SubResourceEmbedded from our NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) AssignProperties_To_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded(destination *v20201101s.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(gateway.PropertyBag)
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(gateway.IdleTimeoutInMinutes)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(gateway.Location)
-
-	// PublicIpAddresses
-	if gateway.PublicIpAddresses != nil {
-		publicIpAddressList := make([]v20201101s.SubResource, len(gateway.PublicIpAddresses))
-		for publicIpAddressIndex, publicIpAddressItem := range gateway.PublicIpAddresses {
-			// Shadow the loop variable to avoid aliasing
-			publicIpAddressItem := publicIpAddressItem
-			var publicIpAddress v20201101s.SubResource
-			err := publicIpAddressItem.AssignProperties_To_SubResource(&publicIpAddress)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIpAddresses")
-			}
-			publicIpAddressList[publicIpAddressIndex] = publicIpAddress
-		}
-		destination.PublicIpAddresses = publicIpAddressList
-	} else {
-		destination.PublicIpAddresses = nil
-	}
-
-	// PublicIpPrefixes
-	if gateway.PublicIpPrefixes != nil {
-		publicIpPrefixList := make([]v20201101s.SubResource, len(gateway.PublicIpPrefixes))
-		for publicIpPrefixIndex, publicIpPrefixItem := range gateway.PublicIpPrefixes {
-			// Shadow the loop variable to avoid aliasing
-			publicIpPrefixItem := publicIpPrefixItem
-			var publicIpPrefix v20201101s.SubResource
-			err := publicIpPrefixItem.AssignProperties_To_SubResource(&publicIpPrefix)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIpPrefixes")
-			}
-			publicIpPrefixList[publicIpPrefixIndex] = publicIpPrefix
-		}
-		destination.PublicIpPrefixes = publicIpPrefixList
-	} else {
-		destination.PublicIpPrefixes = nil
-	}
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Reference
-	if gateway.Reference != nil {
-		reference := gateway.Reference.Copy()
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
 		destination.Reference = &reference
 	} else {
 		destination.Reference = nil
 	}
-
-	// Sku
-	if gateway.Sku != nil {
-		var sku v20201101s.NatGatewaySku
-		err := gateway.Sku.AssignProperties_To_NatGatewaySku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NatGatewaySku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(gateway.Tags)
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(gateway.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1903,37 +1660,17 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_To_PublicIPAddress
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.PublicIPAddressSpec_SubResourceEmbedded
-// Deprecated version of PublicIPAddressSpec_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_SubResourceEmbedded instead
-type PublicIPAddressSpec_SubResourceEmbedded struct {
-	ExtendedLocation *ExtendedLocation             `json:"extendedLocation,omitempty"`
-	Location         *string                       `json:"location,omitempty"`
-	PropertyBag      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference        *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku              *PublicIPAddressSku           `json:"sku,omitempty"`
-	Tags             map[string]string             `json:"tags,omitempty"`
-	Zones            []string                      `json:"zones,omitempty"`
+// Storage version of v1alpha1api20201101.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+// Deprecated version of PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded instead
+type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_PublicIPAddressSpec_SubResourceEmbedded populates our PublicIPAddressSpec_SubResourceEmbedded from the provided source PublicIPAddressSpec_SubResourceEmbedded
-func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignProperties_From_PublicIPAddressSpec_SubResourceEmbedded(source *v20201101s.PublicIPAddressSpec_SubResourceEmbedded) error {
+// AssignProperties_From_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded populates our PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded from the provided source PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) AssignProperties_From_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(source *v20201101s.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.AssignProperties_From_ExtendedLocation(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		embedded.ExtendedLocation = &extendedLocation
-	} else {
-		embedded.ExtendedLocation = nil
-	}
-
-	// Location
-	embedded.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Reference
 	if source.Reference != nil {
@@ -1942,24 +1679,6 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignProperties_From_P
 	} else {
 		embedded.Reference = nil
 	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku PublicIPAddressSku
-		err := sku.AssignProperties_From_PublicIPAddressSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSku() to populate field Sku")
-		}
-		embedded.Sku = &sku
-	} else {
-		embedded.Sku = nil
-	}
-
-	// Tags
-	embedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1972,25 +1691,10 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignProperties_From_P
 	return nil
 }
 
-// AssignProperties_To_PublicIPAddressSpec_SubResourceEmbedded populates the provided destination PublicIPAddressSpec_SubResourceEmbedded from our PublicIPAddressSpec_SubResourceEmbedded
-func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignProperties_To_PublicIPAddressSpec_SubResourceEmbedded(destination *v20201101s.PublicIPAddressSpec_SubResourceEmbedded) error {
+// AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded populates the provided destination PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded from our PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) AssignProperties_To_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded(destination *v20201101s.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// ExtendedLocation
-	if embedded.ExtendedLocation != nil {
-		var extendedLocation v20201101s.ExtendedLocation
-		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(embedded.Location)
 
 	// Reference
 	if embedded.Reference != nil {
@@ -1999,24 +1703,6 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) AssignProperties_To_Pub
 	} else {
 		destination.Reference = nil
 	}
-
-	// Sku
-	if embedded.Sku != nil {
-		var sku v20201101s.PublicIPAddressSku
-		err := embedded.Sku.AssignProperties_To_PublicIPAddressSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(embedded.Tags)
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2072,141 +1758,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20201
 	} else {
 		destination.Reference = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.NatGatewaySku
-// Deprecated version of NatGatewaySku. Use v1beta20201101.NatGatewaySku instead
-type NatGatewaySku struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_NatGatewaySku populates our NatGatewaySku from the provided source NatGatewaySku
-func (gatewaySku *NatGatewaySku) AssignProperties_From_NatGatewaySku(source *v20201101s.NatGatewaySku) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	gatewaySku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		gatewaySku.PropertyBag = propertyBag
-	} else {
-		gatewaySku.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NatGatewaySku populates the provided destination NatGatewaySku from our NatGatewaySku
-func (gatewaySku *NatGatewaySku) AssignProperties_To_NatGatewaySku(destination *v20201101s.NatGatewaySku) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(gatewaySku.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(gatewaySku.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.NatGatewaySku_STATUS
-// Deprecated version of NatGatewaySku_STATUS. Use v1beta20201101.NatGatewaySku_STATUS instead
-type NatGatewaySku_STATUS struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_NatGatewaySku_STATUS populates our NatGatewaySku_STATUS from the provided source NatGatewaySku_STATUS
-func (gatewaySku *NatGatewaySku_STATUS) AssignProperties_From_NatGatewaySku_STATUS(source *v20201101s.NatGatewaySku_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	gatewaySku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		gatewaySku.PropertyBag = propertyBag
-	} else {
-		gatewaySku.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_NatGatewaySku_STATUS populates the provided destination NatGatewaySku_STATUS from our NatGatewaySku_STATUS
-func (gatewaySku *NatGatewaySku_STATUS) AssignProperties_To_NatGatewaySku_STATUS(destination *v20201101s.NatGatewaySku_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(gatewaySku.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(gatewaySku.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded
-// Deprecated version of Subnet_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded instead
-type Subnet_STATUS_PublicIPAddress_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded populates our Subnet_STATUS_PublicIPAddress_SubResourceEmbedded from the provided source Subnet_STATUS_PublicIPAddress_SubResourceEmbedded
-func (embedded *Subnet_STATUS_PublicIPAddress_SubResourceEmbedded) AssignProperties_From_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded(source *v20201101s.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded populates the provided destination Subnet_STATUS_PublicIPAddress_SubResourceEmbedded from our Subnet_STATUS_PublicIPAddress_SubResourceEmbedded
-func (embedded *Subnet_STATUS_PublicIPAddress_SubResourceEmbedded) AssignProperties_To_Subnet_STATUS_PublicIPAddress_SubResourceEmbedded(destination *v20201101s.Subnet_STATUS_PublicIPAddress_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

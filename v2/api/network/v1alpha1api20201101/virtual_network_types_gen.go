@@ -350,9 +350,8 @@ type VirtualNetwork_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner     *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Reference *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
-	Tags      map[string]string                  `json:"tags,omitempty"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetwork_Spec{}
@@ -372,16 +371,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 		extendedLocation := *extendedLocation_ARM.(*ExtendedLocation_ARM)
 		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Id’:
-	if network.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*network.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
 	}
 
 	// Set property ‘Location’:
@@ -583,8 +572,6 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// Set property ‘Owner’:
 	network.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
-	// no assignment for property ‘Reference’
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		network.Tags = make(map[string]string, len(typedInput.Tags))
@@ -758,14 +745,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.Owner = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		network.Reference = &reference
-	} else {
-		network.Reference = nil
-	}
-
 	// Tags
 	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -887,14 +866,6 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// Reference
-	if network.Reference != nil {
-		reference := network.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Tags

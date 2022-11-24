@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 // Deprecated version of VirtualMachine_STATUS. Use v1beta20201201.VirtualMachine_STATUS instead
 type VirtualMachine_STATUS_ARM struct {
 	ExtendedLocation *ExtendedLocation_STATUS_ARM         `json:"extendedLocation,omitempty"`
@@ -12,9 +14,20 @@ type VirtualMachine_STATUS_ARM struct {
 	Name             *string                              `json:"name,omitempty"`
 	Plan             *Plan_STATUS_ARM                     `json:"plan,omitempty"`
 	Properties       *VirtualMachineProperties_STATUS_ARM `json:"properties,omitempty"`
+	Resources        []VirtualMachineExtension_STATUS_ARM `json:"resources,omitempty"`
 	Tags             map[string]string                    `json:"tags,omitempty"`
 	Type             *string                              `json:"type,omitempty"`
 	Zones            []string                             `json:"zones,omitempty"`
+}
+
+// Deprecated version of VirtualMachineExtension_STATUS. Use v1beta20201201.VirtualMachineExtension_STATUS instead
+type VirtualMachineExtension_STATUS_ARM struct {
+	Id         *string                                       `json:"id,omitempty"`
+	Location   *string                                       `json:"location,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
+	Properties *VirtualMachineExtensionProperties_STATUS_ARM `json:"properties,omitempty"`
+	Tags       map[string]string                             `json:"tags,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualMachineIdentity_STATUS. Use v1beta20201201.VirtualMachineIdentity_STATUS instead
@@ -93,6 +106,20 @@ type StorageProfile_STATUS_ARM struct {
 	DataDisks      []DataDisk_STATUS_ARM      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_STATUS_ARM `json:"imageReference,omitempty"`
 	OsDisk         *OSDisk_STATUS_ARM         `json:"osDisk,omitempty"`
+}
+
+// Deprecated version of VirtualMachineExtensionProperties_STATUS. Use v1beta20201201.VirtualMachineExtensionProperties_STATUS instead
+type VirtualMachineExtensionProperties_STATUS_ARM struct {
+	AutoUpgradeMinorVersion *bool                                           `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade  *bool                                           `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag          *string                                         `json:"forceUpdateTag,omitempty"`
+	InstanceView            *VirtualMachineExtensionInstanceView_STATUS_ARM `json:"instanceView,omitempty"`
+	ProtectedSettings       map[string]v1.JSON                              `json:"protectedSettings,omitempty"`
+	ProvisioningState       *string                                         `json:"provisioningState,omitempty"`
+	Publisher               *string                                         `json:"publisher,omitempty"`
+	Settings                map[string]v1.JSON                              `json:"settings,omitempty"`
+	Type                    *string                                         `json:"type,omitempty"`
+	TypeHandlerVersion      *string                                         `json:"typeHandlerVersion,omitempty"`
 }
 
 // Deprecated version of VirtualMachineIdentity_Type_STATUS. Use v1beta20201201.VirtualMachineIdentity_Type_STATUS instead

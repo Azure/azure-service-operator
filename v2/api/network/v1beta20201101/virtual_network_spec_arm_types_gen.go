@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type VirtualNetwork_Spec_ARM struct {
 	// ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-	Id               *string               `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -62,7 +61,7 @@ type VirtualNetworkPropertiesFormat_ARM struct {
 	IpAllocations []SubResource_ARM `json:"ipAllocations,omitempty"`
 
 	// Subnets: A list of subnets in a Virtual Network.
-	Subnets []Subnet_ARM `json:"subnets,omitempty"`
+	Subnets []Subnet_VirtualNetwork_SubResourceEmbedded_ARM `json:"subnets,omitempty"`
 
 	// VirtualNetworkPeerings: A list of peerings in a Virtual Network.
 	VirtualNetworkPeerings []VirtualNetworkPeering_ARM `json:"virtualNetworkPeerings,omitempty"`
@@ -73,14 +72,14 @@ type DhcpOptions_ARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-type Subnet_ARM struct {
+type Subnet_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the subnet.
-	Properties *SubnetPropertiesFormat_ARM `json:"properties,omitempty"`
+	Properties *SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
@@ -102,4 +101,62 @@ type VirtualNetworkPeering_ARM struct {
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
+}
+
+type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
+	// AddressPrefix: The address prefix for the subnet.
+	AddressPrefix *string `json:"addressPrefix,omitempty"`
+
+	// AddressPrefixes: List of address prefixes for the subnet.
+	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
+
+	// ApplicationGatewayIpConfigurations: Application gateway IP configurations of virtual network resource.
+	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM `json:"applicationGatewayIpConfigurations,omitempty"`
+
+	// Delegations: An array of references to the delegations on the subnet.
+	Delegations []Delegation_VirtualNetwork_SubResourceEmbedded_ARM `json:"delegations,omitempty"`
+
+	// IpAllocations: Array of IpAllocation which reference this subnet.
+	IpAllocations []SubResource_ARM `json:"ipAllocations,omitempty"`
+
+	// NatGateway: Nat gateway associated with this subnet.
+	NatGateway *SubResource_ARM `json:"natGateway,omitempty"`
+
+	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
+	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
+
+	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
+	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
+
+	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
+	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
+
+	// RouteTable: The reference to the RouteTable resource.
+	RouteTable *RouteTableSpec_VirtualNetwork_SubResourceEmbedded_ARM `json:"routeTable,omitempty"`
+
+	// ServiceEndpointPolicies: An array of service endpoint policies.
+	ServiceEndpointPolicies []ServiceEndpointPolicySpec_VirtualNetwork_SubResourceEmbedded_ARM `json:"serviceEndpointPolicies,omitempty"`
+
+	// ServiceEndpoints: An array of service endpoints.
+	ServiceEndpoints []ServiceEndpointPropertiesFormat_ARM `json:"serviceEndpoints,omitempty"`
+}
+
+type ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type Delegation_VirtualNetwork_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type RouteTableSpec_VirtualNetwork_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type ServiceEndpointPolicySpec_VirtualNetwork_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
 }

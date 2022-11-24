@@ -104,17 +104,9 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api2021100
         │       ├── Allow: string[]
         │       ├── Deny: string[]
         │       └── PropertyBag: genruntime.PropertyBag
-        ├── PrivateEndpointConnections: Object (3 properties)
+        ├── PrivateEndpointConnections: Object (2 properties)
         │   ├── Id: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── SystemData: Object (7 properties)
-        │       ├── CreatedAt: *string
-        │       ├── CreatedBy: *string
-        │       ├── CreatedByType: *string
-        │       ├── LastModifiedAt: *string
-        │       ├── LastModifiedBy: *string
-        │       ├── LastModifiedByType: *string
-        │       └── PropertyBag: genruntime.PropertyBag
+        │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string
@@ -126,17 +118,9 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api2021100
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   └── PropertyBag: genruntime.PropertyBag
         ├── ServerPort: *int
-        ├── SharedPrivateLinkResources: Object (3 properties)
+        ├── SharedPrivateLinkResources: Object (2 properties)
         │   ├── Id: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── SystemData: Object (7 properties)
-        │       ├── CreatedAt: *string
-        │       ├── CreatedBy: *string
-        │       ├── CreatedByType: *string
-        │       ├── LastModifiedAt: *string
-        │       ├── LastModifiedBy: *string
-        │       ├── LastModifiedByType: *string
-        │       └── PropertyBag: genruntime.PropertyBag
+        │   └── PropertyBag: genruntime.PropertyBag
         ├── Sku: Object (6 properties)
         │   ├── Capacity: *int
         │   ├── Family: *string
