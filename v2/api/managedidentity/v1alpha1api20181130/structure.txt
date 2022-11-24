@@ -5,7 +5,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api201811
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (3 properties)
+│   ├── Properties: *Object (3 properties)
 │   │   ├── ClientId: *string
 │   │   ├── PrincipalId: *string
 │   │   └── TenantId: *string
@@ -15,8 +15,8 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api201811
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── OperatorSpec: Object (1 property)
-│   │   │   └── ConfigMaps: Object (3 properties)
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── ConfigMaps: *Object (3 properties)
 │   │   │       ├── ClientId: *genruntime.ConfigMapDestination
 │   │   │       ├── PrincipalId: *genruntime.ConfigMapDestination
 │   │   │       └── TenantId: *genruntime.ConfigMapDestination

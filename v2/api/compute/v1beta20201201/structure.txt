@@ -3,27 +3,27 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   └── "2020-12-01"
 ├── VirtualMachine: Resource
 │   ├── Spec: Object (26 properties)
-│   │   ├── AdditionalCapabilities: Object (1 property)
+│   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
-│   │   ├── AvailabilitySet: Object (1 property)
+│   │   ├── AvailabilitySet: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
-│   │   ├── BillingProfile: Object (1 property)
+│   │   ├── BillingProfile: *Object (1 property)
 │   │   │   └── MaxPrice: *float64
-│   │   ├── DiagnosticsProfile: Object (1 property)
-│   │   │   └── BootDiagnostics: Object (2 properties)
+│   │   ├── DiagnosticsProfile: *Object (1 property)
+│   │   │   └── BootDiagnostics: *Object (2 properties)
 │   │   │       ├── Enabled: *bool
 │   │   │       └── StorageUri: *string
-│   │   ├── EvictionPolicy: Enum (2 values)
+│   │   ├── EvictionPolicy: *Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
 │   │   ├── ExtensionsTimeBudget: *string
-│   │   ├── HardwareProfile: Object (1 property)
-│   │   │   └── VmSize: Enum (166 values)
+│   │   ├── HardwareProfile: *Object (1 property)
+│   │   │   └── VmSize: *Enum (166 values)
 │   │   │       ├── "Basic_A0"
 │   │   │       ├── "Basic_A1"
 │   │   │       ├── "Basic_A2"
@@ -190,112 +190,112 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       ├── "Standard_NV12"
 │   │   │       ├── "Standard_NV24"
 │   │   │       └── "Standard_NV6"
-│   │   ├── Host: Object (1 property)
+│   │   ├── Host: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── HostGroup: Object (1 property)
+│   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: Object (1 property)
-│   │   │   └── Type: Enum (4 values)
+│   │   ├── Identity: *Object (1 property)
+│   │   │   └── Type: *Enum (4 values)
 │   │   │       ├── "None"
 │   │   │       ├── "SystemAssigned"
 │   │   │       ├── "SystemAssigned, UserAssigned"
 │   │   │       └── "UserAssigned"
 │   │   ├── LicenseType: *string
 │   │   ├── Location: *string
-│   │   ├── NetworkProfile: Object (1 property)
-│   │   │   └── NetworkInterfaces: Object (2 properties)
+│   │   ├── NetworkProfile: *Object (1 property)
+│   │   │   └── NetworkInterfaces: Object (2 properties)[]
 │   │   │       ├── Primary: *bool
 │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   ├── OsProfile: Object (9 properties)
+│   │   ├── OsProfile: *Object (9 properties)
 │   │   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   │   ├── AdminUsername: *string
 │   │   │   ├── AllowExtensionOperations: *bool
 │   │   │   ├── ComputerName: *string
 │   │   │   ├── CustomData: *string
-│   │   │   ├── LinuxConfiguration: Object (4 properties)
+│   │   │   ├── LinuxConfiguration: *Object (4 properties)
 │   │   │   │   ├── DisablePasswordAuthentication: *bool
-│   │   │   │   ├── PatchSettings: Object (1 property)
-│   │   │   │   │   └── PatchMode: Enum (2 values)
+│   │   │   │   ├── PatchSettings: *Object (1 property)
+│   │   │   │   │   └── PatchMode: *Enum (2 values)
 │   │   │   │   │       ├── "AutomaticByPlatform"
 │   │   │   │   │       └── "ImageDefault"
 │   │   │   │   ├── ProvisionVMAgent: *bool
-│   │   │   │   └── Ssh: Object (1 property)
-│   │   │   │       └── PublicKeys: Object (2 properties)
+│   │   │   │   └── Ssh: *Object (1 property)
+│   │   │   │       └── PublicKeys: Object (2 properties)[]
 │   │   │   │           ├── KeyData: *string
 │   │   │   │           └── Path: *string
 │   │   │   ├── RequireGuestProvisionSignal: *bool
-│   │   │   ├── Secrets: Object (2 properties)
-│   │   │   │   ├── SourceVault: Object (1 property)
+│   │   │   ├── Secrets: Object (2 properties)[]
+│   │   │   │   ├── SourceVault: *Object (1 property)
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── VaultCertificates: Object (2 properties)
+│   │   │   │   └── VaultCertificates: Object (2 properties)[]
 │   │   │   │       ├── CertificateStore: *string
 │   │   │   │       └── CertificateUrl: *string
-│   │   │   └── WindowsConfiguration: Object (6 properties)
-│   │   │       ├── AdditionalUnattendContent: Object (4 properties)
-│   │   │       │   ├── ComponentName: Enum (1 value)
+│   │   │   └── WindowsConfiguration: *Object (6 properties)
+│   │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│   │   │       │   ├── ComponentName: *Enum (1 value)
 │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │   │   │       │   ├── Content: *string
-│   │   │       │   ├── PassName: Enum (1 value)
+│   │   │       │   ├── PassName: *Enum (1 value)
 │   │   │       │   │   └── "OobeSystem"
-│   │   │       │   └── SettingName: Enum (2 values)
+│   │   │       │   └── SettingName: *Enum (2 values)
 │   │   │       │       ├── "AutoLogon"
 │   │   │       │       └── "FirstLogonCommands"
 │   │   │       ├── EnableAutomaticUpdates: *bool
-│   │   │       ├── PatchSettings: Object (2 properties)
+│   │   │       ├── PatchSettings: *Object (2 properties)
 │   │   │       │   ├── EnableHotpatching: *bool
-│   │   │       │   └── PatchMode: Enum (3 values)
+│   │   │       │   └── PatchMode: *Enum (3 values)
 │   │   │       │       ├── "AutomaticByOS"
 │   │   │       │       ├── "AutomaticByPlatform"
 │   │   │       │       └── "Manual"
 │   │   │       ├── ProvisionVMAgent: *bool
 │   │   │       ├── TimeZone: *string
-│   │   │       └── WinRM: Object (1 property)
-│   │   │           └── Listeners: Object (2 properties)
+│   │   │       └── WinRM: *Object (1 property)
+│   │   │           └── Listeners: Object (2 properties)[]
 │   │   │               ├── CertificateUrl: *string
-│   │   │               └── Protocol: Enum (2 values)
+│   │   │               └── Protocol: *Enum (2 values)
 │   │   │                   ├── "Http"
 │   │   │                   └── "Https"
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Plan: Object (4 properties)
+│   │   ├── Plan: *Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
 │   │   ├── PlatformFaultDomain: *int
-│   │   ├── Priority: Enum (3 values)
+│   │   ├── Priority: *Enum (3 values)
 │   │   │   ├── "Low"
 │   │   │   ├── "Regular"
 │   │   │   └── "Spot"
-│   │   ├── ProximityPlacementGroup: Object (1 property)
+│   │   ├── ProximityPlacementGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── SecurityProfile: Object (3 properties)
+│   │   ├── SecurityProfile: *Object (3 properties)
 │   │   │   ├── EncryptionAtHost: *bool
-│   │   │   ├── SecurityType: Enum (1 value)
+│   │   │   ├── SecurityType: *Enum (1 value)
 │   │   │   │   └── "TrustedLaunch"
-│   │   │   └── UefiSettings: Object (2 properties)
+│   │   │   └── UefiSettings: *Object (2 properties)
 │   │   │       ├── SecureBootEnabled: *bool
 │   │   │       └── VTpmEnabled: *bool
-│   │   ├── StorageProfile: Object (3 properties)
-│   │   │   ├── DataDisks: Object (11 properties)
-│   │   │   │   ├── Caching: Enum (3 values)
+│   │   ├── StorageProfile: *Object (3 properties)
+│   │   │   ├── DataDisks: Object (11 properties)[]
+│   │   │   │   ├── Caching: *Enum (3 values)
 │   │   │   │   │   ├── "None"
 │   │   │   │   │   ├── "ReadOnly"
 │   │   │   │   │   └── "ReadWrite"
-│   │   │   │   ├── CreateOption: Enum (3 values)
+│   │   │   │   ├── CreateOption: *Enum (3 values)
 │   │   │   │   │   ├── "Attach"
 │   │   │   │   │   ├── "Empty"
 │   │   │   │   │   └── "FromImage"
-│   │   │   │   ├── DetachOption: Enum (1 value)
+│   │   │   │   ├── DetachOption: *Enum (1 value)
 │   │   │   │   │   └── "ForceDetach"
 │   │   │   │   ├── DiskSizeGB: *int
-│   │   │   │   ├── Image: Object (1 property)
+│   │   │   │   ├── Image: *Object (1 property)
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   ├── Lun: *int
-│   │   │   │   ├── ManagedDisk: Object (3 properties)
-│   │   │   │   │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │   │   ├── ManagedDisk: *Object (3 properties)
+│   │   │   │   │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── Reference: *genruntime.ResourceReference
-│   │   │   │   │   └── StorageAccountType: Enum (6 values)
+│   │   │   │   │   └── StorageAccountType: *Enum (6 values)
 │   │   │   │   │       ├── "Premium_LRS"
 │   │   │   │   │       ├── "Premium_ZRS"
 │   │   │   │   │       ├── "StandardSSD_LRS"
@@ -304,48 +304,48 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │       └── "UltraSSD_LRS"
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── ToBeDetached: *bool
-│   │   │   │   ├── Vhd: Object (1 property)
+│   │   │   │   ├── Vhd: *Object (1 property)
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   └── WriteAcceleratorEnabled: *bool
-│   │   │   ├── ImageReference: Object (5 properties)
+│   │   │   ├── ImageReference: *Object (5 properties)
 │   │   │   │   ├── Offer: *string
 │   │   │   │   ├── Publisher: *string
 │   │   │   │   ├── Reference: *genruntime.ResourceReference
 │   │   │   │   ├── Sku: *string
 │   │   │   │   └── Version: *string
-│   │   │   └── OsDisk: Object (11 properties)
-│   │   │       ├── Caching: Enum (3 values)
+│   │   │   └── OsDisk: *Object (11 properties)
+│   │   │       ├── Caching: *Enum (3 values)
 │   │   │       │   ├── "None"
 │   │   │       │   ├── "ReadOnly"
 │   │   │       │   └── "ReadWrite"
-│   │   │       ├── CreateOption: Enum (3 values)
+│   │   │       ├── CreateOption: *Enum (3 values)
 │   │   │       │   ├── "Attach"
 │   │   │       │   ├── "Empty"
 │   │   │       │   └── "FromImage"
-│   │   │       ├── DiffDiskSettings: Object (2 properties)
-│   │   │       │   ├── Option: Enum (1 value)
+│   │   │       ├── DiffDiskSettings: *Object (2 properties)
+│   │   │       │   ├── Option: *Enum (1 value)
 │   │   │       │   │   └── "Local"
-│   │   │       │   └── Placement: Enum (2 values)
+│   │   │       │   └── Placement: *Enum (2 values)
 │   │   │       │       ├── "CacheDisk"
 │   │   │       │       └── "ResourceDisk"
 │   │   │       ├── DiskSizeGB: *int
-│   │   │       ├── EncryptionSettings: Object (3 properties)
-│   │   │       │   ├── DiskEncryptionKey: Object (2 properties)
+│   │   │       ├── EncryptionSettings: *Object (3 properties)
+│   │   │       │   ├── DiskEncryptionKey: *Object (2 properties)
 │   │   │       │   │   ├── SecretUrl: *string
-│   │   │       │   │   └── SourceVault: Object (1 property)
+│   │   │       │   │   └── SourceVault: *Object (1 property)
 │   │   │       │   │       └── Reference: *genruntime.ResourceReference
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyEncryptionKey: Object (2 properties)
+│   │   │       │   └── KeyEncryptionKey: *Object (2 properties)
 │   │   │       │       ├── KeyUrl: *string
-│   │   │       │       └── SourceVault: Object (1 property)
+│   │   │       │       └── SourceVault: *Object (1 property)
 │   │   │       │           └── Reference: *genruntime.ResourceReference
-│   │   │       ├── Image: Object (1 property)
+│   │   │       ├── Image: *Object (1 property)
 │   │   │       │   └── Uri: *string
-│   │   │       ├── ManagedDisk: Object (3 properties)
-│   │   │       │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │       ├── ManagedDisk: *Object (3 properties)
+│   │   │       │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │       │   ├── Reference: *genruntime.ResourceReference
-│   │   │       │   └── StorageAccountType: Enum (6 values)
+│   │   │       │   └── StorageAccountType: *Enum (6 values)
 │   │   │       │       ├── "Premium_LRS"
 │   │   │       │       ├── "Premium_ZRS"
 │   │   │       │       ├── "StandardSSD_LRS"
@@ -353,38 +353,38 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │       ├── "Standard_LRS"
 │   │   │       │       └── "UltraSSD_LRS"
 │   │   │       ├── Name: *string
-│   │   │       ├── OsType: Enum (2 values)
+│   │   │       ├── OsType: *Enum (2 values)
 │   │   │       │   ├── "Linux"
 │   │   │       │   └── "Windows"
-│   │   │       ├── Vhd: Object (1 property)
+│   │   │       ├── Vhd: *Object (1 property)
 │   │   │       │   └── Uri: *string
 │   │   │       └── WriteAcceleratorEnabled: *bool
 │   │   ├── Tags: map[string]string
-│   │   ├── VirtualMachineScaleSet: Object (1 property)
+│   │   ├── VirtualMachineScaleSet: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   └── Zones: string[]
 │   └── Status: Object (32 properties)
-│       ├── AdditionalCapabilities: Object (1 property)
+│       ├── AdditionalCapabilities: *Object (1 property)
 │       │   └── UltraSSDEnabled: *bool
-│       ├── AvailabilitySet: Object (1 property)
+│       ├── AvailabilitySet: *Object (1 property)
 │       │   └── Id: *string
-│       ├── BillingProfile: Object (1 property)
+│       ├── BillingProfile: *Object (1 property)
 │       │   └── MaxPrice: *float64
 │       ├── Conditions: conditions.Condition[]
-│       ├── DiagnosticsProfile: Object (1 property)
-│       │   └── BootDiagnostics: Object (2 properties)
+│       ├── DiagnosticsProfile: *Object (1 property)
+│       │   └── BootDiagnostics: *Object (2 properties)
 │       │       ├── Enabled: *bool
 │       │       └── StorageUri: *string
-│       ├── EvictionPolicy: Enum (2 values)
+│       ├── EvictionPolicy: *Enum (2 values)
 │       │   ├── "Deallocate"
 │       │   └── "Delete"
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
 │       ├── ExtensionsTimeBudget: *string
-│       ├── HardwareProfile: Object (1 property)
-│       │   └── VmSize: Enum (166 values)
+│       ├── HardwareProfile: *Object (1 property)
+│       │   └── VmSize: *Enum (166 values)
 │       │       ├── "Basic_A0"
 │       │       ├── "Basic_A1"
 │       │       ├── "Basic_A2"
@@ -551,70 +551,70 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │       ├── "Standard_NV12"
 │       │       ├── "Standard_NV24"
 │       │       └── "Standard_NV6"
-│       ├── Host: Object (1 property)
+│       ├── Host: *Object (1 property)
 │       │   └── Id: *string
-│       ├── HostGroup: Object (1 property)
+│       ├── HostGroup: *Object (1 property)
 │       │   └── Id: *string
 │       ├── Id: *string
-│       ├── Identity: Object (3 properties)
+│       ├── Identity: *Object (3 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   └── Type: Enum (4 values)
+│       │   └── Type: *Enum (4 values)
 │       │       ├── "None"
 │       │       ├── "SystemAssigned"
 │       │       ├── "SystemAssigned, UserAssigned"
 │       │       └── "UserAssigned"
-│       ├── InstanceView: Object (16 properties)
+│       ├── InstanceView: *Object (16 properties)
 │       │   ├── AssignedHost: *string
-│       │   ├── BootDiagnostics: Object (3 properties)
+│       │   ├── BootDiagnostics: *Object (3 properties)
 │       │   │   ├── ConsoleScreenshotBlobUri: *string
 │       │   │   ├── SerialConsoleLogBlobUri: *string
-│       │   │   └── Status: Object (5 properties)
+│       │   │   └── Status: *Object (5 properties)
 │       │   │       ├── Code: *string
 │       │   │       ├── DisplayStatus: *string
-│       │   │       ├── Level: Enum (3 values)
+│       │   │       ├── Level: *Enum (3 values)
 │       │   │       │   ├── "Error"
 │       │   │       │   ├── "Info"
 │       │   │       │   └── "Warning"
 │       │   │       ├── Message: *string
 │       │   │       └── Time: *string
 │       │   ├── ComputerName: *string
-│       │   ├── Disks: Object (3 properties)
-│       │   │   ├── EncryptionSettings: Object (3 properties)
-│       │   │   │   ├── DiskEncryptionKey: Object (2 properties)
+│       │   ├── Disks: Object (3 properties)[]
+│       │   │   ├── EncryptionSettings: Object (3 properties)[]
+│       │   │   │   ├── DiskEncryptionKey: *Object (2 properties)
 │       │   │   │   │   ├── SecretUrl: *string
-│       │   │   │   │   └── SourceVault: Object (1 property)
+│       │   │   │   │   └── SourceVault: *Object (1 property)
 │       │   │   │   │       └── Id: *string
 │       │   │   │   ├── Enabled: *bool
-│       │   │   │   └── KeyEncryptionKey: Object (2 properties)
+│       │   │   │   └── KeyEncryptionKey: *Object (2 properties)
 │       │   │   │       ├── KeyUrl: *string
-│       │   │   │       └── SourceVault: Object (1 property)
+│       │   │   │       └── SourceVault: *Object (1 property)
 │       │   │   │           └── Id: *string
 │       │   │   ├── Name: *string
-│       │   │   └── Statuses: Object (5 properties)
+│       │   │   └── Statuses: Object (5 properties)[]
 │       │   │       ├── Code: *string
 │       │   │       ├── DisplayStatus: *string
-│       │   │       ├── Level: Enum (3 values)
+│       │   │       ├── Level: *Enum (3 values)
 │       │   │       │   ├── "Error"
 │       │   │       │   ├── "Info"
 │       │   │       │   └── "Warning"
 │       │   │       ├── Message: *string
 │       │   │       └── Time: *string
-│       │   ├── Extensions: Object (5 properties)
+│       │   ├── Extensions: Object (5 properties)[]
 │       │   │   ├── Name: *string
-│       │   │   ├── Statuses: Object (5 properties)
+│       │   │   ├── Statuses: Object (5 properties)[]
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   ├── "Error"
 │       │   │   │   │   ├── "Info"
 │       │   │   │   │   └── "Warning"
 │       │   │   │   ├── Message: *string
 │       │   │   │   └── Time: *string
-│       │   │   ├── Substatuses: Object (5 properties)
+│       │   │   ├── Substatuses: Object (5 properties)[]
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   ├── "Error"
 │       │   │   │   │   ├── "Info"
 │       │   │   │   │   └── "Warning"
@@ -622,13 +622,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │   │   └── Time: *string
 │       │   │   ├── Type: *string
 │       │   │   └── TypeHandlerVersion: *string
-│       │   ├── HyperVGeneration: Enum (2 values)
+│       │   ├── HyperVGeneration: *Enum (2 values)
 │       │   │   ├── "V1"
 │       │   │   └── "V2"
-│       │   ├── MaintenanceRedeployStatus: Object (7 properties)
+│       │   ├── MaintenanceRedeployStatus: *Object (7 properties)
 │       │   │   ├── IsCustomerInitiatedMaintenanceAllowed: *bool
 │       │   │   ├── LastOperationMessage: *string
-│       │   │   ├── LastOperationResultCode: Enum (4 values)
+│       │   │   ├── LastOperationResultCode: *Enum (4 values)
 │       │   │   │   ├── "MaintenanceAborted"
 │       │   │   │   ├── "MaintenanceCompleted"
 │       │   │   │   ├── "None"
@@ -639,17 +639,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │   └── PreMaintenanceWindowStartTime: *string
 │       │   ├── OsName: *string
 │       │   ├── OsVersion: *string
-│       │   ├── PatchStatus: Object (3 properties)
-│       │   │   ├── AvailablePatchSummary: Object (8 properties)
+│       │   ├── PatchStatus: *Object (3 properties)
+│       │   │   ├── AvailablePatchSummary: *Object (8 properties)
 │       │   │   │   ├── AssessmentActivityId: *string
 │       │   │   │   ├── CriticalAndSecurityPatchCount: *int
-│       │   │   │   ├── Error: Object (5 properties)
+│       │   │   │   ├── Error: *Object (5 properties)
 │       │   │   │   │   ├── Code: *string
-│       │   │   │   │   ├── Details: Object (3 properties)
+│       │   │   │   │   ├── Details: Object (3 properties)[]
 │       │   │   │   │   │   ├── Code: *string
 │       │   │   │   │   │   ├── Message: *string
 │       │   │   │   │   │   └── Target: *string
-│       │   │   │   │   ├── Innererror: Object (2 properties)
+│       │   │   │   │   ├── Innererror: *Object (2 properties)
 │       │   │   │   │   │   ├── Errordetail: *string
 │       │   │   │   │   │   └── Exceptiontype: *string
 │       │   │   │   │   ├── Message: *string
@@ -658,29 +658,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │   │   ├── OtherPatchCount: *int
 │       │   │   │   ├── RebootPending: *bool
 │       │   │   │   ├── StartTime: *string
-│       │   │   │   └── Status: Enum (5 values)
+│       │   │   │   └── Status: *Enum (5 values)
 │       │   │   │       ├── "CompletedWithWarnings"
 │       │   │   │       ├── "Failed"
 │       │   │   │       ├── "InProgress"
 │       │   │   │       ├── "Succeeded"
 │       │   │   │       └── "Unknown"
-│       │   │   ├── ConfigurationStatuses: Object (5 properties)
+│       │   │   ├── ConfigurationStatuses: Object (5 properties)[]
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   ├── "Error"
 │       │   │   │   │   ├── "Info"
 │       │   │   │   │   └── "Warning"
 │       │   │   │   ├── Message: *string
 │       │   │   │   └── Time: *string
-│       │   │   └── LastPatchInstallationSummary: Object (11 properties)
-│       │   │       ├── Error: Object (5 properties)
+│       │   │   └── LastPatchInstallationSummary: *Object (11 properties)
+│       │   │       ├── Error: *Object (5 properties)
 │       │   │       │   ├── Code: *string
-│       │   │       │   ├── Details: Object (3 properties)
+│       │   │       │   ├── Details: Object (3 properties)[]
 │       │   │       │   │   ├── Code: *string
 │       │   │       │   │   ├── Message: *string
 │       │   │       │   │   └── Target: *string
-│       │   │       │   ├── Innererror: Object (2 properties)
+│       │   │       │   ├── Innererror: *Object (2 properties)
 │       │   │       │   │   ├── Errordetail: *string
 │       │   │       │   │   └── Exceptiontype: *string
 │       │   │       │   ├── Message: *string
@@ -694,7 +694,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │       ├── NotSelectedPatchCount: *int
 │       │   │       ├── PendingPatchCount: *int
 │       │   │       ├── StartTime: *string
-│       │   │       └── Status: Enum (5 values)
+│       │   │       └── Status: *Enum (5 values)
 │       │   │           ├── "CompletedWithWarnings"
 │       │   │           ├── "Failed"
 │       │   │           ├── "InProgress"
@@ -703,21 +703,21 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   ├── PlatformFaultDomain: *int
 │       │   ├── PlatformUpdateDomain: *int
 │       │   ├── RdpThumbPrint: *string
-│       │   ├── Statuses: Object (5 properties)
+│       │   ├── Statuses: Object (5 properties)[]
 │       │   │   ├── Code: *string
 │       │   │   ├── DisplayStatus: *string
-│       │   │   ├── Level: Enum (3 values)
+│       │   │   ├── Level: *Enum (3 values)
 │       │   │   │   ├── "Error"
 │       │   │   │   ├── "Info"
 │       │   │   │   └── "Warning"
 │       │   │   ├── Message: *string
 │       │   │   └── Time: *string
-│       │   ├── VmAgent: Object (3 properties)
-│       │   │   ├── ExtensionHandlers: Object (3 properties)
-│       │   │   │   ├── Status: Object (5 properties)
+│       │   ├── VmAgent: *Object (3 properties)
+│       │   │   ├── ExtensionHandlers: Object (3 properties)[]
+│       │   │   │   ├── Status: *Object (5 properties)
 │       │   │   │   │   ├── Code: *string
 │       │   │   │   │   ├── DisplayStatus: *string
-│       │   │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   │   ├── "Error"
 │       │   │   │   │   │   ├── "Info"
 │       │   │   │   │   │   └── "Warning"
@@ -725,21 +725,21 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │   │   │   └── Time: *string
 │       │   │   │   ├── Type: *string
 │       │   │   │   └── TypeHandlerVersion: *string
-│       │   │   ├── Statuses: Object (5 properties)
+│       │   │   ├── Statuses: Object (5 properties)[]
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   ├── "Error"
 │       │   │   │   │   ├── "Info"
 │       │   │   │   │   └── "Warning"
 │       │   │   │   ├── Message: *string
 │       │   │   │   └── Time: *string
 │       │   │   └── VmAgentVersion: *string
-│       │   └── VmHealth: Object (1 property)
-│       │       └── Status: Object (5 properties)
+│       │   └── VmHealth: *Object (1 property)
+│       │       └── Status: *Object (5 properties)
 │       │           ├── Code: *string
 │       │           ├── DisplayStatus: *string
-│       │           ├── Level: Enum (3 values)
+│       │           ├── Level: *Enum (3 values)
 │       │           │   ├── "Error"
 │       │           │   ├── "Info"
 │       │           │   └── "Warning"
@@ -748,91 +748,91 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       ├── LicenseType: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── NetworkProfile: Object (1 property)
-│       │   └── NetworkInterfaces: Object (2 properties)
+│       ├── NetworkProfile: *Object (1 property)
+│       │   └── NetworkInterfaces: Object (2 properties)[]
 │       │       ├── Id: *string
 │       │       └── Primary: *bool
-│       ├── OsProfile: Object (8 properties)
+│       ├── OsProfile: *Object (8 properties)
 │       │   ├── AdminUsername: *string
 │       │   ├── AllowExtensionOperations: *bool
 │       │   ├── ComputerName: *string
 │       │   ├── CustomData: *string
-│       │   ├── LinuxConfiguration: Object (4 properties)
+│       │   ├── LinuxConfiguration: *Object (4 properties)
 │       │   │   ├── DisablePasswordAuthentication: *bool
-│       │   │   ├── PatchSettings: Object (1 property)
-│       │   │   │   └── PatchMode: Enum (2 values)
+│       │   │   ├── PatchSettings: *Object (1 property)
+│       │   │   │   └── PatchMode: *Enum (2 values)
 │       │   │   │       ├── "AutomaticByPlatform"
 │       │   │   │       └── "ImageDefault"
 │       │   │   ├── ProvisionVMAgent: *bool
-│       │   │   └── Ssh: Object (1 property)
-│       │   │       └── PublicKeys: Object (2 properties)
+│       │   │   └── Ssh: *Object (1 property)
+│       │   │       └── PublicKeys: Object (2 properties)[]
 │       │   │           ├── KeyData: *string
 │       │   │           └── Path: *string
 │       │   ├── RequireGuestProvisionSignal: *bool
-│       │   ├── Secrets: Object (2 properties)
-│       │   │   ├── SourceVault: Object (1 property)
+│       │   ├── Secrets: Object (2 properties)[]
+│       │   │   ├── SourceVault: *Object (1 property)
 │       │   │   │   └── Id: *string
-│       │   │   └── VaultCertificates: Object (2 properties)
+│       │   │   └── VaultCertificates: Object (2 properties)[]
 │       │   │       ├── CertificateStore: *string
 │       │   │       └── CertificateUrl: *string
-│       │   └── WindowsConfiguration: Object (6 properties)
-│       │       ├── AdditionalUnattendContent: Object (4 properties)
-│       │       │   ├── ComponentName: Enum (1 value)
+│       │   └── WindowsConfiguration: *Object (6 properties)
+│       │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│       │       │   ├── ComponentName: *Enum (1 value)
 │       │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │       │       │   ├── Content: *string
-│       │       │   ├── PassName: Enum (1 value)
+│       │       │   ├── PassName: *Enum (1 value)
 │       │       │   │   └── "OobeSystem"
-│       │       │   └── SettingName: Enum (2 values)
+│       │       │   └── SettingName: *Enum (2 values)
 │       │       │       ├── "AutoLogon"
 │       │       │       └── "FirstLogonCommands"
 │       │       ├── EnableAutomaticUpdates: *bool
-│       │       ├── PatchSettings: Object (2 properties)
+│       │       ├── PatchSettings: *Object (2 properties)
 │       │       │   ├── EnableHotpatching: *bool
-│       │       │   └── PatchMode: Enum (3 values)
+│       │       │   └── PatchMode: *Enum (3 values)
 │       │       │       ├── "AutomaticByOS"
 │       │       │       ├── "AutomaticByPlatform"
 │       │       │       └── "Manual"
 │       │       ├── ProvisionVMAgent: *bool
 │       │       ├── TimeZone: *string
-│       │       └── WinRM: Object (1 property)
-│       │           └── Listeners: Object (2 properties)
+│       │       └── WinRM: *Object (1 property)
+│       │           └── Listeners: Object (2 properties)[]
 │       │               ├── CertificateUrl: *string
-│       │               └── Protocol: Enum (2 values)
+│       │               └── Protocol: *Enum (2 values)
 │       │                   ├── "Http"
 │       │                   └── "Https"
-│       ├── Plan: Object (4 properties)
+│       ├── Plan: *Object (4 properties)
 │       │   ├── Name: *string
 │       │   ├── Product: *string
 │       │   ├── PromotionCode: *string
 │       │   └── Publisher: *string
 │       ├── PlatformFaultDomain: *int
-│       ├── Priority: Enum (3 values)
+│       ├── Priority: *Enum (3 values)
 │       │   ├── "Low"
 │       │   ├── "Regular"
 │       │   └── "Spot"
 │       ├── ProvisioningState: *string
-│       ├── ProximityPlacementGroup: Object (1 property)
+│       ├── ProximityPlacementGroup: *Object (1 property)
 │       │   └── Id: *string
-│       ├── Resources: Object (15 properties)
+│       ├── Resources: Object (15 properties)[]
 │       │   ├── AutoUpgradeMinorVersion: *bool
 │       │   ├── EnableAutomaticUpgrade: *bool
 │       │   ├── ForceUpdateTag: *string
 │       │   ├── Id: *string
-│       │   ├── InstanceView: Object (5 properties)
+│       │   ├── InstanceView: *Object (5 properties)
 │       │   │   ├── Name: *string
-│       │   │   ├── Statuses: Object (5 properties)
+│       │   │   ├── Statuses: Object (5 properties)[]
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   ├── "Error"
 │       │   │   │   │   ├── "Info"
 │       │   │   │   │   └── "Warning"
 │       │   │   │   ├── Message: *string
 │       │   │   │   └── Time: *string
-│       │   │   ├── Substatuses: Object (5 properties)
+│       │   │   ├── Substatuses: Object (5 properties)[]
 │       │   │   │   ├── Code: *string
 │       │   │   │   ├── DisplayStatus: *string
-│       │   │   │   ├── Level: Enum (3 values)
+│       │   │   │   ├── Level: *Enum (3 values)
 │       │   │   │   │   ├── "Error"
 │       │   │   │   │   ├── "Info"
 │       │   │   │   │   └── "Warning"
@@ -850,36 +850,36 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   ├── Tags: map[string]string
 │       │   ├── Type: *string
 │       │   └── TypeHandlerVersion: *string
-│       ├── SecurityProfile: Object (3 properties)
+│       ├── SecurityProfile: *Object (3 properties)
 │       │   ├── EncryptionAtHost: *bool
-│       │   ├── SecurityType: Enum (1 value)
+│       │   ├── SecurityType: *Enum (1 value)
 │       │   │   └── "TrustedLaunch"
-│       │   └── UefiSettings: Object (2 properties)
+│       │   └── UefiSettings: *Object (2 properties)
 │       │       ├── SecureBootEnabled: *bool
 │       │       └── VTpmEnabled: *bool
-│       ├── StorageProfile: Object (3 properties)
-│       │   ├── DataDisks: Object (13 properties)
-│       │   │   ├── Caching: Enum (3 values)
+│       ├── StorageProfile: *Object (3 properties)
+│       │   ├── DataDisks: Object (13 properties)[]
+│       │   │   ├── Caching: *Enum (3 values)
 │       │   │   │   ├── "None"
 │       │   │   │   ├── "ReadOnly"
 │       │   │   │   └── "ReadWrite"
-│       │   │   ├── CreateOption: Enum (3 values)
+│       │   │   ├── CreateOption: *Enum (3 values)
 │       │   │   │   ├── "Attach"
 │       │   │   │   ├── "Empty"
 │       │   │   │   └── "FromImage"
-│       │   │   ├── DetachOption: Enum (1 value)
+│       │   │   ├── DetachOption: *Enum (1 value)
 │       │   │   │   └── "ForceDetach"
 │       │   │   ├── DiskIOPSReadWrite: *int
 │       │   │   ├── DiskMBpsReadWrite: *int
 │       │   │   ├── DiskSizeGB: *int
-│       │   │   ├── Image: Object (1 property)
+│       │   │   ├── Image: *Object (1 property)
 │       │   │   │   └── Uri: *string
 │       │   │   ├── Lun: *int
-│       │   │   ├── ManagedDisk: Object (3 properties)
-│       │   │   │   ├── DiskEncryptionSet: Object (1 property)
+│       │   │   ├── ManagedDisk: *Object (3 properties)
+│       │   │   │   ├── DiskEncryptionSet: *Object (1 property)
 │       │   │   │   │   └── Id: *string
 │       │   │   │   ├── Id: *string
-│       │   │   │   └── StorageAccountType: Enum (6 values)
+│       │   │   │   └── StorageAccountType: *Enum (6 values)
 │       │   │   │       ├── "Premium_LRS"
 │       │   │   │       ├── "Premium_ZRS"
 │       │   │   │       ├── "StandardSSD_LRS"
@@ -888,49 +888,49 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │   │       └── "UltraSSD_LRS"
 │       │   │   ├── Name: *string
 │       │   │   ├── ToBeDetached: *bool
-│       │   │   ├── Vhd: Object (1 property)
+│       │   │   ├── Vhd: *Object (1 property)
 │       │   │   │   └── Uri: *string
 │       │   │   └── WriteAcceleratorEnabled: *bool
-│       │   ├── ImageReference: Object (6 properties)
+│       │   ├── ImageReference: *Object (6 properties)
 │       │   │   ├── ExactVersion: *string
 │       │   │   ├── Id: *string
 │       │   │   ├── Offer: *string
 │       │   │   ├── Publisher: *string
 │       │   │   ├── Sku: *string
 │       │   │   └── Version: *string
-│       │   └── OsDisk: Object (11 properties)
-│       │       ├── Caching: Enum (3 values)
+│       │   └── OsDisk: *Object (11 properties)
+│       │       ├── Caching: *Enum (3 values)
 │       │       │   ├── "None"
 │       │       │   ├── "ReadOnly"
 │       │       │   └── "ReadWrite"
-│       │       ├── CreateOption: Enum (3 values)
+│       │       ├── CreateOption: *Enum (3 values)
 │       │       │   ├── "Attach"
 │       │       │   ├── "Empty"
 │       │       │   └── "FromImage"
-│       │       ├── DiffDiskSettings: Object (2 properties)
-│       │       │   ├── Option: Enum (1 value)
+│       │       ├── DiffDiskSettings: *Object (2 properties)
+│       │       │   ├── Option: *Enum (1 value)
 │       │       │   │   └── "Local"
-│       │       │   └── Placement: Enum (2 values)
+│       │       │   └── Placement: *Enum (2 values)
 │       │       │       ├── "CacheDisk"
 │       │       │       └── "ResourceDisk"
 │       │       ├── DiskSizeGB: *int
-│       │       ├── EncryptionSettings: Object (3 properties)
-│       │       │   ├── DiskEncryptionKey: Object (2 properties)
+│       │       ├── EncryptionSettings: *Object (3 properties)
+│       │       │   ├── DiskEncryptionKey: *Object (2 properties)
 │       │       │   │   ├── SecretUrl: *string
-│       │       │   │   └── SourceVault: Object (1 property)
+│       │       │   │   └── SourceVault: *Object (1 property)
 │       │       │   │       └── Id: *string
 │       │       │   ├── Enabled: *bool
-│       │       │   └── KeyEncryptionKey: Object (2 properties)
+│       │       │   └── KeyEncryptionKey: *Object (2 properties)
 │       │       │       ├── KeyUrl: *string
-│       │       │       └── SourceVault: Object (1 property)
+│       │       │       └── SourceVault: *Object (1 property)
 │       │       │           └── Id: *string
-│       │       ├── Image: Object (1 property)
+│       │       ├── Image: *Object (1 property)
 │       │       │   └── Uri: *string
-│       │       ├── ManagedDisk: Object (3 properties)
-│       │       │   ├── DiskEncryptionSet: Object (1 property)
+│       │       ├── ManagedDisk: *Object (3 properties)
+│       │       │   ├── DiskEncryptionSet: *Object (1 property)
 │       │       │   │   └── Id: *string
 │       │       │   ├── Id: *string
-│       │       │   └── StorageAccountType: Enum (6 values)
+│       │       │   └── StorageAccountType: *Enum (6 values)
 │       │       │       ├── "Premium_LRS"
 │       │       │       ├── "Premium_ZRS"
 │       │       │       ├── "StandardSSD_LRS"
@@ -938,73 +938,73 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │       │       ├── "Standard_LRS"
 │       │       │       └── "UltraSSD_LRS"
 │       │       ├── Name: *string
-│       │       ├── OsType: Enum (2 values)
+│       │       ├── OsType: *Enum (2 values)
 │       │       │   ├── "Linux"
 │       │       │   └── "Windows"
-│       │       ├── Vhd: Object (1 property)
+│       │       ├── Vhd: *Object (1 property)
 │       │       │   └── Uri: *string
 │       │       └── WriteAcceleratorEnabled: *bool
 │       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── VirtualMachineScaleSet: Object (1 property)
+│       ├── VirtualMachineScaleSet: *Object (1 property)
 │       │   └── Id: *string
 │       ├── VmId: *string
 │       └── Zones: string[]
 ├── VirtualMachineScaleSet: Resource
 │   ├── Spec: Object (22 properties)
-│   │   ├── AdditionalCapabilities: Object (1 property)
+│   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
-│   │   ├── AutomaticRepairsPolicy: Object (2 properties)
+│   │   ├── AutomaticRepairsPolicy: *Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── GracePeriod: *string
 │   │   ├── AzureName: string
 │   │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── HostGroup: Object (1 property)
+│   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: Object (1 property)
-│   │   │   └── Type: Enum (4 values)
+│   │   ├── Identity: *Object (1 property)
+│   │   │   └── Type: *Enum (4 values)
 │   │   │       ├── "None"
 │   │   │       ├── "SystemAssigned"
 │   │   │       ├── "SystemAssigned, UserAssigned"
 │   │   │       └── "UserAssigned"
 │   │   ├── Location: *string
-│   │   ├── OrchestrationMode: Enum (2 values)
+│   │   ├── OrchestrationMode: *Enum (2 values)
 │   │   │   ├── "Flexible"
 │   │   │   └── "Uniform"
 │   │   ├── Overprovision: *bool
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Plan: Object (4 properties)
+│   │   ├── Plan: *Object (4 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   └── Publisher: *string
 │   │   ├── PlatformFaultDomainCount: *int
-│   │   ├── ProximityPlacementGroup: Object (1 property)
+│   │   ├── ProximityPlacementGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── ScaleInPolicy: Object (1 property)
-│   │   │   └── Rules: Enum (3 values)
+│   │   ├── ScaleInPolicy: *Object (1 property)
+│   │   │   └── Rules: Enum (3 values)[]
 │   │   │       ├── "Default"
 │   │   │       ├── "NewestVM"
 │   │   │       └── "OldestVM"
 │   │   ├── SinglePlacementGroup: *bool
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: *int
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *string
 │   │   ├── Tags: map[string]string
-│   │   ├── UpgradePolicy: Object (3 properties)
-│   │   │   ├── AutomaticOSUpgradePolicy: Object (2 properties)
+│   │   ├── UpgradePolicy: *Object (3 properties)
+│   │   │   ├── AutomaticOSUpgradePolicy: *Object (2 properties)
 │   │   │   │   ├── DisableAutomaticRollback: *bool
 │   │   │   │   └── EnableAutomaticOSUpgrade: *bool
-│   │   │   ├── Mode: Enum (3 values)
+│   │   │   ├── Mode: *Enum (3 values)
 │   │   │   │   ├── "Automatic"
 │   │   │   │   ├── "Manual"
 │   │   │   │   └── "Rolling"
-│   │   │   └── RollingUpgradePolicy: Object (6 properties)
+│   │   │   └── RollingUpgradePolicy: *Object (6 properties)
 │   │   │       ├── EnableCrossZoneUpgrade: *bool
 │   │   │       ├── MaxBatchInstancePercent: Validated<*int> (2 rules)
 │   │   │       │   ├── Rule 0: {Maximum 100}
@@ -1017,18 +1017,18 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   └── Rule 1: {Minimum 0}
 │   │   │       ├── PauseTimeBetweenBatches: *string
 │   │   │       └── PrioritizeUnhealthyInstances: *bool
-│   │   ├── VirtualMachineProfile: Object (11 properties)
-│   │   │   ├── BillingProfile: Object (1 property)
+│   │   ├── VirtualMachineProfile: *Object (11 properties)
+│   │   │   ├── BillingProfile: *Object (1 property)
 │   │   │   │   └── MaxPrice: *float64
-│   │   │   ├── DiagnosticsProfile: Object (1 property)
-│   │   │   │   └── BootDiagnostics: Object (2 properties)
+│   │   │   ├── DiagnosticsProfile: *Object (1 property)
+│   │   │   │   └── BootDiagnostics: *Object (2 properties)
 │   │   │   │       ├── Enabled: *bool
 │   │   │   │       └── StorageUri: *string
-│   │   │   ├── EvictionPolicy: Enum (2 values)
+│   │   │   ├── EvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ExtensionProfile: Object (2 properties)
-│   │   │   │   ├── Extensions: Object (5 properties)
+│   │   │   ├── ExtensionProfile: *Object (2 properties)
+│   │   │   │   ├── Extensions: Object (5 properties)[]
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── Publisher: Validated<*string> (1 rule)
 │   │   │   │   │   │   └── Rule 0: {MinLength %!s(int64=1)}
@@ -1039,119 +1039,119 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │       └── Rule 0: {MinLength %!s(int64=1)}
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── LicenseType: *string
-│   │   │   ├── NetworkProfile: Object (2 properties)
-│   │   │   │   ├── HealthProbe: Object (1 property)
+│   │   │   ├── NetworkProfile: *Object (2 properties)
+│   │   │   │   ├── HealthProbe: *Object (1 property)
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── NetworkInterfaceConfigurations: Object (9 properties)
-│   │   │   │       ├── DnsSettings: Object (1 property)
+│   │   │   │   └── NetworkInterfaceConfigurations: Object (9 properties)[]
+│   │   │   │       ├── DnsSettings: *Object (1 property)
 │   │   │   │       │   └── DnsServers: string[]
 │   │   │   │       ├── EnableAcceleratedNetworking: *bool
 │   │   │   │       ├── EnableFpga: *bool
 │   │   │   │       ├── EnableIPForwarding: *bool
 │   │   │   │       ├── Id: *string
-│   │   │   │       ├── IpConfigurations: Object (10 properties)
-│   │   │   │       │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)
+│   │   │   │       ├── IpConfigurations: Object (10 properties)[]
+│   │   │   │       │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │       │   ├── ApplicationSecurityGroups: Object (1 property)
+│   │   │   │       │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       │   ├── Id: *string
-│   │   │   │       │   ├── LoadBalancerBackendAddressPools: Object (1 property)
+│   │   │   │       │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │       │   ├── LoadBalancerInboundNatPools: Object (1 property)
+│   │   │   │       │   ├── LoadBalancerInboundNatPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       │   ├── Name: *string
 │   │   │   │       │   ├── Primary: *bool
-│   │   │   │       │   ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   │       │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │       │   │   ├── "IPv4"
 │   │   │   │       │   │   └── "IPv6"
-│   │   │   │       │   ├── PublicIPAddressConfiguration: Object (6 properties)
-│   │   │   │       │   │   ├── DnsSettings: Object (1 property)
+│   │   │   │       │   ├── PublicIPAddressConfiguration: *Object (6 properties)
+│   │   │   │       │   │   ├── DnsSettings: *Object (1 property)
 │   │   │   │       │   │   │   └── DomainNameLabel: *string
 │   │   │   │       │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │       │   │   ├── IpTags: Object (2 properties)
+│   │   │   │       │   │   ├── IpTags: Object (2 properties)[]
 │   │   │   │       │   │   │   ├── IpTagType: *string
 │   │   │   │       │   │   │   └── Tag: *string
 │   │   │   │       │   │   ├── Name: *string
-│   │   │   │       │   │   ├── PublicIPAddressVersion: Enum (2 values)
+│   │   │   │       │   │   ├── PublicIPAddressVersion: *Enum (2 values)
 │   │   │   │       │   │   │   ├── "IPv4"
 │   │   │   │       │   │   │   └── "IPv6"
-│   │   │   │       │   │   └── PublicIPPrefix: Object (1 property)
+│   │   │   │       │   │   └── PublicIPPrefix: *Object (1 property)
 │   │   │   │       │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   │       │   └── Subnet: Object (1 property)
+│   │   │   │       │   └── Subnet: *Object (1 property)
 │   │   │   │       │       └── Reference: *genruntime.ResourceReference
 │   │   │   │       ├── Name: *string
-│   │   │   │       ├── NetworkSecurityGroup: Object (1 property)
+│   │   │   │       ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   │       │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       └── Primary: *bool
-│   │   │   ├── OsProfile: Object (7 properties)
+│   │   │   ├── OsProfile: *Object (7 properties)
 │   │   │   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   │   │   ├── AdminUsername: *string
 │   │   │   │   ├── ComputerNamePrefix: *string
 │   │   │   │   ├── CustomData: *string
-│   │   │   │   ├── LinuxConfiguration: Object (4 properties)
+│   │   │   │   ├── LinuxConfiguration: *Object (4 properties)
 │   │   │   │   │   ├── DisablePasswordAuthentication: *bool
-│   │   │   │   │   ├── PatchSettings: Object (1 property)
-│   │   │   │   │   │   └── PatchMode: Enum (2 values)
+│   │   │   │   │   ├── PatchSettings: *Object (1 property)
+│   │   │   │   │   │   └── PatchMode: *Enum (2 values)
 │   │   │   │   │   │       ├── "AutomaticByPlatform"
 │   │   │   │   │   │       └── "ImageDefault"
 │   │   │   │   │   ├── ProvisionVMAgent: *bool
-│   │   │   │   │   └── Ssh: Object (1 property)
-│   │   │   │   │       └── PublicKeys: Object (2 properties)
+│   │   │   │   │   └── Ssh: *Object (1 property)
+│   │   │   │   │       └── PublicKeys: Object (2 properties)[]
 │   │   │   │   │           ├── KeyData: *string
 │   │   │   │   │           └── Path: *string
-│   │   │   │   ├── Secrets: Object (2 properties)
-│   │   │   │   │   ├── SourceVault: Object (1 property)
+│   │   │   │   ├── Secrets: Object (2 properties)[]
+│   │   │   │   │   ├── SourceVault: *Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   │   └── VaultCertificates: Object (2 properties)
+│   │   │   │   │   └── VaultCertificates: Object (2 properties)[]
 │   │   │   │   │       ├── CertificateStore: *string
 │   │   │   │   │       └── CertificateUrl: *string
-│   │   │   │   └── WindowsConfiguration: Object (6 properties)
-│   │   │   │       ├── AdditionalUnattendContent: Object (4 properties)
-│   │   │   │       │   ├── ComponentName: Enum (1 value)
+│   │   │   │   └── WindowsConfiguration: *Object (6 properties)
+│   │   │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│   │   │   │       │   ├── ComponentName: *Enum (1 value)
 │   │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │   │   │   │       │   ├── Content: *string
-│   │   │   │       │   ├── PassName: Enum (1 value)
+│   │   │   │       │   ├── PassName: *Enum (1 value)
 │   │   │   │       │   │   └── "OobeSystem"
-│   │   │   │       │   └── SettingName: Enum (2 values)
+│   │   │   │       │   └── SettingName: *Enum (2 values)
 │   │   │   │       │       ├── "AutoLogon"
 │   │   │   │       │       └── "FirstLogonCommands"
 │   │   │   │       ├── EnableAutomaticUpdates: *bool
-│   │   │   │       ├── PatchSettings: Object (2 properties)
+│   │   │   │       ├── PatchSettings: *Object (2 properties)
 │   │   │   │       │   ├── EnableHotpatching: *bool
-│   │   │   │       │   └── PatchMode: Enum (3 values)
+│   │   │   │       │   └── PatchMode: *Enum (3 values)
 │   │   │   │       │       ├── "AutomaticByOS"
 │   │   │   │       │       ├── "AutomaticByPlatform"
 │   │   │   │       │       └── "Manual"
 │   │   │   │       ├── ProvisionVMAgent: *bool
 │   │   │   │       ├── TimeZone: *string
-│   │   │   │       └── WinRM: Object (1 property)
-│   │   │   │           └── Listeners: Object (2 properties)
+│   │   │   │       └── WinRM: *Object (1 property)
+│   │   │   │           └── Listeners: Object (2 properties)[]
 │   │   │   │               ├── CertificateUrl: *string
-│   │   │   │               └── Protocol: Enum (2 values)
+│   │   │   │               └── Protocol: *Enum (2 values)
 │   │   │   │                   ├── "Http"
 │   │   │   │                   └── "Https"
-│   │   │   ├── Priority: Enum (3 values)
+│   │   │   ├── Priority: *Enum (3 values)
 │   │   │   │   ├── "Low"
 │   │   │   │   ├── "Regular"
 │   │   │   │   └── "Spot"
-│   │   │   ├── ScheduledEventsProfile: Object (1 property)
-│   │   │   │   └── TerminateNotificationProfile: Object (2 properties)
+│   │   │   ├── ScheduledEventsProfile: *Object (1 property)
+│   │   │   │   └── TerminateNotificationProfile: *Object (2 properties)
 │   │   │   │       ├── Enable: *bool
 │   │   │   │       └── NotBeforeTimeout: *string
-│   │   │   ├── SecurityProfile: Object (3 properties)
+│   │   │   ├── SecurityProfile: *Object (3 properties)
 │   │   │   │   ├── EncryptionAtHost: *bool
-│   │   │   │   ├── SecurityType: Enum (1 value)
+│   │   │   │   ├── SecurityType: *Enum (1 value)
 │   │   │   │   │   └── "TrustedLaunch"
-│   │   │   │   └── UefiSettings: Object (2 properties)
+│   │   │   │   └── UefiSettings: *Object (2 properties)
 │   │   │   │       ├── SecureBootEnabled: *bool
 │   │   │   │       └── VTpmEnabled: *bool
-│   │   │   └── StorageProfile: Object (3 properties)
-│   │   │       ├── DataDisks: Object (9 properties)
-│   │   │       │   ├── Caching: Enum (3 values)
+│   │   │   └── StorageProfile: *Object (3 properties)
+│   │   │       ├── DataDisks: Object (9 properties)[]
+│   │   │       │   ├── Caching: *Enum (3 values)
 │   │   │       │   │   ├── "None"
 │   │   │       │   │   ├── "ReadOnly"
 │   │   │       │   │   └── "ReadWrite"
-│   │   │       │   ├── CreateOption: Enum (3 values)
+│   │   │       │   ├── CreateOption: *Enum (3 values)
 │   │   │       │   │   ├── "Attach"
 │   │   │       │   │   ├── "Empty"
 │   │   │       │   │   └── "FromImage"
@@ -1159,10 +1159,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   ├── DiskMBpsReadWrite: *int
 │   │   │       │   ├── DiskSizeGB: *int
 │   │   │       │   ├── Lun: *int
-│   │   │       │   ├── ManagedDisk: Object (2 properties)
-│   │   │       │   │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │       │   ├── ManagedDisk: *Object (2 properties)
+│   │   │       │   │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │       │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │       │   │   └── StorageAccountType: Enum (6 values)
+│   │   │       │   │   └── StorageAccountType: *Enum (6 values)
 │   │   │       │   │       ├── "Premium_LRS"
 │   │   │       │   │       ├── "Premium_ZRS"
 │   │   │       │   │       ├── "StandardSSD_LRS"
@@ -1171,34 +1171,34 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   │       └── "UltraSSD_LRS"
 │   │   │       │   ├── Name: *string
 │   │   │       │   └── WriteAcceleratorEnabled: *bool
-│   │   │       ├── ImageReference: Object (5 properties)
+│   │   │       ├── ImageReference: *Object (5 properties)
 │   │   │       │   ├── Offer: *string
 │   │   │       │   ├── Publisher: *string
 │   │   │       │   ├── Reference: *genruntime.ResourceReference
 │   │   │       │   ├── Sku: *string
 │   │   │       │   └── Version: *string
-│   │   │       └── OsDisk: Object (10 properties)
-│   │   │           ├── Caching: Enum (3 values)
+│   │   │       └── OsDisk: *Object (10 properties)
+│   │   │           ├── Caching: *Enum (3 values)
 │   │   │           │   ├── "None"
 │   │   │           │   ├── "ReadOnly"
 │   │   │           │   └── "ReadWrite"
-│   │   │           ├── CreateOption: Enum (3 values)
+│   │   │           ├── CreateOption: *Enum (3 values)
 │   │   │           │   ├── "Attach"
 │   │   │           │   ├── "Empty"
 │   │   │           │   └── "FromImage"
-│   │   │           ├── DiffDiskSettings: Object (2 properties)
-│   │   │           │   ├── Option: Enum (1 value)
+│   │   │           ├── DiffDiskSettings: *Object (2 properties)
+│   │   │           │   ├── Option: *Enum (1 value)
 │   │   │           │   │   └── "Local"
-│   │   │           │   └── Placement: Enum (2 values)
+│   │   │           │   └── Placement: *Enum (2 values)
 │   │   │           │       ├── "CacheDisk"
 │   │   │           │       └── "ResourceDisk"
 │   │   │           ├── DiskSizeGB: *int
-│   │   │           ├── Image: Object (1 property)
+│   │   │           ├── Image: *Object (1 property)
 │   │   │           │   └── Uri: *string
-│   │   │           ├── ManagedDisk: Object (2 properties)
-│   │   │           │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │           ├── ManagedDisk: *Object (2 properties)
+│   │   │           │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │           │   │   └── Reference: *genruntime.ResourceReference
-│   │   │           │   └── StorageAccountType: Enum (6 values)
+│   │   │           │   └── StorageAccountType: *Enum (6 values)
 │   │   │           │       ├── "Premium_LRS"
 │   │   │           │       ├── "Premium_ZRS"
 │   │   │           │       ├── "StandardSSD_LRS"
@@ -1206,7 +1206,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │           │       ├── "Standard_LRS"
 │   │   │           │       └── "UltraSSD_LRS"
 │   │   │           ├── Name: *string
-│   │   │           ├── OsType: Enum (2 values)
+│   │   │           ├── OsType: *Enum (2 values)
 │   │   │           │   ├── "Linux"
 │   │   │           │   └── "Windows"
 │   │   │           ├── VhdContainers: string[]
@@ -1214,83 +1214,83 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   ├── ZoneBalance: *bool
 │   │   └── Zones: string[]
 │   └── Status: Object (26 properties)
-│       ├── AdditionalCapabilities: Object (1 property)
+│       ├── AdditionalCapabilities: *Object (1 property)
 │       │   └── UltraSSDEnabled: *bool
-│       ├── AutomaticRepairsPolicy: Object (2 properties)
+│       ├── AutomaticRepairsPolicy: *Object (2 properties)
 │       │   ├── Enabled: *bool
 │       │   └── GracePeriod: *string
 │       ├── Conditions: conditions.Condition[]
 │       ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
-│       ├── HostGroup: Object (1 property)
+│       ├── HostGroup: *Object (1 property)
 │       │   └── Id: *string
 │       ├── Id: *string
-│       ├── Identity: Object (3 properties)
+│       ├── Identity: *Object (3 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   └── Type: Enum (4 values)
+│       │   └── Type: *Enum (4 values)
 │       │       ├── "None"
 │       │       ├── "SystemAssigned"
 │       │       ├── "SystemAssigned, UserAssigned"
 │       │       └── "UserAssigned"
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── OrchestrationMode: Enum (2 values)
+│       ├── OrchestrationMode: *Enum (2 values)
 │       │   ├── "Flexible"
 │       │   └── "Uniform"
 │       ├── Overprovision: *bool
-│       ├── Plan: Object (4 properties)
+│       ├── Plan: *Object (4 properties)
 │       │   ├── Name: *string
 │       │   ├── Product: *string
 │       │   ├── PromotionCode: *string
 │       │   └── Publisher: *string
 │       ├── PlatformFaultDomainCount: *int
 │       ├── ProvisioningState: *string
-│       ├── ProximityPlacementGroup: Object (1 property)
+│       ├── ProximityPlacementGroup: *Object (1 property)
 │       │   └── Id: *string
-│       ├── ScaleInPolicy: Object (1 property)
-│       │   └── Rules: Enum (3 values)
+│       ├── ScaleInPolicy: *Object (1 property)
+│       │   └── Rules: Enum (3 values)[]
 │       │       ├── "Default"
 │       │       ├── "NewestVM"
 │       │       └── "OldestVM"
 │       ├── SinglePlacementGroup: *bool
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Capacity: *int
 │       │   ├── Name: *string
 │       │   └── Tier: *string
 │       ├── Tags: map[string]string
 │       ├── Type: *string
 │       ├── UniqueId: *string
-│       ├── UpgradePolicy: Object (3 properties)
-│       │   ├── AutomaticOSUpgradePolicy: Object (2 properties)
+│       ├── UpgradePolicy: *Object (3 properties)
+│       │   ├── AutomaticOSUpgradePolicy: *Object (2 properties)
 │       │   │   ├── DisableAutomaticRollback: *bool
 │       │   │   └── EnableAutomaticOSUpgrade: *bool
-│       │   ├── Mode: Enum (3 values)
+│       │   ├── Mode: *Enum (3 values)
 │       │   │   ├── "Automatic"
 │       │   │   ├── "Manual"
 │       │   │   └── "Rolling"
-│       │   └── RollingUpgradePolicy: Object (6 properties)
+│       │   └── RollingUpgradePolicy: *Object (6 properties)
 │       │       ├── EnableCrossZoneUpgrade: *bool
 │       │       ├── MaxBatchInstancePercent: *int
 │       │       ├── MaxUnhealthyInstancePercent: *int
 │       │       ├── MaxUnhealthyUpgradedInstancePercent: *int
 │       │       ├── PauseTimeBetweenBatches: *string
 │       │       └── PrioritizeUnhealthyInstances: *bool
-│       ├── VirtualMachineProfile: Object (11 properties)
-│       │   ├── BillingProfile: Object (1 property)
+│       ├── VirtualMachineProfile: *Object (11 properties)
+│       │   ├── BillingProfile: *Object (1 property)
 │       │   │   └── MaxPrice: *float64
-│       │   ├── DiagnosticsProfile: Object (1 property)
-│       │   │   └── BootDiagnostics: Object (2 properties)
+│       │   ├── DiagnosticsProfile: *Object (1 property)
+│       │   │   └── BootDiagnostics: *Object (2 properties)
 │       │   │       ├── Enabled: *bool
 │       │   │       └── StorageUri: *string
-│       │   ├── EvictionPolicy: Enum (2 values)
+│       │   ├── EvictionPolicy: *Enum (2 values)
 │       │   │   ├── "Deallocate"
 │       │   │   └── "Delete"
-│       │   ├── ExtensionProfile: Object (2 properties)
-│       │   │   ├── Extensions: Object (13 properties)
+│       │   ├── ExtensionProfile: *Object (2 properties)
+│       │   │   ├── Extensions: Object (13 properties)[]
 │       │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │       │   │   │   ├── EnableAutomaticUpgrade: *bool
 │       │   │   │   ├── ForceUpdateTag: *string
@@ -1306,118 +1306,118 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │   │   │   └── TypeHandlerVersion: *string
 │       │   │   └── ExtensionsTimeBudget: *string
 │       │   ├── LicenseType: *string
-│       │   ├── NetworkProfile: Object (2 properties)
-│       │   │   ├── HealthProbe: Object (1 property)
+│       │   ├── NetworkProfile: *Object (2 properties)
+│       │   │   ├── HealthProbe: *Object (1 property)
 │       │   │   │   └── Id: *string
-│       │   │   └── NetworkInterfaceConfigurations: Object (9 properties)
-│       │   │       ├── DnsSettings: Object (1 property)
+│       │   │   └── NetworkInterfaceConfigurations: Object (9 properties)[]
+│       │   │       ├── DnsSettings: *Object (1 property)
 │       │   │       │   └── DnsServers: string[]
 │       │   │       ├── EnableAcceleratedNetworking: *bool
 │       │   │       ├── EnableFpga: *bool
 │       │   │       ├── EnableIPForwarding: *bool
 │       │   │       ├── Id: *string
-│       │   │       ├── IpConfigurations: Object (10 properties)
-│       │   │       │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)
+│       │   │       ├── IpConfigurations: Object (10 properties)[]
+│       │   │       │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │       │   │       │   │   └── Id: *string
-│       │   │       │   ├── ApplicationSecurityGroups: Object (1 property)
+│       │   │       │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │       │   │       │   │   └── Id: *string
 │       │   │       │   ├── Id: *string
-│       │   │       │   ├── LoadBalancerBackendAddressPools: Object (1 property)
+│       │   │       │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │       │   │       │   │   └── Id: *string
-│       │   │       │   ├── LoadBalancerInboundNatPools: Object (1 property)
+│       │   │       │   ├── LoadBalancerInboundNatPools: Object (1 property)[]
 │       │   │       │   │   └── Id: *string
 │       │   │       │   ├── Name: *string
 │       │   │       │   ├── Primary: *bool
-│       │   │       │   ├── PrivateIPAddressVersion: Enum (2 values)
+│       │   │       │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │       │   │       │   │   ├── "IPv4"
 │       │   │       │   │   └── "IPv6"
-│       │   │       │   ├── PublicIPAddressConfiguration: Object (6 properties)
-│       │   │       │   │   ├── DnsSettings: Object (1 property)
+│       │   │       │   ├── PublicIPAddressConfiguration: *Object (6 properties)
+│       │   │       │   │   ├── DnsSettings: *Object (1 property)
 │       │   │       │   │   │   └── DomainNameLabel: *string
 │       │   │       │   │   ├── IdleTimeoutInMinutes: *int
-│       │   │       │   │   ├── IpTags: Object (2 properties)
+│       │   │       │   │   ├── IpTags: Object (2 properties)[]
 │       │   │       │   │   │   ├── IpTagType: *string
 │       │   │       │   │   │   └── Tag: *string
 │       │   │       │   │   ├── Name: *string
-│       │   │       │   │   ├── PublicIPAddressVersion: Enum (2 values)
+│       │   │       │   │   ├── PublicIPAddressVersion: *Enum (2 values)
 │       │   │       │   │   │   ├── "IPv4"
 │       │   │       │   │   │   └── "IPv6"
-│       │   │       │   │   └── PublicIPPrefix: Object (1 property)
+│       │   │       │   │   └── PublicIPPrefix: *Object (1 property)
 │       │   │       │   │       └── Id: *string
-│       │   │       │   └── Subnet: Object (1 property)
+│       │   │       │   └── Subnet: *Object (1 property)
 │       │   │       │       └── Id: *string
 │       │   │       ├── Name: *string
-│       │   │       ├── NetworkSecurityGroup: Object (1 property)
+│       │   │       ├── NetworkSecurityGroup: *Object (1 property)
 │       │   │       │   └── Id: *string
 │       │   │       └── Primary: *bool
-│       │   ├── OsProfile: Object (6 properties)
+│       │   ├── OsProfile: *Object (6 properties)
 │       │   │   ├── AdminUsername: *string
 │       │   │   ├── ComputerNamePrefix: *string
 │       │   │   ├── CustomData: *string
-│       │   │   ├── LinuxConfiguration: Object (4 properties)
+│       │   │   ├── LinuxConfiguration: *Object (4 properties)
 │       │   │   │   ├── DisablePasswordAuthentication: *bool
-│       │   │   │   ├── PatchSettings: Object (1 property)
-│       │   │   │   │   └── PatchMode: Enum (2 values)
+│       │   │   │   ├── PatchSettings: *Object (1 property)
+│       │   │   │   │   └── PatchMode: *Enum (2 values)
 │       │   │   │   │       ├── "AutomaticByPlatform"
 │       │   │   │   │       └── "ImageDefault"
 │       │   │   │   ├── ProvisionVMAgent: *bool
-│       │   │   │   └── Ssh: Object (1 property)
-│       │   │   │       └── PublicKeys: Object (2 properties)
+│       │   │   │   └── Ssh: *Object (1 property)
+│       │   │   │       └── PublicKeys: Object (2 properties)[]
 │       │   │   │           ├── KeyData: *string
 │       │   │   │           └── Path: *string
-│       │   │   ├── Secrets: Object (2 properties)
-│       │   │   │   ├── SourceVault: Object (1 property)
+│       │   │   ├── Secrets: Object (2 properties)[]
+│       │   │   │   ├── SourceVault: *Object (1 property)
 │       │   │   │   │   └── Id: *string
-│       │   │   │   └── VaultCertificates: Object (2 properties)
+│       │   │   │   └── VaultCertificates: Object (2 properties)[]
 │       │   │   │       ├── CertificateStore: *string
 │       │   │   │       └── CertificateUrl: *string
-│       │   │   └── WindowsConfiguration: Object (6 properties)
-│       │   │       ├── AdditionalUnattendContent: Object (4 properties)
-│       │   │       │   ├── ComponentName: Enum (1 value)
+│       │   │   └── WindowsConfiguration: *Object (6 properties)
+│       │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│       │   │       │   ├── ComponentName: *Enum (1 value)
 │       │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │       │   │       │   ├── Content: *string
-│       │   │       │   ├── PassName: Enum (1 value)
+│       │   │       │   ├── PassName: *Enum (1 value)
 │       │   │       │   │   └── "OobeSystem"
-│       │   │       │   └── SettingName: Enum (2 values)
+│       │   │       │   └── SettingName: *Enum (2 values)
 │       │   │       │       ├── "AutoLogon"
 │       │   │       │       └── "FirstLogonCommands"
 │       │   │       ├── EnableAutomaticUpdates: *bool
-│       │   │       ├── PatchSettings: Object (2 properties)
+│       │   │       ├── PatchSettings: *Object (2 properties)
 │       │   │       │   ├── EnableHotpatching: *bool
-│       │   │       │   └── PatchMode: Enum (3 values)
+│       │   │       │   └── PatchMode: *Enum (3 values)
 │       │   │       │       ├── "AutomaticByOS"
 │       │   │       │       ├── "AutomaticByPlatform"
 │       │   │       │       └── "Manual"
 │       │   │       ├── ProvisionVMAgent: *bool
 │       │   │       ├── TimeZone: *string
-│       │   │       └── WinRM: Object (1 property)
-│       │   │           └── Listeners: Object (2 properties)
+│       │   │       └── WinRM: *Object (1 property)
+│       │   │           └── Listeners: Object (2 properties)[]
 │       │   │               ├── CertificateUrl: *string
-│       │   │               └── Protocol: Enum (2 values)
+│       │   │               └── Protocol: *Enum (2 values)
 │       │   │                   ├── "Http"
 │       │   │                   └── "Https"
-│       │   ├── Priority: Enum (3 values)
+│       │   ├── Priority: *Enum (3 values)
 │       │   │   ├── "Low"
 │       │   │   ├── "Regular"
 │       │   │   └── "Spot"
-│       │   ├── ScheduledEventsProfile: Object (1 property)
-│       │   │   └── TerminateNotificationProfile: Object (2 properties)
+│       │   ├── ScheduledEventsProfile: *Object (1 property)
+│       │   │   └── TerminateNotificationProfile: *Object (2 properties)
 │       │   │       ├── Enable: *bool
 │       │   │       └── NotBeforeTimeout: *string
-│       │   ├── SecurityProfile: Object (3 properties)
+│       │   ├── SecurityProfile: *Object (3 properties)
 │       │   │   ├── EncryptionAtHost: *bool
-│       │   │   ├── SecurityType: Enum (1 value)
+│       │   │   ├── SecurityType: *Enum (1 value)
 │       │   │   │   └── "TrustedLaunch"
-│       │   │   └── UefiSettings: Object (2 properties)
+│       │   │   └── UefiSettings: *Object (2 properties)
 │       │   │       ├── SecureBootEnabled: *bool
 │       │   │       └── VTpmEnabled: *bool
-│       │   └── StorageProfile: Object (3 properties)
-│       │       ├── DataDisks: Object (9 properties)
-│       │       │   ├── Caching: Enum (3 values)
+│       │   └── StorageProfile: *Object (3 properties)
+│       │       ├── DataDisks: Object (9 properties)[]
+│       │       │   ├── Caching: *Enum (3 values)
 │       │       │   │   ├── "None"
 │       │       │   │   ├── "ReadOnly"
 │       │       │   │   └── "ReadWrite"
-│       │       │   ├── CreateOption: Enum (3 values)
+│       │       │   ├── CreateOption: *Enum (3 values)
 │       │       │   │   ├── "Attach"
 │       │       │   │   ├── "Empty"
 │       │       │   │   └── "FromImage"
@@ -1425,10 +1425,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │       │   ├── DiskMBpsReadWrite: *int
 │       │       │   ├── DiskSizeGB: *int
 │       │       │   ├── Lun: *int
-│       │       │   ├── ManagedDisk: Object (2 properties)
-│       │       │   │   ├── DiskEncryptionSet: Object (1 property)
+│       │       │   ├── ManagedDisk: *Object (2 properties)
+│       │       │   │   ├── DiskEncryptionSet: *Object (1 property)
 │       │       │   │   │   └── Id: *string
-│       │       │   │   └── StorageAccountType: Enum (6 values)
+│       │       │   │   └── StorageAccountType: *Enum (6 values)
 │       │       │   │       ├── "Premium_LRS"
 │       │       │   │       ├── "Premium_ZRS"
 │       │       │   │       ├── "StandardSSD_LRS"
@@ -1437,35 +1437,35 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │       │   │       └── "UltraSSD_LRS"
 │       │       │   ├── Name: *string
 │       │       │   └── WriteAcceleratorEnabled: *bool
-│       │       ├── ImageReference: Object (6 properties)
+│       │       ├── ImageReference: *Object (6 properties)
 │       │       │   ├── ExactVersion: *string
 │       │       │   ├── Id: *string
 │       │       │   ├── Offer: *string
 │       │       │   ├── Publisher: *string
 │       │       │   ├── Sku: *string
 │       │       │   └── Version: *string
-│       │       └── OsDisk: Object (10 properties)
-│       │           ├── Caching: Enum (3 values)
+│       │       └── OsDisk: *Object (10 properties)
+│       │           ├── Caching: *Enum (3 values)
 │       │           │   ├── "None"
 │       │           │   ├── "ReadOnly"
 │       │           │   └── "ReadWrite"
-│       │           ├── CreateOption: Enum (3 values)
+│       │           ├── CreateOption: *Enum (3 values)
 │       │           │   ├── "Attach"
 │       │           │   ├── "Empty"
 │       │           │   └── "FromImage"
-│       │           ├── DiffDiskSettings: Object (2 properties)
-│       │           │   ├── Option: Enum (1 value)
+│       │           ├── DiffDiskSettings: *Object (2 properties)
+│       │           │   ├── Option: *Enum (1 value)
 │       │           │   │   └── "Local"
-│       │           │   └── Placement: Enum (2 values)
+│       │           │   └── Placement: *Enum (2 values)
 │       │           │       ├── "CacheDisk"
 │       │           │       └── "ResourceDisk"
 │       │           ├── DiskSizeGB: *int
-│       │           ├── Image: Object (1 property)
+│       │           ├── Image: *Object (1 property)
 │       │           │   └── Uri: *string
-│       │           ├── ManagedDisk: Object (2 properties)
-│       │           │   ├── DiskEncryptionSet: Object (1 property)
+│       │           ├── ManagedDisk: *Object (2 properties)
+│       │           │   ├── DiskEncryptionSet: *Object (1 property)
 │       │           │   │   └── Id: *string
-│       │           │   └── StorageAccountType: Enum (6 values)
+│       │           │   └── StorageAccountType: *Enum (6 values)
 │       │           │       ├── "Premium_LRS"
 │       │           │       ├── "Premium_ZRS"
 │       │           │       ├── "StandardSSD_LRS"
@@ -1473,7 +1473,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       │           │       ├── "Standard_LRS"
 │       │           │       └── "UltraSSD_LRS"
 │       │           ├── Name: *string
-│       │           ├── OsType: Enum (2 values)
+│       │           ├── OsType: *Enum (2 values)
 │       │           │   ├── "Linux"
 │       │           │   └── "Windows"
 │       │           ├── VhdContainers: string[]
@@ -1481,80 +1481,80 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │       ├── ZoneBalance: *bool
 │       └── Zones: string[]
 ├── VirtualMachineScaleSet_STATUS_ARM: Object (11 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
-│   ├── Identity: Object (3 properties)
+│   ├── Identity: *Object (3 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   └── Type: Enum (4 values)
+│   │   └── Type: *Enum (4 values)
 │   │       ├── "None"
 │   │       ├── "SystemAssigned"
 │   │       ├── "SystemAssigned, UserAssigned"
 │   │       └── "UserAssigned"
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Plan: Object (4 properties)
+│   ├── Plan: *Object (4 properties)
 │   │   ├── Name: *string
 │   │   ├── Product: *string
 │   │   ├── PromotionCode: *string
 │   │   └── Publisher: *string
-│   ├── Properties: Object (15 properties)
-│   │   ├── AdditionalCapabilities: Object (1 property)
+│   ├── Properties: *Object (15 properties)
+│   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
-│   │   ├── AutomaticRepairsPolicy: Object (2 properties)
+│   │   ├── AutomaticRepairsPolicy: *Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── GracePeriod: *string
 │   │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
-│   │   ├── HostGroup: Object (1 property)
+│   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── OrchestrationMode: Enum (2 values)
+│   │   ├── OrchestrationMode: *Enum (2 values)
 │   │   │   ├── "Flexible"
 │   │   │   └── "Uniform"
 │   │   ├── Overprovision: *bool
 │   │   ├── PlatformFaultDomainCount: *int
 │   │   ├── ProvisioningState: *string
-│   │   ├── ProximityPlacementGroup: Object (1 property)
+│   │   ├── ProximityPlacementGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ScaleInPolicy: Object (1 property)
-│   │   │   └── Rules: Enum (3 values)
+│   │   ├── ScaleInPolicy: *Object (1 property)
+│   │   │   └── Rules: Enum (3 values)[]
 │   │   │       ├── "Default"
 │   │   │       ├── "NewestVM"
 │   │   │       └── "OldestVM"
 │   │   ├── SinglePlacementGroup: *bool
 │   │   ├── UniqueId: *string
-│   │   ├── UpgradePolicy: Object (3 properties)
-│   │   │   ├── AutomaticOSUpgradePolicy: Object (2 properties)
+│   │   ├── UpgradePolicy: *Object (3 properties)
+│   │   │   ├── AutomaticOSUpgradePolicy: *Object (2 properties)
 │   │   │   │   ├── DisableAutomaticRollback: *bool
 │   │   │   │   └── EnableAutomaticOSUpgrade: *bool
-│   │   │   ├── Mode: Enum (3 values)
+│   │   │   ├── Mode: *Enum (3 values)
 │   │   │   │   ├── "Automatic"
 │   │   │   │   ├── "Manual"
 │   │   │   │   └── "Rolling"
-│   │   │   └── RollingUpgradePolicy: Object (6 properties)
+│   │   │   └── RollingUpgradePolicy: *Object (6 properties)
 │   │   │       ├── EnableCrossZoneUpgrade: *bool
 │   │   │       ├── MaxBatchInstancePercent: *int
 │   │   │       ├── MaxUnhealthyInstancePercent: *int
 │   │   │       ├── MaxUnhealthyUpgradedInstancePercent: *int
 │   │   │       ├── PauseTimeBetweenBatches: *string
 │   │   │       └── PrioritizeUnhealthyInstances: *bool
-│   │   ├── VirtualMachineProfile: Object (11 properties)
-│   │   │   ├── BillingProfile: Object (1 property)
+│   │   ├── VirtualMachineProfile: *Object (11 properties)
+│   │   │   ├── BillingProfile: *Object (1 property)
 │   │   │   │   └── MaxPrice: *float64
-│   │   │   ├── DiagnosticsProfile: Object (1 property)
-│   │   │   │   └── BootDiagnostics: Object (2 properties)
+│   │   │   ├── DiagnosticsProfile: *Object (1 property)
+│   │   │   │   └── BootDiagnostics: *Object (2 properties)
 │   │   │   │       ├── Enabled: *bool
 │   │   │   │       └── StorageUri: *string
-│   │   │   ├── EvictionPolicy: Enum (2 values)
+│   │   │   ├── EvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ExtensionProfile: Object (2 properties)
-│   │   │   │   ├── Extensions: Object (4 properties)
+│   │   │   ├── ExtensionProfile: *Object (2 properties)
+│   │   │   │   ├── Extensions: Object (4 properties)[]
 │   │   │   │   │   ├── Id: *string
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   ├── Properties: Object (10 properties)
+│   │   │   │   │   ├── Properties: *Object (10 properties)
 │   │   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │   │   ├── ForceUpdateTag: *string
@@ -1568,121 +1568,121 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │   └── Type: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── LicenseType: *string
-│   │   │   ├── NetworkProfile: Object (2 properties)
-│   │   │   │   ├── HealthProbe: Object (1 property)
+│   │   │   ├── NetworkProfile: *Object (2 properties)
+│   │   │   │   ├── HealthProbe: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   └── NetworkInterfaceConfigurations: Object (3 properties)
+│   │   │   │   └── NetworkInterfaceConfigurations: Object (3 properties)[]
 │   │   │   │       ├── Id: *string
 │   │   │   │       ├── Name: *string
-│   │   │   │       └── Properties: Object (7 properties)
-│   │   │   │           ├── DnsSettings: Object (1 property)
+│   │   │   │       └── Properties: *Object (7 properties)
+│   │   │   │           ├── DnsSettings: *Object (1 property)
 │   │   │   │           │   └── DnsServers: string[]
 │   │   │   │           ├── EnableAcceleratedNetworking: *bool
 │   │   │   │           ├── EnableFpga: *bool
 │   │   │   │           ├── EnableIPForwarding: *bool
-│   │   │   │           ├── IpConfigurations: Object (3 properties)
+│   │   │   │           ├── IpConfigurations: Object (3 properties)[]
 │   │   │   │           │   ├── Id: *string
 │   │   │   │           │   ├── Name: *string
-│   │   │   │           │   └── Properties: Object (8 properties)
-│   │   │   │           │       ├── ApplicationGatewayBackendAddressPools: Object (1 property)
+│   │   │   │           │   └── Properties: *Object (8 properties)
+│   │   │   │           │       ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
-│   │   │   │           │       ├── ApplicationSecurityGroups: Object (1 property)
+│   │   │   │           │       ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
-│   │   │   │           │       ├── LoadBalancerBackendAddressPools: Object (1 property)
+│   │   │   │           │       ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
-│   │   │   │           │       ├── LoadBalancerInboundNatPools: Object (1 property)
+│   │   │   │           │       ├── LoadBalancerInboundNatPools: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
 │   │   │   │           │       ├── Primary: *bool
-│   │   │   │           │       ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   │           │       ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │           │       │   ├── "IPv4"
 │   │   │   │           │       │   └── "IPv6"
-│   │   │   │           │       ├── PublicIPAddressConfiguration: Object (2 properties)
+│   │   │   │           │       ├── PublicIPAddressConfiguration: *Object (2 properties)
 │   │   │   │           │       │   ├── Name: *string
-│   │   │   │           │       │   └── Properties: Object (5 properties)
-│   │   │   │           │       │       ├── DnsSettings: Object (1 property)
+│   │   │   │           │       │   └── Properties: *Object (5 properties)
+│   │   │   │           │       │       ├── DnsSettings: *Object (1 property)
 │   │   │   │           │       │       │   └── DomainNameLabel: *string
 │   │   │   │           │       │       ├── IdleTimeoutInMinutes: *int
-│   │   │   │           │       │       ├── IpTags: Object (2 properties)
+│   │   │   │           │       │       ├── IpTags: Object (2 properties)[]
 │   │   │   │           │       │       │   ├── IpTagType: *string
 │   │   │   │           │       │       │   └── Tag: *string
-│   │   │   │           │       │       ├── PublicIPAddressVersion: Enum (2 values)
+│   │   │   │           │       │       ├── PublicIPAddressVersion: *Enum (2 values)
 │   │   │   │           │       │       │   ├── "IPv4"
 │   │   │   │           │       │       │   └── "IPv6"
-│   │   │   │           │       │       └── PublicIPPrefix: Object (1 property)
+│   │   │   │           │       │       └── PublicIPPrefix: *Object (1 property)
 │   │   │   │           │       │           └── Id: *string
-│   │   │   │           │       └── Subnet: Object (1 property)
+│   │   │   │           │       └── Subnet: *Object (1 property)
 │   │   │   │           │           └── Id: *string
-│   │   │   │           ├── NetworkSecurityGroup: Object (1 property)
+│   │   │   │           ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   │           │   └── Id: *string
 │   │   │   │           └── Primary: *bool
-│   │   │   ├── OsProfile: Object (6 properties)
+│   │   │   ├── OsProfile: *Object (6 properties)
 │   │   │   │   ├── AdminUsername: *string
 │   │   │   │   ├── ComputerNamePrefix: *string
 │   │   │   │   ├── CustomData: *string
-│   │   │   │   ├── LinuxConfiguration: Object (4 properties)
+│   │   │   │   ├── LinuxConfiguration: *Object (4 properties)
 │   │   │   │   │   ├── DisablePasswordAuthentication: *bool
-│   │   │   │   │   ├── PatchSettings: Object (1 property)
-│   │   │   │   │   │   └── PatchMode: Enum (2 values)
+│   │   │   │   │   ├── PatchSettings: *Object (1 property)
+│   │   │   │   │   │   └── PatchMode: *Enum (2 values)
 │   │   │   │   │   │       ├── "AutomaticByPlatform"
 │   │   │   │   │   │       └── "ImageDefault"
 │   │   │   │   │   ├── ProvisionVMAgent: *bool
-│   │   │   │   │   └── Ssh: Object (1 property)
-│   │   │   │   │       └── PublicKeys: Object (2 properties)
+│   │   │   │   │   └── Ssh: *Object (1 property)
+│   │   │   │   │       └── PublicKeys: Object (2 properties)[]
 │   │   │   │   │           ├── KeyData: *string
 │   │   │   │   │           └── Path: *string
-│   │   │   │   ├── Secrets: Object (2 properties)
-│   │   │   │   │   ├── SourceVault: Object (1 property)
+│   │   │   │   ├── Secrets: Object (2 properties)[]
+│   │   │   │   │   ├── SourceVault: *Object (1 property)
 │   │   │   │   │   │   └── Id: *string
-│   │   │   │   │   └── VaultCertificates: Object (2 properties)
+│   │   │   │   │   └── VaultCertificates: Object (2 properties)[]
 │   │   │   │   │       ├── CertificateStore: *string
 │   │   │   │   │       └── CertificateUrl: *string
-│   │   │   │   └── WindowsConfiguration: Object (6 properties)
-│   │   │   │       ├── AdditionalUnattendContent: Object (4 properties)
-│   │   │   │       │   ├── ComponentName: Enum (1 value)
+│   │   │   │   └── WindowsConfiguration: *Object (6 properties)
+│   │   │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│   │   │   │       │   ├── ComponentName: *Enum (1 value)
 │   │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │   │   │   │       │   ├── Content: *string
-│   │   │   │       │   ├── PassName: Enum (1 value)
+│   │   │   │       │   ├── PassName: *Enum (1 value)
 │   │   │   │       │   │   └── "OobeSystem"
-│   │   │   │       │   └── SettingName: Enum (2 values)
+│   │   │   │       │   └── SettingName: *Enum (2 values)
 │   │   │   │       │       ├── "AutoLogon"
 │   │   │   │       │       └── "FirstLogonCommands"
 │   │   │   │       ├── EnableAutomaticUpdates: *bool
-│   │   │   │       ├── PatchSettings: Object (2 properties)
+│   │   │   │       ├── PatchSettings: *Object (2 properties)
 │   │   │   │       │   ├── EnableHotpatching: *bool
-│   │   │   │       │   └── PatchMode: Enum (3 values)
+│   │   │   │       │   └── PatchMode: *Enum (3 values)
 │   │   │   │       │       ├── "AutomaticByOS"
 │   │   │   │       │       ├── "AutomaticByPlatform"
 │   │   │   │       │       └── "Manual"
 │   │   │   │       ├── ProvisionVMAgent: *bool
 │   │   │   │       ├── TimeZone: *string
-│   │   │   │       └── WinRM: Object (1 property)
-│   │   │   │           └── Listeners: Object (2 properties)
+│   │   │   │       └── WinRM: *Object (1 property)
+│   │   │   │           └── Listeners: Object (2 properties)[]
 │   │   │   │               ├── CertificateUrl: *string
-│   │   │   │               └── Protocol: Enum (2 values)
+│   │   │   │               └── Protocol: *Enum (2 values)
 │   │   │   │                   ├── "Http"
 │   │   │   │                   └── "Https"
-│   │   │   ├── Priority: Enum (3 values)
+│   │   │   ├── Priority: *Enum (3 values)
 │   │   │   │   ├── "Low"
 │   │   │   │   ├── "Regular"
 │   │   │   │   └── "Spot"
-│   │   │   ├── ScheduledEventsProfile: Object (1 property)
-│   │   │   │   └── TerminateNotificationProfile: Object (2 properties)
+│   │   │   ├── ScheduledEventsProfile: *Object (1 property)
+│   │   │   │   └── TerminateNotificationProfile: *Object (2 properties)
 │   │   │   │       ├── Enable: *bool
 │   │   │   │       └── NotBeforeTimeout: *string
-│   │   │   ├── SecurityProfile: Object (3 properties)
+│   │   │   ├── SecurityProfile: *Object (3 properties)
 │   │   │   │   ├── EncryptionAtHost: *bool
-│   │   │   │   ├── SecurityType: Enum (1 value)
+│   │   │   │   ├── SecurityType: *Enum (1 value)
 │   │   │   │   │   └── "TrustedLaunch"
-│   │   │   │   └── UefiSettings: Object (2 properties)
+│   │   │   │   └── UefiSettings: *Object (2 properties)
 │   │   │   │       ├── SecureBootEnabled: *bool
 │   │   │   │       └── VTpmEnabled: *bool
-│   │   │   └── StorageProfile: Object (3 properties)
-│   │   │       ├── DataDisks: Object (9 properties)
-│   │   │       │   ├── Caching: Enum (3 values)
+│   │   │   └── StorageProfile: *Object (3 properties)
+│   │   │       ├── DataDisks: Object (9 properties)[]
+│   │   │       │   ├── Caching: *Enum (3 values)
 │   │   │       │   │   ├── "None"
 │   │   │       │   │   ├── "ReadOnly"
 │   │   │       │   │   └── "ReadWrite"
-│   │   │       │   ├── CreateOption: Enum (3 values)
+│   │   │       │   ├── CreateOption: *Enum (3 values)
 │   │   │       │   │   ├── "Attach"
 │   │   │       │   │   ├── "Empty"
 │   │   │       │   │   └── "FromImage"
@@ -1690,10 +1690,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   ├── DiskMBpsReadWrite: *int
 │   │   │       │   ├── DiskSizeGB: *int
 │   │   │       │   ├── Lun: *int
-│   │   │       │   ├── ManagedDisk: Object (2 properties)
-│   │   │       │   │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │       │   ├── ManagedDisk: *Object (2 properties)
+│   │   │       │   │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │       │   │   │   └── Id: *string
-│   │   │       │   │   └── StorageAccountType: Enum (6 values)
+│   │   │       │   │   └── StorageAccountType: *Enum (6 values)
 │   │   │       │   │       ├── "Premium_LRS"
 │   │   │       │   │       ├── "Premium_ZRS"
 │   │   │       │   │       ├── "StandardSSD_LRS"
@@ -1702,35 +1702,35 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   │       └── "UltraSSD_LRS"
 │   │   │       │   ├── Name: *string
 │   │   │       │   └── WriteAcceleratorEnabled: *bool
-│   │   │       ├── ImageReference: Object (6 properties)
+│   │   │       ├── ImageReference: *Object (6 properties)
 │   │   │       │   ├── ExactVersion: *string
 │   │   │       │   ├── Id: *string
 │   │   │       │   ├── Offer: *string
 │   │   │       │   ├── Publisher: *string
 │   │   │       │   ├── Sku: *string
 │   │   │       │   └── Version: *string
-│   │   │       └── OsDisk: Object (10 properties)
-│   │   │           ├── Caching: Enum (3 values)
+│   │   │       └── OsDisk: *Object (10 properties)
+│   │   │           ├── Caching: *Enum (3 values)
 │   │   │           │   ├── "None"
 │   │   │           │   ├── "ReadOnly"
 │   │   │           │   └── "ReadWrite"
-│   │   │           ├── CreateOption: Enum (3 values)
+│   │   │           ├── CreateOption: *Enum (3 values)
 │   │   │           │   ├── "Attach"
 │   │   │           │   ├── "Empty"
 │   │   │           │   └── "FromImage"
-│   │   │           ├── DiffDiskSettings: Object (2 properties)
-│   │   │           │   ├── Option: Enum (1 value)
+│   │   │           ├── DiffDiskSettings: *Object (2 properties)
+│   │   │           │   ├── Option: *Enum (1 value)
 │   │   │           │   │   └── "Local"
-│   │   │           │   └── Placement: Enum (2 values)
+│   │   │           │   └── Placement: *Enum (2 values)
 │   │   │           │       ├── "CacheDisk"
 │   │   │           │       └── "ResourceDisk"
 │   │   │           ├── DiskSizeGB: *int
-│   │   │           ├── Image: Object (1 property)
+│   │   │           ├── Image: *Object (1 property)
 │   │   │           │   └── Uri: *string
-│   │   │           ├── ManagedDisk: Object (2 properties)
-│   │   │           │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │           ├── ManagedDisk: *Object (2 properties)
+│   │   │           │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │           │   │   └── Id: *string
-│   │   │           │   └── StorageAccountType: Enum (6 values)
+│   │   │           │   └── StorageAccountType: *Enum (6 values)
 │   │   │           │       ├── "Premium_LRS"
 │   │   │           │       ├── "Premium_ZRS"
 │   │   │           │       ├── "StandardSSD_LRS"
@@ -1738,13 +1738,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │           │       ├── "Standard_LRS"
 │   │   │           │       └── "UltraSSD_LRS"
 │   │   │           ├── Name: *string
-│   │   │           ├── OsType: Enum (2 values)
+│   │   │           ├── OsType: *Enum (2 values)
 │   │   │           │   ├── "Linux"
 │   │   │           │   └── "Windows"
 │   │   │           ├── VhdContainers: string[]
 │   │   │           └── WriteAcceleratorEnabled: *bool
 │   │   └── ZoneBalance: *bool
-│   ├── Sku: Object (3 properties)
+│   ├── Sku: *Object (3 properties)
 │   │   ├── Capacity: *int
 │   │   ├── Name: *string
 │   │   └── Tier: *string
@@ -1752,196 +1752,196 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   ├── Type: *string
 │   └── Zones: string[]
 ├── VirtualMachineScaleSet_Spec_ARM: Object (9 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
-│   ├── Identity: Object (1 property)
-│   │   └── Type: Enum (4 values)
+│   ├── Identity: *Object (1 property)
+│   │   └── Type: *Enum (4 values)
 │   │       ├── "None"
 │   │       ├── "SystemAssigned"
 │   │       ├── "SystemAssigned, UserAssigned"
 │   │       └── "UserAssigned"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Plan: Object (4 properties)
+│   ├── Plan: *Object (4 properties)
 │   │   ├── Name: *string
 │   │   ├── Product: *string
 │   │   ├── PromotionCode: *string
 │   │   └── Publisher: *string
-│   ├── Properties: Object (13 properties)
-│   │   ├── AdditionalCapabilities: Object (1 property)
+│   ├── Properties: *Object (13 properties)
+│   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
-│   │   ├── AutomaticRepairsPolicy: Object (2 properties)
+│   │   ├── AutomaticRepairsPolicy: *Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── GracePeriod: *string
 │   │   ├── DoNotRunExtensionsOnOverprovisionedVMs: *bool
-│   │   ├── HostGroup: Object (1 property)
+│   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── OrchestrationMode: Enum (2 values)
+│   │   ├── OrchestrationMode: *Enum (2 values)
 │   │   │   ├── "Flexible"
 │   │   │   └── "Uniform"
 │   │   ├── Overprovision: *bool
 │   │   ├── PlatformFaultDomainCount: *int
-│   │   ├── ProximityPlacementGroup: Object (1 property)
+│   │   ├── ProximityPlacementGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ScaleInPolicy: Object (1 property)
-│   │   │   └── Rules: Enum (3 values)
+│   │   ├── ScaleInPolicy: *Object (1 property)
+│   │   │   └── Rules: Enum (3 values)[]
 │   │   │       ├── "Default"
 │   │   │       ├── "NewestVM"
 │   │   │       └── "OldestVM"
 │   │   ├── SinglePlacementGroup: *bool
-│   │   ├── UpgradePolicy: Object (3 properties)
-│   │   │   ├── AutomaticOSUpgradePolicy: Object (2 properties)
+│   │   ├── UpgradePolicy: *Object (3 properties)
+│   │   │   ├── AutomaticOSUpgradePolicy: *Object (2 properties)
 │   │   │   │   ├── DisableAutomaticRollback: *bool
 │   │   │   │   └── EnableAutomaticOSUpgrade: *bool
-│   │   │   ├── Mode: Enum (3 values)
+│   │   │   ├── Mode: *Enum (3 values)
 │   │   │   │   ├── "Automatic"
 │   │   │   │   ├── "Manual"
 │   │   │   │   └── "Rolling"
-│   │   │   └── RollingUpgradePolicy: Object (6 properties)
+│   │   │   └── RollingUpgradePolicy: *Object (6 properties)
 │   │   │       ├── EnableCrossZoneUpgrade: *bool
 │   │   │       ├── MaxBatchInstancePercent: *int
 │   │   │       ├── MaxUnhealthyInstancePercent: *int
 │   │   │       ├── MaxUnhealthyUpgradedInstancePercent: *int
 │   │   │       ├── PauseTimeBetweenBatches: *string
 │   │   │       └── PrioritizeUnhealthyInstances: *bool
-│   │   ├── VirtualMachineProfile: Object (11 properties)
-│   │   │   ├── BillingProfile: Object (1 property)
+│   │   ├── VirtualMachineProfile: *Object (11 properties)
+│   │   │   ├── BillingProfile: *Object (1 property)
 │   │   │   │   └── MaxPrice: *float64
-│   │   │   ├── DiagnosticsProfile: Object (1 property)
-│   │   │   │   └── BootDiagnostics: Object (2 properties)
+│   │   │   ├── DiagnosticsProfile: *Object (1 property)
+│   │   │   │   └── BootDiagnostics: *Object (2 properties)
 │   │   │   │       ├── Enabled: *bool
 │   │   │   │       └── StorageUri: *string
-│   │   │   ├── EvictionPolicy: Enum (2 values)
+│   │   │   ├── EvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ExtensionProfile: Object (2 properties)
-│   │   │   │   ├── Extensions: Object (2 properties)
+│   │   │   ├── ExtensionProfile: *Object (2 properties)
+│   │   │   │   ├── Extensions: Object (2 properties)[]
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   └── Properties: Object (4 properties)
+│   │   │   │   │   └── Properties: *Object (4 properties)
 │   │   │   │   │       ├── Publisher: *string
 │   │   │   │   │       ├── Settings: map[string]v1.JSON
 │   │   │   │   │       ├── Type: *string
 │   │   │   │   │       └── TypeHandlerVersion: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── LicenseType: *string
-│   │   │   ├── NetworkProfile: Object (2 properties)
-│   │   │   │   ├── HealthProbe: Object (1 property)
+│   │   │   ├── NetworkProfile: *Object (2 properties)
+│   │   │   │   ├── HealthProbe: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   └── NetworkInterfaceConfigurations: Object (3 properties)
+│   │   │   │   └── NetworkInterfaceConfigurations: Object (3 properties)[]
 │   │   │   │       ├── Id: *string
 │   │   │   │       ├── Name: *string
-│   │   │   │       └── Properties: Object (7 properties)
-│   │   │   │           ├── DnsSettings: Object (1 property)
+│   │   │   │       └── Properties: *Object (7 properties)
+│   │   │   │           ├── DnsSettings: *Object (1 property)
 │   │   │   │           │   └── DnsServers: string[]
 │   │   │   │           ├── EnableAcceleratedNetworking: *bool
 │   │   │   │           ├── EnableFpga: *bool
 │   │   │   │           ├── EnableIPForwarding: *bool
-│   │   │   │           ├── IpConfigurations: Object (3 properties)
+│   │   │   │           ├── IpConfigurations: Object (3 properties)[]
 │   │   │   │           │   ├── Id: *string
 │   │   │   │           │   ├── Name: *string
-│   │   │   │           │   └── Properties: Object (8 properties)
-│   │   │   │           │       ├── ApplicationGatewayBackendAddressPools: Object (1 property)
+│   │   │   │           │   └── Properties: *Object (8 properties)
+│   │   │   │           │       ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
-│   │   │   │           │       ├── ApplicationSecurityGroups: Object (1 property)
+│   │   │   │           │       ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
-│   │   │   │           │       ├── LoadBalancerBackendAddressPools: Object (1 property)
+│   │   │   │           │       ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
-│   │   │   │           │       ├── LoadBalancerInboundNatPools: Object (1 property)
+│   │   │   │           │       ├── LoadBalancerInboundNatPools: Object (1 property)[]
 │   │   │   │           │       │   └── Id: *string
 │   │   │   │           │       ├── Primary: *bool
-│   │   │   │           │       ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   │           │       ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │           │       │   ├── "IPv4"
 │   │   │   │           │       │   └── "IPv6"
-│   │   │   │           │       ├── PublicIPAddressConfiguration: Object (2 properties)
+│   │   │   │           │       ├── PublicIPAddressConfiguration: *Object (2 properties)
 │   │   │   │           │       │   ├── Name: *string
-│   │   │   │           │       │   └── Properties: Object (5 properties)
-│   │   │   │           │       │       ├── DnsSettings: Object (1 property)
+│   │   │   │           │       │   └── Properties: *Object (5 properties)
+│   │   │   │           │       │       ├── DnsSettings: *Object (1 property)
 │   │   │   │           │       │       │   └── DomainNameLabel: *string
 │   │   │   │           │       │       ├── IdleTimeoutInMinutes: *int
-│   │   │   │           │       │       ├── IpTags: Object (2 properties)
+│   │   │   │           │       │       ├── IpTags: Object (2 properties)[]
 │   │   │   │           │       │       │   ├── IpTagType: *string
 │   │   │   │           │       │       │   └── Tag: *string
-│   │   │   │           │       │       ├── PublicIPAddressVersion: Enum (2 values)
+│   │   │   │           │       │       ├── PublicIPAddressVersion: *Enum (2 values)
 │   │   │   │           │       │       │   ├── "IPv4"
 │   │   │   │           │       │       │   └── "IPv6"
-│   │   │   │           │       │       └── PublicIPPrefix: Object (1 property)
+│   │   │   │           │       │       └── PublicIPPrefix: *Object (1 property)
 │   │   │   │           │       │           └── Id: *string
-│   │   │   │           │       └── Subnet: Object (1 property)
+│   │   │   │           │       └── Subnet: *Object (1 property)
 │   │   │   │           │           └── Id: *string
-│   │   │   │           ├── NetworkSecurityGroup: Object (1 property)
+│   │   │   │           ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   │           │   └── Id: *string
 │   │   │   │           └── Primary: *bool
-│   │   │   ├── OsProfile: Object (7 properties)
+│   │   │   ├── OsProfile: *Object (7 properties)
 │   │   │   │   ├── AdminPassword: *string
 │   │   │   │   ├── AdminUsername: *string
 │   │   │   │   ├── ComputerNamePrefix: *string
 │   │   │   │   ├── CustomData: *string
-│   │   │   │   ├── LinuxConfiguration: Object (4 properties)
+│   │   │   │   ├── LinuxConfiguration: *Object (4 properties)
 │   │   │   │   │   ├── DisablePasswordAuthentication: *bool
-│   │   │   │   │   ├── PatchSettings: Object (1 property)
-│   │   │   │   │   │   └── PatchMode: Enum (2 values)
+│   │   │   │   │   ├── PatchSettings: *Object (1 property)
+│   │   │   │   │   │   └── PatchMode: *Enum (2 values)
 │   │   │   │   │   │       ├── "AutomaticByPlatform"
 │   │   │   │   │   │       └── "ImageDefault"
 │   │   │   │   │   ├── ProvisionVMAgent: *bool
-│   │   │   │   │   └── Ssh: Object (1 property)
-│   │   │   │   │       └── PublicKeys: Object (2 properties)
+│   │   │   │   │   └── Ssh: *Object (1 property)
+│   │   │   │   │       └── PublicKeys: Object (2 properties)[]
 │   │   │   │   │           ├── KeyData: *string
 │   │   │   │   │           └── Path: *string
-│   │   │   │   ├── Secrets: Object (2 properties)
-│   │   │   │   │   ├── SourceVault: Object (1 property)
+│   │   │   │   ├── Secrets: Object (2 properties)[]
+│   │   │   │   │   ├── SourceVault: *Object (1 property)
 │   │   │   │   │   │   └── Id: *string
-│   │   │   │   │   └── VaultCertificates: Object (2 properties)
+│   │   │   │   │   └── VaultCertificates: Object (2 properties)[]
 │   │   │   │   │       ├── CertificateStore: *string
 │   │   │   │   │       └── CertificateUrl: *string
-│   │   │   │   └── WindowsConfiguration: Object (6 properties)
-│   │   │   │       ├── AdditionalUnattendContent: Object (4 properties)
-│   │   │   │       │   ├── ComponentName: Enum (1 value)
+│   │   │   │   └── WindowsConfiguration: *Object (6 properties)
+│   │   │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│   │   │   │       │   ├── ComponentName: *Enum (1 value)
 │   │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │   │   │   │       │   ├── Content: *string
-│   │   │   │       │   ├── PassName: Enum (1 value)
+│   │   │   │       │   ├── PassName: *Enum (1 value)
 │   │   │   │       │   │   └── "OobeSystem"
-│   │   │   │       │   └── SettingName: Enum (2 values)
+│   │   │   │       │   └── SettingName: *Enum (2 values)
 │   │   │   │       │       ├── "AutoLogon"
 │   │   │   │       │       └── "FirstLogonCommands"
 │   │   │   │       ├── EnableAutomaticUpdates: *bool
-│   │   │   │       ├── PatchSettings: Object (2 properties)
+│   │   │   │       ├── PatchSettings: *Object (2 properties)
 │   │   │   │       │   ├── EnableHotpatching: *bool
-│   │   │   │       │   └── PatchMode: Enum (3 values)
+│   │   │   │       │   └── PatchMode: *Enum (3 values)
 │   │   │   │       │       ├── "AutomaticByOS"
 │   │   │   │       │       ├── "AutomaticByPlatform"
 │   │   │   │       │       └── "Manual"
 │   │   │   │       ├── ProvisionVMAgent: *bool
 │   │   │   │       ├── TimeZone: *string
-│   │   │   │       └── WinRM: Object (1 property)
-│   │   │   │           └── Listeners: Object (2 properties)
+│   │   │   │       └── WinRM: *Object (1 property)
+│   │   │   │           └── Listeners: Object (2 properties)[]
 │   │   │   │               ├── CertificateUrl: *string
-│   │   │   │               └── Protocol: Enum (2 values)
+│   │   │   │               └── Protocol: *Enum (2 values)
 │   │   │   │                   ├── "Http"
 │   │   │   │                   └── "Https"
-│   │   │   ├── Priority: Enum (3 values)
+│   │   │   ├── Priority: *Enum (3 values)
 │   │   │   │   ├── "Low"
 │   │   │   │   ├── "Regular"
 │   │   │   │   └── "Spot"
-│   │   │   ├── ScheduledEventsProfile: Object (1 property)
-│   │   │   │   └── TerminateNotificationProfile: Object (2 properties)
+│   │   │   ├── ScheduledEventsProfile: *Object (1 property)
+│   │   │   │   └── TerminateNotificationProfile: *Object (2 properties)
 │   │   │   │       ├── Enable: *bool
 │   │   │   │       └── NotBeforeTimeout: *string
-│   │   │   ├── SecurityProfile: Object (3 properties)
+│   │   │   ├── SecurityProfile: *Object (3 properties)
 │   │   │   │   ├── EncryptionAtHost: *bool
-│   │   │   │   ├── SecurityType: Enum (1 value)
+│   │   │   │   ├── SecurityType: *Enum (1 value)
 │   │   │   │   │   └── "TrustedLaunch"
-│   │   │   │   └── UefiSettings: Object (2 properties)
+│   │   │   │   └── UefiSettings: *Object (2 properties)
 │   │   │   │       ├── SecureBootEnabled: *bool
 │   │   │   │       └── VTpmEnabled: *bool
-│   │   │   └── StorageProfile: Object (3 properties)
-│   │   │       ├── DataDisks: Object (9 properties)
-│   │   │       │   ├── Caching: Enum (3 values)
+│   │   │   └── StorageProfile: *Object (3 properties)
+│   │   │       ├── DataDisks: Object (9 properties)[]
+│   │   │       │   ├── Caching: *Enum (3 values)
 │   │   │       │   │   ├── "None"
 │   │   │       │   │   ├── "ReadOnly"
 │   │   │       │   │   └── "ReadWrite"
-│   │   │       │   ├── CreateOption: Enum (3 values)
+│   │   │       │   ├── CreateOption: *Enum (3 values)
 │   │   │       │   │   ├── "Attach"
 │   │   │       │   │   ├── "Empty"
 │   │   │       │   │   └── "FromImage"
@@ -1949,10 +1949,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   ├── DiskMBpsReadWrite: *int
 │   │   │       │   ├── DiskSizeGB: *int
 │   │   │       │   ├── Lun: *int
-│   │   │       │   ├── ManagedDisk: Object (2 properties)
-│   │   │       │   │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │       │   ├── ManagedDisk: *Object (2 properties)
+│   │   │       │   │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │       │   │   │   └── Id: *string
-│   │   │       │   │   └── StorageAccountType: Enum (6 values)
+│   │   │       │   │   └── StorageAccountType: *Enum (6 values)
 │   │   │       │   │       ├── "Premium_LRS"
 │   │   │       │   │       ├── "Premium_ZRS"
 │   │   │       │   │       ├── "StandardSSD_LRS"
@@ -1961,34 +1961,34 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │   │       └── "UltraSSD_LRS"
 │   │   │       │   ├── Name: *string
 │   │   │       │   └── WriteAcceleratorEnabled: *bool
-│   │   │       ├── ImageReference: Object (5 properties)
+│   │   │       ├── ImageReference: *Object (5 properties)
 │   │   │       │   ├── Id: *string
 │   │   │       │   ├── Offer: *string
 │   │   │       │   ├── Publisher: *string
 │   │   │       │   ├── Sku: *string
 │   │   │       │   └── Version: *string
-│   │   │       └── OsDisk: Object (10 properties)
-│   │   │           ├── Caching: Enum (3 values)
+│   │   │       └── OsDisk: *Object (10 properties)
+│   │   │           ├── Caching: *Enum (3 values)
 │   │   │           │   ├── "None"
 │   │   │           │   ├── "ReadOnly"
 │   │   │           │   └── "ReadWrite"
-│   │   │           ├── CreateOption: Enum (3 values)
+│   │   │           ├── CreateOption: *Enum (3 values)
 │   │   │           │   ├── "Attach"
 │   │   │           │   ├── "Empty"
 │   │   │           │   └── "FromImage"
-│   │   │           ├── DiffDiskSettings: Object (2 properties)
-│   │   │           │   ├── Option: Enum (1 value)
+│   │   │           ├── DiffDiskSettings: *Object (2 properties)
+│   │   │           │   ├── Option: *Enum (1 value)
 │   │   │           │   │   └── "Local"
-│   │   │           │   └── Placement: Enum (2 values)
+│   │   │           │   └── Placement: *Enum (2 values)
 │   │   │           │       ├── "CacheDisk"
 │   │   │           │       └── "ResourceDisk"
 │   │   │           ├── DiskSizeGB: *int
-│   │   │           ├── Image: Object (1 property)
+│   │   │           ├── Image: *Object (1 property)
 │   │   │           │   └── Uri: *string
-│   │   │           ├── ManagedDisk: Object (2 properties)
-│   │   │           │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │           ├── ManagedDisk: *Object (2 properties)
+│   │   │           │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │           │   │   └── Id: *string
-│   │   │           │   └── StorageAccountType: Enum (6 values)
+│   │   │           │   └── StorageAccountType: *Enum (6 values)
 │   │   │           │       ├── "Premium_LRS"
 │   │   │           │       ├── "Premium_ZRS"
 │   │   │           │       ├── "StandardSSD_LRS"
@@ -1996,56 +1996,56 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │           │       ├── "Standard_LRS"
 │   │   │           │       └── "UltraSSD_LRS"
 │   │   │           ├── Name: *string
-│   │   │           ├── OsType: Enum (2 values)
+│   │   │           ├── OsType: *Enum (2 values)
 │   │   │           │   ├── "Linux"
 │   │   │           │   └── "Windows"
 │   │   │           ├── VhdContainers: string[]
 │   │   │           └── WriteAcceleratorEnabled: *bool
 │   │   └── ZoneBalance: *bool
-│   ├── Sku: Object (3 properties)
+│   ├── Sku: *Object (3 properties)
 │   │   ├── Capacity: *int
 │   │   ├── Name: *string
 │   │   └── Tier: *string
 │   ├── Tags: map[string]string
 │   └── Zones: string[]
 ├── VirtualMachine_STATUS_ARM: Object (11 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
-│   ├── Identity: Object (3 properties)
+│   ├── Identity: *Object (3 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   └── Type: Enum (4 values)
+│   │   └── Type: *Enum (4 values)
 │   │       ├── "None"
 │   │       ├── "SystemAssigned"
 │   │       ├── "SystemAssigned, UserAssigned"
 │   │       └── "UserAssigned"
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Plan: Object (4 properties)
+│   ├── Plan: *Object (4 properties)
 │   │   ├── Name: *string
 │   │   ├── Product: *string
 │   │   ├── PromotionCode: *string
 │   │   └── Publisher: *string
-│   ├── Properties: Object (21 properties)
-│   │   ├── AdditionalCapabilities: Object (1 property)
+│   ├── Properties: *Object (21 properties)
+│   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
-│   │   ├── AvailabilitySet: Object (1 property)
+│   │   ├── AvailabilitySet: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── BillingProfile: Object (1 property)
+│   │   ├── BillingProfile: *Object (1 property)
 │   │   │   └── MaxPrice: *float64
-│   │   ├── DiagnosticsProfile: Object (1 property)
-│   │   │   └── BootDiagnostics: Object (2 properties)
+│   │   ├── DiagnosticsProfile: *Object (1 property)
+│   │   │   └── BootDiagnostics: *Object (2 properties)
 │   │   │       ├── Enabled: *bool
 │   │   │       └── StorageUri: *string
-│   │   ├── EvictionPolicy: Enum (2 values)
+│   │   ├── EvictionPolicy: *Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"
 │   │   ├── ExtensionsTimeBudget: *string
-│   │   ├── HardwareProfile: Object (1 property)
-│   │   │   └── VmSize: Enum (166 values)
+│   │   ├── HardwareProfile: *Object (1 property)
+│   │   │   └── VmSize: *Enum (166 values)
 │   │   │       ├── "Basic_A0"
 │   │   │       ├── "Basic_A1"
 │   │   │       ├── "Basic_A2"
@@ -2212,61 +2212,61 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       ├── "Standard_NV12"
 │   │   │       ├── "Standard_NV24"
 │   │   │       └── "Standard_NV6"
-│   │   ├── Host: Object (1 property)
+│   │   ├── Host: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── HostGroup: Object (1 property)
+│   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── InstanceView: Object (16 properties)
+│   │   ├── InstanceView: *Object (16 properties)
 │   │   │   ├── AssignedHost: *string
-│   │   │   ├── BootDiagnostics: Object (3 properties)
+│   │   │   ├── BootDiagnostics: *Object (3 properties)
 │   │   │   │   ├── ConsoleScreenshotBlobUri: *string
 │   │   │   │   ├── SerialConsoleLogBlobUri: *string
-│   │   │   │   └── Status: Object (5 properties)
+│   │   │   │   └── Status: *Object (5 properties)
 │   │   │   │       ├── Code: *string
 │   │   │   │       ├── DisplayStatus: *string
-│   │   │   │       ├── Level: Enum (3 values)
+│   │   │   │       ├── Level: *Enum (3 values)
 │   │   │   │       │   ├── "Error"
 │   │   │   │       │   ├── "Info"
 │   │   │   │       │   └── "Warning"
 │   │   │   │       ├── Message: *string
 │   │   │   │       └── Time: *string
 │   │   │   ├── ComputerName: *string
-│   │   │   ├── Disks: Object (3 properties)
-│   │   │   │   ├── EncryptionSettings: Object (3 properties)
-│   │   │   │   │   ├── DiskEncryptionKey: Object (2 properties)
+│   │   │   ├── Disks: Object (3 properties)[]
+│   │   │   │   ├── EncryptionSettings: Object (3 properties)[]
+│   │   │   │   │   ├── DiskEncryptionKey: *Object (2 properties)
 │   │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   │   └── SourceVault: Object (1 property)
+│   │   │   │   │   │   └── SourceVault: *Object (1 property)
 │   │   │   │   │   │       └── Id: *string
 │   │   │   │   │   ├── Enabled: *bool
-│   │   │   │   │   └── KeyEncryptionKey: Object (2 properties)
+│   │   │   │   │   └── KeyEncryptionKey: *Object (2 properties)
 │   │   │   │   │       ├── KeyUrl: *string
-│   │   │   │   │       └── SourceVault: Object (1 property)
+│   │   │   │   │       └── SourceVault: *Object (1 property)
 │   │   │   │   │           └── Id: *string
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Statuses: Object (5 properties)
+│   │   │   │   └── Statuses: Object (5 properties)[]
 │   │   │   │       ├── Code: *string
 │   │   │   │       ├── DisplayStatus: *string
-│   │   │   │       ├── Level: Enum (3 values)
+│   │   │   │       ├── Level: *Enum (3 values)
 │   │   │   │       │   ├── "Error"
 │   │   │   │       │   ├── "Info"
 │   │   │   │       │   └── "Warning"
 │   │   │   │       ├── Message: *string
 │   │   │   │       └── Time: *string
-│   │   │   ├── Extensions: Object (5 properties)
+│   │   │   ├── Extensions: Object (5 properties)[]
 │   │   │   │   ├── Name: *string
-│   │   │   │   ├── Statuses: Object (5 properties)
+│   │   │   │   ├── Statuses: Object (5 properties)[]
 │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   └── "Warning"
 │   │   │   │   │   ├── Message: *string
 │   │   │   │   │   └── Time: *string
-│   │   │   │   ├── Substatuses: Object (5 properties)
+│   │   │   │   ├── Substatuses: Object (5 properties)[]
 │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   └── "Warning"
@@ -2274,13 +2274,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │   └── Time: *string
 │   │   │   │   ├── Type: *string
 │   │   │   │   └── TypeHandlerVersion: *string
-│   │   │   ├── HyperVGeneration: Enum (2 values)
+│   │   │   ├── HyperVGeneration: *Enum (2 values)
 │   │   │   │   ├── "V1"
 │   │   │   │   └── "V2"
-│   │   │   ├── MaintenanceRedeployStatus: Object (7 properties)
+│   │   │   ├── MaintenanceRedeployStatus: *Object (7 properties)
 │   │   │   │   ├── IsCustomerInitiatedMaintenanceAllowed: *bool
 │   │   │   │   ├── LastOperationMessage: *string
-│   │   │   │   ├── LastOperationResultCode: Enum (4 values)
+│   │   │   │   ├── LastOperationResultCode: *Enum (4 values)
 │   │   │   │   │   ├── "MaintenanceAborted"
 │   │   │   │   │   ├── "MaintenanceCompleted"
 │   │   │   │   │   ├── "None"
@@ -2291,17 +2291,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   └── PreMaintenanceWindowStartTime: *string
 │   │   │   ├── OsName: *string
 │   │   │   ├── OsVersion: *string
-│   │   │   ├── PatchStatus: Object (3 properties)
-│   │   │   │   ├── AvailablePatchSummary: Object (8 properties)
+│   │   │   ├── PatchStatus: *Object (3 properties)
+│   │   │   │   ├── AvailablePatchSummary: *Object (8 properties)
 │   │   │   │   │   ├── AssessmentActivityId: *string
 │   │   │   │   │   ├── CriticalAndSecurityPatchCount: *int
-│   │   │   │   │   ├── Error: Object (5 properties)
+│   │   │   │   │   ├── Error: *Object (5 properties)
 │   │   │   │   │   │   ├── Code: *string
-│   │   │   │   │   │   ├── Details: Object (3 properties)
+│   │   │   │   │   │   ├── Details: Object (3 properties)[]
 │   │   │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   │   │   ├── Message: *string
 │   │   │   │   │   │   │   └── Target: *string
-│   │   │   │   │   │   ├── Innererror: Object (2 properties)
+│   │   │   │   │   │   ├── Innererror: *Object (2 properties)
 │   │   │   │   │   │   │   ├── Errordetail: *string
 │   │   │   │   │   │   │   └── Exceptiontype: *string
 │   │   │   │   │   │   ├── Message: *string
@@ -2310,29 +2310,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │   ├── OtherPatchCount: *int
 │   │   │   │   │   ├── RebootPending: *bool
 │   │   │   │   │   ├── StartTime: *string
-│   │   │   │   │   └── Status: Enum (5 values)
+│   │   │   │   │   └── Status: *Enum (5 values)
 │   │   │   │   │       ├── "CompletedWithWarnings"
 │   │   │   │   │       ├── "Failed"
 │   │   │   │   │       ├── "InProgress"
 │   │   │   │   │       ├── "Succeeded"
 │   │   │   │   │       └── "Unknown"
-│   │   │   │   ├── ConfigurationStatuses: Object (5 properties)
+│   │   │   │   ├── ConfigurationStatuses: Object (5 properties)[]
 │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   └── "Warning"
 │   │   │   │   │   ├── Message: *string
 │   │   │   │   │   └── Time: *string
-│   │   │   │   └── LastPatchInstallationSummary: Object (11 properties)
-│   │   │   │       ├── Error: Object (5 properties)
+│   │   │   │   └── LastPatchInstallationSummary: *Object (11 properties)
+│   │   │   │       ├── Error: *Object (5 properties)
 │   │   │   │       │   ├── Code: *string
-│   │   │   │       │   ├── Details: Object (3 properties)
+│   │   │   │       │   ├── Details: Object (3 properties)[]
 │   │   │   │       │   │   ├── Code: *string
 │   │   │   │       │   │   ├── Message: *string
 │   │   │   │       │   │   └── Target: *string
-│   │   │   │       │   ├── Innererror: Object (2 properties)
+│   │   │   │       │   ├── Innererror: *Object (2 properties)
 │   │   │   │       │   │   ├── Errordetail: *string
 │   │   │   │       │   │   └── Exceptiontype: *string
 │   │   │   │       │   ├── Message: *string
@@ -2346,7 +2346,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │       ├── NotSelectedPatchCount: *int
 │   │   │   │       ├── PendingPatchCount: *int
 │   │   │   │       ├── StartTime: *string
-│   │   │   │       └── Status: Enum (5 values)
+│   │   │   │       └── Status: *Enum (5 values)
 │   │   │   │           ├── "CompletedWithWarnings"
 │   │   │   │           ├── "Failed"
 │   │   │   │           ├── "InProgress"
@@ -2355,21 +2355,21 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   ├── PlatformFaultDomain: *int
 │   │   │   ├── PlatformUpdateDomain: *int
 │   │   │   ├── RdpThumbPrint: *string
-│   │   │   ├── Statuses: Object (5 properties)
+│   │   │   ├── Statuses: Object (5 properties)[]
 │   │   │   │   ├── Code: *string
 │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   ├── "Error"
 │   │   │   │   │   ├── "Info"
 │   │   │   │   │   └── "Warning"
 │   │   │   │   ├── Message: *string
 │   │   │   │   └── Time: *string
-│   │   │   ├── VmAgent: Object (3 properties)
-│   │   │   │   ├── ExtensionHandlers: Object (3 properties)
-│   │   │   │   │   ├── Status: Object (5 properties)
+│   │   │   ├── VmAgent: *Object (3 properties)
+│   │   │   │   ├── ExtensionHandlers: Object (3 properties)[]
+│   │   │   │   │   ├── Status: *Object (5 properties)
 │   │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   │   └── "Warning"
@@ -2377,118 +2377,118 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │   │   └── Time: *string
 │   │   │   │   │   ├── Type: *string
 │   │   │   │   │   └── TypeHandlerVersion: *string
-│   │   │   │   ├── Statuses: Object (5 properties)
+│   │   │   │   ├── Statuses: Object (5 properties)[]
 │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   └── "Warning"
 │   │   │   │   │   ├── Message: *string
 │   │   │   │   │   └── Time: *string
 │   │   │   │   └── VmAgentVersion: *string
-│   │   │   └── VmHealth: Object (1 property)
-│   │   │       └── Status: Object (5 properties)
+│   │   │   └── VmHealth: *Object (1 property)
+│   │   │       └── Status: *Object (5 properties)
 │   │   │           ├── Code: *string
 │   │   │           ├── DisplayStatus: *string
-│   │   │           ├── Level: Enum (3 values)
+│   │   │           ├── Level: *Enum (3 values)
 │   │   │           │   ├── "Error"
 │   │   │           │   ├── "Info"
 │   │   │           │   └── "Warning"
 │   │   │           ├── Message: *string
 │   │   │           └── Time: *string
 │   │   ├── LicenseType: *string
-│   │   ├── NetworkProfile: Object (1 property)
-│   │   │   └── NetworkInterfaces: Object (2 properties)
+│   │   ├── NetworkProfile: *Object (1 property)
+│   │   │   └── NetworkInterfaces: Object (2 properties)[]
 │   │   │       ├── Id: *string
-│   │   │       └── Properties: Object (1 property)
+│   │   │       └── Properties: *Object (1 property)
 │   │   │           └── Primary: *bool
-│   │   ├── OsProfile: Object (8 properties)
+│   │   ├── OsProfile: *Object (8 properties)
 │   │   │   ├── AdminUsername: *string
 │   │   │   ├── AllowExtensionOperations: *bool
 │   │   │   ├── ComputerName: *string
 │   │   │   ├── CustomData: *string
-│   │   │   ├── LinuxConfiguration: Object (4 properties)
+│   │   │   ├── LinuxConfiguration: *Object (4 properties)
 │   │   │   │   ├── DisablePasswordAuthentication: *bool
-│   │   │   │   ├── PatchSettings: Object (1 property)
-│   │   │   │   │   └── PatchMode: Enum (2 values)
+│   │   │   │   ├── PatchSettings: *Object (1 property)
+│   │   │   │   │   └── PatchMode: *Enum (2 values)
 │   │   │   │   │       ├── "AutomaticByPlatform"
 │   │   │   │   │       └── "ImageDefault"
 │   │   │   │   ├── ProvisionVMAgent: *bool
-│   │   │   │   └── Ssh: Object (1 property)
-│   │   │   │       └── PublicKeys: Object (2 properties)
+│   │   │   │   └── Ssh: *Object (1 property)
+│   │   │   │       └── PublicKeys: Object (2 properties)[]
 │   │   │   │           ├── KeyData: *string
 │   │   │   │           └── Path: *string
 │   │   │   ├── RequireGuestProvisionSignal: *bool
-│   │   │   ├── Secrets: Object (2 properties)
-│   │   │   │   ├── SourceVault: Object (1 property)
+│   │   │   ├── Secrets: Object (2 properties)[]
+│   │   │   │   ├── SourceVault: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   └── VaultCertificates: Object (2 properties)
+│   │   │   │   └── VaultCertificates: Object (2 properties)[]
 │   │   │   │       ├── CertificateStore: *string
 │   │   │   │       └── CertificateUrl: *string
-│   │   │   └── WindowsConfiguration: Object (6 properties)
-│   │   │       ├── AdditionalUnattendContent: Object (4 properties)
-│   │   │       │   ├── ComponentName: Enum (1 value)
+│   │   │   └── WindowsConfiguration: *Object (6 properties)
+│   │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+│   │   │       │   ├── ComponentName: *Enum (1 value)
 │   │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
 │   │   │       │   ├── Content: *string
-│   │   │       │   ├── PassName: Enum (1 value)
+│   │   │       │   ├── PassName: *Enum (1 value)
 │   │   │       │   │   └── "OobeSystem"
-│   │   │       │   └── SettingName: Enum (2 values)
+│   │   │       │   └── SettingName: *Enum (2 values)
 │   │   │       │       ├── "AutoLogon"
 │   │   │       │       └── "FirstLogonCommands"
 │   │   │       ├── EnableAutomaticUpdates: *bool
-│   │   │       ├── PatchSettings: Object (2 properties)
+│   │   │       ├── PatchSettings: *Object (2 properties)
 │   │   │       │   ├── EnableHotpatching: *bool
-│   │   │       │   └── PatchMode: Enum (3 values)
+│   │   │       │   └── PatchMode: *Enum (3 values)
 │   │   │       │       ├── "AutomaticByOS"
 │   │   │       │       ├── "AutomaticByPlatform"
 │   │   │       │       └── "Manual"
 │   │   │       ├── ProvisionVMAgent: *bool
 │   │   │       ├── TimeZone: *string
-│   │   │       └── WinRM: Object (1 property)
-│   │   │           └── Listeners: Object (2 properties)
+│   │   │       └── WinRM: *Object (1 property)
+│   │   │           └── Listeners: Object (2 properties)[]
 │   │   │               ├── CertificateUrl: *string
-│   │   │               └── Protocol: Enum (2 values)
+│   │   │               └── Protocol: *Enum (2 values)
 │   │   │                   ├── "Http"
 │   │   │                   └── "Https"
 │   │   ├── PlatformFaultDomain: *int
-│   │   ├── Priority: Enum (3 values)
+│   │   ├── Priority: *Enum (3 values)
 │   │   │   ├── "Low"
 │   │   │   ├── "Regular"
 │   │   │   └── "Spot"
 │   │   ├── ProvisioningState: *string
-│   │   ├── ProximityPlacementGroup: Object (1 property)
+│   │   ├── ProximityPlacementGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── SecurityProfile: Object (3 properties)
+│   │   ├── SecurityProfile: *Object (3 properties)
 │   │   │   ├── EncryptionAtHost: *bool
-│   │   │   ├── SecurityType: Enum (1 value)
+│   │   │   ├── SecurityType: *Enum (1 value)
 │   │   │   │   └── "TrustedLaunch"
-│   │   │   └── UefiSettings: Object (2 properties)
+│   │   │   └── UefiSettings: *Object (2 properties)
 │   │   │       ├── SecureBootEnabled: *bool
 │   │   │       └── VTpmEnabled: *bool
-│   │   ├── StorageProfile: Object (3 properties)
-│   │   │   ├── DataDisks: Object (13 properties)
-│   │   │   │   ├── Caching: Enum (3 values)
+│   │   ├── StorageProfile: *Object (3 properties)
+│   │   │   ├── DataDisks: Object (13 properties)[]
+│   │   │   │   ├── Caching: *Enum (3 values)
 │   │   │   │   │   ├── "None"
 │   │   │   │   │   ├── "ReadOnly"
 │   │   │   │   │   └── "ReadWrite"
-│   │   │   │   ├── CreateOption: Enum (3 values)
+│   │   │   │   ├── CreateOption: *Enum (3 values)
 │   │   │   │   │   ├── "Attach"
 │   │   │   │   │   ├── "Empty"
 │   │   │   │   │   └── "FromImage"
-│   │   │   │   ├── DetachOption: Enum (1 value)
+│   │   │   │   ├── DetachOption: *Enum (1 value)
 │   │   │   │   │   └── "ForceDetach"
 │   │   │   │   ├── DiskIOPSReadWrite: *int
 │   │   │   │   ├── DiskMBpsReadWrite: *int
 │   │   │   │   ├── DiskSizeGB: *int
-│   │   │   │   ├── Image: Object (1 property)
+│   │   │   │   ├── Image: *Object (1 property)
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   ├── Lun: *int
-│   │   │   │   ├── ManagedDisk: Object (3 properties)
-│   │   │   │   │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │   │   ├── ManagedDisk: *Object (3 properties)
+│   │   │   │   │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │   │   │   │   └── Id: *string
 │   │   │   │   │   ├── Id: *string
-│   │   │   │   │   └── StorageAccountType: Enum (6 values)
+│   │   │   │   │   └── StorageAccountType: *Enum (6 values)
 │   │   │   │   │       ├── "Premium_LRS"
 │   │   │   │   │       ├── "Premium_ZRS"
 │   │   │   │   │       ├── "StandardSSD_LRS"
@@ -2497,49 +2497,49 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   │       └── "UltraSSD_LRS"
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── ToBeDetached: *bool
-│   │   │   │   ├── Vhd: Object (1 property)
+│   │   │   │   ├── Vhd: *Object (1 property)
 │   │   │   │   │   └── Uri: *string
 │   │   │   │   └── WriteAcceleratorEnabled: *bool
-│   │   │   ├── ImageReference: Object (6 properties)
+│   │   │   ├── ImageReference: *Object (6 properties)
 │   │   │   │   ├── ExactVersion: *string
 │   │   │   │   ├── Id: *string
 │   │   │   │   ├── Offer: *string
 │   │   │   │   ├── Publisher: *string
 │   │   │   │   ├── Sku: *string
 │   │   │   │   └── Version: *string
-│   │   │   └── OsDisk: Object (11 properties)
-│   │   │       ├── Caching: Enum (3 values)
+│   │   │   └── OsDisk: *Object (11 properties)
+│   │   │       ├── Caching: *Enum (3 values)
 │   │   │       │   ├── "None"
 │   │   │       │   ├── "ReadOnly"
 │   │   │       │   └── "ReadWrite"
-│   │   │       ├── CreateOption: Enum (3 values)
+│   │   │       ├── CreateOption: *Enum (3 values)
 │   │   │       │   ├── "Attach"
 │   │   │       │   ├── "Empty"
 │   │   │       │   └── "FromImage"
-│   │   │       ├── DiffDiskSettings: Object (2 properties)
-│   │   │       │   ├── Option: Enum (1 value)
+│   │   │       ├── DiffDiskSettings: *Object (2 properties)
+│   │   │       │   ├── Option: *Enum (1 value)
 │   │   │       │   │   └── "Local"
-│   │   │       │   └── Placement: Enum (2 values)
+│   │   │       │   └── Placement: *Enum (2 values)
 │   │   │       │       ├── "CacheDisk"
 │   │   │       │       └── "ResourceDisk"
 │   │   │       ├── DiskSizeGB: *int
-│   │   │       ├── EncryptionSettings: Object (3 properties)
-│   │   │       │   ├── DiskEncryptionKey: Object (2 properties)
+│   │   │       ├── EncryptionSettings: *Object (3 properties)
+│   │   │       │   ├── DiskEncryptionKey: *Object (2 properties)
 │   │   │       │   │   ├── SecretUrl: *string
-│   │   │       │   │   └── SourceVault: Object (1 property)
+│   │   │       │   │   └── SourceVault: *Object (1 property)
 │   │   │       │   │       └── Id: *string
 │   │   │       │   ├── Enabled: *bool
-│   │   │       │   └── KeyEncryptionKey: Object (2 properties)
+│   │   │       │   └── KeyEncryptionKey: *Object (2 properties)
 │   │   │       │       ├── KeyUrl: *string
-│   │   │       │       └── SourceVault: Object (1 property)
+│   │   │       │       └── SourceVault: *Object (1 property)
 │   │   │       │           └── Id: *string
-│   │   │       ├── Image: Object (1 property)
+│   │   │       ├── Image: *Object (1 property)
 │   │   │       │   └── Uri: *string
-│   │   │       ├── ManagedDisk: Object (3 properties)
-│   │   │       │   ├── DiskEncryptionSet: Object (1 property)
+│   │   │       ├── ManagedDisk: *Object (3 properties)
+│   │   │       │   ├── DiskEncryptionSet: *Object (1 property)
 │   │   │       │   │   └── Id: *string
 │   │   │       │   ├── Id: *string
-│   │   │       │   └── StorageAccountType: Enum (6 values)
+│   │   │       │   └── StorageAccountType: *Enum (6 values)
 │   │   │       │       ├── "Premium_LRS"
 │   │   │       │       ├── "Premium_ZRS"
 │   │   │       │       ├── "StandardSSD_LRS"
@@ -2547,38 +2547,38 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │       │       ├── "Standard_LRS"
 │   │   │       │       └── "UltraSSD_LRS"
 │   │   │       ├── Name: *string
-│   │   │       ├── OsType: Enum (2 values)
+│   │   │       ├── OsType: *Enum (2 values)
 │   │   │       │   ├── "Linux"
 │   │   │       │   └── "Windows"
-│   │   │       ├── Vhd: Object (1 property)
+│   │   │       ├── Vhd: *Object (1 property)
 │   │   │       │   └── Uri: *string
 │   │   │       └── WriteAcceleratorEnabled: *bool
-│   │   ├── VirtualMachineScaleSet: Object (1 property)
+│   │   ├── VirtualMachineScaleSet: *Object (1 property)
 │   │   │   └── Id: *string
 │   │   └── VmId: *string
-│   ├── Resources: Object (6 properties)
+│   ├── Resources: Object (6 properties)[]
 │   │   ├── Id: *string
 │   │   ├── Location: *string
 │   │   ├── Name: *string
-│   │   ├── Properties: Object (10 properties)
+│   │   ├── Properties: *Object (10 properties)
 │   │   │   ├── AutoUpgradeMinorVersion: *bool
 │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   ├── ForceUpdateTag: *string
-│   │   │   ├── InstanceView: Object (5 properties)
+│   │   │   ├── InstanceView: *Object (5 properties)
 │   │   │   │   ├── Name: *string
-│   │   │   │   ├── Statuses: Object (5 properties)
+│   │   │   │   ├── Statuses: Object (5 properties)[]
 │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   └── "Warning"
 │   │   │   │   │   ├── Message: *string
 │   │   │   │   │   └── Time: *string
-│   │   │   │   ├── Substatuses: Object (5 properties)
+│   │   │   │   ├── Substatuses: Object (5 properties)[]
 │   │   │   │   │   ├── Code: *string
 │   │   │   │   │   ├── DisplayStatus: *string
-│   │   │   │   │   ├── Level: Enum (3 values)
+│   │   │   │   │   ├── Level: *Enum (3 values)
 │   │   │   │   │   │   ├── "Error"
 │   │   │   │   │   │   ├── "Info"
 │   │   │   │   │   │   └── "Warning"
@@ -2598,40 +2598,40 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   ├── Type: *string
 │   └── Zones: string[]
 └── VirtualMachine_Spec_ARM: Object (8 properties)
-    ├── ExtendedLocation: Object (2 properties)
+    ├── ExtendedLocation: *Object (2 properties)
     │   ├── Name: *string
-    │   └── Type: Enum (1 value)
+    │   └── Type: *Enum (1 value)
     │       └── "EdgeZone"
-    ├── Identity: Object (1 property)
-    │   └── Type: Enum (4 values)
+    ├── Identity: *Object (1 property)
+    │   └── Type: *Enum (4 values)
     │       ├── "None"
     │       ├── "SystemAssigned"
     │       ├── "SystemAssigned, UserAssigned"
     │       └── "UserAssigned"
     ├── Location: *string
     ├── Name: string
-    ├── Plan: Object (4 properties)
+    ├── Plan: *Object (4 properties)
     │   ├── Name: *string
     │   ├── Product: *string
     │   ├── PromotionCode: *string
     │   └── Publisher: *string
-    ├── Properties: Object (18 properties)
-    │   ├── AdditionalCapabilities: Object (1 property)
+    ├── Properties: *Object (18 properties)
+    │   ├── AdditionalCapabilities: *Object (1 property)
     │   │   └── UltraSSDEnabled: *bool
-    │   ├── AvailabilitySet: Object (1 property)
+    │   ├── AvailabilitySet: *Object (1 property)
     │   │   └── Id: *string
-    │   ├── BillingProfile: Object (1 property)
+    │   ├── BillingProfile: *Object (1 property)
     │   │   └── MaxPrice: *float64
-    │   ├── DiagnosticsProfile: Object (1 property)
-    │   │   └── BootDiagnostics: Object (2 properties)
+    │   ├── DiagnosticsProfile: *Object (1 property)
+    │   │   └── BootDiagnostics: *Object (2 properties)
     │   │       ├── Enabled: *bool
     │   │       └── StorageUri: *string
-    │   ├── EvictionPolicy: Enum (2 values)
+    │   ├── EvictionPolicy: *Enum (2 values)
     │   │   ├── "Deallocate"
     │   │   └── "Delete"
     │   ├── ExtensionsTimeBudget: *string
-    │   ├── HardwareProfile: Object (1 property)
-    │   │   └── VmSize: Enum (166 values)
+    │   ├── HardwareProfile: *Object (1 property)
+    │   │   └── VmSize: *Enum (166 values)
     │   │       ├── "Basic_A0"
     │   │       ├── "Basic_A1"
     │   │       ├── "Basic_A2"
@@ -2798,100 +2798,100 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
     │   │       ├── "Standard_NV12"
     │   │       ├── "Standard_NV24"
     │   │       └── "Standard_NV6"
-    │   ├── Host: Object (1 property)
+    │   ├── Host: *Object (1 property)
     │   │   └── Id: *string
-    │   ├── HostGroup: Object (1 property)
+    │   ├── HostGroup: *Object (1 property)
     │   │   └── Id: *string
     │   ├── LicenseType: *string
-    │   ├── NetworkProfile: Object (1 property)
-    │   │   └── NetworkInterfaces: Object (2 properties)
+    │   ├── NetworkProfile: *Object (1 property)
+    │   │   └── NetworkInterfaces: Object (2 properties)[]
     │   │       ├── Id: *string
-    │   │       └── Properties: Object (1 property)
+    │   │       └── Properties: *Object (1 property)
     │   │           └── Primary: *bool
-    │   ├── OsProfile: Object (9 properties)
+    │   ├── OsProfile: *Object (9 properties)
     │   │   ├── AdminPassword: *string
     │   │   ├── AdminUsername: *string
     │   │   ├── AllowExtensionOperations: *bool
     │   │   ├── ComputerName: *string
     │   │   ├── CustomData: *string
-    │   │   ├── LinuxConfiguration: Object (4 properties)
+    │   │   ├── LinuxConfiguration: *Object (4 properties)
     │   │   │   ├── DisablePasswordAuthentication: *bool
-    │   │   │   ├── PatchSettings: Object (1 property)
-    │   │   │   │   └── PatchMode: Enum (2 values)
+    │   │   │   ├── PatchSettings: *Object (1 property)
+    │   │   │   │   └── PatchMode: *Enum (2 values)
     │   │   │   │       ├── "AutomaticByPlatform"
     │   │   │   │       └── "ImageDefault"
     │   │   │   ├── ProvisionVMAgent: *bool
-    │   │   │   └── Ssh: Object (1 property)
-    │   │   │       └── PublicKeys: Object (2 properties)
+    │   │   │   └── Ssh: *Object (1 property)
+    │   │   │       └── PublicKeys: Object (2 properties)[]
     │   │   │           ├── KeyData: *string
     │   │   │           └── Path: *string
     │   │   ├── RequireGuestProvisionSignal: *bool
-    │   │   ├── Secrets: Object (2 properties)
-    │   │   │   ├── SourceVault: Object (1 property)
+    │   │   ├── Secrets: Object (2 properties)[]
+    │   │   │   ├── SourceVault: *Object (1 property)
     │   │   │   │   └── Id: *string
-    │   │   │   └── VaultCertificates: Object (2 properties)
+    │   │   │   └── VaultCertificates: Object (2 properties)[]
     │   │   │       ├── CertificateStore: *string
     │   │   │       └── CertificateUrl: *string
-    │   │   └── WindowsConfiguration: Object (6 properties)
-    │   │       ├── AdditionalUnattendContent: Object (4 properties)
-    │   │       │   ├── ComponentName: Enum (1 value)
+    │   │   └── WindowsConfiguration: *Object (6 properties)
+    │   │       ├── AdditionalUnattendContent: Object (4 properties)[]
+    │   │       │   ├── ComponentName: *Enum (1 value)
     │   │       │   │   └── "Microsoft-Windows-Shell-Setup"
     │   │       │   ├── Content: *string
-    │   │       │   ├── PassName: Enum (1 value)
+    │   │       │   ├── PassName: *Enum (1 value)
     │   │       │   │   └── "OobeSystem"
-    │   │       │   └── SettingName: Enum (2 values)
+    │   │       │   └── SettingName: *Enum (2 values)
     │   │       │       ├── "AutoLogon"
     │   │       │       └── "FirstLogonCommands"
     │   │       ├── EnableAutomaticUpdates: *bool
-    │   │       ├── PatchSettings: Object (2 properties)
+    │   │       ├── PatchSettings: *Object (2 properties)
     │   │       │   ├── EnableHotpatching: *bool
-    │   │       │   └── PatchMode: Enum (3 values)
+    │   │       │   └── PatchMode: *Enum (3 values)
     │   │       │       ├── "AutomaticByOS"
     │   │       │       ├── "AutomaticByPlatform"
     │   │       │       └── "Manual"
     │   │       ├── ProvisionVMAgent: *bool
     │   │       ├── TimeZone: *string
-    │   │       └── WinRM: Object (1 property)
-    │   │           └── Listeners: Object (2 properties)
+    │   │       └── WinRM: *Object (1 property)
+    │   │           └── Listeners: Object (2 properties)[]
     │   │               ├── CertificateUrl: *string
-    │   │               └── Protocol: Enum (2 values)
+    │   │               └── Protocol: *Enum (2 values)
     │   │                   ├── "Http"
     │   │                   └── "Https"
     │   ├── PlatformFaultDomain: *int
-    │   ├── Priority: Enum (3 values)
+    │   ├── Priority: *Enum (3 values)
     │   │   ├── "Low"
     │   │   ├── "Regular"
     │   │   └── "Spot"
-    │   ├── ProximityPlacementGroup: Object (1 property)
+    │   ├── ProximityPlacementGroup: *Object (1 property)
     │   │   └── Id: *string
-    │   ├── SecurityProfile: Object (3 properties)
+    │   ├── SecurityProfile: *Object (3 properties)
     │   │   ├── EncryptionAtHost: *bool
-    │   │   ├── SecurityType: Enum (1 value)
+    │   │   ├── SecurityType: *Enum (1 value)
     │   │   │   └── "TrustedLaunch"
-    │   │   └── UefiSettings: Object (2 properties)
+    │   │   └── UefiSettings: *Object (2 properties)
     │   │       ├── SecureBootEnabled: *bool
     │   │       └── VTpmEnabled: *bool
-    │   ├── StorageProfile: Object (3 properties)
-    │   │   ├── DataDisks: Object (11 properties)
-    │   │   │   ├── Caching: Enum (3 values)
+    │   ├── StorageProfile: *Object (3 properties)
+    │   │   ├── DataDisks: Object (11 properties)[]
+    │   │   │   ├── Caching: *Enum (3 values)
     │   │   │   │   ├── "None"
     │   │   │   │   ├── "ReadOnly"
     │   │   │   │   └── "ReadWrite"
-    │   │   │   ├── CreateOption: Enum (3 values)
+    │   │   │   ├── CreateOption: *Enum (3 values)
     │   │   │   │   ├── "Attach"
     │   │   │   │   ├── "Empty"
     │   │   │   │   └── "FromImage"
-    │   │   │   ├── DetachOption: Enum (1 value)
+    │   │   │   ├── DetachOption: *Enum (1 value)
     │   │   │   │   └── "ForceDetach"
     │   │   │   ├── DiskSizeGB: *int
-    │   │   │   ├── Image: Object (1 property)
+    │   │   │   ├── Image: *Object (1 property)
     │   │   │   │   └── Uri: *string
     │   │   │   ├── Lun: *int
-    │   │   │   ├── ManagedDisk: Object (3 properties)
-    │   │   │   │   ├── DiskEncryptionSet: Object (1 property)
+    │   │   │   ├── ManagedDisk: *Object (3 properties)
+    │   │   │   │   ├── DiskEncryptionSet: *Object (1 property)
     │   │   │   │   │   └── Id: *string
     │   │   │   │   ├── Id: *string
-    │   │   │   │   └── StorageAccountType: Enum (6 values)
+    │   │   │   │   └── StorageAccountType: *Enum (6 values)
     │   │   │   │       ├── "Premium_LRS"
     │   │   │   │       ├── "Premium_ZRS"
     │   │   │   │       ├── "StandardSSD_LRS"
@@ -2900,48 +2900,48 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
     │   │   │   │       └── "UltraSSD_LRS"
     │   │   │   ├── Name: *string
     │   │   │   ├── ToBeDetached: *bool
-    │   │   │   ├── Vhd: Object (1 property)
+    │   │   │   ├── Vhd: *Object (1 property)
     │   │   │   │   └── Uri: *string
     │   │   │   └── WriteAcceleratorEnabled: *bool
-    │   │   ├── ImageReference: Object (5 properties)
+    │   │   ├── ImageReference: *Object (5 properties)
     │   │   │   ├── Id: *string
     │   │   │   ├── Offer: *string
     │   │   │   ├── Publisher: *string
     │   │   │   ├── Sku: *string
     │   │   │   └── Version: *string
-    │   │   └── OsDisk: Object (11 properties)
-    │   │       ├── Caching: Enum (3 values)
+    │   │   └── OsDisk: *Object (11 properties)
+    │   │       ├── Caching: *Enum (3 values)
     │   │       │   ├── "None"
     │   │       │   ├── "ReadOnly"
     │   │       │   └── "ReadWrite"
-    │   │       ├── CreateOption: Enum (3 values)
+    │   │       ├── CreateOption: *Enum (3 values)
     │   │       │   ├── "Attach"
     │   │       │   ├── "Empty"
     │   │       │   └── "FromImage"
-    │   │       ├── DiffDiskSettings: Object (2 properties)
-    │   │       │   ├── Option: Enum (1 value)
+    │   │       ├── DiffDiskSettings: *Object (2 properties)
+    │   │       │   ├── Option: *Enum (1 value)
     │   │       │   │   └── "Local"
-    │   │       │   └── Placement: Enum (2 values)
+    │   │       │   └── Placement: *Enum (2 values)
     │   │       │       ├── "CacheDisk"
     │   │       │       └── "ResourceDisk"
     │   │       ├── DiskSizeGB: *int
-    │   │       ├── EncryptionSettings: Object (3 properties)
-    │   │       │   ├── DiskEncryptionKey: Object (2 properties)
+    │   │       ├── EncryptionSettings: *Object (3 properties)
+    │   │       │   ├── DiskEncryptionKey: *Object (2 properties)
     │   │       │   │   ├── SecretUrl: *string
-    │   │       │   │   └── SourceVault: Object (1 property)
+    │   │       │   │   └── SourceVault: *Object (1 property)
     │   │       │   │       └── Id: *string
     │   │       │   ├── Enabled: *bool
-    │   │       │   └── KeyEncryptionKey: Object (2 properties)
+    │   │       │   └── KeyEncryptionKey: *Object (2 properties)
     │   │       │       ├── KeyUrl: *string
-    │   │       │       └── SourceVault: Object (1 property)
+    │   │       │       └── SourceVault: *Object (1 property)
     │   │       │           └── Id: *string
-    │   │       ├── Image: Object (1 property)
+    │   │       ├── Image: *Object (1 property)
     │   │       │   └── Uri: *string
-    │   │       ├── ManagedDisk: Object (3 properties)
-    │   │       │   ├── DiskEncryptionSet: Object (1 property)
+    │   │       ├── ManagedDisk: *Object (3 properties)
+    │   │       │   ├── DiskEncryptionSet: *Object (1 property)
     │   │       │   │   └── Id: *string
     │   │       │   ├── Id: *string
-    │   │       │   └── StorageAccountType: Enum (6 values)
+    │   │       │   └── StorageAccountType: *Enum (6 values)
     │   │       │       ├── "Premium_LRS"
     │   │       │       ├── "Premium_ZRS"
     │   │       │       ├── "StandardSSD_LRS"
@@ -2949,13 +2949,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
     │   │       │       ├── "Standard_LRS"
     │   │       │       └── "UltraSSD_LRS"
     │   │       ├── Name: *string
-    │   │       ├── OsType: Enum (2 values)
+    │   │       ├── OsType: *Enum (2 values)
     │   │       │   ├── "Linux"
     │   │       │   └── "Windows"
-    │   │       ├── Vhd: Object (1 property)
+    │   │       ├── Vhd: *Object (1 property)
     │   │       │   └── Uri: *string
     │   │       └── WriteAcceleratorEnabled: *bool
-    │   └── VirtualMachineScaleSet: Object (1 property)
+    │   └── VirtualMachineScaleSet: *Object (1 property)
     │       └── Id: *string
     ├── Tags: map[string]string
     └── Zones: string[]

@@ -127,7 +127,7 @@ func (tcr *TypeCatalogReport) writeDefinition(
 ) {
 	name := definition.Name()
 	parentTypes := astmodel.NewTypeNameSet(name)
-	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortNameForType(definition.Type(), name.PackageReference))
+	sub := rpt.Addf("%s: %s", name.Name(), tcr.asShortNameForType(definition.Type(), name.PackageReference, parentTypes))
 	tcr.writeType(sub, definition.Type(), name.PackageReference, parentTypes)
 }
 
@@ -225,20 +225,16 @@ func (tcr *TypeCatalogReport) writeProperty(
 	currentPackage astmodel.PackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
-	if def, ok := tcr.asDefinitionToInline(prop.PropertyType(), parentTypes); ok && tcr.inlinedTypes.Contains(def.Name()) {
-		// When inlining the type, we use a shortname to avoid the type name being repeated
-		pt := parentTypes.Copy()
-		pt.Add(def.Name())
-		sub := rpt.Addf("%s: %s", prop.PropertyName(), tcr.asShortNameForType(def.Type(), currentPackage))
-		tcr.writeType(sub, def.Type(), currentPackage, pt)
-		return
-	}
-
-	// If not inlining a type named type definition, just write the property
 	sub := rpt.Addf(
 		"%s: %s",
 		prop.PropertyName(),
-		tcr.asShortNameForType(prop.PropertyType(), currentPackage))
+		tcr.asShortNameForType(prop.PropertyType(), currentPackage, parentTypes))
+
+	if def, ok := tcr.asDefinitionToInline(prop.PropertyType(), parentTypes); ok && tcr.inlinedTypes.Contains(def.Name()) {
+		pt := parentTypes.Copy()
+		pt.Add(def.Name())
+		tcr.writeType(sub, def.Type(), currentPackage, pt)
+	}
 
 	tcr.writeType(sub, prop.PropertyType(), currentPackage, parentTypes)
 }
@@ -306,22 +302,38 @@ func (tcr *TypeCatalogReport) asDefinitionToInline(
 	return nil, false
 }
 
-func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage astmodel.PackageReference) string {
+// asShortNameForType returns a short name for the type, relative to the current package.
+// t is the type to get a name for.
+// currentPackage is the package that we're currently processing (used to simplify type names).
+// parentTypes is the set of types that are currently being written (used to detect cycles).
+func (tcr *TypeCatalogReport) asShortNameForType(
+	t astmodel.Type,
+	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet,
+) string {
 	// We switch on exact types because we don't want to accidentally unwrap a detail we need
 	switch t := t.(type) {
+	case astmodel.TypeName:
+		// If an inlined type, we use what it points to, otherwise we use the name
+		if tcr.inlinedTypes.Contains(t) && !parentTypes.Contains(t) {
+			def := tcr.defs[t]
+			return tcr.asShortNameForType(def.Type(), currentPackage, parentTypes)
+		}
+
+		return astmodel.DebugDescription(t, currentPackage)
 	case *astmodel.OptionalType:
 		return fmt.Sprintf(
 			"*%s",
-			tcr.asShortNameForType(t.Element(), currentPackage))
+			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes))
 	case *astmodel.ArrayType:
 		return fmt.Sprintf(
 			"%s[]",
-			tcr.asShortNameForType(t.Element(), currentPackage))
+			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes))
 	case *astmodel.MapType:
 		return fmt.Sprintf(
 			"map[%s]%s",
-			tcr.asShortNameForType(t.KeyType(), currentPackage),
-			tcr.asShortNameForType(t.ValueType(), currentPackage))
+			tcr.asShortNameForType(t.KeyType(), currentPackage, parentTypes),
+			tcr.asShortNameForType(t.ValueType(), currentPackage, parentTypes))
 	case *astmodel.ResourceType:
 		return "Resource"
 	case *astmodel.EnumType:
@@ -343,10 +355,10 @@ func (tcr *TypeCatalogReport) asShortNameForType(t astmodel.Type, currentPackage
 	case *astmodel.ValidatedType:
 		return fmt.Sprintf(
 			"Validated<%s> (%s)",
-			tcr.asShortNameForType(t.Unwrap(), currentPackage),
+			tcr.asShortNameForType(t.Unwrap(), currentPackage, parentTypes),
 			tcr.formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"))
 	case astmodel.MetaType:
-		return tcr.asShortNameForType(t.Unwrap(), currentPackage)
+		return tcr.asShortNameForType(t.Unwrap(), currentPackage, parentTypes)
 	default:
 		return astmodel.DebugDescription(t, currentPackage)
 	}
@@ -385,11 +397,11 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 	rpt *StructureReport,
 	oneOf *astmodel.OneOfType,
 	currentPackage astmodel.PackageReference,
-	types astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet,
 ) {
 	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
-		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
-		tcr.writeType(sub, t, currentPackage, types)
+		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage, parentTypes))
+		tcr.writeType(sub, t, currentPackage, parentTypes)
 	})
 }
 
@@ -402,11 +414,11 @@ func (tcr *TypeCatalogReport) writeAllOfType(
 	rpt *StructureReport,
 	allOf *astmodel.AllOfType,
 	currentPackage astmodel.PackageReference,
-	types astmodel.TypeNameSet,
+	parentTypes astmodel.TypeNameSet,
 ) {
 	allOf.Types().ForEach(func(t astmodel.Type, index int) {
-		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage))
-		tcr.writeType(sub, t, currentPackage, types)
+		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage, parentTypes))
+		tcr.writeType(sub, t, currentPackage, parentTypes)
 	})
 }
 

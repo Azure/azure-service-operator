@@ -9,7 +9,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: *int
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -22,14 +22,14 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage
 │       ├── Location: *string
 │       ├── MinimumTlsVersion: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: Object (2 properties)
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── RedisVersion: *string
 │       ├── ResourceState: *string
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Capacity: *int
 │       │   ├── Name: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
@@ -43,13 +43,13 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage
     │   ├── ClusteringPolicy: *string
     │   ├── EvictionPolicy: *string
     │   ├── Location: *string
-    │   ├── Modules: Object (3 properties)
+    │   ├── Modules: Object (3 properties)[]
     │   │   ├── Args: *string
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Persistence: Object (5 properties)
+    │   ├── Persistence: *Object (5 properties)
     │   │   ├── AofEnabled: *bool
     │   │   ├── AofFrequency: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -64,13 +64,13 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage
         ├── Conditions: conditions.Condition[]
         ├── EvictionPolicy: *string
         ├── Id: *string
-        ├── Modules: Object (4 properties)
+        ├── Modules: Object (4 properties)[]
         │   ├── Args: *string
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Version: *string
         ├── Name: *string
-        ├── Persistence: Object (5 properties)
+        ├── Persistence: *Object (5 properties)
         │   ├── AofEnabled: *bool
         │   ├── AofFrequency: *string
         │   ├── PropertyBag: genruntime.PropertyBag
