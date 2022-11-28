@@ -65,55 +65,7 @@ const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 type Properties struct {
-	// Bar: Mutually exclusive with all other properties
-	Bar *Bar `json:"bar,omitempty"`
-
-	// Baz: Mutually exclusive with all other properties
-	Baz *Baz `json:"baz,omitempty"`
-
-	// Foo: Mutually exclusive with all other properties
-	Foo *Foo `json:"foo,omitempty"`
 }
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
-type Bar struct {
-	// +kubebuilder:validation:Required
-	Discrim *Bar_Discrim `json:"discrim,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Size *int `json:"size,omitempty"`
-}
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
-type Baz struct {
-	// +kubebuilder:validation:Required
-	Discrim *Baz_Discrim `json:"discrim,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Enabled *bool `json:"enabled,omitempty"`
-}
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
-type Foo struct {
-	// +kubebuilder:validation:Required
-	Discrim *Foo_Discrim `json:"discrim,omitempty"`
-	Name    *string      `json:"name,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"bar"}
-type Bar_Discrim string
-
-const Bar_Discrim_Bar = Bar_Discrim("bar")
-
-// +kubebuilder:validation:Enum={"baz"}
-type Baz_Discrim string
-
-const Baz_Discrim_Baz = Baz_Discrim("baz")
-
-// +kubebuilder:validation:Enum={"foo"}
-type Foo_Discrim string
-
-const Foo_Discrim_Foo = Foo_Discrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

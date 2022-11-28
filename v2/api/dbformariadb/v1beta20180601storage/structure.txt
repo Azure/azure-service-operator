@@ -41,15 +41,15 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     ├── Spec: Object (9 properties)
     │   ├── AzureName: string
     │   ├── Location: *string
-    │   ├── OperatorSpec: Object (2 properties)
+    │   ├── OperatorSpec: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Secrets: Object (2 properties)
+    │   │   └── Secrets: *Object (2 properties)
     │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
     │   │       └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Properties: Object (5 properties)
-    │   │   ├── Default: Object (9 properties)
+    │   ├── Properties: *Object (5 properties)
+    │   │   ├── Default: *Object (9 properties)
     │   │   │   ├── AdministratorLogin: *string
     │   │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
     │   │   │   ├── CreateMode: *string
@@ -57,28 +57,28 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PublicNetworkAccess: *string
     │   │   │   ├── SslEnforcement: *string
-    │   │   │   ├── StorageProfile: Object (5 properties)
+    │   │   │   ├── StorageProfile: *Object (5 properties)
     │   │   │   │   ├── BackupRetentionDays: *int
     │   │   │   │   ├── GeoRedundantBackup: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   ├── GeoRestore: Object (8 properties)
+    │   │   ├── GeoRestore: *Object (8 properties)
     │   │   │   ├── CreateMode: *string
     │   │   │   ├── MinimalTlsVersion: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PublicNetworkAccess: *string
     │   │   │   ├── SourceServerId: *string
     │   │   │   ├── SslEnforcement: *string
-    │   │   │   ├── StorageProfile: Object (5 properties)
+    │   │   │   ├── StorageProfile: *Object (5 properties)
     │   │   │   │   ├── BackupRetentionDays: *int
     │   │   │   │   ├── GeoRedundantBackup: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   ├── PointInTimeRestore: Object (9 properties)
+    │   │   ├── PointInTimeRestore: *Object (9 properties)
     │   │   │   ├── CreateMode: *string
     │   │   │   ├── MinimalTlsVersion: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -86,7 +86,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   ├── RestorePointInTime: *string
     │   │   │   ├── SourceServerId: *string
     │   │   │   ├── SslEnforcement: *string
-    │   │   │   ├── StorageProfile: Object (5 properties)
+    │   │   │   ├── StorageProfile: *Object (5 properties)
     │   │   │   │   ├── BackupRetentionDays: *int
     │   │   │   │   ├── GeoRedundantBackup: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -94,14 +94,14 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Replica: Object (8 properties)
+    │   │   └── Replica: *Object (8 properties)
     │   │       ├── CreateMode: *string
     │   │       ├── MinimalTlsVersion: *string
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       ├── PublicNetworkAccess: *string
     │   │       ├── SourceServerId: *string
     │   │       ├── SslEnforcement: *string
-    │   │       ├── StorageProfile: Object (5 properties)
+    │   │       ├── StorageProfile: *Object (5 properties)
     │   │       │   ├── BackupRetentionDays: *int
     │   │       │   ├── GeoRedundantBackup: *string
     │   │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -109,7 +109,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │       │   └── StorageMB: *int
     │   │       └── Version: *string
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Sku: Object (6 properties)
+    │   ├── Sku: *Object (6 properties)
     │   │   ├── Capacity: *int
     │   │   ├── Family: *string
     │   │   ├── Name: *string
@@ -127,13 +127,13 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
         ├── MasterServerId: *string
         ├── MinimalTlsVersion: *string
         ├── Name: *string
-        ├── PrivateEndpointConnections: Object (3 properties)
+        ├── PrivateEndpointConnections: Object (3 properties)[]
         │   ├── Id: *string
-        │   ├── Properties: Object (4 properties)
-        │   │   ├── PrivateEndpoint: Object (2 properties)
+        │   ├── Properties: *Object (4 properties)
+        │   │   ├── PrivateEndpoint: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   ├── PrivateLinkServiceConnectionState: Object (4 properties)
+        │   │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
         │   │   │   ├── ActionsRequired: *string
         │   │   │   ├── Description: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -145,7 +145,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
         ├── PublicNetworkAccess: *string
         ├── ReplicaCapacity: *int
         ├── ReplicationRole: *string
-        ├── Sku: Object (6 properties)
+        ├── Sku: *Object (6 properties)
         │   ├── Capacity: *int
         │   ├── Family: *string
         │   ├── Name: *string
@@ -153,7 +153,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
         │   ├── Size: *string
         │   └── Tier: *string
         ├── SslEnforcement: *string
-        ├── StorageProfile: Object (5 properties)
+        ├── StorageProfile: *Object (5 properties)
         │   ├── BackupRetentionDays: *int
         │   ├── GeoRedundantBackup: *string
         │   ├── PropertyBag: genruntime.PropertyBag

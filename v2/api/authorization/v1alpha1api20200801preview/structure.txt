@@ -11,7 +11,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 │   │   ├── Owner: *genruntime.ArbitraryOwnerReference
 │   │   ├── PrincipalId: *string
 │   │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
-│   │   ├── PrincipalType: Enum (4 values)
+│   │   ├── PrincipalType: *Enum (4 values)
 │   │   │   ├── "ForeignGroup"
 │   │   │   ├── "Group"
 │   │   │   ├── "ServicePrincipal"
@@ -28,7 +28,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── PrincipalId: *string
-│       ├── PrincipalType: Enum (4 values)
+│       ├── PrincipalType: *Enum (4 values)
 │       │   ├── "ForeignGroup"
 │       │   ├── "Group"
 │       │   ├── "ServicePrincipal"
@@ -41,7 +41,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 ├── RoleAssignment_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (12 properties)
+│   ├── Properties: *Object (12 properties)
 │   │   ├── Condition: *string
 │   │   ├── ConditionVersion: *string
 │   │   ├── CreatedBy: *string
@@ -49,7 +49,7 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 │   │   ├── DelegatedManagedIdentityResourceId: *string
 │   │   ├── Description: *string
 │   │   ├── PrincipalId: *string
-│   │   ├── PrincipalType: Enum (4 values)
+│   │   ├── PrincipalType: *Enum (4 values)
 │   │   │   ├── "ForeignGroup"
 │   │   │   ├── "Group"
 │   │   │   ├── "ServicePrincipal"
@@ -61,13 +61,13 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 │   └── Type: *string
 └── RoleAssignment_Spec_ARM: Object (2 properties)
     ├── Name: string
-    └── Properties: Object (7 properties)
+    └── Properties: *Object (7 properties)
         ├── Condition: *string
         ├── ConditionVersion: *string
         ├── DelegatedManagedIdentityResourceId: *string
         ├── Description: *string
         ├── PrincipalId: *string
-        ├── PrincipalType: Enum (4 values)
+        ├── PrincipalType: *Enum (4 values)
         │   ├── "ForeignGroup"
         │   ├── "Group"
         │   ├── "ServicePrincipal"

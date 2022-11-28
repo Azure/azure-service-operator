@@ -5,13 +5,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │   ├── Spec: Object (25 properties)
 │   │   ├── AzureName: string
 │   │   ├── BurstingEnabled: *bool
-│   │   ├── CreationData: Object (9 properties)
+│   │   ├── CreationData: *Object (9 properties)
 │   │   │   ├── CreateOption: *string
-│   │   │   ├── GalleryImageReference: Object (3 properties)
+│   │   │   ├── GalleryImageReference: *Object (3 properties)
 │   │   │   │   ├── Lun: *int
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── ImageReference: Object (3 properties)
+│   │   │   ├── ImageReference: *Object (3 properties)
 │   │   │   │   ├── Lun: *int
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Reference: *genruntime.ResourceReference
@@ -27,29 +27,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │   │   ├── DiskMBpsReadOnly: *int
 │   │   ├── DiskMBpsReadWrite: *int
 │   │   ├── DiskSizeGB: *int
-│   │   ├── Encryption: Object (3 properties)
+│   │   ├── Encryption: *Object (3 properties)
 │   │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
-│   │   ├── EncryptionSettingsCollection: Object (4 properties)
+│   │   ├── EncryptionSettingsCollection: *Object (4 properties)
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── EncryptionSettings: Object (3 properties)
-│   │   │   │   ├── DiskEncryptionKey: Object (3 properties)
+│   │   │   ├── EncryptionSettings: Object (3 properties)[]
+│   │   │   │   ├── DiskEncryptionKey: *Object (3 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   ├── SecretUrl: *string
-│   │   │   │   │   └── SourceVault: Object (2 properties)
+│   │   │   │   │   └── SourceVault: *Object (2 properties)
 │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   │   ├── KeyEncryptionKey: Object (3 properties)
+│   │   │   │   ├── KeyEncryptionKey: *Object (3 properties)
 │   │   │   │   │   ├── KeyUrl: *string
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── SourceVault: Object (2 properties)
+│   │   │   │   │   └── SourceVault: *Object (2 properties)
 │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── EncryptionSettingsVersion: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── ExtendedLocation: Object (3 properties)
+│   │   ├── ExtendedLocation: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
@@ -61,13 +61,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │   │   ├── OsType: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── PurchasePlan: Object (5 properties)
+│   │   ├── PurchasePlan: *Object (5 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── Product: *string
 │   │   │   ├── PromotionCode: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Publisher: *string
-│   │   ├── Sku: Object (2 properties)
+│   │   ├── Sku: *Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── Tags: map[string]string
@@ -76,13 +76,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │   └── Status: Object (34 properties)
 │       ├── BurstingEnabled: *bool
 │       ├── Conditions: conditions.Condition[]
-│       ├── CreationData: Object (10 properties)
+│       ├── CreationData: *Object (10 properties)
 │       │   ├── CreateOption: *string
-│       │   ├── GalleryImageReference: Object (3 properties)
+│       │   ├── GalleryImageReference: *Object (3 properties)
 │       │   │   ├── Id: *string
 │       │   │   ├── Lun: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   ├── ImageReference: Object (3 properties)
+│       │   ├── ImageReference: *Object (3 properties)
 │       │   │   ├── Id: *string
 │       │   │   ├── Lun: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
@@ -101,29 +101,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │       ├── DiskSizeBytes: *int
 │       ├── DiskSizeGB: *int
 │       ├── DiskState: *string
-│       ├── Encryption: Object (3 properties)
+│       ├── Encryption: *Object (3 properties)
 │       │   ├── DiskEncryptionSetId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
-│       ├── EncryptionSettingsCollection: Object (4 properties)
+│       ├── EncryptionSettingsCollection: *Object (4 properties)
 │       │   ├── Enabled: *bool
-│       │   ├── EncryptionSettings: Object (3 properties)
-│       │   │   ├── DiskEncryptionKey: Object (3 properties)
+│       │   ├── EncryptionSettings: Object (3 properties)[]
+│       │   │   ├── DiskEncryptionKey: *Object (3 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   ├── SecretUrl: *string
-│       │   │   │   └── SourceVault: Object (2 properties)
+│       │   │   │   └── SourceVault: *Object (2 properties)
 │       │   │   │       ├── Id: *string
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── KeyEncryptionKey: Object (3 properties)
+│       │   │   ├── KeyEncryptionKey: *Object (3 properties)
 │       │   │   │   ├── KeyUrl: *string
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── SourceVault: Object (2 properties)
+│       │   │   │   └── SourceVault: *Object (2 properties)
 │       │   │   │       ├── Id: *string
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── EncryptionSettingsVersion: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── ExtendedLocation: Object (3 properties)
+│       ├── ExtendedLocation: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
@@ -138,16 +138,16 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │       ├── OsType: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
-│       ├── PurchasePlan: Object (5 properties)
+│       ├── PurchasePlan: *Object (5 properties)
 │       │   ├── Name: *string
 │       │   ├── Product: *string
 │       │   ├── PromotionCode: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Publisher: *string
-│       ├── ShareInfo: Object (2 properties)
+│       ├── ShareInfo: Object (2 properties)[]
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── VmUri: *string
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
@@ -160,13 +160,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 └── Snapshot: Resource
     ├── Spec: Object (19 properties)
     │   ├── AzureName: string
-    │   ├── CreationData: Object (9 properties)
+    │   ├── CreationData: *Object (9 properties)
     │   │   ├── CreateOption: *string
-    │   │   ├── GalleryImageReference: Object (3 properties)
+    │   │   ├── GalleryImageReference: *Object (3 properties)
     │   │   │   ├── Lun: *int
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   ├── ImageReference: Object (3 properties)
+    │   │   ├── ImageReference: *Object (3 properties)
     │   │   │   ├── Lun: *int
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Reference: *genruntime.ResourceReference
@@ -179,29 +179,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
     │   ├── DiskAccessReference: *genruntime.ResourceReference
     │   ├── DiskSizeGB: *int
     │   ├── DiskState: *string
-    │   ├── Encryption: Object (3 properties)
+    │   ├── Encryption: *Object (3 properties)
     │   │   ├── DiskEncryptionSetReference: *genruntime.ResourceReference
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
-    │   ├── EncryptionSettingsCollection: Object (4 properties)
+    │   ├── EncryptionSettingsCollection: *Object (4 properties)
     │   │   ├── Enabled: *bool
-    │   │   ├── EncryptionSettings: Object (3 properties)
-    │   │   │   ├── DiskEncryptionKey: Object (3 properties)
+    │   │   ├── EncryptionSettings: Object (3 properties)[]
+    │   │   │   ├── DiskEncryptionKey: *Object (3 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── SecretUrl: *string
-    │   │   │   │   └── SourceVault: Object (2 properties)
+    │   │   │   │   └── SourceVault: *Object (2 properties)
     │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │       └── Reference: *genruntime.ResourceReference
-    │   │   │   ├── KeyEncryptionKey: Object (3 properties)
+    │   │   │   ├── KeyEncryptionKey: *Object (3 properties)
     │   │   │   │   ├── KeyUrl: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   │   └── SourceVault: Object (2 properties)
+    │   │   │   │   └── SourceVault: *Object (2 properties)
     │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │       └── Reference: *genruntime.ResourceReference
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── EncryptionSettingsVersion: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── ExtendedLocation: Object (3 properties)
+    │   ├── ExtendedLocation: *Object (3 properties)
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
@@ -213,25 +213,25 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
     │   ├── OsType: *string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── PurchasePlan: Object (5 properties)
+    │   ├── PurchasePlan: *Object (5 properties)
     │   │   ├── Name: *string
     │   │   ├── Product: *string
     │   │   ├── PromotionCode: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Publisher: *string
-    │   ├── Sku: Object (2 properties)
+    │   ├── Sku: *Object (2 properties)
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   └── Tags: map[string]string
     └── Status: Object (25 properties)
         ├── Conditions: conditions.Condition[]
-        ├── CreationData: Object (10 properties)
+        ├── CreationData: *Object (10 properties)
         │   ├── CreateOption: *string
-        │   ├── GalleryImageReference: Object (3 properties)
+        │   ├── GalleryImageReference: *Object (3 properties)
         │   │   ├── Id: *string
         │   │   ├── Lun: *int
         │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── ImageReference: Object (3 properties)
+        │   ├── ImageReference: *Object (3 properties)
         │   │   ├── Id: *string
         │   │   ├── Lun: *int
         │   │   └── PropertyBag: genruntime.PropertyBag
@@ -246,29 +246,29 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
         ├── DiskSizeBytes: *int
         ├── DiskSizeGB: *int
         ├── DiskState: *string
-        ├── Encryption: Object (3 properties)
+        ├── Encryption: *Object (3 properties)
         │   ├── DiskEncryptionSetId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Type: *string
-        ├── EncryptionSettingsCollection: Object (4 properties)
+        ├── EncryptionSettingsCollection: *Object (4 properties)
         │   ├── Enabled: *bool
-        │   ├── EncryptionSettings: Object (3 properties)
-        │   │   ├── DiskEncryptionKey: Object (3 properties)
+        │   ├── EncryptionSettings: Object (3 properties)[]
+        │   │   ├── DiskEncryptionKey: *Object (3 properties)
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── SecretUrl: *string
-        │   │   │   └── SourceVault: Object (2 properties)
+        │   │   │   └── SourceVault: *Object (2 properties)
         │   │   │       ├── Id: *string
         │   │   │       └── PropertyBag: genruntime.PropertyBag
-        │   │   ├── KeyEncryptionKey: Object (3 properties)
+        │   │   ├── KeyEncryptionKey: *Object (3 properties)
         │   │   │   ├── KeyUrl: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   │   └── SourceVault: Object (2 properties)
+        │   │   │   └── SourceVault: *Object (2 properties)
         │   │   │       ├── Id: *string
         │   │   │       └── PropertyBag: genruntime.PropertyBag
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── EncryptionSettingsVersion: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── ExtendedLocation: Object (3 properties)
+        ├── ExtendedLocation: *Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Type: *string
@@ -282,13 +282,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
         ├── OsType: *string
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
-        ├── PurchasePlan: Object (5 properties)
+        ├── PurchasePlan: *Object (5 properties)
         │   ├── Name: *string
         │   ├── Product: *string
         │   ├── PromotionCode: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Publisher: *string
-        ├── Sku: Object (3 properties)
+        ├── Sku: *Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Tier: *string

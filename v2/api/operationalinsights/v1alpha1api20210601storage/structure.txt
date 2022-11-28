@@ -6,7 +6,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
     │   ├── AzureName: Validated<string> (1 rule)
     │   │   └── Rule 0: {MinLength %!s(int64=1)}
     │   ├── Etag: *string
-    │   ├── Features: Object (6 properties)
+    │   ├── Features: *Object (6 properties)
     │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
     │   │   ├── DisableLocalAuth: *bool
     │   │   ├── EnableDataExport: *bool
@@ -22,12 +22,12 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
     │   ├── PublicNetworkAccessForIngestion: *string
     │   ├── PublicNetworkAccessForQuery: *string
     │   ├── RetentionInDays: *int
-    │   ├── Sku: Object (3 properties)
+    │   ├── Sku: *Object (3 properties)
     │   │   ├── CapacityReservationLevel: *int
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── Tags: map[string]string
-    │   └── WorkspaceCapping: Object (2 properties)
+    │   └── WorkspaceCapping: *Object (2 properties)
     │       ├── DailyQuotaGb: *float64
     │       └── PropertyBag: genruntime.PropertyBag
     └── Status: Object (20 properties)
@@ -35,7 +35,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
         ├── CreatedDate: *string
         ├── CustomerId: *string
         ├── Etag: *string
-        ├── Features: Object (6 properties)
+        ├── Features: *Object (6 properties)
         │   ├── ClusterResourceId: *string
         │   ├── DisableLocalAuth: *bool
         │   ├── EnableDataExport: *bool
@@ -47,7 +47,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
         ├── Location: *string
         ├── ModifiedDate: *string
         ├── Name: *string
-        ├── PrivateLinkScopedResources: Object (3 properties)
+        ├── PrivateLinkScopedResources: Object (3 properties)[]
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── ResourceId: *string
         │   └── ScopeId: *string
@@ -56,14 +56,14 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
         ├── PublicNetworkAccessForIngestion: *string
         ├── PublicNetworkAccessForQuery: *string
         ├── RetentionInDays: *int
-        ├── Sku: Object (4 properties)
+        ├── Sku: *Object (4 properties)
         │   ├── CapacityReservationLevel: *int
         │   ├── LastSkuUpdate: *string
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Tags: map[string]string
         ├── Type: *string
-        └── WorkspaceCapping: Object (4 properties)
+        └── WorkspaceCapping: *Object (4 properties)
             ├── DailyQuotaGb: *float64
             ├── DataIngestionStatus: *string
             ├── PropertyBag: genruntime.PropertyBag

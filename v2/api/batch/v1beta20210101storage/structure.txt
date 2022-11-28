@@ -3,20 +3,20 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage
 │   └── "2021-01-01"
 └── BatchAccount: Resource
     ├── Spec: Object (12 properties)
-    │   ├── AutoStorage: Object (2 properties)
+    │   ├── AutoStorage: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── StorageAccountReference: *genruntime.ResourceReference
     │   ├── AzureName: string
-    │   ├── Encryption: Object (3 properties)
+    │   ├── Encryption: *Object (3 properties)
     │   │   ├── KeySource: *string
-    │   │   ├── KeyVaultProperties: Object (2 properties)
+    │   │   ├── KeyVaultProperties: *Object (2 properties)
     │   │   │   ├── KeyIdentifier: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Identity: Object (2 properties)
+    │   ├── Identity: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
-    │   ├── KeyVaultReference: Object (3 properties)
+    │   ├── KeyVaultReference: *Object (3 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Reference: *genruntime.ResourceReference
     │   │   └── Url: *string
@@ -30,34 +30,34 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage
     └── Status: Object (22 properties)
         ├── AccountEndpoint: *string
         ├── ActiveJobAndJobScheduleQuota: *int
-        ├── AutoStorage: Object (3 properties)
+        ├── AutoStorage: *Object (3 properties)
         │   ├── LastKeySync: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── StorageAccountId: *string
         ├── Conditions: conditions.Condition[]
         ├── DedicatedCoreQuota: *int
-        ├── DedicatedCoreQuotaPerVMFamily: Object (3 properties)
+        ├── DedicatedCoreQuotaPerVMFamily: Object (3 properties)[]
         │   ├── CoreQuota: *int
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── DedicatedCoreQuotaPerVMFamilyEnforced: *bool
-        ├── Encryption: Object (3 properties)
+        ├── Encryption: *Object (3 properties)
         │   ├── KeySource: *string
-        │   ├── KeyVaultProperties: Object (2 properties)
+        │   ├── KeyVaultProperties: *Object (2 properties)
         │   │   ├── KeyIdentifier: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Id: *string
-        ├── Identity: Object (5 properties)
+        ├── Identity: *Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: Object (3 properties)
+        │   └── UserAssignedIdentities: map[string]Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
-        ├── KeyVaultReference: Object (3 properties)
+        ├── KeyVaultReference: *Object (3 properties)
         │   ├── Id: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Url: *string
@@ -66,7 +66,7 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage
         ├── Name: *string
         ├── PoolAllocationMode: *string
         ├── PoolQuota: *int
-        ├── PrivateEndpointConnections: Object (2 properties)
+        ├── PrivateEndpointConnections: Object (2 properties)[]
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag

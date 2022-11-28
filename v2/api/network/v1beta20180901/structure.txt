@@ -15,7 +15,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │       ├── NumberOfRecordSets: *int
 │       ├── NumberOfVirtualNetworkLinks: *int
 │       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-│       └── ProvisioningState: Enum (6 values)
+│       └── ProvisioningState: *Enum (6 values)
 │           ├── "Canceled"
 │           ├── "Creating"
 │           ├── "Deleting"
@@ -24,14 +24,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │           └── "Updating"
 ├── PrivateDnsZone_STATUS_ARM: Object (2 properties)
 │   ├── Etag: *string
-│   └── Properties: Object (7 properties)
+│   └── Properties: *Object (7 properties)
 │       ├── MaxNumberOfRecordSets: *int
 │       ├── MaxNumberOfVirtualNetworkLinks: *int
 │       ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
 │       ├── NumberOfRecordSets: *int
 │       ├── NumberOfVirtualNetworkLinks: *int
 │       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-│       └── ProvisioningState: Enum (6 values)
+│       └── ProvisioningState: *Enum (6 values)
 │           ├── "Canceled"
 │           ├── "Creating"
 │           ├── "Deleting"

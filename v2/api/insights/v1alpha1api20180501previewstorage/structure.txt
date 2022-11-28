@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
 └── Webtest: Resource
     ├── Spec: Object (18 properties)
     │   ├── AzureName: string
-    │   ├── Configuration: Object (2 properties)
+    │   ├── Configuration: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── WebTest: *string
     │   ├── Description: *string
@@ -12,16 +12,16 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
     │   ├── Frequency: *int
     │   ├── Kind: *string
     │   ├── Location: *string
-    │   ├── Locations: Object (2 properties)
+    │   ├── Locations: Object (2 properties)[]
     │   │   ├── Id: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── Name: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── Request: Object (7 properties)
+    │   ├── Request: *Object (7 properties)
     │   │   ├── FollowRedirects: *bool
-    │   │   ├── Headers: Object (3 properties)
+    │   │   ├── Headers: Object (3 properties)[]
     │   │   │   ├── Key: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Value: *string
@@ -34,8 +34,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
     │   ├── SyntheticMonitorId: *string
     │   ├── Tags: map[string]string
     │   ├── Timeout: *int
-    │   └── ValidationRules: Object (6 properties)
-    │       ├── ContentValidation: Object (4 properties)
+    │   └── ValidationRules: *Object (6 properties)
+    │       ├── ContentValidation: *Object (4 properties)
     │       │   ├── ContentMatch: *string
     │       │   ├── IgnoreCase: *bool
     │       │   ├── PassIfTextFound: *bool
@@ -47,7 +47,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
     │       └── SSLCheck: *bool
     └── Status: Object (20 properties)
         ├── Conditions: conditions.Condition[]
-        ├── Configuration: Object (2 properties)
+        ├── Configuration: *Object (2 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── WebTest: *string
         ├── Description: *string
@@ -56,16 +56,16 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
         ├── Id: *string
         ├── Kind: *string
         ├── Location: *string
-        ├── Locations: Object (2 properties)
+        ├── Locations: Object (2 properties)[]
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Name: *string
         ├── PropertiesName: *string
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
-        ├── Request: Object (7 properties)
+        ├── Request: *Object (7 properties)
         │   ├── FollowRedirects: *bool
-        │   ├── Headers: Object (3 properties)
+        │   ├── Headers: Object (3 properties)[]
         │   │   ├── Key: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Value: *string
@@ -79,8 +79,8 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
         ├── Tags: map[string]string
         ├── Timeout: *int
         ├── Type: *string
-        └── ValidationRules: Object (6 properties)
-            ├── ContentValidation: Object (4 properties)
+        └── ValidationRules: *Object (6 properties)
+            ├── ContentValidation: *Object (4 properties)
             │   ├── ContentMatch: *string
             │   ├── IgnoreCase: *bool
             │   ├── PassIfTextFound: *bool

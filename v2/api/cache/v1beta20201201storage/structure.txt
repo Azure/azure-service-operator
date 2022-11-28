@@ -7,9 +7,9 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── Location: *string
 │   │   ├── MinimumTlsVersion: *string
-│   │   ├── OperatorSpec: Object (2 properties)
+│   │   ├── OperatorSpec: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: Object (6 properties)
+│   │   │   └── Secrets: *Object (6 properties)
 │   │   │       ├── HostName: *genruntime.SecretDestination
 │   │   │       ├── Port: *genruntime.SecretDestination
 │   │   │       ├── PrimaryKey: *genruntime.SecretDestination
@@ -25,7 +25,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
 │   │   ├── ShardCount: *int
-│   │   ├── Sku: Object (4 properties)
+│   │   ├── Sku: *Object (4 properties)
 │   │   │   ├── Capacity: *int
 │   │   │   ├── Family: *string
 │   │   │   ├── Name: *string
@@ -36,7 +36,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │   │   ├── TenantSettings: map[string]string
 │   │   └── Zones: string[]
 │   └── Status: Object (28 properties)
-│       ├── AccessKeys: Object (3 properties)
+│       ├── AccessKeys: *Object (3 properties)
 │       │   ├── PrimaryKey: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── SecondaryKey: *string
@@ -44,7 +44,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string
 │       ├── Id: *string
-│       ├── Instances: Object (7 properties)
+│       ├── Instances: Object (7 properties)[]
 │       │   ├── IsMaster: *bool
 │       │   ├── IsPrimary: *bool
 │       │   ├── NonSslPort: *int
@@ -52,20 +52,20 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       │   ├── ShardId: *int
 │       │   ├── SslPort: *int
 │       │   └── Zone: *string
-│       ├── LinkedServers: Object (2 properties)
+│       ├── LinkedServers: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Location: *string
 │       ├── MinimumTlsVersion: *string
 │       ├── Name: *string
 │       ├── Port: *int
-│       ├── PrivateEndpointConnections: Object (2 properties)
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── PublicNetworkAccess: *string
-│       ├── RedisConfiguration: Object (16 properties)
+│       ├── RedisConfiguration: *Object (16 properties)
 │       │   ├── AdditionalProperties: map[string]string
 │       │   ├── AofBackupEnabled: *string
 │       │   ├── AofStorageConnectionString0: *string
@@ -86,7 +86,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── ReplicasPerMaster: *int
 │       ├── ReplicasPerPrimary: *int
 │       ├── ShardCount: *int
-│       ├── Sku: Object (4 properties)
+│       ├── Sku: *Object (4 properties)
 │       │   ├── Capacity: *int
 │       │   ├── Family: *string
 │       │   ├── Name: *string
@@ -139,7 +139,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── ScheduleEntries: Object (4 properties)
+    │   └── ScheduleEntries: Object (4 properties)[]
     │       ├── DayOfWeek: *string
     │       ├── MaintenanceWindow: *string
     │       ├── PropertyBag: genruntime.PropertyBag
@@ -150,7 +150,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
         ├── Location: *string
         ├── Name: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── ScheduleEntries: Object (4 properties)
+        ├── ScheduleEntries: Object (4 properties)[]
         │   ├── DayOfWeek: *string
         │   ├── MaintenanceWindow: *string
         │   ├── PropertyBag: genruntime.PropertyBag

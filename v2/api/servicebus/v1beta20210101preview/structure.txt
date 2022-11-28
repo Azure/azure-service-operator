@@ -4,34 +4,34 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── Namespace: Resource
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
-│   │   ├── Encryption: Object (3 properties)
-│   │   │   ├── KeySource: Enum (1 value)
+│   │   ├── Encryption: *Object (3 properties)
+│   │   │   ├── KeySource: *Enum (1 value)
 │   │   │   │   └── "Microsoft.KeyVault"
-│   │   │   ├── KeyVaultProperties: Object (4 properties)
-│   │   │   │   ├── Identity: Object (1 property)
+│   │   │   ├── KeyVaultProperties: Object (4 properties)[]
+│   │   │   │   ├── Identity: *Object (1 property)
 │   │   │   │   │   └── UserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   │   │   ├── KeyName: *string
 │   │   │   │   ├── KeyVaultUri: *string
 │   │   │   │   └── KeyVersion: *string
 │   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── Identity: Object (1 property)
-│   │   │   └── Type: Enum (4 values)
+│   │   ├── Identity: *Object (1 property)
+│   │   │   └── Type: *Enum (4 values)
 │   │   │       ├── "None"
 │   │   │       ├── "SystemAssigned"
 │   │   │       ├── "SystemAssigned, UserAssigned"
 │   │   │       └── "UserAssigned"
 │   │   ├── Location: *string
-│   │   ├── OperatorSpec: Object (1 property)
-│   │   │   └── Secrets: Object (1 property)
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── Secrets: *Object (1 property)
 │   │   │       └── Endpoint: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: *int
-│   │   │   ├── Name: Enum (3 values)
+│   │   │   ├── Name: *Enum (3 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   ├── "Premium"
 │   │   │   │   └── "Standard"
-│   │   │   └── Tier: Enum (3 values)
+│   │   │   └── Tier: *Enum (3 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
@@ -40,57 +40,57 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Status: Object (18 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── CreatedAt: *string
-│       ├── Encryption: Object (3 properties)
-│       │   ├── KeySource: Enum (1 value)
+│       ├── Encryption: *Object (3 properties)
+│       │   ├── KeySource: *Enum (1 value)
 │       │   │   └── "Microsoft.KeyVault"
-│       │   ├── KeyVaultProperties: Object (4 properties)
-│       │   │   ├── Identity: Object (1 property)
+│       │   ├── KeyVaultProperties: Object (4 properties)[]
+│       │   │   ├── Identity: *Object (1 property)
 │       │   │   │   └── UserAssignedIdentity: *string
 │       │   │   ├── KeyName: *string
 │       │   │   ├── KeyVaultUri: *string
 │       │   │   └── KeyVersion: *string
 │       │   └── RequireInfrastructureEncryption: *bool
 │       ├── Id: *string
-│       ├── Identity: Object (4 properties)
+│       ├── Identity: *Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: Enum (4 values)
+│       │   ├── Type: *Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned, UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: Object (2 properties)
+│       │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
 │       ├── Location: *string
 │       ├── MetricId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: Object (1 property)
+│       ├── PrivateEndpointConnections: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── ProvisioningState: *string
 │       ├── ServiceBusEndpoint: *string
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Capacity: *int
-│       │   ├── Name: Enum (3 values)
+│       │   ├── Name: *Enum (3 values)
 │       │   │   ├── "Basic"
 │       │   │   ├── "Premium"
 │       │   │   └── "Standard"
-│       │   └── Tier: Enum (3 values)
+│       │   └── Tier: *Enum (3 values)
 │       │       ├── "Basic"
 │       │       ├── "Premium"
 │       │       └── "Standard"
 │       ├── Status: *string
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
@@ -101,60 +101,60 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── ZoneRedundant: *bool
 ├── Namespace_STATUS_ARM: Object (9 properties)
 │   ├── Id: *string
-│   ├── Identity: Object (4 properties)
+│   ├── Identity: *Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: Enum (4 values)
+│   │   ├── Type: *Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned, UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: Object (2 properties)
+│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │   │       ├── ClientId: *string
 │   │       └── PrincipalId: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (9 properties)
+│   ├── Properties: *Object (9 properties)
 │   │   ├── CreatedAt: *string
-│   │   ├── Encryption: Object (3 properties)
-│   │   │   ├── KeySource: Enum (1 value)
+│   │   ├── Encryption: *Object (3 properties)
+│   │   │   ├── KeySource: *Enum (1 value)
 │   │   │   │   └── "Microsoft.KeyVault"
-│   │   │   ├── KeyVaultProperties: Object (4 properties)
-│   │   │   │   ├── Identity: Object (1 property)
+│   │   │   ├── KeyVaultProperties: Object (4 properties)[]
+│   │   │   │   ├── Identity: *Object (1 property)
 │   │   │   │   │   └── UserAssignedIdentity: *string
 │   │   │   │   ├── KeyName: *string
 │   │   │   │   ├── KeyVaultUri: *string
 │   │   │   │   └── KeyVersion: *string
 │   │   │   └── RequireInfrastructureEncryption: *bool
 │   │   ├── MetricId: *string
-│   │   ├── PrivateEndpointConnections: Object (1 property)
+│   │   ├── PrivateEndpointConnections: Object (1 property)[]
 │   │   │   └── Id: *string
 │   │   ├── ProvisioningState: *string
 │   │   ├── ServiceBusEndpoint: *string
 │   │   ├── Status: *string
 │   │   ├── UpdatedAt: *string
 │   │   └── ZoneRedundant: *bool
-│   ├── Sku: Object (3 properties)
+│   ├── Sku: *Object (3 properties)
 │   │   ├── Capacity: *int
-│   │   ├── Name: Enum (3 values)
+│   │   ├── Name: *Enum (3 values)
 │   │   │   ├── "Basic"
 │   │   │   ├── "Premium"
 │   │   │   └── "Standard"
-│   │   └── Tier: Enum (3 values)
+│   │   └── Tier: *Enum (3 values)
 │   │       ├── "Basic"
 │   │       ├── "Premium"
 │   │       └── "Standard"
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
@@ -162,33 +162,33 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── Namespace_Spec_ARM: Object (6 properties)
-│   ├── Identity: Object (1 property)
-│   │   └── Type: Enum (4 values)
+│   ├── Identity: *Object (1 property)
+│   │   └── Type: *Enum (4 values)
 │   │       ├── "None"
 │   │       ├── "SystemAssigned"
 │   │       ├── "SystemAssigned, UserAssigned"
 │   │       └── "UserAssigned"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (2 properties)
-│   │   ├── Encryption: Object (3 properties)
-│   │   │   ├── KeySource: Enum (1 value)
+│   ├── Properties: *Object (2 properties)
+│   │   ├── Encryption: *Object (3 properties)
+│   │   │   ├── KeySource: *Enum (1 value)
 │   │   │   │   └── "Microsoft.KeyVault"
-│   │   │   ├── KeyVaultProperties: Object (4 properties)
-│   │   │   │   ├── Identity: Object (1 property)
+│   │   │   ├── KeyVaultProperties: Object (4 properties)[]
+│   │   │   │   ├── Identity: *Object (1 property)
 │   │   │   │   │   └── UserAssignedIdentity: *string
 │   │   │   │   ├── KeyName: *string
 │   │   │   │   ├── KeyVaultUri: *string
 │   │   │   │   └── KeyVersion: *string
 │   │   │   └── RequireInfrastructureEncryption: *bool
 │   │   └── ZoneRedundant: *bool
-│   ├── Sku: Object (3 properties)
+│   ├── Sku: *Object (3 properties)
 │   │   ├── Capacity: *int
-│   │   ├── Name: Enum (3 values)
+│   │   ├── Name: *Enum (3 values)
 │   │   │   ├── "Basic"
 │   │   │   ├── "Premium"
 │   │   │   └── "Standard"
-│   │   └── Tier: Enum (3 values)
+│   │   └── Tier: *Enum (3 values)
 │   │       ├── "Basic"
 │   │       ├── "Premium"
 │   │       └── "Standard"
@@ -215,7 +215,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
 │       ├── Conditions: conditions.Condition[]
-│       ├── CountDetails: Object (5 properties)
+│       ├── CountDetails: *Object (5 properties)
 │       │   ├── ActiveMessageCount: *int
 │       │   ├── DeadLetterMessageCount: *int
 │       │   ├── ScheduledMessageCount: *int
@@ -239,7 +239,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── RequiresDuplicateDetection: *bool
 │       ├── RequiresSession: *bool
 │       ├── SizeInBytes: *int
-│       ├── Status: Enum (9 values)
+│       ├── Status: *Enum (9 values)
 │       │   ├── "Active"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
@@ -249,17 +249,17 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       │   ├── "Restoring"
 │       │   ├── "SendDisabled"
 │       │   └── "Unknown"
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
@@ -283,7 +283,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
 │       ├── Conditions: conditions.Condition[]
-│       ├── CountDetails: Object (5 properties)
+│       ├── CountDetails: *Object (5 properties)
 │       │   ├── ActiveMessageCount: *int
 │       │   ├── DeadLetterMessageCount: *int
 │       │   ├── ScheduledMessageCount: *int
@@ -300,7 +300,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── Name: *string
 │       ├── RequiresDuplicateDetection: *bool
 │       ├── SizeInBytes: *int
-│       ├── Status: Enum (9 values)
+│       ├── Status: *Enum (9 values)
 │       │   ├── "Active"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
@@ -312,17 +312,17 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       │   └── "Unknown"
 │       ├── SubscriptionCount: *int
 │       ├── SupportOrdering: *bool
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
@@ -348,7 +348,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
 │       ├── Conditions: conditions.Condition[]
-│       ├── CountDetails: Object (5 properties)
+│       ├── CountDetails: *Object (5 properties)
 │       │   ├── ActiveMessageCount: *int
 │       │   ├── DeadLetterMessageCount: *int
 │       │   ├── ScheduledMessageCount: *int
@@ -368,7 +368,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── MessageCount: *int
 │       ├── Name: *string
 │       ├── RequiresSession: *bool
-│       ├── Status: Enum (9 values)
+│       ├── Status: *Enum (9 values)
 │       │   ├── "Active"
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
@@ -378,17 +378,17 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       │   ├── "Restoring"
 │       │   ├── "SendDisabled"
 │       │   └── "Unknown"
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
@@ -397,12 +397,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscriptionsRule: Resource
 │   ├── Spec: Object (6 properties)
-│   │   ├── Action: Object (3 properties)
+│   │   ├── Action: *Object (3 properties)
 │   │   │   ├── CompatibilityLevel: *int
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   └── SqlExpression: *string
 │   │   ├── AzureName: string
-│   │   ├── CorrelationFilter: Object (10 properties)
+│   │   ├── CorrelationFilter: *Object (10 properties)
 │   │   │   ├── ContentType: *string
 │   │   │   ├── CorrelationId: *string
 │   │   │   ├── Label: *string
@@ -413,23 +413,23 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   ├── SessionId: *string
 │   │   │   └── To: *string
-│   │   ├── FilterType: Enum (2 values)
+│   │   ├── FilterType: *Enum (2 values)
 │   │   │   ├── "CorrelationFilter"
 │   │   │   └── "SqlFilter"
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   └── SqlFilter: Object (3 properties)
+│   │   └── SqlFilter: *Object (3 properties)
 │   │       ├── CompatibilityLevel: Validated<*int> (2 rules)
 │   │       │   ├── Rule 0: {Maximum 20}
 │   │       │   └── Rule 1: {Minimum 20}
 │   │       ├── RequiresPreprocessing: *bool
 │   │       └── SqlExpression: *string
 │   └── Status: Object (9 properties)
-│       ├── Action: Object (3 properties)
+│       ├── Action: *Object (3 properties)
 │       │   ├── CompatibilityLevel: *int
 │       │   ├── RequiresPreprocessing: *bool
 │       │   └── SqlExpression: *string
 │       ├── Conditions: conditions.Condition[]
-│       ├── CorrelationFilter: Object (10 properties)
+│       ├── CorrelationFilter: *Object (10 properties)
 │       │   ├── ContentType: *string
 │       │   ├── CorrelationId: *string
 │       │   ├── Label: *string
@@ -440,26 +440,26 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       │   ├── RequiresPreprocessing: *bool
 │       │   ├── SessionId: *string
 │       │   └── To: *string
-│       ├── FilterType: Enum (2 values)
+│       ├── FilterType: *Enum (2 values)
 │       │   ├── "CorrelationFilter"
 │       │   └── "SqlFilter"
 │       ├── Id: *string
 │       ├── Name: *string
-│       ├── SqlFilter: Object (3 properties)
+│       ├── SqlFilter: *Object (3 properties)
 │       │   ├── CompatibilityLevel: *int
 │       │   ├── RequiresPreprocessing: *bool
 │       │   └── SqlExpression: *string
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
@@ -468,10 +468,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── Namespaces_Queue_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (21 properties)
+│   ├── Properties: *Object (21 properties)
 │   │   ├── AccessedAt: *string
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── CountDetails: Object (5 properties)
+│   │   ├── CountDetails: *Object (5 properties)
 │   │   │   ├── ActiveMessageCount: *int
 │   │   │   ├── DeadLetterMessageCount: *int
 │   │   │   ├── ScheduledMessageCount: *int
@@ -493,7 +493,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── RequiresDuplicateDetection: *bool
 │   │   ├── RequiresSession: *bool
 │   │   ├── SizeInBytes: *int
-│   │   ├── Status: Enum (9 values)
+│   │   ├── Status: *Enum (9 values)
 │   │   │   ├── "Active"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -504,17 +504,17 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   │   ├── "SendDisabled"
 │   │   │   └── "Unknown"
 │   │   └── UpdatedAt: *string
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
@@ -522,7 +522,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Type: *string
 ├── Namespaces_Queue_Spec_ARM: Object (2 properties)
 │   ├── Name: string
-│   └── Properties: Object (14 properties)
+│   └── Properties: *Object (14 properties)
 │       ├── AutoDeleteOnIdle: *string
 │       ├── DeadLetteringOnMessageExpiration: *bool
 │       ├── DefaultMessageTimeToLive: *string
@@ -540,10 +540,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── Namespaces_Topic_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (16 properties)
+│   ├── Properties: *Object (16 properties)
 │   │   ├── AccessedAt: *string
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── CountDetails: Object (5 properties)
+│   │   ├── CountDetails: *Object (5 properties)
 │   │   │   ├── ActiveMessageCount: *int
 │   │   │   ├── DeadLetterMessageCount: *int
 │   │   │   ├── ScheduledMessageCount: *int
@@ -558,7 +558,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── RequiresDuplicateDetection: *bool
 │   │   ├── SizeInBytes: *int
-│   │   ├── Status: Enum (9 values)
+│   │   ├── Status: *Enum (9 values)
 │   │   │   ├── "Active"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -571,17 +571,17 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── SubscriptionCount: *int
 │   │   ├── SupportOrdering: *bool
 │   │   └── UpdatedAt: *string
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
@@ -589,7 +589,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Type: *string
 ├── Namespaces_Topic_Spec_ARM: Object (2 properties)
 │   ├── Name: string
-│   └── Properties: Object (9 properties)
+│   └── Properties: *Object (9 properties)
 │       ├── AutoDeleteOnIdle: *string
 │       ├── DefaultMessageTimeToLive: *string
 │       ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -602,10 +602,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── Namespaces_Topics_Subscription_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (17 properties)
+│   ├── Properties: *Object (17 properties)
 │   │   ├── AccessedAt: *string
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── CountDetails: Object (5 properties)
+│   │   ├── CountDetails: *Object (5 properties)
 │   │   │   ├── ActiveMessageCount: *int
 │   │   │   ├── DeadLetterMessageCount: *int
 │   │   │   ├── ScheduledMessageCount: *int
@@ -623,7 +623,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MessageCount: *int
 │   │   ├── RequiresSession: *bool
-│   │   ├── Status: Enum (9 values)
+│   │   ├── Status: *Enum (9 values)
 │   │   │   ├── "Active"
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
@@ -634,17 +634,17 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   │   ├── "SendDisabled"
 │   │   │   └── "Unknown"
 │   │   └── UpdatedAt: *string
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
@@ -652,7 +652,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Type: *string
 ├── Namespaces_Topics_Subscription_Spec_ARM: Object (2 properties)
 │   ├── Name: string
-│   └── Properties: Object (11 properties)
+│   └── Properties: *Object (11 properties)
 │       ├── AutoDeleteOnIdle: *string
 │       ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │       ├── DeadLetteringOnMessageExpiration: *bool
@@ -667,12 +667,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── Namespaces_Topics_Subscriptions_Rule_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (4 properties)
-│   │   ├── Action: Object (3 properties)
+│   ├── Properties: *Object (4 properties)
+│   │   ├── Action: *Object (3 properties)
 │   │   │   ├── CompatibilityLevel: *int
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   └── SqlExpression: *string
-│   │   ├── CorrelationFilter: Object (10 properties)
+│   │   ├── CorrelationFilter: *Object (10 properties)
 │   │   │   ├── ContentType: *string
 │   │   │   ├── CorrelationId: *string
 │   │   │   ├── Label: *string
@@ -683,24 +683,24 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   ├── SessionId: *string
 │   │   │   └── To: *string
-│   │   ├── FilterType: Enum (2 values)
+│   │   ├── FilterType: *Enum (2 values)
 │   │   │   ├── "CorrelationFilter"
 │   │   │   └── "SqlFilter"
-│   │   └── SqlFilter: Object (3 properties)
+│   │   └── SqlFilter: *Object (3 properties)
 │   │       ├── CompatibilityLevel: *int
 │   │       ├── RequiresPreprocessing: *bool
 │   │       └── SqlExpression: *string
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
@@ -708,12 +708,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Type: *string
 └── Namespaces_Topics_Subscriptions_Rule_Spec_ARM: Object (2 properties)
     ├── Name: string
-    └── Properties: Object (4 properties)
-        ├── Action: Object (3 properties)
+    └── Properties: *Object (4 properties)
+        ├── Action: *Object (3 properties)
         │   ├── CompatibilityLevel: *int
         │   ├── RequiresPreprocessing: *bool
         │   └── SqlExpression: *string
-        ├── CorrelationFilter: Object (10 properties)
+        ├── CorrelationFilter: *Object (10 properties)
         │   ├── ContentType: *string
         │   ├── CorrelationId: *string
         │   ├── Label: *string
@@ -724,10 +724,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
         │   ├── RequiresPreprocessing: *bool
         │   ├── SessionId: *string
         │   └── To: *string
-        ├── FilterType: Enum (2 values)
+        ├── FilterType: *Enum (2 values)
         │   ├── "CorrelationFilter"
         │   └── "SqlFilter"
-        └── SqlFilter: Object (3 properties)
+        └── SqlFilter: *Object (3 properties)
             ├── CompatibilityLevel: *int
             ├── RequiresPreprocessing: *bool
             └── SqlExpression: *string

@@ -4,30 +4,30 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
 └── SignalR: Resource
     ├── Spec: Object (18 properties)
     │   ├── AzureName: string
-    │   ├── Cors: Object (2 properties)
+    │   ├── Cors: *Object (2 properties)
     │   │   ├── AllowedOrigins: string[]
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── DisableAadAuth: *bool
     │   ├── DisableLocalAuth: *bool
-    │   ├── Features: Object (4 properties)
+    │   ├── Features: Object (4 properties)[]
     │   │   ├── Flag: *string
     │   │   ├── Properties: map[string]string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Value: *string
-    │   ├── Identity: Object (2 properties)
+    │   ├── Identity: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
     │   ├── Kind: *string
     │   ├── Location: *string
-    │   ├── NetworkACLs: Object (4 properties)
+    │   ├── NetworkACLs: *Object (4 properties)
     │   │   ├── DefaultAction: *string
-    │   │   ├── PrivateEndpoints: Object (4 properties)
+    │   │   ├── PrivateEndpoints: Object (4 properties)[]
     │   │   │   ├── Allow: string[]
     │   │   │   ├── Deny: string[]
     │   │   │   ├── Name: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── PublicNetwork: Object (3 properties)
+    │   │   └── PublicNetwork: *Object (3 properties)
     │   │       ├── Allow: string[]
     │   │       ├── Deny: string[]
     │   │       └── PropertyBag: genruntime.PropertyBag
@@ -35,26 +35,26 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── PublicNetworkAccess: *string
-    │   ├── ResourceLogConfiguration: Object (2 properties)
-    │   │   ├── Categories: Object (3 properties)
+    │   ├── ResourceLogConfiguration: *Object (2 properties)
+    │   │   ├── Categories: Object (3 properties)[]
     │   │   │   ├── Enabled: *string
     │   │   │   ├── Name: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Sku: Object (4 properties)
+    │   ├── Sku: *Object (4 properties)
     │   │   ├── Capacity: *int
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Tier: *string
     │   ├── Tags: map[string]string
-    │   ├── Tls: Object (2 properties)
+    │   ├── Tls: *Object (2 properties)
     │   │   ├── ClientCertEnabled: *bool
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   └── Upstream: Object (2 properties)
+    │   └── Upstream: *Object (2 properties)
     │       ├── PropertyBag: genruntime.PropertyBag
-    │       └── Templates: Object (6 properties)
-    │           ├── Auth: Object (3 properties)
-    │           │   ├── ManagedIdentity: Object (2 properties)
+    │       └── Templates: Object (6 properties)[]
+    │           ├── Auth: *Object (3 properties)
+    │           │   ├── ManagedIdentity: *Object (2 properties)
     │           │   │   ├── PropertyBag: genruntime.PropertyBag
     │           │   │   └── Resource: *string
     │           │   ├── PropertyBag: genruntime.PropertyBag
@@ -66,13 +66,13 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
     │           └── UrlTemplate: *string
     └── Status: Object (29 properties)
         ├── Conditions: conditions.Condition[]
-        ├── Cors: Object (2 properties)
+        ├── Cors: *Object (2 properties)
         │   ├── AllowedOrigins: string[]
         │   └── PropertyBag: genruntime.PropertyBag
         ├── DisableAadAuth: *bool
         ├── DisableLocalAuth: *bool
         ├── ExternalIP: *string
-        ├── Features: Object (4 properties)
+        ├── Features: Object (4 properties)[]
         │   ├── Flag: *string
         │   ├── Properties: map[string]string
         │   ├── PropertyBag: genruntime.PropertyBag
@@ -80,55 +80,55 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
         ├── HostName: *string
         ├── HostNamePrefix: *string
         ├── Id: *string
-        ├── Identity: Object (5 properties)
+        ├── Identity: *Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: Object (3 properties)
+        │   └── UserAssignedIdentities: map[string]Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
         ├── Kind: *string
         ├── Location: *string
         ├── Name: *string
-        ├── NetworkACLs: Object (4 properties)
+        ├── NetworkACLs: *Object (4 properties)
         │   ├── DefaultAction: *string
-        │   ├── PrivateEndpoints: Object (4 properties)
+        │   ├── PrivateEndpoints: Object (4 properties)[]
         │   │   ├── Allow: string[]
         │   │   ├── Deny: string[]
         │   │   ├── Name: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── PublicNetwork: Object (3 properties)
+        │   └── PublicNetwork: *Object (3 properties)
         │       ├── Allow: string[]
         │       ├── Deny: string[]
         │       └── PropertyBag: genruntime.PropertyBag
-        ├── PrivateEndpointConnections: Object (2 properties)
+        ├── PrivateEndpointConnections: Object (2 properties)[]
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string
         ├── PublicPort: *int
-        ├── ResourceLogConfiguration: Object (2 properties)
-        │   ├── Categories: Object (3 properties)
+        ├── ResourceLogConfiguration: *Object (2 properties)
+        │   ├── Categories: Object (3 properties)[]
         │   │   ├── Enabled: *string
         │   │   ├── Name: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   └── PropertyBag: genruntime.PropertyBag
         ├── ServerPort: *int
-        ├── SharedPrivateLinkResources: Object (2 properties)
+        ├── SharedPrivateLinkResources: Object (2 properties)[]
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── Sku: Object (6 properties)
+        ├── Sku: *Object (6 properties)
         │   ├── Capacity: *int
         │   ├── Family: *string
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── Size: *string
         │   └── Tier: *string
-        ├── SystemData: Object (7 properties)
+        ├── SystemData: *Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string
@@ -137,15 +137,15 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
         │   ├── LastModifiedByType: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Tags: map[string]string
-        ├── Tls: Object (2 properties)
+        ├── Tls: *Object (2 properties)
         │   ├── ClientCertEnabled: *bool
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Type: *string
-        ├── Upstream: Object (2 properties)
+        ├── Upstream: *Object (2 properties)
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── Templates: Object (6 properties)
-        │       ├── Auth: Object (3 properties)
-        │       │   ├── ManagedIdentity: Object (2 properties)
+        │   └── Templates: Object (6 properties)[]
+        │       ├── Auth: *Object (3 properties)
+        │       │   ├── ManagedIdentity: *Object (2 properties)
         │       │   │   ├── PropertyBag: genruntime.PropertyBag
         │       │   │   └── Resource: *string
         │       │   ├── PropertyBag: genruntime.PropertyBag

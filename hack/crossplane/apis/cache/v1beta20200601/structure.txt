@@ -7,15 +7,15 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       ├── AzureName: string
     │       ├── EnableNonSslPort: *bool
     │       ├── Location: *string
-    │       ├── MinimumTlsVersion: Enum (3 values)
+    │       ├── MinimumTlsVersion: *Enum (3 values)
     │       │   ├── "1.0"
     │       │   ├── "1.1"
     │       │   └── "1.2"
     │       ├── Name: string
-    │       ├── PublicNetworkAccess: Enum (2 values)
+    │       ├── PublicNetworkAccess: *Enum (2 values)
     │       │   ├── "Disabled"
     │       │   └── "Enabled"
-    │       ├── RedisConfiguration: Object (11 properties)
+    │       ├── RedisConfiguration: *Object (11 properties)
     │       │   ├── AdditionalProperties: map[string]string
     │       │   ├── AofStorageConnectionString0: *string
     │       │   ├── AofStorageConnectionString1: *string
@@ -32,12 +32,12 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       ├── ResourceGroupNameRef: *v1alpha1.Reference
     │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
     │       ├── ShardCount: *int
-    │       ├── Sku: Object (3 properties)
+    │       ├── Sku: *Object (3 properties)
     │       │   ├── Capacity: *int
-    │       │   ├── Family: Enum (2 values)
+    │       │   ├── Family: *Enum (2 values)
     │       │   │   ├── "C"
     │       │   │   └── "P"
-    │       │   └── Name: Enum (3 values)
+    │       │   └── Name: *Enum (3 values)
     │       │       ├── "Basic"
     │       │       ├── "Premium"
     │       │       └── "Standard"
@@ -50,46 +50,56 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       └── Zones: string[]
     └── Status: Object (1 property)
         └── AtProvider: Object (25 properties)
-            ├── AccessKeys: Object (2 properties)
+            ├── AccessKeys: *Object (2 properties)
             │   ├── PrimaryKey: *string
             │   └── SecondaryKey: *string
             ├── EnableNonSslPort: *bool
             ├── HostName: *string
+<<<<<<< HEAD
             ├── Id: *armid
             ├── Instances: Object (5 properties)
+=======
+            ├── Id: *string
+            ├── Instances: Object (5 properties)[]
+>>>>>>> main
             │   ├── IsMaster: *bool
             │   ├── NonSslPort: *int
             │   ├── ShardId: *int
             │   ├── SslPort: *int
             │   └── Zone: *string
-            ├── LinkedServers: Object (1 property)
+            ├── LinkedServers: Object (1 property)[]
             │   └── Id: *string
             ├── Location: *string
-            ├── MinimumTlsVersion: Enum (3 values)
+            ├── MinimumTlsVersion: *Enum (3 values)
             │   ├── "1.0"
             │   ├── "1.1"
             │   └── "1.2"
             ├── Name: *string
             ├── Port: *int
+<<<<<<< HEAD
             ├── PrivateEndpointConnections: Object (6 properties)
             │   ├── Id: *armid
+=======
+            ├── PrivateEndpointConnections: Object (6 properties)[]
+            │   ├── Id: *string
+>>>>>>> main
             │   ├── Name: *string
-            │   ├── PrivateEndpoint: Object (1 property)
+            │   ├── PrivateEndpoint: *Object (1 property)
             │   │   └── Id: *string
-            │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
+            │   ├── PrivateLinkServiceConnectionState: *Object (3 properties)
             │   │   ├── ActionsRequired: *string
             │   │   ├── Description: *string
-            │   │   └── Status: Enum (3 values)
+            │   │   └── Status: *Enum (3 values)
             │   │       ├── "Approved"
             │   │       ├── "Pending"
             │   │       └── "Rejected"
-            │   ├── ProvisioningState: Enum (4 values)
+            │   ├── ProvisioningState: *Enum (4 values)
             │   │   ├── "Creating"
             │   │   ├── "Deleting"
             │   │   ├── "Failed"
             │   │   └── "Succeeded"
             │   └── Type: *string
-            ├── ProvisioningState: Enum (12 values)
+            ├── ProvisioningState: *Enum (12 values)
             │   ├── "Creating"
             │   ├── "Deleting"
             │   ├── "Disabled"
@@ -102,10 +112,10 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
             │   ├── "Unlinking"
             │   ├── "Unprovisioning"
             │   └── "Updating"
-            ├── PublicNetworkAccess: Enum (2 values)
+            ├── PublicNetworkAccess: *Enum (2 values)
             │   ├── "Disabled"
             │   └── "Enabled"
-            ├── RedisConfiguration: Object (12 properties)
+            ├── RedisConfiguration: *Object (12 properties)
             │   ├── AdditionalProperties: map[string]string
             │   ├── AofStorageConnectionString0: *string
             │   ├── AofStorageConnectionString1: *string
@@ -121,12 +131,12 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
             ├── RedisVersion: *string
             ├── ReplicasPerMaster: *int
             ├── ShardCount: *int
-            ├── Sku: Object (3 properties)
+            ├── Sku: *Object (3 properties)
             │   ├── Capacity: *int
-            │   ├── Family: Enum (2 values)
+            │   ├── Family: *Enum (2 values)
             │   │   ├── "C"
             │   │   └── "P"
-            │   └── Name: Enum (3 values)
+            │   └── Name: *Enum (3 values)
             │       ├── "Basic"
             │       ├── "Premium"
             │       └── "Standard"
