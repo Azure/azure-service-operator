@@ -199,17 +199,17 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
+		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
 		errs = append(errs, err)
 	}
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
+		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
 		errs = append(errs, err)
 	}
 	clientID, ok := secret.Data[config.AzureClientIDVar]
 	if !ok {
-		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
+		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
 		errs = append(errs, err)
 	}
 	clientSecret, ok := secret.Data[config.AzureClientSecretVar]
@@ -219,11 +219,11 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		if tokenFile := os.Getenv(config.AzureFederatedTokenFileVar); tokenFile != "" {
 			credential, err = newWorkloadIdentityCredential(string(tenantID), string(clientID), tokenFile)
 			if err != nil {
-				err := errors.Wrapf(err, "failed to get workload identity secret for clientID %q from %q", string(clientID), tokenFile)
+				err = errors.Wrapf(err, "failed to get workload identity secret for clientID %q from %q", string(clientID), tokenFile)
 				errs = append(errs, err)
 			}
 		} else {
-			err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
+			err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
 			errs = append(errs, err)
 		}
 	}
