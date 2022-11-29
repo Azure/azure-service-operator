@@ -752,24 +752,75 @@ func compareObjectTypeIgnoreIsResource(left *astmodel.ObjectType, right *astmode
 }
 
 func addObjectResourceLinkIfNeeded(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinition, resourceName astmodel.TypeName) error {
-	// Determine if this resource spec is pointing to a type defined elsewhere in the module
-	resolvedDef, err := defs.FullyResolveDefinition(def)
+	resolvedDef, err := resolveDefAlias(defs, def)
 	if err != nil {
 		return err
 	}
 
-	if astmodel.TypeEquals(resolvedDef.Type(), def.Type()) {
+	// If the resolved name is the same as def, we don't have an alias and there is nothing to do
+	if astmodel.TypeEquals(resolvedDef.Name(), def.Name()) {
 		return nil
 	}
+
 	updatedDef, err := addResource(resolvedDef, resourceName)
 	if err != nil {
 		return err
 	}
+
 	existing, ok := defs[updatedDef.Name()]
-	// TODO: Is this spendy?
-	if !ok || astmodel.TypeEquals(existing.Type(), updatedDef.Type(), astmodel.EqualityOverrides{ObjectType: compareObjectTypeIgnoreIsResource}) {
+	// Ensure that the updated def is equal to the existing def, except for new resource details. We don't want to accidentally change
+	// a resources structure.
+	updatedDefMostlyEqual := astmodel.TypeEquals(existing.Type(), updatedDef.Type(), astmodel.EqualityOverrides{ObjectType: compareObjectTypeIgnoreIsResource})
+	if !ok || updatedDefMostlyEqual {
 		defs[updatedDef.Name()] = updatedDef
 	}
 
 	return nil
+}
+
+// resolveDefAlias resolves the given definition and returns a fully resolved type (meaning it is not a TypeName pointing to another TypeName)
+// This function caters to two scenarios:
+// 1. A direct alias: TypeName -> TypeName, this is pretty self-explanatory.
+// 2. An alias indirected through an AllOf with 2 Types. One must be a TypeName and the other must be an ObjectType with a single Name property.
+//    Connascence alert: the type structure expected here is a direct result of including the name property as part of an AllOf
+//    in swagger_type_extractor.go ExtractResourceTypes.
+func resolveDefAlias(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	resolvedDef, err := defs.FullyResolveDefinition(def)
+	if err != nil {
+		return astmodel.TypeDefinition{}, err
+	}
+
+	allOf, ok := resolvedDef.Type().(*astmodel.AllOfType)
+	if !ok {
+		return resolvedDef, nil
+	}
+
+	if allOf.Types().Len() != 2 {
+		return resolvedDef, nil
+	}
+
+	var result astmodel.TypeDefinition
+	var found bool
+	var foundName bool
+	allOf.Types().ForEach(func(t astmodel.Type, ix int) {
+		if ot, ok := t.(*astmodel.ObjectType); ok {
+			if _, ok := ot.Property(astmodel.NameProperty); ok && ot.Properties().Len() == 1 {
+				foundName = true
+			}
+		}
+
+		if name, ok := t.(astmodel.TypeName); ok {
+			found = true
+			result, err = resolveDefAlias(defs, astmodel.MakeTypeDefinition(astmodel.TypeName{}, name))
+		}
+	})
+
+	if err != nil {
+		return astmodel.TypeDefinition{}, err
+	}
+	if !found || !foundName {
+		return resolvedDef, nil
+	}
+
+	return result, nil
 }

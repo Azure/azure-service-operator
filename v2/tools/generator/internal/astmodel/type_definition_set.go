@@ -7,9 +7,10 @@ package astmodel
 
 import (
 	"fmt"
-	"github.com/kylelemons/godebug/diff"
 	"math/big"
 	"regexp"
+
+	"github.com/kylelemons/godebug/diff"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/kr/pretty"
@@ -96,15 +97,22 @@ func (set TypeDefinitionSet) FullyResolve(t Type) (Type, error) {
 
 // FullyResolveDefinition turns a definition that might point to a TypeName that into a definition something that doesn't
 func (set TypeDefinitionSet) FullyResolveDefinition(def TypeDefinition) (TypeDefinition, error) {
-	tName, ok := def.Type().(TypeName)
+	seen := NewTypeNameSet()
+
+	tn, ok := def.Type().(TypeName)
 	for ok {
+		seen.Add(tn)
+
 		var found bool
-		def, found = set[tName]
+		def, found = set[tn]
 		if !found {
-			return TypeDefinition{}, errors.Errorf("couldn't find definition for %s", tName)
+			return TypeDefinition{}, errors.Errorf("couldn't find definition for %s", tn)
 		}
 
-		tName, ok = def.Type().(TypeName)
+		tn, ok = def.Type().(TypeName)
+		if ok && seen.Contains(tn) {
+			return TypeDefinition{}, errors.Errorf("cycle detected in type definition for %s", tn)
+		}
 	}
 
 	return def, nil
