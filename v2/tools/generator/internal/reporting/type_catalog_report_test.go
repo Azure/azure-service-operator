@@ -7,15 +7,14 @@ package reporting_test
 
 import (
 	"bytes"
+	"testing"
 
 	"github.com/onsi/gomega"
-
-	"testing"
+	"github.com/sebdah/goldie/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
-	"github.com/sebdah/goldie/v2"
 )
 
 func Test_TypeCatalogReport_GivenTypes_ShowsExpectedDetails(t *testing.T) {
