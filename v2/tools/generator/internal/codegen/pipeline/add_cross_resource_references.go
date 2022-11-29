@@ -18,15 +18,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-// AddCrossResourceReferencesStageID is the unique identifier for this pipeline stage
-const AddCrossResourceReferencesStageID = "addCrossResourceReferences"
+// TransformCrossResourceReferencesStageID is the unique identifier for this pipeline stage
+const TransformCrossResourceReferencesStageID = "transformCrossResourceReferences"
 
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID|resourceId)")
 
-// AddCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
-func AddCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
+// TransformCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
+func TransformCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
 	return NewStage(
-		AddCrossResourceReferencesStageID,
+		TransformCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, state *State) (*State, error) {
 			typesWithARMIDs := make(astmodel.TypeDefinitionSet)

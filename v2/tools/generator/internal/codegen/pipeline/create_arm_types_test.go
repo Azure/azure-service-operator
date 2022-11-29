@@ -97,7 +97,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc
 
-	crossResourceRefs := AddCrossResourceReferences(configuration, idFactory)
+	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
 	createARMTypes := CreateARMTypes(idFactory)
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	flatten := FlattenProperties()
