@@ -66,7 +66,7 @@ type ServerObservation struct {
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
 
 	// Id: Resource ID.
-	Id *armid `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 
 	// Identity: The Azure Active Directory identity of the server.
 	Identity *ResourceIdentity_STATUS `json:"identity,omitempty"`
@@ -125,7 +125,6 @@ type ServerParameters struct {
 
 	// Administrators: The Azure Active Directory administrator of the server.
 	Administrators *ServerExternalAdministrator `json:"administrators,omitempty"`
-	AzureName      string                       `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// FederatedClientId: The Client id used for cross tenant CMK scenario
@@ -353,7 +352,7 @@ const (
 
 type PrivateEndpointProperty_STATUS struct {
 	// Id: Resource id of the private endpoint.
-	Id *armid `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 type PrivateLinkServiceConnectionStateProperty_STATUS struct {

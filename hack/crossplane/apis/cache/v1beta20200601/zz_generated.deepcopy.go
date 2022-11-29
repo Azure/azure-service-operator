@@ -20,6 +20,8 @@ func (in *PrivateEndpointConnection_STATUS) DeepCopyInto(out *PrivateEndpointCon
 	*out = *in
 	if in.Id != nil {
 		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
 	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
@@ -344,6 +346,8 @@ func (in *RedisObservation) DeepCopyInto(out *RedisObservation) {
 	}
 	if in.Id != nil {
 		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
 	}
 	if in.Instances != nil {
 		in, out := &in.Instances, &out.Instances

@@ -3,7 +3,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │   └── "2020-11-01-preview"
 ├── Server: Resource
 │   ├── Spec: Object (1 property)
-│   │   └── ForProvider: Object (16 properties)
+│   │   └── ForProvider: Object (15 properties)
 │   │       ├── AdministratorLogin: *string
 │   │       ├── AdministratorLoginPassword: *string
 │   │       ├── Administrators: *Object (6 properties)
@@ -19,14 +19,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │   │       │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
 │   │       │   └── TenantId: Validated<*string> (1 rule)
 │   │       │       └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
-<<<<<<< HEAD
-│   │       ├── AzureName: string
-│   │       ├── Identity: Object (1 property)
-│   │       │   └── Type: Enum (4 values)
-=======
 │   │       ├── Identity: *Object (1 property)
 │   │       │   └── Type: *Enum (4 values)
->>>>>>> main
 │   │       │       ├── "None"
 │   │       │       ├── "SystemAssigned"
 │   │       │       ├── "SystemAssigned,UserAssigned"
@@ -60,13 +54,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │           │   ├── Sid: *string
 │           │   └── TenantId: *string
 │           ├── FullyQualifiedDomainName: *string
-<<<<<<< HEAD
-│           ├── Id: *armid
-│           ├── Identity: Object (4 properties)
-=======
 │           ├── Id: *string
 │           ├── Identity: *Object (4 properties)
->>>>>>> main
 │           │   ├── PrincipalId: *string
 │           │   ├── TenantId: *string
 │           │   ├── Type: *Enum (4 values)
@@ -85,19 +74,11 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │           ├── PrimaryUserAssignedIdentityId: *string
 │           ├── PrivateEndpointConnections: Object (2 properties)[]
 │           │   ├── Id: *string
-<<<<<<< HEAD
-│           │   └── Properties: Object (3 properties)
-│           │       ├── PrivateEndpoint: Object (1 property)
-│           │       │   └── Id: *armid
-│           │       ├── PrivateLinkServiceConnectionState: Object (3 properties)
-│           │       │   ├── ActionsRequired: Enum (1 value)
-=======
 │           │   └── Properties: *Object (3 properties)
 │           │       ├── PrivateEndpoint: *Object (1 property)
 │           │       │   └── Id: *string
 │           │       ├── PrivateLinkServiceConnectionState: *Object (3 properties)
 │           │       │   ├── ActionsRequired: *Enum (1 value)
->>>>>>> main
 │           │       │   │   └── "None"
 │           │       │   ├── Description: *string
 │           │       │   └── Status: *Enum (4 values)
@@ -123,14 +104,9 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │               └── "Disconnected"
 └── Servers_Database: Resource
     ├── Spec: Object (1 property)
-    │   └── ForProvider: Object (33 properties)
+    │   └── ForProvider: Object (32 properties)
     │       ├── AutoPauseDelay: *int
-<<<<<<< HEAD
-    │       ├── AzureName: string
-    │       ├── CatalogCollation: Enum (2 values)
-=======
     │       ├── CatalogCollation: *Enum (2 values)
->>>>>>> main
     │       │   ├── "DATABASE_DEFAULT"
     │       │   └── "SQL_Latin1_General_CP1_CI_AS"
     │       ├── Collation: *string
@@ -226,7 +202,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
             ├── ElasticPoolId: *string
             ├── FailoverGroupId: *string
             ├── HighAvailabilityReplicaCount: *int
-            ├── Id: *armid
+            ├── Id: *string
             ├── Kind: *string
             ├── LicenseType: *Enum (2 values)
             │   ├── "BasePrice"

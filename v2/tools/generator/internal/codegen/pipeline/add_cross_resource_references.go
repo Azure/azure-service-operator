@@ -109,7 +109,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				return nil, err
 			}
 
-			updatedDefs, err := stripRemainingARMIDPrimitiveTypes(typesWithARMIDs)
+			updatedDefs, err := stripARMIDPrimitiveTypes(typesWithARMIDs)
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")
 			}
@@ -240,7 +240,7 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	return newProp
 }
 
-func stripRemainingARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+func stripARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	// Any astmodel.ARMReference's which have escaped need to be turned into
 	// strings
 	armIDStrippingVisitor := astmodel.TypeVisitorBuilder{

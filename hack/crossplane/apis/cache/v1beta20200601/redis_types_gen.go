@@ -60,7 +60,7 @@ type RedisObservation struct {
 	HostName *string `json:"hostName,omitempty"`
 
 	// Id: Resource ID.
-	Id *armid `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 
 	// Instances: List of the Redis instances associated with the cache
 	Instances []RedisInstanceDetails_STATUS `json:"instances,omitempty"`
@@ -134,8 +134,6 @@ type RedisObservation struct {
 }
 
 type RedisParameters struct {
-	AzureName string `json:"azureName,omitempty"`
-
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
@@ -194,7 +192,7 @@ type RedisParameters struct {
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *armid `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
