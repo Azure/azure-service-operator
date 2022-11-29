@@ -3,8 +3,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
 │   └── "2020-06-01"
 └── Redis: Resource
     ├── Spec: Object (1 property)
-    │   └── ForProvider: Object (18 properties)
-    │       ├── AzureName: string
+    │   └── ForProvider: Object (17 properties)
     │       ├── EnableNonSslPort: *bool
     │       ├── Location: *string
     │       ├── MinimumTlsVersion: *Enum (3 values)
@@ -55,13 +54,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
             │   └── SecondaryKey: *string
             ├── EnableNonSslPort: *bool
             ├── HostName: *string
-<<<<<<< HEAD
-            ├── Id: *armid
-            ├── Instances: Object (5 properties)
-=======
             ├── Id: *string
             ├── Instances: Object (5 properties)[]
->>>>>>> main
             │   ├── IsMaster: *bool
             │   ├── NonSslPort: *int
             │   ├── ShardId: *int
@@ -76,13 +70,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
             │   └── "1.2"
             ├── Name: *string
             ├── Port: *int
-<<<<<<< HEAD
-            ├── PrivateEndpointConnections: Object (6 properties)
-            │   ├── Id: *armid
-=======
             ├── PrivateEndpointConnections: Object (6 properties)[]
             │   ├── Id: *string
->>>>>>> main
             │   ├── Name: *string
             │   ├── PrivateEndpoint: *Object (1 property)
             │   │   └── Id: *string

@@ -55,6 +55,8 @@ func (in *PrivateEndpointProperty_STATUS) DeepCopyInto(out *PrivateEndpointPrope
 	*out = *in
 	if in.Id != nil {
 		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
 	}
 }
 
@@ -334,6 +336,8 @@ func (in *ServerObservation) DeepCopyInto(out *ServerObservation) {
 	}
 	if in.Id != nil {
 		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
 	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity

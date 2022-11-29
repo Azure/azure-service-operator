@@ -47,8 +47,7 @@ type Servers_Database_STATUS struct {
 type Servers_DatabaseParameters struct {
 	// AutoPauseDelay: Time in minutes after which database is automatically paused. A value of -1 means that automatic pause
 	// is disabled
-	AutoPauseDelay *int   `json:"autoPauseDelay,omitempty"`
-	AzureName      string `json:"azureName,omitempty"`
+	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	// CatalogCollation: Collation of the metadata catalog.
 	CatalogCollation *DatabaseProperties_CatalogCollation `json:"catalogCollation,omitempty"`
@@ -229,7 +228,7 @@ type ServersObservation struct {
 	HighAvailabilityReplicaCount *int `json:"highAvailabilityReplicaCount,omitempty"`
 
 	// Id: Resource ID.
-	Id *armid `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 
 	// Kind: Kind of database. This is metadata used for the Azure portal experience.
 	Kind *string `json:"kind,omitempty"`

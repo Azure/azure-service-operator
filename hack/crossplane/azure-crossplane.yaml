@@ -84,6 +84,11 @@ typeFilters:
     because: Terrifying. Also has scoped-resource clashes.
 
   - action: prune
+    name: Deployment
+    group: resources
+    because: Terrifying.
+
+  - action: prune
     group: compute.admin
     name: Disk
     because: "don't know how to intersect types: []github.com/Azure/azure-service-operator/hack/crossplane/apis/compute.admin/v1beta20210901/Disk and (object)"

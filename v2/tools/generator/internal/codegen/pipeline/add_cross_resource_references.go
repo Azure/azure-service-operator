@@ -18,15 +18,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-// AddCrossResourceReferencesStageID is the unique identifier for this pipeline stage
-const AddCrossResourceReferencesStageID = "addCrossResourceReferences"
+// TransformCrossResourceReferencesStageID is the unique identifier for this pipeline stage
+const TransformCrossResourceReferencesStageID = "transformCrossResourceReferences"
 
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID|resourceId)")
 
-// AddCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
-func AddCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
+// TransformCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
+func TransformCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
 	return NewStage(
-		AddCrossResourceReferencesStageID,
+		TransformCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, state *State) (*State, error) {
 			typesWithARMIDs := make(astmodel.TypeDefinitionSet)
@@ -109,7 +109,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				return nil, err
 			}
 
-			updatedDefs, err := stripRemainingARMIDPrimitiveTypes(typesWithARMIDs)
+			updatedDefs, err := stripARMIDPrimitiveTypes(typesWithARMIDs)
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")
 			}
@@ -240,7 +240,7 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	return newProp
 }
 
-func stripRemainingARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+func stripARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	// Any astmodel.ARMReference's which have escaped need to be turned into
 	// strings
 	armIDStrippingVisitor := astmodel.TypeVisitorBuilder{

@@ -1,42 +1,42 @@
 Expected Pipeline Stages for ARM Code Generation
 ------------------------------------------------
-loadTypes                                          Load all types from Swagger files
-assembleOneOfTypes                                 Assemble OneOf types from OpenAPI Fragments
-allof-anyof-objects                                Convert allOf and oneOf to object types
-flattenResources                                   Flatten nested resource types
-stripUnreferenced                                  Strip unreferenced types
-removeAliases                                      Remove type aliases
-nameTypes                                          Name inner types for CRD
-propertyRewrites                                   Modify property types using configured transforms
-applyIsResourceOverrides                           Apply $isResource overrides to objects
-fixIdFields                                        Remove ARM ID annotations from status, and Id from Spec types
-add-api-version-enums                              Add enums for API Versions in each package
-removeAliases                                      Remove type aliases
-removeResourceScope                                Remove scope from all resources
-makeStatusPropertiesOptional                       Force all status properties to be optional
-removeStatusPropertyValidation                     Remove validation from all status properties
-transformValidatedFloats                           Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
-unrollRecursiveTypes                               Unroll directly recursive types since they are not supported by controller-gen
-determineResourceOwnership                         Determine ARM resource relationships
-removeAliases                                      Remove type aliases
-collapseCrossGroupReferences                       Find and remove cross group references
-stripUnreferenced                                  Strip unreferenced types
-assertTypesStructureValid                          Verify that all local TypeNames refer to a type
-filterTypes                                        Apply export filters to reduce the number of generated types
-verifyNoErroredTypes                               Verify there are no ErroredType's containing errors
-stripUnreferenced                                  Strip unreferenced types
-replaceAnyTypeWithJSON                             Replace properties using interface{} with arbitrary JSON
-flattenProperties                                  Apply flattening to properties marked for flattening
-stripUnreferenced                                  Strip unreferenced types
-addCrossplaneOwnerProperties            crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
-addCrossplaneForProviderProperty        crossplane Add a 'ForProvider' property on every spec
-addCrossplaneAtProviderProperty         crossplane Add an 'AtProvider' property on every status
-addCrossplaneEmbeddedResourceSpec       crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
-addCrossplaneEmbeddedResourceStatus     crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
-markStorageVersion                      crossplane Mark the latest API version of each resource as the storage version
-simplifyDefinitions                                Flatten definitions by removing wrapper types
-rogueCheck                                         Check for rogue definitions using AnyTypes
-deleteGenerated                                    Delete generated code from .
-exportPackages                                     Export packages to "."
-reportResourceVersions                             Generate a report listing all the resources generated
-reportResourceStructure                            Reports the structure of resources in each package
+loadTypes                                               Load all types from Swagger files
+assembleOneOfTypes                                      Assemble OneOf types from OpenAPI Fragments
+allof-anyof-objects                                     Convert allOf and oneOf to object types
+flattenResources                                        Flatten nested resource types
+stripUnreferenced                                       Strip unreferenced types
+removeAliases                                           Remove type aliases
+nameTypes                                               Name inner types for CRD
+propertyRewrites                                        Modify property types using configured transforms
+applyIsResourceOverrides                                Apply $isResource overrides to objects
+fixIdFields                                             Remove ARM ID annotations from status, and Id from Spec types
+add-api-version-enums                                   Add enums for API Versions in each package
+removeAliases                                           Remove type aliases
+makeStatusPropertiesOptional                            Force all status properties to be optional
+removeStatusPropertyValidation                          Remove validation from all status properties
+transformValidatedFloats                                Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
+unrollRecursiveTypes                                    Unroll directly recursive types since they are not supported by controller-gen
+determineResourceOwnership                              Determine ARM resource relationships
+removeAliases                                           Remove type aliases
+collapseCrossGroupReferences                            Find and remove cross group references
+stripUnreferenced                                       Strip unreferenced types
+assertTypesStructureValid                               Verify that all local TypeNames refer to a type
+filterTypes                                             Apply export filters to reduce the number of generated types
+verifyNoErroredTypes                                    Verify there are no ErroredType's containing errors
+stripUnreferenced                                       Strip unreferenced types
+replaceAnyTypeWithJSON                                  Replace properties using interface{} with arbitrary JSON
+transformCrossResourceReferencesToString     crossplane Replace cross-resource references with string
+flattenProperties                                       Apply flattening to properties marked for flattening
+stripUnreferenced                                       Strip unreferenced types
+addCrossplaneOwnerProperties                 crossplane Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource
+addCrossplaneForProviderProperty             crossplane Add a 'ForProvider' property on every spec
+addCrossplaneAtProviderProperty              crossplane Add an 'AtProvider' property on every status
+addCrossplaneEmbeddedResourceSpec            crossplane Add an embedded runtimev1alpha1.ResourceSpec to every spec type
+addCrossplaneEmbeddedResourceStatus          crossplane Add an embedded runtimev1alpha1.ResourceStatus to every status type
+markStorageVersion                           crossplane Mark the latest API version of each resource as the storage version
+simplifyDefinitions                                     Flatten definitions by removing wrapper types
+rogueCheck                                              Check for rogue definitions using AnyTypes
+deleteGenerated                                         Delete generated code from .
+exportPackages                                          Export packages to "."
+reportResourceVersions                                  Generate a report listing all the resources generated
+reportResourceStructure                                 Reports the structure of resources in each package

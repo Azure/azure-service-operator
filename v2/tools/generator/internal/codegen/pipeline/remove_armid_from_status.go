@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func FixIdFields() *Stage {
+func FixIDFields() *Stage {
 	stage := NewStage(
 		"fixIdFields",
 		"Remove ARM ID annotations from status, and Id from Spec types",

@@ -109,11 +109,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyPropertyRewrites(configuration),
 
 		pipeline.ApplyIsResourceOverrides(configuration),
-		pipeline.FixIdFields(),
+		pipeline.FixIDFields(),
 
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),
-		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
@@ -145,7 +144,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.ReplaceAnyTypeWithJSON(),
 
-		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
