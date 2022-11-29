@@ -12,7 +12,6 @@ applyIsResourceOverrides                           Apply $isResource overrides t
 fixIdFields                                        Remove ARM ID annotations from status, and Id from Spec types
 add-api-version-enums                              Add enums for API Versions in each package
 removeAliases                                      Remove type aliases
-removeResourceScope                                Remove scope from all resources
 makeStatusPropertiesOptional                       Force all status properties to be optional
 removeStatusPropertyValidation                     Remove validation from all status properties
 transformValidatedFloats                           Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen

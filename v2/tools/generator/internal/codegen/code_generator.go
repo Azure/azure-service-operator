@@ -113,7 +113,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),
-		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
