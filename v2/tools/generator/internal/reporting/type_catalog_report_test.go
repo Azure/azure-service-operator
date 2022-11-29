@@ -7,7 +7,6 @@ package reporting_test
 
 import (
 	"bytes"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 
 	"github.com/onsi/gomega"
 
@@ -91,8 +90,6 @@ func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpected
 
 	var content bytes.Buffer
 	rpt := reporting.NewTypeCatalogReport(defs)
-<<<<<<< HEAD
-=======
 	rpt.InlineTypes()
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
@@ -238,7 +235,6 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 
 	var content bytes.Buffer
 	rpt := reporting.NewTypeCatalogReport(defs)
->>>>>>> main
 	rpt.InlineTypes()
 
 	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
