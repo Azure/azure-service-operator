@@ -6,7 +6,7 @@ title: '2022-11: ASO v1 Migration and Resource Import'
 
 We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don't lose functionality when they switch) and a straightforward migration path (if it's too hard to migrate, they won't).
 
-Discussions so far have identified two possible solutions - *version integration* and *resource import*.
+Discussions so far have identified three possible solutions - *version integration*, *resource import job* and *resource import tool*.
 ### Version Integration
 
 We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1. Users would be able to migrate to ASO v2 simply by removing ASO v1 from their cluster and installing ASO v2 in its place.
@@ -20,7 +20,24 @@ Since many of these resources are already supported by ASO v2, albeit with shape
 * Con: The conversions would need to be maintained, potentially indefinitely.
 * Con: It's unlikely we'd achieve 100% fidelity, requiring customers to change their YAML files anyway.
 
-### Resource Migration
+### Resource Import Job
+
+Hand craft a new _job_ CRD that allows specification of an existing Azure Resource that requires import. ASO would reconcile that CRD by downloading the resource from Azure and creating the corresponding Kubernetes resource directly in the cluster.
+
+* Pro: ASO already has the credentials necessary to download the resource from Azure.
+* Pro: You don't need to use a separate tool like `asoctl`, which means you can import/export using just `kubectl`.
+* Con: Awkward to model a run-once action as a CRD as there is no reconcile to be done after the first pass, though there are examples of such resources in core k8s API such as Job and a pattern we could follow.
+* Con: Reconciliation of this job would be entirely unlike any existing ASO resource.
+* Con: It's highly unlikely that the resource would be ready for use, as it wouldn't have any ASO specific configuration, requiring users to manually download the YAML, make any required changes, and then reapply it to the cluster.
+* Con: Unless we immediately annotated the resource as `skip-reconcile` for safety, ASO would immediately pick up the resource and start reconciling it. In most cases this would be benign, but there is potential for _bad things_ to happen.
+* Con: If we do mark the resource as `skip-reconcile`, users will need to manually remove the annotation before things work.
+* Con: The job would need to be cleaned up manually afterwards
+
+Related:
+* AWS uses this technique, with an [`AdoptedResource`](https://aws-controllers-k8s.github.io/community/docs/user-docs/adopted-resource/) CRD. 
+
+
+### Resource Import Tool
 
 Create a tool that allowed any supported Azure resource to be to be exported as a YAML file in the shape expected by ASO v2. Users would then be able to modify the YAML file as necessary and apply it to their cluster.
 
@@ -29,13 +46,22 @@ The most likely form of this tool would be as a command-line utility for users t
 * Pro: Straightforward migration for ASO v1 customers (though, not zero touch).
 * Pro: Would benefit all customers wanting to migrate existing Azure resources, not just those using ASO v1.
 * Pro: Could also be used to snapshot existing resources (e.g. to capture a hand configured resource as YAML for reuse).
+* Pro: The resource can be customized before being applied to the cluster (e.g. specifying links to secrets for credentials, to config maps for configuration, and so on).
+* Pro: The user can choose to apply the resource to the cluster immediately, save it for later, or apply it to a different cluster.
+* Pro: Users have an opportunity to review the YAML for correctness before applying it to the cluster.
 * Con: We'd need to extend the code generator to provide the required support (but much of what we need already exists).
+
+Related:
+
+* Google Cloud uses a commandline tool [`config-connector`](https://cloud.google.com/config-connector/docs/how-to/import-export/export).
 
 ## Decision
 
-Create a new command line tool, `asoctl` to house multiple functions, starting with resource import. The tool will follow the usual convention of supporting a variety of verbs, each activating a different mode.
+Create a new command line tool, `asoctl` to house multiple functions, starting with resource import. The tool will follow the usual convention of supporting a variety of verbs, each activating a different mode (similar to the way `kubectl`, `git` and other command-line tools behave).
 
-To export a single existing resource, we'd use `export resource` as the verb. This would take the resource ID as a parameter and output the YAML file to stdout. The user would then be able to redirect the output to a file and modify it as necessary.
+To export a single existing resource, we'd use `export resource` as the verb. 
+
+This would accept a single resource ID (a fully qualified URL) as a parameter and output a YAML file to stdout containing the specified resource and all nested child resources. In typical use, the user would  redirect the output to a file and modify it as necessary.
 
 For example, to export the YAML for an existing Virtual Network, the user would run:
 
@@ -43,11 +69,14 @@ For example, to export the YAML for an existing Virtual Network, the user would 
 $ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1
 ```
 
-As an extension, we could also support `export resourcegroup` to generate a single YAML file containing all the resources in a resource group. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.
+The output would be a YAML file containing the Virtual Network and all child resources (e.g. subnets, route tables, etc).
+
+As an extension, we could also support pointing at an entire resource group, generating a single YAML file containing all the resources in the specified resource group. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.
 
 ``` bash
 $ asoctl export resourcegroup http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1
 ```
+
 ### Data Flow
 
 The process of generating the YAML for a given resource can be simplified to the following flow:
@@ -56,7 +85,7 @@ The process of generating the YAML for a given resource can be simplified to the
 
 1. The user specified URL is used to ***GET*** the resource from Azure in its native ARM format.
 2. We applly a ***conversion*** this to a Status object for the relevant ASO custom resource.
-3. We then ***update*** a blank Spec to give us a custom resource ready for export (this has the shape we want).
+3. We then ***populate*** a blank Spec to give us a custom resource ready for export (this has the shape we want).
 4. The spec is ***exported*** as YAML.
 
 Only the conversion from Status to Spec is missing from our existing code generation pipeline, and we believe the existing property assignment code can be largely reused.

@@ -14,7 +14,7 @@ graph {
     edge [arrowhead=vee, arrowtail=vee, dir=forward]
 
     arm -- rsrc_arm  [label="GET", arrowhead=vee]
-    rsrc_arm -- rsrc_status [label="Conversion", arrowhead=vee]
+    rsrc_arm -- rsrc_status [label="Populate", arrowhead=vee]
     rsrc_spec -- rsrc_yaml [label="Export", arrowhead=vee]
     
     edge [style=dashed, color=gray]
