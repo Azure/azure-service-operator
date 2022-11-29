@@ -109,7 +109,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyPropertyRewrites(configuration),
 
 		pipeline.ApplyIsResourceOverrides(configuration),
-		pipeline.FixIdFields(),
+		pipeline.FixIDFields(),
 
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),

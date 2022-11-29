@@ -744,7 +744,8 @@ func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.T
 	// If there are multiple references to a type we can't do this because we might end
 	// up with a different final shape each time.
 	//
-	if refs, ok := s.referenceCounts[leftName]; !ok || refs != 1 {
+	var refs int
+	if refs, ok = s.referenceCounts[leftName]; !ok || refs != 1 {
 		return result, nil
 	}
 

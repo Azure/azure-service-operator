@@ -77,10 +77,7 @@ type EmbeddedResourceRemover struct {
 
 // MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
 func MakeEmbeddedResourceRemover(configuration *config.Configuration, definitions astmodel.TypeDefinitionSet) (EmbeddedResourceRemover, error) {
-	resourceToSubresourceMap, err := findResourceSubResources(definitions)
-	if err != nil {
-		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find subresource \"Properties\" type names")
-	}
+	resourceToSubresourceMap := findResourceSubResources(definitions)
 
 	resourcesEmbeddedInParent, err := findResourcesEmbeddedInParent(configuration, definitions)
 	if err != nil {
@@ -288,7 +285,7 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 	return typeWalker
 }
 
-func findResourceSubResources(definitions astmodel.TypeDefinitionSet) (map[resourceKey]astmodel.TypeNameSet, error) {
+func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resourceKey]astmodel.TypeNameSet {
 	result := make(map[resourceKey]astmodel.TypeNameSet)
 
 	resources := astmodel.FindResourceDefinitions(definitions)
@@ -311,7 +308,7 @@ func findResourceSubResources(definitions astmodel.TypeDefinitionSet) (map[resou
 		result[ownerKey].Add(def.Name())
 	}
 
-	return result, nil
+	return result
 }
 
 // requiredResourceProperties are properties that must be on a type for it to be considered a resource
