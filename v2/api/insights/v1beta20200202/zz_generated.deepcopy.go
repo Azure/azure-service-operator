@@ -13,7 +13,6 @@ package v1beta20200202
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -457,8 +456,10 @@ func (in *Component_STATUS) DeepCopyInto(out *Component_STATUS) {
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.TenantId != nil {
 		in, out := &in.TenantId, &out.TenantId
@@ -522,8 +523,10 @@ func (in *Component_STATUS_ARM) DeepCopyInto(out *Component_STATUS_ARM) {
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -632,8 +635,10 @@ func (in *Component_Spec) DeepCopyInto(out *Component_Spec) {
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.WorkspaceResourceReference != nil {
 		in, out := &in.WorkspaceResourceReference, &out.WorkspaceResourceReference
@@ -677,8 +682,10 @@ func (in *Component_Spec_ARM) DeepCopyInto(out *Component_Spec_ARM) {
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 }
 

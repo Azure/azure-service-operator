@@ -13,7 +13,6 @@ package v1beta20180501previewstorage
 import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -615,8 +614,10 @@ func (in *Webtest_STATUS) DeepCopyInto(out *Webtest_STATUS) {
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Timeout != nil {
 		in, out := &in.Timeout, &out.Timeout
@@ -719,8 +720,10 @@ func (in *Webtest_Spec) DeepCopyInto(out *Webtest_Spec) {
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]string, len(*in))
+		for key, val := range *in {
+			(*out)[key] = val
+		}
 	}
 	if in.Timeout != nil {
 		in, out := &in.Timeout, &out.Timeout
