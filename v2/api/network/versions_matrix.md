@@ -113,7 +113,6 @@
 | NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded                       | v1alpha1api20201101 |                | v1beta20201101 |
 | NetworkInterface_Spec                                                                  | v1alpha1api20201101 |                | v1beta20201101 |
 | NetworkSecurityGroup                                                                   | v1alpha1api20201101 |                | v1beta20201101 |
-| NetworkSecurityGroupPropertiesFormat                                                   | v1alpha1api20201101 |                | v1beta20201101 |
 | NetworkSecurityGroupPropertiesFormat_STATUS                                            | v1alpha1api20201101 |                | v1beta20201101 |
 | NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                          | v1alpha1api20201101 |                | v1beta20201101 |
 | NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded                            | v1alpha1api20201101 |                | v1beta20201101 |
@@ -187,7 +186,6 @@
 | RouteTablesRoute                                                                       |                     |                | v1beta20201101 |
 | RouteTables_Route_STATUS                                                               |                     |                | v1beta20201101 |
 | RouteTables_Route_Spec                                                                 |                     |                | v1beta20201101 |
-| SecurityRule                                                                           | v1alpha1api20201101 |                | v1beta20201101 |
 | SecurityRuleAccess                                                                     | v1alpha1api20201101 |                | v1beta20201101 |
 | SecurityRuleAccess_STATUS                                                              | v1alpha1api20201101 |                | v1beta20201101 |
 | SecurityRuleDirection                                                                  | v1alpha1api20201101 |                | v1beta20201101 |

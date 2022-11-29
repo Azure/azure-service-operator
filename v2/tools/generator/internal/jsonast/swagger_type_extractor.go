@@ -164,7 +164,7 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 				if !ok {
 					return errors.Errorf("couldn't find parameter type for parameter %s for operation %s", nameParameter.Name, rawOperationPath)
 				}
-				nameProperty := astmodel.NewPropertyDefinition("Name", "name", nameParameterType)
+				nameProperty := astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", nameParameterType)
 				resourceSpec = astmodel.NewAllOfType(resourceSpec, astmodel.NewObjectType().WithProperty(nameProperty))
 			}
 

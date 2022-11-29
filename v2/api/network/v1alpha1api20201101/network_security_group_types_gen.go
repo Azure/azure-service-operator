@@ -341,9 +341,8 @@ type NetworkSecurityGroup_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	SecurityRules []SecurityRule                     `json:"securityRules,omitempty"`
-	Tags          map[string]string                  `json:"tags,omitempty"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkSecurityGroup_Spec{}
@@ -363,18 +362,6 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if group.SecurityRules != nil {
-		result.Properties = &NetworkSecurityGroupPropertiesFormat_ARM{}
-	}
-	for _, item := range group.SecurityRules {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.SecurityRules = append(result.Properties.SecurityRules, *item_ARM.(*SecurityRule_ARM))
-	}
 
 	// Set property ‘Tags’:
 	if group.Tags != nil {
@@ -409,19 +396,6 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Owner’:
 	group.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
-
-	// Set property ‘SecurityRules’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.SecurityRules {
-			var item1 SecurityRule
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			group.SecurityRules = append(group.SecurityRules, item1)
-		}
-	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -502,24 +476,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 		group.Owner = nil
 	}
 
-	// SecurityRules
-	if source.SecurityRules != nil {
-		securityRuleList := make([]SecurityRule, len(source.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range source.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule SecurityRule
-			err := securityRule.AssignProperties_From_SecurityRule(&securityRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SecurityRule() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		group.SecurityRules = securityRuleList
-	} else {
-		group.SecurityRules = nil
-	}
-
 	// Tags
 	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -547,24 +503,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// SecurityRules
-	if group.SecurityRules != nil {
-		securityRuleList := make([]alpha20201101s.SecurityRule, len(group.SecurityRules))
-		for securityRuleIndex, securityRuleItem := range group.SecurityRules {
-			// Shadow the loop variable to avoid aliasing
-			securityRuleItem := securityRuleItem
-			var securityRule alpha20201101s.SecurityRule
-			err := securityRuleItem.AssignProperties_To_SecurityRule(&securityRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SecurityRule() to populate field SecurityRules")
-			}
-			securityRuleList[securityRuleIndex] = securityRule
-		}
-		destination.SecurityRules = securityRuleList
-	} else {
-		destination.SecurityRules = nil
 	}
 
 	// Tags
@@ -1170,89 +1108,6 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of SecurityRule. Use v1beta20201101.SecurityRule instead
-type SecurityRule struct {
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SecurityRule{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rule *SecurityRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rule == nil {
-		return nil, nil
-	}
-	result := &SecurityRule_ARM{}
-
-	// Set property ‘Id’:
-	if rule.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*rule.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *SecurityRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SecurityRule_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *SecurityRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SecurityRule_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SecurityRule_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_SecurityRule populates our SecurityRule from the provided source SecurityRule
-func (rule *SecurityRule) AssignProperties_From_SecurityRule(source *alpha20201101s.SecurityRule) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		rule.Reference = &reference
-	} else {
-		rule.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SecurityRule populates the provided destination SecurityRule from our SecurityRule
-func (rule *SecurityRule) AssignProperties_To_SecurityRule(destination *alpha20201101s.SecurityRule) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if rule.Reference != nil {
-		reference := rule.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
