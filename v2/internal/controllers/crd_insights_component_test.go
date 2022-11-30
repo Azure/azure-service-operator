@@ -6,13 +6,11 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
@@ -79,11 +77,6 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 		horribleHiddenLink: "Resource",
 	}
 
-	horribleJSON, err := json.Marshal(horribleTags)
-	if err != nil {
-		panic(err)
-	}
-
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
 
@@ -94,7 +87,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			Location:           tc.AzureRegion,
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
-			Tags:               &v1.JSON{horribleJSON},
+			Tags:               horribleTags,
 			Name:               to.StringPtr("mywebtest"),
 			Enabled:            to.BoolPtr(true),
 			Frequency:          to.IntPtr(300),

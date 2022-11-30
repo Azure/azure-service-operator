@@ -76,10 +76,10 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.FrontendIPConfiguration{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.PublicIPAddressSpec{
+					PublicIPAddress: &network.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},

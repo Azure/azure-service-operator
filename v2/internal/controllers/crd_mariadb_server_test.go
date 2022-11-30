@@ -23,14 +23,14 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 
 	// Create a MariaDB Server
 	serverName := tc.NoSpaceNamer.GenerateName("msvr")
-	createMode := mariadb.ServerPropertiesForCreate_CreateMode_Default
+	createMode := mariadb.ServerPropertiesForDefaultCreate_CreateMode_Default
 	networkAccess := mariadb.PublicNetworkAccess_Enabled
 	autogrow := mariadb.StorageProfile_StorageAutogrow_Enabled
 	tier := mariadb.Sku_Tier_GeneralPurpose
 	location := "eastus" // Can't create MariaDB servers in WestUS2
 	fqdnSecret := "fqdnsecret"
-	//adminUser := "testadmin"
-	//adminPasswordRef := createPasswordSecret("admin", "password", tc)
+	adminUser := "testadmin"
+	adminPasswordRef := createPasswordSecret("admin", "password", tc)
 
 	server := mariadb.Server{
 		ObjectMeta: tc.MakeObjectMetaWithName(serverName),
@@ -39,13 +39,15 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 			Location:  &location, // Can't do it in WestUS2
 			Owner:     testcommon.AsOwner(rg),
 			Properties: &mariadb.ServerPropertiesForCreate{
-				// AdministratorLogin:         to.StringPtr(adminUser), // TODO: pending (evildiscriminator)
-				// AdministratorLoginPassword: adminPasswordRef, // TODO: pending (evildiscriminator)
-				CreateMode:          &createMode,
-				PublicNetworkAccess: &networkAccess,
-				StorageProfile: &mariadb.StorageProfile{
-					StorageAutogrow: &autogrow,
-					StorageMB:       to.IntPtr(5120),
+				Default: &mariadb.ServerPropertiesForDefaultCreate{
+					AdministratorLogin:         to.StringPtr(adminUser),
+					AdministratorLoginPassword: adminPasswordRef,
+					CreateMode:                 createMode, // TOOD[donotmerge]: This should take a ptr, see https://github.com/Azure/azure-service-operator/issues/2619
+					PublicNetworkAccess:        &networkAccess,
+					StorageProfile: &mariadb.StorageProfile{
+						StorageAutogrow: &autogrow,
+						StorageMB:       to.IntPtr(5120),
+					},
 				},
 			},
 			Sku: &mariadb.Sku{

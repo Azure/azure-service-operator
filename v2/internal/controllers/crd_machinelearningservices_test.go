@@ -108,25 +108,22 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 }
 
 func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *machinelearningservices.Workspace) {
+	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
+	valueFormat := machinelearningservices.WorkspaceConnectionProps_ValueFormat_JSON
 
-	//!! Currently disabled (evildiscriminator)
-	//jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
-	//valueFormat := machinelearningservices.WorkspaceConnectionProps_ValueFormat_JSON
-
-	//connection := &machinelearningservices.WorkspacesConnection{
-	//	ObjectMeta: tc.MakeObjectMeta("conn"),
-	//	Spec: machinelearningservices.Workspaces_Connection_Spec{
-	//		Owner:       testcommon.AsOwner(workspaces),
-	//		AuthType:    to.StringPtr("PAT"),
-	//		Category:    to.StringPtr("ACR"),
-	//		Location:    to.StringPtr("eastus"),
-	//		Target:      to.StringPtr("www.microsoft.com"),
-	//		Value:       to.StringPtr(jsonValue),
-	//		ValueFormat: &valueFormat,
-	//	},
-	//}
-	//tc.CreateResourceAndWait(connection)
-	//tc.DeleteResourceAndWait(connection)
+	connection := &machinelearningservices.WorkspacesConnection{
+		ObjectMeta: tc.MakeObjectMeta("conn"),
+		Spec: machinelearningservices.Workspaces_Connection_Spec{
+			Owner:       testcommon.AsOwner(workspaces),
+			AuthType:    to.StringPtr("PAT"),
+			Category:    to.StringPtr("ACR"),
+			Target:      to.StringPtr("www.microsoft.com"),
+			Value:       to.StringPtr(jsonValue),
+			ValueFormat: &valueFormat,
+		},
+	}
+	tc.CreateResourceAndWait(connection)
+	tc.DeleteResourceAndWait(connection)
 }
 
 func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
@@ -163,7 +160,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 
 func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
-	//computeType := machinelearningservices.Compute_VirtualMachine_ComputeType_VirtualMachine
+	computeType := machinelearningservices.VirtualMachine_ComputeType_VirtualMachine
 
 	wsCompute := &machinelearningservices.WorkspacesCompute{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("")),
@@ -178,20 +175,19 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 				Tier: to.StringPtr("Basic"),
 			},
 			Properties: &machinelearningservices.Compute{
-				//TODO: Shape has changed (donotmerge) (bearps)
-				//			VirtualMachine: &machinelearningservices.Compute_VirtualMachine{
-				//				ComputeLocation:   tc.AzureRegion,
-				//				ComputeType:       &computeType,
-				//				DisableLocalAuth:  to.BoolPtr(true),
-				//				ResourceReference: tc.MakeReferenceFromResource(vm),
-				//				Properties: &machinelearningservices.VirtualMachineProperties{
-				//					AdministratorAccount: &machinelearningservices.VirtualMachineSshCredentials{
-				//						Password: &secret,
-				//						Username: to.StringPtr("bloom"),
-				//					},
-				//					SshPort: to.IntPtr(22),
-				//				},
-				//			},
+				VirtualMachine: &machinelearningservices.VirtualMachine{
+					ComputeLocation:   tc.AzureRegion,
+					ComputeType:       computeType,
+					DisableLocalAuth:  to.BoolPtr(true),
+					ResourceReference: tc.MakeReferenceFromResource(vm),
+					Properties: &machinelearningservices.VirtualMachine_Properties{
+						AdministratorAccount: &machinelearningservices.VirtualMachineSshCredentials{
+							Password: &secret,
+							Username: to.StringPtr("bloom"),
+						},
+						SshPort: to.IntPtr(22),
+					},
+				},
 			},
 		},
 	}
@@ -206,17 +202,19 @@ func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner 
 		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaceIPConfiguration{{
-				Name:                      to.StringPtr("ipconfig1"),
-				PrivateIPAllocationMethod: &dynamic,
-				Subnet: &network.Subnet{
-					Reference: tc.MakeReferenceFromResource(subnet),
+			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{
+				{
+					Name:                      to.StringPtr("ipconfig1"),
+					PrivateIPAllocationMethod: &dynamic,
+					Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
+						Reference: tc.MakeReferenceFromResource(subnet),
+					},
+					PublicIPAddress: &network.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded{
+						Reference: tc.MakeReferenceFromResource(publicIP),
+					},
 				},
-				PublicIPAddress: &network.PublicIPAddressSpec{
-					Reference: tc.MakeReferenceFromResource(publicIP),
-				},
-			}},
-			NetworkSecurityGroup: &network.NetworkSecurityGroupSpec{
+			},
+			NetworkSecurityGroup: &network.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded{
 				Reference: tc.MakeReferenceFromResource(nsg),
 			},
 		},
