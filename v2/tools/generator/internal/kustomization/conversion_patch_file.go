@@ -34,7 +34,6 @@ import (
 //						namespace: system
 //						name: webhook-service
 //						path: /convert
-//
 type ConversionPatchFile struct {
 	ApiVersion string                  `yaml:"apiVersion"`
 	Kind       string                  `yaml:"kind"`
