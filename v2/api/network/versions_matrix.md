@@ -24,9 +24,8 @@
 | DdosSettings_ProtectionCoverage                                                        | v1alpha1api20201101 |                | v1beta20201101 |
 | DdosSettings_ProtectionCoverage_STATUS                                                 | v1alpha1api20201101 |                | v1beta20201101 |
 | DdosSettings_STATUS                                                                    | v1alpha1api20201101 |                | v1beta20201101 |
+| Delegation                                                                             | v1alpha1api20201101 |                | v1beta20201101 |
 | Delegation_STATUS                                                                      | v1alpha1api20201101 |                | v1beta20201101 |
-| Delegation_VirtualNetwork_SubResourceEmbedded                                          | v1alpha1api20201101 |                | v1beta20201101 |
-| Delegation_VirtualNetworks_Subnet_SubResourceEmbedded                                  | v1alpha1api20201101 |                | v1beta20201101 |
 | DhGroup                                                                                | v1alpha1api20201101 |                | v1beta20201101 |
 | DhGroup_STATUS                                                                         | v1alpha1api20201101 |                | v1beta20201101 |
 | DhcpOptions                                                                            | v1alpha1api20201101 |                | v1beta20201101 |

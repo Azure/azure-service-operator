@@ -142,7 +142,7 @@ type VirtualNetworks_Subnet_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                                                               `json:"azureName,omitempty"`
-	Delegations          []Delegation_VirtualNetworks_Subnet_SubResourceEmbedded              `json:"delegations,omitempty"`
+	Delegations          []Delegation                                                         `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                                        `json:"ipAllocations,omitempty"`
 	NatGateway           *SubResource                                                         `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
@@ -244,6 +244,13 @@ type ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedde
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// Storage version of v1beta20201101.Delegation
+type Delegation struct {
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ServiceName *string                `json:"serviceName,omitempty"`
+}
+
 // Storage version of v1beta20201101.Delegation_STATUS
 type Delegation_STATUS struct {
 	Actions           []string               `json:"actions,omitempty"`
@@ -254,13 +261,6 @@ type Delegation_STATUS struct {
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
 	ServiceName       *string                `json:"serviceName,omitempty"`
 	Type              *string                `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20201101.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-type Delegation_VirtualNetworks_Subnet_SubResourceEmbedded struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceName *string                `json:"serviceName,omitempty"`
 }
 
 // Storage version of v1beta20201101.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded

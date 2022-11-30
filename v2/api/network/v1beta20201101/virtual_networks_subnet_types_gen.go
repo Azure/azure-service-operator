@@ -336,7 +336,7 @@ type VirtualNetworks_Subnet_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Delegations: An array of references to the delegations on the subnet.
-	Delegations []Delegation_VirtualNetworks_Subnet_SubResourceEmbedded `json:"delegations,omitempty"`
+	Delegations []Delegation `json:"delegations,omitempty"`
 
 	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
@@ -415,7 +415,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Delegations = append(result.Properties.Delegations, *item_ARM.(*Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM))
+		result.Properties.Delegations = append(result.Properties.Delegations, *item_ARM.(*Delegation_ARM))
 	}
 	for _, item := range subnet.IpAllocations {
 		item_ARM, err := item.ConvertToARM(resolved)
@@ -522,7 +522,7 @@ func (subnet *VirtualNetworks_Subnet_Spec) PopulateFromARM(owner genruntime.Arbi
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Delegations {
-			var item1 Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
+			var item1 Delegation
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -719,14 +719,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 
 	// Delegations
 	if source.Delegations != nil {
-		delegationList := make([]Delegation_VirtualNetworks_Subnet_SubResourceEmbedded, len(source.Delegations))
+		delegationList := make([]Delegation, len(source.Delegations))
 		for delegationIndex, delegationItem := range source.Delegations {
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
-			var delegation Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-			err := delegation.AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(&delegationItem)
+			var delegation Delegation
+			err := delegation.AssignProperties_From_Delegation(&delegationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignProperties_From_Delegation() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -887,14 +887,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 
 	// Delegations
 	if subnet.Delegations != nil {
-		delegationList := make([]v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded, len(subnet.Delegations))
+		delegationList := make([]v20201101s.Delegation, len(subnet.Delegations))
 		for delegationIndex, delegationItem := range subnet.Delegations {
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
-			var delegation v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-			err := delegationItem.AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(&delegation)
+			var delegation v20201101s.Delegation
+			err := delegationItem.AssignProperties_To_Delegation(&delegation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignProperties_To_Delegation() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -2127,6 +2127,106 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 	return nil
 }
 
+type Delegation struct {
+	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
+	ServiceName *string `json:"serviceName,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Delegation{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (delegation *Delegation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if delegation == nil {
+		return nil, nil
+	}
+	result := &Delegation_ARM{}
+
+	// Set property ‘Name’:
+	if delegation.Name != nil {
+		name := *delegation.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if delegation.ServiceName != nil {
+		result.Properties = &ServiceDelegationPropertiesFormat_ARM{}
+	}
+	if delegation.ServiceName != nil {
+		serviceName := *delegation.ServiceName
+		result.Properties.ServiceName = &serviceName
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (delegation *Delegation) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Delegation_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (delegation *Delegation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Delegation_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Delegation_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		delegation.Name = &name
+	}
+
+	// Set property ‘ServiceName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServiceName != nil {
+			serviceName := *typedInput.Properties.ServiceName
+			delegation.ServiceName = &serviceName
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Delegation populates our Delegation from the provided source Delegation
+func (delegation *Delegation) AssignProperties_From_Delegation(source *v20201101s.Delegation) error {
+
+	// Name
+	delegation.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ServiceName
+	delegation.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Delegation populates the provided destination Delegation from our Delegation
+func (delegation *Delegation) AssignProperties_To_Delegation(destination *v20201101s.Delegation) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(delegation.Name)
+
+	// ServiceName
+	destination.ServiceName = genruntime.ClonePointerToString(delegation.ServiceName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Delegation_STATUS struct {
 	// Actions: The actions permitted to the service upon delegation.
 	Actions []string `json:"actions,omitempty"`
@@ -2281,106 +2381,6 @@ func (delegation *Delegation_STATUS) AssignProperties_To_Delegation_STATUS(desti
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(delegation.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Delegation_VirtualNetworks_Subnet_SubResourceEmbedded struct {
-	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
-	ServiceName *string `json:"serviceName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Delegation_VirtualNetworks_Subnet_SubResourceEmbedded{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if embedded == nil {
-		return nil, nil
-	}
-	result := &Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}
-
-	// Set property ‘Name’:
-	if embedded.Name != nil {
-		name := *embedded.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if embedded.ServiceName != nil {
-		result.Properties = &ServiceDelegationPropertiesFormat_ARM{}
-	}
-	if embedded.ServiceName != nil {
-		serviceName := *embedded.ServiceName
-		result.Properties.ServiceName = &serviceName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		embedded.Name = &name
-	}
-
-	// Set property ‘ServiceName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServiceName != nil {
-			serviceName := *typedInput.Properties.ServiceName
-			embedded.ServiceName = &serviceName
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded populates our Delegation_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(source *v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ServiceName
-	embedded.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded populates the provided destination Delegation_VirtualNetworks_Subnet_SubResourceEmbedded from our Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(destination *v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
-
-	// ServiceName
-	destination.ServiceName = genruntime.ClonePointerToString(embedded.ServiceName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
