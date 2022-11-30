@@ -31,27 +31,6 @@ func DetermineResourceOwnership(
 		})
 }
 
-type latestNameKey struct {
-	name  string
-	group string
-	// no version
-}
-
-func getLatestNameKey(tn astmodel.TypeName) latestNameKey {
-	return latestNameKey{
-		name:  tn.Name(),
-		group: tn.PackageReference.(astmodel.LocalPackageReference).Group(),
-	}
-}
-
-func isNewer(left, right astmodel.TypeDefinition) bool {
-	leftVersion := left.Name().PackageReference.(astmodel.LocalPackageReference).ApiVersion()
-	rightVersion := right.Name().PackageReference.(astmodel.LocalPackageReference).ApiVersion()
-
-	// versions are ASCIIbetically ordered
-	return leftVersion > rightVersion
-}
-
 func determineOwnership(
 	definitions astmodel.TypeDefinitionSet,
 	configuration *config.Configuration,
@@ -60,27 +39,14 @@ func determineOwnership(
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 
 	resources := astmodel.FindResourceDefinitions(definitions)
-	latestResources := make(map[latestNameKey]astmodel.TypeDefinition)
-	for name, resource := range resources {
-		key := getLatestNameKey(name)
-		if def, ok := latestResources[key]; ok {
-			if isNewer(resource, def) {
-				latestResources[key] = resource
-			}
-		} else {
-			latestResources[key] = resource
-		}
-	}
-
-	for _, def := range latestResources {
+	for _, def := range resources {
 		resolved, err := definitions.ResolveResourceSpecAndStatus(def)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to find resource %s spec and status", def.Name())
 		}
 
-		me := def.Type().(*astmodel.ResourceType)
-
-		childResourceTypeNames := findChildren(me, resources)
+		rt := def.Type().(*astmodel.ResourceType)
+		childResourceTypeNames := findChildren(rt, def.Name(), resources)
 
 		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs, idFactory)
 		if err != nil {
@@ -97,7 +63,7 @@ func determineOwnership(
 	return definitions.OverlayWith(updatedDefs), nil
 }
 
-func findChildren(rt *astmodel.ResourceType, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
 
 	// append "/" to the ARM URI so that if this is (e.g.):
 	//     /resource/name
@@ -109,31 +75,35 @@ func findChildren(rt *astmodel.ResourceType, others astmodel.TypeDefinitionSet) 
 
 	var result []astmodel.TypeName
 	for otherName, otherDef := range others {
-		if other, ok := astmodel.AsResourceType(otherDef.Type()); ok {
-			if rt == other {
-				continue // don’t self-own
+		other, ok := astmodel.AsResourceType(otherDef.Type())
+		if !ok {
+			continue
+		}
+		if rt == other {
+			continue // don’t self-own
+		}
+
+		if !otherDef.Name().PackageReference.Equals(resourceName.PackageReference) {
+			continue // Don't own if in a different package
+		}
+
+		otherURI := other.ARMURI()
+		if strings.HasPrefix(otherURI, myPrefix) {
+			// now, accept it only if it contains two '/' exactly:
+			// so that the string is of the form:
+			//     {prefix}/resourceType/resourceName
+			// and not a grandchild resource:
+			//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
+			withoutPrefix := otherURI[len(myPrefix)-1:]
+			if strings.Count(withoutPrefix, "/") == 2 {
+				result = append(result, otherName)
 			}
 
-			otherURI := other.ARMURI()
-			if strings.HasPrefix(otherURI, myPrefix) {
-				// now, accept it only if it contains two '/' exactly:
-				// so that the string is of the form:
-				//     {prefix}/resourceType/resourceName
-				// and not a grandchild resource:
-				//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
-				withoutPrefix := otherURI[len(myPrefix)-1:]
-				if strings.Count(withoutPrefix, "/") == 2 {
-					result = append(result, otherName)
-				}
-			}
 		}
 	}
 
 	return result
 }
-
-// this is the name we expect to see on "child resources" in the ARM JSON schema
-const ChildResourceNameSuffix = "_ChildResource"
 
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
@@ -142,18 +112,8 @@ func updateChildResourceDefinitionsWithOwner(
 	updatedDefs astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory,
 ) error {
+
 	for _, typeName := range childResourceTypeNames {
-		// If the typename ends in ChildResource, remove that
-		if strings.HasSuffix(typeName.Name(), ChildResourceNameSuffix) {
-			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), ChildResourceNameSuffix))
-		}
-
-		// If type typename is ExtensionsChild, remove Child -- this is a special case due to
-		// compute...
-		if typeName.Name() == "ExtensionsChild" {
-			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), "Child"))
-		}
-
 		// Use the singular form of the name
 		typeName = typeName.Singular(idFactory)
 
@@ -201,7 +161,7 @@ func setDefaultOwner(
 	definitions astmodel.TypeDefinitionSet,
 	updatedDefs astmodel.TypeDefinitionSet,
 ) {
-	// Go over all of the resource types and flag any that don't have an owner as having resource group as their owner
+	// Go over all the resource types and flag any that don't have an owner as having resource group as their owner
 	for _, def := range definitions {
 		// Check if we've already modified this type - we need to use the already modified value
 		if updatedDef, ok := updatedDefs[def.Name()]; ok {

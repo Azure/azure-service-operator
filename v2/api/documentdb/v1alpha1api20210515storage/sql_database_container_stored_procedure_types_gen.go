@@ -211,8 +211,8 @@ type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/DatabaseAccounts_SqlDatabases_Container resource
-	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccounts_SqlDatabases_Container"`
+	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
+	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlStoredProcedureResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`

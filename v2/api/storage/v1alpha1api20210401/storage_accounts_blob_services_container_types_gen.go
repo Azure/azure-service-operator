@@ -344,8 +344,8 @@ type StorageAccounts_BlobServices_Container_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a storage.azure.com/StorageAccounts_BlobService resource
-	Owner        *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccounts_BlobService"`
+	// reference to a storage.azure.com/StorageAccountsBlobService resource
+	Owner        *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
 	PublicAccess *ContainerProperties_PublicAccess  `json:"publicAccess,omitempty"`
 }
 
