@@ -17,33 +17,37 @@ import (
 
 const UnrollRecursiveTypesStageID = "unrollRecursiveTypes"
 
-// UnrollRecursiveTypes finds types that reference themselves and "unrolls" the reference. So a type that looks like:
-// type Error struct {
-//     code    string
-//     message string
-//     errors []Error
-// }
-// gets unrolled to look like:
-// type Error struct {
-//     code    string
-//     message string
-//     errors []Error_Unrolled
-// }
-// where Error_Unrolled looks like:
-// type Error_Unrolled struct {
-//     code    string
-//     message string
-// }
-// The recursive references must be removed because
-// controller-tools doesn't support generating "references" (JSON $ref) so it can't support recursive types today.
-// See https://github.com/kubernetes-sigs/controller-tools/issues/489 for more information.
-// Unrolling these types, while required for controller-tools to function, means
-// THAT THE TYPES WE GENERATE DON'T EXACTLY CONFORM TO THE PUBLISHED API!
-// In practice, we think this is ok for Error types because our observation is that Errors that reference themselves only return
-// a depth of 1 in practice.
-// If we were to unroll all loops (rather than just types that directly reference themselves like we're doing here) that
-// "in practice" observation may no longer hold, so we avoid doing it here (it's also more complicated to do that).
+// UnrollRecursiveTypes finds types that reference themselves and "unrolls" the reference.
 func UnrollRecursiveTypes() *Stage {
+	/*
+	 * So a type that looks like:
+	 * type Error struct {
+	 *     code    string
+	 *     message string
+	 *     errors []Error
+	 * }
+	 * gets unrolled to look like:
+	 * type Error struct {
+	 *     code    string
+	 *     message string
+	 *     errors []Error_Unrolled
+	 * }
+	 * where Error_Unrolled looks like:
+	 * type Error_Unrolled struct {
+	 *     code    string
+	 *     message string
+	 * }
+	 * The recursive references must be removed because
+	 * controller-tools doesn't support generating "references" (JSON $ref) so it can't support recursive types today.
+	 * See https://github.com/kubernetes-sigs/controller-tools/issues/489 for more information.
+	 * Unrolling these types, while required for controller-tools to function, means
+	 * THAT THE TYPES WE GENERATE DON'T EXACTLY CONFORM TO THE PUBLISHED API!
+	 * In practice, we think this is ok for Error types because our observation is that Errors that reference themselves only return
+	 * a depth of 1 in practice.
+	 * If we were to unroll all loops (rather than just types that directly reference themselves like we're doing here) that
+	 * "in practice" observation may no longer hold, so we avoid doing it here (it's also more complicated to do that).
+	 */
+
 	return NewStage(
 		UnrollRecursiveTypesStageID,
 		"Unroll directly recursive types since they are not supported by controller-gen",

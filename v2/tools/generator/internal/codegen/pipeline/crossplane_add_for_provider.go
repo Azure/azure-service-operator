@@ -68,17 +68,21 @@ func nestSpecIntoForProvider(
 }
 
 // nestType nests the contents of the provided outerType into a property with the given nestedPropertyName whose
-// type is the given nestedTypeName. The result is a type that looks something like the following:
-//
-// type <outerTypeName> struct {
-//     <nestedPropertyName> <nestedTypeName> `yaml:"<nestedPropertyName>"`
-// }
+// type is the given nestedTypeName.
 func nestType(
 	idFactory astmodel.IdentifierFactory,
 	definitions astmodel.TypeDefinitionSet,
 	outerTypeName astmodel.TypeName,
 	nestedTypeName string,
 	nestedPropertyName string) ([]astmodel.TypeDefinition, error) {
+	/*
+	 * Sample output:
+	 *
+	 * type <outerTypeName> struct {
+	 *     <nestedPropertyName> <nestedTypeName> `yaml:"<nestedPropertyName>"`
+	 * }
+	 *
+	 */
 
 	outerType, ok := definitions[outerTypeName]
 	if !ok {

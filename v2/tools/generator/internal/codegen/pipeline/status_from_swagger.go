@@ -28,19 +28,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/jsonast"
 )
 
-/* addStatusFromSwagger creates a PipelineStage to add status information into the generated resources.
-
-This information is derived from the Azure Swagger specifications. We parse the Swagger specs and look for
-any actions that appear to be ARM resources (have PUT methods with types we can use and appropriate names in the
-action path). Then for each resource, we use the existing JSON AST parser to extract the status type
-(the type-definition part of swagger is the same as JSON Schema).
-
-Next, we walk over all the resources we are currently generating CRDs for and attempt to locate
-a match for the resource in the status information we have parsed. If we locate a match, it is
-added to the Status field of the Resource type, after we have renamed all the status types to
-avoid any conflicts with existing Spec types that have already been defined.
-
-*/
+// AddStatusFromSwagger creates a PipelineStage to add status information into the generated resources.
+//
+// This information is derived from the Azure Swagger specifications. We parse the Swagger specs and look for
+// any actions that appear to be ARM resources (have PUT methods with types we can use and appropriate names in the
+// action path). Then for each resource, we use the existing JSON AST parser to extract the status type
+// (the type-definition part of swagger is the same as JSON Schema).
+//
+// Next, we walk over all the resources we are currently generating CRDs for and attempt to locate
+// a match for the resource in the status information we have parsed. If we locate a match, it is
+// added to the Status field of the Resource type, after we have renamed all the status types to
+// avoid any conflicts with existing Spec types that have already been defined.
 func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) *Stage {
 	return NewLegacyStage(
 		"addStatusFromSwagger",

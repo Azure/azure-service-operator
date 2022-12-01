@@ -32,26 +32,29 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 
 // EmbeddedResourceRemover uses a variety of heuristics to remove resources that are embedded inside other resources.
 // There are a number of different kinds of embeddings:
+//
 // 1. A "Properties" embedding. When we process the Azure JSON schema/Swagger we manufacture a "Spec"
-//    type that doesn't exist in the JSON schema/Swagger. In the JSON schema the resource itself must comply with ARM
-//    resource requirements, meaning that all of the RP specific properties are stored in the "Properties"
-//    property which for the sake of example we will say has type "R1Properties".
-//    Other resources which have a property somewhere in their type hierarchy with that same "R1Properties"
-//    type are actually embedding the R1 resource entirely inside themselves. Since the R1 resource is its own
-//    resource it doesn't make sense to have it embedded inside another resource in Kubernetes. These embeddings
-//    should really just be cross resource references. This pipeline finds such embeddings and removes them. A concrete
-//    example of one such embedding is
-//    v20181001 Microsoft.Networking Connection.Spec.Properties.LocalNetworkGateway2.Properties.
-//    The LocalNetworkGateway2 property is of type "LocalNetworkGateway" which is itself a resource.
-//    The ideal shape of Connection.Spec.Properties.LocalNetworkGate2 would just be a reference to a
-//    LocalNetworkGateway resource.
+// type that doesn't exist in the JSON schema/Swagger. In the JSON schema the resource itself must comply with ARM
+// resource requirements, meaning that all of the RP specific properties are stored in the "Properties"
+// property which for the sake of example we will say has type "R1Properties".
+// Other resources which have a property somewhere in their type hierarchy with that same "R1Properties"
+// type are actually embedding the R1 resource entirely inside themselves. Since the R1 resource is its own
+// resource it doesn't make sense to have it embedded inside another resource in Kubernetes. These embeddings
+// should really just be cross resource references. This pipeline finds such embeddings and removes them. A concrete
+// example of one such embedding is
+// v20181001 Microsoft.Networking Connection.Spec.Properties.LocalNetworkGateway2.Properties.
+// The LocalNetworkGateway2 property is of type "LocalNetworkGateway" which is itself a resource.
+// The ideal shape of Connection.Spec.Properties.LocalNetworkGate2 would just be a reference to a
+// LocalNetworkGateway resource.
+//
 // 2. A subresource embedding. For the same reasons above, embedded subresources don't make sense in Kubernetes.
-//    In the case of embedded subresources, the ideal shape would be a complete removal of the reference. We forbid
-//    parent resources directly referencing child resources as it complicates the Watches scenario for each resource
-//    reconciler. It's also not a common pattern in Kubernetes - usually you can identify children for a
-//    given parent via a label. An example of this type of embedding is
-//    v20180601 Microsoft.Networking RouteTable.Spec.Properties.Routes. The Routes property is of type RouteTableRoutes
-//    which is a child resource of RouteTable.
+// In the case of embedded subresources, the ideal shape would be a complete removal of the reference. We forbid
+// parent resources directly referencing child resources as it complicates the Watches scenario for each resource
+// reconciler. It's also not a common pattern in Kubernetes - usually you can identify children for a
+// given parent via a label. An example of this type of embedding is
+// v20180601 Microsoft.Networking RouteTable.Spec.Properties.Routes. The Routes property is of type RouteTableRoutes
+// which is a child resource of RouteTable.
+//
 // Note that even though the above examples do not include Status definitions, the same rules apply to Status definitions, with
 // the only difference being that for Status definitions the resource reference in Swagger (the source of the Status definitions)
 // is to the Status type (as opposed to the "Properties" type for Spec).

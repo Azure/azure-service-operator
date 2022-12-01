@@ -195,22 +195,26 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 	return fn.DefineFunc()
 }
 
-// validateOperatorSpecSliceBody helps generate the body of the validateResourceReferences function:
-// func (account *DatabaseAccount) validateConfigMapDestinations() error {
-//     if <receiver>.Spec.OperatorSpec == nil {
-//         return nil
-//     }
-//     if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
-//         return nil
-//     }
-//     toValidate := []*<validateType>{
-//         account.Spec.OperatorSpec.ConfigMaps.ClientId,
-//         account.Spec.OperatorSpec.ConfigMaps.PrincipalId,
-//         ...
-//     }
-//     return genruntime.<validateFunctionName>(toValidate)
-// }
+// validateOperatorSpecSliceBody helps generate the body of the validateResourceReferences function.
 func validateOperatorSpecSliceBody(
+	/*
+	 * Sample output:
+	 *
+	 * func (account *DatabaseAccount) validateConfigMapDestinations() error {
+	 *     if <receiver>.Spec.OperatorSpec == nil {
+	 *         return nil
+	 *     }
+	 *     if <receiver>.Spec.OperatorSpec.<operatorSpecProperty> == nil {
+	 *         return nil
+	 *     }
+	 *     toValidate := []*<validateType>{
+	 *         account.Spec.OperatorSpec.ConfigMaps.ClientId,
+	 *         account.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+	 *         ...
+	 *     }
+	 *     return genruntime.<validateFunctionName>(toValidate)
+	 * }
+	 */
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	resource *astmodel.ResourceType,
 	receiverIdent string,

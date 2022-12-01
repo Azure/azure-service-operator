@@ -22,13 +22,17 @@ const RemoveStatusPropertyValidationsStageID = "removeStatusPropertyValidation"
 // This is required because Status is retrieved directly from the ARM API, and there are
 // cases where ARM might return something that isn't actually "valid" according to the validation,
 // but makes sense in context. Some examples:
+//
 // 1. Status has a modelAsString enum with 2 values, but in a future API version, a 3rd value is added.
-//    The fact that the enum is modelAsString allows the service to return the new 3rd value even in old API
-//    versions.
+// The fact that the enum is modelAsString allows the service to return the new 3rd value even in old API
+// versions.
+//
 // 2. Status has an int that must be between 10 and 20. In a future API version, that restriction is relaxed and
-//    the same int can now be between 0 and 50.
+// the same int can now be between 0 and 50.
+//
 // 3. A bug in the services Swagger specification causes the service to accept enums with any case, but always
-//    return the enum all uppercase
+// return the enum all uppercase
+//
 // In the above cases, if we left validation on the Status types, we would be unable to persist the content
 // returned by the service (apiserver will reject it as not matching the OpenAPI schema). This could be a problem
 // in cases where the resource was created via some other means and then imported into

@@ -79,6 +79,7 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 	return tv.Visit(et.BaseType(), ctx)
 }
 
+//nolint:gofmt
 // shortCircuitNamesOfSimpleTypes redirects or replaces TypeNames
 //   o  If a TypeName points into an API package, it is redirected into the appropriate storage package
 //   o  If a TypeName references an enumeration, it is replaced with the underlying type of the enumeration as our
