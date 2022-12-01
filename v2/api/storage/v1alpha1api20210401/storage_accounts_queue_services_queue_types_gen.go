@@ -342,8 +342,8 @@ type StorageAccounts_QueueServices_Queue_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a storage.azure.com/StorageAccounts_QueueService resource
-	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccounts_QueueService"`
+	// reference to a storage.azure.com/StorageAccountsQueueService resource
+	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsQueueService"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccounts_QueueServices_Queue_Spec{}

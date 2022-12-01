@@ -12,8 +12,6 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	//v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
@@ -88,10 +86,10 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.FrontendIPConfiguration{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.PublicIPAddressSpec{
+					PublicIPAddress: &network.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},

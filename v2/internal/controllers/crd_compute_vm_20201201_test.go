@@ -89,10 +89,10 @@ func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.
 		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaceIPConfiguration{{
+			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
-				Subnet: &network.Subnet{
+				Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
 					Reference: tc.MakeReferenceFromResource(subnet),
 				},
 			}},

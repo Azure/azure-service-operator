@@ -60,8 +60,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
-			Location: tc.AzureRegion,
-			Owner:    tc.AsExtensionOwner(rg),
+			Owner: tc.AsExtensionOwner(rg),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,
 				Key:  principalIdKey,
@@ -145,8 +144,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
-			Location: tc.AzureRegion,
-			Owner:    tc.AsExtensionOwner(acct),
+			Owner: tc.AsExtensionOwner(acct),
 			PrincipalIdFromConfig: &genruntime.ConfigMapReference{
 				Name: configMapName,
 				Key:  principalIdKey,

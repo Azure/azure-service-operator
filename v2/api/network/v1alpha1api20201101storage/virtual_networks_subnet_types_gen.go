@@ -208,7 +208,7 @@ type VirtualNetworks_Subnet_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName            string                                                               `json:"azureName,omitempty"`
-	Delegations          []Delegation_VirtualNetworks_Subnet_SubResourceEmbedded              `json:"delegations,omitempty"`
+	Delegations          []Delegation                                                         `json:"delegations,omitempty"`
 	IpAllocations        []SubResource                                                        `json:"ipAllocations,omitempty"`
 	NatGateway           *SubResource                                                         `json:"natGateway,omitempty"`
 	NetworkSecurityGroup *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
@@ -311,14 +311,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 
 	// Delegations
 	if source.Delegations != nil {
-		delegationList := make([]Delegation_VirtualNetworks_Subnet_SubResourceEmbedded, len(source.Delegations))
+		delegationList := make([]Delegation, len(source.Delegations))
 		for delegationIndex, delegationItem := range source.Delegations {
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
-			var delegation Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-			err := delegation.AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(&delegationItem)
+			var delegation Delegation
+			err := delegation.AssignProperties_From_Delegation(&delegationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignProperties_From_Delegation() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -479,14 +479,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 
 	// Delegations
 	if subnet.Delegations != nil {
-		delegationList := make([]v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded, len(subnet.Delegations))
+		delegationList := make([]v20201101s.Delegation, len(subnet.Delegations))
 		for delegationIndex, delegationItem := range subnet.Delegations {
 			// Shadow the loop variable to avoid aliasing
 			delegationItem := delegationItem
-			var delegation v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-			err := delegationItem.AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(&delegation)
+			var delegation v20201101s.Delegation
+			err := delegationItem.AssignProperties_To_Delegation(&delegation)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field Delegations")
+				return errors.Wrap(err, "calling AssignProperties_To_Delegation() to populate field Delegations")
 			}
 			delegationList[delegationIndex] = delegation
 		}
@@ -1323,6 +1323,58 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 	return nil
 }
 
+// Storage version of v1alpha1api20201101.Delegation
+// Deprecated version of Delegation. Use v1beta20201101.Delegation instead
+type Delegation struct {
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ServiceName *string                `json:"serviceName,omitempty"`
+}
+
+// AssignProperties_From_Delegation populates our Delegation from the provided source Delegation
+func (delegation *Delegation) AssignProperties_From_Delegation(source *v20201101s.Delegation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	delegation.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ServiceName
+	delegation.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		delegation.PropertyBag = propertyBag
+	} else {
+		delegation.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Delegation populates the provided destination Delegation from our Delegation
+func (delegation *Delegation) AssignProperties_To_Delegation(destination *v20201101s.Delegation) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(delegation.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(delegation.Name)
+
+	// ServiceName
+	destination.ServiceName = genruntime.ClonePointerToString(delegation.ServiceName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20201101.Delegation_STATUS
 // Deprecated version of Delegation_STATUS. Use v1beta20201101.Delegation_STATUS instead
 type Delegation_STATUS struct {
@@ -1398,58 +1450,6 @@ func (delegation *Delegation_STATUS) AssignProperties_To_Delegation_STATUS(desti
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(delegation.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201101.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-// Deprecated version of Delegation_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1beta20201101.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded instead
-type Delegation_VirtualNetworks_Subnet_SubResourceEmbedded struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceName *string                `json:"serviceName,omitempty"`
-}
-
-// AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded populates our Delegation_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) AssignProperties_From_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(source *v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ServiceName
-	embedded.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded populates the provided destination Delegation_VirtualNetworks_Subnet_SubResourceEmbedded from our Delegation_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) AssignProperties_To_Delegation_VirtualNetworks_Subnet_SubResourceEmbedded(destination *v20201101s.Delegation_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
-
-	// ServiceName
-	destination.ServiceName = genruntime.ClonePointerToString(embedded.ServiceName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

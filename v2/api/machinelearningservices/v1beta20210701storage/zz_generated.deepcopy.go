@@ -3268,27 +3268,12 @@ func (in *PrivateEndpointConnection_STATUS) DeepCopyInto(out *PrivateEndpointCon
 		*out = new(string)
 		**out = **in
 	}
-	if in.Identity != nil {
-		in, out := &in.Identity, &out.Identity
-		*out = new(Identity_STATUS)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Sku != nil {
-		in, out := &in.Sku, &out.Sku
-		*out = new(Sku_STATUS)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_STATUS)
-		(*in).DeepCopyInto(*out)
 	}
 }
 

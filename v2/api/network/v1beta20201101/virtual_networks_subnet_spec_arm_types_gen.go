@@ -41,7 +41,7 @@ type SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struc
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"applicationGatewayIpConfigurations,omitempty"`
 
 	// Delegations: An array of references to the delegations on the subnet.
-	Delegations []Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"delegations,omitempty"`
+	Delegations []Delegation_ARM `json:"delegations,omitempty"`
 
 	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource_ARM `json:"ipAllocations,omitempty"`
@@ -72,7 +72,7 @@ type ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedde
 	Id *string `json:"id,omitempty"`
 }
 
-type Delegation_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
+type Delegation_ARM struct {
 	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 

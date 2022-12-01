@@ -341,8 +341,8 @@ type DatabaseAccounts_MongodbDatabases_Collection_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/DatabaseAccounts_MongodbDatabase resource
-	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccounts_MongodbDatabase"`
+	// reference to a documentdb.azure.com/MongodbDatabase resource
+	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
 	Resource *MongoDBCollectionResource `json:"resource,omitempty"`

@@ -23,9 +23,10 @@ func Test_FindChildren_ResourceDoesNotOwnItself(t *testing.T) {
 	resources := make(astmodel.TypeDefinitionSet)
 
 	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
-	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+	ownerName := astmodel.MakeTypeName(pr, "Owner")
+	resources.Add(astmodel.MakeTypeDefinition(ownerName, ownerType))
 
-	children := findChildren(ownerType, resources)
+	children := findChildren(ownerType, ownerName, resources)
 	g.Expect(children).To(gomega.BeEmpty())
 }
 
@@ -37,13 +38,14 @@ func Test_FindChildren_ResourceOwnsChild(t *testing.T) {
 	resources := make(astmodel.TypeDefinitionSet)
 
 	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
-	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+	ownerName := astmodel.MakeTypeName(pr, "Owner")
+	resources.Add(astmodel.MakeTypeDefinition(ownerName, ownerType))
 
 	childType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner/subresources/child")
 	childName := astmodel.MakeTypeName(pr, "Child")
 	resources.Add(astmodel.MakeTypeDefinition(childName, childType))
 
-	children := findChildren(ownerType, resources)
+	children := findChildren(ownerType, ownerName, resources)
 	g.Expect(children).To(gomega.ConsistOf(childName))
 }
 
@@ -55,13 +57,14 @@ func Test_FindChildren_ResourceDoesNotOwnGrandChild(t *testing.T) {
 	resources := make(astmodel.TypeDefinitionSet)
 
 	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
-	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+	ownerName := astmodel.MakeTypeName(pr, "Owner")
+	resources.Add(astmodel.MakeTypeDefinition(ownerName, ownerType))
 
 	grandChildType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner/subresources/child/subsubresources/grandchild")
 	grandChildName := astmodel.MakeTypeName(pr, "GrandChild")
 	resources.Add(astmodel.MakeTypeDefinition(grandChildName, grandChildType))
 
-	children := findChildren(ownerType, resources)
+	children := findChildren(ownerType, ownerName, resources)
 	g.Expect(children).To(gomega.BeEmpty())
 }
 
@@ -73,12 +76,13 @@ func Test_FindChildren_ResourceDoesNotOwnExtendedVersionOfName(t *testing.T) {
 	resources := make(astmodel.TypeDefinitionSet)
 
 	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
-	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+	ownerName := astmodel.MakeTypeName(pr, "Owner")
+	resources.Add(astmodel.MakeTypeDefinition(ownerName, ownerType))
 
 	grandChildType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/ownerLonger")
 	grandChildName := astmodel.MakeTypeName(pr, "GrandChild")
 	resources.Add(astmodel.MakeTypeDefinition(grandChildName, grandChildType))
 
-	children := findChildren(ownerType, resources)
+	children := findChildren(ownerType, ownerName, resources)
 	g.Expect(children).To(gomega.BeEmpty())
 }

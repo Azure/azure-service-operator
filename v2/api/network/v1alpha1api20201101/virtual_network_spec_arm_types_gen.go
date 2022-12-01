@@ -75,7 +75,7 @@ type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	AddressPrefix                      *string                                                                    `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                                   `json:"addressPrefixes,omitempty"`
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM `json:"applicationGatewayIpConfigurations,omitempty"`
-	Delegations                        []Delegation_VirtualNetwork_SubResourceEmbedded_ARM                        `json:"delegations,omitempty"`
+	Delegations                        []Delegation_ARM                                                           `json:"delegations,omitempty"`
 	IpAllocations                      []SubResource_ARM                                                          `json:"ipAllocations,omitempty"`
 	NatGateway                         *SubResource_ARM                                                           `json:"natGateway,omitempty"`
 	NetworkSecurityGroup               *NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARM           `json:"networkSecurityGroup,omitempty"`
@@ -88,11 +88,6 @@ type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 
 // Deprecated version of ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded. Use v1beta20201101.ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded instead
 type ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of Delegation_VirtualNetwork_SubResourceEmbedded. Use v1beta20201101.Delegation_VirtualNetwork_SubResourceEmbedded instead
-type Delegation_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 

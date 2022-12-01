@@ -114,7 +114,7 @@ type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM `json:"applicationGatewayIpConfigurations,omitempty"`
 
 	// Delegations: An array of references to the delegations on the subnet.
-	Delegations []Delegation_VirtualNetwork_SubResourceEmbedded_ARM `json:"delegations,omitempty"`
+	Delegations []Delegation_ARM `json:"delegations,omitempty"`
 
 	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResource_ARM `json:"ipAllocations,omitempty"`
@@ -142,10 +142,6 @@ type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 }
 
 type ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type Delegation_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 

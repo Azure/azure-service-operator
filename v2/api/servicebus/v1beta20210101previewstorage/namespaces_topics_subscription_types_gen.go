@@ -154,8 +154,8 @@ type Namespaces_Topics_Subscription_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a servicebus.azure.com/Namespaces_Topic resource
-	Owner           *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespaces_Topic"`
+	// reference to a servicebus.azure.com/NamespacesTopic resource
+	Owner           *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopic"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresSession *bool                              `json:"requiresSession,omitempty"`
 }

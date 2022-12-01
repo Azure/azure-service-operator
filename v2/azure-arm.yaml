@@ -429,6 +429,20 @@ typeTransformers:
     property: Type
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: Delegation
+    property: Id
+    # TODO[donotmerge]: We should do something more clean than this
+    # Delegation is not getting its ID field removed when in the subnet context. This is
+    # because it's set as resource: false. We can either:
+    #  1. Manually prune the ID field.
+    #  2. Make resourceEmbeddedInParent and resource separate so that both
+    #     can be set.
+    #  3. Make resourceEmbeddedInParent optionally a collection and mark Delegation as embedded both in subnet and vnet
+    #  4. Live with it.
+    remove: true
+    because: We don't handle this very well right now, manually remove until TODO above has been done
 
   - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
@@ -1326,9 +1340,11 @@ objectModelConfiguration:
       BackendAddressPool_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
       Delegation:
-        $resourceEmbeddedInParent: VirtualNetworks_Subnet
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
       Delegation_STATUS:
-        $resourceEmbeddedInParent: VirtualNetworks_Subnet
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
       FrontendIPConfiguration:
         $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
       FrontendIPConfiguration_STATUS:

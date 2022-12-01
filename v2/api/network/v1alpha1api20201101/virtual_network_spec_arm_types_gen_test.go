@@ -528,7 +528,7 @@ func AddIndependentPropertyGeneratorsForSubnetPropertiesFormat_VirtualNetwork_Su
 // AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARMGenerator())
-	gens["Delegations"] = gen.SliceOf(Delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator())
+	gens["Delegations"] = gen.SliceOf(Delegation_ARMGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResource_ARMGenerator())
 	gens["NatGateway"] = gen.PtrOf(SubResource_ARMGenerator())
 	gens["NetworkSecurityGroup"] = gen.PtrOf(NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARMGenerator())
@@ -595,67 +595,6 @@ func ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARMGen
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Delegation_VirtualNetwork_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Delegation_VirtualNetwork_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDelegation_VirtualNetwork_SubResourceEmbedded_ARM, Delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDelegation_VirtualNetwork_SubResourceEmbedded_ARM runs a test to see if a specific instance of Delegation_VirtualNetwork_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDelegation_VirtualNetwork_SubResourceEmbedded_ARM(subject Delegation_VirtualNetwork_SubResourceEmbedded_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Delegation_VirtualNetwork_SubResourceEmbedded_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Delegation_VirtualNetwork_SubResourceEmbedded_ARM instances for property testing - lazily instantiated
-// by Delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator()
-var delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator gopter.Gen
-
-// Delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator returns a generator of Delegation_VirtualNetwork_SubResourceEmbedded_ARM instances for property testing.
-func Delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator != nil {
-		return delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDelegation_VirtualNetwork_SubResourceEmbedded_ARM(generators)
-	delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(Delegation_VirtualNetwork_SubResourceEmbedded_ARM{}), generators)
-
-	return delegation_VirtualNetwork_SubResourceEmbedded_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDelegation_VirtualNetwork_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDelegation_VirtualNetwork_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
