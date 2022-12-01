@@ -13,6 +13,7 @@ import (
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_EventGrid_Domain(t *testing.T) {
@@ -70,25 +71,23 @@ func Test_EventGrid_Domain(t *testing.T) {
 	}
 
 	tc.CreateResourceAndWait(queue)
-
 	armId := *domain.Status.Id
+	acctReference := tc.MakeReferenceFromResource(acct)
 
-	// TODO: disabled pending (evildiscriminator)
-	/*
-		tc.RunParallelSubtests(
-			testcommon.Subtest{
-				Name: "CreateDomainTopicAndSubscription",
-				Test: func(tc *testcommon.KubePerTestContext) {
-					DomainTopicAndSubscription_CRUD(tc, queue, domain, acctReference)
-				},
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "CreateDomainTopicAndSubscription",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				DomainTopicAndSubscription_CRUD(tc, queue, domain, acctReference)
 			},
-			testcommon.Subtest{
-				Name: "CreateDomainSubscription",
-				Test: func(tc *testcommon.KubePerTestContext) {
-					DomainSubscription_CRUD(tc, queue, domain, acctReference)
-				},
-			)
-	*/
+		},
+		testcommon.Subtest{
+			Name: "CreateDomainSubscription",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				DomainSubscription_CRUD(tc, queue, domain, acctReference)
+			},
+		},
+	)
 
 	tc.DeleteResourceAndWait(domain)
 
@@ -101,12 +100,10 @@ func Test_EventGrid_Domain(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-// TODO: disabled pending (evildiscriminator)
-/*
 func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *storage.StorageAccountsQueueServicesQueue, domain *eventgrid.Domain, acctReference *genruntime.ResourceReference) {
 	topic := &eventgrid.DomainsTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
-		Spec: eventgrid.DomainsTopics_Spec{
+		Spec: eventgrid.Domains_Topic_Spec{
 			Owner: testcommon.AsOwner(domain),
 		},
 	}
@@ -114,18 +111,22 @@ func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *s
 	tc.CreateResourceAndWait(topic)
 	// don’t bother deleting; deleting domain will clean up
 
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
-		Spec: eventgrid.EventSubscriptions_Spec{
+		Spec: eventgrid.EventSubscription_Spec{
 			Owner: tc.AsExtensionOwner(topic),
 			Destination: &eventgrid.EventSubscriptionDestination{
 				StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-					EndpointType: &endpointType,
-					Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-						ResourceReference: acctReference,
-						QueueName:         &queue.Name,
-					},
+					EndpointType: endpointType, // TODO[donotmerge]: This should be a ptr but isn't, see https://github.com/Azure/azure-service-operator/issues/2619
+					// TODO[donotmerge]: These properties used to be in a "Properties" property but are flattened
+					// TODO[donotmerge]: in the Swagger branch
+					//Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+					//	ResourceReference: acctReference,
+					//	QueueName:         &queue.Name,
+					//},
+					ResourceReference: acctReference,
+					QueueName:         &queue.Name,
 				},
 			},
 		},
@@ -136,18 +137,22 @@ func DomainTopicAndSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *s
 }
 
 func DomainSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *storage.StorageAccountsQueueServicesQueue, domain *eventgrid.Domain, acctReference *genruntime.ResourceReference) {
-	endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointType_StorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
-		Spec: eventgrid.EventSubscriptions_Spec{
+		Spec: eventgrid.EventSubscription_Spec{
 			Owner: tc.AsExtensionOwner(domain),
 			Destination: &eventgrid.EventSubscriptionDestination{
 				StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-					EndpointType: &endpointType,
-					Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-						ResourceReference: acctReference,
-						QueueName:         &queue.Name,
-					},
+					EndpointType: endpointType, // TODO[donotmerge]: This should be a ptr but isn't, see https://github.com/Azure/azure-service-operator/issues/2619
+					// TODO[donotmerge]: These properties used to be in a "Properties" property but are flattened
+					// TODO[donotmerge]: in the Swagger branch
+					//Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+					//	ResourceReference: acctReference,
+					//	QueueName:         &queue.Name,
+					//},
+					ResourceReference: acctReference,
+					QueueName:         &queue.Name,
 				},
 			},
 		},
@@ -156,4 +161,3 @@ func DomainSubscription_CRUD(tc *testcommon.KubePerTestContext, queue *storage.S
 	tc.CreateResourceAndWait(subscription)
 	// don’t bother deleting
 }
-*/

@@ -155,16 +155,16 @@ type Redis_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  map[string]string                  `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                            `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                               `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                               `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                               `json:"shardCount,omitempty"`
-	Sku                 *Sku                               `json:"sku,omitempty"`
-	StaticIP            *string                            `json:"staticIP,omitempty"`
+	Owner               *genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                                   `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                   `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                      `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                      `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                      `json:"shardCount,omitempty"`
+	Sku                 *Sku                                      `json:"sku,omitempty"`
+	StaticIP            *string                                   `json:"staticIP,omitempty"`
 
 	// SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
@@ -295,6 +295,24 @@ type RedisAccessKeys_STATUS struct {
 	PrimaryKey   *string                `json:"primaryKey,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecondaryKey *string                `json:"secondaryKey,omitempty"`
+}
+
+// Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration
+type RedisCreateProperties_RedisConfiguration struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string                `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string                `json:"authnotrequired,omitempty"`
+	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
 }
 
 // Storage version of v1beta20201201.RedisInstanceDetails_STATUS

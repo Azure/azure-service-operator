@@ -266,6 +266,8 @@ func PrivateDnsZone_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_PrivateDnsZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -369,9 +371,12 @@ func PrivateDnsZone_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNumberOfRecordSets"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["MaxNumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NumberOfRecordSets"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinks"] = gen.PtrOf(gen.Int())
 	gens["NumberOfVirtualNetworkLinksWithRegistration"] = gen.PtrOf(gen.Int())
@@ -382,4 +387,6 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS(gens map[string]go
 		PrivateZoneProperties_ProvisioningState_STATUS_Failed,
 		PrivateZoneProperties_ProvisioningState_STATUS_Succeeded,
 		PrivateZoneProperties_ProvisioningState_STATUS_Updating))
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

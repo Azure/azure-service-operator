@@ -42,7 +42,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 				Default: &mariadb.ServerPropertiesForDefaultCreate{
 					AdministratorLogin:         to.StringPtr(adminUser),
 					AdministratorLoginPassword: adminPasswordRef,
-					CreateMode:                 createMode, // TOOD[donotmerge]: This should take a ptr, see https://github.com/Azure/azure-service-operator/issues/2619
+					CreateMode:                 createMode, // TODO[donotmerge]: This should take a ptr, see https://github.com/Azure/azure-service-operator/issues/2619
 					PublicNetworkAccess:        &networkAccess,
 					StorageProfile: &mariadb.StorageProfile{
 						StorageAutogrow: &autogrow,
@@ -78,9 +78,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 		Spec: mariadb.Servers_Configuration_Spec{
 			AzureName: "query_cache_size",
 			Owner:     testcommon.AsOwner(&server),
-			//!! Missing field (donotmerge)
-			//Location:  &location,
-			Value: to.StringPtr("102400"),
+			Value:     to.StringPtr("102400"),
 		},
 	}
 

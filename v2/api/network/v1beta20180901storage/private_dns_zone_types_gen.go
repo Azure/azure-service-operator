@@ -145,6 +145,7 @@ type PrivateDnsZone_Spec struct {
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	Etag            *string `json:"etag,omitempty"`
+	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -153,6 +154,7 @@ type PrivateDnsZone_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &PrivateDnsZone_Spec{}
@@ -179,14 +181,19 @@ func (zone *PrivateDnsZone_Spec) ConvertSpecTo(destination genruntime.Convertibl
 type PrivateDnsZone_STATUS struct {
 	Conditions                                     []conditions.Condition `json:"conditions,omitempty"`
 	Etag                                           *string                `json:"etag,omitempty"`
+	Id                                             *string                `json:"id,omitempty"`
+	Location                                       *string                `json:"location,omitempty"`
 	MaxNumberOfRecordSets                          *int                   `json:"maxNumberOfRecordSets,omitempty"`
 	MaxNumberOfVirtualNetworkLinks                 *int                   `json:"maxNumberOfVirtualNetworkLinks,omitempty"`
 	MaxNumberOfVirtualNetworkLinksWithRegistration *int                   `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
+	Name                                           *string                `json:"name,omitempty"`
 	NumberOfRecordSets                             *int                   `json:"numberOfRecordSets,omitempty"`
 	NumberOfVirtualNetworkLinks                    *int                   `json:"numberOfVirtualNetworkLinks,omitempty"`
 	NumberOfVirtualNetworkLinksWithRegistration    *int                   `json:"numberOfVirtualNetworkLinksWithRegistration,omitempty"`
 	PropertyBag                                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState                              *string                `json:"provisioningState,omitempty"`
+	Tags                                           map[string]string      `json:"tags,omitempty"`
+	Type                                           *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}

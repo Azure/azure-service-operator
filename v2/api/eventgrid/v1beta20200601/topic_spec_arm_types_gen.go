@@ -10,6 +10,9 @@ type Topic_Spec_ARM struct {
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
 
+	// Properties: Properties of the topic.
+	Properties *TopicProperties_ARM `json:"properties,omitempty"`
+
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
 }
@@ -29,4 +32,22 @@ func (topic *Topic_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
 func (topic *Topic_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/topics"
+}
+
+type TopicProperties_ARM struct {
+	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
+	// only if PublicNetworkAccess is enabled.
+	InboundIpRules []InboundIpRule_ARM `json:"inboundIpRules,omitempty"`
+
+	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
+	InputSchema *TopicProperties_InputSchema `json:"inputSchema,omitempty"`
+
+	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
+	// various properties of a source schema to various required properties of the EventGridEvent schema.
+	InputSchemaMapping *InputSchemaMapping_ARM `json:"inputSchemaMapping,omitempty"`
+
+	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
+	// You can further restrict to specific IPs by configuring <seealso
+	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
+	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }

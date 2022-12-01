@@ -47,8 +47,7 @@ func newVirtualMachine20220301(
 					Offer:     to.StringPtr("UbuntuServer"),
 					Publisher: to.StringPtr("Canonical"),
 					Sku:       to.StringPtr("18.04-LTS"),
-					//Todo: Property is missing, but it shouldn't be. (donotmerge) (bearps)
-					//Version:   to.StringPtr("latest"),
+					Version:   to.StringPtr("latest"),
 				},
 			},
 			NetworkProfile: &compute2022.NetworkProfile{

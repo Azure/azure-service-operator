@@ -53,7 +53,7 @@ type RedisCreateProperties_ARM struct {
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	// etc.
-	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCreateProperties_RedisConfiguration_ARM `json:"redisConfiguration,omitempty"`
 
 	// RedisVersion: Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value
 	// 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in
@@ -79,6 +79,47 @@ type RedisCreateProperties_ARM struct {
 
 	// TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
+}
+
+type RedisCreateProperties_RedisConfiguration_ARM struct {
+	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
+
+	// AofBackupEnabled: Specifies whether the aof backup is enabled
+	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
+
+	// AofStorageConnectionString0: First storage account connection string
+	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
+
+	// AofStorageConnectionString1: Second storage account connection string
+	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
+
+	// Authnotrequired: Specifies whether the authentication is disabled. Setting this property is highly discouraged from
+	// security point of view.
+	Authnotrequired *string `json:"authnotrequired,omitempty"`
+
+	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
+	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
+
+	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
+	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
+
+	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
+	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
+
+	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
+	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
+
+	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
+	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
+
+	// RdbBackupFrequency: Specifies the frequency for creating rdb backup
+	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
+
+	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
+	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
+
+	// RdbStorageConnectionString: The storage account connection string for storing rdb file
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 type Sku_ARM struct {

@@ -85,6 +85,11 @@ func PrivateDnsZone_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateDnsZone_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForPrivateDnsZone_STATUS_ARM is a factory method for creating gopter generators

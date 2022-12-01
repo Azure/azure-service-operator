@@ -80,7 +80,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
 
-	kind := insightswebtest.WebTestProperties_Kind_Multistep //!! verify this is the correct value
+	kind := insightswebtest.WebTestProperties_Kind_Standard
 	webtest := &insightswebtest.Webtest{
 		ObjectMeta: om,
 		Spec: insightswebtest.Webtest_Spec{

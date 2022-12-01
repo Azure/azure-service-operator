@@ -21,7 +21,20 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── RedisConfiguration: map[string]string
+│   │   ├── RedisConfiguration: *Object (13 properties)
+│   │   │   ├── AdditionalProperties: map[string]string
+│   │   │   ├── AofBackupEnabled: *string
+│   │   │   ├── AofStorageConnectionString0: *string
+│   │   │   ├── AofStorageConnectionString1: *string
+│   │   │   ├── Authnotrequired: *string
+│   │   │   ├── MaxfragmentationmemoryReserved: *string
+│   │   │   ├── MaxmemoryDelta: *string
+│   │   │   ├── MaxmemoryPolicy: *string
+│   │   │   ├── MaxmemoryReserved: *string
+│   │   │   ├── RdbBackupEnabled: *string
+│   │   │   ├── RdbBackupFrequency: *string
+│   │   │   ├── RdbBackupMaxSnapshotCount: *string
+│   │   │   └── RdbStorageConnectionString: *string
 │   │   ├── RedisVersion: *string
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
@@ -343,7 +356,20 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
     │   ├── PublicNetworkAccess: *Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
-    │   ├── RedisConfiguration: map[string]string
+    │   ├── RedisConfiguration: *Object (13 properties)
+    │   │   ├── AdditionalProperties: map[string]string
+    │   │   ├── AofBackupEnabled: *string
+    │   │   ├── AofStorageConnectionString0: *string
+    │   │   ├── AofStorageConnectionString1: *string
+    │   │   ├── Authnotrequired: *string
+    │   │   ├── MaxfragmentationmemoryReserved: *string
+    │   │   ├── MaxmemoryDelta: *string
+    │   │   ├── MaxmemoryPolicy: *string
+    │   │   ├── MaxmemoryReserved: *string
+    │   │   ├── RdbBackupEnabled: *string
+    │   │   ├── RdbBackupFrequency: *string
+    │   │   ├── RdbBackupMaxSnapshotCount: *string
+    │   │   └── RdbStorageConnectionString: *string
     │   ├── RedisVersion: *string
     │   ├── ReplicasPerMaster: *int
     │   ├── ReplicasPerPrimary: *int
