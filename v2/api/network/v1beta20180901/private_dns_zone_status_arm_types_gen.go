@@ -7,8 +7,24 @@ type PrivateDnsZone_STATUS_ARM struct {
 	// Etag: The ETag of the zone.
 	Etag *string `json:"etag,omitempty"`
 
+	// Id: Fully qualified resource Id for the resource. Example -
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+	Id *string `json:"id,omitempty"`
+
+	// Location: The Azure Region where the resource lives
+	Location *string `json:"location,omitempty"`
+
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
 	// Properties: Properties of the Private DNS zone.
 	Properties *PrivateZoneProperties_STATUS_ARM `json:"properties,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+	Type *string `json:"type,omitempty"`
 }
 
 type PrivateZoneProperties_STATUS_ARM struct {

@@ -222,20 +222,20 @@ type Redis_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  map[string]string                  `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                            `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                               `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                               `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                               `json:"shardCount,omitempty"`
-	Sku                 *Sku                               `json:"sku,omitempty"`
-	StaticIP            *string                            `json:"staticIP,omitempty"`
-	SubnetReference     *genruntime.ResourceReference      `armReference:"SubnetId" json:"subnetReference,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
-	TenantSettings      map[string]string                  `json:"tenantSettings,omitempty"`
-	Zones               []string                           `json:"zones,omitempty"`
+	Owner               *genruntime.KnownResourceReference        `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                                   `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                   `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                      `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                      `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                      `json:"shardCount,omitempty"`
+	Sku                 *Sku                                      `json:"sku,omitempty"`
+	StaticIP            *string                                   `json:"staticIP,omitempty"`
+	SubnetReference     *genruntime.ResourceReference             `armReference:"SubnetId" json:"subnetReference,omitempty"`
+	Tags                map[string]string                         `json:"tags,omitempty"`
+	TenantSettings      map[string]string                         `json:"tenantSettings,omitempty"`
+	Zones               []string                                  `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Redis_Spec{}
@@ -337,7 +337,16 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *v20201201s.Red
 	redis.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// RedisConfiguration
-	redis.RedisConfiguration = genruntime.CloneMapOfStringToString(source.RedisConfiguration)
+	if source.RedisConfiguration != nil {
+		var redisConfiguration RedisCreateProperties_RedisConfiguration
+		err := redisConfiguration.AssignProperties_From_RedisCreateProperties_RedisConfiguration(source.RedisConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RedisCreateProperties_RedisConfiguration() to populate field RedisConfiguration")
+		}
+		redis.RedisConfiguration = &redisConfiguration
+	} else {
+		redis.RedisConfiguration = nil
+	}
 
 	// RedisVersion
 	redis.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
@@ -448,7 +457,16 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(redis.PublicNetworkAccess)
 
 	// RedisConfiguration
-	destination.RedisConfiguration = genruntime.CloneMapOfStringToString(redis.RedisConfiguration)
+	if redis.RedisConfiguration != nil {
+		var redisConfiguration v20201201s.RedisCreateProperties_RedisConfiguration
+		err := redis.RedisConfiguration.AssignProperties_To_RedisCreateProperties_RedisConfiguration(&redisConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RedisCreateProperties_RedisConfiguration() to populate field RedisConfiguration")
+		}
+		destination.RedisConfiguration = &redisConfiguration
+	} else {
+		destination.RedisConfiguration = nil
+	}
 
 	// RedisVersion
 	destination.RedisVersion = genruntime.ClonePointerToString(redis.RedisVersion)
@@ -1046,6 +1064,135 @@ func (keys *RedisAccessKeys_STATUS) AssignProperties_To_RedisAccessKeys_STATUS(d
 
 	// SecondaryKey
 	destination.SecondaryKey = genruntime.ClonePointerToString(keys.SecondaryKey)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration
+// Deprecated version of RedisCreateProperties_RedisConfiguration. Use v1beta20201201.RedisCreateProperties_RedisConfiguration instead
+type RedisCreateProperties_RedisConfiguration struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string                `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string                `json:"authnotrequired,omitempty"`
+	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
+}
+
+// AssignProperties_From_RedisCreateProperties_RedisConfiguration populates our RedisCreateProperties_RedisConfiguration from the provided source RedisCreateProperties_RedisConfiguration
+func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_From_RedisCreateProperties_RedisConfiguration(source *v20201201s.RedisCreateProperties_RedisConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalProperties
+	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
+
+	// AofBackupEnabled
+	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
+
+	// AofStorageConnectionString0
+	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
+
+	// AofStorageConnectionString1
+	configuration.AofStorageConnectionString1 = genruntime.ClonePointerToString(source.AofStorageConnectionString1)
+
+	// Authnotrequired
+	configuration.Authnotrequired = genruntime.ClonePointerToString(source.Authnotrequired)
+
+	// MaxfragmentationmemoryReserved
+	configuration.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(source.MaxfragmentationmemoryReserved)
+
+	// MaxmemoryDelta
+	configuration.MaxmemoryDelta = genruntime.ClonePointerToString(source.MaxmemoryDelta)
+
+	// MaxmemoryPolicy
+	configuration.MaxmemoryPolicy = genruntime.ClonePointerToString(source.MaxmemoryPolicy)
+
+	// MaxmemoryReserved
+	configuration.MaxmemoryReserved = genruntime.ClonePointerToString(source.MaxmemoryReserved)
+
+	// RdbBackupEnabled
+	configuration.RdbBackupEnabled = genruntime.ClonePointerToString(source.RdbBackupEnabled)
+
+	// RdbBackupFrequency
+	configuration.RdbBackupFrequency = genruntime.ClonePointerToString(source.RdbBackupFrequency)
+
+	// RdbBackupMaxSnapshotCount
+	configuration.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(source.RdbBackupMaxSnapshotCount)
+
+	// RdbStorageConnectionString
+	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		configuration.PropertyBag = propertyBag
+	} else {
+		configuration.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisCreateProperties_RedisConfiguration populates the provided destination RedisCreateProperties_RedisConfiguration from our RedisCreateProperties_RedisConfiguration
+func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_To_RedisCreateProperties_RedisConfiguration(destination *v20201201s.RedisCreateProperties_RedisConfiguration) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// AdditionalProperties
+	destination.AdditionalProperties = genruntime.CloneMapOfStringToString(configuration.AdditionalProperties)
+
+	// AofBackupEnabled
+	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
+
+	// AofStorageConnectionString0
+	destination.AofStorageConnectionString0 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString0)
+
+	// AofStorageConnectionString1
+	destination.AofStorageConnectionString1 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString1)
+
+	// Authnotrequired
+	destination.Authnotrequired = genruntime.ClonePointerToString(configuration.Authnotrequired)
+
+	// MaxfragmentationmemoryReserved
+	destination.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(configuration.MaxfragmentationmemoryReserved)
+
+	// MaxmemoryDelta
+	destination.MaxmemoryDelta = genruntime.ClonePointerToString(configuration.MaxmemoryDelta)
+
+	// MaxmemoryPolicy
+	destination.MaxmemoryPolicy = genruntime.ClonePointerToString(configuration.MaxmemoryPolicy)
+
+	// MaxmemoryReserved
+	destination.MaxmemoryReserved = genruntime.ClonePointerToString(configuration.MaxmemoryReserved)
+
+	// RdbBackupEnabled
+	destination.RdbBackupEnabled = genruntime.ClonePointerToString(configuration.RdbBackupEnabled)
+
+	// RdbBackupFrequency
+	destination.RdbBackupFrequency = genruntime.ClonePointerToString(configuration.RdbBackupFrequency)
+
+	// RdbBackupMaxSnapshotCount
+	destination.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(configuration.RdbBackupMaxSnapshotCount)
+
+	// RdbStorageConnectionString
+	destination.RdbStorageConnectionString = genruntime.ClonePointerToString(configuration.RdbStorageConnectionString)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

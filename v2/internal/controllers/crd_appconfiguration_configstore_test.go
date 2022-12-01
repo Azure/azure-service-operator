@@ -8,12 +8,13 @@ package controllers_test
 import (
 	"testing"
 
-	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501"
-	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // If recording this test, might need to manually purge the old App config: az appconfig purge --name asotest-confstore-fsrajl

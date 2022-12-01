@@ -69,8 +69,6 @@ func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.Namespaces_Topic_Spec{
-			//!! Location is missing (donotmerge)
-			//!! Location: tc.AzureRegion,
 			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}
@@ -118,7 +116,6 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 }
 
 func ServiceBus_Subscriptions_Rule_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
-
 	rule := &servicebus.NamespacesTopicsSubscriptionsRule{
 		ObjectMeta: tc.MakeObjectMeta("subrule"),
 		Spec: servicebus.Namespaces_Topics_Subscriptions_Rule_Spec{

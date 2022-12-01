@@ -377,12 +377,44 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage
 │       ├── Topic: *string
 │       └── Type: *string
 └── Topic: Resource
-    ├── Spec: Object (6 properties)
+    ├── Spec: Object (10 properties)
     │   ├── AzureName: string
+    │   ├── InboundIpRules: Object (3 properties)[]
+    │   │   ├── Action: *string
+    │   │   ├── IpMask: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── InputSchema: *string
+    │   ├── InputSchemaMapping: *Object (2 properties)
+    │   │   ├── Json: *Object (8 properties)
+    │   │   │   ├── DataVersion: *Object (3 properties)
+    │   │   │   │   ├── DefaultValue: *string
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── SourceField: *string
+    │   │   │   ├── EventTime: *Object (2 properties)
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── SourceField: *string
+    │   │   │   ├── EventType: *Object (3 properties)
+    │   │   │   │   ├── DefaultValue: *string
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── SourceField: *string
+    │   │   │   ├── Id: *Object (2 properties)
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── SourceField: *string
+    │   │   │   ├── InputSchemaMappingType: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── Subject: *Object (3 properties)
+    │   │   │   │   ├── DefaultValue: *string
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── SourceField: *string
+    │   │   │   └── Topic: *Object (2 properties)
+    │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │       └── SourceField: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── PublicNetworkAccess: *string
     │   └── Tags: map[string]string
     └── Status: Object (16 properties)
         ├── Conditions: conditions.Condition[]

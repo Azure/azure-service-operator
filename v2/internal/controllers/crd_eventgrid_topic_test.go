@@ -99,25 +99,27 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	tc.CreateResourceAndWait(queue)
 
-	/* TODO pending (evildiscriminator)
 	acctReference := tc.MakeReferenceFromResource(acct)
-	endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscription_Spec{
 			Owner: tc.AsExtensionOwner(topic),
 			Destination: &eventgrid.EventSubscriptionDestination{
 				StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-					EndpointType: &endpointType,
-					Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-						ResourceReference: acctReference,
-						QueueName:         &queue.Name,
-					},
+					EndpointType: endpointType, // TODO[donotmerge]: This should be a ptr but isn't, see https://github.com/Azure/azure-service-operator/issues/2619
+					// TODO[donotmerge]: These properties used to be in a "Properties" property but are flattened
+					// TODO[donotmerge]: in the Swagger branch
+					//Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+					//	ResourceReference: acctReference,
+					//	QueueName:         &queue.Name,
+					//},
+					ResourceReference: acctReference,
+					QueueName:         &queue.Name,
 				},
 			},
 		},
 	}
 
 	tc.CreateResourceAndWait(subscription)
-	*/
 }

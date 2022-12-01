@@ -44,11 +44,6 @@ supportedResourcesReport:
 #
 typeFilters:
 
-  - action: prune
-    group: definitions
-    name: Expression
-    because: expression is an ARM template construct which doesn't belong in CRDs
-
   - action: include
     group: servicebus
     version: v*20210101preview
@@ -79,28 +74,10 @@ typeFilters:
     because: preview SDK versions are excluded by default (they often do very strange things)
 
   - action: prune
-    group: compute
-    name: VirtualMachineScaleSets_Extensions_ChildResource;VirtualMachines_Extensions_ChildResource
-    because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
-
-  - action: prune
     name: Deployment
     group: resources
     because: Terrifying.
 
-  - action: prune
-    group: domainregistration
-    because: type definition for "...v1beta20200901/Domains_DomainOwnershipIdentifier" has two shapes
-
-  - action: prune
-    group: solutions
-    because: There seems to be some issue with embedded JSON objects, specifically "CreateUiDefinition"
-
-  - action: prune
-    group: aadiam
-    version: v*20170401
-    because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
-    
   - action: prune
     name: Disk
     group: compute.admin
@@ -112,86 +89,13 @@ typeFilters:
     because: "TODO(donotmerge): ends up with nil due to above"
 
   - action: prune
-    name: ManagementGroup
-    group: management
-    because: Contains directly recursive type.
-
-  - action: prune
     group: securityinsights
     name: Workspaces_Providers*
     because: Resource ownership is malformed
 
-  - action: include
-    group: network
-    version: v*2018*
-    name: private*
-
-  - action: prune
-    group: network
-    version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
-    because: Pruning all older networking api versions types since we don't use them anyway (and they have odd issues)
-
-  - action: prune
-    group: compute
-    version: 'v*beta201*'
-    because: Pruning all older compute api versions types since we don't use them anyway (and they have odd issues)
-
-  - action: prune
-    group: kusto
-    because: Some types use OneOf in a way we don't currently handle correctly.
-
-  - action: prune
-    group: timeseriesinsights
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: databoxedge
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: datashare
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: apimanagement
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: automation
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: machinelearningservices
-    name: Workspaces_Service*
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: resources
-    name: DeploymentScript*
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: hdinsight
-    name: Clusters;Clusters_Extensions
-    because: Uses one-of in a way we don't support
-    
-  - action: prune
-    group: resources
-    name: Tags
-    because: This type is defined recursively.
-
   - action: prune
     group: management
     because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
-
-  - action: include
-    group: compute.extensions
-    name: GenericExtension
-    because: This is the one kind of extension we want to allow
-
-  - action: prune
-    group: compute.extensions
-    because: All other extensions should be removed
 
   - action: prune
     group: costmanagement
@@ -204,11 +108,6 @@ anyTypePackages:
 
 typeTransformers:
   # Deal with stuff that exists on ARM resources but doesn't make sense on CRDs
-  - group: definitions
-    name: NumberOrExpression
-    because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
-    target:
-      name: float
   - name: "*"
     property: Tags
     ifType: 
@@ -224,26 +123,6 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
-  - group: cache
-    name: RedisCreateProperties
-    property: RedisConfiguration
-    target:
-      map:
-        key:
-          name: string
-        value:
-          name: string
-    because: the definition in resource manager schemas uses additionalProperties + defined fields which we don't support
-#  - group: cache
-#    name: RedisProperties_Status
-#    property: RedisConfiguration
-#    target:
-#      map:
-#        key:
-#          name: string
-#        value:
-#          name: string
-#    because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
 
   # TODO(donotmerge)
   # - group: cache
@@ -252,30 +131,6 @@ typeTransformers:
   #   remove: true
   #   because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
-  - group: deploymenttemplate
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-
-  - group: definitions
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-
-  - name: "*"
-    property: DependsOn
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-
-  - name: "*"
-    property: Comments
-    ifType:
-      name: string
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: BatchAccountIdentity
     group: batch
@@ -361,26 +216,13 @@ typeTransformers:
 #    remove: true
 #    because: This property should be marked readonly
 
-  - group: eventgrid
-    version: v*20190601
-    name: Domain_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
-
-  - group: eventgrid
-    version: "*"
-    name: Topic_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
-
-  - group: network
-    version: "*"
-    name: PrivateDnsZone_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
+# TODO[donotmerge]: This commented out section seems to not do anything?
+#  - group: network
+#    version: "*"
+#    name: PrivateDnsZone_Spec
+#    property: Properties
+#    remove: true
+#    because: it has no writable properties in swagger
   - group: network
     version: "*"
     name: RouteTables_Route_Spec

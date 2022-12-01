@@ -8,10 +8,11 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {

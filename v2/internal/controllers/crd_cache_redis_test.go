@@ -95,9 +95,9 @@ func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, p
 			},
 			EnableNonSslPort:  to.BoolPtr(false),
 			MinimumTlsVersion: &tls12,
-			RedisConfiguration: map[string]string{
-				"maxmemory-delta":  "10",
-				"maxmemory-policy": "allkeys-lru",
+			RedisConfiguration: &cache.RedisCreateProperties_RedisConfiguration{
+				MaxmemoryDelta:  to.StringPtr("10"),
+				MaxmemoryPolicy: to.StringPtr("allkeys-lru"),
 			},
 			RedisVersion: to.StringPtr("6"),
 		},

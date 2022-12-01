@@ -5,8 +5,6 @@ Licensed under the MIT license.
 
 package controllers_test
 
-/* TODO: disabled pending (evildiscriminator)
-
 import (
 	"testing"
 
@@ -62,7 +60,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 	endpoint := &cdn.ProfilesEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
-		Spec: cdn.ProfilesEndpoint_Spec{
+		Spec: cdn.Profiles_Endpoint_Spec{
 			Owner:                  testcommon.AsOwner(profile),
 			Location:               to.StringPtr("Global"),
 			IsCompressionEnabled:   to.BoolPtr(true),
@@ -83,5 +81,3 @@ func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 
 	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
 }
-
-*/

@@ -334,11 +334,17 @@ type PrivateDnsZone_Spec struct {
 	// Etag: The ETag of the zone.
 	Etag *string `json:"etag,omitempty"`
 
+	// Location: The Azure Region where the resource lives
+	Location *string `json:"location,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrivateDnsZone_Spec{}
@@ -356,8 +362,22 @@ func (zone *PrivateDnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Etag = &etag
 	}
 
+	// Set property ‘Location’:
+	if zone.Location != nil {
+		location := *zone.Location
+		result.Location = &location
+	}
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Tags’:
+	if zone.Tags != nil {
+		result.Tags = make(map[string]string, len(zone.Tags))
+		for key, value := range zone.Tags {
+			result.Tags[key] = value
+		}
+	}
 	return result, nil
 }
 
@@ -382,8 +402,22 @@ func (zone *PrivateDnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		zone.Etag = &etag
 	}
 
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		zone.Location = &location
+	}
+
 	// Set property ‘Owner’:
 	zone.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		zone.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			zone.Tags[key] = value
+		}
+	}
 
 	// No error
 	return nil
@@ -448,6 +482,9 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(sourc
 	// Etag
 	zone.Etag = genruntime.ClonePointerToString(source.Etag)
 
+	// Location
+	zone.Location = genruntime.ClonePointerToString(source.Location)
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -455,6 +492,9 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_From_PrivateDnsZone_Spec(sourc
 	} else {
 		zone.Owner = nil
 	}
+
+	// Tags
+	zone.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -471,6 +511,9 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(zone.Etag)
 
+	// Location
+	destination.Location = genruntime.ClonePointerToString(zone.Location)
+
 	// OriginalVersion
 	destination.OriginalVersion = zone.OriginalVersion()
 
@@ -481,6 +524,9 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 	} else {
 		destination.Owner = nil
 	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(zone.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -508,6 +554,13 @@ type PrivateDnsZone_STATUS struct {
 	// Etag: The ETag of the zone.
 	Etag *string `json:"etag,omitempty"`
 
+	// Id: Fully qualified resource Id for the resource. Example -
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+	Id *string `json:"id,omitempty"`
+
+	// Location: The Azure Region where the resource lives
+	Location *string `json:"location,omitempty"`
+
 	// MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
 	// read-only property and any attempt to set this value will be ignored.
 	MaxNumberOfRecordSets *int `json:"maxNumberOfRecordSets,omitempty"`
@@ -520,6 +573,9 @@ type PrivateDnsZone_STATUS struct {
 	// Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
 	// ignored.
 	MaxNumberOfVirtualNetworkLinksWithRegistration *int `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
+
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
 
 	// NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
 	// attempt to set this value will be ignored.
@@ -536,6 +592,12 @@ type PrivateDnsZone_STATUS struct {
 	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
 	// value will be ignored.
 	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
@@ -610,6 +672,18 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		zone.Etag = &etag
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		zone.Id = &id
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		zone.Location = &location
+	}
+
 	// Set property ‘MaxNumberOfRecordSets’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -635,6 +709,12 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 			maxNumberOfVirtualNetworkLinksWithRegistration := *typedInput.Properties.MaxNumberOfVirtualNetworkLinksWithRegistration
 			zone.MaxNumberOfVirtualNetworkLinksWithRegistration = &maxNumberOfVirtualNetworkLinksWithRegistration
 		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		zone.Name = &name
 	}
 
 	// Set property ‘NumberOfRecordSets’:
@@ -673,6 +753,20 @@ func (zone *PrivateDnsZone_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		zone.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			zone.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		zone.Type = &typeVar
+	}
+
 	// No error
 	return nil
 }
@@ -686,6 +780,12 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(s
 	// Etag
 	zone.Etag = genruntime.ClonePointerToString(source.Etag)
 
+	// Id
+	zone.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	zone.Location = genruntime.ClonePointerToString(source.Location)
+
 	// MaxNumberOfRecordSets
 	zone.MaxNumberOfRecordSets = genruntime.ClonePointerToInt(source.MaxNumberOfRecordSets)
 
@@ -694,6 +794,9 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(s
 
 	// MaxNumberOfVirtualNetworkLinksWithRegistration
 	zone.MaxNumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(source.MaxNumberOfVirtualNetworkLinksWithRegistration)
+
+	// Name
+	zone.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NumberOfRecordSets
 	zone.NumberOfRecordSets = genruntime.ClonePointerToInt(source.NumberOfRecordSets)
@@ -712,6 +815,12 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_From_PrivateDnsZone_STATUS(s
 		zone.ProvisioningState = nil
 	}
 
+	// Tags
+	zone.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	zone.Type = genruntime.ClonePointerToString(source.Type)
+
 	// No error
 	return nil
 }
@@ -727,6 +836,12 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(des
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(zone.Etag)
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(zone.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(zone.Location)
+
 	// MaxNumberOfRecordSets
 	destination.MaxNumberOfRecordSets = genruntime.ClonePointerToInt(zone.MaxNumberOfRecordSets)
 
@@ -735,6 +850,9 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(des
 
 	// MaxNumberOfVirtualNetworkLinksWithRegistration
 	destination.MaxNumberOfVirtualNetworkLinksWithRegistration = genruntime.ClonePointerToInt(zone.MaxNumberOfVirtualNetworkLinksWithRegistration)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(zone.Name)
 
 	// NumberOfRecordSets
 	destination.NumberOfRecordSets = genruntime.ClonePointerToInt(zone.NumberOfRecordSets)
@@ -752,6 +870,12 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(des
 	} else {
 		destination.ProvisioningState = nil
 	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(zone.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(zone.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
