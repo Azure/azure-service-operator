@@ -115,30 +115,33 @@ func (scanner *SchemaScanner) RunHandlerForSchema(ctx context.Context, schema Sc
 }
 
 // GenerateDefinitionsFromDeploymentTemplate takes in the resources section of the Azure deployment template schema and returns golang AST Packages
-//    containing the types described in the schema which match the {resource_type}/{version} filters provided.
-//
-// 		The schema we are working with is something like the following (in yaml for brevity):
-//
-// 		resources:
-// 			items:
-// 				oneOf:
-// 					allOf:
-// 						$ref: {{ base resource schema for ARM }}
-// 						oneOf:
-// 							- ARM resources
-// 				oneOf:
-// 					allOf:
-// 						$ref: {{ base resource for external resources, think SendGrid }}
-// 						oneOf:
-// 							- External ARM resources
-// 				oneOf:
-// 					allOf:
-// 						$ref: {{ base resource for ARM specific stuff like locks, deployments, etc }}
-// 						oneOf:
-// 							- ARM specific resources. I'm not 100% sure why...
-//
-// 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
+// containing the types described in the schema which match the {resource_type}/{version} filters provided.
 func (scanner *SchemaScanner) GenerateDefinitionsFromDeploymentTemplate(ctx context.Context, root Schema) (astmodel.TypeDefinitionSet, error) {
+	/*
+	 *
+	 * 		The schema we are working with is something like the following (in yaml for brevity):
+	 *
+	 * 		resources:
+	 * 			items:
+	 * 				oneOf:
+	 * 					allOf:
+	 * 						$ref: {{ base resource schema for ARM }}
+	 * 						oneOf:
+	 * 							- ARM resources
+	 * 				oneOf:
+	 * 					allOf:
+	 * 						$ref: {{ base resource for external resources, think SendGrid }}
+	 * 						oneOf:
+	 * 							- External ARM resources
+	 * 				oneOf:
+	 * 					allOf:
+	 * 						$ref: {{ base resource for ARM specific stuff like locks, deployments, etc }}
+	 * 						oneOf:
+	 * 							- ARM specific resources. I'm not 100% sure why...
+	 *
+	 * 		allOf acts like composition which composites each schema from the child oneOf with the base reference from allOf.
+	 */
+
 	ctx, span := tab.StartSpan(ctx, "GenerateDefinitionsFromDeploymentTemplate")
 	defer span.End()
 

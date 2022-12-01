@@ -269,16 +269,24 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 }
 
 // newOwnerFunction creates the Owner function declaration. This has two possible formats.
-// For normal resources:
-//	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
-//		group, kind := genruntime.LookupOwnerGroupKind(<receiver>.Spec)
-//		return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: <receiver>.Namespace, Name: <receiver>.Spec.Owner.Name}
-//	}
-// For extension resources:
-//	func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
-//		return &genruntime.ResourceReference{Group: <receiver>.Spec.Owner.Group, Kind: <receiver>.Spec.Owner.Kind, name: <receiver>.Spec.Owner.Name}
-//	}
 func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	/*
+	 * Sample output:
+	 *
+	 * For normal resources:
+	 *
+	 * func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
+	 *     group, kind := genruntime.LookupOwnerGroupKind(<receiver>.Spec)
+	 *     return &genruntime.ResourceReference{Group: group, Kind: kind, Namespace: <receiver>.Namespace, Name: <receiver>.Spec.Owner.Name}
+	 * }
+	 *
+	 * For extension resources:
+	 *
+	 * func (<receiver> *<receiver>) Owner() *genruntime.ResourceReference {
+	 *     return &genruntime.ResourceReference{Group: <receiver>.Spec.Owner.Group, Kind: <receiver>.Spec.Owner.Kind, name: <receiver>.Spec.Owner.Name}
+	 * }
+	 *
+	 */
 	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 
@@ -329,10 +337,15 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 }
 
 // newGetResourceScopeFunction creates a function that returns the scope of the resource.
-//	func (<receiver> *<receiver>) GetResourceScope() genruntime.ResourceScope {
-//		return genruntime.ResourceScopeResourceGroup
-//	}
 func newGetResourceScopeFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	/*
+	 * Sample output
+	 *
+	 * func (<receiver> *<receiver>) GetResourceScope() genruntime.ResourceScope {
+	 *     return genruntime.ResourceScopeResourceGroup
+	 * }
+	 *
+	 */
 	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
