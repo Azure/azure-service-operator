@@ -93,21 +93,14 @@ func (policy *StorageAccountsManagementPolicy) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (policy *StorageAccountsManagementPolicy) defaultAzureName() {
-	if policy.Spec.AzureName == "" {
-		policy.Spec.AzureName = policy.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the StorageAccountsManagementPolicy resource
-func (policy *StorageAccountsManagementPolicy) defaultImpl() { policy.defaultAzureName() }
+func (policy *StorageAccountsManagementPolicy) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (policy *StorageAccountsManagementPolicy) AzureName() string {
-	return policy.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -332,10 +325,6 @@ type StorageAccountsManagementPolicyList struct {
 }
 
 type StorageAccounts_ManagementPolicy_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -384,9 +373,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) PopulateFromARM(owner genru
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_ManagementPolicy_Spec_ARM, got %T", armInput)
 	}
-
-	// Set property ‘AzureName’:
-	policy.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
 	policy.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
@@ -462,9 +448,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertSpecTo(destination g
 // AssignProperties_From_StorageAccounts_ManagementPolicy_Spec populates our StorageAccounts_ManagementPolicy_Spec from the provided source StorageAccounts_ManagementPolicy_Spec
 func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_StorageAccounts_ManagementPolicy_Spec(source *alpha20210401s.StorageAccounts_ManagementPolicy_Spec) error {
 
-	// AzureName
-	policy.AzureName = source.AzureName
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -493,9 +476,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(destination *alpha20210401s.StorageAccounts_ManagementPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = policy.AzureName
 
 	// OriginalVersion
 	destination.OriginalVersion = policy.OriginalVersion()
@@ -534,11 +514,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 // OriginalVersion returns the original API version used to create the resource.
 func (policy *StorageAccounts_ManagementPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (policy *StorageAccounts_ManagementPolicy_Spec) SetAzureName(azureName string) {
-	policy.AzureName = azureName
 }
 
 // Deprecated version of StorageAccounts_ManagementPolicy_STATUS. Use v1beta20210401.StorageAccounts_ManagementPolicy_STATUS instead

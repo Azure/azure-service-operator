@@ -93,21 +93,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (setting *MongodbDatabaseCollectionThroughputSetting) defaultAzureName() {
-	if setting.Spec.AzureName == "" {
-		setting.Spec.AzureName = setting.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the MongodbDatabaseCollectionThroughputSetting resource
-func (setting *MongodbDatabaseCollectionThroughputSetting) defaultImpl() { setting.defaultAzureName() }
+func (setting *MongodbDatabaseCollectionThroughputSetting) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
-	return setting.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
@@ -332,10 +325,7 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 }
 
 type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string  `json:"azureName,omitempty"`
-	Location  *string `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -400,9 +390,6 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM, got %T", armInput)
 	}
-
-	// Set property ‘AzureName’:
-	setting.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -492,9 +479,6 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 // AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
 func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(source *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error {
 
-	// AzureName
-	setting.AzureName = source.AzureName
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -529,9 +513,6 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec(destination *alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = setting.AzureName
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -576,11 +557,6 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 // OriginalVersion returns the original API version used to create the resource.
 func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) OriginalVersion() string {
 	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) SetAzureName(azureName string) {
-	setting.AzureName = azureName
 }
 
 // Deprecated version of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS instead

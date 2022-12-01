@@ -24,7 +24,7 @@ import (
 // Storage version of v1beta20210401.StorageAccountsBlobService
 // Generator information:
 // - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -46,9 +46,9 @@ func (service *StorageAccountsBlobService) SetConditions(conditions conditions.C
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (service *StorageAccountsBlobService) AzureName() string {
-	return service.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -126,7 +126,7 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 // Storage version of v1beta20210401.StorageAccountsBlobService
 // Generator information:
 // - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/{BlobServicesName}
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -135,11 +135,7 @@ type StorageAccountsBlobServiceList struct {
 
 // Storage version of v1beta20210401.StorageAccounts_BlobService_Spec
 type StorageAccounts_BlobService_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                      string                        `json:"azureName,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
 	Cors                           *CorsRules                    `json:"cors,omitempty"`

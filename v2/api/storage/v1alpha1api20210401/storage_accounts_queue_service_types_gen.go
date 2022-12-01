@@ -93,21 +93,14 @@ func (service *StorageAccountsQueueService) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (service *StorageAccountsQueueService) defaultAzureName() {
-	if service.Spec.AzureName == "" {
-		service.Spec.AzureName = service.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the StorageAccountsQueueService resource
-func (service *StorageAccountsQueueService) defaultImpl() { service.defaultAzureName() }
+func (service *StorageAccountsQueueService) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &StorageAccountsQueueService{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (service *StorageAccountsQueueService) AzureName() string {
-	return service.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -332,10 +325,7 @@ type StorageAccountsQueueServiceList struct {
 }
 
 type StorageAccounts_QueueService_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string     `json:"azureName,omitempty"`
-	Cors      *CorsRules `json:"cors,omitempty"`
+	Cors *CorsRules `json:"cors,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -382,9 +372,6 @@ func (service *StorageAccounts_QueueService_Spec) PopulateFromARM(owner genrunti
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_QueueService_Spec_ARM, got %T", armInput)
 	}
-
-	// Set property ‘AzureName’:
-	service.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Cors’:
 	// copying flattened property:
@@ -460,9 +447,6 @@ func (service *StorageAccounts_QueueService_Spec) ConvertSpecTo(destination genr
 // AssignProperties_From_StorageAccounts_QueueService_Spec populates our StorageAccounts_QueueService_Spec from the provided source StorageAccounts_QueueService_Spec
 func (service *StorageAccounts_QueueService_Spec) AssignProperties_From_StorageAccounts_QueueService_Spec(source *alpha20210401s.StorageAccounts_QueueService_Spec) error {
 
-	// AzureName
-	service.AzureName = source.AzureName
-
 	// Cors
 	if source.Cors != nil {
 		var cor CorsRules
@@ -491,9 +475,6 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_From_StorageA
 func (service *StorageAccounts_QueueService_Spec) AssignProperties_To_StorageAccounts_QueueService_Spec(destination *alpha20210401s.StorageAccounts_QueueService_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = service.AzureName
 
 	// Cors
 	if service.Cors != nil {
@@ -532,11 +513,6 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_To_StorageAcc
 // OriginalVersion returns the original API version used to create the resource.
 func (service *StorageAccounts_QueueService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (service *StorageAccounts_QueueService_Spec) SetAzureName(azureName string) {
-	service.AzureName = azureName
 }
 
 // Deprecated version of StorageAccounts_QueueService_STATUS. Use v1beta20210401.StorageAccounts_QueueService_STATUS instead

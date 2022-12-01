@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -81,21 +81,14 @@ func (schedule *RedisPatchSchedule) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (schedule *RedisPatchSchedule) defaultAzureName() {
-	if schedule.Spec.AzureName == "" {
-		schedule.Spec.AzureName = schedule.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the RedisPatchSchedule resource
-func (schedule *RedisPatchSchedule) defaultImpl() { schedule.defaultAzureName() }
+func (schedule *RedisPatchSchedule) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (schedule *RedisPatchSchedule) AzureName() string {
-	return schedule.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
@@ -314,7 +307,7 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/{default}
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,10 +315,6 @@ type RedisPatchScheduleList struct {
 }
 
 type Redis_PatchSchedule_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -374,9 +363,6 @@ func (schedule *Redis_PatchSchedule_Spec) PopulateFromARM(owner genruntime.Arbit
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_PatchSchedule_Spec_ARM, got %T", armInput)
 	}
-
-	// Set property ‘AzureName’:
-	schedule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
 	schedule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
@@ -451,9 +437,6 @@ func (schedule *Redis_PatchSchedule_Spec) ConvertSpecTo(destination genruntime.C
 // AssignProperties_From_Redis_PatchSchedule_Spec populates our Redis_PatchSchedule_Spec from the provided source Redis_PatchSchedule_Spec
 func (schedule *Redis_PatchSchedule_Spec) AssignProperties_From_Redis_PatchSchedule_Spec(source *v20201201s.Redis_PatchSchedule_Spec) error {
 
-	// AzureName
-	schedule.AzureName = source.AzureName
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -488,9 +471,6 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_From_Redis_PatchSched
 func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedule_Spec(destination *v20201201s.Redis_PatchSchedule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AzureName
-	destination.AzureName = schedule.AzureName
 
 	// OriginalVersion
 	destination.OriginalVersion = schedule.OriginalVersion()
@@ -535,11 +515,6 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedul
 // OriginalVersion returns the original API version used to create the resource.
 func (schedule *Redis_PatchSchedule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (schedule *Redis_PatchSchedule_Spec) SetAzureName(azureName string) {
-	schedule.AzureName = azureName
 }
 
 type Redis_PatchSchedule_STATUS struct {

@@ -642,7 +642,9 @@ func generateDefinitionsFor(
 		return astmodel.EmptyTypeName, err
 	}
 
-	//TODO(donotmerge): This code and below does nothing. schema.url() is always empty?
+	// TODO: This code and below does nothing in the Swagger path as schema.url() is always empty.
+	// TODO: It's still used in the JSON schema path for golden tests and should be removed once those
+	// TODO: are retired.
 	resourceType := categorizeResourceType(url)
 	if resourceType != nil {
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)

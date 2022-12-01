@@ -330,6 +330,8 @@ type Namespace_Spec struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=6
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

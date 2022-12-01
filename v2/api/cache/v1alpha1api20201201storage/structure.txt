@@ -134,8 +134,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │       ├── ServerRole: *string
 │       └── Type: *string
 └── RedisPatchSchedule: Resource
-    ├── Spec: Object (5 properties)
-    │   ├── AzureName: string
+    ├── Spec: Object (4 properties)
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag

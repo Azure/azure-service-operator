@@ -250,30 +250,16 @@ func RunJSONSerializationTestForRedis_PatchSchedule_Spec(subject Redis_PatchSche
 var redis_PatchSchedule_SpecGenerator gopter.Gen
 
 // Redis_PatchSchedule_SpecGenerator returns a generator of Redis_PatchSchedule_Spec instances for property testing.
-// We first initialize redis_PatchSchedule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func Redis_PatchSchedule_SpecGenerator() gopter.Gen {
 	if redis_PatchSchedule_SpecGenerator != nil {
 		return redis_PatchSchedule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec(generators)
-	redis_PatchSchedule_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedule_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec(generators)
 	AddRelatedPropertyGeneratorsForRedis_PatchSchedule_Spec(generators)
 	redis_PatchSchedule_SpecGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedule_Spec{}), generators)
 
 	return redis_PatchSchedule_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 }
 
 // AddRelatedPropertyGeneratorsForRedis_PatchSchedule_Spec is a factory method for creating gopter generators

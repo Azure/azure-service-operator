@@ -940,8 +940,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollectionThroughputSetting: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Resource: *Object (2 properties)
@@ -975,8 +974,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseThroughputSetting: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Resource: *Object (2 properties)
@@ -1203,8 +1201,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerThroughputSetting: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Resource: *Object (2 properties)
@@ -1308,8 +1305,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 └── SqlDatabaseThroughputSetting: Resource
-    ├── Spec: Object (5 properties)
-    │   ├── AzureName: string
+    ├── Spec: Object (4 properties)
     │   ├── Location: *string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── Resource: *Object (2 properties)

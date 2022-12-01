@@ -135,6 +135,8 @@ type NamespacesEventhubList struct {
 
 // Storage version of v1beta20211101.Namespaces_Eventhub_Spec
 type Namespaces_Eventhub_Spec struct {
+	// +kubebuilder:validation:MaxLength=256
+	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName              string              `json:"azureName,omitempty"`

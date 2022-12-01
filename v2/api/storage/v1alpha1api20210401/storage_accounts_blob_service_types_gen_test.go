@@ -276,7 +276,6 @@ func StorageAccounts_BlobService_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccounts_BlobService_Spec(gens map[string]gopter.Gen) {
 	gens["AutomaticSnapshotPolicyEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AzureName"] = gen.AlphaString()
 	gens["DefaultServiceVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["IsVersioningEnabled"] = gen.PtrOf(gen.Bool())
 }

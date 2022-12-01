@@ -147,14 +147,17 @@
 | StorageAccountsManagementPolicy                                      | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueService                                          | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueServicesQueue                                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_BlobService_Name_Spec                                | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobService_Properties_STATUS                        | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobService_Properties_Spec                          | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobService_STATUS                                   | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobService_Spec                                     | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobServices_Container_STATUS                        | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_BlobServices_Container_Spec                          | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_ManagementPolicy_Name_Spec                           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_ManagementPolicy_STATUS                              | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_ManagementPolicy_Spec                                | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccounts_QueueService_Name_Spec                               | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_QueueService_Properties_STATUS                       | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_QueueService_Properties_Spec                         | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccounts_QueueService_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |

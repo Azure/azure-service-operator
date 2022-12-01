@@ -208,7 +208,9 @@ const APIVersion_Value = APIVersion("2021-06-01")
 
 // Storage version of v1alpha1api20210601.Workspace_Spec
 type Workspace_Spec struct {
-	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=4
+	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`

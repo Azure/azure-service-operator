@@ -6,7 +6,6 @@
 package jsonast
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
@@ -76,37 +75,45 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 	g.Expect(name).To(Equal("StorageAccounts_BlobServices_Container"))
 }
 
-func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
+func Test_extractLastPathParam_ExtractsParameter(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ctx := context.Background()
 	extractor := SwaggerTypeExtractor{}
 
-	paths, _ := extractor.expandEnumsInPath(ctx, "/some/{value}", nil, []spec.Parameter{
-		{
-			CommonValidations: spec.CommonValidations{
-				Enum: []interface{}{"yes", "no"},
-			},
-			ParamProps: spec.ParamProps{
-				In:       "path",
-				Name:     "value",
-				Required: true,
-			},
+	param := spec.Parameter{
+		CommonValidations: spec.CommonValidations{
+			Enum: []interface{}{"yes", "no"},
 		},
-	})
+		ParamProps: spec.ParamProps{
+			In:       "path",
+			Name:     "value",
+			Required: true,
+		},
+	}
 
-	g.Expect(paths).To(ContainElements("/some/yes", "/some/no"))
+	lastParam, ok := extractor.extractLastPathParam("/some/{value}", []spec.Parameter{param})
+	g.Expect(ok).To(BeTrue())
+	g.Expect(lastParam).To(Equal(param))
 }
 
-func Test_expandEnumsInPath_ExpandsMultipleEnums(t *testing.T) {
+func Test_extractLastPathParam_ExtractsParameterFromMultipleParameters(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	ctx := context.Background()
 	extractor := SwaggerTypeExtractor{}
+	param := spec.Parameter{
+		CommonValidations: spec.CommonValidations{
+			Enum: []interface{}{"orange", "blue"},
+		},
+		ParamProps: spec.ParamProps{
+			In:       "path",
+			Name:     "value2",
+			Required: true,
+		},
+	}
 
-	paths, _ := extractor.expandEnumsInPath(ctx, "/some/{value1}/{value2}", nil, []spec.Parameter{
+	lastParam, ok := extractor.extractLastPathParam("/some/{value1}/{value2}", []spec.Parameter{
 		{
 			CommonValidations: spec.CommonValidations{
 				Enum: []interface{}{"yes", "no"},
@@ -117,22 +124,49 @@ func Test_expandEnumsInPath_ExpandsMultipleEnums(t *testing.T) {
 				Required: true,
 			},
 		},
+		param,
+	})
+
+	g.Expect(ok).To(BeTrue())
+	g.Expect(lastParam).To(Equal(param))
+}
+
+func Test_extractLastPathParam_StaticParameterName(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	extractor := SwaggerTypeExtractor{}
+	param := spec.Parameter{
+		SimpleSchema: spec.SimpleSchema{
+			Type: "string",
+		},
+		ParamProps: spec.ParamProps{
+			Name:        "name",
+			In:          "path",
+			Required:    true,
+			Description: "The name",
+		},
+		CommonValidations: spec.CommonValidations{
+			Enum: []interface{}{
+				"default",
+			},
+		},
+	}
+
+	lastParam, ok := extractor.extractLastPathParam("/some/{value1}/default", []spec.Parameter{
 		{
 			CommonValidations: spec.CommonValidations{
-				Enum: []interface{}{"orange", "blue"},
+				Enum: []interface{}{"yes", "no"},
 			},
 			ParamProps: spec.ParamProps{
 				In:       "path",
-				Name:     "value2",
+				Name:     "value1",
 				Required: true,
 			},
 		},
+		param,
 	})
 
-	g.Expect(paths).To(ContainElements(
-		"/some/yes/blue",
-		"/some/no/blue",
-		"/some/yes/orange",
-		"/some/no/orange",
-	))
+	g.Expect(ok).To(BeTrue())
+	g.Expect(lastParam).To(Equal(param))
 }

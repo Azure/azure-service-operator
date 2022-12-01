@@ -273,7 +273,6 @@ func Redis_PatchSchedule_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_PatchSchedule_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 	gens["OriginalVersion"] = gen.AlphaString()
 }
 

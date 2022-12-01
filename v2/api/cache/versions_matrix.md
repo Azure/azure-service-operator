@@ -54,6 +54,7 @@
 | Redis_FirewallRule_Spec                       | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_LinkedServer_STATUS                     | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_LinkedServer_Spec                       | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| Redis_PatchSchedule_Name_Spec                 | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_PatchSchedule_STATUS                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_PatchSchedule_Spec                      | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_STATUS                                  | v1alpha1api20201201 |                     | v1beta20201201 |                |

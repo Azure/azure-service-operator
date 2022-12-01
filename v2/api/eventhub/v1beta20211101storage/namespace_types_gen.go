@@ -143,6 +143,8 @@ const APIVersion_Value = APIVersion("2021-11-01")
 type Namespace_Spec struct {
 	AlternateName *string `json:"alternateName,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=6
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

@@ -65,9 +65,9 @@ func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) err
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (policy *StorageAccountsManagementPolicy) AzureName() string {
-	return policy.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -201,9 +201,6 @@ type StorageAccountsManagementPolicyList struct {
 
 // Storage version of v1alpha1api20210401.StorageAccounts_ManagementPolicy_Spec
 type StorageAccounts_ManagementPolicy_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
 	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -270,9 +267,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AzureName
-	policy.AzureName = source.AzureName
-
 	// OriginalVersion
 	policy.OriginalVersion = source.OriginalVersion
 
@@ -311,9 +305,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_StorageAccounts_ManagementPolicy_Spec(destination *v20210401s.StorageAccounts_ManagementPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
-
-	// AzureName
-	destination.AzureName = policy.AzureName
 
 	// OriginalVersion
 	destination.OriginalVersion = policy.OriginalVersion

@@ -631,11 +631,6 @@ func (in *Delegation) DeepCopyInto(out *Delegation) {
 			(*out)[key] = val
 		}
 	}
-	if in.Reference != nil {
-		in, out := &in.Reference, &out.Reference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
 	if in.ServiceName != nil {
 		in, out := &in.ServiceName, &out.ServiceName
 		*out = new(string)
