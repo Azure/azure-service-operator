@@ -121,9 +121,11 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 		// Parameters may be defined at the URL level or the individual verb level (PUT, GET, etc). The union is the final parameter set
 		// for the operation
 		fullPutParameters := append(op.Parameters, op.Put.Parameters...)
-		nameParameterType := extractor.getNameParameterType(ctx, rawOperationPath, scanner, fullPutParameters)
 
-		armType, resourceName, err := extractor.resourceNameFromOperationPath(rawOperationPath)
+		nameParameterType := extractor.getNameParameterType(ctx, rawOperationPath, scanner, fullPutParameters)
+		operationPath := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, fullPutParameters)
+
+		armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 		if err != nil {
 			klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
 			continue
@@ -193,7 +195,7 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 				SpecType:   resourceSpec,
 				StatusType: resourceStatus,
 				ARMType:    armType,
-				ARMURI:     rawOperationPath,
+				ARMURI:     operationPath,
 			}
 		}
 	}
@@ -492,7 +494,6 @@ func (extractor *SwaggerTypeExtractor) getNameParameterType(
 		panic(fmt.Sprintf("couldn't find path parameter for %s", operationPath))
 	}
 
-	// non-enum parameter
 	var err error
 	var paramType astmodel.Type
 	schema := extractor.schemaFromParameter(lastParam)
@@ -506,6 +507,42 @@ func (extractor *SwaggerTypeExtractor) getNameParameterType(
 	}
 
 	return paramType
+}
+
+// expandEnumsInPath expands simple enums with a single value in the path
+func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
+	ctx context.Context,
+	operationPath string,
+	scanner *SchemaScanner,
+	parameters []spec.Parameter) string {
+
+	result := operationPath
+
+	for _, param := range parameters {
+		_, resolved := extractor.fullyResolveParameter(param)
+
+		var err error
+		var paramType astmodel.Type
+		schema := extractor.schemaFromParameter(param)
+
+		if schema == nil {
+			panic(fmt.Sprintf("no schema generated for parameter %s in path %q", param.Name, operationPath))
+		}
+
+		paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
+		if err != nil {
+			panic(err)
+		}
+
+		enum, isEnum := paramType.(*astmodel.EnumType)
+		if isEnum && len(enum.Options()) == 1 {
+			theOption := strings.Trim(enum.Options()[0].Value, "\"")
+			toReplace := fmt.Sprintf("{%s}", resolved.Name)
+			result = strings.ReplaceAll(result, toReplace, theOption)
+		}
+	}
+
+	return result
 }
 
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.TypeName, error) {
@@ -611,7 +648,7 @@ func (extractor *SwaggerTypeExtractor) extractLastPathParam(operationPath string
 				Type: "string",
 			},
 			ParamProps: spec.ParamProps{
-				Name:        "name", // TODO: We don't know that this name isn't taken already
+				Name:        getUnusedParameterName(params),
 				In:          "path",
 				Required:    true,
 				Description: "The name",
@@ -640,6 +677,19 @@ func (extractor *SwaggerTypeExtractor) extractLastPathParam(operationPath string
 	}
 
 	return lastParam, found
+}
+
+func getUnusedParameterName(params []spec.Parameter) string {
+	name := "name" // Default to name if we can
+	clashes := 0
+	for _, param := range params {
+		if param.Name == name {
+			clashes += 1
+			name = fmt.Sprintf("name%d", clashes)
+		}
+	}
+
+	return name
 }
 
 type schemaAndValidations struct {

@@ -8,10 +8,12 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+	. "github.com/onsi/gomega"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	. "github.com/onsi/gomega"
 )
 
 func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
@@ -25,9 +27,8 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	zone := &network.PrivateDnsZone{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: network.PrivateDnsZone_Spec{
-			//TODO: Location is missing (donotmerge) (bearps)
-			//Location: to.StringPtr("global"),
-			Owner: testcommon.AsOwner(rg),
+			Location: to.StringPtr("global"),
+			Owner:    testcommon.AsOwner(rg),
 		},
 	}
 

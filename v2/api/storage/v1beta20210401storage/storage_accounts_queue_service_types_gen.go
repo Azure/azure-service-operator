@@ -24,7 +24,7 @@ import (
 // Storage version of v1beta20210401.StorageAccountsQueueService
 // Generator information:
 // - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -126,7 +126,7 @@ func (service *StorageAccountsQueueService) OriginalGVK() *schema.GroupVersionKi
 // Storage version of v1beta20210401.StorageAccountsQueueService
 // Generator information:
 // - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/{queueServiceName}
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
 type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

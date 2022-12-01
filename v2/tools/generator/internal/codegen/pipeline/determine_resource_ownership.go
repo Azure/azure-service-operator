@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"regexp"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -54,6 +55,7 @@ func determineOwnership(
 		}
 
 		// Remove the resources property from the owning resource spec
+		// TODO: Can delete this once we drop JSON schema golden files
 		newDef := resolved.SpecDef.WithType(resolved.SpecType.WithoutProperty(resourcesPropertyName))
 		updatedDefs[resolved.SpecDef.Name()] = newDef
 	}
@@ -63,8 +65,9 @@ func determineOwnership(
 	return definitions.OverlayWith(updatedDefs), nil
 }
 
-func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+var urlParamRegex = regexp.MustCompile("\\{.*?}")
 
+func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
 	// append "/" to the ARM URI so that if this is (e.g.):
 	//     /resource/name
 	// it doesn't match as a prefix of:
@@ -72,6 +75,7 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 	// but it is a prefix of:
 	//     /resource/name/subresource/subname
 	myPrefix := rt.ARMURI() + "/"
+	myPrefix = canonicalizeURI(myPrefix)
 
 	var result []astmodel.TypeName
 	for otherName, otherDef := range others {
@@ -83,18 +87,24 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 			continue // don’t self-own
 		}
 
+		// TODO: If it ever arises that we have a resource whose owner doesn't exist in the same API
+		// TODO: version this might be an issue.
+		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
+		// ownership for each resource points to the owner in the same package. This ensures that standard tools
+		// like renamingVisitor work.
 		if !otherDef.Name().PackageReference.Equals(resourceName.PackageReference) {
 			continue // Don't own if in a different package
 		}
 
-		otherURI := other.ARMURI()
+		otherURI := canonicalizeURI(other.ARMURI())
+
 		if strings.HasPrefix(otherURI, myPrefix) {
 			// now, accept it only if it contains two '/' exactly:
 			// so that the string is of the form:
 			//     {prefix}/resourceType/resourceName
 			// and not a grandchild resource:
 			//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
-			withoutPrefix := otherURI[len(myPrefix)-1:]
+			withoutPrefix := otherURI[len(myPrefix)-1:] // TODO: Case should be ignored here
 			if strings.Count(withoutPrefix, "/") == 2 {
 				result = append(result, otherName)
 			}
@@ -103,6 +113,13 @@ func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, oth
 	}
 
 	return result
+}
+
+func canonicalizeURI(uri string) string {
+	// Replace all {.*}'s with {}, in case different URIs use different names for the same
+	// parameter
+	uri = urlParamRegex.ReplaceAllString(uri, "{}")
+	return uri
 }
 
 func updateChildResourceDefinitionsWithOwner(

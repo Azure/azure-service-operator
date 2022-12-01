@@ -164,7 +164,6 @@ func Test_extractLastPathParam_StaticParameterName(t *testing.T) {
 				Required: true,
 			},
 		},
-		param,
 	})
 
 	g.Expect(ok).To(BeTrue())
