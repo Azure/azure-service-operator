@@ -10,19 +10,25 @@ import (
 )
 
 // CallFunc creates an expression to call a function with specified arguments
-//
-// <funcName>(<arguments>...)
-//
 func CallFunc(funcName string, arguments ...dst.Expr) *dst.CallExpr {
+	/*
+	 * Sample output:
+	 *
+	 * <funcName>(<arguments>...)
+	 *
+	 */
 	return createCallExpr(dst.NewIdent(funcName), arguments...)
 }
 
 // CallQualifiedFunc creates an expression to call a qualified function with the specified
-// arguments
-//
-// <qualifier>.<funcName>(arguments...)
-//
+// arguments.
 func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr) *dst.CallExpr {
+	/*
+	 * Sample output:
+	 *
+	 * <qualifier>.<funcName>(arguments...)
+	 *
+	 */
 	return createCallExpr(
 		&dst.SelectorExpr{
 			X:   dst.NewIdent(qualifier),
@@ -32,10 +38,13 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 }
 
 // CallExpr creates an expression to call the named function with the specified arguments
-//
-// <expr>.<funcName>(arguments...)
-//
 func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallExpr {
+	/*
+	 * Sample output:
+	 *
+	 * <expr>.<funcName>(arguments...)
+	 *
+	 */
 	var receiver dst.Expr = expr
 	if star, ok := expr.(*dst.StarExpr); ok {
 		// We don't need to dereference the expression - even value methods are available from pointer receivers
@@ -78,35 +87,44 @@ func createCallExpr(expr dst.Expr, arguments ...dst.Expr) *dst.CallExpr {
 	return result
 }
 
-// InvokeFunc creates a statement to invoke a function with specified arguments
-//
-// <funcName>(arguments...)
-//
-// If you want to use the result of the function call as a value, use CallFunc() instead
+// InvokeFunc creates a statement to invoke a function with specified arguments.
+// If you want to use the result of the function call as a value, use CallFunc() instead.
 func InvokeFunc(funcName string, arguments ...dst.Expr) dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <funcName>(arguments...)
+	 *
+	 */
 	return &dst.ExprStmt{
 		X: CallFunc(funcName, arguments...),
 	}
 }
 
 // InvokeQualifiedFunc creates a statement to invoke a qualified function with specified
-// arguments
-//
-// <qualifier>.<funcName>(arguments...)
-//
-// If you want to use the result of the function call as a value, use CallQualifiedFunc() instead
+// arguments.
+// If you want to use the result of the function call as a value, use CallQualifiedFunc() instead.
 func InvokeQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr) dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <qualifier>.<funcName>(arguments...)
+	 *
+	 */
 	return &dst.ExprStmt{
 		X: CallQualifiedFunc(qualifier, funcName, arguments...),
 	}
 }
 
-// InvokeExpr creates a statement to invoke the named function with the specified arguments
-//
-// <expr>.<funcName>(arguments...)
-//
-// If you want to use the result of the function call as a value, use CallExpr() instead
+// InvokeExpr creates a statement to invoke the named function with the specified arguments.
+// If you want to use the result of the function call as a value, use CallExpr() instead.
 func InvokeExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <expr>.<funcName>(arguments...)
+	 *
+	 */
 	return &dst.ExprStmt{
 		X: CallExpr(expr, funcName, arguments...),
 	}

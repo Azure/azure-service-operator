@@ -22,8 +22,8 @@ type FuncDetails struct {
 	Body          []dst.Stmt
 }
 
-// NewTestFuncDetails returns a FuncDetails for a test method
-// Tests require a particular signature, so this makes it simpler to create test functions
+// NewTestFuncDetails returns a FuncDetails for a test method.
+// Tests require a particular signature, so this makes it simpler to create test functions.
 func NewTestFuncDetails(testingPackage string, testName string, body ...dst.Stmt) *FuncDetails {
 
 	// Ensure the method name starts with `Test` as required
@@ -50,12 +50,17 @@ func NewTestFuncDetails(testingPackage string, testName string, body ...dst.Stmt
 	return result
 }
 
-// DefineFunc defines a function (header, body, etc), like:
-// 	<comment>
-//	func (<receiverIdent> <receiverType>) <name>(<params...>) (<returns...>) {
-// 		<body...>
-//	}
+// DefineFunc defines a function (header, body, etc).
 func (fn *FuncDetails) DefineFunc() *dst.FuncDecl {
+	/*
+	 * Sample output:
+	 *
+	 * <comment>
+	 * func (<receiverIdent> <receiverType>) <name>(<params...>) (<returns...>) {
+	 *     <body...>
+	 * }
+	 *
+	 */
 
 	// Safety check that we are making something valid
 	if (fn.ReceiverIdent == "") != (fn.ReceiverType == nil) {

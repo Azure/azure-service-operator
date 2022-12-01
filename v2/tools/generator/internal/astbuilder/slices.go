@@ -12,10 +12,13 @@ import (
 )
 
 // MakeSlice returns the call expression for making a slice
-//
-// make([]<value>)
-//
 func MakeSlice(listType dst.Expr, len dst.Expr) *dst.CallExpr {
+	/*
+	 * Sample output:
+	 *
+	 * make([]<value>)
+	 *
+	 */
 	return &dst.CallExpr{
 		Fun: dst.NewIdent("make"),
 		Args: []dst.Expr{
@@ -26,20 +29,26 @@ func MakeSlice(listType dst.Expr, len dst.Expr) *dst.CallExpr {
 }
 
 // AppendItemToSlice returns a statement to append a single item to a slice
-//
-// <lhs> = append(<lhs>, <rhs>)
-//
 func AppendItemToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <lhs> = append(<lhs>, <rhs>)
+	 *
+	 */
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
 		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)))
 }
 
 // AppendItemsToSlice returns a statement to append many individual items to a slice
-//
-// <lhs> = append(<lhs>, <rhs>, <rhs>, <rhs>, ...)
-//
 func AppendItemsToSlice(lhs dst.Expr, rhs ...dst.Expr) dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <lhs> = append(<lhs>, <rhs>, <rhs>, <rhs>, ...)
+	 *
+	 */
 	args := make([]dst.Expr, 0, len(rhs)+1)
 	args = append(args, lhs)
 	for _, arg := range rhs {
@@ -52,10 +61,13 @@ func AppendItemsToSlice(lhs dst.Expr, rhs ...dst.Expr) dst.Stmt {
 }
 
 // AppendSliceToSlice returns a statement to append a slice to another slice
-//
-// <lhs> = append(<lhs>, <rhs>...)
-//
 func AppendSliceToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <lhs> = append(<lhs>, <rhs>...)
+	 *
+	 */
 	f := CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr))
 	f.Ellipsis = true
 	return SimpleAssignment(
@@ -65,12 +77,15 @@ func AppendSliceToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 
 // IterateOverSlice creates a statement to iterate over the content of a list using the specified
 // identifier for each element in the list
-//
-// for _, <item> := range <list> {
-//     <statements>
-// }
-//
 func IterateOverSlice(item string, list dst.Expr, statements ...dst.Stmt) *dst.RangeStmt {
+	/*
+	 * Sample output:
+	 *
+	 * for _, <item> := range <list> {
+	 *     <statements>
+	 * }
+	 *
+	 */
 	return &dst.RangeStmt{
 		Key:   dst.NewIdent("_"),
 		Value: dst.NewIdent(item),
@@ -81,13 +96,16 @@ func IterateOverSlice(item string, list dst.Expr, statements ...dst.Stmt) *dst.R
 }
 
 // IterateOverSliceWithIndex creates a statement to iterate over the content of a list using the specified
-// identifiers for each index and element in the list
-//
-// for <index>, <item> := range <list> {
-//     <statements>
-// }
-//
+// identifiers for each index and element in the list.
 func IterateOverSliceWithIndex(index string, item string, list dst.Expr, statements ...dst.Stmt) *dst.RangeStmt {
+	/*
+	 * Sample output:
+	 *
+	 * for <index>, <item> := range <list> {
+	 *     <statements>
+	 * }
+	 *
+	 */
 	return &dst.RangeStmt{
 		Key:   dst.NewIdent(index),
 		Value: dst.NewIdent(item),
@@ -98,9 +116,13 @@ func IterateOverSliceWithIndex(index string, item string, list dst.Expr, stateme
 }
 
 // SliceLiteral creates a slice literal
-//
-// []<arrayType>{<items...>}
 func SliceLiteral(arrayType dst.Expr, items ...dst.Expr) dst.Expr {
+	/*
+	 * Sample output:
+	 *
+	 * []<arrayType>{<items...>}
+	 *
+	 */
 	result := &dst.CompositeLit{
 		Type: &dst.ArrayType{
 			Elt: arrayType,

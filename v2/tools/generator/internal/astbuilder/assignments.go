@@ -12,12 +12,15 @@ import (
 	"github.com/dave/dst"
 )
 
-// SimpleAssignment performs a simple assignment like:
-//
-//     <lhs> = <rhs>
-//
-// See also ShortDeclaration
+// SimpleAssignment performs a simple assignment.
+// See also ShortDeclaration.
 func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
+	/*
+	 * Sample output:
+	 *
+	 * <lhs> = <rhs>
+	 *
+	 */
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.Clone(lhs).(dst.Expr),
@@ -29,12 +32,15 @@ func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 	}
 }
 
-// ShortDeclaration performs a simple assignment like:
-//
-//     <id> := <rhs>
-//
-// Method naming inspired by https://tour.golang.org/basics/10
+// ShortDeclaration performs a simple assignment to a new variable.
+// Method naming inspired by https://tour.golang.org/basics/10.
 func ShortDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
+	/*
+	 * Sample output:
+	 *
+	 * <id> := <rhs>
+	 *
+	 */
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
 			dst.NewIdent(id),
@@ -61,10 +67,16 @@ func AssignmentStatement(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.Assig
 	}
 }
 
-// QualifiedAssignment performs a simple assignment like:
-//     <lhs>.<lhsSel> := <rhs>       // tok = token.DEFINE
-// or  <lhs>.<lhsSel> = <rhs>        // tok = token.ASSIGN
+// QualifiedAssignment performs a simple assignment.
 func QualifiedAssignment(lhs dst.Expr, lhsSel string, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+	/*
+	 * Sample output:
+	 *
+	 * <lhs>.<lhsSel> := <rhs>       // tok = token.DEFINE
+	 * or
+	 * <lhs>.<lhsSel> = <rhs>        // tok = token.ASSIGN
+	 *
+	 */
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{Selector(lhs, lhsSel)},
 		Tok: tok,
@@ -73,9 +85,15 @@ func QualifiedAssignment(lhs dst.Expr, lhsSel string, tok token.Token, rhs dst.E
 }
 
 // SimpleAssignmentWithErr performs a simple assignment like:
-// 	    <lhs>, err := <rhs>       // tok = token.DEFINE
-// 	or  <lhs>, err = <rhs>        // tok = token.ASSIGN
 func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
+	/*
+	 * Sample output:
+	 *
+	 * <lhs>, err := <rhs>       // tok = token.DEFINE
+	 * or
+	 * <lhs>, err = <rhs>        // tok = token.ASSIGN
+	 *
+	 */
 	errId := dst.NewIdent("err")
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
@@ -92,8 +110,13 @@ func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.A
 // AssignToInterface performs an assignment of a well-typed variable to an interface{}. This is usually used to
 // perform a type assertion on a concrete type in a subsequent statement (which Go doesn't allow, it only allows type
 // assertions on interface types).
-//	var <lhsVar> interface{} = <rhs>
 func AssignToInterface(lhsVar string, rhs dst.Expr) *dst.DeclStmt {
+	/*
+	 * Sample output:
+	 *
+	 * var <lhsVar> interface{} = <rhs>
+	 *
+	 */
 	return &dst.DeclStmt{
 		Decl: &dst.GenDecl{
 			Tok: token.VAR,

@@ -12,10 +12,13 @@ import (
 )
 
 // MakeMap returns the call expression for making a map
-//
-// 	make(map[<key>]<value>)
-//
 func MakeMap(key dst.Expr, value dst.Expr) *dst.CallExpr {
+	/*
+	 * Sample output:
+	 *
+	 * make(map[<key>]<value>)
+	 *
+	 */
 	return &dst.CallExpr{
 		Fun: dst.NewIdent("make"),
 		Args: []dst.Expr{
@@ -28,10 +31,13 @@ func MakeMap(key dst.Expr, value dst.Expr) *dst.CallExpr {
 }
 
 // MakeMapWithCapacity returns the call expression for making a map with a predefined capacity
-//
-// 	make(map[<key>]<value>, <capacity>)
-//
 func MakeMapWithCapacity(key dst.Expr, value dst.Expr, capacity dst.Expr) *dst.CallExpr {
+	/*
+	 * Sample output:
+	 *
+	 * make(map[<key>]<value>, <capacity>)
+	 *
+	 */
 	return &dst.CallExpr{
 		Fun: dst.NewIdent("make"),
 		Args: []dst.Expr{
@@ -45,10 +51,13 @@ func MakeMapWithCapacity(key dst.Expr, value dst.Expr, capacity dst.Expr) *dst.C
 }
 
 // InsertMap returns an assignment statement for inserting an item into a map
-//
-// 	<mapExpr>[<key>] = <rhs>
-//
 func InsertMap(mapExpr dst.Expr, key dst.Expr, rhs dst.Expr) *dst.AssignStmt {
+	/*
+	 * Sample output:
+	 *
+	 * <mapExpr>[<key>] = <rhs>
+	 *
+	 */
 	return SimpleAssignment(
 		&dst.IndexExpr{
 			X:     dst.Clone(mapExpr).(dst.Expr),
@@ -59,12 +68,15 @@ func InsertMap(mapExpr dst.Expr, key dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 
 // IterateOverMapWithValue creates a statement to iterate over the content of a map using the
 // specified identifiers for each key and value found.
-//
-// for <key>, <item> := range <mapExpr> {
-//     <statements>
-// }
-//
 func IterateOverMapWithValue(key string, item string, mapExpr dst.Expr, statements ...dst.Stmt) *dst.RangeStmt {
+	/*
+	 * Sample output:
+	 *
+	 * for <key>, <item> := range <mapExpr> {
+	 *     <statements>
+	 * }
+	 *
+	 */
 	return &dst.RangeStmt{
 		Key:   dst.NewIdent(key),
 		Value: dst.NewIdent(item),
