@@ -164,11 +164,12 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── Profile: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── OriginResponseTimeoutSeconds: Validated<*int> (1 rule)
-│   │   │   └── Rule 0: {Minimum 16}
+│   │   │   └── Rule 0: Minimum: 16
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Sku: *Object (1 property)
 │   │   │   └── Name: *Enum (13 values)
@@ -310,6 +311,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │       └── "Standard_Verizon"
 │   └── Tags: map[string]string
 ├── ProfilesEndpoint: Resource
+│   ├── Owner: Profile
 │   ├── Spec: Object (20 properties)
 │   │   ├── AzureName: string
 │   │   ├── ContentTypesToCompress: string[]
@@ -920,8 +922,8 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   ├── OriginGroups: Object (5 properties)[]
 │   │   │   ├── HealthProbeSettings: *Object (4 properties)
 │   │   │   │   ├── ProbeIntervalInSeconds: Validated<*int> (2 rules)
-│   │   │   │   │   ├── Rule 0: {Maximum 255}
-│   │   │   │   │   └── Rule 1: {Minimum 1}
+│   │   │   │   │   ├── Rule 0: Maximum: 255
+│   │   │   │   │   └── Rule 1: Minimum: 1
 │   │   │   │   ├── ProbePath: *string
 │   │   │   │   ├── ProbeProtocol: *Enum (3 values)
 │   │   │   │   │   ├── "Http"
@@ -937,44 +939,44 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601
 │   │   │   ├── ResponseBasedOriginErrorDetectionSettings: *Object (3 properties)
 │   │   │   │   ├── HttpErrorRanges: Object (2 properties)[]
 │   │   │   │   │   ├── Begin: Validated<*int> (2 rules)
-│   │   │   │   │   │   ├── Rule 0: {Maximum 999}
-│   │   │   │   │   │   └── Rule 1: {Minimum 100}
+│   │   │   │   │   │   ├── Rule 0: Maximum: 999
+│   │   │   │   │   │   └── Rule 1: Minimum: 100
 │   │   │   │   │   └── End: Validated<*int> (2 rules)
-│   │   │   │   │       ├── Rule 0: {Maximum 999}
-│   │   │   │   │       └── Rule 1: {Minimum 100}
+│   │   │   │   │       ├── Rule 0: Maximum: 999
+│   │   │   │   │       └── Rule 1: Minimum: 100
 │   │   │   │   ├── ResponseBasedDetectedErrorTypes: *Enum (3 values)
 │   │   │   │   │   ├── "None"
 │   │   │   │   │   ├── "TcpAndHttpErrors"
 │   │   │   │   │   └── "TcpErrorsOnly"
 │   │   │   │   └── ResponseBasedFailoverThresholdPercentage: Validated<*int> (2 rules)
-│   │   │   │       ├── Rule 0: {Maximum 100}
-│   │   │   │       └── Rule 1: {Minimum 0}
+│   │   │   │       ├── Rule 0: Maximum: 100
+│   │   │   │       └── Rule 1: Minimum: 0
 │   │   │   └── TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Validated<*int> (2 rules)
-│   │   │       ├── Rule 0: {Maximum 50}
-│   │   │       └── Rule 1: {Minimum 0}
+│   │   │       ├── Rule 0: Maximum: 50
+│   │   │       └── Rule 1: Minimum: 0
 │   │   ├── OriginHostHeader: *string
 │   │   ├── OriginPath: *string
 │   │   ├── Origins: Object (12 properties)[]
 │   │   │   ├── Enabled: *bool
 │   │   │   ├── HostName: *string
 │   │   │   ├── HttpPort: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 65535}
-│   │   │   │   └── Rule 1: {Minimum 1}
+│   │   │   │   ├── Rule 0: Maximum: 65535
+│   │   │   │   └── Rule 1: Minimum: 1
 │   │   │   ├── HttpsPort: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 65535}
-│   │   │   │   └── Rule 1: {Minimum 1}
+│   │   │   │   ├── Rule 0: Maximum: 65535
+│   │   │   │   └── Rule 1: Minimum: 1
 │   │   │   ├── Name: *string
 │   │   │   ├── OriginHostHeader: *string
 │   │   │   ├── Priority: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 5}
-│   │   │   │   └── Rule 1: {Minimum 1}
+│   │   │   │   ├── Rule 0: Maximum: 5
+│   │   │   │   └── Rule 1: Minimum: 1
 │   │   │   ├── PrivateLinkAlias: *string
 │   │   │   ├── PrivateLinkApprovalMessage: *string
 │   │   │   ├── PrivateLinkLocationReference: *genruntime.ResourceReference
 │   │   │   ├── PrivateLinkResourceReference: *genruntime.ResourceReference
 │   │   │   └── Weight: Validated<*int> (2 rules)
-│   │   │       ├── Rule 0: {Maximum 1000}
-│   │   │       └── Rule 1: {Minimum 1}
+│   │   │       ├── Rule 0: Maximum: 1000
+│   │   │       └── Rule 1: Minimum: 1
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── ProbePath: *string
 │   │   ├── QueryStringCachingBehavior: *Enum (4 values)

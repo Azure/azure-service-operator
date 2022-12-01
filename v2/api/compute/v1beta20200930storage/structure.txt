@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 ├── APIVersion: Enum (1 value)
 │   └── "2020-09-30"
 ├── Disk: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (25 properties)
 │   │   ├── AzureName: string
 │   │   ├── BurstingEnabled: *bool
@@ -158,6 +159,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │       ├── UniqueId: *string
 │       └── Zones: string[]
 └── Snapshot: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (19 properties)
     │   ├── AzureName: string
     │   ├── CreationData: *Object (9 properties)

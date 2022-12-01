@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-04-01"
 ├── StorageAccount: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (27 properties)
 │   │   ├── AccessTier: *string
 │   │   ├── AllowBlobPublicAccess: *bool
@@ -20,8 +21,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │   │   │   ├── DirectoryServiceOptions: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
+│   │   │   ├── Rule 0: MaxLength: 24
+│   │   │   └── Rule 1: MinLength: 3
 │   │   ├── CustomDomain: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -312,6 +313,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── StorageAccountsBlobService: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401.StorageAccount
 │   ├── Spec: Object (14 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   │   ├── ChangeFeed: *Object (3 properties)
@@ -399,10 +401,11 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       │   └── Tier: *string
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401.StorageAccountsBlobService
 │   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
+│   │   │   ├── Rule 0: MaxLength: 63
+│   │   │   └── Rule 1: MinLength: 3
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── ImmutableStorageWithVersioning: *Object (2 properties)
@@ -466,6 +469,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── Type: *string
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401.StorageAccount
 │   ├── Spec: Object (5 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -593,6 +597,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401.StorageAccount
 │   ├── Spec: Object (6 properties)
 │   │   ├── Cors: *Object (2 properties)
 │   │   │   ├── CorsRules: Object (6 properties)[]
@@ -624,10 +629,11 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── StorageAccountsQueueServicesQueue: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401.StorageAccountsQueueService
     ├── Spec: Object (7 properties)
     │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-    │   │   └── Rule 1: {MinLength %!s(int64=3)}
+    │   │   ├── Rule 0: MaxLength: 63
+    │   │   └── Rule 1: MinLength: 3
     │   ├── Location: *string
     │   ├── Metadata: map[string]string
     │   ├── OriginalVersion: string

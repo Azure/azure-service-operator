@@ -67,6 +67,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── ServerFarm: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (22 properties)
 │   │   ├── AzureName: string
 │   │   ├── ElasticScaleEnabled: *bool
@@ -217,6 +218,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   └── Tier: *string
 │   └── Tags: map[string]string
 ├── Site: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (34 properties)
 │   │   ├── AzureName: string
 │   │   ├── ClientAffinityEnabled: *bool
@@ -232,7 +234,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── CloneSourceControl: *bool
 │   │   │   ├── ConfigureLoadBalancing: *bool
 │   │   │   ├── CorrelationId: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   ├── HostingEnvironment: *string
 │   │   │   ├── Overwrite: *bool
 │   │   │   ├── SourceWebAppLocation: *string
@@ -379,7 +381,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "FtpsOnly"
 │   │   │   ├── FunctionAppScaleLimit: Validated<*int> (1 rule)
-│   │   │   │   └── Rule 0: {Minimum 0}
+│   │   │   │   └── Rule 0: Minimum: 0
 │   │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
 │   │   │   ├── HandlerMappings: Object (3 properties)[]
 │   │   │   │   ├── Arguments: *string
@@ -430,16 +432,16 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   ├── "1.1"
 │   │   │   │   └── "1.2"
 │   │   │   ├── MinimumElasticInstanceCount: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 20}
-│   │   │   │   └── Rule 1: {Minimum 0}
+│   │   │   │   ├── Rule 0: Maximum: 20
+│   │   │   │   └── Rule 1: Minimum: 0
 │   │   │   ├── NetFrameworkVersion: *string
 │   │   │   ├── NodeVersion: *string
 │   │   │   ├── NumberOfWorkers: *int
 │   │   │   ├── PhpVersion: *string
 │   │   │   ├── PowerShellVersion: *string
 │   │   │   ├── PreWarmedInstanceCount: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 10}
-│   │   │   │   └── Rule 1: {Minimum 0}
+│   │   │   │   ├── Rule 0: Maximum: 10
+│   │   │   │   └── Rule 1: Minimum: 0
 │   │   │   ├── PublicNetworkAccess: *string
 │   │   │   ├── PublishingUsername: *string
 │   │   │   ├── Push: *Object (5 properties)

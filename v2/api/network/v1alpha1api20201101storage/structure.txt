@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 ├── APIVersion: Enum (1 value)
 │   └── "2020-11-01"
 ├── LoadBalancer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (14 properties)
 │   │   ├── AzureName: string
 │   │   ├── BackendAddressPools: Object (4 properties)[]
@@ -244,6 +245,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── NetworkInterface: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (12 properties)
 │   │   ├── AzureName: string
 │   │   ├── DnsSettings: *Object (3 properties)
@@ -402,6 +404,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │           ├── Id: *string
 │           └── PropertyBag: genruntime.PropertyBag
 ├── NetworkSecurityGroup: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -440,6 +443,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── NetworkSecurityGroupsSecurityRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101.NetworkSecurityGroup
 │   ├── Spec: Object (21 properties)
 │   │   ├── Access: *string
 │   │   ├── AzureName: string
@@ -494,6 +498,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       ├── SourcePortRanges: string[]
 │       └── Type: *string
 ├── PublicIPAddress: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (17 properties)
 │   │   ├── AzureName: string
 │   │   ├── DdosSettings: *Object (4 properties)
@@ -596,6 +601,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       ├── Type: *string
 │       └── Zones: string[]
 ├── VirtualNetwork: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (14 properties)
 │   │   ├── AddressSpace: *Object (2 properties)
 │   │   │   ├── AddressPrefixes: string[]
@@ -658,6 +664,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── VirtualNetworkGateway: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (21 properties)
 │   │   ├── ActiveActive: *bool
 │   │   ├── AzureName: string
@@ -843,6 +850,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       ├── VpnGatewayGeneration: *string
 │       └── VpnType: *string
 ├── VirtualNetworksSubnet: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101.VirtualNetwork
 │   ├── Spec: Object (15 properties)
 │   │   ├── AddressPrefix: *string
 │   │   ├── AddressPrefixes: string[]
@@ -983,6 +991,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storag
 │       │   └── Service: *string
 │       └── Type: *string
 └── VirtualNetworksVirtualNetworkPeering: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101.VirtualNetwork
     ├── Spec: Object (14 properties)
     │   ├── AllowForwardedTraffic: *bool
     │   ├── AllowGatewayTransit: *bool
