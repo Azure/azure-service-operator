@@ -241,11 +241,11 @@ func (tc *KubePerTestContext) CreateResourceGroup(rg *resources.ResourceGroup) (
 
 // registerCleanup registers the resource for cleanup at the end of the test. We must do this for every resource
 // for two reasons:
-//   1. Because OwnerReferences based deletion doesn't even run in EnvTest, see:
-//      https://book.kubebuilder.io/reference/envtest.html#testing-considerations
-//   2. Even if it did run, it happens in the background which means that there's no guarantee that all the resources
-//      are deleted before the test ends. When the resources aren't deleted, they attempt to log to a closed logger
-//      which panics.
+//  1. Because OwnerReferences based deletion doesn't even run in EnvTest, see:
+//     https://book.kubebuilder.io/reference/envtest.html#testing-considerations
+//  2. Even if it did run, it happens in the background which means that there's no guarantee that all the resources
+//     are deleted before the test ends. When the resources aren't deleted, they attempt to log to a closed logger
+//     which panics.
 func (tc *KubePerTestContext) registerCleanup(obj client.Object) {
 	tc.tracker.Track(obj)
 }
@@ -279,10 +279,10 @@ var OperationTimeoutReplaying = 2 * time.Minute
 
 // OperationTimeoutRecording is the default timeout for a single operation when recording.
 // This is so high because the following operations are slow:
-//   * Deleting an AKS cluster.
-//   * Creating a Redis Enterprise Database.
-//   * Deleting a CosmosDB MongoDB.
-//   * Creating a Virtual Network Gateway Controller.
+//   - Deleting an AKS cluster.
+//   - Creating a Redis Enterprise Database.
+//   - Deleting a CosmosDB MongoDB.
+//   - Creating a Virtual Network Gateway Controller.
 var OperationTimeoutRecording = 30 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
@@ -521,13 +521,14 @@ func (tc *KubePerTestContext) deleteResourcesAndWait(objs ...client.Object) {
 // Note that this protects against deleting resources that have a parent-child relationship in the same request. This is perfectly
 // fine in the real world, but in many of our recording envtests we can get into a situation where there's a race
 // during deletion that causes HTTP replay issues. The sequence of events is:
-// 1. Delete parent resource and child resource at the same time.
-// 2. During recording, child deletion never sees a successful (finished) DELETE request because parent is deleted so soon
-//    after the child that we just record a successful DELETE for the parent and don't bother sending the final child
-//    DELETE that would return success.
-// 3. During replay, the race is how quickly the parent deletes and how many requests the child has a chance to send
-//    in that time. If the parent deletes slowly the child might try to send more requests than we actually have recorded
-//    (because none of them represent a terminal "actually deleted" state), which will cause a test failure.
+//  1. Delete parent resource and child resource at the same time.
+//  2. During recording, child deletion never sees a successful (finished) DELETE request because parent is deleted so soon
+//     after the child that we just record a successful DELETE for the parent and don't bother sending the final child
+//     DELETE that would return success.
+//  3. During replay, the race is how quickly the parent deletes and how many requests the child has a chance to send
+//     in that time. If the parent deletes slowly the child might try to send more requests than we actually have recorded
+//     (because none of them represent a terminal "actually deleted" state), which will cause a test failure.
+//
 // In envtest it's still critical to delete everything, because ownership based deletion isn't enabled in envtest and we can't
 // leave resources around or they will continue to attempt to log to a closed test logger. To avoid this we
 // carefully delete resources starting with the root and working our way down one rank at a time. This shouldn't be much

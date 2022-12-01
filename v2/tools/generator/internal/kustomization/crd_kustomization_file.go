@@ -25,7 +25,6 @@ import (
 // - patches/webhook-conversion-microsoft.authorization.azure.com_roleassignments.yaml
 // - patches/webhook-conversion-microsoft.batch.azure.com_batchaccounts.yaml
 // ...
-//
 type CRDKustomizeFile struct {
 	Resources      []string `yaml:"resources"`      // File paths to resource CRDs
 	Patches        []string `yaml:"patches"`        // File paths to patch files used to enable conversions

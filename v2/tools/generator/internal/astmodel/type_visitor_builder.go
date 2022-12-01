@@ -28,7 +28,6 @@ import "fmt"
 // VisitObjectType = func(this TypeVisitor, it *ObjectType, ctx interface{}) (Type, error)    // Works
 // VisitObjectType = func(it TypeName) Type                                                   // Fails - parameter is not an *ObjectType
 // VisitObjectType = func(this TypeVisitor, it TypeName, ctx interface{}) (ObjectType, error) // Fails -return is not Type
-//
 type TypeVisitorBuilder struct {
 	VisitTypeName      interface{}
 	VisitOneOfType     interface{}

@@ -214,6 +214,7 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 // validateBody returns the body for the generic validation function which invokes all local (code generated) validations
 // as well as checking if there are any handcrafted validations and invoking them too:
 // For example:
+//
 //	validations := <receiverIdent>.createValidations()
 //	var temp interface{} = <receiverIdent>
 //	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
@@ -326,12 +327,15 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 }
 
 // localValidationFuncBody returns the body of the local (code generated) validation functions:
+//
 //	return []func() error{
 //		<receiver>.<validationFunc1>,
 //		<receiver>.<validationFunc2>,
 //		...
 //	}
+//
 // or in the case of update functions (that may not need the old parameter):
+//
 //	return []func(old runtime.Object) error{
 //		func(old runtime.Object) error {
 //			return <receiver>.<validationFunc1>
@@ -361,8 +365,11 @@ func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGene
 // makeLocalValidationElement creates a validation expression, automatically removing the old parameter for update
 // validations if it's not needed. These elements are used to build the list of validation functions.
 // If validation != ValidationKindUpdate or validation == ValidationKindUpdate that DOES use the old parameter:
+//
 //	<receiver>.<validationFunc>
+//
 // If validate == ValidationKindUpdate that doesn't use the old parameter:
+//
 //	func(old runtime.Object) error {
 //		return <receiver>.<validationFunc>
 //	}

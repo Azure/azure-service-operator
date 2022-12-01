@@ -21,7 +21,6 @@ import (
 // │ ObjectModelConfiguration │───────│ GroupConfiguration │───────│ VersionConfiguration │───────│ TypeConfiguration │───────║ PropertyConfiguration ║
 // │                          │1  1..n│                    │1  1..n│                      │1  1..n│                   │1  1..n║                       ║
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
-//
 type PropertyConfiguration struct {
 	name                             string
 	nameInNextVersion                configurable[string] // Name this property has in the next version

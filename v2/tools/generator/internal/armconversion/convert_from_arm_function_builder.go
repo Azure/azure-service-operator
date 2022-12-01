@@ -309,8 +309,8 @@ func (builder *convertFromARMBuilder) operatorSpecPropertyHandler(
 //
 // If 'X' is a property that was flattened:
 //
-//   k8sObj.Y1 = armObj.X.Y1;
-//   k8sObj.Y2 = armObj.X.Y2;
+//	k8sObj.Y1 = armObj.X.Y1;
+//	k8sObj.Y2 = armObj.X.Y2;
 //
 // in reality each assignment is likely to be another conversion that is specific
 // to the type being converted.
@@ -464,6 +464,7 @@ func (builder *convertFromARMBuilder) propertiesWithSameNameHandler(
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
 // This function generates code that looks like this:
+//
 //	<nameHint>Converted := <destinationType>{}
 //	err = <nameHint>Converted.FromARM(owner, <source>)
 //	if err != nil {
