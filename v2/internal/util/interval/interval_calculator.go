@@ -66,14 +66,21 @@ var _ Calculator = &calculator{}
 // NextInterval calculates the next interval for a given request, result, and error.
 // Remember: There is also a controller-runtime RateLimiter that also can determine intervals. This implementation
 // takes ownership of specific scenarios while leaving the rest to the standard RateLimiter.
-// The scenarios that this implementation targets are:
+//
+// The scenarios this implementation targets are:
+//
 // 1. Errors of type ReadyConditionImpactingError. These have a RetryClassification on them which is honored here.
+//
 // 2. If syncPeriod is set, success results that would normally be terminal are instead configured to try again in syncPeriod.
+//
 // 3. If requeueDelayOverride is set, all happy-path requests have requeueDelayOverride set.
-// The scenarios that this handler doesn't target:
+//
+// The scenarios that this handler doesn't target
+//
 // 1. Any error other than ReadyConditionImpacting error.
+//
 // 2. Happy-path requests when requeueDelayOverride is not set. These are scenarios where the operator is working
-//    as expected and we're just doing something like polling an async operation.
+// as expected and we're just doing something like polling an async operation.
 func (i *calculator) NextInterval(req ctrl.Request, result ctrl.Result, err error) (ctrl.Result, error) {
 	i.failuresLock.Lock()
 	defer i.failuresLock.Unlock()

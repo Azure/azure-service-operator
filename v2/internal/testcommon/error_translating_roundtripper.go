@@ -29,9 +29,11 @@ import (
 //
 // Ideally we would panic on this error but we don't have a good way to deal with the following
 // problem at the moment:
+//
 // - during record the controller does GET (404), PUT, … GET (OK)
+//
 // - during playback the controller does GET (which now returns OK), DELETE, PUT, …
-//   and fails due to a missing DELETE recording
+// and fails due to a missing DELETE recording
 func translateErrors(r *recorder.Recorder, cassetteName string, t *testing.T) http.RoundTripper {
 	return errorTranslation{r, cassetteName, nil, t}
 }
