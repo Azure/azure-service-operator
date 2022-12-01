@@ -175,12 +175,19 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 }
 
 // IdentityConvertComplexOptionalProperty handles conversion for optional properties with complex elements
-// This function generates code that looks like this:
-// 	if <source> != nil {
-//		<code for producing result from destinationType.Element()>
-//		<destination> = &<result>
-//	}
-func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityConvertComplexOptionalProperty(
+	builder *ConversionFunctionBuilder,
+	params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * if <source> != nil {
+	 *    <code for producing result from destinationType.Element()>
+	 *    <destination> = &<result>
+	 * }
+	 *
+	 */
+
 	destinationType, ok := params.DestinationType.(*OptionalType)
 	if !ok {
 		return nil
@@ -221,12 +228,16 @@ func IdentityConvertComplexOptionalProperty(builder *ConversionFunctionBuilder, 
 }
 
 // IdentityConvertComplexArrayProperty handles conversion for array properties with complex elements
-// This function generates code that looks like this:
-// 	for _, item := range <source> {
-//		<code for producing result from destinationType.Element()>
-//		<destination> = append(<destination>, <result>)
-//	}
 func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * for _, item := range <source> {
+	 *     <code for producing result from destinationType.Element()>
+	 *     <destination> = append(<destination>, <result>)
+	 * }
+	 *
+	 */
 	destinationType, ok := params.DestinationType.(*ArrayType)
 	if !ok {
 		return nil
@@ -292,15 +303,19 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 
 // IdentityConvertComplexMapProperty handles conversion for map properties with complex values.
 // This function panics if the map keys are not primitive types.
-// This function generates code that looks like this:
-// 	if <source> != nil {
-//		<destination> = make(map[<destinationType.KeyType()]<destinationType.ValueType()>, len(<source>))
-//		for key, value := range <source> {
-// 			<code for producing result from destinationType.ValueType()>
-//			<destination>[key] = <result>
-//		}
-//	}
 func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * if <source> != nil {
+	 *     <destination> = make(map[<destinationType.KeyType()]<destinationType.ValueType()>, len(<source>))
+	 *     for key, value := range <source> {
+	 *         <code for producing result from destinationType.ValueType()>
+	 *         <destination>[key] = <result>
+	 *     }
+	 * }
+	 *
+	 */
 	destinationType, ok := params.DestinationType.(*MapType)
 	if !ok {
 		return nil
@@ -387,9 +402,13 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 // IdentityAssignTypeName handles conversion for TypeName's that are the same
 // Note that because this handler is dealing with TypeName's and not Optional<TypeName>, it is safe to
 // perform a simple assignment rather than a copy.
-// This function generates code that looks like this:
-//	<destination> <assignmentHandler> <source>
 func IdentityAssignTypeName(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <destination> <assignmentHandler> <source>
+	 *
+	 */
 	destinationType, ok := params.DestinationType.(TypeName)
 	if !ok {
 		return nil
@@ -412,8 +431,13 @@ func IdentityAssignTypeName(_ *ConversionFunctionBuilder, params ConversionParam
 
 // IdentityAssignPrimitiveType just assigns source to destination directly, no conversion needed.
 // This function generates code that looks like this:
-// <destination> <assignmentHandler> <source>
 func IdentityAssignPrimitiveType(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <destination> <assignmentHandler> <source>
+	 *
+	 */
 	if _, ok := params.DestinationType.(*PrimitiveType); !ok {
 		return nil
 	}
@@ -428,13 +452,18 @@ func IdentityAssignPrimitiveType(_ *ConversionFunctionBuilder, params Conversion
 }
 
 // AssignToOptional assigns address of source to destination.
-// This function generates code that looks like this, for simple conversions:
-// <destination> <assignmentHandler> &<source>
-//
-// or:
-// <destination>Temp := convert(<source>)
-// <destination> <assignmentHandler> &<destination>Temp
 func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <destination> <assignmentHandler> &<source>
+	 *
+	 * or
+	 *
+	 * <destination>Temp := convert(<source>)
+	 * <destination> <assignmentHandler> &<destination>Temp
+	 *
+	 */
 	optDest, ok := params.DestinationType.(*OptionalType)
 	if !ok {
 		return nil
@@ -473,17 +502,22 @@ func AssignToOptional(builder *ConversionFunctionBuilder, params ConversionParam
 }
 
 // AssignFromOptional assigns address of source to destination.
-// This function generates code that looks like this, for simple conversions:
-// if (<source> != nil) {
-//     <destination> <assignmentHandler> *<source>
-// }
-//
-// or:
-// if (<source> != nil) {
-//     <destination>Temp := convert(*<source>)
-//     <destination> <assignmentHandler> <destination>Temp
-// }
 func AssignFromOptional(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * if (<source> != nil) {
+	 *     <destination> <assignmentHandler> *<source>
+	 * }
+	 *
+	 * or
+	 *
+	 * if (<source> != nil) {
+	 *     <destination>Temp := convert(*<source>)
+	 *     <destination> <assignmentHandler> <destination>Temp
+	 * }
+	 *
+	 */
 	optSrc, ok := params.SourceType.(*OptionalType)
 	if !ok {
 		return nil
@@ -556,8 +590,13 @@ func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, param
 
 // IdentityDeepCopyJSON special cases copying JSON-type fields to call the DeepCopy method.
 // It generates code that looks like:
-//     <destination> = *<source>.DeepCopy()
 func IdentityDeepCopyJSON(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <destination> = *<source>.DeepCopy()
+	 *
+	 */
 	if !TypeEquals(params.DestinationType, JSONType) {
 		return nil
 	}
@@ -585,8 +624,8 @@ func AssignmentHandlerAssign(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 
 // CreateLocal creates an unused local variable name.
 // Names are chosen according to the following rules:
-//   1. If there is no local variable with the <suffix> name, use that.
-//   2. If there is a local variable with the <suffix> name, create a variable name <nameHint><suffix>.
+// 1. If there is no local variable with the <suffix> name, use that.
+// 2. If there is a local variable with the <suffix> name, create a variable name <nameHint><suffix>.
 // In the case that <nameHint><suffix> is also taken append numbers to the end in standard KnownLocalsSet fashion.
 // Note that this function trims numbers on the right hand side of nameHint, so a nameHint of "item1" will get a local
 // variable named item<suffix>.

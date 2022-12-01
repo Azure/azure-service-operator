@@ -329,11 +329,11 @@ func simplifyName(context string, name string) string {
 
 // sliceIntoWords splits the provided identifier into a slice of individual words.
 // A word is defined by one of the following:
-//   1. A space ("a test" becomes "a" and "test")
-//   2. A transition between lowercase and uppercase ("aWord" becomes "a" and "Word")
-//   3. A transition between multiple uppercase letters and a lowercase letter ("XMLDocument" becomes "XML" and "Document")
-//   4. A transition between a letter and a digit ("book12" becomes "book" and "12")
-//   5. A transition between a digit and a letter ("12monkeys" becomes "12" and "monkeys")
+// 1. A space ("a test" becomes "a" and "test")
+// 2. A transition between lowercase and uppercase ("aWord" becomes "a" and "Word")
+// 3. A transition between multiple uppercase letters and a lowercase letter ("XMLDocument" becomes "XML" and "Document")
+// 4. A transition between a letter and a digit ("book12" becomes "book" and "12")
+// 5. A transition between a digit and a letter ("12monkeys" becomes "12" and "monkeys")
 func sliceIntoWords(identifier string) []string {
 	// Trim any leading and trailing spaces to make our life easier later
 	identifier = strings.Trim(identifier, " ")
