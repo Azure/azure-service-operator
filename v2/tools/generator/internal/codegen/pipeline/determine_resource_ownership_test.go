@@ -49,6 +49,44 @@ func Test_FindChildren_ResourceOwnsChild(t *testing.T) {
 	g.Expect(children).To(gomega.ConsistOf(childName))
 }
 
+func Test_FindChildren_ResourceOwnsChildWhenNameParametersAreDifferent(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	resources := make(astmodel.TypeDefinitionSet)
+
+	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/{name}")
+	ownerName := astmodel.MakeTypeName(pr, "Owner")
+	resources.Add(astmodel.MakeTypeDefinition(ownerName, ownerType))
+
+	childType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/{otherName}/subresources/child")
+	childName := astmodel.MakeTypeName(pr, "Child")
+	resources.Add(astmodel.MakeTypeDefinition(childName, childType))
+
+	children := findChildren(ownerType, ownerName, resources)
+	g.Expect(children).To(gomega.ConsistOf(childName))
+}
+
+func Test_FindChildren_ResourceOwnsChildWhenNameIsDefault(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	resources := make(astmodel.TypeDefinitionSet)
+
+	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/default")
+	ownerName := astmodel.MakeTypeName(pr, "Owner")
+	resources.Add(astmodel.MakeTypeDefinition(ownerName, ownerType))
+
+	childType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/default/subresources/child")
+	childName := astmodel.MakeTypeName(pr, "Child")
+	resources.Add(astmodel.MakeTypeDefinition(childName, childType))
+
+	children := findChildren(ownerType, ownerName, resources)
+	g.Expect(children).To(gomega.ConsistOf(childName))
+}
+
 func Test_FindChildren_ResourceDoesNotOwnGrandChild(t *testing.T) {
 	t.Parallel()
 
