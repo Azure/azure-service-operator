@@ -81,6 +81,13 @@ func (v KubeBuilderValidation) Equals(other KubeBuilderValidation) bool {
 	return v.name == other.name
 }
 
+var _ fmt.Stringer = KubeBuilderValidation{}
+
+func (v KubeBuilderValidation) String() string {
+	value := reflect.ValueOf(v.value)
+	return fmt.Sprintf("%s: %v", v.name, valueAsString(value))
+}
+
 /*
  * Constants for names of validation
  */
