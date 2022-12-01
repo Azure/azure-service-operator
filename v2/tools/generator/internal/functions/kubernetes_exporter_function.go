@@ -62,22 +62,27 @@ func (d *KubernetesExporterBuilder) ToInterfaceImplementation() *astmodel.Interf
 
 // exportKubernetesResource returns the body of the ExportKubernetesResources function, which implements
 // the genruntime.KubernetesExporter interface.
-// Generates code like:
-// func (<receiver> *<receiverType>) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
-//	collector := configmaps.NewCollector(<receiver>.Namespace)
-//	if <receiver>.Spec.OperatorSpec != nil && <receiver>.Spec.OperatorSpec.ConfigMaps != nil {
-//		if <receiver>.<propertyPath> != nil {
-//			collector.AddValue(<receiver>.Spec.OperatorSpec.ConfigMaps.<configMapProperty>, *<receiver>.<propertyPath>)
-//		}
-//	}
-//	...
-//	result, err := collector.Values()
-//	if err != nil {
-//		return nil, err
-//	}
-//	return configmaps.SliceToClientObjectSlice(result), nil
-//}
 func (d *KubernetesExporterBuilder) exportKubernetesResources(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	/*
+	 * Sample output:
+	 *
+	 * func (<receiver> *<receiverType>) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	 *     collector := configmaps.NewCollector(<receiver>.Namespace)
+	 *     if <receiver>.Spec.OperatorSpec != nil && <receiver>.Spec.OperatorSpec.ConfigMaps != nil {
+	 *         if <receiver>.<propertyPath> != nil {
+	 *             collector.AddValue(<receiver>.Spec.OperatorSpec.ConfigMaps.<configMapProperty>, *<receiver>.<propertyPath>)
+	 *         }
+	 *    }
+	 * ...
+	 *     result, err := collector.Values()
+	 *     if err != nil {
+	 *         return nil, err
+	 *     }
+	 *
+	 *    return configmaps.SliceToClientObjectSlice(result), nil
+	 * }
+	 *
+	 */
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 

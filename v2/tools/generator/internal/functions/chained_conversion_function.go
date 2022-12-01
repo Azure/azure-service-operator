@@ -25,18 +25,6 @@ import (
 // For most types, we check to see if the type we're passed is one we can convert directly. If it is, we use the
 // preexisting AssignProperties*() method. Otherwise, we chain to that type to do the conversion to an intermediate
 // instance and then convert using that.
-//
-// func (r <receiver>) ConvertFrom(instance <interfaceType>) error {
-// 	   source, ok := instance.(*<otherType>)
-// 	   if !ok {
-//         // Need indirect conversion
-//         source = &<otherType>{}
-//         source.ConvertFrom(instance)
-//     }
-//
-//     return r.AssignPropertiesFrom(source)
-// }
-//
 type ChainedConversionFunction struct {
 	// name is the unique name for this function
 	name string
@@ -55,6 +43,22 @@ type ChainedConversionFunction struct {
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
+
+/*
+ * Sample output:
+ *
+ * func (r <receiver>) ConvertFrom(instance <interfaceType>) error {
+ *     source, ok := instance.(*<otherType>)
+ *     if !ok {
+ *         // Need indirect conversion
+ *         source = &<otherType>{}
+ *         source.ConvertFrom(instance)
+ *     }
+ *
+ *     return r.AssignPropertiesFrom(source)
+ * }
+ *
+ */
 
 // Ensure we properly implement the function interface
 var _ astmodel.Function = &ChainedConversionFunction{}
@@ -146,29 +150,33 @@ func (fn *ChainedConversionFunction) AsFunc(
 
 // bodyForConvert generates a conversion when the type we know about isn't the hub type, but is closer to it in our
 // conversion graph.
-//
-// For ConvertFrom, we generate
-//
-// 	   src, ok := source.(*<intermediateType>)
-// 	   if ok {
-//         // Populate our instance from source
-//         return s.AssignPropertiesFrom(source)
-//     }
-//
-//     // Convert to an intermediate form
-//     src = &<intermediateType>{}
-//     err := src.ConvertFrom(source)
-//     if err != nil {
-//         return errors.Wrapf(err, "...elided...")
-//     }
-//
-//     // Update our instance from src
-//     return s.AssignPropertiesFrom(src)
-//
-// For ConvertTo, we have essentially the same structure, but two-step conversion is done in the other order.
-//
 func (fn *ChainedConversionFunction) bodyForConvert(
 	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+
+	/*
+	 * Sample output:
+	 *
+	 * For ConvertFrom, we generate
+	 *
+	 *    src, ok := source.(*<intermediateType>)
+	 *    if ok {
+	 *         // Populate our instance from source
+	 *         return s.AssignPropertiesFrom(source)
+	 *     }
+	 *
+	 *     // Convert to an intermediate form
+	 *     src = &<intermediateType>{}
+	 *     err := src.ConvertFrom(source)
+	 *     if err != nil {
+	 *         return errors.Wrapf(err, "...elided...")
+	 *     }
+	 *
+	 *     // Update our instance from src
+	 *     return s.AssignPropertiesFrom(src)
+	 *
+	 * For ConvertTo, we have essentially the same structure, but two-step conversion is done in the other order.
+	 *
+	 */
 
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 

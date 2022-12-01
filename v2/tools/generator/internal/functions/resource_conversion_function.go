@@ -15,36 +15,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 )
 
-// ResourceConversionFunction implements conversions to/from our hub type
-// Existing PropertyAssignment functions are used to implement stepwise conversion
-//
-// Direct conversion from the hub type:
-//
-// func (<receiver> <receiverType>) Convert<From|To>(hub conversion.Hub) error {
-// 	source, ok := hub.(*<hub.Type>)
-// 	if !ok {
-// 		return fmt.Errorf("expected <hub.Type> but received %T instead", hub)
-// 	}
-// 	return <receiver>.AssignProperties<From|To><Type>(source)
-// }
-//
-// Indirect conversion, multiple steps via an intermediate instance
-//
-// func (r <receiver>) Convert<From|To>(hub conversion.Hub) error {
-// 	var source <vNext>
-// 	err := source.Convert<From|To>(hub)
-// 	if err != nil {
-// 		return errors.Wrap(err, "converting from hub to source")
-// 	}
-//
-// 	err = <receiver>.AssignProperties<From|To><Type>(&source)
-// 	if err != nil {
-// 		return errors.Wrap(err, "converting from source to <type>")
-// 	}
-//
-// 	return nil
-// }
-//
+// ResourceConversionFunction implements conversions to/from our hub type.
+// Existing PropertyAssignment functions are used to implement stepwise conversion.
 type ResourceConversionFunction struct {
 	// hub is the TypeName of the canonical hub type, the final target or original source for conversion
 	hub astmodel.TypeName
@@ -53,6 +25,40 @@ type ResourceConversionFunction struct {
 	// idFactory is a reference to an identifier factory used for creating Go identifiers
 	idFactory astmodel.IdentifierFactory
 }
+
+/*
+ * Sample output:
+ *
+ *
+ * Direct conversion from the hub type.
+ *
+ * func (<receiver> <receiverType>) Convert<From|To>(hub conversion.Hub) error {
+ *     source, ok := hub.(*<hub.Type>)
+ *     if !ok {
+ *         return fmt.Errorf("expected <hub.Type> but received %T instead", hub)
+ *     }
+ *
+ *     return <receiver>.AssignProperties<From|To><Type>(source)
+ * }
+ *
+ * Indirect conversion, multiple steps via an intermediate instance
+ *
+ * func (r <receiver>) Convert<From|To>(hub conversion.Hub) error {
+ *     var source <vNext>
+ *     err := source.Convert<From|To>(hub)
+ *     if err != nil {
+ *         return errors.Wrap(err, "converting from hub to source")
+ *     }
+ *
+ *     err = <receiver>.AssignProperties<From|To><Type>(&source)
+ *     if err != nil {
+ *         return errors.Wrap(err, "converting from source to <type>")
+ *     }
+ *
+ *     return nil
+ * }
+ *
+ */
 
 // Ensure we properly implement the function interface
 var _ astmodel.Function = &ResourceConversionFunction{}
@@ -139,16 +145,18 @@ func (fn *ResourceConversionFunction) Hub() astmodel.TypeName {
 }
 
 // directConversion creates a simple direct conversion between the two types
-//
-// <local>, ok := <hubAsInterface>.(<actualHubType>)
-// if !ok {
-//     return errors.Errorf("expected <actualHubType> but received %T instead", <hubAsInterface>)
-// }
-//
-// return <receiver>.AssignProperties(To|From)<type>(<local>)
-//
 func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * <local>, ok := <hubAsInterface>.(<actualHubType>)
+	 * if !ok {
+	 *     return errors.Errorf("expected <actualHubType> but received %T instead", <hubAsInterface>)
+	 * }
+	 *
+	 * return <receiver>.AssignProperties(To|From)<type>(<local>)
+	 */
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
 	hubGroup, hubVersion := fn.hub.PackageReference.GroupVersion()
@@ -179,22 +187,25 @@ func (fn *ResourceConversionFunction) directConversion(
 
 // indirectConversionFromHub generates a conversion when the type we know about isn't the hub type, but is closer to it
 // in our conversion graph
-//
-// var source <intermediateType>
-// err := source.ConvertFrom(<hub>)
-// if err != nil {
-//     return errors.Wrap(err, "converting from hub to source")
-// }
-//
-// err = <receiver>.AssignPropertiesFrom<type>(&source)
-// if err != nil {
-//     return errors.Wrap(err, "converting from source to <type>")
-// }
-//
-// return nil
-//
 func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * var source <intermediateType>
+	 * err := source.ConvertFrom(<hub>)
+	 * if err != nil {
+	 *     return errors.Wrap(err, "converting from hub to source")
+	 * }
+	 *
+	 * err = <receiver>.AssignPropertiesFrom<type>(&source)
+	 * if err != nil {
+	 *     return errors.Wrap(err, "converting from source to <type>")
+	 * }
+	 *
+	 * return nil
+	 *
+	 */
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")
@@ -237,22 +248,25 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 
 // indirectConversionToHub generates a conversion when the type we know about isn't the hub type, but is closer to it in
 // our conversion graph
-//
-// var destination <intermediateType>
-// err = <receiver>.AssignPropertiesTo<type>(&destination)
-// if err != nil {
-//     return errors.Wrap(err, "converting to destination from <type>")
-// }
-//
-// err := destination.ConvertTo(<hub>)
-// if err != nil {
-//     return errors.Wrap(err, "converting from destination to hub")
-// }
-//
-// return nil
-//
 func (fn *ResourceConversionFunction) indirectConversionToHub(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * var destination <intermediateType>
+	 * err = <receiver>.AssignPropertiesTo<type>(&destination)
+	 * if err != nil {
+	 *     return errors.Wrap(err, "converting to destination from <type>")
+	 * }
+	 *
+	 * err := destination.ConvertTo(<hub>)
+	 * if err != nil {
+	 *     return errors.Wrap(err, "converting from destination to hub")
+	 * }
+	 *
+	 * return nil
+	 *
+	 */
 	errorsPackage := generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
 	localId := fn.localVariableId()
 	errIdent := dst.NewIdent("err")

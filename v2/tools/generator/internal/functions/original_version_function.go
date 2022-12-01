@@ -15,11 +15,16 @@ import (
 // OriginalVersionFunction implements a function to return the version for the type on which it is called
 // We put these on the *API* versions of our spec types, giving us a way to obtain the right type of instance when the
 // reconciler is working with ARM.
-//
-// func (spec *SomeSpec) OriginalVersion() string {
-//     return GroupVersion.Version
-// }
-//
+
+/*
+ * Sample output:
+ *
+ *
+ * func (spec *SomeSpec) OriginalVersion() string {
+ *     return GroupVersion.Version
+ * }
+ *
+ */
 type OriginalVersionFunction struct {
 	idFactory astmodel.IdentifierFactory
 }

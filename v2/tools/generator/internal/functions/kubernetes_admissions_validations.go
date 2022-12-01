@@ -63,13 +63,19 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 	return fn.DefineFunc()
 }
 
-// validateResourceReferencesBody helps generate the body of the validateResourceReferences function:
-// 	refs, err := reflecthelpers.FindResourceReferences(&<resource>.Spec)
-//	if err != nil {
-//		return err
-//	}
-//	return genruntime.ValidateResourceReferences(refs)
+// validateResourceReferencesBody helps generate the body of the validateResourceReferences function.
 func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * refs, err := reflecthelpers.FindResourceReferences(&<resource>.Spec)
+	 * if err != nil {
+	 *     return err
+	 * }
+	 *
+	 * return genruntime.ValidateResourceReferences(refs)
+	 *
+	 */
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
@@ -121,16 +127,19 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 	return fn.DefineFunc()
 }
 
-// validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function:
-//
-//  oldObj, ok := old.(*Receiver)
-//  if !ok {
-//      return nil
-//  }
-//
-// return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
+// validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function.
 func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
-
+	/*
+	 * Sample output:
+	 *
+	 *  oldObj, ok := old.(*Receiver)
+	 *  if !ok {
+	 *      return nil
+	 *  }
+	 *
+	 * return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
+	 *
+	 */
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
 	obj := dst.NewIdent("oldObj")
@@ -174,13 +183,18 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 	return fn.DefineFunc()
 }
 
-// validateOptionalConfigMapReferencesBody helps generate the body of the validateResourceReferences function:
-// 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&<resource>.Spec)
-//	if err != nil {
-//		return err
-//	}
-//	return genruntime.ValidateOptionalConfigMapReferences(refs)
+// validateOptionalConfigMapReferencesBody helps generate the body of the validateResourceReferences function
 func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * refs, err := reflecthelpers.FindOptionalConfigMapReferences(&<resource>.Spec)
+	 * if err != nil {
+	 * 	return err
+	 * }
+	 *
+	 * return genruntime.ValidateOptionalConfigMapReferences(refs)
+	 */
 	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
 	genRuntime := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 

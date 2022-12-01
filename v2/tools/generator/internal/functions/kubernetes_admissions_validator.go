@@ -212,22 +212,33 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 }
 
 // validateBody returns the body for the generic validation function which invokes all local (code generated) validations
-// as well as checking if there are any handcrafted validations and invoking them too:
-// For example:
-//	validations := <receiverIdent>.createValidations()
-//	var temp interface{} = <receiverIdent>
-//	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
-//		validations = append(validations, runtimeValidator.CreateValidations()...)
-//	}
-//	var errs []error
-//	for _, validation := range validations {
-//		err := validation()
-//		if err != nil {
-//			errs = append(errs, err)
-//		}
-//	}
-//	return kerrors.NewAggregate(errs)
-func (v *ValidatorBuilder) validateBody(codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string, implFunctionName string, overrideFunctionName string, funcParamIdent string) []dst.Stmt {
+// as well as checking if there are any handcrafted validations and invoking them too.
+func (v *ValidatorBuilder) validateBody(
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiverIdent string,
+	implFunctionName string,
+	overrideFunctionName string,
+	funcParamIdent string,
+) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * validations := <receiverIdent>.createValidations()
+	 * var temp interface{} = <receiverIdent>
+	 * if runtimeValidator, ok := temp.(genruntime.Validator); ok {
+	 *     validations = append(validations, runtimeValidator.CreateValidations()...)
+	 * }
+	 *
+	 * var errs []error
+	 * for _, validation := range validations {
+	 *     err := validation()
+	 *     if err != nil {
+	 *         errs = append(errs, err)
+	 *     }
+	 * }
+	 *
+	 * return kerrors.NewAggregate(errs)
+	 */
 	kErrors, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryErrorsReference)
 	if err != nil {
 		panic(err)
@@ -325,20 +336,26 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 	}
 }
 
-// localValidationFuncBody returns the body of the local (code generated) validation functions:
-//	return []func() error{
-//		<receiver>.<validationFunc1>,
-//		<receiver>.<validationFunc2>,
-//		...
-//	}
-// or in the case of update functions (that may not need the old parameter):
-//	return []func(old runtime.Object) error{
-//		func(old runtime.Object) error {
-//			return <receiver>.<validationFunc1>
-//		},
-//		<receiver>.<validationFunc2>,
-//	}
+// localValidationFuncBody returns the body of the local (code generated) validation functions.
 func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) []dst.Stmt {
+	/*
+	 * Sample output:
+	 *
+	 * return []func() error{
+	 * 	<receiver>.<validationFunc1>,
+	 * 	<receiver>.<validationFunc2>,
+	 * 	...
+	 * }
+	 *
+	 * or in the case of update functions (that may not need the old parameter):
+	 *
+	 * return []func(old runtime.Object) error{
+	 * 	func(old runtime.Object) error {
+	 * 		return <receiver>.<validationFunc1>
+	 * 	},
+	 * 	<receiver>.<validationFunc2>,
+	 * }
+	 */
 	elements := make([]dst.Expr, 0, len(v.validations[kind]))
 	for _, validationFunc := range v.validations[kind] {
 		elements = append(elements, v.makeLocalValidationElement(kind, validationFunc, codeGenerationContext, receiver))
@@ -360,18 +377,26 @@ func (v *ValidatorBuilder) localValidationFuncBody(kind ValidationKind, codeGene
 
 // makeLocalValidationElement creates a validation expression, automatically removing the old parameter for update
 // validations if it's not needed. These elements are used to build the list of validation functions.
-// If validation != ValidationKindUpdate or validation == ValidationKindUpdate that DOES use the old parameter:
-//	<receiver>.<validationFunc>
-// If validate == ValidationKindUpdate that doesn't use the old parameter:
-//	func(old runtime.Object) error {
-//		return <receiver>.<validationFunc>
-//	}
 func (v *ValidatorBuilder) makeLocalValidationElement(
 	kind ValidationKind,
 	validation *ResourceFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 ) dst.Expr {
+	/*
+	 * Sample output:
+	 *
+	 * If validation != ValidationKindUpdate or validation == ValidationKindUpdate that DOES use the old parameter:
+	 *
+	 * <receiver>.<validationFunc>
+	 *
+	 * If validate == ValidationKindUpdate that doesn't use the old parameter:
+	 *
+	 * func(old runtime.Object) error {
+	 *     return <receiver>.<validationFunc>
+	 * }
+	 *
+	 */
 	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 
 	if kind == ValidationKindUpdate {

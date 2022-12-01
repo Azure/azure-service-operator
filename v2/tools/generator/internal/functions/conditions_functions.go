@@ -15,11 +15,15 @@ import (
 )
 
 // GetConditionsFunction returns a function declaration containing the implementation of the GetConditions() function.
-//
-// func (r *<receiver>) GetConditions() genruntime.Conditions {
-//     return r.Status.Conditions
-// }
 func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	/*
+	 * Sample output:
+	 *
+	 * func (r *<receiver>) GetConditions() genruntime.Conditions {
+	 *     return r.Status.Conditions
+	 * }
+	 *
+	 */
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -43,11 +47,14 @@ func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 }
 
 // SetConditionsFunction returns a function declaration containing the implementation of the SetConditions() function.
-//
-// func (r *<receiver>) SetConditions(conditions genruntime.Conditions) {
-//     r.Status.Conditions = conditions
-// }
 func SetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	/*
+	 * Sample output:
+	 *
+	 * func (r *<receiver>) SetConditions(conditions genruntime.Conditions) {
+	 *     r.Status.Conditions = conditions
+	 * }
+	 */
 	conditionsParameterName := k.IdFactory().CreateIdentifier(astmodel.ConditionsProperty, astmodel.NotExported)
 
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
