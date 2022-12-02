@@ -80,11 +80,12 @@ func (p *PropertyConverter) useBaseTypeForEnumerations(
 }
 
 // shortCircuitNamesOfSimpleTypes redirects or replaces TypeNames
-//   o  If a TypeName points into an API package, it is redirected into the appropriate storage package
-//   o  If a TypeName references an enumeration, it is replaced with the underlying type of the enumeration as our
-//      storage definitions don't use enumerations, they use primitive definitions
-//   o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replace
-//      with the primitive type
+//
+//	o  If a TypeName points into an API package, it is redirected into the appropriate storage package
+//	o  If a TypeName references an enumeration, it is replaced with the underlying type of the enumeration as our
+//	   storage definitions don't use enumerations, they use primitive definitions
+//	o  If a TypeName references an alias for a primitive type (these are used to specify validations), it is replace
+//	   with the primitive type
 func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 

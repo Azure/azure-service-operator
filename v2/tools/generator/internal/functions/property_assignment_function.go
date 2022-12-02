@@ -233,9 +233,11 @@ func (fn *PropertyAssignmentFunction) generateBody(
 
 // createPropertyBagPrologue creates any introductory statements needed to set up our property bag before we start doing
 // assignments. We need to handle three cases:
-//   o If our source has a property bag, we clone it.
-//   o If our destination has a property bag (and our source does not), we create a new one.
-//   o If neither source nor destination has a property bag, we don't need to do anything.
+//
+//	o If our source has a property bag, we clone it.
+//	o If our destination has a property bag (and our source does not), we create a new one.
+//	o If neither source nor destination has a property bag, we don't need to do anything.
+//
 // source is the name of the source to read the property bag from
 func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 	source string,
@@ -289,10 +291,11 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 
 // propertyBagEpilogue creates any concluding statements required to handle our property bag after assignments are
 // complete.
-//   o If the destination has a property bag
-//     >  If our bag is empty, we set the destination to nil
-//     >  Otherwise we need to store our current property bag there
-//   o Otherwise we do nothing
+//
+//	o If the destination has a property bag
+//	  >  If our bag is empty, we set the destination to nil
+//	  >  Otherwise we need to store our current property bag there
+//	o Otherwise we do nothing
 func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	destination string,
 ) []dst.Stmt {

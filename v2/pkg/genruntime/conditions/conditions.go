@@ -154,10 +154,11 @@ func (c Condition) ShouldOverwrite(other Condition) bool {
 
 // priority of the condition for overwrite purposes if Condition ObservedGeneration's are the same. Higher is more important.
 // The result of this is the following:
-//   1. Status == True conditions, and Status == False conditions with Severity == Warning or Error are all the highest priority.
-//      This means that the most recent update with any of those states will overwrite anything.
-//   2. Status == False conditions with Severity == Info will only overwrite other Status == False conditions with Severity == Info.
-//   3. Status == Unknown conditions will not overwrite anything.
+//  1. Status == True conditions, and Status == False conditions with Severity == Warning or Error are all the highest priority.
+//     This means that the most recent update with any of those states will overwrite anything.
+//  2. Status == False conditions with Severity == Info will only overwrite other Status == False conditions with Severity == Info.
+//  3. Status == Unknown conditions will not overwrite anything.
+//
 // Keep in mind that this priority is specifically for comparing Conditions with the same ObservedGeneration. If the ObservedGeneration
 // is different, the newer one always wins.
 func (c Condition) priority() int {

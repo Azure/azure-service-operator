@@ -56,7 +56,7 @@ func Test_Success_WithSyncPeriod_ReturnsSyncPeriod(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	syncPeriod := 10 * time.Second
+	syncPeriod := 12 * time.Second
 	calc := newCalculator(
 		CalculatorParameters{
 			ErrorBaseDelay:    1 * time.Second,
@@ -69,7 +69,10 @@ func Test_Success_WithSyncPeriod_ReturnsSyncPeriod(t *testing.T) {
 
 	result, err := calc.NextInterval(req, ctrl.Result{}, nil)
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(result.RequeueAfter > 8*time.Second).To(BeTrue())
+
+	// Threshold here needs to be at or below the lower-bound of the RequeuePeriod, taking Jitter into account
+	// Currently jitter is 0.25, so the 12s above becomes 9s to 15s
+	g.Expect(result.RequeueAfter >= 9*time.Second).To(BeTrue())
 
 	g.Expect(calc.(*calculator).failures).To(HaveLen(0))
 }
