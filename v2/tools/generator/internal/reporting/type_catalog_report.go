@@ -181,6 +181,12 @@ func (tcr *TypeCatalogReport) writeResourceType(
 	currentPackage astmodel.PackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
+	// Write the expected owner of the resource, if we have one
+	if owner := resource.Owner(); owner != nil {
+		// We don't use asShortNameForType here because we don't want to inline the owner
+		rpt.Addf("Owner: %s", astmodel.DebugDescription(owner, currentPackage))
+	}
+
 	for _, prop := range resource.Properties().AsSlice() {
 		tcr.writeProperty(rpt, prop, currentPackage, parentTypes)
 	}

@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
 ├── APIVersion: Enum (1 value)
 │   └── "2020-06-01"
 └── Redis: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/hack/crossplane/apis/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (1 property)
     │   └── ForProvider: Object (17 properties)
     │       ├── EnableNonSslPort: *bool
@@ -41,9 +42,9 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       │       ├── "Premium"
     │       │       └── "Standard"
     │       ├── StaticIP: Validated<*string> (1 rule)
-    │       │   └── Rule 0: {Pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"}
+    │       │   └── Rule 0: Pattern: "^\\d+\\.\\d+\\.\\d+\\.\\d+$"
     │       ├── SubnetId: Validated<*string> (1 rule)
-    │       │   └── Rule 0: {Pattern "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"}
+    │       │   └── Rule 0: Pattern: "^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
     │       ├── Tags: map[string]string
     │       ├── TenantSettings: map[string]string
     │       └── Zones: string[]

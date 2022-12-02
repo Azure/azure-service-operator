@@ -49,6 +49,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │   ├── Tags: *v1.JSON
 │   └── Type: *string
 ├── Component: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (20 properties)
 │   │   ├── Application_Type: *Enum (2 values)
 │   │   │   ├── "other"

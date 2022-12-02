@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storag
 ├── APIVersion: Enum (1 value)
 │   └── "2021-07-01"
 └── Image: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (10 properties)
     │   ├── AzureName: string
     │   ├── ExtendedLocation: *Object (3 properties)

@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
 ├── APIVersion: Enum (1 value)
 │   └── "2020-12-01"
 ├── VirtualMachine: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (26 properties)
 │   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
@@ -951,6 +952,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
 │       ├── VmId: *string
 │       └── Zones: string[]
 ├── VirtualMachineScaleSet: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (22 properties)
 │   │   ├── AdditionalCapabilities: *Object (1 property)
 │   │   │   └── UltraSSDEnabled: *bool
@@ -1007,14 +1009,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
 │   │   │   └── RollingUpgradePolicy: *Object (6 properties)
 │   │   │       ├── EnableCrossZoneUpgrade: *bool
 │   │   │       ├── MaxBatchInstancePercent: Validated<*int> (2 rules)
-│   │   │       │   ├── Rule 0: {Maximum 100}
-│   │   │       │   └── Rule 1: {Minimum 5}
+│   │   │       │   ├── Rule 0: Maximum: 100
+│   │   │       │   └── Rule 1: Minimum: 5
 │   │   │       ├── MaxUnhealthyInstancePercent: Validated<*int> (2 rules)
-│   │   │       │   ├── Rule 0: {Maximum 100}
-│   │   │       │   └── Rule 1: {Minimum 5}
+│   │   │       │   ├── Rule 0: Maximum: 100
+│   │   │       │   └── Rule 1: Minimum: 5
 │   │   │       ├── MaxUnhealthyUpgradedInstancePercent: Validated<*int> (2 rules)
-│   │   │       │   ├── Rule 0: {Maximum 100}
-│   │   │       │   └── Rule 1: {Minimum 0}
+│   │   │       │   ├── Rule 0: Maximum: 100
+│   │   │       │   └── Rule 1: Minimum: 0
 │   │   │       ├── PauseTimeBetweenBatches: *string
 │   │   │       └── PrioritizeUnhealthyInstances: *bool
 │   │   ├── VirtualMachineProfile: *Object (11 properties)
@@ -1031,12 +1033,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201
 │   │   │   │   ├── Extensions: Object (5 properties)[]
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── Publisher: Validated<*string> (1 rule)
-│   │   │   │   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   │   │   │   └── Rule 0: MinLength: 1
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
 │   │   │   │   │   ├── Type: Validated<*string> (1 rule)
-│   │   │   │   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   │   │   │   └── Rule 0: MinLength: 1
 │   │   │   │   │   └── TypeHandlerVersion: Validated<*string> (1 rule)
-│   │   │   │   │       └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   │   │       └── Rule 0: MinLength: 1
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── LicenseType: *string
 │   │   │   ├── NetworkProfile: *Object (2 properties)

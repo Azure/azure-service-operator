@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601stor
 ├── APIVersion: Enum (1 value)
 │   └── "2020-06-01"
 ├── Domain: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
 │   │   ├── InboundIpRules: Object (3 properties)[]
@@ -73,6 +74,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601stor
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── DomainsTopic: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601.Domain
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -276,6 +278,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601stor
 │       ├── Topic: *string
 │       └── Type: *string
 └── Topic: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (6 properties)
     │   ├── AzureName: string
     │   ├── Location: *string
