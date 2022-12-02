@@ -24,24 +24,24 @@ import (
 // If the two instances involved in conversion are not in the same "spoke" leading to this "hub" version, we'll pivot to
 // the reverse conversion, starting at the far end of that "spoke":
 //
-// func (s <hubtype>) ConvertFrom(instance <interfaceType>>) error {
-//     return instance.ConvertTo(s)
-// }
+//	func (s <hubtype>) ConvertFrom(instance <interfaceType>>) error {
+//	    return instance.ConvertTo(s)
+//	}
 //
 // The pivot is needed when following the package references from resource version to resource version won't lead us to
 // encounter the other type that's involved in the conversion, as we can see if we're trying to convert between v1 and
 // v2:
 //
-//      ##################                  #################                  +---------------+
-//      #       v1       #                  #       v2      #                  |       v3      |
-//      #     Person     #                  #     Person    #                  |     Person    |
-//      ##################                  #################                  +---------------+
-//              |                                   |                                  |
-//              v                                   v                                  v
-//      +----------------+                  +---------------+                  +---------------+
-//      |    v1storage   |                  |    v2storage  |                  |    v3storage  |
-//      |     Person     |----------------->|     Person    |----------------->|     Person    |
-//      +----------------+                  +---------------+                  +---------------+
+//	##################                  #################                  +---------------+
+//	#       v1       #                  #       v2      #                  |       v3      |
+//	#     Person     #                  #     Person    #                  |     Person    |
+//	##################                  #################                  +---------------+
+//	        |                                   |                                  |
+//	        v                                   v                                  v
+//	+----------------+                  +---------------+                  +---------------+
+//	|    v1storage   |                  |    v2storage  |                  |    v3storage  |
+//	|     Person     |----------------->|     Person    |----------------->|     Person    |
+//	+----------------+                  +---------------+                  +---------------+
 //
 // Following package references from v1 leads us, in turn, to v1storage, v2storage, and finally v3storage (our hub
 // version), none of is the version we need to terminate the conversion path.
@@ -52,13 +52,13 @@ import (
 //
 // v1.Person.ConvertTo(v2.Person)
 // --> v1storage.Person.ConvertTo(v2.Person)
-//   --> v2storage.Person.ConvertTo(v2.Person)
-//     --> v3storage.Person.ConvertTo(v2.Person)              // Pivot!
-//       --> v2.Person.ConvertFrom(v3storage.Person)          // Change of direction
-//         --> v2storage.Person.ConvertFrom(v3storage.Person)
+//
+//	--> v2storage.Person.ConvertTo(v2.Person)
+//	  --> v3storage.Person.ConvertTo(v2.Person)              // Pivot!
+//	    --> v2.Person.ConvertFrom(v3storage.Person)          // Change of direction
+//	      --> v2storage.Person.ConvertFrom(v3storage.Person)
 //
 // Note that conversions like this always pivot through the hub version.
-//
 type PivotConversionFunction struct {
 	// nameFrom is the name for this function when converting FROM a provided instance
 	nameFrom string
@@ -162,7 +162,6 @@ func (fn *PivotConversionFunction) AsFunc(
 //
 // Note that the method called is in the *other* *direction*; we restart the conversion at the extreme of the second
 // spoke, invoking conversions back towards the hub again.
-//
 func (fn *PivotConversionFunction) bodyForPivot(
 	receiverName string,
 	parameterName string,

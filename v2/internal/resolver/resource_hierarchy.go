@@ -175,12 +175,12 @@ func (h ResourceHierarchy) fullyQualifiedARMIDImpl(subscriptionID string, origin
 
 // rootKind returns the ResourceHierarchyRoot type of the hierarchy.
 // There are 5 cases here:
-// 1. The hierarchy is comprised solely of a resource group. This is subscription rooted.
-// 2. The hierarchy has multiple entries and roots up to a resource group. This is Resource Group rooted.
-// 3. The hierarchy has multiple entries and doesn't root up to a resource group. This is subscription rooted.
-// 4. The hierarchy roots up to a tenant scope resource. This is tenant rooted.
-// 5. The hierarchy contains a resource that sets genruntime.ChildResourceIDOverrideAnnotation. This is
-//    "Override" rooted.
+//  1. The hierarchy is comprised solely of a resource group. This is subscription rooted.
+//  2. The hierarchy has multiple entries and roots up to a resource group. This is Resource Group rooted.
+//  3. The hierarchy has multiple entries and doesn't root up to a resource group. This is subscription rooted.
+//  4. The hierarchy roots up to a tenant scope resource. This is tenant rooted.
+//  5. The hierarchy contains a resource that sets genruntime.ChildResourceIDOverrideAnnotation. This is
+//     "Override" rooted.
 func (h ResourceHierarchy) rootKind(originalHierarchy ResourceHierarchy) ResourceHierarchyRoot {
 	if len(h) == 0 {
 		panic("resource hierarchy cannot be len 0")

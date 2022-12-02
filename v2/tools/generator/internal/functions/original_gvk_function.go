@@ -16,14 +16,13 @@ import (
 // We put these on our resource types, giving us a way to obtain the right type of instance when the reconciler is
 // working with ARM. The code differs slightly depending on whether we're injecting into an API or storage variant.
 //
-// func (resource *SomeResource) OriginalGVK() scheme.GroupVersionKind {
-//     return scheme.GroupVersionKind{
-//         Group: GroupVersion.Group,
-//         Version: resource.Spec.OriginalVersion,
-//         Kind: "SomeResource",
-//     }
-// }
-//
+//	func (resource *SomeResource) OriginalGVK() scheme.GroupVersionKind {
+//	    return scheme.GroupVersionKind{
+//	        Group: GroupVersion.Group,
+//	        Version: resource.Spec.OriginalVersion,
+//	        Kind: "SomeResource",
+//	    }
+//	}
 type OriginalGVKFunction struct {
 	idFactory                  astmodel.IdentifierFactory
 	hasOriginalVersionFunction bool

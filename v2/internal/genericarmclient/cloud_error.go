@@ -22,7 +22,6 @@ import (
 // However, some services put the code & message at the top level instead.
 // This is common enough that the Azure Python SDK has specific handling to promote a nested error to the top level.
 // See https://github.com/Azure/azure-sdk-for-python/blob/9791fb5bc4cb6001768e6e1fb986b8d8f8326c43/sdk/core/azure-core/azure/core/exceptions.py#L153
-//
 type CloudError struct {
 	error error
 

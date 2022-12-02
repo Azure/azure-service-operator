@@ -175,14 +175,15 @@ func orderByFunctionName(functions []*functions.IndexRegistrationFunction) func(
 }
 
 // createGetKnownTypesFunc creates a getKnownTypes function that returns all known types:
-//		func getKnownTypes() []client.Object {
-//			var result []client.Object
-//			result = append(result, new(<package>.<resource>))
-//			result = append(result, new(<package>.<resource>))
-//			result = append(result, new(<package>.<resource>))
-//			...
-//			return result
-//		}
+//
+//	func getKnownTypes() []client.Object {
+//		var result []client.Object
+//		result = append(result, new(<package>.<resource>))
+//		result = append(result, new(<package>.<resource>))
+//		result = append(result, new(<package>.<resource>))
+//		...
+//		return result
+//	}
 func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName) (dst.Decl, error) {
 	funcName := "getKnownTypes"
 	funcComment := "returns the list of all types."
@@ -236,27 +237,28 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 }
 
 // createGetKnownStorageTypesFunc creates a getKnownStorageTypes function that returns all storage types:
-//		func getKnownStorageTypes() []registration.StorageType {
-//			var result []*registration.StorageType
-//			result = append(result, &registration.StorageType{
-//				Obj: new(<package>.<resource>),
-//				Indexes: []registration.Index{
-//					{
-//						Key: <key>,
-//						Func: <func>,
-//					},
+//
+//	func getKnownStorageTypes() []registration.StorageType {
+//		var result []*registration.StorageType
+//		result = append(result, &registration.StorageType{
+//			Obj: new(<package>.<resource>),
+//			Indexes: []registration.Index{
+//				{
+//					Key: <key>,
+//					Func: <func>,
 //				},
-//				Watches: []registration.Watch{
-//					{
-//						Src: <source> (usually corev1.Secret{}),
-//					},
+//			},
+//			Watches: []registration.Watch{
+//				{
+//					Src: <source> (usually corev1.Secret{}),
 //				},
-//			})
-//			result = append(result, registration.StorageType{Obj: new(<package>.<resource>)})
-//			result = append(result, registration.StorageType{Obj: new(<package>.<resource>)})
-//			...
-//			return result
-//		}
+//			},
+//		})
+//		result = append(result, registration.StorageType{Obj: new(<package>.<resource>)})
+//		result = append(result, registration.StorageType{Obj: new(<package>.<resource>)})
+//		...
+//		return result
+//	}
 func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 ) dst.Decl {
@@ -375,14 +377,15 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 }
 
 // createCreateSchemeFunc creates a createScheme() function like:
-//		func createScheme() *runtime.Scheme {
-//			scheme := runtime.NewScheme()
-//			_ = clientgoscheme.AddToScheme(scheme)
-//			_ = batchv20170901.AddToScheme(scheme)
-//			_ = documentdbv20150408.AddToScheme(scheme)
-//			_ = storagev20190401.AddToScheme(scheme)
-//			return scheme
-//		}
+//
+//	func createScheme() *runtime.Scheme {
+//		scheme := runtime.NewScheme()
+//		_ = clientgoscheme.AddToScheme(scheme)
+//		_ = batchv20170901.AddToScheme(scheme)
+//		_ = documentdbv20150408.AddToScheme(scheme)
+//		_ = storagev20190401.AddToScheme(scheme)
+//		return scheme
+//	}
 func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
 	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {
@@ -500,6 +503,7 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(typeName astmodel.TypeName, c
 }
 
 // makeSimpleWatchesExpr generates code for a Watches expression:
+//
 //	{
 //		Src:              &source.Kind{Type: &<fieldType>{}},
 //		MakeEventHandler: <watchHelperFuncName>([]string{<typeNameKeys[typeName]>}, &<typeName>{}),
