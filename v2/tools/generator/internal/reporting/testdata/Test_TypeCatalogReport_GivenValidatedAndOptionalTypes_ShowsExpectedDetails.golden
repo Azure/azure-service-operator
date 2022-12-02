@@ -1,19 +1,19 @@
 github.com/Azure/azure-service-operator/testing/person/v20200101
 └── Person: Object (7 properties)
     ├── AKA: Validated<string> (2 rules)
-    │   ├── Rule 0: {MaxLength %!s(int64=100)}
-    │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   ├── Rule 0: MaxLength: 100
+    │   └── Rule 1: MinLength: 1
     ├── FamilyName: *string
     ├── FullName: Validated<string> (2 rules)
-    │   ├── Rule 0: {MaxLength %!s(int64=100)}
-    │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   ├── Rule 0: MaxLength: 100
+    │   └── Rule 1: MinLength: 1
     ├── KnownAs: string
     ├── LegalName: Validated<*string> (2 rules)
-    │   ├── Rule 0: {MaxLength %!s(int64=100)}
-    │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   ├── Rule 0: MaxLength: 100
+    │   └── Rule 1: MinLength: 1
     ├── Nee: *Validated<string> (2 rules)
-    │   ├── Rule 0: {MaxLength %!s(int64=100)}
-    │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   ├── Rule 0: MaxLength: 100
+    │   └── Rule 1: MinLength: 1
     └── Nickname: *Validated<string> (2 rules)
-        ├── Rule 0: {MaxLength %!s(int64=100)}
-        └── Rule 1: {MinLength %!s(int64=1)}
+        ├── Rule 0: MaxLength: 100
+        └── Rule 1: MinLength: 1
