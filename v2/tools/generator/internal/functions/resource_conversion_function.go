@@ -28,7 +28,7 @@ import (
 //		return <receiver>.AssignProperties<From|To><Type>(source)
 //	}
 //
-// # Indirect conversion, multiple steps via an intermediate instance
+// Indirect conversion, multiple steps via an intermediate instance
 //
 //	func (r <receiver>) Convert<From|To>(hub conversion.Hub) error {
 //		var source <vNext>
