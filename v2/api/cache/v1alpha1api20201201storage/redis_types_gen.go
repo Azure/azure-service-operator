@@ -531,7 +531,6 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 // Storage version of v1alpha1api20201201.Redis_STATUS
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
 type Redis_STATUS struct {
-	AccessKeys                 *RedisAccessKeys_STATUS                    `json:"accessKeys,omitempty"`
 	Conditions                 []conditions.Condition                     `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                      `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                    `json:"hostName,omitempty"`
@@ -615,18 +614,6 @@ func (redis *Redis_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *v20201201s.Redis_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AccessKeys
-	if source.AccessKeys != nil {
-		var accessKey RedisAccessKeys_STATUS
-		err := accessKey.AssignProperties_From_RedisAccessKeys_STATUS(source.AccessKeys)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RedisAccessKeys_STATUS() to populate field AccessKeys")
-		}
-		redis.AccessKeys = &accessKey
-	} else {
-		redis.AccessKeys = nil
-	}
 
 	// Conditions
 	redis.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -799,18 +786,6 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *v20201201s
 func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v20201201s.Redis_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(redis.PropertyBag)
-
-	// AccessKeys
-	if redis.AccessKeys != nil {
-		var accessKey v20201201s.RedisAccessKeys_STATUS
-		err := redis.AccessKeys.AssignProperties_To_RedisAccessKeys_STATUS(&accessKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RedisAccessKeys_STATUS() to populate field AccessKeys")
-		}
-		destination.AccessKeys = &accessKey
-	} else {
-		destination.AccessKeys = nil
-	}
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(redis.Conditions)
@@ -1012,58 +987,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.RedisAccessKeys_STATUS
-// Deprecated version of RedisAccessKeys_STATUS. Use v1beta20201201.RedisAccessKeys_STATUS instead
-type RedisAccessKeys_STATUS struct {
-	PrimaryKey   *string                `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecondaryKey *string                `json:"secondaryKey,omitempty"`
-}
-
-// AssignProperties_From_RedisAccessKeys_STATUS populates our RedisAccessKeys_STATUS from the provided source RedisAccessKeys_STATUS
-func (keys *RedisAccessKeys_STATUS) AssignProperties_From_RedisAccessKeys_STATUS(source *v20201201s.RedisAccessKeys_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrimaryKey
-	keys.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
-
-	// SecondaryKey
-	keys.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		keys.PropertyBag = propertyBag
-	} else {
-		keys.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RedisAccessKeys_STATUS populates the provided destination RedisAccessKeys_STATUS from our RedisAccessKeys_STATUS
-func (keys *RedisAccessKeys_STATUS) AssignProperties_To_RedisAccessKeys_STATUS(destination *v20201201s.RedisAccessKeys_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(keys.PropertyBag)
-
-	// PrimaryKey
-	destination.PrimaryKey = genruntime.ClonePointerToString(keys.PrimaryKey)
-
-	// SecondaryKey
-	destination.SecondaryKey = genruntime.ClonePointerToString(keys.SecondaryKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

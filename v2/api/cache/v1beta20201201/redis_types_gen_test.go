@@ -438,7 +438,6 @@ func AddIndependentPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen)
 
 // AddRelatedPropertyGeneratorsForRedis_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen) {
-	gens["AccessKeys"] = gen.PtrOf(RedisAccessKeys_STATUSGenerator())
 	gens["Instances"] = gen.SliceOf(RedisInstanceDetails_STATUSGenerator())
 	gens["LinkedServers"] = gen.SliceOf(RedisLinkedServer_STATUSGenerator())
 	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUSGenerator())
@@ -547,110 +546,6 @@ func PrivateEndpointConnection_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_RedisAccessKeys_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisAccessKeys_STATUS to RedisAccessKeys_STATUS via AssignProperties_To_RedisAccessKeys_STATUS & AssignProperties_From_RedisAccessKeys_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisAccessKeys_STATUS, RedisAccessKeys_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRedisAccessKeys_STATUS tests if a specific instance of RedisAccessKeys_STATUS can be assigned to v1beta20201201storage and back losslessly
-func RunPropertyAssignmentTestForRedisAccessKeys_STATUS(subject RedisAccessKeys_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201201s.RedisAccessKeys_STATUS
-	err := copied.AssignProperties_To_RedisAccessKeys_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisAccessKeys_STATUS
-	err = actual.AssignProperties_From_RedisAccessKeys_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RedisAccessKeys_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisAccessKeys_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisAccessKeys_STATUS, RedisAccessKeys_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedisAccessKeys_STATUS runs a test to see if a specific instance of RedisAccessKeys_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisAccessKeys_STATUS(subject RedisAccessKeys_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RedisAccessKeys_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RedisAccessKeys_STATUS instances for property testing - lazily instantiated by
-// RedisAccessKeys_STATUSGenerator()
-var redisAccessKeys_STATUSGenerator gopter.Gen
-
-// RedisAccessKeys_STATUSGenerator returns a generator of RedisAccessKeys_STATUS instances for property testing.
-func RedisAccessKeys_STATUSGenerator() gopter.Gen {
-	if redisAccessKeys_STATUSGenerator != nil {
-		return redisAccessKeys_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisAccessKeys_STATUS(generators)
-	redisAccessKeys_STATUSGenerator = gen.Struct(reflect.TypeOf(RedisAccessKeys_STATUS{}), generators)
-
-	return redisAccessKeys_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisAccessKeys_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisAccessKeys_STATUS(gens map[string]gopter.Gen) {
-	gens["PrimaryKey"] = gen.PtrOf(gen.AlphaString())
-	gens["SecondaryKey"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RedisCreateProperties_RedisConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

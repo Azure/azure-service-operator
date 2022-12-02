@@ -49,11 +49,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │   │   ├── Tags: map[string]string
 │   │   ├── TenantSettings: map[string]string
 │   │   └── Zones: string[]
-│   └── Status: Object (28 properties)
-│       ├── AccessKeys: *Object (3 properties)
-│       │   ├── PrimaryKey: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── SecondaryKey: *string
+│   └── Status: Object (27 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string

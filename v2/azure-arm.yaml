@@ -78,15 +78,18 @@ typeFilters:
     group: resources
     because: Terrifying.
 
+  # TODO: I believe this type exists at
+  # TODO : https://github.com/Azure/azure-rest-api-specs/blob/88e7838a09868a51de3894114355c75929847a46/specification/azsadmin/resource-manager/compute/Microsoft.Compute.Admin/stable/2021-04-01/Disks.json#L224
+  # TODO: If we ever want access to the assadmin Microsoft.Compute.Admin RP we'll need to bring this back
   - action: prune
     name: Disk
     group: compute.admin
-    because: "TODO(donotmerge): don't know how to intersect types: []github.com/Azure/azure-service-operator/v2/api/compute.admin/v1beta20210401/Disk and (object)"
+    because: "Don't know how to intersect types: []github.com/Azure/azure-service-operator/v2/api/compute.admin/v1beta20210401/Disk and (object)"
 
   - action: prune
     name: DiskListInput
     group: compute.admin
-    because: "TODO(donotmerge): ends up with nil due to above"
+    because: "Ends up with nil due to above"
 
   - action: prune
     group: securityinsights
@@ -124,12 +127,11 @@ typeTransformers:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
 
-  # TODO(donotmerge)
-  # - group: cache
-  #   name: RedisProperties_Status
-  #   property: AccessKeys
-  #   remove: true
-  #   because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
+  - group: cache
+    name: RedisProperties_Status
+    property: AccessKeys
+    remove: true
+    because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: BatchAccountIdentity
@@ -147,13 +149,6 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
-  # TODO(donotmerge)
- # - name: StorageAccounts_ManagementPolicy_Spec
- #   group: storage
- #   property: Location
- #   remove: true
- #   because: This property should be marked readonly
 
   - name: ManagedServiceIdentity
     group: documentdb
@@ -210,19 +205,7 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-#  - name: Namespaces_Eventhub_Properties_Spec
-#    group: eventhub
-#    property: Status
-#    remove: true
-#    because: This property should be marked readonly
 
-# TODO[donotmerge]: This commented out section seems to not do anything?
-#  - group: network
-#    version: "*"
-#    name: PrivateDnsZone_Spec
-#    property: Properties
-#    remove: true
-#    because: it has no writable properties in swagger
   - group: network
     version: "*"
     name: RouteTables_Route_Spec
@@ -366,22 +349,6 @@ typeTransformers:
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
-
-  ## Deal with service Swaggers that are just wrong
-
-  # TODO(donotmerge)
-  # - group: insights
-  #   name: WebTests_Spec
-  #   property: Kind
-  #   remove: true
-  #   because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
-
-  # TODO(donotmerge)
-  # - group: insights
-  #   name: WebTest_Status
-  #   property: Kind
-  #   remove: true
-  #   because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
 status:
 

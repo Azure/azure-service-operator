@@ -971,8 +971,6 @@ func (redis *Redis_Spec) SetAzureName(azureName string) { redis.AzureName = azur
 
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
 type Redis_STATUS struct {
-	AccessKeys *RedisAccessKeys_STATUS `json:"accessKeys,omitempty"`
-
 	// Conditions: The observed state of the resource
 	Conditions                 []conditions.Condition                      `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                       `json:"enableNonSslPort,omitempty"`
@@ -1064,20 +1062,6 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	typedInput, ok := armInput.(Redis_STATUS_ARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Redis_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘AccessKeys’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AccessKeys != nil {
-			var accessKeys1 RedisAccessKeys_STATUS
-			err := accessKeys1.PopulateFromARM(owner, *typedInput.Properties.AccessKeys)
-			if err != nil {
-				return err
-			}
-			accessKeys := accessKeys1
-			redis.AccessKeys = &accessKeys
-		}
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1321,18 +1305,6 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 // AssignProperties_From_Redis_STATUS populates our Redis_STATUS from the provided source Redis_STATUS
 func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *alpha20201201s.Redis_STATUS) error {
 
-	// AccessKeys
-	if source.AccessKeys != nil {
-		var accessKey RedisAccessKeys_STATUS
-		err := accessKey.AssignProperties_From_RedisAccessKeys_STATUS(source.AccessKeys)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_RedisAccessKeys_STATUS() to populate field AccessKeys")
-		}
-		redis.AccessKeys = &accessKey
-	} else {
-		redis.AccessKeys = nil
-	}
-
 	// Conditions
 	redis.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -1502,18 +1474,6 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *alpha20201
 func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *alpha20201201s.Redis_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AccessKeys
-	if redis.AccessKeys != nil {
-		var accessKey alpha20201201s.RedisAccessKeys_STATUS
-		err := redis.AccessKeys.AssignProperties_To_RedisAccessKeys_STATUS(&accessKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_RedisAccessKeys_STATUS() to populate field AccessKeys")
-		}
-		destination.AccessKeys = &accessKey
-	} else {
-		destination.AccessKeys = nil
-	}
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(redis.Conditions)
@@ -1733,77 +1693,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of RedisAccessKeys_STATUS. Use v1beta20201201.RedisAccessKeys_STATUS instead
-type RedisAccessKeys_STATUS struct {
-	PrimaryKey   *string `json:"primaryKey,omitempty"`
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &RedisAccessKeys_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keys *RedisAccessKeys_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisAccessKeys_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (keys *RedisAccessKeys_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisAccessKeys_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisAccessKeys_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘PrimaryKey’:
-	if typedInput.PrimaryKey != nil {
-		primaryKey := *typedInput.PrimaryKey
-		keys.PrimaryKey = &primaryKey
-	}
-
-	// Set property ‘SecondaryKey’:
-	if typedInput.SecondaryKey != nil {
-		secondaryKey := *typedInput.SecondaryKey
-		keys.SecondaryKey = &secondaryKey
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_RedisAccessKeys_STATUS populates our RedisAccessKeys_STATUS from the provided source RedisAccessKeys_STATUS
-func (keys *RedisAccessKeys_STATUS) AssignProperties_From_RedisAccessKeys_STATUS(source *alpha20201201s.RedisAccessKeys_STATUS) error {
-
-	// PrimaryKey
-	keys.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
-
-	// SecondaryKey
-	keys.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_RedisAccessKeys_STATUS populates the provided destination RedisAccessKeys_STATUS from our RedisAccessKeys_STATUS
-func (keys *RedisAccessKeys_STATUS) AssignProperties_To_RedisAccessKeys_STATUS(destination *alpha20201201s.RedisAccessKeys_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PrimaryKey
-	destination.PrimaryKey = genruntime.ClonePointerToString(keys.PrimaryKey)
-
-	// SecondaryKey
-	destination.SecondaryKey = genruntime.ClonePointerToString(keys.SecondaryKey)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

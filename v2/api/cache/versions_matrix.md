@@ -24,7 +24,6 @@
 | PrivateEndpointConnection_STATUS              | v1alpha1api20201201 | v1alpha1api20210301 | v1beta20201201 | v1beta20210301 |
 | ProvisioningState_STATUS                      |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | Redis                                         | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| RedisAccessKeys_STATUS                        | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisCreateProperties                         | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisCreateProperties_MinimumTlsVersion       | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisCreateProperties_PublicNetworkAccess     | v1alpha1api20201201 |                     | v1beta20201201 |                |

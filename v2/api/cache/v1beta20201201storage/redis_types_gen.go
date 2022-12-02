@@ -196,7 +196,6 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 
 // Storage version of v1beta20201201.Redis_STATUS
 type Redis_STATUS struct {
-	AccessKeys                 *RedisAccessKeys_STATUS                    `json:"accessKeys,omitempty"`
 	Conditions                 []conditions.Condition                     `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                      `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                    `json:"hostName,omitempty"`
@@ -288,13 +287,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 	// No error
 	return nil
-}
-
-// Storage version of v1beta20201201.RedisAccessKeys_STATUS
-type RedisAccessKeys_STATUS struct {
-	PrimaryKey   *string                `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecondaryKey *string                `json:"secondaryKey,omitempty"`
 }
 
 // Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration

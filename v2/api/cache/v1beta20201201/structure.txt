@@ -54,10 +54,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   │   ├── Tags: map[string]string
 │   │   ├── TenantSettings: map[string]string
 │   │   └── Zones: string[]
-│   └── Status: Object (27 properties)
-│       ├── AccessKeys: *Object (2 properties)
-│       │   ├── PrimaryKey: *string
-│       │   └── SecondaryKey: *string
+│   └── Status: Object (26 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string
@@ -270,10 +267,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: *Object (20 properties)
-│   │   ├── AccessKeys: *Object (2 properties)
-│   │   │   ├── PrimaryKey: *string
-│   │   │   └── SecondaryKey: *string
+│   ├── Properties: *Object (19 properties)
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── HostName: *string
 │   │   ├── Instances: Object (6 properties)[]
