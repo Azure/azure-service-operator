@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
 ├── APIVersion: Enum (1 value)
 │   └── "2021-10-01"
 └── ContainerGroup: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (20 properties)
     │   ├── AzureName: string
     │   ├── Containers: Object (10 properties)[]

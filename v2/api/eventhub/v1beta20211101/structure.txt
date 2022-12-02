@@ -187,11 +187,12 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       └── "User"
 │   └── Type: *string
 ├── Namespace: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (15 properties)
 │   │   ├── AlternateName: *string
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   └── Rule 1: MinLength: 6
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: *Object (3 properties)
@@ -220,7 +221,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: Validated<*int> (1 rule)
-│   │   │   │   └── Rule 0: {Minimum 0}
+│   │   │   │   └── Rule 0: Minimum: 0
 │   │   │   ├── Name: *Enum (3 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   ├── "Premium"
@@ -357,9 +358,10 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │       └── "Standard"
 │   └── Tags: map[string]string
 ├── NamespacesAuthorizationRule: Resource
+│   ├── Owner: Namespace
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 0: MinLength: 1
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Rights: Enum (3 values)[]
@@ -393,10 +395,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │       │       └── "User"
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
+│   ├── Owner: Namespace
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: MinLength: 1
 │   │   ├── CaptureDescription: *Object (6 properties)
 │   │   │   ├── Destination: *Object (7 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
@@ -404,7 +407,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   │   │   ├── DataLakeAccountName: *string
 │   │   │   │   ├── DataLakeFolderPath: *string
 │   │   │   │   ├── DataLakeSubscriptionId: Validated<*string> (1 rule)
-│   │   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── StorageAccountResourceReference: *genruntime.ResourceReference
 │   │   │   ├── Enabled: *bool
@@ -416,10 +419,10 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   │   └── SkipEmptyArchives: *bool
 │   │   ├── Location: *string
 │   │   ├── MessageRetentionInDays: Validated<*int> (1 rule)
-│   │   │   └── Rule 0: {Minimum 1}
+│   │   │   └── Rule 0: Minimum: 1
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PartitionCount: Validated<*int> (1 rule)
-│   │   │   └── Rule 0: {Minimum 1}
+│   │   │   └── Rule 0: Minimum: 1
 │   │   └── Tags: map[string]string
 │   └── Status: Object (13 properties)
 │       ├── CaptureDescription: *Object (6 properties)
@@ -474,9 +477,10 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
+│   ├── Owner: NamespacesEventhub
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 0: MinLength: 1
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Rights: Enum (3 values)[]
@@ -510,10 +514,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │       │       └── "User"
 │       └── Type: *string
 ├── NamespacesEventhubsConsumerGroup: Resource
+│   ├── Owner: NamespacesEventhub
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   └── Rule 1: MinLength: 1
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Tags: map[string]string
