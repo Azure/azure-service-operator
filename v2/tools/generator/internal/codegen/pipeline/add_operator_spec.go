@@ -310,7 +310,7 @@ func (b *operatorSpecBuilder) newEmptyOperatorSpec() astmodel.TypeDefinition {
 func (b *operatorSpecBuilder) newOperatorSpecProperty(operatorSpec astmodel.TypeDefinition) *astmodel.PropertyDefinition {
 	prop := astmodel.NewPropertyDefinition(
 		astmodel.OperatorSpecProperty,
-		b.idFactory.CreateIdentifier(astmodel.OperatorSpecProperty, astmodel.NotExported),
+		b.idFactory.CreateStringIdentifier(astmodel.OperatorSpecProperty, astmodel.NotExported),
 		operatorSpec.Name()).MakeTypeOptional()
 	desc := "The specification for configuring operator behavior. " +
 		"This field is interpreted by the operator and not passed directly to Azure"
@@ -322,7 +322,7 @@ func (b *operatorSpecBuilder) newOperatorSpecProperty(operatorSpec astmodel.Type
 func (b *operatorSpecBuilder) newSecretsProperty(secretsTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
 	secretProp := astmodel.NewPropertyDefinition(
 		b.idFactory.CreatePropertyName(astmodel.OperatorSpecSecretsProperty, astmodel.Exported),
-		b.idFactory.CreateIdentifier(astmodel.OperatorSpecSecretsProperty, astmodel.NotExported),
+		b.idFactory.CreateStringIdentifier(astmodel.OperatorSpecSecretsProperty, astmodel.NotExported),
 		secretsTypeName)
 	secretProp = secretProp.WithDescription("configures where to place Azure generated secrets.")
 	secretProp = secretProp.MakeTypeOptional()
@@ -333,7 +333,7 @@ func (b *operatorSpecBuilder) newSecretsProperty(secretsTypeName astmodel.TypeNa
 func (b *operatorSpecBuilder) newConfigMapProperty(configMapTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
 	configMapProp := astmodel.NewPropertyDefinition(
 		b.idFactory.CreatePropertyName(astmodel.OperatorSpecConfigMapsProperty, astmodel.Exported),
-		b.idFactory.CreateIdentifier(astmodel.OperatorSpecConfigMapsProperty, astmodel.NotExported),
+		b.idFactory.CreateStringIdentifier(astmodel.OperatorSpecConfigMapsProperty, astmodel.NotExported),
 		configMapTypeName)
 	configMapProp = configMapProp.WithDescription("configures where to place operator written ConfigMaps.")
 	configMapProp = configMapProp.MakeTypeOptional()
@@ -368,7 +368,7 @@ func (b *operatorSpecBuilder) addSecretsToOperatorSpec(
 	for _, secret := range azureGeneratedSecrets {
 		prop := astmodel.NewPropertyDefinition(
 			b.idFactory.CreatePropertyName(secret, astmodel.Exported),
-			b.idFactory.CreateIdentifier(secret, astmodel.NotExported),
+			b.idFactory.CreateStringIdentifier(secret, astmodel.NotExported),
 			astmodel.SecretDestinationType).MakeTypeOptional()
 		desc := fmt.Sprintf(
 			"indicates where the %s secret should be placed. If omitted, the secret will not be retrieved from Azure.",
@@ -411,7 +411,7 @@ func (b *operatorSpecBuilder) addConfigs(
 	for _, exportedConfig := range exportedConfigs {
 		prop := astmodel.NewPropertyDefinition(
 			b.idFactory.CreatePropertyName(exportedConfig, astmodel.Exported),
-			b.idFactory.CreateIdentifier(exportedConfig, astmodel.NotExported),
+			b.idFactory.CreateStringIdentifier(exportedConfig, astmodel.NotExported),
 			astmodel.ConfigMapDestinationType).MakeTypeOptional()
 		desc := fmt.Sprintf(
 			"indicates where the %s config map should be placed. If omitted, no config map will be created.",

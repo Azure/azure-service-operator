@@ -246,14 +246,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(dbformariadb_v20180601s.Server),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.properties.def.administratorLoginPassword",
+				Key:  ".spec.properties.default.administratorLoginPassword",
 				Func: indexDbformariadbServerAdministratorLoginPassword,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.def.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.default.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
 			},
 		},
 	})
@@ -1163,7 +1163,7 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.def.administratorLoginPassword
+// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.default.administratorLoginPassword
 func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
 	if !ok {

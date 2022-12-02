@@ -266,7 +266,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		// but we still need it for controller-gen
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
 			isGoodName: true, // a typename name is good (little else is)
 		}, nil
 
@@ -275,7 +275,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		if concreteType.HasDiscriminatorValue() {
 			return propertyNames{
 				golang:     s.idFactory.CreatePropertyName(concreteType.DiscriminatorValue(), astmodel.Exported),
-				json:       s.idFactory.CreateIdentifier(concreteType.DiscriminatorValue(), astmodel.NotExported),
+				json:       s.idFactory.CreateStringIdentifier(concreteType.DiscriminatorValue(), astmodel.NotExported),
 				isGoodName: true, // a discriminator value is good (little else is)
 			}, nil
 		}
@@ -284,7 +284,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		if concreteType.Name() != "" {
 			return propertyNames{
 				golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
-				json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
+				json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
 				isGoodName: true, // a oneOf name is good (little else is)
 			}, nil
 		}
@@ -303,7 +303,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		name := fmt.Sprintf("enum%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
@@ -311,7 +311,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		name := fmt.Sprintf("object%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
@@ -319,7 +319,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		name := fmt.Sprintf("map%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
@@ -338,7 +338,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		name := fmt.Sprintf("%s%d", primitiveTypeName, propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
@@ -346,7 +346,7 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		name := fmt.Sprintf("resource%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 

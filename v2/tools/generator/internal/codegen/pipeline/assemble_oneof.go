@@ -303,7 +303,7 @@ func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.TypeName, rootN
 
 	discriminatorProperty := root.DiscriminatorProperty()
 	propertyName := oa.idFactory.CreatePropertyName(discriminatorProperty, astmodel.Exported)
-	propertyJson := oa.idFactory.CreateIdentifier(discriminatorProperty, astmodel.NotExported)
+	propertyJson := oa.idFactory.CreateStringIdentifier(discriminatorProperty, astmodel.NotExported)
 
 	err := oa.updateOneOf(
 		name,

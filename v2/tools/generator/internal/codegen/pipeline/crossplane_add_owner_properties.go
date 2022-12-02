@@ -60,15 +60,15 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 						updatedDef, err := specDef.ApplyObjectTransformation(func(o *astmodel.ObjectType) (astmodel.Type, error) {
 							nameProperty := astmodel.NewPropertyDefinition(
 								name,
-								idFactory.CreateIdentifier(string(name), astmodel.NotExported),
+								idFactory.CreateStringIdentifier(string(name), astmodel.NotExported),
 								astmodel.StringType)
 							nameRefProperty := astmodel.NewPropertyDefinition(
 								nameRef,
-								idFactory.CreateIdentifier(string(nameRef), astmodel.NotExported),
+								idFactory.CreateStringIdentifier(string(nameRef), astmodel.NotExported),
 								referenceTypeName).MakeTypeOptional()
 							nameSelectorProperty := astmodel.NewPropertyDefinition(
 								nameSelector,
-								idFactory.CreateIdentifier(string(nameSelector), astmodel.NotExported),
+								idFactory.CreateStringIdentifier(string(nameSelector), astmodel.NotExported),
 								selectorTypeName).MakeTypeOptional()
 
 							result := o.WithProperty(nameProperty).WithProperty(nameRefProperty).WithProperty(nameSelectorProperty)

@@ -234,7 +234,7 @@ type ServerPrivateEndpointConnection_STATUS struct {
 
 // Storage version of v1beta20180601.ServerPropertiesForCreate
 type ServerPropertiesForCreate struct {
-	Default            *ServerPropertiesForDefaultCreate `json:"def,omitempty"`
+	Default            *ServerPropertiesForDefaultCreate `json:"default,omitempty"`
 	GeoRestore         *ServerPropertiesForGeoRestore    `json:"geoRestore,omitempty"`
 	PointInTimeRestore *ServerPropertiesForRestore       `json:"pointInTimeRestore,omitempty"`
 	PropertyBag        genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
