@@ -85,7 +85,7 @@ var _ fmt.Stringer = KubeBuilderValidation{}
 
 func (v KubeBuilderValidation) String() string {
 	value := reflect.ValueOf(v.value)
-	return fmt.Sprintf("%s: %v", v.name, valueAsString(value))
+	return fmt.Sprintf("%s: %s", v.name, valueAsString(value))
 }
 
 /*
