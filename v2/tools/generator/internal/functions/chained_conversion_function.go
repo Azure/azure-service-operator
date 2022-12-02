@@ -26,17 +26,16 @@ import (
 // preexisting AssignProperties*() method. Otherwise, we chain to that type to do the conversion to an intermediate
 // instance and then convert using that.
 //
-// func (r <receiver>) ConvertFrom(instance <interfaceType>) error {
-// 	   source, ok := instance.(*<otherType>)
-// 	   if !ok {
-//         // Need indirect conversion
-//         source = &<otherType>{}
-//         source.ConvertFrom(instance)
-//     }
+//	func (r <receiver>) ConvertFrom(instance <interfaceType>) error {
+//		   source, ok := instance.(*<otherType>)
+//		   if !ok {
+//	        // Need indirect conversion
+//	        source = &<otherType>{}
+//	        source.ConvertFrom(instance)
+//	    }
 //
-//     return r.AssignPropertiesFrom(source)
-// }
-//
+//	    return r.AssignPropertiesFrom(source)
+//	}
 type ChainedConversionFunction struct {
 	// name is the unique name for this function
 	name string
@@ -149,24 +148,23 @@ func (fn *ChainedConversionFunction) AsFunc(
 //
 // For ConvertFrom, we generate
 //
-// 	   src, ok := source.(*<intermediateType>)
-// 	   if ok {
-//         // Populate our instance from source
-//         return s.AssignPropertiesFrom(source)
-//     }
+//		   src, ok := source.(*<intermediateType>)
+//		   if ok {
+//	        // Populate our instance from source
+//	        return s.AssignPropertiesFrom(source)
+//	    }
 //
-//     // Convert to an intermediate form
-//     src = &<intermediateType>{}
-//     err := src.ConvertFrom(source)
-//     if err != nil {
-//         return errors.Wrapf(err, "...elided...")
-//     }
+//	    // Convert to an intermediate form
+//	    src = &<intermediateType>{}
+//	    err := src.ConvertFrom(source)
+//	    if err != nil {
+//	        return errors.Wrapf(err, "...elided...")
+//	    }
 //
-//     // Update our instance from src
-//     return s.AssignPropertiesFrom(src)
+//	    // Update our instance from src
+//	    return s.AssignPropertiesFrom(src)
 //
 // For ConvertTo, we have essentially the same structure, but two-step conversion is done in the other order.
-//
 func (fn *ChainedConversionFunction) bodyForConvert(
 	receiverName string, parameterName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 

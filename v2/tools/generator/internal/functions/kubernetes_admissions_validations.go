@@ -64,7 +64,8 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 }
 
 // validateResourceReferencesBody helps generate the body of the validateResourceReferences function:
-// 	refs, err := reflecthelpers.FindResourceReferences(&<resource>.Spec)
+//
+//	refs, err := reflecthelpers.FindResourceReferences(&<resource>.Spec)
 //	if err != nil {
 //		return err
 //	}
@@ -123,10 +124,10 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 
 // validateWriteOncePropertiesFunctionBody helps generate the body of the validateWriteOncePropertiesFunctionBody function:
 //
-//  oldObj, ok := old.(*Receiver)
-//  if !ok {
-//      return nil
-//  }
+//	oldObj, ok := old.(*Receiver)
+//	if !ok {
+//	    return nil
+//	}
 //
 // return genruntime.ValidateWriteOnceProperties(oldObj, <receiverIndent>)
 func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGenerationContext *astmodel.CodeGenerationContext, receiverIdent string) []dst.Stmt {
@@ -175,7 +176,8 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 }
 
 // validateOptionalConfigMapReferencesBody helps generate the body of the validateResourceReferences function:
-// 	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&<resource>.Spec)
+//
+//	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&<resource>.Spec)
 //	if err != nil {
 //		return err
 //	}
