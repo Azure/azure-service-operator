@@ -227,7 +227,7 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
-		idFactory.CreateIdentifier(referencePropertyName, astmodel.NotExported),
+		idFactory.CreateStringIdentifier(referencePropertyName, astmodel.NotExported),
 		newPropType)
 
 	newProp = newProp.WithDescription(existing.Description())

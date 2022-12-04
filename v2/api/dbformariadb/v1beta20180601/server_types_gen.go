@@ -1405,7 +1405,7 @@ const (
 
 type ServerPropertiesForCreate struct {
 	// Default: Mutually exclusive with all other properties
-	Default *ServerPropertiesForDefaultCreate `json:"def,omitempty"`
+	Default *ServerPropertiesForDefaultCreate `json:"default,omitempty"`
 
 	// GeoRestore: Mutually exclusive with all other properties
 	GeoRestore *ServerPropertiesForGeoRestore `json:"geoRestore,omitempty"`

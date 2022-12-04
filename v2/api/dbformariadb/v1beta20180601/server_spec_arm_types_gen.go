@@ -42,7 +42,7 @@ func (server *Server_Spec_ARM) GetType() string {
 
 type ServerPropertiesForCreate_ARM struct {
 	// Default: Mutually exclusive with all other properties
-	Default *ServerPropertiesForDefaultCreate_ARM `json:"def,omitempty"`
+	Default *ServerPropertiesForDefaultCreate_ARM `json:"default,omitempty"`
 
 	// GeoRestore: Mutually exclusive with all other properties
 	GeoRestore *ServerPropertiesForGeoRestore_ARM `json:"geoRestore,omitempty"`
