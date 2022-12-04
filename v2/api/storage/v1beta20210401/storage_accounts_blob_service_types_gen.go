@@ -81,21 +81,14 @@ func (service *StorageAccountsBlobService) Default() {
 	}
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (service *StorageAccountsBlobService) defaultAzureName() {
-	if service.Spec.AzureName == "" {
-		service.Spec.AzureName = service.Name
-	}
-}
-
 // defaultImpl applies the code generated defaults to the StorageAccountsBlobService resource
-func (service *StorageAccountsBlobService) defaultImpl() { service.defaultAzureName() }
+func (service *StorageAccountsBlobService) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (service *StorageAccountsBlobService) AzureName() string {
-	return service.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -325,10 +318,6 @@ type StorageAccounts_BlobService_Spec struct {
 	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
 	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
 
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
 	// ChangeFeed: The blob service properties for change feed events.
 	ChangeFeed *ChangeFeed `json:"changeFeed,omitempty"`
 
@@ -470,9 +459,6 @@ func (service *StorageAccounts_BlobService_Spec) PopulateFromARM(owner genruntim
 			service.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
 		}
 	}
-
-	// Set property ‘AzureName’:
-	service.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘ChangeFeed’:
 	// copying flattened property:
@@ -644,9 +630,6 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		service.AutomaticSnapshotPolicyEnabled = nil
 	}
 
-	// AzureName
-	service.AzureName = source.AzureName
-
 	// ChangeFeed
 	if source.ChangeFeed != nil {
 		var changeFeed ChangeFeed
@@ -754,9 +737,6 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 	} else {
 		destination.AutomaticSnapshotPolicyEnabled = nil
 	}
-
-	// AzureName
-	destination.AzureName = service.AzureName
 
 	// ChangeFeed
 	if service.ChangeFeed != nil {
@@ -866,11 +846,6 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 // OriginalVersion returns the original API version used to create the resource.
 func (service *StorageAccounts_BlobService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (service *StorageAccounts_BlobService_Spec) SetAzureName(azureName string) {
-	service.AzureName = azureName
 }
 
 type StorageAccounts_BlobService_STATUS struct {

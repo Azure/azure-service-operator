@@ -90,7 +90,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 ├── NamespacesQueue: Resource
 │   ├── Spec: Object (18 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -151,7 +152,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 └── NamespacesTopic: Resource
     ├── Spec: Object (13 properties)
     │   ├── AutoDeleteOnIdle: *string
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (1 rule)
+    │   │   └── Rule 0: {MinLength %!s(int64=1)}
     │   ├── DefaultMessageTimeToLive: *string
     │   ├── DuplicateDetectionHistoryTimeWindow: *string
     │   ├── EnableBatchedOperations: *bool

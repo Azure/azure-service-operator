@@ -322,6 +322,8 @@ type NamespacesEventhubsConsumerGroupList struct {
 }
 
 type Namespaces_Eventhubs_Consumergroup_Spec struct {
+	// +kubebuilder:validation:MaxLength=50
+	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

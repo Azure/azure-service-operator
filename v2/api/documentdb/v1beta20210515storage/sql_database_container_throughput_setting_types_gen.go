@@ -46,9 +46,9 @@ func (setting *SqlDatabaseContainerThroughputSetting) SetConditions(conditions c
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerThroughputSetting{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (setting *SqlDatabaseContainerThroughputSetting) AzureName() string {
-	return setting.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
@@ -135,9 +135,6 @@ type SqlDatabaseContainerThroughputSettingList struct {
 
 // Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
 type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 

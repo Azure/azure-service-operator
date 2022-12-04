@@ -11,6 +11,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
@@ -217,7 +218,6 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	armId := *vmss.Status.Id
 
 	// Perform a simple patch to add a basic custom script extension
-	/* TODO: disabled pending (evildiscriminator)
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2020.VirtualMachineScaleSetExtensionProfile{
@@ -248,7 +248,6 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 		}
 	}
 	tc.Expect(found).To(BeTrue())
-	*/
 
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)

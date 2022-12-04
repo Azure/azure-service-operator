@@ -46,9 +46,9 @@ func (service *StorageAccountsBlobService) SetConditions(conditions conditions.C
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (service *StorageAccountsBlobService) AzureName() string {
-	return service.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -135,11 +135,7 @@ type StorageAccountsBlobServiceList struct {
 
 // Storage version of v1beta20210401.StorageAccounts_BlobService_Spec
 type StorageAccounts_BlobService_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                      string                        `json:"azureName,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
 	Cors                           *CorsRules                    `json:"cors,omitempty"`

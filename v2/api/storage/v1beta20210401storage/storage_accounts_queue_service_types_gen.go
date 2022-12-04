@@ -46,9 +46,9 @@ func (service *StorageAccountsQueueService) SetConditions(conditions conditions.
 
 var _ genruntime.KubernetesResource = &StorageAccountsQueueService{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (service *StorageAccountsQueueService) AzureName() string {
-	return service.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -135,9 +135,6 @@ type StorageAccountsQueueServiceList struct {
 
 // Storage version of v1beta20210401.StorageAccounts_QueueService_Spec
 type StorageAccounts_QueueService_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string     `json:"azureName,omitempty"`
 	Cors            *CorsRules `json:"cors,omitempty"`
 	OriginalVersion string     `json:"originalVersion,omitempty"`
 

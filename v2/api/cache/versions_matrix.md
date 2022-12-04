@@ -28,6 +28,7 @@
 | RedisCreateProperties                         | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisCreateProperties_MinimumTlsVersion       | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisCreateProperties_PublicNetworkAccess     | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| RedisCreateProperties_RedisConfiguration      | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisEnterprise                               |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterpriseDatabase                       |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterprise_Database_STATUS               |                     | v1alpha1api20210301 |                | v1beta20210301 |
@@ -54,6 +55,7 @@
 | Redis_FirewallRule_Spec                       | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_LinkedServer_STATUS                     | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_LinkedServer_Spec                       | v1alpha1api20201201 |                     | v1beta20201201 |                |
+| Redis_PatchSchedule_Name_Spec                 | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_PatchSchedule_STATUS                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_PatchSchedule_Spec                      | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_STATUS                                  | v1alpha1api20201201 |                     | v1beta20201201 |                |

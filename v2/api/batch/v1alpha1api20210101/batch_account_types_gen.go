@@ -340,6 +340,9 @@ const APIVersion_Value = APIVersion("2021-01-01")
 type BatchAccount_Spec struct {
 	AutoStorage *AutoStorageBaseProperties `json:"autoStorage,omitempty"`
 
+	// +kubebuilder:validation:MaxLength=24
+	// +kubebuilder:validation:MinLength=3
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string                `json:"azureName,omitempty"`

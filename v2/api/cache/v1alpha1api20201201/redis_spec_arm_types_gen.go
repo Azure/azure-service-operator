@@ -33,18 +33,35 @@ func (redis *Redis_Spec_ARM) GetType() string {
 
 // Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead
 type RedisCreateProperties_ARM struct {
-	EnableNonSslPort    *bool                                      `json:"enableNonSslPort,omitempty"`
-	MinimumTlsVersion   *RedisCreateProperties_MinimumTlsVersion   `json:"minimumTlsVersion,omitempty"`
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  map[string]string                          `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                    `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                       `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                       `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                       `json:"shardCount,omitempty"`
-	Sku                 *Sku_ARM                                   `json:"sku,omitempty"`
-	StaticIP            *string                                    `json:"staticIP,omitempty"`
-	SubnetId            *string                                    `json:"subnetId,omitempty"`
-	TenantSettings      map[string]string                          `json:"tenantSettings,omitempty"`
+	EnableNonSslPort    *bool                                         `json:"enableNonSslPort,omitempty"`
+	MinimumTlsVersion   *RedisCreateProperties_MinimumTlsVersion      `json:"minimumTlsVersion,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess    `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_ARM `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                       `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                          `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                          `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                          `json:"shardCount,omitempty"`
+	Sku                 *Sku_ARM                                      `json:"sku,omitempty"`
+	StaticIP            *string                                       `json:"staticIP,omitempty"`
+	SubnetId            *string                                       `json:"subnetId,omitempty"`
+	TenantSettings      map[string]string                             `json:"tenantSettings,omitempty"`
+}
+
+// Deprecated version of RedisCreateProperties_RedisConfiguration. Use v1beta20201201.RedisCreateProperties_RedisConfiguration instead
+type RedisCreateProperties_RedisConfiguration_ARM struct {
+	AdditionalProperties           map[string]string `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string           `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string           `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string           `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string           `json:"authnotrequired,omitempty"`
+	MaxfragmentationmemoryReserved *string           `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string           `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string           `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string           `json:"maxmemory-reserved,omitempty"`
+	RdbBackupEnabled               *string           `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string           `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string           `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string           `json:"rdb-storage-connection-string,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20201201.Sku instead

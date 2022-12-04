@@ -65,9 +65,9 @@ func (setting *SqlDatabaseContainerThroughputSetting) ConvertTo(hub conversion.H
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerThroughputSetting{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (setting *SqlDatabaseContainerThroughputSetting) AzureName() string {
-	return setting.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
@@ -201,9 +201,6 @@ type SqlDatabaseContainerThroughputSettingList struct {
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
 type DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -272,9 +269,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AzureName
-	setting.AzureName = source.AzureName
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -319,9 +313,6 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
-
-	// AzureName
-	destination.AzureName = setting.AzureName
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)

@@ -252,30 +252,16 @@ func RunJSONSerializationTestForStorageAccounts_ManagementPolicy_Spec(subject St
 var storageAccounts_ManagementPolicy_SpecGenerator gopter.Gen
 
 // StorageAccounts_ManagementPolicy_SpecGenerator returns a generator of StorageAccounts_ManagementPolicy_Spec instances for property testing.
-// We first initialize storageAccounts_ManagementPolicy_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func StorageAccounts_ManagementPolicy_SpecGenerator() gopter.Gen {
 	if storageAccounts_ManagementPolicy_SpecGenerator != nil {
 		return storageAccounts_ManagementPolicy_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec(generators)
-	storageAccounts_ManagementPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_ManagementPolicy_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec(generators)
 	AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec(generators)
 	storageAccounts_ManagementPolicy_SpecGenerator = gen.Struct(reflect.TypeOf(StorageAccounts_ManagementPolicy_Spec{}), generators)
 
 	return storageAccounts_ManagementPolicy_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec(gens map[string]gopter.Gen) {
-	gens["AzureName"] = gen.AlphaString()
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec is a factory method for creating gopter generators

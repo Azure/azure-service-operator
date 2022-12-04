@@ -65,9 +65,9 @@ func (setting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error
 
 var _ genruntime.KubernetesResource = &SqlDatabaseThroughputSetting{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (setting *SqlDatabaseThroughputSetting) AzureName() string {
-	return setting.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
@@ -201,9 +201,6 @@ type SqlDatabaseThroughputSettingList struct {
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec
 type DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -272,9 +269,6 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AzureName
-	setting.AzureName = source.AzureName
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -319,9 +313,6 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(destination *v20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
-
-	// AzureName
-	destination.AzureName = setting.AzureName
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)

@@ -322,7 +322,8 @@ type StorageAccountsBlobServicesContainerList struct {
 }
 
 type StorageAccounts_BlobServices_Container_Spec struct {
-	// +kubebuilder:validation:MinLength=1
+	// +kubebuilder:validation:MaxLength=63
+	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`

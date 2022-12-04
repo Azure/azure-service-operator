@@ -9,11 +9,11 @@ spec:
     group: eventgrid.azure.com
     kind: Domain
   destination:
-    storageQueueEventSubscriptionDestination:
+    storageQueue:
       endpointType: StorageQueue
-      properties: 
-        resourceReference: 
-          group: storage.azure.com
-          kind: StorageAccount
-          name: samplekubestoragebeta
-        queueName: samplequeuebeta
+      # TODO[donotmerge]: These properties used to be in a "Properties" property but are flattened
+      resourceReference:
+        group: storage.azure.com
+        kind: StorageAccount
+        name: samplekubestoragebeta
+      queueName: samplequeuebeta

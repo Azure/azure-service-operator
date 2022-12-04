@@ -146,8 +146,11 @@
 | SystemData_LastModifiedByType_STATUS                             | v1alpha1api20200601 | v1beta20200601 |
 | SystemData_STATUS                                                | v1alpha1api20200601 | v1beta20200601 |
 | Topic                                                            | v1alpha1api20200601 | v1beta20200601 |
+| TopicProperties                                                  | v1alpha1api20200601 | v1beta20200601 |
+| TopicProperties_InputSchema                                      | v1alpha1api20200601 | v1beta20200601 |
 | TopicProperties_InputSchema_STATUS                               | v1alpha1api20200601 | v1beta20200601 |
 | TopicProperties_ProvisioningState_STATUS                         | v1alpha1api20200601 | v1beta20200601 |
+| TopicProperties_PublicNetworkAccess                              | v1alpha1api20200601 | v1beta20200601 |
 | TopicProperties_PublicNetworkAccess_STATUS                       | v1alpha1api20200601 | v1beta20200601 |
 | TopicProperties_STATUS                                           | v1alpha1api20200601 | v1beta20200601 |
 | Topic_STATUS                                                     | v1alpha1api20200601 | v1beta20200601 |

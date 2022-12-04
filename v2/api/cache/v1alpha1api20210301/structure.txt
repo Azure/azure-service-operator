@@ -3,8 +3,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301
 │   └── "2021-03-01"
 ├── RedisEnterprise: Resource
 │   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── MinimumTlsVersion: *Enum (3 values)
 │   │   │   ├── "1.0"
@@ -71,8 +70,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301
 │       └── Zones: string[]
 ├── RedisEnterpriseDatabase: Resource
 │   ├── Spec: Object (8 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: string
 │   │   ├── ClientProtocol: *Enum (2 values)
 │   │   │   ├── "Encrypted"
 │   │   │   └── "Plaintext"

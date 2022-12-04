@@ -46,9 +46,9 @@ func (schedule *RedisPatchSchedule) SetConditions(conditions conditions.Conditio
 
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (schedule *RedisPatchSchedule) AzureName() string {
-	return schedule.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
@@ -135,9 +135,6 @@ type RedisPatchScheduleList struct {
 
 // Storage version of v1beta20201201.Redis_PatchSchedule_Spec
 type Redis_PatchSchedule_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
 	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required

@@ -6,7 +6,10 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
     │   ├── AutoStorage: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── StorageAccountReference: *genruntime.ResourceReference
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (3 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+    │   │   ├── Rule 1: {MinLength %!s(int64=3)}
+    │   │   └── Rule 2: {Pattern "^[a-z0-9]+$"}
     │   ├── Encryption: *Object (3 properties)
     │   │   ├── KeySource: *string
     │   │   ├── KeyVaultProperties: *Object (2 properties)

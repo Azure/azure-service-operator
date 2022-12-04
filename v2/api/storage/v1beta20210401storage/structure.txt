@@ -19,8 +19,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │   │   │   ├── DefaultSharePermission: *string
 │   │   │   ├── DirectoryServiceOptions: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── CustomDomain: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -311,9 +312,8 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── StorageAccountsBlobService: Resource
-│   ├── Spec: Object (13 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
-│   │   ├── AzureName: string
 │   │   ├── ChangeFeed: *Object (3 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -398,8 +398,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
 │   ├── Spec: Object (9 properties)
-│   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=3)}
 │   │   ├── DefaultEncryptionScope: *string
 │   │   ├── DenyEncryptionScopeOverride: *bool
 │   │   ├── ImmutableStorageWithVersioning: *Object (2 properties)
@@ -461,8 +462,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── Type: *string
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (4 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Policy: *Object (2 properties)
@@ -588,8 +588,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
-│   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (4 properties)
 │   │   ├── Cors: *Object (2 properties)
 │   │   │   ├── CorsRules: Object (6 properties)[]
 │   │   │   │   ├── AllowedHeaders: string[]

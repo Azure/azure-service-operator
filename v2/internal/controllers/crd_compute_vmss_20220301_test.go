@@ -9,13 +9,15 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+	. "github.com/onsi/gomega"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/go-autorest/autorest/to"
-	. "github.com/onsi/gomega"
 )
 
 func newVMSS20220301(
@@ -55,8 +57,7 @@ func newVMSS20220301(
 						Publisher: to.StringPtr("Canonical"),
 						Offer:     to.StringPtr("UbuntuServer"),
 						Sku:       to.StringPtr("18.04-lts"),
-						//TODO: Fix missing Version property (donotmerge) (bearps)
-						//Version:   to.StringPtr("latest"),
+						Version:   to.StringPtr("latest"),
 					},
 				},
 				OsProfile: &compute2022.VirtualMachineScaleSetOSProfile{
@@ -125,38 +126,35 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
-	//extensionName := "mycustomextension"
+	extensionName := "mycustomextension"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2022.VirtualMachineScaleSetExtensionProfile{
-		//TODO: Fix missing extensions property (bearps) (donotmerge)
-		// Tip: it Extensions does exist on Status, just not on Spec
-		//Extensions: []compute2022.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
-		//	{
-		//		Name:               &extensionName,
-		//		Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),
-		//		Type:               to.StringPtr("CustomScript"),
-		//		TypeHandlerVersion: to.StringPtr("2.0"),
-		//		Settings: map[string]v1.JSON{
-		//			"commandToExecute": {
-		//				Raw: []byte(`"/bin/bash -c \"echo hello\""`),
-		//			},
-		//		},
-		//	},
-		//},
+		Extensions: []compute2022.VirtualMachineScaleSetExtension{
+			{
+				Name:               &extensionName,
+				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),
+				Type:               to.StringPtr("CustomScript"),
+				TypeHandlerVersion: to.StringPtr("2.0"),
+				Settings: map[string]v1.JSON{
+					"commandToExecute": {
+						Raw: []byte(`"/bin/bash -c \"echo hello\""`),
+					},
+				},
+			},
+		},
 	}
 	tc.PatchResourceAndWait(old, vmss)
 	tc.Expect(vmss.Status.VirtualMachineProfile).ToNot(BeNil())
 	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile).ToNot(BeNil())
 	tc.Expect(len(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions)).To(BeNumerically(">", 0))
 
-	//found := false
-	//for _, extension := range vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions {
-	//TODO: Name is missing (donotmerge) (bearps)
-	//tc.Expect(extension.Name).ToNot(BeNil())
-	//if *extension.Name == extensionName {
-	//	found = true
-	//}
-	//}
-	//tc.Expect(found).To(BeTrue())
+	found := false
+	for _, extension := range vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions {
+		tc.Expect(extension.Name).ToNot(BeNil())
+		if *extension.Name == extensionName {
+			found = true
+		}
+	}
+	tc.Expect(found).To(BeTrue())
 
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)

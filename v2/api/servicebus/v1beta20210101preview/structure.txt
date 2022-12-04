@@ -196,7 +196,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── NamespacesQueue: Resource
 │   ├── Spec: Object (16 properties)
 │   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
 │   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
@@ -269,7 +270,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── NamespacesTopic: Resource
 │   ├── Spec: Object (11 properties)
 │   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
 │   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
 │   │   ├── EnableBatchedOperations: *bool
@@ -332,7 +334,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── NamespacesTopicsSubscription: Resource
 │   ├── Spec: Object (13 properties)
 │   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
@@ -401,7 +405,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   │   ├── CompatibilityLevel: *int
 │   │   │   ├── RequiresPreprocessing: *bool
 │   │   │   └── SqlExpression: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── CorrelationFilter: *Object (10 properties)
 │   │   │   ├── ContentType: *string
 │   │   │   ├── CorrelationId: *string

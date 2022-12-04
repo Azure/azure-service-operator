@@ -46,9 +46,9 @@ func (policy *StorageAccountsManagementPolicy) SetConditions(conditions conditio
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (always "default")
 func (policy *StorageAccountsManagementPolicy) AzureName() string {
-	return policy.Spec.AzureName
+	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -135,9 +135,6 @@ type StorageAccountsManagementPolicyList struct {
 
 // Storage version of v1beta20210401.StorageAccounts_ManagementPolicy_Spec
 type StorageAccounts_ManagementPolicy_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
 	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required

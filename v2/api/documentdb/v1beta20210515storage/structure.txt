@@ -287,8 +287,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollectionThroughputSetting: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -333,8 +332,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseThroughputSetting: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -569,8 +567,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerThroughputSetting: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -685,8 +682,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseThroughputSetting: Resource
-│   ├── Spec: Object (7 properties)
-│   │   ├── AzureName: string
+│   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -732,10 +728,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       └── Type: *string
 └── SqlRoleAssignment: Resource
     ├── Spec: Object (8 properties)
-    │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-    │   │   ├── Rule 1: {MinLength %!s(int64=3)}
-    │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
+    │   ├── AzureName: string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PrincipalId: *string

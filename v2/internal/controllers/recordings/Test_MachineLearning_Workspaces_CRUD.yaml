@@ -1097,7 +1097,7 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotest-conn-knashe","properties":{"authType":"PAT","category":"ACR","target":"www.microsoft.com","value":"{\"foo\":\"bar\",
+    body: '{"name":"asotest-conn-knashe","properties":{"authType":"PAT","category":"ACR","target":"www.microsoft.com","value":"{\"foo\":\"bar\",
       \"baz\":\"bee\"}","valueFormat":"JSON"}}'
     form: {}
     headers:

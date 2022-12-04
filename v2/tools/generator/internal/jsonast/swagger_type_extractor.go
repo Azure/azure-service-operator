@@ -118,91 +118,84 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 			continue
 		}
 
-		operationPaths, parameterTypes := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, op.Put.Parameters)
-		// Find the name schema for this resource from the URL parameter
-		nameParameter, nameFound := extractor.extractLastPathParam(op.Put.Parameters)
+		// Parameters may be defined at the URL level or the individual verb level (PUT, GET, etc). The union is the final parameter set
+		// for the operation
+		fullPutParameters := append(op.Parameters, op.Put.Parameters...)
 
-		for _, operationPath := range operationPaths {
-			armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
+		nameParameterType := extractor.getNameParameterType(ctx, rawOperationPath, scanner, fullPutParameters)
+		operationPath := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, fullPutParameters)
+
+		armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
+		if err != nil {
+			klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
+			continue
+		}
+
+		shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
+		if shouldPrune == config.Prune {
+			klog.V(3).Infof("Skipping %s because %s", resourceName, because)
+			continue
+		}
+
+		var resourceSpec astmodel.Type
+		if specSchema == nil {
+			// nil indicates empty body
+			resourceSpec = astmodel.NewObjectType()
+		} else {
+			resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
 			if err != nil {
-				klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
+				if errors.Is(err, context.Canceled) {
+					return err
+				}
+
+				return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+			}
+		}
+
+		if resourceSpec == nil {
+			// this indicates a type filtered out by RunHandlerForSchema, skip
+			continue
+		}
+
+		// Use the name field documented on the PUT parameter as it's likely to have better
+		// validation attached to it than the name specified in the request body (which is usually readonly and has no validation).
+		// If by some chance the body property has validation, the AllOf below will merge it anyway, so it will not be lost.
+		nameProperty := astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", nameParameterType)
+		resourceSpec = astmodel.NewAllOfType(resourceSpec, astmodel.NewObjectType().WithProperty(nameProperty))
+
+		var resourceStatus astmodel.Type
+		if statusSchema == nil {
+			// nil indicates empty body
+			resourceStatus = astmodel.NewObjectType()
+		} else {
+			resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
+			if err != nil {
+				if errors.Is(err, context.Canceled) {
+					return err
+				}
+
+				return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+			}
+		}
+
+		if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
+			// TODO: check status types as well
+			if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
+				return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
+					resourceName,
+					astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
+			}
+		} else {
+			if resourceSpec != nil && resourceStatus == nil {
+				fmt.Printf("generated nil resourceStatus for %s\n", resourceName)
 				continue
 			}
-
-			shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
-			if shouldPrune == config.Prune {
-				klog.V(3).Infof("Skipping %s because %s", resourceName, because)
-				continue
-			}
-
-			var resourceSpec astmodel.Type
-			if specSchema == nil {
-				// nil indicates empty body
-				resourceSpec = astmodel.NewObjectType()
-			} else {
-				resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
-				if err != nil {
-					if errors.Is(err, context.Canceled) {
-						return err
-					}
-
-					return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
-				}
-			}
-
-			if resourceSpec == nil {
-				// this indicates a type filtered out by RunHandlerForSchema, skip
-				continue
-			}
-
-			// An enum name parameter means the resource has a fixed name. We don't want to merge in the name parameter in that case.
-			// In all other cases we want to use the name field documented on the PUT parameter as it's likely to have better
-			// validation attached to it than the name specified in the request body (which is usually readonly and has no validation)
-			if nameFound && len(nameParameter.Enum) == 0 {
-				// Union the name into the type
-				nameParameterType, ok := parameterTypes[nameParameter.Name]
-				if !ok {
-					return errors.Errorf("couldn't find parameter type for parameter %s for operation %s", nameParameter.Name, rawOperationPath)
-				}
-				nameProperty := astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", nameParameterType)
-				resourceSpec = astmodel.NewAllOfType(resourceSpec, astmodel.NewObjectType().WithProperty(nameProperty))
-			}
-
-			var resourceStatus astmodel.Type
-			if statusSchema == nil {
-				// nil indicates empty body
-				resourceStatus = astmodel.NewObjectType()
-			} else {
-				resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
-				if err != nil {
-					if errors.Is(err, context.Canceled) {
-						return err
-					}
-
-					return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
-				}
-			}
-
-			if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
-				// TODO: check status types as well
-				if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
-					return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
-						resourceName,
-						astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
-				}
-			} else {
-				if resourceSpec != nil && resourceStatus == nil {
-					fmt.Printf("generated nil resourceStatus for %s\n", resourceName)
-					continue
-				}
-
-				result.ResourceDefinitions[resourceName] = ResourceDefinition{
-					SourceFile: extractor.swaggerPath,
-					SpecType:   resourceSpec,
-					StatusType: resourceStatus,
-					ARMType:    armType,
-					ARMURI:     operationPath,
-				}
+			result.ResourceDefinitions[resourceName] = ResourceDefinition{
+				SourceFile: extractor.swaggerPath,
+				SpecType:   resourceSpec,
+				StatusType: resourceStatus,
+				ARMType:    armType,
+				ARMURI:     operationPath,
 			}
 		}
 	}
@@ -490,75 +483,62 @@ func isMarkedAsARMResource(schema Schema) bool {
 	return recurse(schema)
 }
 
-// Final result here is unused, but removing it has flow on effects. Leaving for now, needs to be fixed up [donotmerge] [theunrepentantgeek]
-// nolint:unparam
+func (extractor *SwaggerTypeExtractor) getNameParameterType(
+	ctx context.Context,
+	operationPath string,
+	scanner *SchemaScanner,
+	parameters []spec.Parameter) astmodel.Type {
+
+	lastParam, ok := extractor.extractLastPathParam(operationPath, parameters)
+	if !ok {
+		panic(fmt.Sprintf("couldn't find path parameter for %s", operationPath))
+	}
+
+	var err error
+	var paramType astmodel.Type
+	schema := extractor.schemaFromParameter(lastParam)
+	if schema == nil {
+		panic(fmt.Sprintf("no schema generated for parameter %s in path %q", lastParam.Name, operationPath))
+	}
+
+	paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
+	if err != nil {
+		panic(err)
+	}
+
+	return paramType
+}
+
+// expandEnumsInPath expands simple enums with a single value in the path
 func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
 	ctx context.Context,
 	operationPath string,
 	scanner *SchemaScanner,
-	parameters []spec.Parameter) ([]string, map[string]astmodel.Type) {
+	parameters []spec.Parameter) string {
 
-	results := []string{operationPath}
-	urlParams := make(map[string]astmodel.Type)
+	result := operationPath
 
-	for _, px := range parameters {
-		// ensure that any $ref params are fully resolved
-		_, parameter := extractor.fullyResolveParameter(px)
+	for _, param := range parameters {
+		_, resolved := extractor.fullyResolveParameter(param)
 
-		if parameter.In == "path" &&
-			parameter.Required {
-			// if an enum:
-			if len(parameter.Enum) > 0 {
+		var err error
+		var paramType astmodel.Type
+		schema := extractor.schemaFromParameter(param)
 
-				// found an enum that needs expansion, replace '{parameterName}' with
-				// each value of the enum
-
-				var newResults []string
-
-				replace := fmt.Sprintf("{%s}", parameter.Name)
-				values := enumValuesToStrings(parameter.Enum)
-
-				for _, result := range results {
-					for _, enumValue := range values {
-						newResults = append(newResults, strings.ReplaceAll(result, replace, enumValue))
-					}
-				}
-
-				results = newResults
-			} else {
-				// non-enum parameter
-				var err error
-				var paramType astmodel.Type
-				schema := extractor.schemaFromParameter(parameter)
-				if schema == nil {
-					panic(fmt.Sprintf("no schema generated for parameter %s in path %q", parameter.Name, operationPath))
-				}
-
-				paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
-				if err != nil {
-					panic(err)
-				}
-
-				urlParams[parameter.Name] = paramType
-			}
+		if schema == nil {
+			panic(fmt.Sprintf("no schema generated for parameter %s in path %q", param.Name, operationPath))
 		}
-	}
 
-	return results, urlParams
-}
+		paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
+		if err != nil {
+			panic(err)
+		}
 
-// if you update this you might also need to update "jsonast.enumValuesToLiterals"
-func enumValuesToStrings(enumValues []interface{}) []string {
-	result := make([]string, len(enumValues))
-	for i, enumValue := range enumValues {
-		if enumString, ok := enumValue.(string); ok {
-			result[i] = enumString
-		} else if enumStringer, ok := enumValue.(fmt.Stringer); ok {
-			result[i] = enumStringer.String()
-		} else if enumFloat, ok := enumValue.(float64); ok {
-			result[i] = fmt.Sprintf("%g", enumFloat)
-		} else {
-			panic(fmt.Sprintf("unable to convert enum value (%s %T) to string", enumValue, enumValue))
+		enum, isEnum := paramType.(*astmodel.EnumType)
+		if isEnum && len(enum.Options()) == 1 {
+			theOption := strings.Trim(enum.Options()[0].Value, "\"")
+			toReplace := fmt.Sprintf("{%s}", resolved.Name)
+			result = strings.ReplaceAll(result, toReplace, theOption)
 		}
 	}
 
@@ -657,19 +637,59 @@ func nameFromRef(ref spec.Ref) string {
 // based on: https://github.com/Azure/autorest/blob/85de19623bdce3ccc5000bae5afbf22a49bc4665/core/lib/pipeline/metadata-generation.ts#L25
 var SwaggerGroupRegex = regexp.MustCompile(`[Mm]icrosoft\.[^/\\]+`)
 
-func (extractor *SwaggerTypeExtractor) extractLastPathParam(params []spec.Parameter) (spec.Parameter, bool) {
+func (extractor *SwaggerTypeExtractor) extractLastPathParam(operationPath string, params []spec.Parameter) (spec.Parameter, bool) {
+	// The parameter we want is the one following the final /
+	split := strings.Split(operationPath, "/")
+	rawLastParam := split[len(split)-1]
+
+	if !strings.HasPrefix(rawLastParam, "{") {
+		return spec.Parameter{
+			SimpleSchema: spec.SimpleSchema{
+				Type: "string",
+			},
+			ParamProps: spec.ParamProps{
+				Name:        getUnusedParameterName(params),
+				In:          "path",
+				Required:    true,
+				Description: "The name",
+			},
+			CommonValidations: spec.CommonValidations{
+				Enum: []interface{}{
+					rawLastParam,
+				},
+			},
+		}, true
+	}
+
+	lastParamStr := strings.Trim(rawLastParam, "{}")
+
 	var lastParam spec.Parameter
 	var found bool
 
 	for _, param := range params {
 		_, resolved := extractor.fullyResolveParameter(param)
-		if resolved.In == "path" {
-			lastParam = resolved
-			found = true
+		if resolved.In != "path" || resolved.Name != lastParamStr {
+			continue
 		}
+
+		lastParam = resolved
+		found = true
 	}
 
 	return lastParam, found
+}
+
+func getUnusedParameterName(params []spec.Parameter) string {
+	name := "name" // Default to name if we can
+	clashes := 0
+	for _, param := range params {
+		if param.Name == name {
+			clashes += 1
+			name = fmt.Sprintf("name%d", clashes)
+		}
+	}
+
+	return name
 }
 
 type schemaAndValidations struct {

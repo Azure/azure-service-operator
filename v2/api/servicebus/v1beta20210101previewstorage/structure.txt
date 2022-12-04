@@ -90,7 +90,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── NamespacesQueue: Resource
 │   ├── Spec: Object (18 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -151,7 +152,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── NamespacesTopic: Resource
 │   ├── Spec: Object (13 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
@@ -202,7 +204,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── NamespacesTopicsSubscription: Resource
 │   ├── Spec: Object (15 properties)
 │   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
@@ -260,7 +264,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── RequiresPreprocessing: *bool
     │   │   └── SqlExpression: *string
-    │   ├── AzureName: string
+    │   ├── AzureName: Validated<string> (2 rules)
+    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+    │   │   └── Rule 1: {MinLength %!s(int64=1)}
     │   ├── CorrelationFilter: *Object (11 properties)
     │   │   ├── ContentType: *string
     │   │   ├── CorrelationId: *string

@@ -4,7 +4,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 ├── Namespace: Resource
 │   ├── Spec: Object (14 properties)
 │   │   ├── AlternateName: *string
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: *Object (3 properties)
@@ -217,7 +219,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │   └── Tags: map[string]string
 ├── NamespacesAuthorizationRule: Resource
 │   ├── Spec: Object (3 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── Rights: Enum (3 values)[]
 │   │       ├── "Listen"
@@ -250,7 +253,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
 │   ├── Spec: Object (5 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── CaptureDescription: *Object (6 properties)
 │   │   │   ├── Destination: *Object (7 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
@@ -327,7 +332,8 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
 │   ├── Spec: Object (3 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (1 rule)
+│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── Rights: Enum (3 values)[]
 │   │       ├── "Listen"
@@ -360,7 +366,9 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101
 │       └── Type: *string
 ├── NamespacesEventhubsConsumerGroup: Resource
 │   ├── Spec: Object (3 properties)
-│   │   ├── AzureName: string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
+│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── UserMetadata: *string
 │   └── Status: Object (9 properties)
