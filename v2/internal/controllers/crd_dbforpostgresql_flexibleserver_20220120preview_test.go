@@ -13,12 +13,12 @@ import (
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
+func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	g := NewGomegaWithT(t)
@@ -94,19 +94,19 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Flexible servers database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Database_CRUD(tc, flexibleServer)
+				FlexibleServer_Database_20220120preview_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers firewall CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_FirewallRule_CRUD(tc, flexibleServer)
+				FlexibleServer_FirewallRule_20220120preview_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers configuration CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				FlexibleServer_Configuration_CRUD(tc, flexibleServer)
+				FlexibleServer_Configuration_20220120preview_CRUD(tc, flexibleServer)
 			},
 		},
 	)
@@ -120,7 +120,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	g.Expect(exists).To(BeFalse())
 }
 
-func FlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_Database_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	database := &postgresql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: postgresql.FlexibleServers_Database_Spec{
@@ -134,7 +134,7 @@ func FlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleSer
 	tc.Expect(database.Status.Id).ToNot(BeNil())
 }
 
-func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_FirewallRule_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	firewall := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: postgresql.FlexibleServers_FirewallRule_Spec{
@@ -151,7 +151,7 @@ func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibl
 	tc.Expect(firewall.Status.Id).ToNot(BeNil())
 }
 
-func FlexibleServer_Configuration_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_Configuration_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	configuration := &postgresql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
 		Spec: postgresql.FlexibleServers_Configuration_Spec{

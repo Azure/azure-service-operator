@@ -63,6 +63,11 @@ typeFilters:
     because: We want to support keyvault which is only available in preview version
 
   - action: include
+    group: dbforpostgresql
+    version: v*20220120preview
+    because: We want to export this particular preview version
+
+  - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
@@ -1016,6 +1021,29 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
+    2022-01-20-preview:
+      FlexibleServer:
+        $export: true
+        $supportedFrom: v2.0.0-beta.4
+        $azureGeneratedSecrets:
+          - FullyQualifiedDomainName
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.0.0-beta.4
+      FlexibleServers_Database:
+        $exportAs: FlexibleServersDatabase
+        $supportedFrom: v2.0.0-beta.4
+      FlexibleServers_FirewallRule:
+        $exportAs: FlexibleServersFirewallRule
+        $supportedFrom: v2.0.0-beta.4
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
+      Network:
+        DelegatedSubnetResourceId:
+          $armReference: true
+        PrivateDnsZoneArmResourceId:
+          $armReference: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
