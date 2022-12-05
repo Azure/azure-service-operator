@@ -307,6 +307,24 @@ type RedisCreateProperties_RedisConfiguration struct {
 	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
 }
 
+// Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration
+type RedisCreateProperties_RedisConfiguration struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string                `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string                `json:"authnotrequired,omitempty"`
+	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
+}
+
 // Storage version of v1beta20201201.RedisInstanceDetails_STATUS
 type RedisInstanceDetails_STATUS struct {
 	IsMaster    *bool                  `json:"isMaster,omitempty"`
