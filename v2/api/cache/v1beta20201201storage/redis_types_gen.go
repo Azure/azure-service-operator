@@ -196,7 +196,6 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 
 // Storage version of v1beta20201201.Redis_STATUS
 type Redis_STATUS struct {
-	AccessKeys                 *RedisAccessKeys_STATUS                    `json:"accessKeys,omitempty"`
 	Conditions                 []conditions.Condition                     `json:"conditions,omitempty"`
 	EnableNonSslPort           *bool                                      `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                    `json:"hostName,omitempty"`
@@ -290,11 +289,22 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
-// Storage version of v1beta20201201.RedisAccessKeys_STATUS
-type RedisAccessKeys_STATUS struct {
-	PrimaryKey   *string                `json:"primaryKey,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecondaryKey *string                `json:"secondaryKey,omitempty"`
+// Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration
+type RedisCreateProperties_RedisConfiguration struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string                `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string                `json:"authnotrequired,omitempty"`
+	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
 }
 
 // Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration

@@ -16,7 +16,6 @@ type Redis_STATUS_ARM struct {
 
 // Deprecated version of RedisProperties_STATUS. Use v1beta20201201.RedisProperties_STATUS instead
 type RedisProperties_STATUS_ARM struct {
-	AccessKeys                 *RedisAccessKeys_STATUS_ARM                    `json:"accessKeys,omitempty"`
 	EnableNonSslPort           *bool                                          `json:"enableNonSslPort,omitempty"`
 	HostName                   *string                                        `json:"hostName,omitempty"`
 	Instances                  []RedisInstanceDetails_STATUS_ARM              `json:"instances,omitempty"`
@@ -41,12 +40,6 @@ type RedisProperties_STATUS_ARM struct {
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20201201.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of RedisAccessKeys_STATUS. Use v1beta20201201.RedisAccessKeys_STATUS instead
-type RedisAccessKeys_STATUS_ARM struct {
-	PrimaryKey   *string `json:"primaryKey,omitempty"`
-	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
 // Deprecated version of RedisInstanceDetails_STATUS. Use v1beta20201201.RedisInstanceDetails_STATUS instead

@@ -54,7 +54,6 @@ func Test_FuzzySetSubnets(t *testing.T) {
 	g.Expect(vnet.Properties.Subnets[0].Properties.NatGateway.Id).To(Equal(to.StringPtr("/this/is/a/test")))
 }
 
-// TODO: [donotmerge] This test is failing, seemingly due to different structure of delegations
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
