@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-15"
 ├── DatabaseAccount: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (30 properties)
 │   │   ├── AnalyticalStorageConfiguration: *Object (1 property)
 │   │   │   └── SchemaType: *Enum (2 values)
@@ -13,9 +14,9 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │       ├── "3.6"
 │   │   │       └── "4.0"
 │   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=3)}
-│   │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   ├── Rule 1: MinLength: 3
+│   │   │   └── Rule 2: Pattern: "^[a-z0-9]+(-[a-z0-9]+)*"
 │   │   ├── BackupPolicy: *Object (2 properties)
 │   │   │   ├── Continuous: *Object (1 property)
 │   │   │   │   └── Type: *Enum (1 value)
@@ -23,9 +24,9 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │   └── Periodic: *Object (2 properties)
 │   │   │       ├── PeriodicModeProperties: *Object (2 properties)
 │   │   │       │   ├── BackupIntervalInMinutes: Validated<*int> (1 rule)
-│   │   │       │   │   └── Rule 0: {Minimum 0}
+│   │   │       │   │   └── Rule 0: Minimum: 0
 │   │   │       │   └── BackupRetentionIntervalInHours: Validated<*int> (1 rule)
-│   │   │       │       └── Rule 0: {Minimum 0}
+│   │   │       │       └── Rule 0: Minimum: 0
 │   │   │       └── Type: *Enum (1 value)
 │   │   │           └── "Periodic"
 │   │   ├── Capabilities: Object (1 property)[]
@@ -40,19 +41,19 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │   │   ├── "Session"
 │   │   │   │   └── "Strong"
 │   │   │   ├── MaxIntervalInSeconds: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 86400}
-│   │   │   │   └── Rule 1: {Minimum 5}
+│   │   │   │   ├── Rule 0: Maximum: 86400
+│   │   │   │   └── Rule 1: Minimum: 5
 │   │   │   └── MaxStalenessPrefix: Validated<*int> (2 rules)
-│   │   │       ├── Rule 0: {Maximum 2147483647}
-│   │   │       └── Rule 1: {Minimum 1}
+│   │   │       ├── Rule 0: Maximum: 2147483647
+│   │   │       └── Rule 1: Minimum: 1
 │   │   ├── Cors: Object (5 properties)[]
 │   │   │   ├── AllowedHeaders: *string
 │   │   │   ├── AllowedMethods: *string
 │   │   │   ├── AllowedOrigins: *string
 │   │   │   ├── ExposedHeaders: *string
 │   │   │   └── MaxAgeInSeconds: Validated<*int> (2 rules)
-│   │   │       ├── Rule 0: {Maximum 2147483647}
-│   │   │       └── Rule 1: {Minimum 1}
+│   │   │       ├── Rule 0: Maximum: 2147483647
+│   │   │       └── Rule 1: Minimum: 1
 │   │   ├── DatabaseAccountOfferType: *Enum (1 value)
 │   │   │   └── "Standard"
 │   │   ├── DefaultIdentity: *string
@@ -79,7 +80,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   ├── Location: *string
 │   │   ├── Locations: Object (3 properties)[]
 │   │   │   ├── FailoverPriority: Validated<*int> (1 rule)
-│   │   │   │   └── Rule 0: {Minimum 0}
+│   │   │   │   └── Rule 0: Minimum: 0
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   └── LocationName: *string
 │   │   ├── NetworkAclBypass: *Enum (2 values)
@@ -642,6 +643,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── MongodbDatabase: Resource
+│   ├── Owner: DatabaseAccount
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -670,6 +672,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollection: Resource
+│   ├── Owner: MongodbDatabase
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -714,6 +717,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollectionThroughputSetting: Resource
+│   ├── Owner: MongodbDatabaseCollection
 │   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -748,6 +752,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Owner: MongodbDatabase
 │   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -852,6 +857,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── SqlDatabase: Resource
+│   ├── Owner: DatabaseAccount
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -882,6 +888,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainer: Resource
+│   ├── Owner: SqlDatabase
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -942,8 +949,8 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   │   │   │   │   └── "Range"
 │   │   │   │   ├── Paths: string[]
 │   │   │   │   └── Version: Validated<*int> (2 rules)
-│   │   │   │       ├── Rule 0: {Maximum 2}
-│   │   │   │       └── Rule 1: {Minimum 1}
+│   │   │   │       ├── Rule 0: Maximum: 2
+│   │   │   │       └── Rule 1: Minimum: 1
 │   │   │   └── UniqueKeyPolicy: *Object (1 property)
 │   │   │       └── UniqueKeys: Object (1 property)[]
 │   │   │           └── Paths: string[]
@@ -1019,6 +1026,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Owner: SqlDatabaseContainer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -1045,6 +1053,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Owner: SqlDatabaseContainer
 │   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -1079,6 +1088,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerTrigger: Resource
+│   ├── Owner: SqlDatabaseContainer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -1123,6 +1133,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Owner: SqlDatabaseContainer
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -1167,6 +1178,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── SqlDatabaseThroughputSetting: Resource
+│   ├── Owner: SqlDatabase
 │   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -1201,6 +1213,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlRoleAssignment: Resource
+│   ├── Owner: DatabaseAccount
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference

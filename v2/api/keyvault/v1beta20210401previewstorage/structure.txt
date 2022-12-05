@@ -2,9 +2,10 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
 ├── APIVersion: Enum (1 value)
 │   └── "2021-04-01-preview"
 └── Vault: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (7 properties)
     │   ├── AzureName: Validated<string> (1 rule)
-    │   │   └── Rule 0: {Pattern "^[a-zA-Z0-9-]{3,24}$"}
+    │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{3,24}$"
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

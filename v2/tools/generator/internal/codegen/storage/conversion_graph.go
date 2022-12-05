@@ -116,7 +116,6 @@ func (graph *ConversionGraph) TransitionCount() int {
 // declaringType is the type containing the property.
 // property is the name of the property.
 // definitions is a set of known definitions.
-//
 func (graph *ConversionGraph) FindNextProperty(
 	ref astmodel.PropertyReference,
 	definitions astmodel.TypeDefinitionSet) (astmodel.PropertyReference, error) {

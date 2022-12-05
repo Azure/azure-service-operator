@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage
 ├── APIVersion: Enum (1 value)
 │   └── "2018-09-01"
 └── PrivateDnsZone: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (7 properties)
     │   ├── AzureName: string
     │   ├── Etag: *string

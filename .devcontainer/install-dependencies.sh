@@ -88,7 +88,7 @@ fi
 GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
-GOVERREQUIRED="go1.18.*"
+GOVERREQUIRED="go1.19.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
 if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"

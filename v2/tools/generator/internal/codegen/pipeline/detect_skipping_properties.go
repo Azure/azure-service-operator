@@ -46,7 +46,6 @@ const DetectSkippingPropertiesStageID = "detectSkippingProperties"
 // Additional complexities:
 // - We need to handle type renaming between versions.
 // - When introduced, we will also need to handle property renaming between versions
-//
 func DetectSkippingProperties() *Stage {
 	return NewStage(
 		DetectSkippingPropertiesStageID,

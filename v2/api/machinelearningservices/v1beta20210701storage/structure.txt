@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 ├── APIVersion: Enum (1 value)
 │   └── "2021-07-01"
 ├── Workspace: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (25 properties)
 │   │   ├── AllowPublicAccessWhenBehindVnet: *bool
 │   │   ├── ApplicationInsightsReference: *genruntime.ResourceReference
@@ -177,6 +178,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── Type: *string
 │       └── WorkspaceId: *string
 ├── WorkspacesCompute: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.Workspace
 │   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
 │   │   ├── Identity: *Object (3 properties)
@@ -455,6 +457,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── Tags: map[string]string
 │       └── Type: *string
 └── WorkspacesConnection: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.Workspace
     ├── Spec: Object (11 properties)
     │   ├── AuthType: *string
     │   ├── AzureName: string

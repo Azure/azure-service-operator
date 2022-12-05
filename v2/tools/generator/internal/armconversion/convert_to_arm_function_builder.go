@@ -294,8 +294,8 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 //
 // If 'X' is a property that was flattened:
 //
-//   armObj.X.Y1 = k8sObj.Y1;
-//   armObj.X.Y2 = k8sObj.Y2;
+//	armObj.X.Y1 = k8sObj.Y1;
+//	armObj.X.Y2 = k8sObj.Y2;
 //
 // in reality each assignment is likely to be another conversion that is specific
 // to the type being converted.
@@ -399,9 +399,10 @@ func (builder *convertToARMBuilder) flattenedPropertyHandler(
 // that assigns it a value if any of the “from” properties are not nil.
 //
 // Resultant code looks like:
-// if (from1 != nil) || (from2 != nil) || … {
-// 		<resultIdent>.<toProp> = &<toPropTypeName>{}
-// }
+//
+//	if (from1 != nil) || (from2 != nil) || … {
+//			<resultIdent>.<toProp> = &<toPropTypeName>{}
+//	}
 func (builder *convertToARMBuilder) buildToPropInitializer(
 	fromProps []*astmodel.PropertyDefinition,
 	toPropTypeName astmodel.TypeName,
@@ -458,6 +459,7 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 
 // convertReferenceProperty handles conversion of reference properties.
 // This function generates code that looks like this:
+//
 //	<namehint>ARMID, err := resolved.ResolvedReferences.Lookup(<source>)
 //	if err != nil {
 //		return nil, err
@@ -493,6 +495,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 
 // convertSecretProperty handles conversion of secret properties.
 // This function generates code that looks like this:
+//
 //	<namehint>Secret, err := resolved.ResolvedSecrets.Lookup(<source>)
 //	if err != nil {
 //		return nil, errors.Wrap(err, "looking up secret for <source>")
@@ -533,12 +536,12 @@ func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.Conversion
 
 // convertConfigMapProperty handles conversion of configMap properties.
 // This function generates code that looks like this:
+//
 //	<namehint>Value, err := resolved.ResolvedConfigMaps.Lookup(<source>)
 //	if err != nil {
 //		return nil, errors.Wrap(err, "looking up config map value for <source>")
 //	}
 //	<destination> = <namehint>Value
-//
 func (builder *convertToARMBuilder) convertConfigMapProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
 	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
 	if !isString {
@@ -574,7 +577,8 @@ func (builder *convertToARMBuilder) convertConfigMapProperty(_ *astmodel.Convers
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.
 // This function generates code that looks like this:
-// 	<nameHint>, err := <source>.ToARM(name)
+//
+//	<nameHint>, err := <source>.ToARM(name)
 //	if err != nil {
 //		return nil, err
 //	}
