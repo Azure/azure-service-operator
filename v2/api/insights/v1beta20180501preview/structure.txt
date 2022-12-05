@@ -44,6 +44,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview
 │   ├── Tags: *v1.JSON
 │   └── Type: *string
 ├── Webtest: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (16 properties)
 │   │   ├── AzureName: string
 │   │   ├── Configuration: *Object (1 property)

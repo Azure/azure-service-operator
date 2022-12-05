@@ -16,24 +16,27 @@ import (
 //
 // The final file looks like this:
 //
-//	apiVersion: apiextensions.k8s.io/v1
-//	kind: CustomResourceDefinition
-//	metadata:
-//		name: roleassignments.microsoft.authorization.azure.com
-//		annotations:
-//			cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
-//	spec:
-//		preserveUnknownFields: false
-//		conversion:
-//			strategy: Webhook
-//			webhook:
-//				conversionReviewVersions:
-//					- v1beta1
-//				clientConfig:
-//					service:
-//						namespace: system
-//						name: webhook-service
-//						path: /convert
+// apiVersion: apiextensions.k8s.io/v1
+// kind: CustomResourceDefinition
+// metadata:
+//
+//	name: roleassignments.microsoft.authorization.azure.com
+//	annotations:
+//	    cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
+//
+// spec:
+//
+//	preserveUnknownFields: false
+//	conversion:
+//	    strategy: Webhook
+//	    webhook:
+//	        conversionReviewVersions:
+//	            - v1beta1
+//	        clientConfig:
+//	            service:
+//	                namespace: system
+//	                name: webhook-service
+//	                path: /convert
 type ConversionPatchFile struct {
 	ApiVersion string                  `yaml:"apiVersion"`
 	Kind       string                  `yaml:"kind"`

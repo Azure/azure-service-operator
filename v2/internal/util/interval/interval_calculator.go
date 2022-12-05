@@ -71,9 +71,9 @@ var _ Calculator = &calculator{}
 // 2. If syncPeriod is set, success results that would normally be terminal are instead configured to try again in syncPeriod.
 // 3. If requeueDelayOverride is set, all happy-path requests have requeueDelayOverride set.
 // The scenarios that this handler doesn't target:
-// 1. Any error other than ReadyConditionImpacting error.
-// 2. Happy-path requests when requeueDelayOverride is not set. These are scenarios where the operator is working
-//    as expected and we're just doing something like polling an async operation.
+//  1. Any error other than ReadyConditionImpacting error.
+//  2. Happy-path requests when requeueDelayOverride is not set. These are scenarios where the operator is working
+//     as expected and we're just doing something like polling an async operation.
 func (i *calculator) NextInterval(req ctrl.Request, result ctrl.Result, err error) (ctrl.Result, error) {
 	i.failuresLock.Lock()
 	defer i.failuresLock.Unlock()

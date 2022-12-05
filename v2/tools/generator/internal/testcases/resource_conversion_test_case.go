@@ -147,7 +147,6 @@ func (tc *ResourceConversionTestCase) Equals(other astmodel.TestCase, override a
 // properties := gopter.NewProperties(parameters)
 // properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
 // properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-//
 func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
 		parametersLocal  = "parameters"
@@ -237,24 +236,26 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 //
 // var hub OtherType
 // err := subject.ConvertTo(&hub)
-// if err != nil {
-//     return err.Error()
-// }
+//
+//	if err != nil {
+//	    return err.Error()
+//	}
 //
 // var result OurType
 // err = result.ConvertFrom(&hub)
-// if err != nil {
-//     return err.Error()
-// }
+//
+//	if err != nil {
+//	    return err.Error()
+//	}
 //
 // match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-// if !match {
-//     result := diff.Diff(subject, actual);
-//     return result
-// }
+//
+//	if !match {
+//	    result := diff.Diff(subject, actual);
+//	    return result
+//	}
 //
 // return ""
-//
 func (tc *ResourceConversionTestCase) createTestMethod(
 	subject astmodel.TypeName,
 	codegenContext *astmodel.CodeGenerationContext) dst.Decl {

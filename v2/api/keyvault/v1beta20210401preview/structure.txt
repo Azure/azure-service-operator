@@ -2,15 +2,16 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 ├── APIVersion: Enum (1 value)
 │   └── "2021-04-01-preview"
 ├── Vault: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {Pattern "^[a-zA-Z0-9-]{3,24}$"}
+│   │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{3,24}$"
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Properties: *Object (14 properties)
 │   │   │   ├── AccessPolicies: Object (7 properties)[]
 │   │   │   │   ├── ApplicationId: Validated<*string> (1 rule)
-│   │   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   │   ├── ApplicationIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── ObjectId: *string
 │   │   │   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
@@ -75,7 +76,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │       ├── "setsas"
 │   │   │   │   │       └── "update"
 │   │   │   │   ├── TenantId: Validated<*string> (1 rule)
-│   │   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── CreateMode: *Enum (2 values)
 │   │   │   │   ├── "default"
@@ -109,7 +110,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │       └── "standard"
 │   │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   │   ├── TenantId: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   └── VaultUri: *string
 │   │   └── Tags: map[string]string
 │   └── Status: Object (8 properties)

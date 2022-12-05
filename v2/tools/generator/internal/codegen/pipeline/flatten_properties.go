@@ -101,7 +101,6 @@ func removeFlatten(t astmodel.Type) astmodel.Type {
 // We will flatten it and rename the second property, resulting in:
 // - `Type`
 // - `PropertiesType`
-//
 func fixCollisions(props []*astmodel.PropertyDefinition) []*astmodel.PropertyDefinition {
 	names := make(map[astmodel.PropertyName]int)
 

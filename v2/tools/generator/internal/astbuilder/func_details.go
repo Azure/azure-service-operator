@@ -51,9 +51,10 @@ func NewTestFuncDetails(testingPackage string, testName string, body ...dst.Stmt
 }
 
 // DefineFunc defines a function (header, body, etc), like:
-// 	<comment>
+//
+//	<comment>
 //	func (<receiverIdent> <receiverType>) <name>(<params...>) (<returns...>) {
-// 		<body...>
+//		<body...>
 //	}
 func (fn *FuncDetails) DefineFunc() *dst.FuncDecl {
 

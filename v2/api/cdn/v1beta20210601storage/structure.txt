@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 ├── Profile: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -38,6 +39,7 @@ github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 └── ProfilesEndpoint: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601.Profile
     ├── Spec: Object (22 properties)
     │   ├── AzureName: string
     │   ├── ContentTypesToCompress: string[]
