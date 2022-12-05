@@ -18,22 +18,28 @@ import (
 const UnrollRecursiveTypesStageID = "unrollRecursiveTypes"
 
 // UnrollRecursiveTypes finds types that reference themselves and "unrolls" the reference. So a type that looks like:
-// type Error struct {
-//     code    string
-//     message string
-//     errors []Error
-// }
+//
+//	type Error struct {
+//	    code    string
+//	    message string
+//	    errors []Error
+//	}
+//
 // gets unrolled to look like:
-// type Error struct {
-//     code    string
-//     message string
-//     errors []Error_Unrolled
-// }
+//
+//	type Error struct {
+//	    code    string
+//	    message string
+//	    errors []Error_Unrolled
+//	}
+//
 // where Error_Unrolled looks like:
-// type Error_Unrolled struct {
-//     code    string
-//     message string
-// }
+//
+//	type Error_Unrolled struct {
+//	    code    string
+//	    message string
+//	}
+//
 // The recursive references must be removed because
 // controller-tools doesn't support generating "references" (JSON $ref) so it can't support recursive types today.
 // See https://github.com/kubernetes-sigs/controller-tools/issues/489 for more information.

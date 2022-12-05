@@ -2,12 +2,13 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api2021
 ├── APIVersion: Enum (1 value)
 │   └── "2021-09-01"
 └── Registry: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (16 properties)
     │   ├── AdminUserEnabled: *bool
     │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-    │   │   ├── Rule 1: {MinLength %!s(int64=5)}
-    │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]*$"}
+    │   │   ├── Rule 0: MaxLength: 50
+    │   │   ├── Rule 1: MinLength: 5
+    │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]*$"
     │   ├── DataEndpointEnabled: *bool
     │   ├── Encryption: *Object (3 properties)
     │   │   ├── KeyVaultProperties: *Object (3 properties)

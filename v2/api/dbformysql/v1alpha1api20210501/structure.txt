@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
 ├── FlexibleServer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (21 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
@@ -342,6 +343,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
 │   │       └── "MemoryOptimized"
 │   └── Tags: map[string]string
 ├── FlexibleServersDatabase: Resource
+│   ├── Owner: FlexibleServer
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
@@ -370,13 +372,14 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
 │       │       └── "User"
 │       └── Type: *string
 ├── FlexibleServersFirewallRule: Resource
+│   ├── Owner: FlexibleServer
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIpAddress: Validated<*string> (1 rule)
-│   │   │   └── Rule 0: {Pattern "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"}
+│   │   │   └── Rule 0: Pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── StartIpAddress: Validated<*string> (1 rule)
-│   │       └── Rule 0: {Pattern "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"}
+│   │       └── Rule 0: Pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── EndIpAddress: *string

@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20211101
 ├── APIVersion: Enum (1 value)
 │   └── "2021-11-01"
 └── Server: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/hack/crossplane/apis/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (1 property)
     │   └── ForProvider: Object (17 properties)
     │       ├── AdministratorLogin: *string
@@ -16,11 +17,11 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20211101
     │       │   │   ├── "Group"
     │       │   │   └── "User"
     │       │   ├── Sid: Validated<*string> (1 rule)
-    │       │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+    │       │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
     │       │   └── TenantId: Validated<*string> (1 rule)
-    │       │       └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+    │       │       └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
     │       ├── FederatedClientId: Validated<*string> (1 rule)
-    │       │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+    │       │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
     │       ├── Identity: *Object (1 property)
     │       │   └── Type: *Enum (4 values)
     │       │       ├── "None"
@@ -31,7 +32,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20211101
     │       ├── Location: *string
     │       ├── MinimalTlsVersion: *string
     │       ├── Name: string
-    │       ├── PrimaryUserAssignedIdentityId: Validated<*string> (0 rules)
+    │       ├── PrimaryUserAssignedIdentityId: *string
     │       ├── PublicNetworkAccess: *Enum (2 values)
     │       │   ├── "Disabled"
     │       │   └── "Enabled"

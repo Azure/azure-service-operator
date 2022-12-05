@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130sto
 ├── APIVersion: Enum (1 value)
 │   └── "2018-11-30"
 └── UserAssignedIdentity: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (7 properties)
     │   ├── AzureName: string
     │   ├── Location: *string

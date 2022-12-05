@@ -12,7 +12,6 @@ import (
 // CallFunc creates an expression to call a function with specified arguments
 //
 // <funcName>(<arguments>...)
-//
 func CallFunc(funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	return createCallExpr(dst.NewIdent(funcName), arguments...)
 }
@@ -21,7 +20,6 @@ func CallFunc(funcName string, arguments ...dst.Expr) *dst.CallExpr {
 // arguments
 //
 // <qualifier>.<funcName>(arguments...)
-//
 func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	return createCallExpr(
 		&dst.SelectorExpr{
@@ -34,7 +32,6 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 // CallExpr creates an expression to call the named function with the specified arguments
 //
 // <expr>.<funcName>(arguments...)
-//
 func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	var receiver dst.Expr = expr
 	if star, ok := expr.(*dst.StarExpr); ok {

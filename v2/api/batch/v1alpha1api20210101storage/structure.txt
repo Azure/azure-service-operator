@@ -2,14 +2,15 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01"
 └── BatchAccount: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (12 properties)
     │   ├── AutoStorage: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── StorageAccountReference: *genruntime.ResourceReference
     │   ├── AzureName: Validated<string> (3 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=24)}
-    │   │   ├── Rule 1: {MinLength %!s(int64=3)}
-    │   │   └── Rule 2: {Pattern "^[a-z0-9]+$"}
+    │   │   ├── Rule 0: MaxLength: 24
+    │   │   ├── Rule 1: MinLength: 3
+    │   │   └── Rule 2: Pattern: "^[a-z0-9]+$"
     │   ├── Encryption: *Object (3 properties)
     │   │   ├── KeySource: *string
     │   │   ├── KeyVaultProperties: *Object (2 properties)

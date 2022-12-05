@@ -2,11 +2,12 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 ├── APIVersion: Enum (1 value)
 │   └── "2021-11-01"
 ├── Namespace: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (16 properties)
 │   │   ├── AlternateName: *string
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=6)}
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   └── Rule 1: MinLength: 6
 │   │   ├── ClusterArmReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Encryption: *Object (4 properties)
@@ -97,9 +98,10 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
 ├── NamespacesAuthorizationRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101.Namespace
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 0: MinLength: 1
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -121,10 +123,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 ├── NamespacesEventhub: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101.Namespace
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=256)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   ├── Rule 0: MaxLength: 256
+│   │   │   └── Rule 1: MinLength: 1
 │   │   ├── CaptureDescription: *Object (7 properties)
 │   │   │   ├── Destination: *Object (8 properties)
 │   │   │   │   ├── ArchiveNameFormat: *string
@@ -184,9 +187,10 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesEventhubsAuthorizationRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101.NamespacesEventhub
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 0: MinLength: 1
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -208,10 +212,11 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101stora
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── NamespacesEventhubsConsumerGroup: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101.NamespacesEventhub
     ├── Spec: Object (5 properties)
     │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-    │   │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   │   ├── Rule 0: MaxLength: 50
+    │   │   └── Rule 1: MinLength: 1
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag

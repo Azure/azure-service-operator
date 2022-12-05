@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-03-01"
 ├── ServerFarm: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (24 properties)
 │   │   ├── AzureName: string
 │   │   ├── ElasticScaleEnabled: *bool
@@ -117,6 +118,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │       ├── WorkerTierName: *string
 │       └── ZoneRedundant: *bool
 └── Site: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (36 properties)
     │   ├── AzureName: string
     │   ├── ClientAffinityEnabled: *bool

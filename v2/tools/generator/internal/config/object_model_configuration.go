@@ -24,7 +24,6 @@ import (
 // ║ ObjectModelConfiguration ║───────│ GroupConfiguration │───────│ VersionConfiguration │───────│ TypeConfiguration │───────│ PropertyConfiguration │
 // ║                          ║1  1..n│                    │1  1..n│                      │1  1..n│                   │1  1..n│                       │
 // ╚══════════════════════════╝       └────────────────────┘       └──────────────────────┘       └───────────────────┘       └───────────────────────┘
-//
 type ObjectModelConfiguration struct {
 	groups      map[string]*GroupConfiguration // nested configuration for individual groups
 	typoAdvisor *TypoAdvisor

@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 ├── APIVersion: Enum (1 value)
 │   └── "2018-06-01"
 ├── Configuration: Resource
+│   ├── Owner: Server
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -19,6 +20,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │       ├── Type: *string
 │       └── Value: *string
 ├── Database: Resource
+│   ├── Owner: Server
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
@@ -32,6 +34,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │       ├── Name: *string
 │       └── Type: *string
 ├── Server: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -152,7 +155,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │           └── "10.3"
 │   │   ├── Sku: *Object (5 properties)
 │   │   │   ├── Capacity: Validated<*int> (1 rule)
-│   │   │   │   └── Rule 0: {Minimum 0}
+│   │   │   │   └── Rule 0: Minimum: 0
 │   │   │   ├── Family: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── Size: *string

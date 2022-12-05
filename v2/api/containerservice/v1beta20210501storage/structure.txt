@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
 ├── ManagedCluster: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (32 properties)
 │   │   ├── AadProfile: *Object (8 properties)
 │   │   │   ├── AdminGroupObjectIDs: string[]
@@ -129,9 +130,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── UpgradeChannel: *string
 │   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
-│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
+│   │   │   ├── Rule 0: MaxLength: 63
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string
@@ -527,6 +528,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501st
 │           ├── LicenseType: *string
 │           └── PropertyBag: genruntime.PropertyBag
 └── ManagedClustersAgentPool: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedCluster
     ├── Spec: Object (37 properties)
     │   ├── AvailabilityZones: string[]
     │   ├── AzureName: string

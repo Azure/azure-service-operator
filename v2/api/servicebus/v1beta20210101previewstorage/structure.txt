@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
 │   │   ├── Encryption: *Object (4 properties)
@@ -88,10 +89,11 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
 ├── NamespacesQueue: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.Namespace
 │   ├── Spec: Object (18 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 0: MinLength: 1
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
@@ -150,10 +152,11 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopic: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.Namespace
 │   ├── Spec: Object (13 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {MinLength %!s(int64=1)}
+│   │   │   └── Rule 0: MinLength: 1
 │   │   ├── DefaultMessageTimeToLive: *string
 │   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
@@ -202,11 +205,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscription: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.NamespacesTopic
 │   ├── Spec: Object (15 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (2 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   └── Rule 1: {MinLength %!s(int64=1)}
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   └── Rule 1: MinLength: 1
 │   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
 │   │   ├── DefaultMessageTimeToLive: *string
@@ -258,6 +262,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       ├── Type: *string
 │       └── UpdatedAt: *string
 └── NamespacesTopicsSubscriptionsRule: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.NamespacesTopicsSubscription
     ├── Spec: Object (8 properties)
     │   ├── Action: *Object (4 properties)
     │   │   ├── CompatibilityLevel: *int
@@ -265,8 +270,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
     │   │   ├── RequiresPreprocessing: *bool
     │   │   └── SqlExpression: *string
     │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-    │   │   └── Rule 1: {MinLength %!s(int64=1)}
+    │   │   ├── Rule 0: MaxLength: 50
+    │   │   └── Rule 1: MinLength: 1
     │   ├── CorrelationFilter: *Object (11 properties)
     │   │   ├── ContentType: *string
     │   │   ├── CorrelationId: *string

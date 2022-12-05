@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-03-01"
 ├── Image: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
 │   │   ├── ExtendedLocation: *Object (3 properties)
@@ -107,6 +108,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── VirtualMachine: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (32 properties)
 │   │   ├── AdditionalCapabilities: *Object (3 properties)
 │   │   │   ├── HibernationEnabled: *bool
@@ -924,6 +926,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │       ├── VmId: *string
 │       └── Zones: string[]
 └── VirtualMachineScaleSet: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (25 properties)
     │   ├── AdditionalCapabilities: *Object (3 properties)
     │   │   ├── HibernationEnabled: *bool

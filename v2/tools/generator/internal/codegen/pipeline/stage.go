@@ -146,7 +146,6 @@ func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 // Post-requisites are thus not completely isomorphic with RequiresPrerequisiteStages  as there may be supporting stages that are
 // sometimes omitted from execution when targeting different outcomes. Having both pre- and post-requisites allows the
 // dependencies to drop out cleanly when different stages are present.
-//
 func (stage *Stage) RequiresPostrequisiteStages(postrequisites ...string) {
 	if len(stage.postrequisites) > 0 {
 		panic(fmt.Sprintf(

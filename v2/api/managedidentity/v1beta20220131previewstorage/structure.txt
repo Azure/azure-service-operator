@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131pre
 ├── APIVersion: Enum (1 value)
 │   └── "2022-01-31-preview"
 └── FederatedIdentityCredential: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131preview.UserAssignedIdentity
     ├── Spec: Object (7 properties)
     │   ├── Audiences: string[]
     │   ├── AzureName: string

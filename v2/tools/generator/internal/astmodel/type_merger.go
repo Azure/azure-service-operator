@@ -15,7 +15,7 @@ import (
 //
 // Conceptually it takes (via Add) a list of functions of the form:
 //
-//     func ([ctx interface{},] left {some Type}, right {some Type}) (Type, error)
+//	func ([ctx interface{},] left {some Type}, right {some Type}) (Type, error)
 //
 // where `left` and `right` can be concrete types that implement the `Type` interface.
 //

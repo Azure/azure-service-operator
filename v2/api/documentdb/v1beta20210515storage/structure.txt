@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-15"
 ├── DatabaseAccount: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (32 properties)
 │   │   ├── AnalyticalStorageConfiguration: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -10,9 +11,9 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ServerVersion: *string
 │   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=3)}
-│   │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   ├── Rule 1: MinLength: 3
+│   │   │   └── Rule 2: Pattern: "^[a-z0-9]+(-[a-z0-9]+)*"
 │   │   ├── BackupPolicy: *Object (3 properties)
 │   │   │   ├── Continuous: *Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -191,6 +192,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │           ├── PropertyBag: genruntime.PropertyBag
 │           └── ProvisioningState: *string
 ├── MongodbDatabase: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -228,6 +230,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollection: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.MongodbDatabase
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -287,6 +290,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollectionThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.MongodbDatabaseCollection
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
@@ -332,6 +336,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.MongodbDatabase
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
@@ -377,6 +382,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabase: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -416,6 +422,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabase
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -534,6 +541,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -567,6 +575,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
@@ -612,6 +621,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerTrigger: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -649,6 +659,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -682,6 +693,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabase
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
@@ -727,6 +739,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 └── SqlRoleAssignment: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
     ├── Spec: Object (8 properties)
     │   ├── AzureName: string
     │   ├── OriginalVersion: string

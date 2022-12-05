@@ -2,11 +2,12 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20
 ├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 ├── Workspace: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (13 properties)
 │   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=4)}
-│   │   │   └── Rule 2: {Pattern "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"}
+│   │   │   ├── Rule 0: MaxLength: 63
+│   │   │   ├── Rule 1: MinLength: 4
+│   │   │   └── Rule 2: Pattern: "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
 │   │   ├── Etag: *string
 │   │   ├── Features: *Object (5 properties)
 │   │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
