@@ -7,6 +7,7 @@ import re
 import subprocess
 import sys
 import time
+import fnmatch
 
 
 def strip(text, suffix):
@@ -79,7 +80,13 @@ if __name__ == "__main__":
                 dir_string = os.path.join(group, versionPrefix, sample)
             actual_samples.add(dir_string)
 
-    difference = expected_samples.difference(actual_samples)
-    if difference:
+    difference = set()
+    for expected in expected_samples:
+        filtered = fnmatch.filter(actual_samples, expected)
+        if not filtered:
+            difference.add(expected)
+
+
+    if len(difference) > 0:
         print(f'Found {len(difference)} missing samples: {difference}')
         sys.exit(1)
