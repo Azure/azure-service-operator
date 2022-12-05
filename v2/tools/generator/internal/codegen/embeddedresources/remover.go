@@ -39,20 +39,20 @@ func (e resourceRemovalVisitorContext) WithName(name astmodel.TypeName) resource
 // EmbeddedResourceRemover uses the "x-ms-azure-resource" extension to detect resources that are embedded
 // inside other resources.
 // There are two different kinds of embeddings:
-// 1. Peer resource embedding: This embedding allows users to create the peer resource inline rather than
-//    use an ARM ID reference. An example of this embedding can be seen at
-//    https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2020-11-01/publicIpAddress.json#L453
-//    where PublicIPAddress has a natGateway property which refers to "./natGateway.json#/definitions/NatGateway".
-//    This results in the ability to define a NatGateway inline while creating a PublicIPAddress. This is possibly
-//    useful in ARM templates but for our purposes would be better served with just an ID string representing the
-//    NatGateway.
-// 2. A subresource embedding. For the same reasons above, embedded sub-resources don't make sense in Kubernetes.
-//    In the case of embedded sub-resources, the ideal shape would be a complete removal of the reference. We forbid
-//    parent resources directly referencing child resources as it complicates the Watches scenario for each resource
-//    reconciler. It's also not a common pattern in Kubernetes - usually you can identify children for a
-//    given parent via a label. An example of this type of embedding is
-//    https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json#L668
-//    The Routes property is of type RouteTableRoutes  which is a child resource of RouteTable.
+//  1. Peer resource embedding: This embedding allows users to create the peer resource inline rather than
+//     use an ARM ID reference. An example of this embedding can be seen at
+//     https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2020-11-01/publicIpAddress.json#L453
+//     where PublicIPAddress has a natGateway property which refers to "./natGateway.json#/definitions/NatGateway".
+//     This results in the ability to define a NatGateway inline while creating a PublicIPAddress. This is possibly
+//     useful in ARM templates but for our purposes would be better served with just an ID string representing the
+//     NatGateway.
+//  2. A subresource embedding. For the same reasons above, embedded sub-resources don't make sense in Kubernetes.
+//     In the case of embedded sub-resources, the ideal shape would be a complete removal of the reference. We forbid
+//     parent resources directly referencing child resources as it complicates the Watches scenario for each resource
+//     reconciler. It's also not a common pattern in Kubernetes - usually you can identify children for a
+//     given parent via a label. An example of this type of embedding is
+//     https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json#L668
+//     The Routes property is of type RouteTableRoutes  which is a child resource of RouteTable.
 type EmbeddedResourceRemover struct {
 	definitions              astmodel.TypeDefinitionSet
 	resourceToSubresourceMap map[resourceKey]astmodel.TypeNameSet

@@ -30,12 +30,14 @@ import (
 
 const LoadTypesStageID = "loadTypes"
 
-/* LoadTypes creates a PipelineStage to load Swagger data.
+/*
+	LoadTypes creates a PipelineStage to load Swagger data.
 
 This information is derived from the Azure Swagger specifications. We parse the Swagger specs and look for
 any actions that appear to be ARM resources (have PUT methods with types we can use and appropriate names in the
 action path). Then for each resource, we use the existing JSON AST parser to extract the status type
-(the type-definition part of swagger is the same as JSON Schema). */
+(the type-definition part of swagger is the same as JSON Schema).
+*/
 func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuration) *Stage {
 	return NewLegacyStage(
 		LoadTypesStageID,
@@ -780,10 +782,10 @@ func addObjectResourceLinkIfNeeded(defs astmodel.TypeDefinitionSet, def astmodel
 
 // resolveDefAlias resolves the given definition and returns a fully resolved type (meaning it is not a TypeName pointing to another TypeName)
 // This function caters to two scenarios:
-// 1. A direct alias: TypeName -> TypeName, this is pretty self-explanatory.
-// 2. An alias indirected through an AllOf with 2 Types. One must be a TypeName and the other must be an ObjectType with a single Name property.
-//    Connascence alert: the type structure expected here is a direct result of including the name property as part of an AllOf
-//    in swagger_type_extractor.go ExtractResourceTypes.
+//  1. A direct alias: TypeName -> TypeName, this is pretty self-explanatory.
+//  2. An alias indirected through an AllOf with 2 Types. One must be a TypeName and the other must be an ObjectType with a single Name property.
+//     Connascence alert: the type structure expected here is a direct result of including the name property as part of an AllOf
+//     in swagger_type_extractor.go ExtractResourceTypes.
 func resolveDefAlias(defs astmodel.TypeDefinitionSet, def astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 	resolvedDef, err := defs.FullyResolveDefinition(def)
 	if err != nil {
