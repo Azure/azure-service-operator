@@ -13,6 +13,9 @@ spec:
           name: webhook-server
           protocol: TCP
         volumeMounts:
+        - mountPath: /var/run/secrets/tokens
+          name: azure-identity
+          readOnly: true
         - mountPath: /tmp/k8s-webhook-server/serving-certs
           name: cert
           readOnly: true
@@ -21,3 +24,11 @@ spec:
         secret:
           defaultMode: 420
           secretName: webhook-server-cert
+      - name: azure-identity
+        projected:
+          defaultMode: 420
+          sources:
+            - serviceAccountToken:
+                audience: api://AzureADTokenExchange
+                expirationSeconds: 3600
+                path: azure-identity

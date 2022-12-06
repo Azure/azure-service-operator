@@ -39,6 +39,7 @@ const (
 	NamespacedSecretName        = "aso-credential"
 	PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
 	namespacedNameSeparator     = "/"
+	tokenFile                   = "/var/run/secrets/tokens/azure-identity"
 )
 
 // ARMClientCache is a cache for armClients to hold multiple credential clients and global credential client.
@@ -202,40 +203,37 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
 		errs = append(errs, err)
 	}
+	
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
 		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
 		errs = append(errs, err)
 	}
+
 	clientID, ok := secret.Data[config.AzureClientIDVar]
 	if !ok {
 		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
 		errs = append(errs, err)
 	}
-	clientSecret, ok := secret.Data[config.AzureClientSecretVar]
-	if !ok {
-		// Here we check for workload identity if client secret is not provided, AZURE_FEDERATED_TOKEN_FILE env var gets populated if workload identity sidecar is injected to the pod,
-		// so we can check if its populated, which means workload identity is enabled.
-		if tokenFile := os.Getenv(config.AzureFederatedTokenFileVar); tokenFile != "" {
-			credential, err = newWorkloadIdentityCredential(string(tenantID), string(clientID), tokenFile)
-			if err != nil {
-				err = errors.Wrapf(err, "failed to get workload identity secret for clientID %q from %q", string(clientID), tokenFile)
-				errs = append(errs, err)
-			}
-		} else {
-			err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientSecretVar))
-			errs = append(errs, err)
-		}
-	}
 
+	// Missing required properties, fail fast
 	if len(errs) > 0 {
 		return nil, "", kerrors.NewAggregate(errs)
 	}
 
-	if credential == nil {
+	clientSecret, hasClientSecret := secret.Data[config.AzureClientSecretVar]
+
+	if hasClientSecret {
 		credential, err = azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 		if err != nil {
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName.String()).Error())
+		}
+	} else {
+		// Here we check for workload identity if client secret is not provided.
+		credential, err = newWorkloadIdentityCredential(string(tenantID), string(clientID), tokenFile)
+		if err != nil {
+			err = errors.Wrapf(err, "credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ", nsName.String(), config.AzureClientSecretVar, string(clientID), tokenFile)
+			return nil, "", err
 		}
 	}
 
@@ -284,7 +282,7 @@ func (w *workloadIdentityCredential) GetToken(ctx context.Context, opts policy.T
 }
 
 func (w *workloadIdentityCredential) getAssertion(context.Context) (string, error) {
-	if now := time.Now(); w.lastRead.Add(3600 * time.Second).Before(now) {
+	if now := time.Now(); w.lastRead.Add(5 * time.Minute).Before(now) {
 		content, err := os.ReadFile(w.tokenFilePath)
 		if err != nil {
 			return "", err

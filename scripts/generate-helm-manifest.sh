@@ -86,7 +86,9 @@ flow_control "aadpodidbinding" "aadpodidbinding" "$IF_TENANT" "$GEN_FILES_DIR"/*
 
 flow_control "--enable-leader-election" "--enable-leader-election" "$IF_TENANT" "$GEN_FILES_DIR"/*_deployment_*
 
-flow_control "volumeMounts:" "secretName:" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
+# TODO: This bit is tricky to exclude kube-rbac-proxy and webhook stuff.
+flow_control "serving-certs" "name: https" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
+flow_control "- name: cert" "secretName" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
 
 
 # Helm chart packaging, indexing and updating dependencies
