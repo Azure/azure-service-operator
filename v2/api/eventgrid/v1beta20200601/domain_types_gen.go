@@ -1843,7 +1843,7 @@ type JsonInputSchemaMapping struct {
 
 	// +kubebuilder:validation:Required
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 
 	// Subject: The mapping information for the Subject property of the Event Grid Event.
 	Subject *JsonFieldWithDefault `json:"subject,omitempty"`
@@ -1862,7 +1862,9 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 	result := &JsonInputSchemaMapping_ARM{}
 
 	// Set property ‘InputSchemaMappingType’:
-	result.InputSchemaMappingType = mapping.InputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		result.InputSchemaMappingType = *mapping.InputSchemaMappingType
+	}
 
 	// Set property ‘Properties’:
 	if mapping.DataVersion != nil ||
@@ -1993,7 +1995,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘InputSchemaMappingType’:
-	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
 
 	// Set property ‘Subject’:
 	// copying flattened property:
@@ -2080,9 +2082,10 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapp
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		mapping.InputSchemaMappingType = JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
+		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
-		mapping.InputSchemaMappingType = ""
+		mapping.InputSchemaMappingType = nil
 	}
 
 	// Subject
@@ -2167,8 +2170,12 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMappin
 	}
 
 	// InputSchemaMappingType
-	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
+		destination.InputSchemaMappingType = &inputSchemaMappingType
+	} else {
+		destination.InputSchemaMappingType = nil
+	}
 
 	// Subject
 	if mapping.Subject != nil {
@@ -2219,7 +2226,7 @@ type JsonInputSchemaMapping_STATUS struct {
 	Id *JsonField_STATUS `json:"id,omitempty"`
 
 	// InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	InputSchemaMappingType *JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
 
 	// Subject: The mapping information for the Subject property of the Event Grid Event.
 	Subject *JsonFieldWithDefault_STATUS `json:"subject,omitempty"`
@@ -2299,7 +2306,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘InputSchemaMappingType’:
-	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
 
 	// Set property ‘Subject’:
 	// copying flattened property:
@@ -2386,9 +2393,10 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_From_JsonInputSch
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		mapping.InputSchemaMappingType = JsonInputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
+		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
-		mapping.InputSchemaMappingType = ""
+		mapping.InputSchemaMappingType = nil
 	}
 
 	// Subject
@@ -2473,8 +2481,12 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchem
 	}
 
 	// InputSchemaMappingType
-	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
+		destination.InputSchemaMappingType = &inputSchemaMappingType
+	} else {
+		destination.InputSchemaMappingType = nil
+	}
 
 	// Subject
 	if mapping.Subject != nil {

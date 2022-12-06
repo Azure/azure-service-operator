@@ -3935,7 +3935,7 @@ func DeliveryRuleCacheExpirationActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheExpirationAction_Name_CacheExpiration)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheExpirationAction_Name_CacheExpiration))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction is a factory method for creating gopter generators
@@ -4052,7 +4052,7 @@ func DeliveryRuleCacheExpirationAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS is a factory method for creating gopter generators
@@ -4169,7 +4169,7 @@ func DeliveryRuleCacheKeyQueryStringActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheKeyQueryStringAction_Name_CacheKeyQueryString)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheKeyQueryStringAction_Name_CacheKeyQueryString))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction is a factory method for creating gopter generators
@@ -4286,7 +4286,7 @@ func DeliveryRuleCacheKeyQueryStringAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS is a factory method for creating gopter generators
@@ -4403,7 +4403,7 @@ func DeliveryRuleClientPortConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleClientPortCondition_Name_ClientPort)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleClientPortCondition_Name_ClientPort))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition is a factory method for creating gopter generators
@@ -4520,7 +4520,7 @@ func DeliveryRuleClientPortCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleClientPortCondition_Name_STATUS_ClientPort)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleClientPortCondition_Name_STATUS_ClientPort))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS is a factory method for creating gopter generators
@@ -4637,7 +4637,7 @@ func DeliveryRuleCookiesConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCookiesCondition_Name_Cookies)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCookiesCondition_Name_Cookies))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition is a factory method for creating gopter generators
@@ -4754,7 +4754,7 @@ func DeliveryRuleCookiesCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleCookiesCondition_Name_STATUS_Cookies)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleCookiesCondition_Name_STATUS_Cookies))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS is a factory method for creating gopter generators
@@ -4871,7 +4871,7 @@ func DeliveryRuleHostNameConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleHostNameCondition_Name_HostName)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHostNameCondition_Name_HostName))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition is a factory method for creating gopter generators
@@ -4988,7 +4988,7 @@ func DeliveryRuleHostNameCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleHostNameCondition_Name_STATUS_HostName)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHostNameCondition_Name_STATUS_HostName))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS is a factory method for creating gopter generators
@@ -5105,7 +5105,7 @@ func DeliveryRuleHttpVersionConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleHttpVersionCondition_Name_HttpVersion)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHttpVersionCondition_Name_HttpVersion))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition is a factory method for creating gopter generators
@@ -5222,7 +5222,7 @@ func DeliveryRuleHttpVersionCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS is a factory method for creating gopter generators
@@ -5339,7 +5339,7 @@ func DeliveryRuleIsDeviceConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleIsDeviceCondition_Name_IsDevice)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleIsDeviceCondition_Name_IsDevice))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition is a factory method for creating gopter generators
@@ -5456,7 +5456,7 @@ func DeliveryRuleIsDeviceCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS is a factory method for creating gopter generators
@@ -5573,7 +5573,7 @@ func DeliveryRulePostArgsConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRulePostArgsCondition_Name_PostArgs)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRulePostArgsCondition_Name_PostArgs))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition is a factory method for creating gopter generators
@@ -5690,7 +5690,7 @@ func DeliveryRulePostArgsCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRulePostArgsCondition_Name_STATUS_PostArgs)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRulePostArgsCondition_Name_STATUS_PostArgs))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS is a factory method for creating gopter generators
@@ -5807,7 +5807,7 @@ func DeliveryRuleQueryStringConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleQueryStringCondition_Name_QueryString)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleQueryStringCondition_Name_QueryString))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition is a factory method for creating gopter generators
@@ -5924,7 +5924,7 @@ func DeliveryRuleQueryStringCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleQueryStringCondition_Name_STATUS_QueryString)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleQueryStringCondition_Name_STATUS_QueryString))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS is a factory method for creating gopter generators
@@ -6041,7 +6041,7 @@ func DeliveryRuleRemoteAddressConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRemoteAddressCondition_Name_RemoteAddress)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRemoteAddressCondition_Name_RemoteAddress))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition is a factory method for creating gopter generators
@@ -6158,7 +6158,7 @@ func DeliveryRuleRemoteAddressCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS is a factory method for creating gopter generators
@@ -6275,7 +6275,7 @@ func DeliveryRuleRequestBodyConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestBodyCondition_Name_RequestBody)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestBodyCondition_Name_RequestBody))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition is a factory method for creating gopter generators
@@ -6392,7 +6392,7 @@ func DeliveryRuleRequestBodyCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS is a factory method for creating gopter generators
@@ -6509,7 +6509,7 @@ func DeliveryRuleRequestHeaderActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderAction_Name_ModifyRequestHeader)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderAction_Name_ModifyRequestHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction is a factory method for creating gopter generators
@@ -6626,7 +6626,7 @@ func DeliveryRuleRequestHeaderAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS is a factory method for creating gopter generators
@@ -6743,7 +6743,7 @@ func DeliveryRuleRequestHeaderConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderCondition_Name_RequestHeader)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderCondition_Name_RequestHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition is a factory method for creating gopter generators
@@ -6860,7 +6860,7 @@ func DeliveryRuleRequestHeaderCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS is a factory method for creating gopter generators
@@ -6977,7 +6977,7 @@ func DeliveryRuleRequestMethodConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestMethodCondition_Name_RequestMethod)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestMethodCondition_Name_RequestMethod))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition is a factory method for creating gopter generators
@@ -7094,7 +7094,7 @@ func DeliveryRuleRequestMethodCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS is a factory method for creating gopter generators
@@ -7211,7 +7211,7 @@ func DeliveryRuleRequestSchemeConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestSchemeCondition_Name_RequestScheme)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestSchemeCondition_Name_RequestScheme))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition is a factory method for creating gopter generators
@@ -7328,7 +7328,7 @@ func DeliveryRuleRequestSchemeCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS is a factory method for creating gopter generators
@@ -7445,7 +7445,7 @@ func DeliveryRuleRequestUriConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestUriCondition_Name_RequestUri)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestUriCondition_Name_RequestUri))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition is a factory method for creating gopter generators
@@ -7562,7 +7562,7 @@ func DeliveryRuleRequestUriCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS is a factory method for creating gopter generators
@@ -7679,7 +7679,7 @@ func DeliveryRuleResponseHeaderActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleResponseHeaderAction_Name_ModifyResponseHeader)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleResponseHeaderAction_Name_ModifyResponseHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction is a factory method for creating gopter generators
@@ -7796,7 +7796,7 @@ func DeliveryRuleResponseHeaderAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS is a factory method for creating gopter generators
@@ -7913,7 +7913,7 @@ func DeliveryRuleRouteConfigurationOverrideActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideAction_Name_RouteConfigurationOverride)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideAction_Name_RouteConfigurationOverride))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction is a factory method for creating gopter generators
@@ -8030,7 +8030,7 @@ func DeliveryRuleRouteConfigurationOverrideAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction_STATUS is a factory method for creating gopter generators
@@ -8147,7 +8147,7 @@ func DeliveryRuleServerPortConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleServerPortCondition_Name_ServerPort)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleServerPortCondition_Name_ServerPort))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition is a factory method for creating gopter generators
@@ -8264,7 +8264,7 @@ func DeliveryRuleServerPortCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleServerPortCondition_Name_STATUS_ServerPort)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleServerPortCondition_Name_STATUS_ServerPort))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS is a factory method for creating gopter generators
@@ -8381,7 +8381,7 @@ func DeliveryRuleSocketAddrConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleSocketAddrCondition_Name_SocketAddr)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSocketAddrCondition_Name_SocketAddr))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition is a factory method for creating gopter generators
@@ -8498,7 +8498,7 @@ func DeliveryRuleSocketAddrCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS is a factory method for creating gopter generators
@@ -8615,7 +8615,7 @@ func DeliveryRuleSslProtocolConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleSslProtocolCondition_Name_SslProtocol)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSslProtocolCondition_Name_SslProtocol))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition is a factory method for creating gopter generators
@@ -8732,7 +8732,7 @@ func DeliveryRuleSslProtocolCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS is a factory method for creating gopter generators
@@ -8849,7 +8849,7 @@ func DeliveryRuleUrlFileExtensionConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileExtensionCondition_Name_UrlFileExtension)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileExtensionCondition_Name_UrlFileExtension))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition is a factory method for creating gopter generators
@@ -8966,7 +8966,7 @@ func DeliveryRuleUrlFileExtensionCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS is a factory method for creating gopter generators
@@ -9083,7 +9083,7 @@ func DeliveryRuleUrlFileNameConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileNameCondition_Name_UrlFileName)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileNameCondition_Name_UrlFileName))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition is a factory method for creating gopter generators
@@ -9200,7 +9200,7 @@ func DeliveryRuleUrlFileNameCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS is a factory method for creating gopter generators
@@ -9317,7 +9317,7 @@ func DeliveryRuleUrlPathConditionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlPathCondition_Name_UrlPath)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlPathCondition_Name_UrlPath))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition is a factory method for creating gopter generators
@@ -9434,7 +9434,7 @@ func DeliveryRuleUrlPathCondition_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath))
 }
 
 // AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS is a factory method for creating gopter generators
@@ -9551,7 +9551,7 @@ func OriginGroupOverrideActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverrideAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(OriginGroupOverrideAction_Name_OriginGroupOverride)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideAction_Name_OriginGroupOverride))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverrideAction is a factory method for creating gopter generators
@@ -9668,7 +9668,7 @@ func OriginGroupOverrideAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOriginGroupOverrideAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride))
 }
 
 // AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS is a factory method for creating gopter generators
@@ -9784,7 +9784,7 @@ func UrlRedirectActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRedirectAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRedirectAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRedirectAction_Name_UrlRedirect)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRedirectAction_Name_UrlRedirect))
 }
 
 // AddRelatedPropertyGeneratorsForUrlRedirectAction is a factory method for creating gopter generators
@@ -9901,7 +9901,7 @@ func UrlRedirectAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRedirectAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRedirectAction_Name_STATUS_UrlRedirect)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRedirectAction_Name_STATUS_UrlRedirect))
 }
 
 // AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS is a factory method for creating gopter generators
@@ -10017,7 +10017,7 @@ func UrlRewriteActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRewriteAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRewriteAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRewriteAction_Name_UrlRewrite)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRewriteAction_Name_UrlRewrite))
 }
 
 // AddRelatedPropertyGeneratorsForUrlRewriteAction is a factory method for creating gopter generators
@@ -10134,7 +10134,7 @@ func UrlRewriteAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlRewriteAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlRewriteAction_Name_STATUS_UrlRewrite)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlRewriteAction_Name_STATUS_UrlRewrite))
 }
 
 // AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS is a factory method for creating gopter generators
@@ -10250,7 +10250,7 @@ func UrlSigningActionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningAction(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlSigningAction_Name_UrlSigning)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlSigningAction_Name_UrlSigning))
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningAction is a factory method for creating gopter generators
@@ -10367,7 +10367,7 @@ func UrlSigningAction_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUrlSigningAction_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(UrlSigningAction_Name_STATUS_UrlSigning)
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(UrlSigningAction_Name_STATUS_UrlSigning))
 }
 
 // AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS is a factory method for creating gopter generators

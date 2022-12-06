@@ -8598,7 +8598,7 @@ const (
 type DeliveryRuleCacheExpirationAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheExpirationAction_Name `json:"name,omitempty"`
+	Name *DeliveryRuleCacheExpirationAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -8615,7 +8615,9 @@ func (action *DeliveryRuleCacheExpirationAction) ConvertToARM(resolved genruntim
 	result := &DeliveryRuleCacheExpirationAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -8642,7 +8644,7 @@ func (action *DeliveryRuleCacheExpirationAction) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -8664,9 +8666,10 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_From_DeliveryR
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleCacheExpirationAction_Name(*source.Name)
+		name := DeliveryRuleCacheExpirationAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -8691,8 +8694,12 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRul
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -8719,7 +8726,7 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRul
 
 type DeliveryRuleCacheExpirationAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *CacheExpirationActionParameters_STATUS `json:"parameters,omitempty"`
@@ -8740,7 +8747,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) PopulateFromARM(owner ge
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -8762,9 +8769,10 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_From_De
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleCacheExpirationAction_Name_STATUS(*source.Name)
+		name := DeliveryRuleCacheExpirationAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -8789,8 +8797,12 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_Deli
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -8818,7 +8830,7 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_Deli
 type DeliveryRuleCacheKeyQueryStringAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheKeyQueryStringAction_Name `json:"name,omitempty"`
+	Name *DeliveryRuleCacheKeyQueryStringAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -8835,7 +8847,9 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) ConvertToARM(resolved genru
 	result := &DeliveryRuleCacheKeyQueryStringAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -8862,7 +8876,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -8884,9 +8898,10 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleCacheKeyQueryStringAction_Name(*source.Name)
+		name := DeliveryRuleCacheKeyQueryStringAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -8911,8 +8926,12 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_Deliver
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -8939,7 +8958,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_Deliver
 
 type DeliveryRuleCacheKeyQueryStringAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheKeyQueryStringAction_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleCacheKeyQueryStringAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *CacheKeyQueryStringActionParameters_STATUS `json:"parameters,omitempty"`
@@ -8960,7 +8979,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -8982,9 +9001,10 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleCacheKeyQueryStringAction_Name_STATUS(*source.Name)
+		name := DeliveryRuleCacheKeyQueryStringAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -9009,8 +9029,12 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -9038,7 +9062,7 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_
 type DeliveryRuleClientPortCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleClientPortCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleClientPortCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -9055,7 +9079,9 @@ func (condition *DeliveryRuleClientPortCondition) ConvertToARM(resolved genrunti
 	result := &DeliveryRuleClientPortCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -9082,7 +9108,7 @@ func (condition *DeliveryRuleClientPortCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9104,9 +9130,10 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleClientPortCondition_Name(*source.Name)
+		name := DeliveryRuleClientPortCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9131,8 +9158,12 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9159,7 +9190,7 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRu
 
 type DeliveryRuleClientPortCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleClientPortCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleClientPortCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *ClientPortMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -9180,7 +9211,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9202,9 +9233,10 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleClientPortCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleClientPortCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9229,8 +9261,12 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_Del
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9258,7 +9294,7 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_Del
 type DeliveryRuleCookiesCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleCookiesCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleCookiesCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -9275,7 +9311,9 @@ func (condition *DeliveryRuleCookiesCondition) ConvertToARM(resolved genruntime.
 	result := &DeliveryRuleCookiesCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -9302,7 +9340,7 @@ func (condition *DeliveryRuleCookiesCondition) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9324,9 +9362,10 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleCookiesCondition_Name(*source.Name)
+		name := DeliveryRuleCookiesCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9351,8 +9390,12 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleC
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9379,7 +9422,7 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleC
 
 type DeliveryRuleCookiesCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleCookiesCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleCookiesCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *CookiesMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -9400,7 +9443,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9422,9 +9465,10 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleCookiesCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleCookiesCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9449,8 +9493,12 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_Delive
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9478,7 +9526,7 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_Delive
 type DeliveryRuleHostNameCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHostNameCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleHostNameCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -9495,7 +9543,9 @@ func (condition *DeliveryRuleHostNameCondition) ConvertToARM(resolved genruntime
 	result := &DeliveryRuleHostNameCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -9522,7 +9572,7 @@ func (condition *DeliveryRuleHostNameCondition) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9544,9 +9594,10 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleHostNameCondition_Name(*source.Name)
+		name := DeliveryRuleHostNameCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9571,8 +9622,12 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRule
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9599,7 +9654,7 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRule
 
 type DeliveryRuleHostNameCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHostNameCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleHostNameCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *HostNameMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -9620,7 +9675,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9642,9 +9697,10 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleHostNameCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleHostNameCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9669,8 +9725,12 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_Deliv
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9698,7 +9758,7 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_Deliv
 type DeliveryRuleHttpVersionCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHttpVersionCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleHttpVersionCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -9715,7 +9775,9 @@ func (condition *DeliveryRuleHttpVersionCondition) ConvertToARM(resolved genrunt
 	result := &DeliveryRuleHttpVersionCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -9742,7 +9804,7 @@ func (condition *DeliveryRuleHttpVersionCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9764,9 +9826,10 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleHttpVersionCondition_Name(*source.Name)
+		name := DeliveryRuleHttpVersionCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9791,8 +9854,12 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9819,7 +9886,7 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryR
 
 type DeliveryRuleHttpVersionCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHttpVersionCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleHttpVersionCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *HttpVersionMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -9840,7 +9907,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9862,9 +9929,10 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleHttpVersionCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleHttpVersionCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -9889,8 +9957,12 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_De
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -9918,7 +9990,7 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_De
 type DeliveryRuleIsDeviceCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleIsDeviceCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleIsDeviceCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -9935,7 +10007,9 @@ func (condition *DeliveryRuleIsDeviceCondition) ConvertToARM(resolved genruntime
 	result := &DeliveryRuleIsDeviceCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -9962,7 +10036,7 @@ func (condition *DeliveryRuleIsDeviceCondition) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -9984,9 +10058,10 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleIsDeviceCondition_Name(*source.Name)
+		name := DeliveryRuleIsDeviceCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10011,8 +10086,12 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRule
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10039,7 +10118,7 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRule
 
 type DeliveryRuleIsDeviceCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleIsDeviceCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleIsDeviceCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *IsDeviceMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -10060,7 +10139,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10082,9 +10161,10 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleIsDeviceCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleIsDeviceCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10109,8 +10189,12 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_Deliv
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10138,7 +10222,7 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_Deliv
 type DeliveryRulePostArgsCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRulePostArgsCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRulePostArgsCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -10155,7 +10239,9 @@ func (condition *DeliveryRulePostArgsCondition) ConvertToARM(resolved genruntime
 	result := &DeliveryRulePostArgsCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -10182,7 +10268,7 @@ func (condition *DeliveryRulePostArgsCondition) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10204,9 +10290,10 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRulePostArgsCondition_Name(*source.Name)
+		name := DeliveryRulePostArgsCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10231,8 +10318,12 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRule
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10259,7 +10350,7 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRule
 
 type DeliveryRulePostArgsCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRulePostArgsCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRulePostArgsCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *PostArgsMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -10280,7 +10371,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10302,9 +10393,10 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRulePostArgsCondition_Name_STATUS(*source.Name)
+		name := DeliveryRulePostArgsCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10329,8 +10421,12 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_Deliv
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10358,7 +10454,7 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_Deliv
 type DeliveryRuleQueryStringCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleQueryStringCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleQueryStringCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -10375,7 +10471,9 @@ func (condition *DeliveryRuleQueryStringCondition) ConvertToARM(resolved genrunt
 	result := &DeliveryRuleQueryStringCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -10402,7 +10500,7 @@ func (condition *DeliveryRuleQueryStringCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10424,9 +10522,10 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleQueryStringCondition_Name(*source.Name)
+		name := DeliveryRuleQueryStringCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10451,8 +10550,12 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10479,7 +10582,7 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryR
 
 type DeliveryRuleQueryStringCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleQueryStringCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleQueryStringCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *QueryStringMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -10500,7 +10603,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10522,9 +10625,10 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleQueryStringCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleQueryStringCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10549,8 +10653,12 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_De
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10578,7 +10686,7 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_De
 type DeliveryRuleRemoteAddressCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRemoteAddressCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRemoteAddressCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -10595,7 +10703,9 @@ func (condition *DeliveryRuleRemoteAddressCondition) ConvertToARM(resolved genru
 	result := &DeliveryRuleRemoteAddressCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -10622,7 +10732,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10644,9 +10754,10 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRemoteAddressCondition_Name(*source.Name)
+		name := DeliveryRuleRemoteAddressCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10671,8 +10782,12 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_Deliver
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10699,7 +10814,7 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_Deliver
 
 type DeliveryRuleRemoteAddressCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRemoteAddressCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRemoteAddressCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RemoteAddressMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -10720,7 +10835,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10742,9 +10857,10 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRemoteAddressCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleRemoteAddressCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10769,8 +10885,12 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10798,7 +10918,7 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_
 type DeliveryRuleRequestBodyCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestBodyCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRequestBodyCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -10815,7 +10935,9 @@ func (condition *DeliveryRuleRequestBodyCondition) ConvertToARM(resolved genrunt
 	result := &DeliveryRuleRequestBodyCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -10842,7 +10964,7 @@ func (condition *DeliveryRuleRequestBodyCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10864,9 +10986,10 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestBodyCondition_Name(*source.Name)
+		name := DeliveryRuleRequestBodyCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10891,8 +11014,12 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -10919,7 +11046,7 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryR
 
 type DeliveryRuleRequestBodyCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestBodyCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRequestBodyCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestBodyMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -10940,7 +11067,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -10962,9 +11089,10 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestBodyCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleRequestBodyCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -10989,8 +11117,12 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_De
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11018,7 +11150,7 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_De
 type DeliveryRuleRequestHeaderAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRequestHeaderAction_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRequestHeaderAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -11035,7 +11167,9 @@ func (action *DeliveryRuleRequestHeaderAction) ConvertToARM(resolved genruntime.
 	result := &DeliveryRuleRequestHeaderAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -11062,7 +11196,7 @@ func (action *DeliveryRuleRequestHeaderAction) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11084,9 +11218,10 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleRequestHeaderAction_Name(*source.Name)
+		name := DeliveryRuleRequestHeaderAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -11111,8 +11246,12 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -11139,7 +11278,7 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleR
 
 type DeliveryRuleRequestHeaderAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRequestHeaderAction_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRequestHeaderAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters_STATUS `json:"parameters,omitempty"`
@@ -11160,7 +11299,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11182,9 +11321,10 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleRequestHeaderAction_Name_STATUS(*source.Name)
+		name := DeliveryRuleRequestHeaderAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -11209,8 +11349,12 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_Delive
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -11238,7 +11382,7 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_Delive
 type DeliveryRuleRequestHeaderCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestHeaderCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRequestHeaderCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -11255,7 +11399,9 @@ func (condition *DeliveryRuleRequestHeaderCondition) ConvertToARM(resolved genru
 	result := &DeliveryRuleRequestHeaderCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -11282,7 +11428,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11304,9 +11450,10 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestHeaderCondition_Name(*source.Name)
+		name := DeliveryRuleRequestHeaderCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11331,8 +11478,12 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_Deliver
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11359,7 +11510,7 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_Deliver
 
 type DeliveryRuleRequestHeaderCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestHeaderCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRequestHeaderCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestHeaderMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -11380,7 +11531,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11402,9 +11553,10 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestHeaderCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleRequestHeaderCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11429,8 +11581,12 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11458,7 +11614,7 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_
 type DeliveryRuleRequestMethodCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestMethodCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRequestMethodCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -11475,7 +11631,9 @@ func (condition *DeliveryRuleRequestMethodCondition) ConvertToARM(resolved genru
 	result := &DeliveryRuleRequestMethodCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -11502,7 +11660,7 @@ func (condition *DeliveryRuleRequestMethodCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11524,9 +11682,10 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestMethodCondition_Name(*source.Name)
+		name := DeliveryRuleRequestMethodCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11551,8 +11710,12 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_Deliver
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11579,7 +11742,7 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_Deliver
 
 type DeliveryRuleRequestMethodCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestMethodCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRequestMethodCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestMethodMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -11600,7 +11763,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11622,9 +11785,10 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestMethodCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleRequestMethodCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11649,8 +11813,12 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11678,7 +11846,7 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_
 type DeliveryRuleRequestSchemeCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestSchemeCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRequestSchemeCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -11695,7 +11863,9 @@ func (condition *DeliveryRuleRequestSchemeCondition) ConvertToARM(resolved genru
 	result := &DeliveryRuleRequestSchemeCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -11722,7 +11892,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11744,9 +11914,10 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_From_Deliv
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestSchemeCondition_Name(*source.Name)
+		name := DeliveryRuleRequestSchemeCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11771,8 +11942,12 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_Deliver
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11799,7 +11974,7 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_Deliver
 
 type DeliveryRuleRequestSchemeCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestSchemeCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRequestSchemeCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestSchemeMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -11820,7 +11995,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11842,9 +12017,10 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestSchemeCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleRequestSchemeCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11869,8 +12045,12 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -11898,7 +12078,7 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_
 type DeliveryRuleRequestUriCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestUriCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRequestUriCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -11915,7 +12095,9 @@ func (condition *DeliveryRuleRequestUriCondition) ConvertToARM(resolved genrunti
 	result := &DeliveryRuleRequestUriCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -11942,7 +12124,7 @@ func (condition *DeliveryRuleRequestUriCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -11964,9 +12146,10 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestUriCondition_Name(*source.Name)
+		name := DeliveryRuleRequestUriCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -11991,8 +12174,12 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -12019,7 +12206,7 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRu
 
 type DeliveryRuleRequestUriCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestUriCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRequestUriCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestUriMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -12040,7 +12227,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12062,9 +12249,10 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleRequestUriCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleRequestUriCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -12089,8 +12277,12 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_Del
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -12118,7 +12310,7 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_Del
 type DeliveryRuleResponseHeaderAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleResponseHeaderAction_Name `json:"name,omitempty"`
+	Name *DeliveryRuleResponseHeaderAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -12135,7 +12327,9 @@ func (action *DeliveryRuleResponseHeaderAction) ConvertToARM(resolved genruntime
 	result := &DeliveryRuleResponseHeaderAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -12162,7 +12356,7 @@ func (action *DeliveryRuleResponseHeaderAction) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12184,9 +12378,10 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_From_DeliveryRu
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleResponseHeaderAction_Name(*source.Name)
+		name := DeliveryRuleResponseHeaderAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -12211,8 +12406,12 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRule
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -12239,7 +12438,7 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRule
 
 type DeliveryRuleResponseHeaderAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters_STATUS `json:"parameters,omitempty"`
@@ -12260,7 +12459,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12282,9 +12481,10 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_From_Del
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleResponseHeaderAction_Name_STATUS(*source.Name)
+		name := DeliveryRuleResponseHeaderAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -12309,8 +12509,12 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_Deliv
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -12338,7 +12542,7 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_Deliv
 type DeliveryRuleRouteConfigurationOverrideAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRouteConfigurationOverrideAction_Name `json:"name,omitempty"`
+	Name *DeliveryRuleRouteConfigurationOverrideAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -12355,7 +12559,9 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) ConvertToARM(resolve
 	result := &DeliveryRuleRouteConfigurationOverrideAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -12382,7 +12588,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) PopulateFromARM(owne
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12404,9 +12610,10 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_Fro
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleRouteConfigurationOverrideAction_Name(*source.Name)
+		name := DeliveryRuleRouteConfigurationOverrideAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -12431,8 +12638,12 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -12459,7 +12670,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_
 
 type DeliveryRuleRouteConfigurationOverrideAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *RouteConfigurationOverrideActionParameters_STATUS `json:"parameters,omitempty"`
@@ -12480,7 +12691,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) PopulateFromA
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12502,9 +12713,10 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 
 	// Name
 	if source.Name != nil {
-		action.Name = DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS(*source.Name)
+		name := DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -12529,8 +12741,12 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -12558,7 +12774,7 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 type DeliveryRuleServerPortCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleServerPortCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleServerPortCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -12575,7 +12791,9 @@ func (condition *DeliveryRuleServerPortCondition) ConvertToARM(resolved genrunti
 	result := &DeliveryRuleServerPortCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -12602,7 +12820,7 @@ func (condition *DeliveryRuleServerPortCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12624,9 +12842,10 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleServerPortCondition_Name(*source.Name)
+		name := DeliveryRuleServerPortCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -12651,8 +12870,12 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -12679,7 +12902,7 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRu
 
 type DeliveryRuleServerPortCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleServerPortCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleServerPortCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *ServerPortMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -12700,7 +12923,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12722,9 +12945,10 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleServerPortCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleServerPortCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -12749,8 +12973,12 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_Del
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -12778,7 +13006,7 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_Del
 type DeliveryRuleSocketAddrCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSocketAddrCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleSocketAddrCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -12795,7 +13023,9 @@ func (condition *DeliveryRuleSocketAddrCondition) ConvertToARM(resolved genrunti
 	result := &DeliveryRuleSocketAddrCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -12822,7 +13052,7 @@ func (condition *DeliveryRuleSocketAddrCondition) PopulateFromARM(owner genrunti
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12844,9 +13074,10 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_From_Delivery
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleSocketAddrCondition_Name(*source.Name)
+		name := DeliveryRuleSocketAddrCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -12871,8 +13102,12 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -12899,7 +13134,7 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRu
 
 type DeliveryRuleSocketAddrCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSocketAddrCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleSocketAddrCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *SocketAddrMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -12920,7 +13155,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) PopulateFromARM(owner g
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -12942,9 +13177,10 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_From_D
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleSocketAddrCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleSocketAddrCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -12969,8 +13205,12 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_Del
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -12998,7 +13238,7 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_Del
 type DeliveryRuleSslProtocolCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSslProtocolCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleSslProtocolCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -13015,7 +13255,9 @@ func (condition *DeliveryRuleSslProtocolCondition) ConvertToARM(resolved genrunt
 	result := &DeliveryRuleSslProtocolCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -13042,7 +13284,7 @@ func (condition *DeliveryRuleSslProtocolCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13064,9 +13306,10 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleSslProtocolCondition_Name(*source.Name)
+		name := DeliveryRuleSslProtocolCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13091,8 +13334,12 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13119,7 +13366,7 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryR
 
 type DeliveryRuleSslProtocolCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSslProtocolCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleSslProtocolCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *SslProtocolMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -13140,7 +13387,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13162,9 +13409,10 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleSslProtocolCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleSslProtocolCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13189,8 +13437,12 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_De
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13218,7 +13470,7 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_De
 type DeliveryRuleUrlFileExtensionCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileExtensionCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleUrlFileExtensionCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -13235,7 +13487,9 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) ConvertToARM(resolved ge
 	result := &DeliveryRuleUrlFileExtensionCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -13262,7 +13516,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) PopulateFromARM(owner ge
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13284,9 +13538,10 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_From_De
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleUrlFileExtensionCondition_Name(*source.Name)
+		name := DeliveryRuleUrlFileExtensionCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13311,8 +13566,12 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_Deli
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13339,7 +13598,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_Deli
 
 type DeliveryRuleUrlFileExtensionCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileExtensionCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleUrlFileExtensionCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileExtensionMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -13360,7 +13619,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) PopulateFromARM(o
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13382,9 +13641,10 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleUrlFileExtensionCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleUrlFileExtensionCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13409,8 +13669,12 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13438,7 +13702,7 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 type DeliveryRuleUrlFileNameCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileNameCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleUrlFileNameCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -13455,7 +13719,9 @@ func (condition *DeliveryRuleUrlFileNameCondition) ConvertToARM(resolved genrunt
 	result := &DeliveryRuleUrlFileNameCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -13482,7 +13748,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13504,9 +13770,10 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_From_Deliver
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleUrlFileNameCondition_Name(*source.Name)
+		name := DeliveryRuleUrlFileNameCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13531,8 +13798,12 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13559,7 +13830,7 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryR
 
 type DeliveryRuleUrlFileNameCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileNameCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleUrlFileNameCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileNameMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -13580,7 +13851,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) PopulateFromARM(owner 
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13602,9 +13873,10 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_From_
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleUrlFileNameCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleUrlFileNameCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13629,8 +13901,12 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_De
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13658,7 +13934,7 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_De
 type DeliveryRuleUrlPathCondition struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlPathCondition_Name `json:"name,omitempty"`
+	Name *DeliveryRuleUrlPathCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the condition.
@@ -13675,7 +13951,9 @@ func (condition *DeliveryRuleUrlPathCondition) ConvertToARM(resolved genruntime.
 	result := &DeliveryRuleUrlPathCondition_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = condition.Name
+	if condition.Name != nil {
+		result.Name = *condition.Name
+	}
 
 	// Set property ‘Parameters’:
 	if condition.Parameters != nil {
@@ -13702,7 +13980,7 @@ func (condition *DeliveryRuleUrlPathCondition) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13724,9 +14002,10 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_From_DeliveryRul
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleUrlPathCondition_Name(*source.Name)
+		name := DeliveryRuleUrlPathCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13751,8 +14030,12 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleU
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13779,7 +14062,7 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleU
 
 type DeliveryRuleUrlPathCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlPathCondition_Name_STATUS `json:"name,omitempty"`
+	Name *DeliveryRuleUrlPathCondition_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlPathMatchConditionParameters_STATUS `json:"parameters,omitempty"`
@@ -13800,7 +14083,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘Name’:
-	condition.Name = typedInput.Name
+	condition.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13822,9 +14105,10 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_From_Deli
 
 	// Name
 	if source.Name != nil {
-		condition.Name = DeliveryRuleUrlPathCondition_Name_STATUS(*source.Name)
+		name := DeliveryRuleUrlPathCondition_Name_STATUS(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.Name = ""
+		condition.Name = nil
 	}
 
 	// Parameters
@@ -13849,8 +14133,12 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_Delive
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(condition.Name)
-	destination.Name = &name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if condition.Parameters != nil {
@@ -13878,7 +14166,7 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_Delive
 type OriginGroupOverrideAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name OriginGroupOverrideAction_Name `json:"name,omitempty"`
+	Name *OriginGroupOverrideAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -13895,7 +14183,9 @@ func (action *OriginGroupOverrideAction) ConvertToARM(resolved genruntime.Conver
 	result := &OriginGroupOverrideAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -13922,7 +14212,7 @@ func (action *OriginGroupOverrideAction) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -13944,9 +14234,10 @@ func (action *OriginGroupOverrideAction) AssignProperties_From_OriginGroupOverri
 
 	// Name
 	if source.Name != nil {
-		action.Name = OriginGroupOverrideAction_Name(*source.Name)
+		name := OriginGroupOverrideAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -13971,8 +14262,12 @@ func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverride
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -13999,7 +14294,7 @@ func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverride
 
 type OriginGroupOverrideAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name OriginGroupOverrideAction_Name_STATUS `json:"name,omitempty"`
+	Name *OriginGroupOverrideAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *OriginGroupOverrideActionParameters_STATUS `json:"parameters,omitempty"`
@@ -14020,7 +14315,7 @@ func (action *OriginGroupOverrideAction_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14042,9 +14337,10 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_From_OriginGrou
 
 	// Name
 	if source.Name != nil {
-		action.Name = OriginGroupOverrideAction_Name_STATUS(*source.Name)
+		name := OriginGroupOverrideAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14069,8 +14365,12 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupO
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -14098,7 +14398,7 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupO
 type UrlRedirectAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name UrlRedirectAction_Name `json:"name,omitempty"`
+	Name *UrlRedirectAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -14115,7 +14415,9 @@ func (action *UrlRedirectAction) ConvertToARM(resolved genruntime.ConvertToARMRe
 	result := &UrlRedirectAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -14142,7 +14444,7 @@ func (action *UrlRedirectAction) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14164,9 +14466,10 @@ func (action *UrlRedirectAction) AssignProperties_From_UrlRedirectAction(source 
 
 	// Name
 	if source.Name != nil {
-		action.Name = UrlRedirectAction_Name(*source.Name)
+		name := UrlRedirectAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14191,8 +14494,12 @@ func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destinati
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -14219,7 +14526,7 @@ func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destinati
 
 type UrlRedirectAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name UrlRedirectAction_Name_STATUS `json:"name,omitempty"`
+	Name *UrlRedirectAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRedirectActionParameters_STATUS `json:"parameters,omitempty"`
@@ -14240,7 +14547,7 @@ func (action *UrlRedirectAction_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14262,9 +14569,10 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_From_UrlRedirectAction_
 
 	// Name
 	if source.Name != nil {
-		action.Name = UrlRedirectAction_Name_STATUS(*source.Name)
+		name := UrlRedirectAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14289,8 +14597,12 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_ST
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -14318,7 +14630,7 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_ST
 type UrlRewriteAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name UrlRewriteAction_Name `json:"name,omitempty"`
+	Name *UrlRewriteAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -14335,7 +14647,9 @@ func (action *UrlRewriteAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 	result := &UrlRewriteAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -14362,7 +14676,7 @@ func (action *UrlRewriteAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14384,9 +14698,10 @@ func (action *UrlRewriteAction) AssignProperties_From_UrlRewriteAction(source *v
 
 	// Name
 	if source.Name != nil {
-		action.Name = UrlRewriteAction_Name(*source.Name)
+		name := UrlRewriteAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14411,8 +14726,12 @@ func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -14439,7 +14758,7 @@ func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination
 
 type UrlRewriteAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name UrlRewriteAction_Name_STATUS `json:"name,omitempty"`
+	Name *UrlRewriteAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRewriteActionParameters_STATUS `json:"parameters,omitempty"`
@@ -14460,7 +14779,7 @@ func (action *UrlRewriteAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14482,9 +14801,10 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_From_UrlRewriteAction_ST
 
 	// Name
 	if source.Name != nil {
-		action.Name = UrlRewriteAction_Name_STATUS(*source.Name)
+		name := UrlRewriteAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14509,8 +14829,12 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STAT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -14538,7 +14862,7 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STAT
 type UrlSigningAction struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the action for the delivery rule.
-	Name UrlSigningAction_Name `json:"name,omitempty"`
+	Name *UrlSigningAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Parameters: Defines the parameters for the action.
@@ -14555,7 +14879,9 @@ func (action *UrlSigningAction) ConvertToARM(resolved genruntime.ConvertToARMRes
 	result := &UrlSigningAction_ARM{}
 
 	// Set property ‘Name’:
-	result.Name = action.Name
+	if action.Name != nil {
+		result.Name = *action.Name
+	}
 
 	// Set property ‘Parameters’:
 	if action.Parameters != nil {
@@ -14582,7 +14908,7 @@ func (action *UrlSigningAction) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14604,9 +14930,10 @@ func (action *UrlSigningAction) AssignProperties_From_UrlSigningAction(source *v
 
 	// Name
 	if source.Name != nil {
-		action.Name = UrlSigningAction_Name(*source.Name)
+		name := UrlSigningAction_Name(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14631,8 +14958,12 @@ func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {
@@ -14659,7 +14990,7 @@ func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination
 
 type UrlSigningAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
-	Name UrlSigningAction_Name_STATUS `json:"name,omitempty"`
+	Name *UrlSigningAction_Name_STATUS `json:"name,omitempty"`
 
 	// Parameters: Defines the parameters for the action.
 	Parameters *UrlSigningActionParameters_STATUS `json:"parameters,omitempty"`
@@ -14680,7 +15011,7 @@ func (action *UrlSigningAction_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Name’:
-	action.Name = typedInput.Name
+	action.Name = &typedInput.Name
 
 	// Set property ‘Parameters’:
 	if typedInput.Parameters != nil {
@@ -14702,9 +15033,10 @@ func (action *UrlSigningAction_STATUS) AssignProperties_From_UrlSigningAction_ST
 
 	// Name
 	if source.Name != nil {
-		action.Name = UrlSigningAction_Name_STATUS(*source.Name)
+		name := UrlSigningAction_Name_STATUS(*source.Name)
+		action.Name = &name
 	} else {
-		action.Name = ""
+		action.Name = nil
 	}
 
 	// Parameters
@@ -14729,8 +15061,12 @@ func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STAT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	name := string(action.Name)
-	destination.Name = &name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
 
 	// Parameters
 	if action.Parameters != nil {

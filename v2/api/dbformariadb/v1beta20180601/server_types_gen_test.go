@@ -1408,7 +1408,7 @@ func ServerPropertiesForDefaultCreateGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesForDefaultCreate(gens map[string]gopter.Gen) {
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForDefaultCreate_CreateMode_Default)
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesForDefaultCreate_CreateMode_Default))
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_TLS1_0,
 		MinimalTlsVersion_TLS1_1,
@@ -1533,7 +1533,7 @@ func ServerPropertiesForGeoRestoreGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerPropertiesForGeoRestore is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesForGeoRestore(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForGeoRestore_CreateMode_GeoRestore)
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesForGeoRestore_CreateMode_GeoRestore))
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_TLS1_0,
 		MinimalTlsVersion_TLS1_1,
@@ -1659,7 +1659,7 @@ func ServerPropertiesForReplicaGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerPropertiesForReplica is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesForReplica(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForReplica_CreateMode_Replica)
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesForReplica_CreateMode_Replica))
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_TLS1_0,
 		MinimalTlsVersion_TLS1_1,
@@ -1785,7 +1785,7 @@ func ServerPropertiesForRestoreGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServerPropertiesForRestore is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesForRestore(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.OneConstOf(ServerPropertiesForRestore_CreateMode_PointInTimeRestore)
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesForRestore_CreateMode_PointInTimeRestore))
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_TLS1_0,
 		MinimalTlsVersion_TLS1_1,

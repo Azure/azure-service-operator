@@ -19,7 +19,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   │   └── Rule 2: Pattern: "^[a-z0-9]+(-[a-z0-9]+)*"
 │   │   ├── BackupPolicy: *Object (2 properties)
 │   │   │   ├── Continuous: *Object (1 property)
-│   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │       └── "Continuous"
 │   │   │   └── Periodic: *Object (2 properties)
 │   │   │       ├── PeriodicModeProperties: *Object (2 properties)
@@ -27,7 +27,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │   │   │       │   │   └── Rule 0: Minimum: 0
 │   │   │       │   └── BackupRetentionIntervalInHours: Validated<*int> (1 rule)
 │   │   │       │       └── Rule 0: Minimum: 0
-│   │   │       └── Type: Enum (1 value)
+│   │   │       └── Type: *Enum (1 value)
 │   │   │           └── "Periodic"
 │   │   ├── Capabilities: Object (1 property)[]
 │   │   │   └── Name: *string
@@ -114,13 +114,13 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515
 │       │       └── "4.0"
 │       ├── BackupPolicy: *Object (2 properties)
 │       │   ├── Continuous: *Object (1 property)
-│       │   │   └── Type: Enum (1 value)
+│       │   │   └── Type: *Enum (1 value)
 │       │   │       └── "Continuous"
 │       │   └── Periodic: *Object (2 properties)
 │       │       ├── PeriodicModeProperties: *Object (2 properties)
 │       │       │   ├── BackupIntervalInMinutes: *int
 │       │       │   └── BackupRetentionIntervalInHours: *int
-│       │       └── Type: Enum (1 value)
+│       │       └── Type: *Enum (1 value)
 │       │           └── "Periodic"
 │       ├── Capabilities: Object (1 property)[]
 │       │   └── Name: *string

@@ -3806,7 +3806,7 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 type AzureFunctionEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
@@ -3829,7 +3829,9 @@ func (destination *AzureFunctionEventSubscriptionDestination) ConvertToARM(resol
 	result := &AzureFunctionEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.MaxEventsPerBatch != nil ||
@@ -3869,7 +3871,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) PopulateFromARM(ow
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘MaxEventsPerBatch’:
 	// copying flattened property:
@@ -3900,9 +3902,10 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_F
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = AzureFunctionEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := AzureFunctionEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// MaxEventsPerBatch
@@ -3929,8 +3932,12 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_T
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// MaxEventsPerBatch
 	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
@@ -3959,7 +3966,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_T
 
 type AzureFunctionEventSubscriptionDestination_STATUS struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *AzureFunctionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
@@ -3987,7 +3994,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) PopulateFro
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘MaxEventsPerBatch’:
 	// copying flattened property:
@@ -4025,9 +4032,10 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = AzureFunctionEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := AzureFunctionEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// MaxEventsPerBatch
@@ -4049,8 +4057,12 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// MaxEventsPerBatch
 	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
@@ -4075,7 +4087,7 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 type EventHubEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
 	// subscription.
@@ -4092,7 +4104,9 @@ func (destination *EventHubEventSubscriptionDestination) ConvertToARM(resolved g
 	result := &EventHubEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.ResourceReference != nil {
@@ -4122,7 +4136,7 @@ func (destination *EventHubEventSubscriptionDestination) PopulateFromARM(owner g
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// no assignment for property ‘ResourceReference’
 
@@ -4135,9 +4149,10 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_E
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = EventHubEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := EventHubEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceReference
@@ -4158,8 +4173,12 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_Eve
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -4182,7 +4201,7 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_Eve
 
 type EventHubEventSubscriptionDestination_STATUS struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventHubEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *EventHubEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// ResourceId: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription.
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -4203,7 +4222,7 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) PopulateFromARM(
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘ResourceId’:
 	// copying flattened property:
@@ -4223,9 +4242,10 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = EventHubEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := EventHubEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceId
@@ -4241,8 +4261,12 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceId
 	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
@@ -4261,7 +4285,7 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 type HybridConnectionEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -4277,7 +4301,9 @@ func (destination *HybridConnectionEventSubscriptionDestination) ConvertToARM(re
 	result := &HybridConnectionEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.ResourceReference != nil {
@@ -4307,7 +4333,7 @@ func (destination *HybridConnectionEventSubscriptionDestination) PopulateFromARM
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// no assignment for property ‘ResourceReference’
 
@@ -4320,9 +4346,10 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = HybridConnectionEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := HybridConnectionEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceReference
@@ -4343,8 +4370,12 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -4367,7 +4398,7 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 
 type HybridConnectionEventSubscriptionDestination_STATUS struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *HybridConnectionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// ResourceId: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -4388,7 +4419,7 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) Populate
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘ResourceId’:
 	// copying flattened property:
@@ -4408,9 +4439,10 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = HybridConnectionEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := HybridConnectionEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceId
@@ -4426,8 +4458,12 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceId
 	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
@@ -4446,7 +4482,7 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 type ServiceBusQueueEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
 	// subscription.
@@ -4463,7 +4499,9 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) ConvertToARM(res
 	result := &ServiceBusQueueEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.ResourceReference != nil {
@@ -4493,7 +4531,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) PopulateFromARM(
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// no assignment for property ‘ResourceReference’
 
@@ -4506,9 +4544,10 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = ServiceBusQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := ServiceBusQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceReference
@@ -4529,8 +4568,12 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -4553,7 +4596,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 
 type ServiceBusQueueEventSubscriptionDestination_STATUS struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// ResourceId: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription.
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -4574,7 +4617,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) PopulateF
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘ResourceId’:
 	// copying flattened property:
@@ -4594,9 +4637,10 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceId
@@ -4612,8 +4656,12 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceId
 	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
@@ -4632,7 +4680,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 type ServiceBusTopicEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
 	// subscription.
@@ -4649,7 +4697,9 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) ConvertToARM(res
 	result := &ServiceBusTopicEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.ResourceReference != nil {
@@ -4679,7 +4729,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) PopulateFromARM(
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// no assignment for property ‘ResourceReference’
 
@@ -4692,9 +4742,10 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = ServiceBusTopicEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := ServiceBusTopicEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceReference
@@ -4715,8 +4766,12 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -4739,7 +4794,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 
 type ServiceBusTopicEventSubscriptionDestination_STATUS struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// ResourceId: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
 	// subscription.
@@ -4761,7 +4816,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) PopulateF
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘ResourceId’:
 	// copying flattened property:
@@ -4781,9 +4836,10 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceId
@@ -4799,8 +4855,12 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceId
 	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
@@ -4822,7 +4882,7 @@ type StorageBlobDeadLetterDestination struct {
 
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -4838,7 +4898,9 @@ func (destination *StorageBlobDeadLetterDestination) ConvertToARM(resolved genru
 	result := &StorageBlobDeadLetterDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.BlobContainerName != nil || destination.ResourceReference != nil {
@@ -4881,7 +4943,7 @@ func (destination *StorageBlobDeadLetterDestination) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// no assignment for property ‘ResourceReference’
 
@@ -4897,9 +4959,10 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_Stora
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = StorageBlobDeadLetterDestination_EndpointType(*source.EndpointType)
+		endpointType := StorageBlobDeadLetterDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceReference
@@ -4923,8 +4986,12 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_To_Storage
 	target.BlobContainerName = genruntime.ClonePointerToString(destination.BlobContainerName)
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceReference
 	if destination.ResourceReference != nil {
@@ -4950,7 +5017,7 @@ type StorageBlobDeadLetterDestination_STATUS struct {
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 
 	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType StorageBlobDeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *StorageBlobDeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// ResourceId: The Azure Resource ID of the storage account that is the destination of the deadletter events
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -4980,7 +5047,7 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) PopulateFromARM(owne
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘ResourceId’:
 	// copying flattened property:
@@ -5003,9 +5070,10 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_Fro
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = StorageBlobDeadLetterDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := StorageBlobDeadLetterDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// ResourceId
@@ -5024,8 +5092,12 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_
 	target.BlobContainerName = genruntime.ClonePointerToString(destination.BlobContainerName)
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// ResourceId
 	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
@@ -5044,7 +5116,7 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_
 type StorageQueueEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName *string `json:"queueName,omitempty"`
@@ -5064,7 +5136,9 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 	result := &StorageQueueEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.QueueName != nil || destination.ResourceReference != nil {
@@ -5098,7 +5172,7 @@ func (destination *StorageQueueEventSubscriptionDestination) PopulateFromARM(own
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘QueueName’:
 	// copying flattened property:
@@ -5120,9 +5194,10 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_Fr
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = StorageQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := StorageQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// QueueName
@@ -5146,8 +5221,12 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// QueueName
 	target.QueueName = genruntime.ClonePointerToString(destination.QueueName)
@@ -5173,7 +5252,7 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To
 
 type StorageQueueEventSubscriptionDestination_STATUS struct {
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType StorageQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *StorageQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName *string `json:"queueName,omitempty"`
@@ -5198,7 +5277,7 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) PopulateFrom
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘QueueName’:
 	// copying flattened property:
@@ -5227,9 +5306,10 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = StorageQueueEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := StorageQueueEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// QueueName
@@ -5248,8 +5328,12 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// QueueName
 	target.QueueName = genruntime.ClonePointerToString(destination.QueueName)
@@ -5279,7 +5363,7 @@ type WebHookEventSubscriptionDestination struct {
 
 	// +kubebuilder:validation:Required
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointType *WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
 
 	// EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.
 	EndpointUrl *genruntime.SecretReference `json:"endpointUrl,omitempty"`
@@ -5301,7 +5385,9 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 	result := &WebHookEventSubscriptionDestination_ARM{}
 
 	// Set property ‘EndpointType’:
-	result.EndpointType = destination.EndpointType
+	if destination.EndpointType != nil {
+		result.EndpointType = *destination.EndpointType
+	}
 
 	// Set property ‘Properties’:
 	if destination.AzureActiveDirectoryApplicationIdOrUri != nil ||
@@ -5369,7 +5455,7 @@ func (destination *WebHookEventSubscriptionDestination) PopulateFromARM(owner ge
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// no assignment for property ‘EndpointUrl’
 
@@ -5406,9 +5492,10 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_We
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = WebHookEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		endpointType := WebHookEventSubscriptionDestination_EndpointType(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// EndpointUrl
@@ -5441,8 +5528,12 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebH
 	target.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(destination.AzureActiveDirectoryTenantId)
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// EndpointUrl
 	if destination.EndpointUrl != nil {
@@ -5482,7 +5573,7 @@ type WebHookEventSubscriptionDestination_STATUS struct {
 	EndpointBaseUrl *string `json:"endpointBaseUrl,omitempty"`
 
 	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType WebHookEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	EndpointType *WebHookEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
 
 	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
@@ -5533,7 +5624,7 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) PopulateFromARM(o
 	}
 
 	// Set property ‘EndpointType’:
-	destination.EndpointType = typedInput.EndpointType
+	destination.EndpointType = &typedInput.EndpointType
 
 	// Set property ‘MaxEventsPerBatch’:
 	// copying flattened property:
@@ -5571,9 +5662,10 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 
 	// EndpointType
 	if source.EndpointType != nil {
-		destination.EndpointType = WebHookEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		endpointType := WebHookEventSubscriptionDestination_EndpointType_STATUS(*source.EndpointType)
+		destination.EndpointType = &endpointType
 	} else {
-		destination.EndpointType = ""
+		destination.EndpointType = nil
 	}
 
 	// MaxEventsPerBatch
@@ -5601,8 +5693,12 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 	target.EndpointBaseUrl = genruntime.ClonePointerToString(destination.EndpointBaseUrl)
 
 	// EndpointType
-	endpointType := string(destination.EndpointType)
-	target.EndpointType = &endpointType
+	if destination.EndpointType != nil {
+		endpointType := string(*destination.EndpointType)
+		target.EndpointType = &endpointType
+	} else {
+		target.EndpointType = nil
+	}
 
 	// MaxEventsPerBatch
 	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
@@ -5636,7 +5732,7 @@ type BoolEqualsAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType BoolEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *BoolEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Value: The boolean filter value.
 	Value *bool `json:"value,omitempty"`
@@ -5658,7 +5754,9 @@ func (filter *BoolEqualsAdvancedFilter) ConvertToARM(resolved genruntime.Convert
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Value’:
 	if filter.Value != nil {
@@ -5687,7 +5785,7 @@ func (filter *BoolEqualsAdvancedFilter) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -5707,9 +5805,10 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvanced
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = BoolEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := BoolEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -5733,8 +5832,12 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_To_BoolEqualsAdvancedFi
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -5760,7 +5863,7 @@ type BoolEqualsAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType BoolEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *BoolEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Value: The boolean filter value.
 	Value *bool `json:"value,omitempty"`
@@ -5787,7 +5890,7 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -5807,9 +5910,10 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsA
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = BoolEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := BoolEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -5833,8 +5937,12 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_To_BoolEqualsAdv
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -5879,7 +5987,7 @@ type NumberGreaterThanAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *NumberGreaterThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -5901,7 +6009,9 @@ func (filter *NumberGreaterThanAdvancedFilter) ConvertToARM(resolved genruntime.
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Value’:
 	if filter.Value != nil {
@@ -5930,7 +6040,7 @@ func (filter *NumberGreaterThanAdvancedFilter) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -5950,9 +6060,10 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreat
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberGreaterThanAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := NumberGreaterThanAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -5976,8 +6087,12 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_To_NumberGreater
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6003,7 +6118,7 @@ type NumberGreaterThanAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *NumberGreaterThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6030,7 +6145,7 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) PopulateFromARM(owner genr
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6050,9 +6165,10 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_Numb
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberGreaterThanAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := NumberGreaterThanAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6076,8 +6192,12 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_To_Number
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6104,7 +6224,7 @@ type NumberGreaterThanOrEqualsAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *NumberGreaterThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6126,7 +6246,9 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) ConvertToARM(resolved gen
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Value’:
 	if filter.Value != nil {
@@ -6155,7 +6277,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) PopulateFromARM(owner gen
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6175,9 +6297,10 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_Num
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := NumberGreaterThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6201,8 +6324,12 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_To_Numbe
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6228,7 +6355,7 @@ type NumberGreaterThanOrEqualsAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6255,7 +6382,7 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(ow
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6275,9 +6402,10 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_F
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6301,8 +6429,12 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_T
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6329,7 +6461,7 @@ type NumberInAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *NumberInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -6351,7 +6483,9 @@ func (filter *NumberInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -6379,7 +6513,7 @@ func (filter *NumberInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -6398,9 +6532,10 @@ func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilt
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := NumberInAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -6429,8 +6564,12 @@ func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	if filter.Values != nil {
@@ -6461,7 +6600,7 @@ type NumberInAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *NumberInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -6488,7 +6627,7 @@ func (filter *NumberInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -6507,9 +6646,10 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := NumberInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -6538,8 +6678,12 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvance
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	if filter.Values != nil {
@@ -6571,7 +6715,7 @@ type NumberLessThanAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *NumberLessThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6593,7 +6737,9 @@ func (filter *NumberLessThanAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Value’:
 	if filter.Value != nil {
@@ -6622,7 +6768,7 @@ func (filter *NumberLessThanAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6642,9 +6788,10 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberLessThanAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := NumberLessThanAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6668,8 +6815,12 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_To_NumberLessThanAd
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6695,7 +6846,7 @@ type NumberLessThanAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *NumberLessThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6722,7 +6873,7 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6742,9 +6893,10 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberL
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberLessThanAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := NumberLessThanAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6768,8 +6920,12 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_To_NumberLes
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6796,7 +6952,7 @@ type NumberLessThanOrEqualsAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *NumberLessThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6818,7 +6974,9 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) ConvertToARM(resolved genrun
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Value’:
 	if filter.Value != nil {
@@ -6847,7 +7005,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) PopulateFromARM(owner genrun
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6867,9 +7025,10 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_Number
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberLessThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := NumberLessThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6893,8 +7052,12 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_To_NumberLe
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -6920,7 +7083,7 @@ type NumberLessThanOrEqualsAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Value: The filter value.
 	Value *float64 `json:"value,omitempty"`
@@ -6947,7 +7110,7 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) PopulateFromARM(owner
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Value’:
 	if typedInput.Value != nil {
@@ -6967,9 +7130,10 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Value
@@ -6993,8 +7157,12 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_N
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Value
 	if filter.Value != nil {
@@ -7021,7 +7189,7 @@ type NumberNotInAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *NumberNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -7043,7 +7211,9 @@ func (filter *NumberNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -7071,7 +7241,7 @@ func (filter *NumberNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7090,9 +7260,10 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberNotInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := NumberNotInAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7121,8 +7292,12 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvanced
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	if filter.Values != nil {
@@ -7153,7 +7328,7 @@ type NumberNotInAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType NumberNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *NumberNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []float64 `json:"values,omitempty"`
@@ -7180,7 +7355,7 @@ func (filter *NumberNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7199,9 +7374,10 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotI
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = NumberNotInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := NumberNotInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7230,8 +7406,12 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInA
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	if filter.Values != nil {
@@ -7299,7 +7479,7 @@ type StringBeginsWithAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringBeginsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *StringBeginsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7321,7 +7501,9 @@ func (filter *StringBeginsWithAdvancedFilter) ConvertToARM(resolved genruntime.C
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -7349,7 +7531,7 @@ func (filter *StringBeginsWithAdvancedFilter) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7368,9 +7550,10 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBegins
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringBeginsWithAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := StringBeginsWithAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7389,8 +7572,12 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_To_StringBeginsWi
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -7411,7 +7598,7 @@ type StringBeginsWithAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringBeginsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *StringBeginsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7438,7 +7625,7 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) PopulateFromARM(owner genru
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7457,9 +7644,10 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_Strin
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringBeginsWithAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := StringBeginsWithAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7478,8 +7666,12 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_To_StringB
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -7501,7 +7693,7 @@ type StringContainsAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringContainsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *StringContainsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7523,7 +7715,9 @@ func (filter *StringContainsAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -7551,7 +7745,7 @@ func (filter *StringContainsAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7570,9 +7764,10 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContains
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringContainsAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := StringContainsAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7591,8 +7786,12 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_To_StringContainsAd
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -7613,7 +7812,7 @@ type StringContainsAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringContainsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *StringContainsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7640,7 +7839,7 @@ func (filter *StringContainsAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7659,9 +7858,10 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringC
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringContainsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := StringContainsAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7680,8 +7880,12 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_To_StringCon
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -7703,7 +7907,7 @@ type StringEndsWithAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringEndsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *StringEndsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7725,7 +7929,9 @@ func (filter *StringEndsWithAdvancedFilter) ConvertToARM(resolved genruntime.Con
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -7753,7 +7959,7 @@ func (filter *StringEndsWithAdvancedFilter) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7772,9 +7978,10 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWith
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringEndsWithAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := StringEndsWithAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7793,8 +8000,12 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_To_StringEndsWithAd
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -7815,7 +8026,7 @@ type StringEndsWithAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringEndsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *StringEndsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7842,7 +8053,7 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) PopulateFromARM(owner genrunt
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7861,9 +8072,10 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringE
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringEndsWithAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := StringEndsWithAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7882,8 +8094,12 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_To_StringEnd
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -7905,7 +8121,7 @@ type StringInAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *StringInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -7927,7 +8143,9 @@ func (filter *StringInAdvancedFilter) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -7955,7 +8173,7 @@ func (filter *StringInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -7974,9 +8192,10 @@ func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilt
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := StringInAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -7995,8 +8214,12 @@ func (filter *StringInAdvancedFilter) AssignProperties_To_StringInAdvancedFilter
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -8017,7 +8240,7 @@ type StringInAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *StringInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -8044,7 +8267,7 @@ func (filter *StringInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime.Ar
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -8063,9 +8286,10 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvan
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := StringInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -8084,8 +8308,12 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_To_StringInAdvance
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -8107,7 +8335,7 @@ type StringNotInAdvancedFilter struct {
 
 	// +kubebuilder:validation:Required
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
+	OperatorType *StringNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -8129,7 +8357,9 @@ func (filter *StringNotInAdvancedFilter) ConvertToARM(resolved genruntime.Conver
 	}
 
 	// Set property ‘OperatorType’:
-	result.OperatorType = filter.OperatorType
+	if filter.OperatorType != nil {
+		result.OperatorType = *filter.OperatorType
+	}
 
 	// Set property ‘Values’:
 	for _, item := range filter.Values {
@@ -8157,7 +8387,7 @@ func (filter *StringNotInAdvancedFilter) PopulateFromARM(owner genruntime.Arbitr
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -8176,9 +8406,10 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvanc
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringNotInAdvancedFilter_OperatorType(*source.OperatorType)
+		operatorType := StringNotInAdvancedFilter_OperatorType(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -8197,8 +8428,12 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_To_StringNotInAdvanced
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
@@ -8219,7 +8454,7 @@ type StringNotInAdvancedFilter_STATUS struct {
 	Key *string `json:"key,omitempty"`
 
 	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
-	OperatorType StringNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
+	OperatorType *StringNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
 
 	// Values: The set of filter values.
 	Values []string `json:"values,omitempty"`
@@ -8246,7 +8481,7 @@ func (filter *StringNotInAdvancedFilter_STATUS) PopulateFromARM(owner genruntime
 	}
 
 	// Set property ‘OperatorType’:
-	filter.OperatorType = typedInput.OperatorType
+	filter.OperatorType = &typedInput.OperatorType
 
 	// Set property ‘Values’:
 	for _, item := range typedInput.Values {
@@ -8265,9 +8500,10 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotI
 
 	// OperatorType
 	if source.OperatorType != nil {
-		filter.OperatorType = StringNotInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		operatorType := StringNotInAdvancedFilter_OperatorType_STATUS(*source.OperatorType)
+		filter.OperatorType = &operatorType
 	} else {
-		filter.OperatorType = ""
+		filter.OperatorType = nil
 	}
 
 	// Values
@@ -8286,8 +8522,12 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_To_StringNotInA
 	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	operatorType := string(filter.OperatorType)
-	destination.OperatorType = &operatorType
+	if filter.OperatorType != nil {
+		operatorType := string(*filter.OperatorType)
+		destination.OperatorType = &operatorType
+	} else {
+		destination.OperatorType = nil
+	}
 
 	// Values
 	destination.Values = genruntime.CloneSliceOfString(filter.Values)
