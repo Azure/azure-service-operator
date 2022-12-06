@@ -45,7 +45,7 @@ To deploy the operator in single-operator multi-tenant mode:
 2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
 3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
 
-**Note:** Each credential(namespaced and per-resource credential) created further, should have established trust between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](https://azure.github.io/azure-service-operator/introduction/authentication/#configure-trust) for more details.
+**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](https://azure.github.io/azure-service-operator/introduction/authentication/#configure-trust) for more details.
 
 ### Example Secret
 
