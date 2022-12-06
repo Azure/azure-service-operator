@@ -60,3 +60,7 @@ above the highest level we use. Be aware that this might produce a **lot** of lo
 ### Logging aggregator
 You may want to consider using a cluster wide logging aggregator such as [fluentd](https://www.fluentd.org/) (there are many other options).
 Without one it may be difficult to diagnose past failures.
+
+## Fetching controller runtime and ASO metrics
+
+Follow the metrics [documentation](https://github.com/Azure/azure-service-operator/blob/main/docs/hugo/content/introduction/metrics.md) for more information on how to fetch, configure and understand ASO and controller runtime metrics. 
