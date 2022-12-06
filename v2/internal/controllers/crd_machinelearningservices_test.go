@@ -177,7 +177,7 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 			Properties: &machinelearningservices.Compute{
 				VirtualMachine: &machinelearningservices.VirtualMachine{
 					ComputeLocation:   tc.AzureRegion,
-					ComputeType:       computeType,
+					ComputeType:       &computeType,
 					DisableLocalAuth:  to.BoolPtr(true),
 					ResourceReference: tc.MakeReferenceFromResource(vm),
 					Properties: &machinelearningservices.VirtualMachine_Properties{

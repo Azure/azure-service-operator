@@ -42,7 +42,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 				Default: &mariadb.ServerPropertiesForDefaultCreate{
 					AdministratorLogin:         to.StringPtr(adminUser),
 					AdministratorLoginPassword: adminPasswordRef,
-					CreateMode:                 createMode, // TODO[donotmerge]: This should take a ptr, see https://github.com/Azure/azure-service-operator/issues/2619
+					CreateMode:                 &createMode,
 					PublicNetworkAccess:        &networkAccess,
 					StorageProfile: &mariadb.StorageProfile{
 						StorageAutogrow: &autogrow,
