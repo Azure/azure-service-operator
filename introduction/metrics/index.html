@@ -18,11 +18,11 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Azure Service Operator</title>
+<title>ASO Metrics | Azure Service Operator</title>
 <meta name="description" content="ASOv2 Metrics
 Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
 The metrics exposed fall into two groups: …">
-<meta property="og:title" content="" />
+<meta property="og:title" content="ASO Metrics" />
 <meta property="og:description" content="ASOv2 Metrics Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
 Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
   ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings." />
@@ -31,14 +31,14 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
 
 
 
-<meta itemprop="name" content="">
+<meta itemprop="name" content="ASO Metrics">
 <meta itemprop="description" content="ASOv2 Metrics Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
 Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
   ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings.">
 
 <meta itemprop="wordCount" content="356">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="ASO Metrics"/>
 <meta name="twitter:description" content="ASOv2 Metrics Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
 Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
   ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings."/>
@@ -144,10 +144,10 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorintroduction-li">
   <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionmetrics-li">
-  <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class="td-sidebar-nav-active-item"></span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionmetrics-li">
+  <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class="td-sidebar-nav-active-item">ASO Metrics</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
@@ -550,13 +550,13 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
     <a href="https://azure.github.io/azure-service-operator/introduction/">Guide</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/introduction/metrics/"></a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/metrics/">ASO Metrics</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1></h1>
+	<h1>ASO Metrics</h1>
 	
 	<header class="article-meta">
 		
@@ -584,7 +584,7 @@ The metrics exposed fall into two groups: Azure based metrics, and reconciler me
 <p>While installing the Helm chart, we can turn the metrics <em><strong>on</strong></em> and <em><strong>off</strong></em> and set the metrics expose address using the
 below settings. Also, we can change the settings inside <code>values.yaml</code> file for ASOv2 Helm chart.</p>
 <pre tabindex="0"><code>--set metrics.enable=true/false (default: true)
---set metrics.address=127.0.0.1:8080 (default)    
+--set metrics.address=0.0.0.0:8080 (default)    
 </code></pre></li>
 <li>
 <h3 id="deployment-yaml">Deployment Yaml</h3>
@@ -593,7 +593,7 @@ a different metrics-addr by changing the default value of that same flag.</p>
 <pre tabindex="0"><code>spec:
   containers:
    - args:
-     - --metrics-addr=127.0.0.1:8080 (default)    
+     - --metrics-addr=0.0.0.0:8080 (default)    
 </code></pre></li>
 </ul>
 <h2 id="understanding-the-asov2-metrics">Understanding the ASOv2 Metrics</h2>

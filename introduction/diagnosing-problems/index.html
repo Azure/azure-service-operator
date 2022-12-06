@@ -35,7 +35,7 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
 <meta itemprop="description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
 You can confirm this with kubectl describe pod -n azureserviceoperator-system --selector control-plane=controller-manager. Look for the &ldquo;Error: secret &ldquo;aso-controller-settings&rdquo; not found&rdquo; event in the describe output:">
 
-<meta itemprop="wordCount" content="384">
+<meta itemprop="wordCount" content="409">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Diagnosing problems"/>
 <meta name="twitter:description" content="Common mistakes ASO controller pod in Status CreateContainerConfigError $ kubectl get pods -n azureserviceoperator-system NAME READY STATUS RESTARTS AGE azureserviceoperator-controller-manager-69cbccd645-4s5wz 1/2 CreateContainerConfigError 0 7m49s Very likely that you forgot to create the aso-controller-settings secret. This secret must be in the same namespace as the pod.
@@ -142,10 +142,10 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorintroduction-li">
   <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmetrics-li">
-  <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class=""></span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmetrics-li">
+  <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class="">ASO Metrics</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
@@ -517,6 +517,7 @@ You can confirm this with kubectl describe pod -n azureserviceoperator-system --
         <li><a href="#logging-aggregator">Logging aggregator</a></li>
       </ul>
     </li>
+    <li><a href="#fetching-controller-runtime-and-aso-metrics">Fetching controller runtime and ASO metrics</a></li>
   </ul>
 </nav></div>
 
@@ -618,6 +619,8 @@ above the highest level we use. Be aware that this might produce a <strong>lot</
 <h3 id="logging-aggregator">Logging aggregator</h3>
 <p>You may want to consider using a cluster wide logging aggregator such as <a href="https://www.fluentd.org/">fluentd</a> (there are many other options).
 Without one it may be difficult to diagnose past failures.</p>
+<h2 id="fetching-controller-runtime-and-aso-metrics">Fetching controller runtime and ASO metrics</h2>
+<p>Follow the metrics <a href="https://github.com/Azure/azure-service-operator/blob/main/docs/hugo/content/introduction/metrics.md">documentation</a> for more information on how to fetch, configure and understand ASO and controller runtime metrics.</p>
 
 	
 	

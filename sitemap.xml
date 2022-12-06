@@ -10,8 +10,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-07-pipeline-architecture/</loc>
@@ -37,6 +35,8 @@
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
