@@ -58,7 +58,8 @@ To deploy the operator in single-operator multi-tenant mode:
    stringData:
      AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"  # The Azure Subscription ID the identity is in.
      AZURE_TENANT_ID: "$AZURE_TENANT_ID"              # The Azure AAD Tenant the identity/subscription is associated with.
-     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"              # The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.
+     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"              # The Client ID (sometimes called App Id) of the Service Principal, 
+                                                      # or the Client ID of the Managed Identity with which you are using Workload Identity.
 ```
 
 
