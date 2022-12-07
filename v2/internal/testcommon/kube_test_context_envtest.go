@@ -35,6 +35,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -437,7 +438,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
 		// register resources needed by controller for namespace
-		armClientCache := arm.NewARMClientCache(perTestContext.AzureClient, cfg.PodNamespace, nil, cfg.Cloud(), perTestContext.HttpClient)
+		armClientCache := arm.NewARMClientCache(perTestContext.AzureClient, cfg.PodNamespace, nil, cfg.Cloud(), perTestContext.HttpClient, metrics.NewARMClientMetrics())
 		{
 			resources := &perNamespace{
 				armClientCache: armClientCache,

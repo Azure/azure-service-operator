@@ -1,3 +1,7 @@
+---
+title: ASO Metrics
+---
+
 # ASOv2 Metrics
 
 Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
@@ -14,7 +18,7 @@ By default, metrics for ASOv2 are turned on and can be toggled by the following 
 
     ```
     --set metrics.enable=true/false (default: true)
-    --set metrics.address=127.0.0.1:8080 (default)    
+    --set metrics.address=0.0.0.0:8080 (default)    
     ```
 
 - ### Deployment Yaml
@@ -26,7 +30,7 @@ By default, metrics for ASOv2 are turned on and can be toggled by the following 
     spec:
       containers:
        - args:
-         - --metrics-addr=127.0.0.1:8080 (default)    
+         - --metrics-addr=0.0.0.0:8080 (default)    
     ```
    
 ## Understanding the ASOv2 Metrics
@@ -52,3 +56,4 @@ is an independent metric. Below are the labels used in ASOv2 metrics:
 - **ResourceName**: Resource name for which the request is sent
 - **RequestType**: Http request method ( GET | PUT | DELETE )
 - **ResponseCode**: Http code in response from Azure
+
