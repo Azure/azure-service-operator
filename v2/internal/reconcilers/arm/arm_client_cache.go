@@ -280,8 +280,6 @@ func newWorkloadIdentityCredential(tenantID, clientID, file string) (*workloadId
 }
 
 func (w *workloadIdentityCredential) GetToken(ctx context.Context, opts policy.TokenRequestOptions) (azcore.AccessToken, error) {
-	w.lock.Lock()
-	defer w.lock.Unlock()
 	return w.cred.GetToken(ctx, opts)
 }
 
