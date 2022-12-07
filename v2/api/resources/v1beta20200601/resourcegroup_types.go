@@ -7,6 +7,8 @@ import (
 
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
@@ -119,6 +121,88 @@ func (rg *ResourceGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 // GetResourceScope returns the scope of the resource
 func (rg *ResourceGroup) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeLocation
+}
+
+// +kubebuilder:webhook:path=/validate-resources-azure-com-v1beta20200601-resourcegroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1beta20200601,name=validate.v1beta20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1
+
+var _ admission.Validator = &ResourceGroup{}
+
+// ValidateCreate validates the creation of the resource
+func (rg *ResourceGroup) ValidateCreate() error {
+	validations := rg.createValidations()
+	var temp interface{} = rg
+	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
+		validations = append(validations, runtimeValidator.CreateValidations()...)
+	}
+	var errs []error
+	for _, validation := range validations {
+		err := validation()
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return kerrors.NewAggregate(errs)
+}
+
+// ValidateDelete validates the deletion of the resource
+func (rg *ResourceGroup) ValidateDelete() error {
+	validations := rg.deleteValidations()
+	var temp interface{} = rg
+	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
+		validations = append(validations, runtimeValidator.DeleteValidations()...)
+	}
+	var errs []error
+	for _, validation := range validations {
+		err := validation()
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return kerrors.NewAggregate(errs)
+}
+
+// ValidateUpdate validates an update of the resource
+func (rg *ResourceGroup) ValidateUpdate(old runtime.Object) error {
+	validations := rg.updateValidations()
+	var temp interface{} = rg
+	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
+		validations = append(validations, runtimeValidator.UpdateValidations()...)
+	}
+	var errs []error
+	for _, validation := range validations {
+		err := validation(old)
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return kerrors.NewAggregate(errs)
+}
+
+// createValidations validates the creation of the resource
+func (rg *ResourceGroup) createValidations() []func() error {
+	return []func() error{}
+}
+
+// deleteValidations validates the deletion of the resource
+func (rg *ResourceGroup) deleteValidations() []func() error {
+	return nil
+}
+
+// updateValidations validates the update of the resource
+func (rg *ResourceGroup) updateValidations() []func(old runtime.Object) error {
+	return []func(old runtime.Object) error{
+		rg.validateWriteOnceProperties,
+	}
+}
+
+// validateWriteOnceProperties validates all WriteOnce properties
+func (rg *ResourceGroup) validateWriteOnceProperties(old runtime.Object) error {
+	oldObj, ok := old.(*ResourceGroup)
+	if !ok {
+		return nil
+	}
+
+	return genruntime.ValidateWriteOnceProperties(oldObj, rg)
 }
 
 var _ genruntime.LocatableResource = &ResourceGroup{}

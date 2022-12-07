@@ -14,7 +14,7 @@ import (
 
 // SimpleAssignment performs a simple assignment like:
 //
-//     <lhs> = <rhs>
+//	<lhs> = <rhs>
 //
 // See also ShortDeclaration
 func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
@@ -31,7 +31,7 @@ func SimpleAssignment(lhs dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 
 // ShortDeclaration performs a simple assignment like:
 //
-//     <id> := <rhs>
+//	<id> := <rhs>
 //
 // Method naming inspired by https://tour.golang.org/basics/10
 func ShortDeclaration(id string, rhs dst.Expr) *dst.AssignStmt {
@@ -62,7 +62,9 @@ func AssignmentStatement(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.Assig
 }
 
 // QualifiedAssignment performs a simple assignment like:
-//     <lhs>.<lhsSel> := <rhs>       // tok = token.DEFINE
+//
+//	<lhs>.<lhsSel> := <rhs>       // tok = token.DEFINE
+//
 // or  <lhs>.<lhsSel> = <rhs>        // tok = token.ASSIGN
 func QualifiedAssignment(lhs dst.Expr, lhsSel string, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
@@ -73,8 +75,9 @@ func QualifiedAssignment(lhs dst.Expr, lhsSel string, tok token.Token, rhs dst.E
 }
 
 // SimpleAssignmentWithErr performs a simple assignment like:
-// 	    <lhs>, err := <rhs>       // tok = token.DEFINE
-// 	or  <lhs>, err = <rhs>        // tok = token.ASSIGN
+//
+//	    <lhs>, err := <rhs>       // tok = token.DEFINE
+//	or  <lhs>, err = <rhs>        // tok = token.ASSIGN
 func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.AssignStmt {
 	errId := dst.NewIdent("err")
 	return &dst.AssignStmt{
@@ -92,6 +95,7 @@ func SimpleAssignmentWithErr(lhs dst.Expr, tok token.Token, rhs dst.Expr) *dst.A
 // AssignToInterface performs an assignment of a well-typed variable to an interface{}. This is usually used to
 // perform a type assertion on a concrete type in a subsequent statement (which Go doesn't allow, it only allows type
 // assertions on interface types).
+//
 //	var <lhsVar> interface{} = <rhs>
 func AssignToInterface(lhsVar string, rhs dst.Expr) *dst.DeclStmt {
 	return &dst.DeclStmt{

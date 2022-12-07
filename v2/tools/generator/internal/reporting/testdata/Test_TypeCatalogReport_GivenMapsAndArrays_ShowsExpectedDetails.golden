@@ -1,0 +1,6 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+├── Name: string
+└── Person: Object (3 properties)
+    ├── Aliases: string[]
+    ├── Cohort: map[string]Name
+    └── Friends: Name[]

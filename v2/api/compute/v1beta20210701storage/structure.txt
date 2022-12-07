@@ -2,9 +2,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-07-01"
 └── Image: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (10 properties)
     │   ├── AzureName: string
-    │   ├── ExtendedLocation: Object (3 properties)
+    │   ├── ExtendedLocation: *Object (3 properties)
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
@@ -13,40 +14,40 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── SourceVirtualMachine: Object (2 properties)
+    │   ├── SourceVirtualMachine: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
-    │   ├── StorageProfile: Object (4 properties)
-    │   │   ├── DataDisks: Object (9 properties)
+    │   ├── StorageProfile: *Object (4 properties)
+    │   │   ├── DataDisks: Object (9 properties)[]
     │   │   │   ├── BlobUri: *string
     │   │   │   ├── Caching: *string
-    │   │   │   ├── DiskEncryptionSet: Object (2 properties)
+    │   │   │   ├── DiskEncryptionSet: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   ├── DiskSizeGB: *int
     │   │   │   ├── Lun: *int
-    │   │   │   ├── ManagedDisk: Object (2 properties)
+    │   │   │   ├── ManagedDisk: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── Snapshot: Object (2 properties)
+    │   │   │   ├── Snapshot: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   └── StorageAccountType: *string
-    │   │   ├── OsDisk: Object (10 properties)
+    │   │   ├── OsDisk: *Object (10 properties)
     │   │   │   ├── BlobUri: *string
     │   │   │   ├── Caching: *string
-    │   │   │   ├── DiskEncryptionSet: Object (2 properties)
+    │   │   │   ├── DiskEncryptionSet: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   ├── DiskSizeGB: *int
-    │   │   │   ├── ManagedDisk: Object (2 properties)
+    │   │   │   ├── ManagedDisk: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   ├── OsState: *string
     │   │   │   ├── OsType: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── Snapshot: Object (2 properties)
+    │   │   │   ├── Snapshot: *Object (2 properties)
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   └── StorageAccountType: *string
@@ -55,7 +56,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage
     │   └── Tags: map[string]string
     └── Status: Object (12 properties)
         ├── Conditions: conditions.Condition[]
-        ├── ExtendedLocation: Object (3 properties)
+        ├── ExtendedLocation: *Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Type: *string
@@ -65,40 +66,40 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage
         ├── Name: *string
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
-        ├── SourceVirtualMachine: Object (2 properties)
+        ├── SourceVirtualMachine: *Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── StorageProfile: Object (4 properties)
-        │   ├── DataDisks: Object (9 properties)
+        ├── StorageProfile: *Object (4 properties)
+        │   ├── DataDisks: Object (9 properties)[]
         │   │   ├── BlobUri: *string
         │   │   ├── Caching: *string
-        │   │   ├── DiskEncryptionSet: Object (2 properties)
+        │   │   ├── DiskEncryptionSet: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── DiskSizeGB: *int
         │   │   ├── Lun: *int
-        │   │   ├── ManagedDisk: Object (2 properties)
+        │   │   ├── ManagedDisk: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   ├── Snapshot: Object (2 properties)
+        │   │   ├── Snapshot: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   └── StorageAccountType: *string
-        │   ├── OsDisk: Object (10 properties)
+        │   ├── OsDisk: *Object (10 properties)
         │   │   ├── BlobUri: *string
         │   │   ├── Caching: *string
-        │   │   ├── DiskEncryptionSet: Object (2 properties)
+        │   │   ├── DiskEncryptionSet: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── DiskSizeGB: *int
-        │   │   ├── ManagedDisk: Object (2 properties)
+        │   │   ├── ManagedDisk: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── OsState: *string
         │   │   ├── OsType: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   ├── Snapshot: Object (2 properties)
+        │   │   ├── Snapshot: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   └── StorageAccountType: *string

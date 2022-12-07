@@ -5,8 +5,8 @@ github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storag
     ├── Spec: Object (4 properties)
     │   ├── AzureName: string
     │   ├── OriginalVersion: string
-    │   ├── Properties: Object (7 properties)
-    │   │   ├── AdditionalProperties: Object (5 properties)
+    │   ├── Properties: *Object (7 properties)
+    │   │   ├── AdditionalProperties: *Object (5 properties)
     │   │   │   ├── ManagementGroupId: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── SubscriptionOwnerId: *string
@@ -23,7 +23,7 @@ github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storag
         ├── Conditions: conditions.Condition[]
         ├── Id: *string
         ├── Name: *string
-        ├── Properties: Object (13 properties)
+        ├── Properties: *Object (13 properties)
         │   ├── AcceptOwnershipState: *string
         │   ├── AcceptOwnershipUrl: *string
         │   ├── BillingScope: *string
@@ -38,7 +38,7 @@ github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storag
         │   ├── Tags: map[string]string
         │   └── Workload: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── SystemData: Object (7 properties)
+        ├── SystemData: *Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string

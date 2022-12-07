@@ -2,44 +2,45 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
 ├── FlexibleServer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (23 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
 │   │   ├── AvailabilityZone: *string
 │   │   ├── AzureName: string
-│   │   ├── Backup: Object (3 properties)
+│   │   ├── Backup: *Object (3 properties)
 │   │   │   ├── BackupRetentionDays: *int
 │   │   │   ├── GeoRedundantBackup: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── CreateMode: *string
-│   │   ├── DataEncryption: Object (6 properties)
+│   │   ├── DataEncryption: *Object (6 properties)
 │   │   │   ├── GeoBackupKeyURI: *string
 │   │   │   ├── GeoBackupUserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   │   ├── PrimaryKeyURI: *string
 │   │   │   ├── PrimaryUserAssignedIdentityReference: *genruntime.ResourceReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
-│   │   ├── HighAvailability: Object (3 properties)
+│   │   ├── HighAvailability: *Object (3 properties)
 │   │   │   ├── Mode: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── StandbyAvailabilityZone: *string
-│   │   ├── Identity: Object (2 properties)
+│   │   ├── Identity: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
 │   │   ├── Location: *string
-│   │   ├── MaintenanceWindow: Object (5 properties)
+│   │   ├── MaintenanceWindow: *Object (5 properties)
 │   │   │   ├── CustomWindow: *string
 │   │   │   ├── DayOfWeek: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── StartHour: *int
 │   │   │   └── StartMinute: *int
-│   │   ├── Network: Object (3 properties)
+│   │   ├── Network: *Object (3 properties)
 │   │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
 │   │   │   ├── PrivateDnsZoneResourceReference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── OperatorSpec: Object (2 properties)
+│   │   ├── OperatorSpec: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: Object (2 properties)
+│   │   │   └── Secrets: *Object (2 properties)
 │   │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │   │       └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
@@ -47,12 +48,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── ReplicationRole: *string
 │   │   ├── RestorePointInTime: *string
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
 │   │   ├── SourceServerResourceId: *string
-│   │   ├── Storage: Object (4 properties)
+│   │   ├── Storage: *Object (4 properties)
 │   │   │   ├── AutoGrow: *string
 │   │   │   ├── Iops: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -62,14 +63,14 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │   └── Status: Object (26 properties)
 │       ├── AdministratorLogin: *string
 │       ├── AvailabilityZone: *string
-│       ├── Backup: Object (4 properties)
+│       ├── Backup: *Object (4 properties)
 │       │   ├── BackupRetentionDays: *int
 │       │   ├── EarliestRestoreDate: *string
 │       │   ├── GeoRedundantBackup: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Conditions: conditions.Condition[]
 │       ├── CreateMode: *string
-│       ├── DataEncryption: Object (6 properties)
+│       ├── DataEncryption: *Object (6 properties)
 │       │   ├── GeoBackupKeyURI: *string
 │       │   ├── GeoBackupUserAssignedIdentityId: *string
 │       │   ├── PrimaryKeyURI: *string
@@ -77,27 +78,27 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
 │       ├── FullyQualifiedDomainName: *string
-│       ├── HighAvailability: Object (4 properties)
+│       ├── HighAvailability: *Object (4 properties)
 │       │   ├── Mode: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── StandbyAvailabilityZone: *string
 │       │   └── State: *string
 │       ├── Id: *string
-│       ├── Identity: Object (5 properties)
+│       ├── Identity: *Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
 │       │   └── UserAssignedIdentities: map[string]v1.JSON
 │       ├── Location: *string
-│       ├── MaintenanceWindow: Object (5 properties)
+│       ├── MaintenanceWindow: *Object (5 properties)
 │       │   ├── CustomWindow: *string
 │       │   ├── DayOfWeek: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── StartHour: *int
 │       │   └── StartMinute: *int
 │       ├── Name: *string
-│       ├── Network: Object (4 properties)
+│       ├── Network: *Object (4 properties)
 │       │   ├── DelegatedSubnetResourceId: *string
 │       │   ├── PrivateDnsZoneResourceId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -106,19 +107,19 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │       ├── ReplicaCapacity: *int
 │       ├── ReplicationRole: *string
 │       ├── RestorePointInTime: *string
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
 │       ├── SourceServerResourceId: *string
 │       ├── State: *string
-│       ├── Storage: Object (5 properties)
+│       ├── Storage: *Object (5 properties)
 │       │   ├── AutoGrow: *string
 │       │   ├── Iops: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── StorageSizeGB: *int
 │       │   └── StorageSku: *string
-│       ├── SystemData: Object (7 properties)
+│       ├── SystemData: *Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -130,6 +131,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │       ├── Type: *string
 │       └── Version: *string
 ├── FlexibleServersDatabase: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501.FlexibleServer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
@@ -146,7 +148,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── SystemData: Object (7 properties)
+│       ├── SystemData: *Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -156,6 +158,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── FlexibleServersFirewallRule: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501.FlexibleServer
     ├── Spec: Object (8 properties)
     │   ├── AzureName: string
     │   ├── EndIpAddress: *string
@@ -172,7 +175,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501sto
         ├── Name: *string
         ├── PropertyBag: genruntime.PropertyBag
         ├── StartIpAddress: *string
-        ├── SystemData: Object (7 properties)
+        ├── SystemData: *Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string

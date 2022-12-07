@@ -13,10 +13,9 @@ import (
 
 // SimpleIf creates a simple if statement with multiple statements
 //
-// if <condition> {
-//     <trueBranch>
-// }
-//
+//	if <condition> {
+//	    <trueBranch>
+//	}
 func SimpleIf(condition dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: condition,
@@ -26,12 +25,12 @@ func SimpleIf(condition dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 
 // SimpleIfElse creates a simple if else statement. Each branch may contain multiple statements.
 //
-// if <condition> {
-//     <trueBranch>
-// } else {
-//     <falseBranch>
-// }
+//	if <condition> {
+//	    <trueBranch>
+//	} else {
 //
+//	    <falseBranch>
+//	}
 func SimpleIfElse(condition dst.Expr, trueBranch []dst.Stmt, falseBranch []dst.Stmt) *dst.IfStmt {
 	result := &dst.IfStmt{
 		Cond: condition,
@@ -44,10 +43,9 @@ func SimpleIfElse(condition dst.Expr, trueBranch []dst.Stmt, falseBranch []dst.S
 
 // IfEqual executes a series of statements if the supplied expressions are
 //
-// if <left> == <right> {
-//     <statements>
-// }
-//
+//	if <left> == <right> {
+//	    <statements>
+//	}
 func IfEqual(left dst.Expr, right dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: AreEqual(left, right),
@@ -57,10 +55,9 @@ func IfEqual(left dst.Expr, right dst.Expr, statements ...dst.Stmt) *dst.IfStmt 
 
 // IfNotNil executes a series of statements if the supplied expression is not nil
 //
-// if <source> != nil {
-//     <statements>
-// }
-//
+//	if <source> != nil {
+//	    <statements>
+//	}
 func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: NotNil(toCheck),
@@ -70,10 +67,9 @@ func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 
 // IfNil executes a series of statements if the supplied expression is nil
 //
-// if <source> != nil {
-//     <statements>
-// }
-//
+//	if <source> != nil {
+//	    <statements>
+//	}
 func IfNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: AreEqual(toCheck, Nil()),
@@ -86,7 +82,6 @@ func IfNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 //	if ok {
 //		<statements>
 //	}
-//
 func IfOk(statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: dst.NewIdent("ok"),
@@ -99,7 +94,6 @@ func IfOk(statements ...dst.Stmt) *dst.IfStmt {
 //	if !ok {
 //		<statements>
 //	}
-//
 func IfNotOk(statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Cond: &dst.UnaryExpr{
@@ -116,10 +110,9 @@ func IfNotOk(statements ...dst.Stmt) *dst.IfStmt {
 // local is the name of the local variable to initialize
 // statements form the body of the if statement
 //
-// if <local>, ok := <expr>.(<typeExpr>); ok {
-//     <statements>
-// }
-//
+//	if <local>, ok := <expr>.(<typeExpr>); ok {
+//	    <statements>
+//	}
 func IfType(expr dst.Expr, typeExpr dst.Expr, local string, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
 		Init: TypeAssert(dst.NewIdent(local), expr, typeExpr),

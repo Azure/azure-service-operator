@@ -2,23 +2,24 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
 ├── APIVersion: Enum (1 value)
 │   └── "2021-10-01"
 └── ContainerGroup: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (20 properties)
     │   ├── AzureName: string
-    │   ├── Containers: Object (10 properties)
+    │   ├── Containers: Object (10 properties)[]
     │   │   ├── Command: string[]
-    │   │   ├── EnvironmentVariables: Object (4 properties)
+    │   │   ├── EnvironmentVariables: Object (4 properties)[]
     │   │   │   ├── Name: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── SecureValue: *genruntime.SecretReference
     │   │   │   └── Value: *string
     │   │   ├── Image: *string
-    │   │   ├── LivenessProbe: Object (8 properties)
-    │   │   │   ├── Exec: Object (2 properties)
+    │   │   ├── LivenessProbe: *Object (8 properties)
+    │   │   │   ├── Exec: *Object (2 properties)
     │   │   │   │   ├── Command: string[]
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── FailureThreshold: *int
-    │   │   │   ├── HttpGet: Object (5 properties)
-    │   │   │   │   ├── HttpHeaders: Object (3 properties)
+    │   │   │   ├── HttpGet: *Object (5 properties)
+    │   │   │   │   ├── HttpHeaders: Object (3 properties)[]
     │   │   │   │   │   ├── Name: *string
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Value: *string
@@ -32,18 +33,18 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
     │   │   │   ├── SuccessThreshold: *int
     │   │   │   └── TimeoutSeconds: *int
     │   │   ├── Name: *string
-    │   │   ├── Ports: Object (3 properties)
+    │   │   ├── Ports: Object (3 properties)[]
     │   │   │   ├── Port: *int
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Protocol: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ReadinessProbe: Object (8 properties)
-    │   │   │   ├── Exec: Object (2 properties)
+    │   │   ├── ReadinessProbe: *Object (8 properties)
+    │   │   │   ├── Exec: *Object (2 properties)
     │   │   │   │   ├── Command: string[]
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── FailureThreshold: *int
-    │   │   │   ├── HttpGet: Object (5 properties)
-    │   │   │   │   ├── HttpHeaders: Object (3 properties)
+    │   │   │   ├── HttpGet: *Object (5 properties)
+    │   │   │   │   ├── HttpHeaders: Object (3 properties)[]
     │   │   │   │   │   ├── Name: *string
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Value: *string
@@ -56,31 +57,31 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── SuccessThreshold: *int
     │   │   │   └── TimeoutSeconds: *int
-    │   │   ├── Resources: Object (3 properties)
-    │   │   │   ├── Limits: Object (4 properties)
+    │   │   ├── Resources: *Object (3 properties)
+    │   │   │   ├── Limits: *Object (4 properties)
     │   │   │   │   ├── Cpu: *float64
-    │   │   │   │   ├── Gpu: Object (3 properties)
+    │   │   │   │   ├── Gpu: *Object (3 properties)
     │   │   │   │   │   ├── Count: *int
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Sku: *string
     │   │   │   │   ├── MemoryInGB: *float64
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── Requests: Object (4 properties)
+    │   │   │   └── Requests: *Object (4 properties)
     │   │   │       ├── Cpu: *float64
-    │   │   │       ├── Gpu: Object (3 properties)
+    │   │   │       ├── Gpu: *Object (3 properties)
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │       │   └── Sku: *string
     │   │   │       ├── MemoryInGB: *float64
     │   │   │       └── PropertyBag: genruntime.PropertyBag
-    │   │   └── VolumeMounts: Object (4 properties)
+    │   │   └── VolumeMounts: Object (4 properties)[]
     │   │       ├── MountPath: *string
     │   │       ├── Name: *string
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       └── ReadOnly: *bool
-    │   ├── Diagnostics: Object (2 properties)
-    │   │   ├── LogAnalytics: Object (6 properties)
+    │   ├── Diagnostics: *Object (2 properties)
+    │   │   ├── LogAnalytics: *Object (6 properties)
     │   │   │   ├── LogType: *string
     │   │   │   ├── Metadata: map[string]string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -88,29 +89,29 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
     │   │   │   ├── WorkspaceKey: *genruntime.SecretReference
     │   │   │   └── WorkspaceResourceReference: *genruntime.ResourceReference
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── DnsConfig: Object (4 properties)
+    │   ├── DnsConfig: *Object (4 properties)
     │   │   ├── NameServers: string[]
     │   │   ├── Options: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── SearchDomains: *string
-    │   ├── EncryptionProperties: Object (4 properties)
+    │   ├── EncryptionProperties: *Object (4 properties)
     │   │   ├── KeyName: *string
     │   │   ├── KeyVersion: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── VaultBaseUrl: *string
-    │   ├── Identity: Object (2 properties)
+    │   ├── Identity: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
-    │   ├── ImageRegistryCredentials: Object (6 properties)
+    │   ├── ImageRegistryCredentials: Object (6 properties)[]
     │   │   ├── Identity: *string
     │   │   ├── IdentityUrl: *string
     │   │   ├── Password: *genruntime.SecretReference
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Server: *string
     │   │   └── Username: *string
-    │   ├── InitContainers: Object (6 properties)
+    │   ├── InitContainers: Object (6 properties)[]
     │   │   ├── Command: string[]
-    │   │   ├── EnvironmentVariables: Object (4 properties)
+    │   │   ├── EnvironmentVariables: Object (4 properties)[]
     │   │   │   ├── Name: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── SecureValue: *genruntime.SecretReference
@@ -118,16 +119,16 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
     │   │   ├── Image: *string
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── VolumeMounts: Object (4 properties)
+    │   │   └── VolumeMounts: Object (4 properties)[]
     │   │       ├── MountPath: *string
     │   │       ├── Name: *string
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       └── ReadOnly: *bool
-    │   ├── IpAddress: Object (6 properties)
+    │   ├── IpAddress: *Object (6 properties)
     │   │   ├── AutoGeneratedDomainNameLabelScope: *string
     │   │   ├── DnsNameLabel: *string
     │   │   ├── Ip: *string
-    │   │   ├── Ports: Object (3 properties)
+    │   │   ├── Ports: Object (3 properties)[]
     │   │   │   ├── Port: *int
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Protocol: *string
@@ -140,20 +141,20 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── RestartPolicy: *string
     │   ├── Sku: *string
-    │   ├── SubnetIds: Object (3 properties)
+    │   ├── SubnetIds: Object (3 properties)[]
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
     │   ├── Tags: map[string]string
-    │   ├── Volumes: Object (6 properties)
-    │   │   ├── AzureFile: Object (5 properties)
+    │   ├── Volumes: Object (6 properties)[]
+    │   │   ├── AzureFile: *Object (5 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── ReadOnly: *bool
     │   │   │   ├── ShareName: *string
     │   │   │   ├── StorageAccountKey: *string
     │   │   │   └── StorageAccountName: *string
     │   │   ├── EmptyDir: map[string]v1.JSON
-    │   │   ├── GitRepo: Object (4 properties)
+    │   │   ├── GitRepo: *Object (4 properties)
     │   │   │   ├── Directory: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── Repository: *string
@@ -164,22 +165,22 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
     │   └── Zones: string[]
     └── Status: Object (23 properties)
         ├── Conditions: conditions.Condition[]
-        ├── Containers: Object (11 properties)
+        ├── Containers: Object (11 properties)[]
         │   ├── Command: string[]
-        │   ├── EnvironmentVariables: Object (3 properties)
+        │   ├── EnvironmentVariables: Object (3 properties)[]
         │   │   ├── Name: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Value: *string
         │   ├── Image: *string
-        │   ├── InstanceView: Object (5 properties)
-        │   │   ├── CurrentState: Object (6 properties)
+        │   ├── InstanceView: *Object (5 properties)
+        │   │   ├── CurrentState: *Object (6 properties)
         │   │   │   ├── DetailStatus: *string
         │   │   │   ├── ExitCode: *int
         │   │   │   ├── FinishTime: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── StartTime: *string
         │   │   │   └── State: *string
-        │   │   ├── Events: Object (7 properties)
+        │   │   ├── Events: Object (7 properties)[]
         │   │   │   ├── Count: *int
         │   │   │   ├── FirstTimestamp: *string
         │   │   │   ├── LastTimestamp: *string
@@ -187,7 +188,7 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   │   ├── Name: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   └── Type: *string
-        │   │   ├── PreviousState: Object (6 properties)
+        │   │   ├── PreviousState: *Object (6 properties)
         │   │   │   ├── DetailStatus: *string
         │   │   │   ├── ExitCode: *int
         │   │   │   ├── FinishTime: *string
@@ -196,13 +197,13 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   │   └── State: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── RestartCount: *int
-        │   ├── LivenessProbe: Object (8 properties)
-        │   │   ├── Exec: Object (2 properties)
+        │   ├── LivenessProbe: *Object (8 properties)
+        │   │   ├── Exec: *Object (2 properties)
         │   │   │   ├── Command: string[]
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── FailureThreshold: *int
-        │   │   ├── HttpGet: Object (5 properties)
-        │   │   │   ├── HttpHeaders: Object (3 properties)
+        │   │   ├── HttpGet: *Object (5 properties)
+        │   │   │   ├── HttpHeaders: Object (3 properties)[]
         │   │   │   │   ├── Name: *string
         │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   └── Value: *string
@@ -216,18 +217,18 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   ├── SuccessThreshold: *int
         │   │   └── TimeoutSeconds: *int
         │   ├── Name: *string
-        │   ├── Ports: Object (3 properties)
+        │   ├── Ports: Object (3 properties)[]
         │   │   ├── Port: *int
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Protocol: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── ReadinessProbe: Object (8 properties)
-        │   │   ├── Exec: Object (2 properties)
+        │   ├── ReadinessProbe: *Object (8 properties)
+        │   │   ├── Exec: *Object (2 properties)
         │   │   │   ├── Command: string[]
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── FailureThreshold: *int
-        │   │   ├── HttpGet: Object (5 properties)
-        │   │   │   ├── HttpHeaders: Object (3 properties)
+        │   │   ├── HttpGet: *Object (5 properties)
+        │   │   │   ├── HttpHeaders: Object (3 properties)[]
         │   │   │   │   ├── Name: *string
         │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   └── Value: *string
@@ -240,78 +241,78 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   ├── SuccessThreshold: *int
         │   │   └── TimeoutSeconds: *int
-        │   ├── Resources: Object (3 properties)
-        │   │   ├── Limits: Object (4 properties)
+        │   ├── Resources: *Object (3 properties)
+        │   │   ├── Limits: *Object (4 properties)
         │   │   │   ├── Cpu: *float64
-        │   │   │   ├── Gpu: Object (3 properties)
+        │   │   │   ├── Gpu: *Object (3 properties)
         │   │   │   │   ├── Count: *int
         │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   │   └── Sku: *string
         │   │   │   ├── MemoryInGB: *float64
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── Requests: Object (4 properties)
+        │   │   └── Requests: *Object (4 properties)
         │   │       ├── Cpu: *float64
-        │   │       ├── Gpu: Object (3 properties)
+        │   │       ├── Gpu: *Object (3 properties)
         │   │       │   ├── Count: *int
         │   │       │   ├── PropertyBag: genruntime.PropertyBag
         │   │       │   └── Sku: *string
         │   │       ├── MemoryInGB: *float64
         │   │       └── PropertyBag: genruntime.PropertyBag
-        │   └── VolumeMounts: Object (4 properties)
+        │   └── VolumeMounts: Object (4 properties)[]
         │       ├── MountPath: *string
         │       ├── Name: *string
         │       ├── PropertyBag: genruntime.PropertyBag
         │       └── ReadOnly: *bool
-        ├── Diagnostics: Object (2 properties)
-        │   ├── LogAnalytics: Object (4 properties)
+        ├── Diagnostics: *Object (2 properties)
+        │   ├── LogAnalytics: *Object (4 properties)
         │   │   ├── LogType: *string
         │   │   ├── Metadata: map[string]string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── WorkspaceId: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── DnsConfig: Object (4 properties)
+        ├── DnsConfig: *Object (4 properties)
         │   ├── NameServers: string[]
         │   ├── Options: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── SearchDomains: *string
-        ├── EncryptionProperties: Object (4 properties)
+        ├── EncryptionProperties: *Object (4 properties)
         │   ├── KeyName: *string
         │   ├── KeyVersion: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── VaultBaseUrl: *string
         ├── Id: *string
-        ├── Identity: Object (5 properties)
+        ├── Identity: *Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: Object (3 properties)
+        │   └── UserAssignedIdentities: map[string]Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
-        ├── ImageRegistryCredentials: Object (5 properties)
+        ├── ImageRegistryCredentials: Object (5 properties)[]
         │   ├── Identity: *string
         │   ├── IdentityUrl: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── Server: *string
         │   └── Username: *string
-        ├── InitContainers: Object (7 properties)
+        ├── InitContainers: Object (7 properties)[]
         │   ├── Command: string[]
-        │   ├── EnvironmentVariables: Object (3 properties)
+        │   ├── EnvironmentVariables: Object (3 properties)[]
         │   │   ├── Name: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Value: *string
         │   ├── Image: *string
-        │   ├── InstanceView: Object (5 properties)
-        │   │   ├── CurrentState: Object (6 properties)
+        │   ├── InstanceView: *Object (5 properties)
+        │   │   ├── CurrentState: *Object (6 properties)
         │   │   │   ├── DetailStatus: *string
         │   │   │   ├── ExitCode: *int
         │   │   │   ├── FinishTime: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── StartTime: *string
         │   │   │   └── State: *string
-        │   │   ├── Events: Object (7 properties)
+        │   │   ├── Events: Object (7 properties)[]
         │   │   │   ├── Count: *int
         │   │   │   ├── FirstTimestamp: *string
         │   │   │   ├── LastTimestamp: *string
@@ -319,7 +320,7 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   │   ├── Name: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   └── Type: *string
-        │   │   ├── PreviousState: Object (6 properties)
+        │   │   ├── PreviousState: *Object (6 properties)
         │   │   │   ├── DetailStatus: *string
         │   │   │   ├── ExitCode: *int
         │   │   │   ├── FinishTime: *string
@@ -330,13 +331,13 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   └── RestartCount: *int
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── VolumeMounts: Object (4 properties)
+        │   └── VolumeMounts: Object (4 properties)[]
         │       ├── MountPath: *string
         │       ├── Name: *string
         │       ├── PropertyBag: genruntime.PropertyBag
         │       └── ReadOnly: *bool
-        ├── InstanceView: Object (3 properties)
-        │   ├── Events: Object (7 properties)
+        ├── InstanceView: *Object (3 properties)
+        │   ├── Events: Object (7 properties)[]
         │   │   ├── Count: *int
         │   │   ├── FirstTimestamp: *string
         │   │   ├── LastTimestamp: *string
@@ -346,12 +347,12 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         │   │   └── Type: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── State: *string
-        ├── IpAddress: Object (7 properties)
+        ├── IpAddress: *Object (7 properties)
         │   ├── AutoGeneratedDomainNameLabelScope: *string
         │   ├── DnsNameLabel: *string
         │   ├── Fqdn: *string
         │   ├── Ip: *string
-        │   ├── Ports: Object (3 properties)
+        │   ├── Ports: Object (3 properties)[]
         │   │   ├── Port: *int
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Protocol: *string
@@ -364,21 +365,21 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
         ├── ProvisioningState: *string
         ├── RestartPolicy: *string
         ├── Sku: *string
-        ├── SubnetIds: Object (3 properties)
+        ├── SubnetIds: Object (3 properties)[]
         │   ├── Id: *string
         │   ├── Name: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Tags: map[string]string
         ├── Type: *string
-        ├── Volumes: Object (6 properties)
-        │   ├── AzureFile: Object (5 properties)
+        ├── Volumes: Object (6 properties)[]
+        │   ├── AzureFile: *Object (5 properties)
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   ├── ReadOnly: *bool
         │   │   ├── ShareName: *string
         │   │   ├── StorageAccountKey: *string
         │   │   └── StorageAccountName: *string
         │   ├── EmptyDir: map[string]v1.JSON
-        │   ├── GitRepo: Object (4 properties)
+        │   ├── GitRepo: *Object (4 properties)
         │   │   ├── Directory: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   ├── Repository: *string

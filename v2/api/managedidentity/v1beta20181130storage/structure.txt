@@ -2,14 +2,16 @@ github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130sto
 ├── APIVersion: Enum (1 value)
 │   └── "2018-11-30"
 └── UserAssignedIdentity: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (7 properties)
     │   ├── AzureName: string
     │   ├── Location: *string
-    │   ├── OperatorSpec: Object (2 properties)
-    │   │   ├── ConfigMaps: Object (3 properties)
+    │   ├── OperatorSpec: *Object (2 properties)
+    │   │   ├── ConfigMaps: *Object (4 properties)
     │   │   │   ├── ClientId: *genruntime.ConfigMapDestination
     │   │   │   ├── PrincipalId: *genruntime.ConfigMapDestination
-    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── TenantId: *genruntime.ConfigMapDestination
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference

@@ -2,46 +2,47 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 ├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 ├── FlexibleServer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (20 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
 │   │   ├── AvailabilityZone: *string
 │   │   ├── AzureName: string
-│   │   ├── Backup: Object (3 properties)
+│   │   ├── Backup: *Object (3 properties)
 │   │   │   ├── BackupRetentionDays: *int
 │   │   │   ├── GeoRedundantBackup: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── CreateMode: *string
-│   │   ├── HighAvailability: Object (3 properties)
+│   │   ├── HighAvailability: *Object (3 properties)
 │   │   │   ├── Mode: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── StandbyAvailabilityZone: *string
 │   │   ├── Location: *string
-│   │   ├── MaintenanceWindow: Object (5 properties)
+│   │   ├── MaintenanceWindow: *Object (5 properties)
 │   │   │   ├── CustomWindow: *string
 │   │   │   ├── DayOfWeek: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── StartHour: *int
 │   │   │   └── StartMinute: *int
-│   │   ├── Network: Object (3 properties)
+│   │   ├── Network: *Object (3 properties)
 │   │   │   ├── DelegatedSubnetResourceReference: *genruntime.ResourceReference
 │   │   │   ├── PrivateDnsZoneArmResourceReference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── OperatorSpec: Object (2 properties)
+│   │   ├── OperatorSpec: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: Object (2 properties)
+│   │   │   └── Secrets: *Object (2 properties)
 │   │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │   │       └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PointInTimeUTC: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tier: *string
 │   │   ├── SourceServerResourceReference: *genruntime.ResourceReference
-│   │   ├── Storage: Object (2 properties)
+│   │   ├── Storage: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── StorageSizeGB: *int
 │   │   ├── Tags: map[string]string
@@ -49,7 +50,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │   └── Status: Object (23 properties)
 │       ├── AdministratorLogin: *string
 │       ├── AvailabilityZone: *string
-│       ├── Backup: Object (4 properties)
+│       ├── Backup: *Object (4 properties)
 │       │   ├── BackupRetentionDays: *int
 │       │   ├── EarliestRestoreDate: *string
 │       │   ├── GeoRedundantBackup: *string
@@ -57,14 +58,14 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Conditions: conditions.Condition[]
 │       ├── CreateMode: *string
 │       ├── FullyQualifiedDomainName: *string
-│       ├── HighAvailability: Object (4 properties)
+│       ├── HighAvailability: *Object (4 properties)
 │       │   ├── Mode: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── StandbyAvailabilityZone: *string
 │       │   └── State: *string
 │       ├── Id: *string
 │       ├── Location: *string
-│       ├── MaintenanceWindow: Object (5 properties)
+│       ├── MaintenanceWindow: *Object (5 properties)
 │       │   ├── CustomWindow: *string
 │       │   ├── DayOfWeek: *int
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -72,23 +73,23 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       │   └── StartMinute: *int
 │       ├── MinorVersion: *string
 │       ├── Name: *string
-│       ├── Network: Object (4 properties)
+│       ├── Network: *Object (4 properties)
 │       │   ├── DelegatedSubnetResourceId: *string
 │       │   ├── PrivateDnsZoneArmResourceId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── PublicNetworkAccess: *string
 │       ├── PointInTimeUTC: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Tier: *string
 │       ├── SourceServerResourceId: *string
 │       ├── State: *string
-│       ├── Storage: Object (2 properties)
+│       ├── Storage: *Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── StorageSizeGB: *int
-│       ├── SystemData: Object (7 properties)
+│       ├── SystemData: *Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -100,6 +101,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Type: *string
 │       └── Version: *string
 ├── FlexibleServersConfiguration: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601.FlexibleServer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -123,7 +125,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── Source: *string
-│       ├── SystemData: Object (7 properties)
+│       ├── SystemData: *Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -135,6 +137,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Unit: *string
 │       └── Value: *string
 ├── FlexibleServersDatabase: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601.FlexibleServer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
@@ -151,7 +154,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── SystemData: Object (7 properties)
+│       ├── SystemData: *Object (7 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
 │       │   ├── CreatedByType: *string
@@ -161,6 +164,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
 └── FlexibleServersFirewallRule: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601.FlexibleServer
     ├── Spec: Object (8 properties)
     │   ├── AzureName: string
     │   ├── EndIpAddress: *string
@@ -177,7 +181,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api202106
         ├── Name: *string
         ├── PropertyBag: genruntime.PropertyBag
         ├── StartIpAddress: *string
-        ├── SystemData: Object (7 properties)
+        ├── SystemData: *Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string

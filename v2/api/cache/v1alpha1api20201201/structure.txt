@@ -2,23 +2,24 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 ├── APIVersion: Enum (1 value)
 │   └── "2020-12-01"
 ├── Redis: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (18 properties)
 │   │   ├── AzureName: string
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── Location: *string
-│   │   ├── MinimumTlsVersion: Enum (3 values)
+│   │   ├── MinimumTlsVersion: *Enum (3 values)
 │   │   │   ├── "1.0"
 │   │   │   ├── "1.1"
 │   │   │   └── "1.2"
-│   │   ├── OperatorSpec: Object (1 property)
-│   │   │   └── Secrets: Object (5 properties)
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── Secrets: *Object (5 properties)
 │   │   │       ├── HostName: *genruntime.SecretDestination
 │   │   │       ├── Port: *genruntime.SecretDestination
 │   │   │       ├── PrimaryKey: *genruntime.SecretDestination
 │   │   │       ├── SSLPort: *genruntime.SecretDestination
 │   │   │       └── SecondaryKey: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicNetworkAccess: Enum (2 values)
+│   │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── RedisConfiguration: map[string]string
@@ -26,17 +27,17 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
 │   │   ├── ShardCount: *int
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: *int
-│   │   │   ├── Family: Enum (2 values)
+│   │   │   ├── Family: *Enum (2 values)
 │   │   │   │   ├── "C"
 │   │   │   │   └── "P"
-│   │   │   └── Name: Enum (3 values)
+│   │   │   └── Name: *Enum (3 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
 │   │   ├── StaticIP: Validated<*string> (1 rule)
-│   │   │   └── Rule 0: {Pattern "^\\d+\\.\\d+\\.\\d+\\.\\d+$"}
+│   │   │   └── Rule 0: Pattern: "^\\d+\\.\\d+\\.\\d+\\.\\d+$"
 │   │   ├── SubnetReference: *genruntime.ResourceReference
 │   │   ├── Tags: map[string]string
 │   │   ├── TenantSettings: map[string]string
@@ -46,25 +47,25 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │       ├── EnableNonSslPort: *bool
 │       ├── HostName: *string
 │       ├── Id: *string
-│       ├── Instances: Object (6 properties)
+│       ├── Instances: Object (6 properties)[]
 │       │   ├── IsMaster: *bool
 │       │   ├── IsPrimary: *bool
 │       │   ├── NonSslPort: *int
 │       │   ├── ShardId: *int
 │       │   ├── SslPort: *int
 │       │   └── Zone: *string
-│       ├── LinkedServers: Object (1 property)
+│       ├── LinkedServers: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Location: *string
-│       ├── MinimumTlsVersion: Enum (3 values)
+│       ├── MinimumTlsVersion: *Enum (3 values)
 │       │   ├── "1.0"
 │       │   ├── "1.1"
 │       │   └── "1.2"
 │       ├── Name: *string
 │       ├── Port: *int
-│       ├── PrivateEndpointConnections: Object (1 property)
+│       ├── PrivateEndpointConnections: Object (1 property)[]
 │       │   └── Id: *string
-│       ├── ProvisioningState: Enum (12 values)
+│       ├── ProvisioningState: *Enum (12 values)
 │       │   ├── "Creating"
 │       │   ├── "Deleting"
 │       │   ├── "Disabled"
@@ -77,7 +78,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │       │   ├── "Unlinking"
 │       │   ├── "Unprovisioning"
 │       │   └── "Updating"
-│       ├── PublicNetworkAccess: Enum (2 values)
+│       ├── PublicNetworkAccess: *Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
 │       ├── RedisConfiguration: map[string]string
@@ -85,12 +86,12 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │       ├── ReplicasPerMaster: *int
 │       ├── ReplicasPerPrimary: *int
 │       ├── ShardCount: *int
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Capacity: *int
-│       │   ├── Family: Enum (2 values)
+│       │   ├── Family: *Enum (2 values)
 │       │   │   ├── "C"
 │       │   │   └── "P"
-│       │   └── Name: Enum (3 values)
+│       │   └── Name: *Enum (3 values)
 │       │       ├── "Basic"
 │       │       ├── "Premium"
 │       │       └── "Standard"
@@ -102,6 +103,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │       ├── Type: *string
 │       └── Zones: string[]
 ├── RedisFirewallRule: Resource
+│   ├── Owner: Redis
 │   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIP: *string
@@ -119,18 +121,19 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 ├── RedisFirewallRule_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (2 properties)
+│   ├── Properties: *Object (2 properties)
 │   │   ├── EndIP: *string
 │   │   └── StartIP: *string
 │   └── Type: *string
 ├── RedisLinkedServer: Resource
+│   ├── Owner: Redis
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ServerRole: Enum (2 values)
+│   │   ├── ServerRole: *Enum (2 values)
 │   │   │   ├── "Primary"
 │   │   │   └── "Secondary"
 │   │   └── Tags: map[string]string
@@ -141,27 +144,28 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │       ├── LinkedRedisCacheLocation: *string
 │       ├── Name: *string
 │       ├── ProvisioningState: *string
-│       ├── ServerRole: Enum (2 values)
+│       ├── ServerRole: *Enum (2 values)
 │       │   ├── "Primary"
 │       │   └── "Secondary"
 │       └── Type: *string
 ├── RedisLinkedServerWithProperties_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (4 properties)
+│   ├── Properties: *Object (4 properties)
 │   │   ├── LinkedRedisCacheId: *string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── ProvisioningState: *string
-│   │   └── ServerRole: Enum (2 values)
+│   │   └── ServerRole: *Enum (2 values)
 │   │       ├── "Primary"
 │   │       └── "Secondary"
 │   └── Type: *string
 ├── RedisPatchSchedule: Resource
+│   ├── Owner: Redis
 │   ├── Spec: Object (4 properties)
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── ScheduleEntries: Object (3 properties)
-│   │   │   ├── DayOfWeek: Enum (9 values)
+│   │   ├── ScheduleEntries: Object (3 properties)[]
+│   │   │   ├── DayOfWeek: *Enum (9 values)
 │   │   │   │   ├── "Everyday"
 │   │   │   │   ├── "Friday"
 │   │   │   │   ├── "Monday"
@@ -179,8 +183,8 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── ScheduleEntries: Object (3 properties)
-│       │   ├── DayOfWeek: Enum (9 values)
+│       ├── ScheduleEntries: Object (3 properties)[]
+│       │   ├── DayOfWeek: *Enum (9 values)
 │       │   │   ├── "Everyday"
 │       │   │   ├── "Friday"
 │       │   │   ├── "Monday"
@@ -197,9 +201,9 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (1 property)
-│   │   └── ScheduleEntries: Object (3 properties)
-│   │       ├── DayOfWeek: Enum (9 values)
+│   ├── Properties: *Object (1 property)
+│   │   └── ScheduleEntries: Object (3 properties)[]
+│   │       ├── DayOfWeek: *Enum (9 values)
 │   │       │   ├── "Everyday"
 │   │       │   ├── "Friday"
 │   │       │   ├── "Monday"
@@ -216,26 +220,26 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (19 properties)
+│   ├── Properties: *Object (19 properties)
 │   │   ├── EnableNonSslPort: *bool
 │   │   ├── HostName: *string
-│   │   ├── Instances: Object (6 properties)
+│   │   ├── Instances: Object (6 properties)[]
 │   │   │   ├── IsMaster: *bool
 │   │   │   ├── IsPrimary: *bool
 │   │   │   ├── NonSslPort: *int
 │   │   │   ├── ShardId: *int
 │   │   │   ├── SslPort: *int
 │   │   │   └── Zone: *string
-│   │   ├── LinkedServers: Object (1 property)
+│   │   ├── LinkedServers: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── MinimumTlsVersion: Enum (3 values)
+│   │   ├── MinimumTlsVersion: *Enum (3 values)
 │   │   │   ├── "1.0"
 │   │   │   ├── "1.1"
 │   │   │   └── "1.2"
 │   │   ├── Port: *int
-│   │   ├── PrivateEndpointConnections: Object (1 property)
+│   │   ├── PrivateEndpointConnections: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: Enum (12 values)
+│   │   ├── ProvisioningState: *Enum (12 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Disabled"
@@ -248,7 +252,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │   │   ├── "Unlinking"
 │   │   │   ├── "Unprovisioning"
 │   │   │   └── "Updating"
-│   │   ├── PublicNetworkAccess: Enum (2 values)
+│   │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
 │   │   ├── RedisConfiguration: map[string]string
@@ -256,12 +260,12 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
 │   │   ├── ShardCount: *int
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: *int
-│   │   │   ├── Family: Enum (2 values)
+│   │   │   ├── Family: *Enum (2 values)
 │   │   │   │   ├── "C"
 │   │   │   │   └── "P"
-│   │   │   └── Name: Enum (3 values)
+│   │   │   └── Name: *Enum (3 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "Premium"
 │   │   │       └── "Standard"
@@ -275,26 +279,26 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 ├── Redis_FirewallRule_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (2 properties)
+│   ├── Properties: *Object (2 properties)
 │   │   ├── EndIP: *string
 │   │   └── StartIP: *string
 │   └── Tags: map[string]string
 ├── Redis_LinkedServer_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (3 properties)
+│   ├── Properties: *Object (3 properties)
 │   │   ├── LinkedRedisCacheId: *string
 │   │   ├── LinkedRedisCacheLocation: *string
-│   │   └── ServerRole: Enum (2 values)
+│   │   └── ServerRole: *Enum (2 values)
 │   │       ├── "Primary"
 │   │       └── "Secondary"
 │   └── Tags: map[string]string
 ├── Redis_PatchSchedule_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (1 property)
-│   │   └── ScheduleEntries: Object (3 properties)
-│   │       ├── DayOfWeek: Enum (9 values)
+│   ├── Properties: *Object (1 property)
+│   │   └── ScheduleEntries: Object (3 properties)[]
+│   │       ├── DayOfWeek: *Enum (9 values)
 │   │       │   ├── "Everyday"
 │   │       │   ├── "Friday"
 │   │       │   ├── "Monday"
@@ -310,13 +314,13 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 └── Redis_Spec_ARM: Object (5 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: Object (12 properties)
+    ├── Properties: *Object (12 properties)
     │   ├── EnableNonSslPort: *bool
-    │   ├── MinimumTlsVersion: Enum (3 values)
+    │   ├── MinimumTlsVersion: *Enum (3 values)
     │   │   ├── "1.0"
     │   │   ├── "1.1"
     │   │   └── "1.2"
-    │   ├── PublicNetworkAccess: Enum (2 values)
+    │   ├── PublicNetworkAccess: *Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
     │   ├── RedisConfiguration: map[string]string
@@ -324,12 +328,12 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
     │   ├── ReplicasPerMaster: *int
     │   ├── ReplicasPerPrimary: *int
     │   ├── ShardCount: *int
-    │   ├── Sku: Object (3 properties)
+    │   ├── Sku: *Object (3 properties)
     │   │   ├── Capacity: *int
-    │   │   ├── Family: Enum (2 values)
+    │   │   ├── Family: *Enum (2 values)
     │   │   │   ├── "C"
     │   │   │   └── "P"
-    │   │   └── Name: Enum (3 values)
+    │   │   └── Name: *Enum (3 values)
     │   │       ├── "Basic"
     │   │       ├── "Premium"
     │   │       └── "Standard"

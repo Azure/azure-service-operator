@@ -109,6 +109,11 @@ func (identity *UserAssignedIdentity) ExportKubernetesResources(_ context.Contex
 			collector.AddValue(identity.Spec.OperatorSpec.ConfigMaps.PrincipalId, *identity.Status.PrincipalId)
 		}
 	}
+	if identity.Spec.OperatorSpec != nil && identity.Spec.OperatorSpec.ConfigMaps != nil {
+		if identity.Status.TenantId != nil {
+			collector.AddValue(identity.Spec.OperatorSpec.ConfigMaps.TenantId, *identity.Status.TenantId)
+		}
+	}
 	result, err := collector.Values()
 	if err != nil {
 		return nil, err
@@ -271,6 +276,7 @@ func (identity *UserAssignedIdentity) validateConfigMapDestinations() error {
 	toValidate := []*genruntime.ConfigMapDestination{
 		identity.Spec.OperatorSpec.ConfigMaps.ClientId,
 		identity.Spec.OperatorSpec.ConfigMaps.PrincipalId,
+		identity.Spec.OperatorSpec.ConfigMaps.TenantId,
 	}
 	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
@@ -895,6 +901,9 @@ type UserAssignedIdentityOperatorConfigMaps struct {
 
 	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
 	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
+
+	// TenantId: indicates where the TenantId config map should be placed. If omitted, no config map will be created.
+	TenantId *genruntime.ConfigMapDestination `json:"tenantId,omitempty"`
 }
 
 // AssignProperties_From_UserAssignedIdentityOperatorConfigMaps populates our UserAssignedIdentityOperatorConfigMaps from the provided source UserAssignedIdentityOperatorConfigMaps
@@ -914,6 +923,14 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
+	}
+
+	// TenantId
+	if source.TenantId != nil {
+		tenantId := source.TenantId.Copy()
+		maps.TenantId = &tenantId
+	} else {
+		maps.TenantId = nil
 	}
 
 	// No error
@@ -939,6 +956,14 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil
+	}
+
+	// TenantId
+	if maps.TenantId != nil {
+		tenantId := maps.TenantId.Copy()
+		destination.TenantId = &tenantId
+	} else {
+		destination.TenantId = nil
 	}
 
 	// Update the property bag

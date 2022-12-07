@@ -2,25 +2,25 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 ├── APIVersion: Enum (1 value)
 │   └── "2022-03-01"
 ├── AppServicePlan_STATUS_ARM: Object (9 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: *string
 │   ├── Id: *string
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (23 properties)
+│   ├── Properties: *Object (23 properties)
 │   │   ├── ElasticScaleEnabled: *bool
 │   │   ├── FreeOfferExpirationTime: *string
 │   │   ├── GeoRegion: *string
-│   │   ├── HostingEnvironmentProfile: Object (3 properties)
+│   │   ├── HostingEnvironmentProfile: *Object (3 properties)
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
 │   │   │   └── Type: *string
 │   │   ├── HyperV: *bool
 │   │   ├── IsSpot: *bool
 │   │   ├── IsXenon: *bool
-│   │   ├── KubeEnvironmentProfile: Object (3 properties)
+│   │   ├── KubeEnvironmentProfile: *Object (3 properties)
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
 │   │   │   └── Type: *string
@@ -29,7 +29,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── NumberOfSites: *int
 │   │   ├── NumberOfWorkers: *int
 │   │   ├── PerSiteScaling: *bool
-│   │   ├── ProvisioningState: Enum (5 values)
+│   │   ├── ProvisioningState: *Enum (5 values)
 │   │   │   ├── "Canceled"
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
@@ -38,7 +38,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── Reserved: *bool
 │   │   ├── ResourceGroup: *string
 │   │   ├── SpotExpirationTime: *string
-│   │   ├── Status: Enum (3 values)
+│   │   ├── Status: *Enum (3 values)
 │   │   │   ├── "Creating"
 │   │   │   ├── "Pending"
 │   │   │   └── "Ready"
@@ -47,8 +47,8 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── TargetWorkerSizeId: *int
 │   │   ├── WorkerTierName: *string
 │   │   └── ZoneRedundant: *bool
-│   ├── Sku: Object (8 properties)
-│   │   ├── Capabilities: Object (3 properties)
+│   ├── Sku: *Object (8 properties)
+│   │   ├── Capabilities: Object (3 properties)[]
 │   │   │   ├── Name: *string
 │   │   │   ├── Reason: *string
 │   │   │   └── Value: *string
@@ -57,7 +57,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── Locations: string[]
 │   │   ├── Name: *string
 │   │   ├── Size: *string
-│   │   ├── SkuCapacity: Object (5 properties)
+│   │   ├── SkuCapacity: *Object (5 properties)
 │   │   │   ├── Default: *int
 │   │   │   ├── ElasticMaximum: *int
 │   │   │   ├── Maximum: *int
@@ -67,27 +67,28 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── ServerFarm: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (22 properties)
 │   │   ├── AzureName: string
 │   │   ├── ElasticScaleEnabled: *bool
-│   │   ├── ExtendedLocation: Object (1 property)
+│   │   ├── ExtendedLocation: *Object (1 property)
 │   │   │   └── Name: *string
 │   │   ├── FreeOfferExpirationTime: Validated<*string> (0 rules)
-│   │   ├── HostingEnvironmentProfile: Object (1 property)
+│   │   ├── HostingEnvironmentProfile: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── HyperV: *bool
 │   │   ├── IsSpot: *bool
 │   │   ├── IsXenon: *bool
 │   │   ├── Kind: *string
-│   │   ├── KubeEnvironmentProfile: Object (1 property)
+│   │   ├── KubeEnvironmentProfile: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── MaximumElasticWorkerCount: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PerSiteScaling: *bool
 │   │   ├── Reserved: *bool
-│   │   ├── Sku: Object (8 properties)
-│   │   │   ├── Capabilities: Object (3 properties)
+│   │   ├── Sku: *Object (8 properties)
+│   │   │   ├── Capabilities: Object (3 properties)[]
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── Reason: *string
 │   │   │   │   └── Value: *string
@@ -96,7 +97,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── Locations: string[]
 │   │   │   ├── Name: *string
 │   │   │   ├── Size: *string
-│   │   │   ├── SkuCapacity: Object (5 properties)
+│   │   │   ├── SkuCapacity: *Object (5 properties)
 │   │   │   │   ├── Default: *int
 │   │   │   │   ├── ElasticMaximum: *int
 │   │   │   │   ├── Maximum: *int
@@ -112,12 +113,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   └── Status: Object (32 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── ElasticScaleEnabled: *bool
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
 │       │   └── Type: *string
 │       ├── FreeOfferExpirationTime: *string
 │       ├── GeoRegion: *string
-│       ├── HostingEnvironmentProfile: Object (3 properties)
+│       ├── HostingEnvironmentProfile: *Object (3 properties)
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   └── Type: *string
@@ -126,7 +127,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── IsSpot: *bool
 │       ├── IsXenon: *bool
 │       ├── Kind: *string
-│       ├── KubeEnvironmentProfile: Object (3 properties)
+│       ├── KubeEnvironmentProfile: *Object (3 properties)
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   └── Type: *string
@@ -137,7 +138,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── NumberOfSites: *int
 │       ├── NumberOfWorkers: *int
 │       ├── PerSiteScaling: *bool
-│       ├── ProvisioningState: Enum (5 values)
+│       ├── ProvisioningState: *Enum (5 values)
 │       │   ├── "Canceled"
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
@@ -145,8 +146,8 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   └── "Succeeded"
 │       ├── Reserved: *bool
 │       ├── ResourceGroup: *string
-│       ├── Sku: Object (8 properties)
-│       │   ├── Capabilities: Object (3 properties)
+│       ├── Sku: *Object (8 properties)
+│       │   ├── Capabilities: Object (3 properties)[]
 │       │   │   ├── Name: *string
 │       │   │   ├── Reason: *string
 │       │   │   └── Value: *string
@@ -155,7 +156,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   ├── Locations: string[]
 │       │   ├── Name: *string
 │       │   ├── Size: *string
-│       │   ├── SkuCapacity: Object (5 properties)
+│       │   ├── SkuCapacity: *Object (5 properties)
 │       │   │   ├── Default: *int
 │       │   │   ├── ElasticMaximum: *int
 │       │   │   ├── Maximum: *int
@@ -163,7 +164,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │   └── ScaleType: *string
 │       │   └── Tier: *string
 │       ├── SpotExpirationTime: *string
-│       ├── Status: Enum (3 values)
+│       ├── Status: *Enum (3 values)
 │       │   ├── "Creating"
 │       │   ├── "Pending"
 │       │   └── "Ready"
@@ -175,20 +176,20 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── WorkerTierName: *string
 │       └── ZoneRedundant: *bool
 ├── Serverfarm_Spec_ARM: Object (7 properties)
-│   ├── ExtendedLocation: Object (1 property)
+│   ├── ExtendedLocation: *Object (1 property)
 │   │   └── Name: *string
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (15 properties)
+│   ├── Properties: *Object (15 properties)
 │   │   ├── ElasticScaleEnabled: *bool
 │   │   ├── FreeOfferExpirationTime: *string
-│   │   ├── HostingEnvironmentProfile: Object (1 property)
+│   │   ├── HostingEnvironmentProfile: *Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── HyperV: *bool
 │   │   ├── IsSpot: *bool
 │   │   ├── IsXenon: *bool
-│   │   ├── KubeEnvironmentProfile: Object (1 property)
+│   │   ├── KubeEnvironmentProfile: *Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── MaximumElasticWorkerCount: *int
 │   │   ├── PerSiteScaling: *bool
@@ -198,8 +199,8 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── TargetWorkerSizeId: *int
 │   │   ├── WorkerTierName: *string
 │   │   └── ZoneRedundant: *bool
-│   ├── Sku: Object (8 properties)
-│   │   ├── Capabilities: Object (3 properties)
+│   ├── Sku: *Object (8 properties)
+│   │   ├── Capabilities: Object (3 properties)[]
 │   │   │   ├── Name: *string
 │   │   │   ├── Reason: *string
 │   │   │   └── Value: *string
@@ -208,7 +209,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── Locations: string[]
 │   │   ├── Name: *string
 │   │   ├── Size: *string
-│   │   ├── SkuCapacity: Object (5 properties)
+│   │   ├── SkuCapacity: *Object (5 properties)
 │   │   │   ├── Default: *int
 │   │   │   ├── ElasticMaximum: *int
 │   │   │   ├── Maximum: *int
@@ -217,22 +218,23 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   └── Tier: *string
 │   └── Tags: map[string]string
 ├── Site: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (34 properties)
 │   │   ├── AzureName: string
 │   │   ├── ClientAffinityEnabled: *bool
 │   │   ├── ClientCertEnabled: *bool
 │   │   ├── ClientCertExclusionPaths: *string
-│   │   ├── ClientCertMode: Enum (3 values)
+│   │   ├── ClientCertMode: *Enum (3 values)
 │   │   │   ├── "Optional"
 │   │   │   ├── "OptionalInteractiveUser"
 │   │   │   └── "Required"
-│   │   ├── CloningInfo: Object (11 properties)
+│   │   ├── CloningInfo: *Object (11 properties)
 │   │   │   ├── AppSettingsOverrides: map[string]string
 │   │   │   ├── CloneCustomHostNames: *bool
 │   │   │   ├── CloneSourceControl: *bool
 │   │   │   ├── ConfigureLoadBalancing: *bool
 │   │   │   ├── CorrelationId: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   ├── HostingEnvironment: *string
 │   │   │   ├── Overwrite: *bool
 │   │   │   ├── SourceWebAppLocation: *string
@@ -243,14 +245,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── CustomDomainVerificationId: *string
 │   │   ├── DailyMemoryTimeQuota: *int
 │   │   ├── Enabled: *bool
-│   │   ├── ExtendedLocation: Object (1 property)
+│   │   ├── ExtendedLocation: *Object (1 property)
 │   │   │   └── Name: *string
-│   │   ├── HostNameSslStates: Object (6 properties)
-│   │   │   ├── HostType: Enum (2 values)
+│   │   ├── HostNameSslStates: Object (6 properties)[]
+│   │   │   ├── HostType: *Enum (2 values)
 │   │   │   │   ├── "Repository"
 │   │   │   │   └── "Standard"
 │   │   │   ├── Name: *string
-│   │   │   ├── SslState: Enum (3 values)
+│   │   │   ├── SslState: *Enum (3 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   ├── "IpBasedEnabled"
 │   │   │   │   └── "SniEnabled"
@@ -258,12 +260,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── ToUpdate: *bool
 │   │   │   └── VirtualIP: *string
 │   │   ├── HostNamesDisabled: *bool
-│   │   ├── HostingEnvironmentProfile: Object (1 property)
+│   │   ├── HostingEnvironmentProfile: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── HttpsOnly: *bool
 │   │   ├── HyperV: *bool
-│   │   ├── Identity: Object (2 properties)
-│   │   │   ├── Type: Enum (4 values)
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "SystemAssigned"
 │   │   │   │   ├── "SystemAssigned, UserAssigned"
@@ -275,7 +277,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PublicNetworkAccess: *string
-│   │   ├── RedundancyMode: Enum (5 values)
+│   │   ├── RedundancyMode: *Enum (5 values)
 │   │   │   ├── "ActiveActive"
 │   │   │   ├── "Failover"
 │   │   │   ├── "GeoRedundant"
@@ -284,69 +286,69 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── Reserved: *bool
 │   │   ├── ScmSiteAlsoStopped: *bool
 │   │   ├── ServerFarmReference: *genruntime.ResourceReference
-│   │   ├── SiteConfig: Object (66 properties)
+│   │   ├── SiteConfig: *Object (66 properties)
 │   │   │   ├── AcrUseManagedIdentityCreds: *bool
 │   │   │   ├── AcrUserManagedIdentityID: *string
 │   │   │   ├── AlwaysOn: *bool
-│   │   │   ├── ApiDefinition: Object (1 property)
+│   │   │   ├── ApiDefinition: *Object (1 property)
 │   │   │   │   └── Url: *string
-│   │   │   ├── ApiManagementConfig: Object (1 property)
+│   │   │   ├── ApiManagementConfig: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── AppCommandLine: *string
-│   │   │   ├── AppSettings: Object (2 properties)
+│   │   │   ├── AppSettings: Object (2 properties)[]
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── Value: *string
 │   │   │   ├── AutoHealEnabled: *bool
-│   │   │   ├── AutoHealRules: Object (2 properties)
-│   │   │   │   ├── Actions: Object (3 properties)
-│   │   │   │   │   ├── ActionType: Enum (3 values)
+│   │   │   ├── AutoHealRules: *Object (2 properties)
+│   │   │   │   ├── Actions: *Object (3 properties)
+│   │   │   │   │   ├── ActionType: *Enum (3 values)
 │   │   │   │   │   │   ├── "CustomAction"
 │   │   │   │   │   │   ├── "LogEvent"
 │   │   │   │   │   │   └── "Recycle"
-│   │   │   │   │   ├── CustomAction: Object (2 properties)
+│   │   │   │   │   ├── CustomAction: *Object (2 properties)
 │   │   │   │   │   │   ├── Exe: *string
 │   │   │   │   │   │   └── Parameters: *string
 │   │   │   │   │   └── MinProcessExecutionTime: *string
-│   │   │   │   └── Triggers: Object (6 properties)
+│   │   │   │   └── Triggers: *Object (6 properties)
 │   │   │   │       ├── PrivateBytesInKB: *int
-│   │   │   │       ├── Requests: Object (2 properties)
+│   │   │   │       ├── Requests: *Object (2 properties)
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   └── TimeInterval: *string
-│   │   │   │       ├── SlowRequests: Object (4 properties)
+│   │   │   │       ├── SlowRequests: *Object (4 properties)
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   ├── Path: *string
 │   │   │   │       │   ├── TimeInterval: *string
 │   │   │   │       │   └── TimeTaken: *string
-│   │   │   │       ├── SlowRequestsWithPath: Object (4 properties)
+│   │   │   │       ├── SlowRequestsWithPath: Object (4 properties)[]
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   ├── Path: *string
 │   │   │   │       │   ├── TimeInterval: *string
 │   │   │   │       │   └── TimeTaken: *string
-│   │   │   │       ├── StatusCodes: Object (6 properties)
+│   │   │   │       ├── StatusCodes: Object (6 properties)[]
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   ├── Path: *string
 │   │   │   │       │   ├── Status: *int
 │   │   │   │       │   ├── SubStatus: *int
 │   │   │   │       │   ├── TimeInterval: *string
 │   │   │   │       │   └── Win32Status: *int
-│   │   │   │       └── StatusCodesRange: Object (4 properties)
+│   │   │   │       └── StatusCodesRange: Object (4 properties)[]
 │   │   │   │           ├── Count: *int
 │   │   │   │           ├── Path: *string
 │   │   │   │           ├── StatusCodes: *string
 │   │   │   │           └── TimeInterval: *string
 │   │   │   ├── AutoSwapSlotName: *string
-│   │   │   ├── AzureStorageAccounts: Object (5 properties)
+│   │   │   ├── AzureStorageAccounts: map[string]Object (5 properties)
 │   │   │   │   ├── AccessKey: *genruntime.SecretReference
 │   │   │   │   ├── AccountName: *string
 │   │   │   │   ├── MountPath: *string
 │   │   │   │   ├── ShareName: *string
-│   │   │   │   └── Type: Enum (2 values)
+│   │   │   │   └── Type: *Enum (2 values)
 │   │   │   │       ├── "AzureBlob"
 │   │   │   │       └── "AzureFiles"
-│   │   │   ├── ConnectionStrings: Object (3 properties)
+│   │   │   ├── ConnectionStrings: Object (3 properties)[]
 │   │   │   │   ├── ConnectionString: *string
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Type: Enum (11 values)
+│   │   │   │   └── Type: *Enum (11 values)
 │   │   │   │       ├── "ApiHub"
 │   │   │   │       ├── "Custom"
 │   │   │   │       ├── "DocDb"
@@ -358,14 +360,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │       ├── "SQLAzure"
 │   │   │   │       ├── "SQLServer"
 │   │   │   │       └── "ServiceBus"
-│   │   │   ├── Cors: Object (2 properties)
+│   │   │   ├── Cors: *Object (2 properties)
 │   │   │   │   ├── AllowedOrigins: string[]
 │   │   │   │   └── SupportCredentials: *bool
 │   │   │   ├── DefaultDocuments: string[]
 │   │   │   ├── DetailedErrorLoggingEnabled: *bool
 │   │   │   ├── DocumentRoot: *string
-│   │   │   ├── Experiments: Object (1 property)
-│   │   │   │   └── RampUpRules: Object (8 properties)
+│   │   │   ├── Experiments: *Object (1 property)
+│   │   │   │   └── RampUpRules: Object (8 properties)[]
 │   │   │   │       ├── ActionHostName: *string
 │   │   │   │       ├── ChangeDecisionCallbackUrl: *string
 │   │   │   │       ├── ChangeIntervalInMinutes: *int
@@ -374,21 +376,21 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │       ├── MinReroutePercentage: *float64
 │   │   │   │       ├── Name: *string
 │   │   │   │       └── ReroutePercentage: *float64
-│   │   │   ├── FtpsState: Enum (3 values)
+│   │   │   ├── FtpsState: *Enum (3 values)
 │   │   │   │   ├── "AllAllowed"
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "FtpsOnly"
 │   │   │   ├── FunctionAppScaleLimit: Validated<*int> (1 rule)
-│   │   │   │   └── Rule 0: {Minimum 0}
+│   │   │   │   └── Rule 0: Minimum: 0
 │   │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
-│   │   │   ├── HandlerMappings: Object (3 properties)
+│   │   │   ├── HandlerMappings: Object (3 properties)[]
 │   │   │   │   ├── Arguments: *string
 │   │   │   │   ├── Extension: *string
 │   │   │   │   └── ScriptProcessor: *string
 │   │   │   ├── HealthCheckPath: *string
 │   │   │   ├── Http20Enabled: *bool
 │   │   │   ├── HttpLoggingEnabled: *bool
-│   │   │   ├── IpSecurityRestrictions: Object (11 properties)
+│   │   │   ├── IpSecurityRestrictions: Object (11 properties)[]
 │   │   │   │   ├── Action: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── Headers: map[string]string[]
@@ -397,7 +399,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   ├── Priority: *int
 │   │   │   │   ├── SubnetMask: *string
 │   │   │   │   ├── SubnetTrafficTag: *int
-│   │   │   │   ├── Tag: Enum (3 values)
+│   │   │   │   ├── Tag: *Enum (3 values)
 │   │   │   │   │   ├── "Default"
 │   │   │   │   │   ├── "ServiceTag"
 │   │   │   │   │   └── "XffProxy"
@@ -407,12 +409,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── JavaContainerVersion: *string
 │   │   │   ├── JavaVersion: *string
 │   │   │   ├── KeyVaultReferenceIdentity: *string
-│   │   │   ├── Limits: Object (3 properties)
+│   │   │   ├── Limits: *Object (3 properties)
 │   │   │   │   ├── MaxDiskSizeInMb: *int
 │   │   │   │   ├── MaxMemoryInMb: *int
 │   │   │   │   └── MaxPercentageCpu: *float64
 │   │   │   ├── LinuxFxVersion: *string
-│   │   │   ├── LoadBalancing: Enum (6 values)
+│   │   │   ├── LoadBalancing: *Enum (6 values)
 │   │   │   │   ├── "LeastRequests"
 │   │   │   │   ├── "LeastResponseTime"
 │   │   │   │   ├── "PerSiteRoundRobin"
@@ -421,28 +423,28 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   └── "WeightedTotalTraffic"
 │   │   │   ├── LocalMySqlEnabled: *bool
 │   │   │   ├── LogsDirectorySizeLimit: *int
-│   │   │   ├── ManagedPipelineMode: Enum (2 values)
+│   │   │   ├── ManagedPipelineMode: *Enum (2 values)
 │   │   │   │   ├── "Classic"
 │   │   │   │   └── "Integrated"
 │   │   │   ├── ManagedServiceIdentityId: *int
-│   │   │   ├── MinTlsVersion: Enum (3 values)
+│   │   │   ├── MinTlsVersion: *Enum (3 values)
 │   │   │   │   ├── "1.0"
 │   │   │   │   ├── "1.1"
 │   │   │   │   └── "1.2"
 │   │   │   ├── MinimumElasticInstanceCount: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 20}
-│   │   │   │   └── Rule 1: {Minimum 0}
+│   │   │   │   ├── Rule 0: Maximum: 20
+│   │   │   │   └── Rule 1: Minimum: 0
 │   │   │   ├── NetFrameworkVersion: *string
 │   │   │   ├── NodeVersion: *string
 │   │   │   ├── NumberOfWorkers: *int
 │   │   │   ├── PhpVersion: *string
 │   │   │   ├── PowerShellVersion: *string
 │   │   │   ├── PreWarmedInstanceCount: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 10}
-│   │   │   │   └── Rule 1: {Minimum 0}
+│   │   │   │   ├── Rule 0: Maximum: 10
+│   │   │   │   └── Rule 1: Minimum: 0
 │   │   │   ├── PublicNetworkAccess: *string
 │   │   │   ├── PublishingUsername: *string
-│   │   │   ├── Push: Object (5 properties)
+│   │   │   ├── Push: *Object (5 properties)
 │   │   │   │   ├── DynamicTagsJson: *string
 │   │   │   │   ├── IsPushEnabled: *bool
 │   │   │   │   ├── Kind: *string
@@ -453,7 +455,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── RemoteDebuggingVersion: *string
 │   │   │   ├── RequestTracingEnabled: *bool
 │   │   │   ├── RequestTracingExpirationTime: Validated<*string> (0 rules)
-│   │   │   ├── ScmIpSecurityRestrictions: Object (11 properties)
+│   │   │   ├── ScmIpSecurityRestrictions: Object (11 properties)[]
 │   │   │   │   ├── Action: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── Headers: map[string]string[]
@@ -462,18 +464,18 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   ├── Priority: *int
 │   │   │   │   ├── SubnetMask: *string
 │   │   │   │   ├── SubnetTrafficTag: *int
-│   │   │   │   ├── Tag: Enum (3 values)
+│   │   │   │   ├── Tag: *Enum (3 values)
 │   │   │   │   │   ├── "Default"
 │   │   │   │   │   ├── "ServiceTag"
 │   │   │   │   │   └── "XffProxy"
 │   │   │   │   ├── VnetSubnetResourceReference: *genruntime.ResourceReference
 │   │   │   │   └── VnetTrafficTag: *int
 │   │   │   ├── ScmIpSecurityRestrictionsUseMain: *bool
-│   │   │   ├── ScmMinTlsVersion: Enum (3 values)
+│   │   │   ├── ScmMinTlsVersion: *Enum (3 values)
 │   │   │   │   ├── "1.0"
 │   │   │   │   ├── "1.1"
 │   │   │   │   └── "1.2"
-│   │   │   ├── ScmType: Enum (14 values)
+│   │   │   ├── ScmType: *Enum (14 values)
 │   │   │   │   ├── "BitbucketGit"
 │   │   │   │   ├── "BitbucketHg"
 │   │   │   │   ├── "CodePlexGit"
@@ -490,10 +492,10 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   └── "VSTSRM"
 │   │   │   ├── TracingOptions: *string
 │   │   │   ├── Use32BitWorkerProcess: *bool
-│   │   │   ├── VirtualApplications: Object (4 properties)
+│   │   │   ├── VirtualApplications: Object (4 properties)[]
 │   │   │   │   ├── PhysicalPath: *string
 │   │   │   │   ├── PreloadEnabled: *bool
-│   │   │   │   ├── VirtualDirectories: Object (2 properties)
+│   │   │   │   ├── VirtualDirectories: Object (2 properties)[]
 │   │   │   │   │   ├── PhysicalPath: *string
 │   │   │   │   │   └── VirtualPath: *string
 │   │   │   │   └── VirtualPath: *string
@@ -511,18 +513,18 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── VnetImagePullEnabled: *bool
 │   │   └── VnetRouteAllEnabled: *bool
 │   └── Status: Object (54 properties)
-│       ├── AvailabilityState: Enum (3 values)
+│       ├── AvailabilityState: *Enum (3 values)
 │       │   ├── "DisasterRecoveryMode"
 │       │   ├── "Limited"
 │       │   └── "Normal"
 │       ├── ClientAffinityEnabled: *bool
 │       ├── ClientCertEnabled: *bool
 │       ├── ClientCertExclusionPaths: *string
-│       ├── ClientCertMode: Enum (3 values)
+│       ├── ClientCertMode: *Enum (3 values)
 │       │   ├── "Optional"
 │       │   ├── "OptionalInteractiveUser"
 │       │   └── "Required"
-│       ├── CloningInfo: Object (11 properties)
+│       ├── CloningInfo: *Object (11 properties)
 │       │   ├── AppSettingsOverrides: map[string]string
 │       │   ├── CloneCustomHostNames: *bool
 │       │   ├── CloneSourceControl: *bool
@@ -541,15 +543,15 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── DefaultHostName: *string
 │       ├── Enabled: *bool
 │       ├── EnabledHostNames: string[]
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
 │       │   └── Type: *string
-│       ├── HostNameSslStates: Object (6 properties)
-│       │   ├── HostType: Enum (2 values)
+│       ├── HostNameSslStates: Object (6 properties)[]
+│       │   ├── HostType: *Enum (2 values)
 │       │   │   ├── "Repository"
 │       │   │   └── "Standard"
 │       │   ├── Name: *string
-│       │   ├── SslState: Enum (3 values)
+│       │   ├── SslState: *Enum (3 values)
 │       │   │   ├── "Disabled"
 │       │   │   ├── "IpBasedEnabled"
 │       │   │   └── "SniEnabled"
@@ -558,22 +560,22 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   └── VirtualIP: *string
 │       ├── HostNames: string[]
 │       ├── HostNamesDisabled: *bool
-│       ├── HostingEnvironmentProfile: Object (3 properties)
+│       ├── HostingEnvironmentProfile: *Object (3 properties)
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   └── Type: *string
 │       ├── HttpsOnly: *bool
 │       ├── HyperV: *bool
 │       ├── Id: *string
-│       ├── Identity: Object (4 properties)
+│       ├── Identity: *Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: Enum (4 values)
+│       │   ├── Type: *Enum (4 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   ├── "SystemAssigned, UserAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: Object (2 properties)
+│       │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
 │       ├── InProgressOperationId: *string
@@ -588,7 +590,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── OutboundIpAddresses: *string
 │       ├── PossibleOutboundIpAddresses: *string
 │       ├── PublicNetworkAccess: *string
-│       ├── RedundancyMode: Enum (5 values)
+│       ├── RedundancyMode: *Enum (5 values)
 │       │   ├── "ActiveActive"
 │       │   ├── "Failover"
 │       │   ├── "GeoRedundant"
@@ -599,73 +601,73 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── ResourceGroup: *string
 │       ├── ScmSiteAlsoStopped: *bool
 │       ├── ServerFarmId: *string
-│       ├── SiteConfig: Object (67 properties)
+│       ├── SiteConfig: *Object (67 properties)
 │       │   ├── AcrUseManagedIdentityCreds: *bool
 │       │   ├── AcrUserManagedIdentityID: *string
 │       │   ├── AlwaysOn: *bool
-│       │   ├── ApiDefinition: Object (1 property)
+│       │   ├── ApiDefinition: *Object (1 property)
 │       │   │   └── Url: *string
-│       │   ├── ApiManagementConfig: Object (1 property)
+│       │   ├── ApiManagementConfig: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── AppCommandLine: *string
-│       │   ├── AppSettings: Object (2 properties)
+│       │   ├── AppSettings: Object (2 properties)[]
 │       │   │   ├── Name: *string
 │       │   │   └── Value: *string
 │       │   ├── AutoHealEnabled: *bool
-│       │   ├── AutoHealRules: Object (2 properties)
-│       │   │   ├── Actions: Object (3 properties)
-│       │   │   │   ├── ActionType: Enum (3 values)
+│       │   ├── AutoHealRules: *Object (2 properties)
+│       │   │   ├── Actions: *Object (3 properties)
+│       │   │   │   ├── ActionType: *Enum (3 values)
 │       │   │   │   │   ├── "CustomAction"
 │       │   │   │   │   ├── "LogEvent"
 │       │   │   │   │   └── "Recycle"
-│       │   │   │   ├── CustomAction: Object (2 properties)
+│       │   │   │   ├── CustomAction: *Object (2 properties)
 │       │   │   │   │   ├── Exe: *string
 │       │   │   │   │   └── Parameters: *string
 │       │   │   │   └── MinProcessExecutionTime: *string
-│       │   │   └── Triggers: Object (6 properties)
+│       │   │   └── Triggers: *Object (6 properties)
 │       │   │       ├── PrivateBytesInKB: *int
-│       │   │       ├── Requests: Object (2 properties)
+│       │   │       ├── Requests: *Object (2 properties)
 │       │   │       │   ├── Count: *int
 │       │   │       │   └── TimeInterval: *string
-│       │   │       ├── SlowRequests: Object (4 properties)
+│       │   │       ├── SlowRequests: *Object (4 properties)
 │       │   │       │   ├── Count: *int
 │       │   │       │   ├── Path: *string
 │       │   │       │   ├── TimeInterval: *string
 │       │   │       │   └── TimeTaken: *string
-│       │   │       ├── SlowRequestsWithPath: Object (4 properties)
+│       │   │       ├── SlowRequestsWithPath: Object (4 properties)[]
 │       │   │       │   ├── Count: *int
 │       │   │       │   ├── Path: *string
 │       │   │       │   ├── TimeInterval: *string
 │       │   │       │   └── TimeTaken: *string
-│       │   │       ├── StatusCodes: Object (6 properties)
+│       │   │       ├── StatusCodes: Object (6 properties)[]
 │       │   │       │   ├── Count: *int
 │       │   │       │   ├── Path: *string
 │       │   │       │   ├── Status: *int
 │       │   │       │   ├── SubStatus: *int
 │       │   │       │   ├── TimeInterval: *string
 │       │   │       │   └── Win32Status: *int
-│       │   │       └── StatusCodesRange: Object (4 properties)
+│       │   │       └── StatusCodesRange: Object (4 properties)[]
 │       │   │           ├── Count: *int
 │       │   │           ├── Path: *string
 │       │   │           ├── StatusCodes: *string
 │       │   │           └── TimeInterval: *string
 │       │   ├── AutoSwapSlotName: *string
-│       │   ├── AzureStorageAccounts: Object (5 properties)
+│       │   ├── AzureStorageAccounts: map[string]Object (5 properties)
 │       │   │   ├── AccountName: *string
 │       │   │   ├── MountPath: *string
 │       │   │   ├── ShareName: *string
-│       │   │   ├── State: Enum (4 values)
+│       │   │   ├── State: *Enum (4 values)
 │       │   │   │   ├── "InvalidCredentials"
 │       │   │   │   ├── "InvalidShare"
 │       │   │   │   ├── "NotValidated"
 │       │   │   │   └── "Ok"
-│       │   │   └── Type: Enum (2 values)
+│       │   │   └── Type: *Enum (2 values)
 │       │   │       ├── "AzureBlob"
 │       │   │       └── "AzureFiles"
-│       │   ├── ConnectionStrings: Object (3 properties)
+│       │   ├── ConnectionStrings: Object (3 properties)[]
 │       │   │   ├── ConnectionString: *string
 │       │   │   ├── Name: *string
-│       │   │   └── Type: Enum (11 values)
+│       │   │   └── Type: *Enum (11 values)
 │       │   │       ├── "ApiHub"
 │       │   │       ├── "Custom"
 │       │   │       ├── "DocDb"
@@ -677,14 +679,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │       ├── "SQLAzure"
 │       │   │       ├── "SQLServer"
 │       │   │       └── "ServiceBus"
-│       │   ├── Cors: Object (2 properties)
+│       │   ├── Cors: *Object (2 properties)
 │       │   │   ├── AllowedOrigins: string[]
 │       │   │   └── SupportCredentials: *bool
 │       │   ├── DefaultDocuments: string[]
 │       │   ├── DetailedErrorLoggingEnabled: *bool
 │       │   ├── DocumentRoot: *string
-│       │   ├── Experiments: Object (1 property)
-│       │   │   └── RampUpRules: Object (8 properties)
+│       │   ├── Experiments: *Object (1 property)
+│       │   │   └── RampUpRules: Object (8 properties)[]
 │       │   │       ├── ActionHostName: *string
 │       │   │       ├── ChangeDecisionCallbackUrl: *string
 │       │   │       ├── ChangeIntervalInMinutes: *int
@@ -693,20 +695,20 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │       ├── MinReroutePercentage: *float64
 │       │   │       ├── Name: *string
 │       │   │       └── ReroutePercentage: *float64
-│       │   ├── FtpsState: Enum (3 values)
+│       │   ├── FtpsState: *Enum (3 values)
 │       │   │   ├── "AllAllowed"
 │       │   │   ├── "Disabled"
 │       │   │   └── "FtpsOnly"
 │       │   ├── FunctionAppScaleLimit: *int
 │       │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
-│       │   ├── HandlerMappings: Object (3 properties)
+│       │   ├── HandlerMappings: Object (3 properties)[]
 │       │   │   ├── Arguments: *string
 │       │   │   ├── Extension: *string
 │       │   │   └── ScriptProcessor: *string
 │       │   ├── HealthCheckPath: *string
 │       │   ├── Http20Enabled: *bool
 │       │   ├── HttpLoggingEnabled: *bool
-│       │   ├── IpSecurityRestrictions: Object (11 properties)
+│       │   ├── IpSecurityRestrictions: Object (11 properties)[]
 │       │   │   ├── Action: *string
 │       │   │   ├── Description: *string
 │       │   │   ├── Headers: map[string]string[]
@@ -715,7 +717,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │   ├── Priority: *int
 │       │   │   ├── SubnetMask: *string
 │       │   │   ├── SubnetTrafficTag: *int
-│       │   │   ├── Tag: Enum (3 values)
+│       │   │   ├── Tag: *Enum (3 values)
 │       │   │   │   ├── "Default"
 │       │   │   │   ├── "ServiceTag"
 │       │   │   │   └── "XffProxy"
@@ -725,12 +727,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   ├── JavaContainerVersion: *string
 │       │   ├── JavaVersion: *string
 │       │   ├── KeyVaultReferenceIdentity: *string
-│       │   ├── Limits: Object (3 properties)
+│       │   ├── Limits: *Object (3 properties)
 │       │   │   ├── MaxDiskSizeInMb: *int
 │       │   │   ├── MaxMemoryInMb: *int
 │       │   │   └── MaxPercentageCpu: *float64
 │       │   ├── LinuxFxVersion: *string
-│       │   ├── LoadBalancing: Enum (6 values)
+│       │   ├── LoadBalancing: *Enum (6 values)
 │       │   │   ├── "LeastRequests"
 │       │   │   ├── "LeastResponseTime"
 │       │   │   ├── "PerSiteRoundRobin"
@@ -739,16 +741,16 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │   └── "WeightedTotalTraffic"
 │       │   ├── LocalMySqlEnabled: *bool
 │       │   ├── LogsDirectorySizeLimit: *int
-│       │   ├── MachineKey: Object (4 properties)
+│       │   ├── MachineKey: *Object (4 properties)
 │       │   │   ├── Decryption: *string
 │       │   │   ├── DecryptionKey: *string
 │       │   │   ├── Validation: *string
 │       │   │   └── ValidationKey: *string
-│       │   ├── ManagedPipelineMode: Enum (2 values)
+│       │   ├── ManagedPipelineMode: *Enum (2 values)
 │       │   │   ├── "Classic"
 │       │   │   └── "Integrated"
 │       │   ├── ManagedServiceIdentityId: *int
-│       │   ├── MinTlsVersion: Enum (3 values)
+│       │   ├── MinTlsVersion: *Enum (3 values)
 │       │   │   ├── "1.0"
 │       │   │   ├── "1.1"
 │       │   │   └── "1.2"
@@ -761,7 +763,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   ├── PreWarmedInstanceCount: *int
 │       │   ├── PublicNetworkAccess: *string
 │       │   ├── PublishingUsername: *string
-│       │   ├── Push: Object (8 properties)
+│       │   ├── Push: *Object (8 properties)
 │       │   │   ├── DynamicTagsJson: *string
 │       │   │   ├── Id: *string
 │       │   │   ├── IsPushEnabled: *bool
@@ -775,7 +777,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   ├── RemoteDebuggingVersion: *string
 │       │   ├── RequestTracingEnabled: *bool
 │       │   ├── RequestTracingExpirationTime: *string
-│       │   ├── ScmIpSecurityRestrictions: Object (11 properties)
+│       │   ├── ScmIpSecurityRestrictions: Object (11 properties)[]
 │       │   │   ├── Action: *string
 │       │   │   ├── Description: *string
 │       │   │   ├── Headers: map[string]string[]
@@ -784,18 +786,18 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │   ├── Priority: *int
 │       │   │   ├── SubnetMask: *string
 │       │   │   ├── SubnetTrafficTag: *int
-│       │   │   ├── Tag: Enum (3 values)
+│       │   │   ├── Tag: *Enum (3 values)
 │       │   │   │   ├── "Default"
 │       │   │   │   ├── "ServiceTag"
 │       │   │   │   └── "XffProxy"
 │       │   │   ├── VnetSubnetResourceId: *string
 │       │   │   └── VnetTrafficTag: *int
 │       │   ├── ScmIpSecurityRestrictionsUseMain: *bool
-│       │   ├── ScmMinTlsVersion: Enum (3 values)
+│       │   ├── ScmMinTlsVersion: *Enum (3 values)
 │       │   │   ├── "1.0"
 │       │   │   ├── "1.1"
 │       │   │   └── "1.2"
-│       │   ├── ScmType: Enum (14 values)
+│       │   ├── ScmType: *Enum (14 values)
 │       │   │   ├── "BitbucketGit"
 │       │   │   ├── "BitbucketHg"
 │       │   │   ├── "CodePlexGit"
@@ -812,10 +814,10 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   │   └── "VSTSRM"
 │       │   ├── TracingOptions: *string
 │       │   ├── Use32BitWorkerProcess: *bool
-│       │   ├── VirtualApplications: Object (4 properties)
+│       │   ├── VirtualApplications: Object (4 properties)[]
 │       │   │   ├── PhysicalPath: *string
 │       │   │   ├── PreloadEnabled: *bool
-│       │   │   ├── VirtualDirectories: Object (2 properties)
+│       │   │   ├── VirtualDirectories: Object (2 properties)[]
 │       │   │   │   ├── PhysicalPath: *string
 │       │   │   │   └── VirtualPath: *string
 │       │   │   └── VirtualPath: *string
@@ -826,7 +828,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       │   ├── WebsiteTimeZone: *string
 │       │   ├── WindowsFxVersion: *string
 │       │   └── XManagedServiceIdentityId: *int
-│       ├── SlotSwapStatus: Object (3 properties)
+│       ├── SlotSwapStatus: *Object (3 properties)
 │       │   ├── DestinationSlotName: *string
 │       │   ├── SourceSlotName: *string
 │       │   └── TimestampUtc: *string
@@ -837,7 +839,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── TargetSwapSlot: *string
 │       ├── TrafficManagerHostNames: string[]
 │       ├── Type: *string
-│       ├── UsageState: Enum (2 values)
+│       ├── UsageState: *Enum (2 values)
 │       │   ├── "Exceeded"
 │       │   └── "Normal"
 │       ├── VirtualNetworkSubnetId: *string
@@ -845,37 +847,37 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │       ├── VnetImagePullEnabled: *bool
 │       └── VnetRouteAllEnabled: *bool
 ├── Site_STATUS_ARM: Object (9 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
 │   │   └── Type: *string
 │   ├── Id: *string
-│   ├── Identity: Object (4 properties)
+│   ├── Identity: *Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: Enum (4 values)
+│   │   ├── Type: *Enum (4 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   ├── "SystemAssigned, UserAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: Object (2 properties)
+│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │   │       ├── ClientId: *string
 │   │       └── PrincipalId: *string
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (45 properties)
-│   │   ├── AvailabilityState: Enum (3 values)
+│   ├── Properties: *Object (45 properties)
+│   │   ├── AvailabilityState: *Enum (3 values)
 │   │   │   ├── "DisasterRecoveryMode"
 │   │   │   ├── "Limited"
 │   │   │   └── "Normal"
 │   │   ├── ClientAffinityEnabled: *bool
 │   │   ├── ClientCertEnabled: *bool
 │   │   ├── ClientCertExclusionPaths: *string
-│   │   ├── ClientCertMode: Enum (3 values)
+│   │   ├── ClientCertMode: *Enum (3 values)
 │   │   │   ├── "Optional"
 │   │   │   ├── "OptionalInteractiveUser"
 │   │   │   └── "Required"
-│   │   ├── CloningInfo: Object (11 properties)
+│   │   ├── CloningInfo: *Object (11 properties)
 │   │   │   ├── AppSettingsOverrides: map[string]string
 │   │   │   ├── CloneCustomHostNames: *bool
 │   │   │   ├── CloneSourceControl: *bool
@@ -893,12 +895,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── DefaultHostName: *string
 │   │   ├── Enabled: *bool
 │   │   ├── EnabledHostNames: string[]
-│   │   ├── HostNameSslStates: Object (6 properties)
-│   │   │   ├── HostType: Enum (2 values)
+│   │   ├── HostNameSslStates: Object (6 properties)[]
+│   │   │   ├── HostType: *Enum (2 values)
 │   │   │   │   ├── "Repository"
 │   │   │   │   └── "Standard"
 │   │   │   ├── Name: *string
-│   │   │   ├── SslState: Enum (3 values)
+│   │   │   ├── SslState: *Enum (3 values)
 │   │   │   │   ├── "Disabled"
 │   │   │   │   ├── "IpBasedEnabled"
 │   │   │   │   └── "SniEnabled"
@@ -907,7 +909,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   └── VirtualIP: *string
 │   │   ├── HostNames: string[]
 │   │   ├── HostNamesDisabled: *bool
-│   │   ├── HostingEnvironmentProfile: Object (3 properties)
+│   │   ├── HostingEnvironmentProfile: *Object (3 properties)
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
 │   │   │   └── Type: *string
@@ -922,7 +924,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── OutboundIpAddresses: *string
 │   │   ├── PossibleOutboundIpAddresses: *string
 │   │   ├── PublicNetworkAccess: *string
-│   │   ├── RedundancyMode: Enum (5 values)
+│   │   ├── RedundancyMode: *Enum (5 values)
 │   │   │   ├── "ActiveActive"
 │   │   │   ├── "Failover"
 │   │   │   ├── "GeoRedundant"
@@ -933,73 +935,73 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── ResourceGroup: *string
 │   │   ├── ScmSiteAlsoStopped: *bool
 │   │   ├── ServerFarmId: *string
-│   │   ├── SiteConfig: Object (67 properties)
+│   │   ├── SiteConfig: *Object (67 properties)
 │   │   │   ├── AcrUseManagedIdentityCreds: *bool
 │   │   │   ├── AcrUserManagedIdentityID: *string
 │   │   │   ├── AlwaysOn: *bool
-│   │   │   ├── ApiDefinition: Object (1 property)
+│   │   │   ├── ApiDefinition: *Object (1 property)
 │   │   │   │   └── Url: *string
-│   │   │   ├── ApiManagementConfig: Object (1 property)
+│   │   │   ├── ApiManagementConfig: *Object (1 property)
 │   │   │   │   └── Id: *string
 │   │   │   ├── AppCommandLine: *string
-│   │   │   ├── AppSettings: Object (2 properties)
+│   │   │   ├── AppSettings: Object (2 properties)[]
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── Value: *string
 │   │   │   ├── AutoHealEnabled: *bool
-│   │   │   ├── AutoHealRules: Object (2 properties)
-│   │   │   │   ├── Actions: Object (3 properties)
-│   │   │   │   │   ├── ActionType: Enum (3 values)
+│   │   │   ├── AutoHealRules: *Object (2 properties)
+│   │   │   │   ├── Actions: *Object (3 properties)
+│   │   │   │   │   ├── ActionType: *Enum (3 values)
 │   │   │   │   │   │   ├── "CustomAction"
 │   │   │   │   │   │   ├── "LogEvent"
 │   │   │   │   │   │   └── "Recycle"
-│   │   │   │   │   ├── CustomAction: Object (2 properties)
+│   │   │   │   │   ├── CustomAction: *Object (2 properties)
 │   │   │   │   │   │   ├── Exe: *string
 │   │   │   │   │   │   └── Parameters: *string
 │   │   │   │   │   └── MinProcessExecutionTime: *string
-│   │   │   │   └── Triggers: Object (6 properties)
+│   │   │   │   └── Triggers: *Object (6 properties)
 │   │   │   │       ├── PrivateBytesInKB: *int
-│   │   │   │       ├── Requests: Object (2 properties)
+│   │   │   │       ├── Requests: *Object (2 properties)
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   └── TimeInterval: *string
-│   │   │   │       ├── SlowRequests: Object (4 properties)
+│   │   │   │       ├── SlowRequests: *Object (4 properties)
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   ├── Path: *string
 │   │   │   │       │   ├── TimeInterval: *string
 │   │   │   │       │   └── TimeTaken: *string
-│   │   │   │       ├── SlowRequestsWithPath: Object (4 properties)
+│   │   │   │       ├── SlowRequestsWithPath: Object (4 properties)[]
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   ├── Path: *string
 │   │   │   │       │   ├── TimeInterval: *string
 │   │   │   │       │   └── TimeTaken: *string
-│   │   │   │       ├── StatusCodes: Object (6 properties)
+│   │   │   │       ├── StatusCodes: Object (6 properties)[]
 │   │   │   │       │   ├── Count: *int
 │   │   │   │       │   ├── Path: *string
 │   │   │   │       │   ├── Status: *int
 │   │   │   │       │   ├── SubStatus: *int
 │   │   │   │       │   ├── TimeInterval: *string
 │   │   │   │       │   └── Win32Status: *int
-│   │   │   │       └── StatusCodesRange: Object (4 properties)
+│   │   │   │       └── StatusCodesRange: Object (4 properties)[]
 │   │   │   │           ├── Count: *int
 │   │   │   │           ├── Path: *string
 │   │   │   │           ├── StatusCodes: *string
 │   │   │   │           └── TimeInterval: *string
 │   │   │   ├── AutoSwapSlotName: *string
-│   │   │   ├── AzureStorageAccounts: Object (5 properties)
+│   │   │   ├── AzureStorageAccounts: map[string]Object (5 properties)
 │   │   │   │   ├── AccountName: *string
 │   │   │   │   ├── MountPath: *string
 │   │   │   │   ├── ShareName: *string
-│   │   │   │   ├── State: Enum (4 values)
+│   │   │   │   ├── State: *Enum (4 values)
 │   │   │   │   │   ├── "InvalidCredentials"
 │   │   │   │   │   ├── "InvalidShare"
 │   │   │   │   │   ├── "NotValidated"
 │   │   │   │   │   └── "Ok"
-│   │   │   │   └── Type: Enum (2 values)
+│   │   │   │   └── Type: *Enum (2 values)
 │   │   │   │       ├── "AzureBlob"
 │   │   │   │       └── "AzureFiles"
-│   │   │   ├── ConnectionStrings: Object (3 properties)
+│   │   │   ├── ConnectionStrings: Object (3 properties)[]
 │   │   │   │   ├── ConnectionString: *string
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Type: Enum (11 values)
+│   │   │   │   └── Type: *Enum (11 values)
 │   │   │   │       ├── "ApiHub"
 │   │   │   │       ├── "Custom"
 │   │   │   │       ├── "DocDb"
@@ -1011,14 +1013,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │       ├── "SQLAzure"
 │   │   │   │       ├── "SQLServer"
 │   │   │   │       └── "ServiceBus"
-│   │   │   ├── Cors: Object (2 properties)
+│   │   │   ├── Cors: *Object (2 properties)
 │   │   │   │   ├── AllowedOrigins: string[]
 │   │   │   │   └── SupportCredentials: *bool
 │   │   │   ├── DefaultDocuments: string[]
 │   │   │   ├── DetailedErrorLoggingEnabled: *bool
 │   │   │   ├── DocumentRoot: *string
-│   │   │   ├── Experiments: Object (1 property)
-│   │   │   │   └── RampUpRules: Object (8 properties)
+│   │   │   ├── Experiments: *Object (1 property)
+│   │   │   │   └── RampUpRules: Object (8 properties)[]
 │   │   │   │       ├── ActionHostName: *string
 │   │   │   │       ├── ChangeDecisionCallbackUrl: *string
 │   │   │   │       ├── ChangeIntervalInMinutes: *int
@@ -1027,20 +1029,20 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │       ├── MinReroutePercentage: *float64
 │   │   │   │       ├── Name: *string
 │   │   │   │       └── ReroutePercentage: *float64
-│   │   │   ├── FtpsState: Enum (3 values)
+│   │   │   ├── FtpsState: *Enum (3 values)
 │   │   │   │   ├── "AllAllowed"
 │   │   │   │   ├── "Disabled"
 │   │   │   │   └── "FtpsOnly"
 │   │   │   ├── FunctionAppScaleLimit: *int
 │   │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
-│   │   │   ├── HandlerMappings: Object (3 properties)
+│   │   │   ├── HandlerMappings: Object (3 properties)[]
 │   │   │   │   ├── Arguments: *string
 │   │   │   │   ├── Extension: *string
 │   │   │   │   └── ScriptProcessor: *string
 │   │   │   ├── HealthCheckPath: *string
 │   │   │   ├── Http20Enabled: *bool
 │   │   │   ├── HttpLoggingEnabled: *bool
-│   │   │   ├── IpSecurityRestrictions: Object (11 properties)
+│   │   │   ├── IpSecurityRestrictions: Object (11 properties)[]
 │   │   │   │   ├── Action: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── Headers: map[string]string[]
@@ -1049,7 +1051,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   ├── Priority: *int
 │   │   │   │   ├── SubnetMask: *string
 │   │   │   │   ├── SubnetTrafficTag: *int
-│   │   │   │   ├── Tag: Enum (3 values)
+│   │   │   │   ├── Tag: *Enum (3 values)
 │   │   │   │   │   ├── "Default"
 │   │   │   │   │   ├── "ServiceTag"
 │   │   │   │   │   └── "XffProxy"
@@ -1059,12 +1061,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── JavaContainerVersion: *string
 │   │   │   ├── JavaVersion: *string
 │   │   │   ├── KeyVaultReferenceIdentity: *string
-│   │   │   ├── Limits: Object (3 properties)
+│   │   │   ├── Limits: *Object (3 properties)
 │   │   │   │   ├── MaxDiskSizeInMb: *int
 │   │   │   │   ├── MaxMemoryInMb: *int
 │   │   │   │   └── MaxPercentageCpu: *float64
 │   │   │   ├── LinuxFxVersion: *string
-│   │   │   ├── LoadBalancing: Enum (6 values)
+│   │   │   ├── LoadBalancing: *Enum (6 values)
 │   │   │   │   ├── "LeastRequests"
 │   │   │   │   ├── "LeastResponseTime"
 │   │   │   │   ├── "PerSiteRoundRobin"
@@ -1073,16 +1075,16 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   └── "WeightedTotalTraffic"
 │   │   │   ├── LocalMySqlEnabled: *bool
 │   │   │   ├── LogsDirectorySizeLimit: *int
-│   │   │   ├── MachineKey: Object (4 properties)
+│   │   │   ├── MachineKey: *Object (4 properties)
 │   │   │   │   ├── Decryption: *string
 │   │   │   │   ├── DecryptionKey: *string
 │   │   │   │   ├── Validation: *string
 │   │   │   │   └── ValidationKey: *string
-│   │   │   ├── ManagedPipelineMode: Enum (2 values)
+│   │   │   ├── ManagedPipelineMode: *Enum (2 values)
 │   │   │   │   ├── "Classic"
 │   │   │   │   └── "Integrated"
 │   │   │   ├── ManagedServiceIdentityId: *int
-│   │   │   ├── MinTlsVersion: Enum (3 values)
+│   │   │   ├── MinTlsVersion: *Enum (3 values)
 │   │   │   │   ├── "1.0"
 │   │   │   │   ├── "1.1"
 │   │   │   │   └── "1.2"
@@ -1095,11 +1097,11 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── PreWarmedInstanceCount: *int
 │   │   │   ├── PublicNetworkAccess: *string
 │   │   │   ├── PublishingUsername: *string
-│   │   │   ├── Push: Object (5 properties)
+│   │   │   ├── Push: *Object (5 properties)
 │   │   │   │   ├── Id: *string
 │   │   │   │   ├── Kind: *string
 │   │   │   │   ├── Name: *string
-│   │   │   │   ├── Properties: Object (4 properties)
+│   │   │   │   ├── Properties: *Object (4 properties)
 │   │   │   │   │   ├── DynamicTagsJson: *string
 │   │   │   │   │   ├── IsPushEnabled: *bool
 │   │   │   │   │   ├── TagWhitelistJson: *string
@@ -1110,7 +1112,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── RemoteDebuggingVersion: *string
 │   │   │   ├── RequestTracingEnabled: *bool
 │   │   │   ├── RequestTracingExpirationTime: *string
-│   │   │   ├── ScmIpSecurityRestrictions: Object (11 properties)
+│   │   │   ├── ScmIpSecurityRestrictions: Object (11 properties)[]
 │   │   │   │   ├── Action: *string
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── Headers: map[string]string[]
@@ -1119,18 +1121,18 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   ├── Priority: *int
 │   │   │   │   ├── SubnetMask: *string
 │   │   │   │   ├── SubnetTrafficTag: *int
-│   │   │   │   ├── Tag: Enum (3 values)
+│   │   │   │   ├── Tag: *Enum (3 values)
 │   │   │   │   │   ├── "Default"
 │   │   │   │   │   ├── "ServiceTag"
 │   │   │   │   │   └── "XffProxy"
 │   │   │   │   ├── VnetSubnetResourceId: *string
 │   │   │   │   └── VnetTrafficTag: *int
 │   │   │   ├── ScmIpSecurityRestrictionsUseMain: *bool
-│   │   │   ├── ScmMinTlsVersion: Enum (3 values)
+│   │   │   ├── ScmMinTlsVersion: *Enum (3 values)
 │   │   │   │   ├── "1.0"
 │   │   │   │   ├── "1.1"
 │   │   │   │   └── "1.2"
-│   │   │   ├── ScmType: Enum (14 values)
+│   │   │   ├── ScmType: *Enum (14 values)
 │   │   │   │   ├── "BitbucketGit"
 │   │   │   │   ├── "BitbucketHg"
 │   │   │   │   ├── "CodePlexGit"
@@ -1147,10 +1149,10 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   │   └── "VSTSRM"
 │   │   │   ├── TracingOptions: *string
 │   │   │   ├── Use32BitWorkerProcess: *bool
-│   │   │   ├── VirtualApplications: Object (4 properties)
+│   │   │   ├── VirtualApplications: Object (4 properties)[]
 │   │   │   │   ├── PhysicalPath: *string
 │   │   │   │   ├── PreloadEnabled: *bool
-│   │   │   │   ├── VirtualDirectories: Object (2 properties)
+│   │   │   │   ├── VirtualDirectories: Object (2 properties)[]
 │   │   │   │   │   ├── PhysicalPath: *string
 │   │   │   │   │   └── VirtualPath: *string
 │   │   │   │   └── VirtualPath: *string
@@ -1161,7 +1163,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   │   ├── WebsiteTimeZone: *string
 │   │   │   ├── WindowsFxVersion: *string
 │   │   │   └── XManagedServiceIdentityId: *int
-│   │   ├── SlotSwapStatus: Object (3 properties)
+│   │   ├── SlotSwapStatus: *Object (3 properties)
 │   │   │   ├── DestinationSlotName: *string
 │   │   │   ├── SourceSlotName: *string
 │   │   │   └── TimestampUtc: *string
@@ -1170,7 +1172,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   │   ├── SuspendedTill: *string
 │   │   ├── TargetSwapSlot: *string
 │   │   ├── TrafficManagerHostNames: string[]
-│   │   ├── UsageState: Enum (2 values)
+│   │   ├── UsageState: *Enum (2 values)
 │   │   │   ├── "Exceeded"
 │   │   │   └── "Normal"
 │   │   ├── VirtualNetworkSubnetId: *string
@@ -1180,10 +1182,10 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
 │   ├── Tags: map[string]string
 │   └── Type: *string
 └── Site_Spec_ARM: Object (7 properties)
-    ├── ExtendedLocation: Object (1 property)
+    ├── ExtendedLocation: *Object (1 property)
     │   └── Name: *string
-    ├── Identity: Object (2 properties)
-    │   ├── Type: Enum (4 values)
+    ├── Identity: *Object (2 properties)
+    │   ├── Type: *Enum (4 values)
     │   │   ├── "None"
     │   │   ├── "SystemAssigned"
     │   │   ├── "SystemAssigned, UserAssigned"
@@ -1192,15 +1194,15 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     ├── Kind: *string
     ├── Location: *string
     ├── Name: string
-    ├── Properties: Object (27 properties)
+    ├── Properties: *Object (27 properties)
     │   ├── ClientAffinityEnabled: *bool
     │   ├── ClientCertEnabled: *bool
     │   ├── ClientCertExclusionPaths: *string
-    │   ├── ClientCertMode: Enum (3 values)
+    │   ├── ClientCertMode: *Enum (3 values)
     │   │   ├── "Optional"
     │   │   ├── "OptionalInteractiveUser"
     │   │   └── "Required"
-    │   ├── CloningInfo: Object (11 properties)
+    │   ├── CloningInfo: *Object (11 properties)
     │   │   ├── AppSettingsOverrides: map[string]string
     │   │   ├── CloneCustomHostNames: *bool
     │   │   ├── CloneSourceControl: *bool
@@ -1216,12 +1218,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   ├── CustomDomainVerificationId: *string
     │   ├── DailyMemoryTimeQuota: *int
     │   ├── Enabled: *bool
-    │   ├── HostNameSslStates: Object (6 properties)
-    │   │   ├── HostType: Enum (2 values)
+    │   ├── HostNameSslStates: Object (6 properties)[]
+    │   │   ├── HostType: *Enum (2 values)
     │   │   │   ├── "Repository"
     │   │   │   └── "Standard"
     │   │   ├── Name: *string
-    │   │   ├── SslState: Enum (3 values)
+    │   │   ├── SslState: *Enum (3 values)
     │   │   │   ├── "Disabled"
     │   │   │   ├── "IpBasedEnabled"
     │   │   │   └── "SniEnabled"
@@ -1229,14 +1231,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   ├── ToUpdate: *bool
     │   │   └── VirtualIP: *string
     │   ├── HostNamesDisabled: *bool
-    │   ├── HostingEnvironmentProfile: Object (1 property)
+    │   ├── HostingEnvironmentProfile: *Object (1 property)
     │   │   └── Id: *string
     │   ├── HttpsOnly: *bool
     │   ├── HyperV: *bool
     │   ├── IsXenon: *bool
     │   ├── KeyVaultReferenceIdentity: *string
     │   ├── PublicNetworkAccess: *string
-    │   ├── RedundancyMode: Enum (5 values)
+    │   ├── RedundancyMode: *Enum (5 values)
     │   │   ├── "ActiveActive"
     │   │   ├── "Failover"
     │   │   ├── "GeoRedundant"
@@ -1245,69 +1247,69 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   ├── Reserved: *bool
     │   ├── ScmSiteAlsoStopped: *bool
     │   ├── ServerFarmId: *string
-    │   ├── SiteConfig: Object (66 properties)
+    │   ├── SiteConfig: *Object (66 properties)
     │   │   ├── AcrUseManagedIdentityCreds: *bool
     │   │   ├── AcrUserManagedIdentityID: *string
     │   │   ├── AlwaysOn: *bool
-    │   │   ├── ApiDefinition: Object (1 property)
+    │   │   ├── ApiDefinition: *Object (1 property)
     │   │   │   └── Url: *string
-    │   │   ├── ApiManagementConfig: Object (1 property)
+    │   │   ├── ApiManagementConfig: *Object (1 property)
     │   │   │   └── Id: *string
     │   │   ├── AppCommandLine: *string
-    │   │   ├── AppSettings: Object (2 properties)
+    │   │   ├── AppSettings: Object (2 properties)[]
     │   │   │   ├── Name: *string
     │   │   │   └── Value: *string
     │   │   ├── AutoHealEnabled: *bool
-    │   │   ├── AutoHealRules: Object (2 properties)
-    │   │   │   ├── Actions: Object (3 properties)
-    │   │   │   │   ├── ActionType: Enum (3 values)
+    │   │   ├── AutoHealRules: *Object (2 properties)
+    │   │   │   ├── Actions: *Object (3 properties)
+    │   │   │   │   ├── ActionType: *Enum (3 values)
     │   │   │   │   │   ├── "CustomAction"
     │   │   │   │   │   ├── "LogEvent"
     │   │   │   │   │   └── "Recycle"
-    │   │   │   │   ├── CustomAction: Object (2 properties)
+    │   │   │   │   ├── CustomAction: *Object (2 properties)
     │   │   │   │   │   ├── Exe: *string
     │   │   │   │   │   └── Parameters: *string
     │   │   │   │   └── MinProcessExecutionTime: *string
-    │   │   │   └── Triggers: Object (6 properties)
+    │   │   │   └── Triggers: *Object (6 properties)
     │   │   │       ├── PrivateBytesInKB: *int
-    │   │   │       ├── Requests: Object (2 properties)
+    │   │   │       ├── Requests: *Object (2 properties)
     │   │   │       │   ├── Count: *int
     │   │   │       │   └── TimeInterval: *string
-    │   │   │       ├── SlowRequests: Object (4 properties)
+    │   │   │       ├── SlowRequests: *Object (4 properties)
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── Path: *string
     │   │   │       │   ├── TimeInterval: *string
     │   │   │       │   └── TimeTaken: *string
-    │   │   │       ├── SlowRequestsWithPath: Object (4 properties)
+    │   │   │       ├── SlowRequestsWithPath: Object (4 properties)[]
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── Path: *string
     │   │   │       │   ├── TimeInterval: *string
     │   │   │       │   └── TimeTaken: *string
-    │   │   │       ├── StatusCodes: Object (6 properties)
+    │   │   │       ├── StatusCodes: Object (6 properties)[]
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── Path: *string
     │   │   │       │   ├── Status: *int
     │   │   │       │   ├── SubStatus: *int
     │   │   │       │   ├── TimeInterval: *string
     │   │   │       │   └── Win32Status: *int
-    │   │   │       └── StatusCodesRange: Object (4 properties)
+    │   │   │       └── StatusCodesRange: Object (4 properties)[]
     │   │   │           ├── Count: *int
     │   │   │           ├── Path: *string
     │   │   │           ├── StatusCodes: *string
     │   │   │           └── TimeInterval: *string
     │   │   ├── AutoSwapSlotName: *string
-    │   │   ├── AzureStorageAccounts: Object (5 properties)
+    │   │   ├── AzureStorageAccounts: map[string]Object (5 properties)
     │   │   │   ├── AccessKey: *string
     │   │   │   ├── AccountName: *string
     │   │   │   ├── MountPath: *string
     │   │   │   ├── ShareName: *string
-    │   │   │   └── Type: Enum (2 values)
+    │   │   │   └── Type: *Enum (2 values)
     │   │   │       ├── "AzureBlob"
     │   │   │       └── "AzureFiles"
-    │   │   ├── ConnectionStrings: Object (3 properties)
+    │   │   ├── ConnectionStrings: Object (3 properties)[]
     │   │   │   ├── ConnectionString: *string
     │   │   │   ├── Name: *string
-    │   │   │   └── Type: Enum (11 values)
+    │   │   │   └── Type: *Enum (11 values)
     │   │   │       ├── "ApiHub"
     │   │   │       ├── "Custom"
     │   │   │       ├── "DocDb"
@@ -1319,14 +1321,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   │       ├── "SQLAzure"
     │   │   │       ├── "SQLServer"
     │   │   │       └── "ServiceBus"
-    │   │   ├── Cors: Object (2 properties)
+    │   │   ├── Cors: *Object (2 properties)
     │   │   │   ├── AllowedOrigins: string[]
     │   │   │   └── SupportCredentials: *bool
     │   │   ├── DefaultDocuments: string[]
     │   │   ├── DetailedErrorLoggingEnabled: *bool
     │   │   ├── DocumentRoot: *string
-    │   │   ├── Experiments: Object (1 property)
-    │   │   │   └── RampUpRules: Object (8 properties)
+    │   │   ├── Experiments: *Object (1 property)
+    │   │   │   └── RampUpRules: Object (8 properties)[]
     │   │   │       ├── ActionHostName: *string
     │   │   │       ├── ChangeDecisionCallbackUrl: *string
     │   │   │       ├── ChangeIntervalInMinutes: *int
@@ -1335,20 +1337,20 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   │       ├── MinReroutePercentage: *float64
     │   │   │       ├── Name: *string
     │   │   │       └── ReroutePercentage: *float64
-    │   │   ├── FtpsState: Enum (3 values)
+    │   │   ├── FtpsState: *Enum (3 values)
     │   │   │   ├── "AllAllowed"
     │   │   │   ├── "Disabled"
     │   │   │   └── "FtpsOnly"
     │   │   ├── FunctionAppScaleLimit: *int
     │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
-    │   │   ├── HandlerMappings: Object (3 properties)
+    │   │   ├── HandlerMappings: Object (3 properties)[]
     │   │   │   ├── Arguments: *string
     │   │   │   ├── Extension: *string
     │   │   │   └── ScriptProcessor: *string
     │   │   ├── HealthCheckPath: *string
     │   │   ├── Http20Enabled: *bool
     │   │   ├── HttpLoggingEnabled: *bool
-    │   │   ├── IpSecurityRestrictions: Object (11 properties)
+    │   │   ├── IpSecurityRestrictions: Object (11 properties)[]
     │   │   │   ├── Action: *string
     │   │   │   ├── Description: *string
     │   │   │   ├── Headers: map[string]string[]
@@ -1357,7 +1359,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   │   ├── Priority: *int
     │   │   │   ├── SubnetMask: *string
     │   │   │   ├── SubnetTrafficTag: *int
-    │   │   │   ├── Tag: Enum (3 values)
+    │   │   │   ├── Tag: *Enum (3 values)
     │   │   │   │   ├── "Default"
     │   │   │   │   ├── "ServiceTag"
     │   │   │   │   └── "XffProxy"
@@ -1367,12 +1369,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   ├── JavaContainerVersion: *string
     │   │   ├── JavaVersion: *string
     │   │   ├── KeyVaultReferenceIdentity: *string
-    │   │   ├── Limits: Object (3 properties)
+    │   │   ├── Limits: *Object (3 properties)
     │   │   │   ├── MaxDiskSizeInMb: *int
     │   │   │   ├── MaxMemoryInMb: *int
     │   │   │   └── MaxPercentageCpu: *float64
     │   │   ├── LinuxFxVersion: *string
-    │   │   ├── LoadBalancing: Enum (6 values)
+    │   │   ├── LoadBalancing: *Enum (6 values)
     │   │   │   ├── "LeastRequests"
     │   │   │   ├── "LeastResponseTime"
     │   │   │   ├── "PerSiteRoundRobin"
@@ -1381,11 +1383,11 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   │   └── "WeightedTotalTraffic"
     │   │   ├── LocalMySqlEnabled: *bool
     │   │   ├── LogsDirectorySizeLimit: *int
-    │   │   ├── ManagedPipelineMode: Enum (2 values)
+    │   │   ├── ManagedPipelineMode: *Enum (2 values)
     │   │   │   ├── "Classic"
     │   │   │   └── "Integrated"
     │   │   ├── ManagedServiceIdentityId: *int
-    │   │   ├── MinTlsVersion: Enum (3 values)
+    │   │   ├── MinTlsVersion: *Enum (3 values)
     │   │   │   ├── "1.0"
     │   │   │   ├── "1.1"
     │   │   │   └── "1.2"
@@ -1398,9 +1400,9 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   ├── PreWarmedInstanceCount: *int
     │   │   ├── PublicNetworkAccess: *string
     │   │   ├── PublishingUsername: *string
-    │   │   ├── Push: Object (2 properties)
+    │   │   ├── Push: *Object (2 properties)
     │   │   │   ├── Kind: *string
-    │   │   │   └── Properties: Object (4 properties)
+    │   │   │   └── Properties: *Object (4 properties)
     │   │   │       ├── DynamicTagsJson: *string
     │   │   │       ├── IsPushEnabled: *bool
     │   │   │       ├── TagWhitelistJson: *string
@@ -1410,7 +1412,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   ├── RemoteDebuggingVersion: *string
     │   │   ├── RequestTracingEnabled: *bool
     │   │   ├── RequestTracingExpirationTime: *string
-    │   │   ├── ScmIpSecurityRestrictions: Object (11 properties)
+    │   │   ├── ScmIpSecurityRestrictions: Object (11 properties)[]
     │   │   │   ├── Action: *string
     │   │   │   ├── Description: *string
     │   │   │   ├── Headers: map[string]string[]
@@ -1419,18 +1421,18 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   │   ├── Priority: *int
     │   │   │   ├── SubnetMask: *string
     │   │   │   ├── SubnetTrafficTag: *int
-    │   │   │   ├── Tag: Enum (3 values)
+    │   │   │   ├── Tag: *Enum (3 values)
     │   │   │   │   ├── "Default"
     │   │   │   │   ├── "ServiceTag"
     │   │   │   │   └── "XffProxy"
     │   │   │   ├── VnetSubnetResourceId: *string
     │   │   │   └── VnetTrafficTag: *int
     │   │   ├── ScmIpSecurityRestrictionsUseMain: *bool
-    │   │   ├── ScmMinTlsVersion: Enum (3 values)
+    │   │   ├── ScmMinTlsVersion: *Enum (3 values)
     │   │   │   ├── "1.0"
     │   │   │   ├── "1.1"
     │   │   │   └── "1.2"
-    │   │   ├── ScmType: Enum (14 values)
+    │   │   ├── ScmType: *Enum (14 values)
     │   │   │   ├── "BitbucketGit"
     │   │   │   ├── "BitbucketHg"
     │   │   │   ├── "CodePlexGit"
@@ -1447,10 +1449,10 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301
     │   │   │   └── "VSTSRM"
     │   │   ├── TracingOptions: *string
     │   │   ├── Use32BitWorkerProcess: *bool
-    │   │   ├── VirtualApplications: Object (4 properties)
+    │   │   ├── VirtualApplications: Object (4 properties)[]
     │   │   │   ├── PhysicalPath: *string
     │   │   │   ├── PreloadEnabled: *bool
-    │   │   │   ├── VirtualDirectories: Object (2 properties)
+    │   │   │   ├── VirtualDirectories: Object (2 properties)[]
     │   │   │   │   ├── PhysicalPath: *string
     │   │   │   │   └── VirtualPath: *string
     │   │   │   └── VirtualPath: *string

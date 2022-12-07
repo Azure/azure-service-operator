@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage
 ├── APIVersion: Enum (1 value)
 │   └── "2020-02-02"
 └── Component: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (22 properties)
     │   ├── Application_Type: *string
     │   ├── AzureName: string
@@ -47,7 +48,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage
         ├── LaMigrationDate: *string
         ├── Location: *string
         ├── Name: *string
-        ├── PrivateLinkScopedResources: Object (3 properties)
+        ├── PrivateLinkScopedResources: Object (3 properties)[]
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── ResourceId: *string
         │   └── ScopeId: *string

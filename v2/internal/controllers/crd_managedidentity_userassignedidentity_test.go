@@ -162,6 +162,7 @@ func UserManagedIdentity_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubeP
 		ConfigMaps: &managedidentity2018.UserAssignedIdentityOperatorConfigMaps{
 			PrincipalId: &genruntime.ConfigMapDestination{Name: identityConfigMap, Key: "principalId"},
 			ClientId:    &genruntime.ConfigMapDestination{Name: identityConfigMap, Key: "clientId"},
+			TenantId:    &genruntime.ConfigMapDestination{Name: identityConfigMap, Key: "tenantId"},
 		},
 	}
 	tc.PatchResourceAndWait(old, identity)
@@ -169,21 +170,25 @@ func UserManagedIdentity_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubeP
 	tc.ExpectConfigMapHasKeysAndValues(
 		identityConfigMap,
 		"principalId", *identity.Status.PrincipalId,
-		"clientId", *identity.Status.ClientId)
+		"clientId", *identity.Status.ClientId,
+		"tenantId", *identity.Status.TenantId)
 }
 
 func UserManagedIdentity_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, identity *managedidentity2018.UserAssignedIdentity) {
 	old := identity.DeepCopy()
 	identityConfigMap1 := "identity1"
 	identityConfigMap2 := "identity2"
+	identityConfigMap3 := "identity3"
 	identity.Spec.OperatorSpec = &managedidentity2018.UserAssignedIdentityOperatorSpec{
 		ConfigMaps: &managedidentity2018.UserAssignedIdentityOperatorConfigMaps{
 			PrincipalId: &genruntime.ConfigMapDestination{Name: identityConfigMap1, Key: "principalId"},
 			ClientId:    &genruntime.ConfigMapDestination{Name: identityConfigMap2, Key: "clientId"},
+			TenantId:    &genruntime.ConfigMapDestination{Name: identityConfigMap3, Key: "tenantId"},
 		},
 	}
 	tc.PatchResourceAndWait(old, identity)
 
 	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap1, "principalId", *identity.Status.PrincipalId)
 	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap2, "clientId", *identity.Status.ClientId)
+	tc.ExpectConfigMapHasKeysAndValues(identityConfigMap3, "tenantId", *identity.Status.TenantId)
 }

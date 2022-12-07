@@ -2,39 +2,40 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-15"
 ├── DatabaseAccount: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (32 properties)
-│   │   ├── AnalyticalStorageConfiguration: Object (2 properties)
+│   │   ├── AnalyticalStorageConfiguration: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── SchemaType: *string
-│   │   ├── ApiProperties: Object (2 properties)
+│   │   ├── ApiProperties: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ServerVersion: *string
 │   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=50)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=3)}
-│   │   │   └── Rule 2: {Pattern "^[a-z0-9]+(-[a-z0-9]+)*"}
-│   │   ├── BackupPolicy: Object (3 properties)
-│   │   │   ├── Continuous: Object (2 properties)
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   ├── Rule 1: MinLength: 3
+│   │   │   └── Rule 2: Pattern: "^[a-z0-9]+(-[a-z0-9]+)*"
+│   │   ├── BackupPolicy: *Object (3 properties)
+│   │   │   ├── Continuous: *Object (2 properties)
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Type: *string
-│   │   │   ├── Periodic: Object (3 properties)
-│   │   │   │   ├── PeriodicModeProperties: Object (3 properties)
+│   │   │   ├── Periodic: *Object (3 properties)
+│   │   │   │   ├── PeriodicModeProperties: *Object (3 properties)
 │   │   │   │   │   ├── BackupIntervalInMinutes: *int
 │   │   │   │   │   ├── BackupRetentionIntervalInHours: *int
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Type: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Capabilities: Object (2 properties)
+│   │   ├── Capabilities: Object (2 properties)[]
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── ConnectorOffer: *string
-│   │   ├── ConsistencyPolicy: Object (4 properties)
+│   │   ├── ConsistencyPolicy: *Object (4 properties)
 │   │   │   ├── DefaultConsistencyLevel: *string
 │   │   │   ├── MaxIntervalInSeconds: *int
 │   │   │   ├── MaxStalenessPrefix: *int
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Cors: Object (6 properties)
+│   │   ├── Cors: Object (6 properties)[]
 │   │   │   ├── AllowedHeaders: *string
 │   │   │   ├── AllowedMethods: *string
 │   │   │   ├── AllowedOrigins: *string
@@ -49,26 +50,26 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── EnableCassandraConnector: *bool
 │   │   ├── EnableFreeTier: *bool
 │   │   ├── EnableMultipleWriteLocations: *bool
-│   │   ├── Identity: Object (2 properties)
+│   │   ├── Identity: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
-│   │   ├── IpRules: Object (2 properties)
+│   │   ├── IpRules: Object (2 properties)[]
 │   │   │   ├── IpAddressOrRange: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── IsVirtualNetworkFilterEnabled: *bool
 │   │   ├── KeyVaultKeyUri: *string
 │   │   ├── Kind: *string
 │   │   ├── Location: *string
-│   │   ├── Locations: Object (4 properties)
+│   │   ├── Locations: Object (4 properties)[]
 │   │   │   ├── FailoverPriority: *int
 │   │   │   ├── IsZoneRedundant: *bool
 │   │   │   ├── LocationName: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── NetworkAclBypass: *string
 │   │   ├── NetworkAclBypassResourceIds: string[]
-│   │   ├── OperatorSpec: Object (2 properties)
+│   │   ├── OperatorSpec: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: Object (6 properties)
+│   │   │   └── Secrets: *Object (6 properties)
 │   │   │       ├── DocumentEndpoint: *genruntime.SecretDestination
 │   │   │       ├── PrimaryMasterKey: *genruntime.SecretDestination
 │   │   │       ├── PrimaryReadonlyMasterKey: *genruntime.SecretDestination
@@ -80,31 +81,31 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── PublicNetworkAccess: *string
 │   │   ├── Tags: map[string]string
-│   │   └── VirtualNetworkRules: Object (3 properties)
+│   │   └── VirtualNetworkRules: Object (3 properties)[]
 │   │       ├── IgnoreMissingVNetServiceEndpoint: *bool
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       └── Reference: *genruntime.ResourceReference
 │   └── Status: Object (38 properties)
-│       ├── AnalyticalStorageConfiguration: Object (2 properties)
+│       ├── AnalyticalStorageConfiguration: *Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── SchemaType: *string
-│       ├── ApiProperties: Object (2 properties)
+│       ├── ApiProperties: *Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── ServerVersion: *string
-│       ├── BackupPolicy: Object (2 properties)
+│       ├── BackupPolicy: *Object (2 properties)
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
-│       ├── Capabilities: Object (2 properties)
+│       ├── Capabilities: Object (2 properties)[]
 │       │   ├── Name: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Conditions: conditions.Condition[]
 │       ├── ConnectorOffer: *string
-│       ├── ConsistencyPolicy: Object (4 properties)
+│       ├── ConsistencyPolicy: *Object (4 properties)
 │       │   ├── DefaultConsistencyLevel: *string
 │       │   ├── MaxIntervalInSeconds: *int
 │       │   ├── MaxStalenessPrefix: *int
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Cors: Object (6 properties)
+│       ├── Cors: Object (6 properties)[]
 │       │   ├── AllowedHeaders: *string
 │       │   ├── AllowedMethods: *string
 │       │   ├── AllowedOrigins: *string
@@ -120,29 +121,29 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── EnableCassandraConnector: *bool
 │       ├── EnableFreeTier: *bool
 │       ├── EnableMultipleWriteLocations: *bool
-│       ├── FailoverPolicies: Object (4 properties)
+│       ├── FailoverPolicies: Object (4 properties)[]
 │       │   ├── FailoverPriority: *int
 │       │   ├── Id: *string
 │       │   ├── LocationName: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Id: *string
-│       ├── Identity: Object (5 properties)
+│       ├── Identity: *Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
 │       │   ├── Type: *string
-│       │   └── UserAssignedIdentities: Object (3 properties)
+│       │   └── UserAssignedIdentities: map[string]Object (3 properties)
 │       │       ├── ClientId: *string
 │       │       ├── PrincipalId: *string
 │       │       └── PropertyBag: genruntime.PropertyBag
-│       ├── IpRules: Object (2 properties)
+│       ├── IpRules: Object (2 properties)[]
 │       │   ├── IpAddressOrRange: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── IsVirtualNetworkFilterEnabled: *bool
 │       ├── KeyVaultKeyUri: *string
 │       ├── Kind: *string
 │       ├── Location: *string
-│       ├── Locations: Object (7 properties)
+│       ├── Locations: Object (7 properties)[]
 │       │   ├── DocumentEndpoint: *string
 │       │   ├── FailoverPriority: *int
 │       │   ├── Id: *string
@@ -153,13 +154,13 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Name: *string
 │       ├── NetworkAclBypass: *string
 │       ├── NetworkAclBypassResourceIds: string[]
-│       ├── PrivateEndpointConnections: Object (2 properties)
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── PublicNetworkAccess: *string
-│       ├── ReadLocations: Object (7 properties)
+│       ├── ReadLocations: Object (7 properties)[]
 │       │   ├── DocumentEndpoint: *string
 │       │   ├── FailoverPriority: *int
 │       │   ├── Id: *string
@@ -169,11 +170,11 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       │   └── ProvisioningState: *string
 │       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── VirtualNetworkRules: Object (3 properties)
+│       ├── VirtualNetworkRules: Object (3 properties)[]
 │       │   ├── Id: *string
 │       │   ├── IgnoreMissingVNetServiceEndpoint: *bool
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       └── WriteLocations: Object (7 properties)
+│       └── WriteLocations: Object (7 properties)[]
 │           ├── DocumentEndpoint: *string
 │           ├── FailoverPriority: *int
 │           ├── Id: *string
@@ -182,11 +183,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │           ├── PropertyBag: genruntime.PropertyBag
 │           └── ProvisioningState: *string
 ├── MongodbDatabase: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -194,7 +196,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (2 properties)
+│   │   ├── Resource: *Object (2 properties)
 │   │   │   ├── Id: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
@@ -203,14 +205,14 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: Object (3 properties)
-│       │   ├── AutoscaleSettings: Object (2 properties)
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
 │       │   │   ├── MaxThroughput: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Throughput: *int
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (5 properties)
+│       ├── Resource: *Object (5 properties)
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -219,11 +221,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollection: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.MongodbDatabase
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -231,14 +234,14 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (5 properties)
+│   │   ├── Resource: *Object (5 properties)
 │   │   │   ├── AnalyticalStorageTtl: *int
 │   │   │   ├── Id: *string
-│   │   │   ├── Indexes: Object (3 properties)
-│   │   │   │   ├── Key: Object (2 properties)
+│   │   │   ├── Indexes: Object (3 properties)[]
+│   │   │   │   ├── Key: *Object (2 properties)
 │   │   │   │   │   ├── Keys: string[]
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── Options: Object (3 properties)
+│   │   │   │   ├── Options: *Object (3 properties)
 │   │   │   │   │   ├── ExpireAfterSeconds: *int
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   │   └── Unique: *bool
@@ -251,22 +254,22 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: Object (3 properties)
-│       │   ├── AutoscaleSettings: Object (2 properties)
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
 │       │   │   ├── MaxThroughput: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Throughput: *int
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (8 properties)
+│       ├── Resource: *Object (8 properties)
 │       │   ├── AnalyticalStorageTtl: *int
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   ├── Indexes: Object (3 properties)
-│       │   │   ├── Key: Object (2 properties)
+│       │   ├── Indexes: Object (3 properties)[]
+│       │   │   ├── Key: *Object (2 properties)
 │       │   │   │   ├── Keys: string[]
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Options: Object (3 properties)
+│       │   │   ├── Options: *Object (3 properties)
 │       │   │   │   ├── ExpireAfterSeconds: *int
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   │   └── Unique: *bool
@@ -278,16 +281,17 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseCollectionThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.MongodbDatabaseCollection
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (3 properties)
-│   │   │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ThroughputPolicy: Object (3 properties)
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       ├── IsEnabled: *bool
 │   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -302,11 +306,11 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (8 properties)
-│       │   ├── AutoscaleSettings: Object (4 properties)
-│       │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│       ├── Resource: *Object (8 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── ThroughputPolicy: Object (3 properties)
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       ├── IsEnabled: *bool
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -323,16 +327,17 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── MongodbDatabaseThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.MongodbDatabase
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (3 properties)
-│   │   │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ThroughputPolicy: Object (3 properties)
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       ├── IsEnabled: *bool
 │   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -347,11 +352,11 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (8 properties)
-│       │   ├── AutoscaleSettings: Object (4 properties)
-│       │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│       ├── Resource: *Object (8 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── ThroughputPolicy: Object (3 properties)
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       ├── IsEnabled: *bool
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -368,11 +373,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabase: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -380,7 +386,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (2 properties)
+│   │   ├── Resource: *Object (2 properties)
 │   │   │   ├── Id: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
@@ -389,14 +395,14 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: Object (3 properties)
-│       │   ├── AutoscaleSettings: Object (2 properties)
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
 │       │   │   ├── MaxThroughput: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Throughput: *int
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (7 properties)
+│       ├── Resource: *Object (7 properties)
 │       │   ├── Colls: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
@@ -407,11 +413,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabase
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -419,26 +426,26 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (8 properties)
+│   │   ├── Resource: *Object (8 properties)
 │   │   │   ├── AnalyticalStorageTtl: *int
-│   │   │   ├── ConflictResolutionPolicy: Object (4 properties)
+│   │   │   ├── ConflictResolutionPolicy: *Object (4 properties)
 │   │   │   │   ├── ConflictResolutionPath: *string
 │   │   │   │   ├── ConflictResolutionProcedure: *string
 │   │   │   │   ├── Mode: *string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── DefaultTtl: *int
 │   │   │   ├── Id: *string
-│   │   │   ├── IndexingPolicy: Object (7 properties)
+│   │   │   ├── IndexingPolicy: *Object (7 properties)
 │   │   │   │   ├── Automatic: *bool
-│   │   │   │   ├── CompositeIndexes: Object (3 properties)
+│   │   │   │   ├── CompositeIndexes: Object (3 properties)[][]
 │   │   │   │   │   ├── Order: *string
 │   │   │   │   │   ├── Path: *string
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── ExcludedPaths: Object (2 properties)
+│   │   │   │   ├── ExcludedPaths: Object (2 properties)[]
 │   │   │   │   │   ├── Path: *string
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   │   │   ├── IncludedPaths: Object (3 properties)
-│   │   │   │   │   ├── Indexes: Object (4 properties)
+│   │   │   │   ├── IncludedPaths: Object (3 properties)[]
+│   │   │   │   │   ├── Indexes: Object (4 properties)[]
 │   │   │   │   │   │   ├── DataType: *string
 │   │   │   │   │   │   ├── Kind: *string
 │   │   │   │   │   │   ├── Precision: *int
@@ -447,19 +454,19 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── IndexingMode: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   └── SpatialIndexes: Object (3 properties)
+│   │   │   │   └── SpatialIndexes: Object (3 properties)[]
 │   │   │   │       ├── Path: *string
 │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │       └── Types: string[]
-│   │   │   ├── PartitionKey: Object (4 properties)
+│   │   │   ├── PartitionKey: *Object (4 properties)
 │   │   │   │   ├── Kind: *string
 │   │   │   │   ├── Paths: string[]
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── Version: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── UniqueKeyPolicy: Object (2 properties)
+│   │   │   └── UniqueKeyPolicy: *Object (2 properties)
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │   │       └── UniqueKeys: Object (2 properties)
+│   │   │       └── UniqueKeys: Object (2 properties)[]
 │   │   │           ├── Paths: string[]
 │   │   │           └── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
@@ -468,16 +475,16 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Options: Object (3 properties)
-│       │   ├── AutoscaleSettings: Object (2 properties)
+│       ├── Options: *Object (3 properties)
+│       │   ├── AutoscaleSettings: *Object (2 properties)
 │       │   │   ├── MaxThroughput: *int
 │       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Throughput: *int
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (11 properties)
+│       ├── Resource: *Object (11 properties)
 │       │   ├── AnalyticalStorageTtl: *int
-│       │   ├── ConflictResolutionPolicy: Object (4 properties)
+│       │   ├── ConflictResolutionPolicy: *Object (4 properties)
 │       │   │   ├── ConflictResolutionPath: *string
 │       │   │   ├── ConflictResolutionProcedure: *string
 │       │   │   ├── Mode: *string
@@ -485,17 +492,17 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       │   ├── DefaultTtl: *int
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   ├── IndexingPolicy: Object (7 properties)
+│       │   ├── IndexingPolicy: *Object (7 properties)
 │       │   │   ├── Automatic: *bool
-│       │   │   ├── CompositeIndexes: Object (3 properties)
+│       │   │   ├── CompositeIndexes: Object (3 properties)[][]
 │       │   │   │   ├── Order: *string
 │       │   │   │   ├── Path: *string
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── ExcludedPaths: Object (2 properties)
+│       │   │   ├── ExcludedPaths: Object (2 properties)[]
 │       │   │   │   ├── Path: *string
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── IncludedPaths: Object (3 properties)
-│       │   │   │   ├── Indexes: Object (4 properties)
+│       │   │   ├── IncludedPaths: Object (3 properties)[]
+│       │   │   │   ├── Indexes: Object (4 properties)[]
 │       │   │   │   │   ├── DataType: *string
 │       │   │   │   │   ├── Kind: *string
 │       │   │   │   │   ├── Precision: *int
@@ -504,11 +511,11 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       │   │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── IndexingMode: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── SpatialIndexes: Object (3 properties)
+│       │   │   └── SpatialIndexes: Object (3 properties)[]
 │       │   │       ├── Path: *string
 │       │   │       ├── PropertyBag: genruntime.PropertyBag
 │       │   │       └── Types: string[]
-│       │   ├── PartitionKey: Object (5 properties)
+│       │   ├── PartitionKey: *Object (5 properties)
 │       │   │   ├── Kind: *string
 │       │   │   ├── Paths: string[]
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -517,19 +524,20 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── Rid: *string
 │       │   ├── Ts: *float64
-│       │   └── UniqueKeyPolicy: Object (2 properties)
+│       │   └── UniqueKeyPolicy: *Object (2 properties)
 │       │       ├── PropertyBag: genruntime.PropertyBag
-│       │       └── UniqueKeys: Object (2 properties)
+│       │       └── UniqueKeys: Object (2 properties)[]
 │       │           ├── Paths: string[]
 │       │           └── PropertyBag: genruntime.PropertyBag
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerStoredProcedure: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -537,7 +545,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (3 properties)
+│   │   ├── Resource: *Object (3 properties)
 │   │   │   ├── Body: *string
 │   │   │   ├── Id: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -548,7 +556,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (6 properties)
+│       ├── Resource: *Object (6 properties)
 │       │   ├── Body: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
@@ -558,16 +566,17 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (3 properties)
-│   │   │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ThroughputPolicy: Object (3 properties)
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       ├── IsEnabled: *bool
 │   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -582,11 +591,11 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (8 properties)
-│       │   ├── AutoscaleSettings: Object (4 properties)
-│       │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│       ├── Resource: *Object (8 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── ThroughputPolicy: Object (3 properties)
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       ├── IsEnabled: *bool
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -603,11 +612,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerTrigger: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -615,7 +625,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (5 properties)
+│   │   ├── Resource: *Object (5 properties)
 │   │   │   ├── Body: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -628,7 +638,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (8 properties)
+│       ├── Resource: *Object (8 properties)
 │       │   ├── Body: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
@@ -640,11 +650,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseContainerUserDefinedFunction: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabaseContainer
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
-│   │   ├── Options: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (2 properties)
+│   │   ├── Options: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (2 properties)
 │   │   │   │   ├── MaxThroughput: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -652,7 +663,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (3 properties)
+│   │   ├── Resource: *Object (3 properties)
 │   │   │   ├── Body: *string
 │   │   │   ├── Id: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -663,7 +674,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (6 properties)
+│       ├── Resource: *Object (6 properties)
 │       │   ├── Body: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
@@ -673,16 +684,17 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── SqlDatabaseThroughputSetting: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.SqlDatabase
 │   ├── Spec: Object (6 properties)
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── Resource: Object (3 properties)
-│   │   │   ├── AutoscaleSettings: Object (3 properties)
-│   │   │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│   │   ├── Resource: *Object (3 properties)
+│   │   │   ├── AutoscaleSettings: *Object (3 properties)
+│   │   │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   │   │   └── ThroughputPolicy: Object (3 properties)
+│   │   │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │   │   │   │   │       ├── IncrementPercent: *int
 │   │   │   │   │       ├── IsEnabled: *bool
 │   │   │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -697,11 +709,11 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
-│       ├── Resource: Object (8 properties)
-│       │   ├── AutoscaleSettings: Object (4 properties)
-│       │   │   ├── AutoUpgradePolicy: Object (2 properties)
+│       ├── Resource: *Object (8 properties)
+│       │   ├── AutoscaleSettings: *Object (4 properties)
+│       │   │   ├── AutoUpgradePolicy: *Object (2 properties)
 │       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── ThroughputPolicy: Object (3 properties)
+│       │   │   │   └── ThroughputPolicy: *Object (3 properties)
 │       │   │   │       ├── IncrementPercent: *int
 │       │   │   │       ├── IsEnabled: *bool
 │       │   │   │       └── PropertyBag: genruntime.PropertyBag
@@ -718,6 +730,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       ├── Tags: map[string]string
 │       └── Type: *string
 └── SqlRoleAssignment: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
     ├── Spec: Object (8 properties)
     │   ├── AzureName: string
     │   ├── OriginalVersion: string

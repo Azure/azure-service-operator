@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 ├── AgentPool_STATUS_ARM: Object (4 properties)
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (36 properties)
+│   ├── Properties: *Object (36 properties)
 │   │   ├── AvailabilityZones: string[]
 │   │   ├── Count: *int
 │   │   ├── EnableAutoScaling: *bool
@@ -12,13 +12,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── EnableFIPS: *bool
 │   │   ├── EnableNodePublicIP: *bool
 │   │   ├── EnableUltraSSD: *bool
-│   │   ├── GpuInstanceProfile: Enum (5 values)
+│   │   ├── GpuInstanceProfile: *Enum (5 values)
 │   │   │   ├── "MIG1g"
 │   │   │   ├── "MIG2g"
 │   │   │   ├── "MIG3g"
 │   │   │   ├── "MIG4g"
 │   │   │   └── "MIG7g"
-│   │   ├── KubeletConfig: Object (11 properties)
+│   │   ├── KubeletConfig: *Object (11 properties)
 │   │   │   ├── AllowedUnsafeSysctls: string[]
 │   │   │   ├── ContainerLogMaxFiles: *int
 │   │   │   ├── ContainerLogMaxSizeMB: *int
@@ -30,12 +30,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ImageGcLowThreshold: *int
 │   │   │   ├── PodMaxPids: *int
 │   │   │   └── TopologyManagerPolicy: *string
-│   │   ├── KubeletDiskType: Enum (2 values)
+│   │   ├── KubeletDiskType: *Enum (2 values)
 │   │   │   ├── "OS"
 │   │   │   └── "Temporary"
-│   │   ├── LinuxOSConfig: Object (4 properties)
+│   │   ├── LinuxOSConfig: *Object (4 properties)
 │   │   │   ├── SwapFileSizeMB: *int
-│   │   │   ├── Sysctls: Object (28 properties)
+│   │   │   ├── Sysctls: *Object (28 properties)
 │   │   │   │   ├── FsAioMaxNr: *int
 │   │   │   │   ├── FsFileMax: *int
 │   │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -69,7 +69,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── MaxCount: *int
 │   │   ├── MaxPods: *int
 │   │   ├── MinCount: *int
-│   │   ├── Mode: Enum (2 values)
+│   │   ├── Mode: *Enum (2 values)
 │   │   │   ├── "System"
 │   │   │   └── "User"
 │   │   ├── NodeImageVersion: *string
@@ -78,41 +78,42 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── NodeTaints: string[]
 │   │   ├── OrchestratorVersion: *string
 │   │   ├── OsDiskSizeGB: *int
-│   │   ├── OsDiskType: Enum (2 values)
+│   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   ├── "Ephemeral"
 │   │   │   └── "Managed"
-│   │   ├── OsSKU: Enum (2 values)
+│   │   ├── OsSKU: *Enum (2 values)
 │   │   │   ├── "CBLMariner"
 │   │   │   └── "Ubuntu"
-│   │   ├── OsType: Enum (2 values)
+│   │   ├── OsType: *Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
 │   │   ├── PodSubnetID: *string
-│   │   ├── PowerState: Object (1 property)
-│   │   │   └── Code: Enum (2 values)
+│   │   ├── PowerState: *Object (1 property)
+│   │   │   └── Code: *Enum (2 values)
 │   │   │       ├── "Running"
 │   │   │       └── "Stopped"
 │   │   ├── ProvisioningState: *string
 │   │   ├── ProximityPlacementGroupID: *string
-│   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
+│   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"
-│   │   ├── ScaleSetPriority: Enum (2 values)
+│   │   ├── ScaleSetPriority: *Enum (2 values)
 │   │   │   ├── "Regular"
 │   │   │   └── "Spot"
 │   │   ├── SpotMaxPrice: *float64
 │   │   ├── Tags: map[string]string
-│   │   ├── Type: Enum (2 values)
+│   │   ├── Type: *Enum (2 values)
 │   │   │   ├── "AvailabilitySet"
 │   │   │   └── "VirtualMachineScaleSets"
-│   │   ├── UpgradeSettings: Object (1 property)
+│   │   ├── UpgradeSettings: *Object (1 property)
 │   │   │   └── MaxSurge: *string
 │   │   ├── VmSize: *string
 │   │   └── VnetSubnetID: *string
 │   └── Type: *string
 ├── ManagedCluster: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (30 properties)
-│   │   ├── AadProfile: Object (7 properties)
+│   │   ├── AadProfile: *Object (7 properties)
 │   │   │   ├── AdminGroupObjectIDs: string[]
 │   │   │   ├── ClientAppID: *string
 │   │   │   ├── EnableAzureRBAC: *bool
@@ -120,10 +121,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: Object (2 properties)
+│   │   ├── AddonProfiles: map[string]Object (2 properties)
 │   │   │   ├── Config: map[string]string
 │   │   │   └── Enabled: *bool
-│   │   ├── AgentPoolProfiles: Object (34 properties)
+│   │   ├── AgentPoolProfiles: Object (34 properties)[]
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
 │   │   │   ├── EnableAutoScaling: *bool
@@ -131,16 +132,16 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── EnableFIPS: *bool
 │   │   │   ├── EnableNodePublicIP: *bool
 │   │   │   ├── EnableUltraSSD: *bool
-│   │   │   ├── GpuInstanceProfile: Enum (5 values)
+│   │   │   ├── GpuInstanceProfile: *Enum (5 values)
 │   │   │   │   ├── "MIG1g"
 │   │   │   │   ├── "MIG2g"
 │   │   │   │   ├── "MIG3g"
 │   │   │   │   ├── "MIG4g"
 │   │   │   │   └── "MIG7g"
-│   │   │   ├── KubeletConfig: Object (11 properties)
+│   │   │   ├── KubeletConfig: *Object (11 properties)
 │   │   │   │   ├── AllowedUnsafeSysctls: string[]
 │   │   │   │   ├── ContainerLogMaxFiles: Validated<*int> (1 rule)
-│   │   │   │   │   └── Rule 0: {Minimum 2}
+│   │   │   │   │   └── Rule 0: Minimum: 2
 │   │   │   │   ├── ContainerLogMaxSizeMB: *int
 │   │   │   │   ├── CpuCfsQuota: *bool
 │   │   │   │   ├── CpuCfsQuotaPeriod: *string
@@ -150,12 +151,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   │   ├── ImageGcLowThreshold: *int
 │   │   │   │   ├── PodMaxPids: *int
 │   │   │   │   └── TopologyManagerPolicy: *string
-│   │   │   ├── KubeletDiskType: Enum (2 values)
+│   │   │   ├── KubeletDiskType: *Enum (2 values)
 │   │   │   │   ├── "OS"
 │   │   │   │   └── "Temporary"
-│   │   │   ├── LinuxOSConfig: Object (4 properties)
+│   │   │   ├── LinuxOSConfig: *Object (4 properties)
 │   │   │   │   ├── SwapFileSizeMB: *int
-│   │   │   │   ├── Sysctls: Object (28 properties)
+│   │   │   │   ├── Sysctls: *Object (28 properties)
 │   │   │   │   │   ├── FsAioMaxNr: *int
 │   │   │   │   │   ├── FsFileMax: *int
 │   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -189,52 +190,52 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── MaxCount: *int
 │   │   │   ├── MaxPods: *int
 │   │   │   ├── MinCount: *int
-│   │   │   ├── Mode: Enum (2 values)
+│   │   │   ├── Mode: *Enum (2 values)
 │   │   │   │   ├── "System"
 │   │   │   │   └── "User"
 │   │   │   ├── Name: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^[a-z][a-z0-9]{0,11}$"}
+│   │   │   │   └── Rule 0: Pattern: "^[a-z][a-z0-9]{0,11}$"
 │   │   │   ├── NodeLabels: map[string]string
 │   │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
 │   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
 │   │   │   ├── OsDiskSizeGB: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: {Maximum 2048}
-│   │   │   │   └── Rule 1: {Minimum 0}
-│   │   │   ├── OsDiskType: Enum (2 values)
+│   │   │   │   ├── Rule 0: Maximum: 2048
+│   │   │   │   └── Rule 1: Minimum: 0
+│   │   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   │   ├── "Ephemeral"
 │   │   │   │   └── "Managed"
-│   │   │   ├── OsSKU: Enum (2 values)
+│   │   │   ├── OsSKU: *Enum (2 values)
 │   │   │   │   ├── "CBLMariner"
 │   │   │   │   └── "Ubuntu"
-│   │   │   ├── OsType: Enum (2 values)
+│   │   │   ├── OsType: *Enum (2 values)
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
 │   │   │   ├── ProximityPlacementGroupID: Validated<*string> (0 rules)
-│   │   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
+│   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ScaleSetPriority: Enum (2 values)
+│   │   │   ├── ScaleSetPriority: *Enum (2 values)
 │   │   │   │   ├── "Regular"
 │   │   │   │   └── "Spot"
 │   │   │   ├── SpotMaxPrice: *float64
 │   │   │   ├── Tags: map[string]string
-│   │   │   ├── Type: Enum (2 values)
+│   │   │   ├── Type: *Enum (2 values)
 │   │   │   │   ├── "AvailabilitySet"
 │   │   │   │   └── "VirtualMachineScaleSets"
-│   │   │   ├── UpgradeSettings: Object (1 property)
+│   │   │   ├── UpgradeSettings: *Object (1 property)
 │   │   │   │   └── MaxSurge: *string
 │   │   │   ├── VmSize: *string
 │   │   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
-│   │   ├── ApiServerAccessProfile: Object (4 properties)
+│   │   ├── ApiServerAccessProfile: *Object (4 properties)
 │   │   │   ├── AuthorizedIPRanges: string[]
 │   │   │   ├── EnablePrivateCluster: *bool
 │   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
 │   │   │   └── PrivateDNSZone: *string
-│   │   ├── AutoScalerProfile: Object (17 properties)
+│   │   ├── AutoScalerProfile: *Object (17 properties)
 │   │   │   ├── BalanceSimilarNodeGroups: *string
-│   │   │   ├── Expander: Enum (4 values)
+│   │   │   ├── Expander: *Enum (4 values)
 │   │   │   │   ├── "least-waste"
 │   │   │   │   ├── "most-pods"
 │   │   │   │   ├── "priority"
@@ -254,139 +255,139 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ScanInterval: *string
 │   │   │   ├── SkipNodesWithLocalStorage: *string
 │   │   │   └── SkipNodesWithSystemPods: *string
-│   │   ├── AutoUpgradeProfile: Object (1 property)
-│   │   │   └── UpgradeChannel: Enum (5 values)
+│   │   ├── AutoUpgradeProfile: *Object (1 property)
+│   │   │   └── UpgradeChannel: *Enum (5 values)
 │   │   │       ├── "node-image"
 │   │   │       ├── "none"
 │   │   │       ├── "patch"
 │   │   │       ├── "rapid"
 │   │   │       └── "stable"
 │   │   ├── AzureName: Validated<string> (3 rules)
-│   │   │   ├── Rule 0: {MaxLength %!s(int64=63)}
-│   │   │   ├── Rule 1: {MinLength %!s(int64=1)}
-│   │   │   └── Rule 2: {Pattern "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"}
+│   │   │   ├── Rule 0: MaxLength: 63
+│   │   │   ├── Rule 1: MinLength: 1
+│   │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
 │   │   ├── DisableLocalAccounts: *bool
 │   │   ├── DiskEncryptionSetIDReference: *genruntime.ResourceReference
 │   │   ├── DnsPrefix: *string
 │   │   ├── EnablePodSecurityPolicy: *bool
 │   │   ├── EnableRBAC: *bool
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
 │   │   ├── FqdnSubdomain: *string
-│   │   ├── HttpProxyConfig: Object (4 properties)
+│   │   ├── HttpProxyConfig: *Object (4 properties)
 │   │   │   ├── HttpProxy: *string
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── Identity: Object (2 properties)
-│   │   │   ├── Type: Enum (3 values)
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (3 values)
 │   │   │   │   ├── "None"
 │   │   │   │   ├── "SystemAssigned"
 │   │   │   │   └── "UserAssigned"
 │   │   │   └── UserAssignedIdentities: map[string]v1.JSON
-│   │   ├── IdentityProfile: Object (3 properties)
+│   │   ├── IdentityProfile: map[string]Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── ObjectId: *string
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── KubernetesVersion: *string
-│   │   ├── LinuxProfile: Object (2 properties)
+│   │   ├── LinuxProfile: *Object (2 properties)
 │   │   │   ├── AdminUsername: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^[A-Za-z][-A-Za-z0-9_]*$"}
-│   │   │   └── Ssh: Object (1 property)
-│   │   │       └── PublicKeys: Object (1 property)
+│   │   │   │   └── Rule 0: Pattern: "^[A-Za-z][-A-Za-z0-9_]*$"
+│   │   │   └── Ssh: *Object (1 property)
+│   │   │       └── PublicKeys: Object (1 property)[]
 │   │   │           └── KeyData: *string
 │   │   ├── Location: *string
-│   │   ├── NetworkProfile: Object (10 properties)
+│   │   ├── NetworkProfile: *Object (10 properties)
 │   │   │   ├── DnsServiceIP: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"}
+│   │   │   │   └── Rule 0: Pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
 │   │   │   ├── DockerBridgeCidr: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
-│   │   │   ├── LoadBalancerProfile: Object (6 properties)
+│   │   │   │   └── Rule 0: Pattern: "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
+│   │   │   ├── LoadBalancerProfile: *Object (6 properties)
 │   │   │   │   ├── AllocatedOutboundPorts: Validated<*int> (2 rules)
-│   │   │   │   │   ├── Rule 0: {Maximum 64000}
-│   │   │   │   │   └── Rule 1: {Minimum 0}
-│   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)
+│   │   │   │   │   ├── Rule 0: Maximum: 64000
+│   │   │   │   │   └── Rule 1: Minimum: 0
+│   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)[]
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   ├── IdleTimeoutInMinutes: Validated<*int> (2 rules)
-│   │   │   │   │   ├── Rule 0: {Maximum 120}
-│   │   │   │   │   └── Rule 1: {Minimum 4}
-│   │   │   │   ├── ManagedOutboundIPs: Object (1 property)
+│   │   │   │   │   ├── Rule 0: Maximum: 120
+│   │   │   │   │   └── Rule 1: Minimum: 4
+│   │   │   │   ├── ManagedOutboundIPs: *Object (1 property)
 │   │   │   │   │   └── Count: Validated<*int> (2 rules)
-│   │   │   │   │       ├── Rule 0: {Maximum 100}
-│   │   │   │   │       └── Rule 1: {Minimum 1}
-│   │   │   │   ├── OutboundIPPrefixes: Object (1 property)
-│   │   │   │   │   └── PublicIPPrefixes: Object (1 property)
+│   │   │   │   │       ├── Rule 0: Maximum: 100
+│   │   │   │   │       └── Rule 1: Minimum: 1
+│   │   │   │   ├── OutboundIPPrefixes: *Object (1 property)
+│   │   │   │   │   └── PublicIPPrefixes: Object (1 property)[]
 │   │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── OutboundIPs: Object (1 property)
-│   │   │   │       └── PublicIPs: Object (1 property)
+│   │   │   │   └── OutboundIPs: *Object (1 property)
+│   │   │   │       └── PublicIPs: Object (1 property)[]
 │   │   │   │           └── Reference: *genruntime.ResourceReference
-│   │   │   ├── LoadBalancerSku: Enum (2 values)
+│   │   │   ├── LoadBalancerSku: *Enum (2 values)
 │   │   │   │   ├── "basic"
 │   │   │   │   └── "standard"
-│   │   │   ├── NetworkMode: Enum (2 values)
+│   │   │   ├── NetworkMode: *Enum (2 values)
 │   │   │   │   ├── "bridge"
 │   │   │   │   └── "transparent"
-│   │   │   ├── NetworkPlugin: Enum (2 values)
+│   │   │   ├── NetworkPlugin: *Enum (2 values)
 │   │   │   │   ├── "azure"
 │   │   │   │   └── "kubenet"
-│   │   │   ├── NetworkPolicy: Enum (2 values)
+│   │   │   ├── NetworkPolicy: *Enum (2 values)
 │   │   │   │   ├── "azure"
 │   │   │   │   └── "calico"
-│   │   │   ├── OutboundType: Enum (2 values)
+│   │   │   ├── OutboundType: *Enum (2 values)
 │   │   │   │   ├── "loadBalancer"
 │   │   │   │   └── "userDefinedRouting"
 │   │   │   ├── PodCidr: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
+│   │   │   │   └── Rule 0: Pattern: "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
 │   │   │   └── ServiceCidr: Validated<*string> (1 rule)
-│   │   │       └── Rule 0: {Pattern "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"}
+│   │   │       └── Rule 0: Pattern: "^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
 │   │   ├── NodeResourceGroup: *string
-│   │   ├── OperatorSpec: Object (1 property)
-│   │   │   └── Secrets: Object (2 properties)
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── Secrets: *Object (2 properties)
 │   │   │       ├── AdminCredentials: *genruntime.SecretDestination
 │   │   │       └── UserCredentials: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PodIdentityProfile: Object (4 properties)
+│   │   ├── PodIdentityProfile: *Object (4 properties)
 │   │   │   ├── AllowNetworkPluginKubenet: *bool
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── UserAssignedIdentities: Object (4 properties)
+│   │   │   ├── UserAssignedIdentities: Object (4 properties)[]
 │   │   │   │   ├── BindingSelector: *string
-│   │   │   │   ├── Identity: Object (3 properties)
+│   │   │   │   ├── Identity: *Object (3 properties)
 │   │   │   │   │   ├── ClientId: *string
 │   │   │   │   │   ├── ObjectId: *string
 │   │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── Namespace: *string
-│   │   │   └── UserAssignedIdentityExceptions: Object (3 properties)
+│   │   │   └── UserAssignedIdentityExceptions: Object (3 properties)[]
 │   │   │       ├── Name: *string
 │   │   │       ├── Namespace: *string
 │   │   │       └── PodLabels: map[string]string
-│   │   ├── PrivateLinkResources: Object (5 properties)
+│   │   ├── PrivateLinkResources: Object (5 properties)[]
 │   │   │   ├── GroupId: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── Reference: *genruntime.ResourceReference
 │   │   │   ├── RequiredMembers: string[]
 │   │   │   └── Type: *string
-│   │   ├── ServicePrincipalProfile: Object (2 properties)
+│   │   ├── ServicePrincipalProfile: *Object (2 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   └── Secret: *string
-│   │   ├── Sku: Object (2 properties)
-│   │   │   ├── Name: Enum (1 value)
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *Enum (1 value)
 │   │   │   │   └── "Basic"
-│   │   │   └── Tier: Enum (2 values)
+│   │   │   └── Tier: *Enum (2 values)
 │   │   │       ├── "Free"
 │   │   │       └── "Paid"
 │   │   ├── Tags: map[string]string
-│   │   └── WindowsProfile: Object (4 properties)
+│   │   └── WindowsProfile: *Object (4 properties)
 │   │       ├── AdminPassword: *string
 │   │       ├── AdminUsername: *string
 │   │       ├── EnableCSIProxy: *bool
-│   │       └── LicenseType: Enum (2 values)
+│   │       └── LicenseType: *Enum (2 values)
 │   │           ├── "None"
 │   │           └── "Windows_Server"
 │   └── Status: Object (37 properties)
-│       ├── AadProfile: Object (7 properties)
+│       ├── AadProfile: *Object (7 properties)
 │       │   ├── AdminGroupObjectIDs: string[]
 │       │   ├── ClientAppID: *string
 │       │   ├── EnableAzureRBAC: *bool
@@ -395,7 +396,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── ServerAppSecret: *string
 │       │   └── TenantID: *string
 │       ├── AddonProfiles: *v1.JSON
-│       ├── AgentPoolProfiles: Object (37 properties)
+│       ├── AgentPoolProfiles: Object (37 properties)[]
 │       │   ├── AvailabilityZones: string[]
 │       │   ├── Count: *int
 │       │   ├── EnableAutoScaling: *bool
@@ -403,13 +404,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── EnableFIPS: *bool
 │       │   ├── EnableNodePublicIP: *bool
 │       │   ├── EnableUltraSSD: *bool
-│       │   ├── GpuInstanceProfile: Enum (5 values)
+│       │   ├── GpuInstanceProfile: *Enum (5 values)
 │       │   │   ├── "MIG1g"
 │       │   │   ├── "MIG2g"
 │       │   │   ├── "MIG3g"
 │       │   │   ├── "MIG4g"
 │       │   │   └── "MIG7g"
-│       │   ├── KubeletConfig: Object (11 properties)
+│       │   ├── KubeletConfig: *Object (11 properties)
 │       │   │   ├── AllowedUnsafeSysctls: string[]
 │       │   │   ├── ContainerLogMaxFiles: *int
 │       │   │   ├── ContainerLogMaxSizeMB: *int
@@ -421,12 +422,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   │   ├── ImageGcLowThreshold: *int
 │       │   │   ├── PodMaxPids: *int
 │       │   │   └── TopologyManagerPolicy: *string
-│       │   ├── KubeletDiskType: Enum (2 values)
+│       │   ├── KubeletDiskType: *Enum (2 values)
 │       │   │   ├── "OS"
 │       │   │   └── "Temporary"
-│       │   ├── LinuxOSConfig: Object (4 properties)
+│       │   ├── LinuxOSConfig: *Object (4 properties)
 │       │   │   ├── SwapFileSizeMB: *int
-│       │   │   ├── Sysctls: Object (28 properties)
+│       │   │   ├── Sysctls: *Object (28 properties)
 │       │   │   │   ├── FsAioMaxNr: *int
 │       │   │   │   ├── FsFileMax: *int
 │       │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -460,7 +461,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── MaxCount: *int
 │       │   ├── MaxPods: *int
 │       │   ├── MinCount: *int
-│       │   ├── Mode: Enum (2 values)
+│       │   ├── Mode: *Enum (2 values)
 │       │   │   ├── "System"
 │       │   │   └── "User"
 │       │   ├── Name: *string
@@ -470,45 +471,45 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── NodeTaints: string[]
 │       │   ├── OrchestratorVersion: *string
 │       │   ├── OsDiskSizeGB: *int
-│       │   ├── OsDiskType: Enum (2 values)
+│       │   ├── OsDiskType: *Enum (2 values)
 │       │   │   ├── "Ephemeral"
 │       │   │   └── "Managed"
-│       │   ├── OsSKU: Enum (2 values)
+│       │   ├── OsSKU: *Enum (2 values)
 │       │   │   ├── "CBLMariner"
 │       │   │   └── "Ubuntu"
-│       │   ├── OsType: Enum (2 values)
+│       │   ├── OsType: *Enum (2 values)
 │       │   │   ├── "Linux"
 │       │   │   └── "Windows"
 │       │   ├── PodSubnetID: *string
-│       │   ├── PowerState: Object (1 property)
-│       │   │   └── Code: Enum (2 values)
+│       │   ├── PowerState: *Object (1 property)
+│       │   │   └── Code: *Enum (2 values)
 │       │   │       ├── "Running"
 │       │   │       └── "Stopped"
 │       │   ├── ProvisioningState: *string
 │       │   ├── ProximityPlacementGroupID: *string
-│       │   ├── ScaleSetEvictionPolicy: Enum (2 values)
+│       │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │       │   │   ├── "Deallocate"
 │       │   │   └── "Delete"
-│       │   ├── ScaleSetPriority: Enum (2 values)
+│       │   ├── ScaleSetPriority: *Enum (2 values)
 │       │   │   ├── "Regular"
 │       │   │   └── "Spot"
 │       │   ├── SpotMaxPrice: *float64
 │       │   ├── Tags: map[string]string
-│       │   ├── Type: Enum (2 values)
+│       │   ├── Type: *Enum (2 values)
 │       │   │   ├── "AvailabilitySet"
 │       │   │   └── "VirtualMachineScaleSets"
-│       │   ├── UpgradeSettings: Object (1 property)
+│       │   ├── UpgradeSettings: *Object (1 property)
 │       │   │   └── MaxSurge: *string
 │       │   ├── VmSize: *string
 │       │   └── VnetSubnetID: *string
-│       ├── ApiServerAccessProfile: Object (4 properties)
+│       ├── ApiServerAccessProfile: *Object (4 properties)
 │       │   ├── AuthorizedIPRanges: string[]
 │       │   ├── EnablePrivateCluster: *bool
 │       │   ├── EnablePrivateClusterPublicFQDN: *bool
 │       │   └── PrivateDNSZone: *string
-│       ├── AutoScalerProfile: Object (17 properties)
+│       ├── AutoScalerProfile: *Object (17 properties)
 │       │   ├── BalanceSimilarNodeGroups: *string
-│       │   ├── Expander: Enum (4 values)
+│       │   ├── Expander: *Enum (4 values)
 │       │   │   ├── "least-waste"
 │       │   │   ├── "most-pods"
 │       │   │   ├── "priority"
@@ -528,8 +529,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── ScanInterval: *string
 │       │   ├── SkipNodesWithLocalStorage: *string
 │       │   └── SkipNodesWithSystemPods: *string
-│       ├── AutoUpgradeProfile: Object (1 property)
-│       │   └── UpgradeChannel: Enum (5 values)
+│       ├── AutoUpgradeProfile: *Object (1 property)
+│       │   └── UpgradeChannel: *Enum (5 values)
 │       │       ├── "node-image"
 │       │       ├── "none"
 │       │       ├── "patch"
@@ -542,108 +543,108 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       ├── DnsPrefix: *string
 │       ├── EnablePodSecurityPolicy: *bool
 │       ├── EnableRBAC: *bool
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
 │       ├── Fqdn: *string
 │       ├── FqdnSubdomain: *string
-│       ├── HttpProxyConfig: Object (4 properties)
+│       ├── HttpProxyConfig: *Object (4 properties)
 │       │   ├── HttpProxy: *string
 │       │   ├── HttpsProxy: *string
 │       │   ├── NoProxy: string[]
 │       │   └── TrustedCa: *string
 │       ├── Id: *string
-│       ├── Identity: Object (4 properties)
+│       ├── Identity: *Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   ├── Type: Enum (3 values)
+│       │   ├── Type: *Enum (3 values)
 │       │   │   ├── "None"
 │       │   │   ├── "SystemAssigned"
 │       │   │   └── "UserAssigned"
-│       │   └── UserAssignedIdentities: Object (2 properties)
+│       │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
 │       ├── IdentityProfile: *v1.JSON
 │       ├── KubernetesVersion: *string
-│       ├── LinuxProfile: Object (2 properties)
+│       ├── LinuxProfile: *Object (2 properties)
 │       │   ├── AdminUsername: *string
-│       │   └── Ssh: Object (1 property)
-│       │       └── PublicKeys: Object (1 property)
+│       │   └── Ssh: *Object (1 property)
+│       │       └── PublicKeys: Object (1 property)[]
 │       │           └── KeyData: *string
 │       ├── Location: *string
 │       ├── MaxAgentPools: *int
 │       ├── Name: *string
-│       ├── NetworkProfile: Object (10 properties)
+│       ├── NetworkProfile: *Object (10 properties)
 │       │   ├── DnsServiceIP: *string
 │       │   ├── DockerBridgeCidr: *string
-│       │   ├── LoadBalancerProfile: Object (6 properties)
+│       │   ├── LoadBalancerProfile: *Object (6 properties)
 │       │   │   ├── AllocatedOutboundPorts: *int
-│       │   │   ├── EffectiveOutboundIPs: Object (1 property)
+│       │   │   ├── EffectiveOutboundIPs: Object (1 property)[]
 │       │   │   │   └── Id: *string
 │       │   │   ├── IdleTimeoutInMinutes: *int
-│       │   │   ├── ManagedOutboundIPs: Object (1 property)
+│       │   │   ├── ManagedOutboundIPs: *Object (1 property)
 │       │   │   │   └── Count: *int
-│       │   │   ├── OutboundIPPrefixes: Object (1 property)
-│       │   │   │   └── PublicIPPrefixes: Object (1 property)
+│       │   │   ├── OutboundIPPrefixes: *Object (1 property)
+│       │   │   │   └── PublicIPPrefixes: Object (1 property)[]
 │       │   │   │       └── Id: *string
-│       │   │   └── OutboundIPs: Object (1 property)
-│       │   │       └── PublicIPs: Object (1 property)
+│       │   │   └── OutboundIPs: *Object (1 property)
+│       │   │       └── PublicIPs: Object (1 property)[]
 │       │   │           └── Id: *string
-│       │   ├── LoadBalancerSku: Enum (2 values)
+│       │   ├── LoadBalancerSku: *Enum (2 values)
 │       │   │   ├── "basic"
 │       │   │   └── "standard"
-│       │   ├── NetworkMode: Enum (2 values)
+│       │   ├── NetworkMode: *Enum (2 values)
 │       │   │   ├── "bridge"
 │       │   │   └── "transparent"
-│       │   ├── NetworkPlugin: Enum (2 values)
+│       │   ├── NetworkPlugin: *Enum (2 values)
 │       │   │   ├── "azure"
 │       │   │   └── "kubenet"
-│       │   ├── NetworkPolicy: Enum (2 values)
+│       │   ├── NetworkPolicy: *Enum (2 values)
 │       │   │   ├── "azure"
 │       │   │   └── "calico"
-│       │   ├── OutboundType: Enum (2 values)
+│       │   ├── OutboundType: *Enum (2 values)
 │       │   │   ├── "loadBalancer"
 │       │   │   └── "userDefinedRouting"
 │       │   ├── PodCidr: *string
 │       │   └── ServiceCidr: *string
 │       ├── NodeResourceGroup: *string
-│       ├── PodIdentityProfile: Object (4 properties)
+│       ├── PodIdentityProfile: *Object (4 properties)
 │       │   ├── AllowNetworkPluginKubenet: *bool
 │       │   ├── Enabled: *bool
-│       │   ├── UserAssignedIdentities: Object (6 properties)
+│       │   ├── UserAssignedIdentities: Object (6 properties)[]
 │       │   │   ├── BindingSelector: *string
-│       │   │   ├── Identity: Object (3 properties)
+│       │   │   ├── Identity: *Object (3 properties)
 │       │   │   │   ├── ClientId: *string
 │       │   │   │   ├── ObjectId: *string
 │       │   │   │   └── ResourceId: *string
 │       │   │   ├── Name: *string
 │       │   │   ├── Namespace: *string
-│       │   │   ├── ProvisioningInfo: Object (1 property)
-│       │   │   │   └── Error: Object (1 property)
-│       │   │   │       └── Error: Object (4 properties)
+│       │   │   ├── ProvisioningInfo: *Object (1 property)
+│       │   │   │   └── Error: *Object (1 property)
+│       │   │   │       └── Error: *Object (4 properties)
 │       │   │   │           ├── Code: *string
-│       │   │   │           ├── Details: Object (3 properties)
+│       │   │   │           ├── Details: Object (3 properties)[]
 │       │   │   │           │   ├── Code: *string
 │       │   │   │           │   ├── Message: *string
 │       │   │   │           │   └── Target: *string
 │       │   │   │           ├── Message: *string
 │       │   │   │           └── Target: *string
-│       │   │   └── ProvisioningState: Enum (4 values)
+│       │   │   └── ProvisioningState: *Enum (4 values)
 │       │   │       ├── "Assigned"
 │       │   │       ├── "Deleting"
 │       │   │       ├── "Failed"
 │       │   │       └── "Updating"
-│       │   └── UserAssignedIdentityExceptions: Object (3 properties)
+│       │   └── UserAssignedIdentityExceptions: Object (3 properties)[]
 │       │       ├── Name: *string
 │       │       ├── Namespace: *string
 │       │       └── PodLabels: map[string]string
-│       ├── PowerState: Object (1 property)
-│       │   └── Code: Enum (2 values)
+│       ├── PowerState: *Object (1 property)
+│       │   └── Code: *Enum (2 values)
 │       │       ├── "Running"
 │       │       └── "Stopped"
 │       ├── PrivateFQDN: *string
-│       ├── PrivateLinkResources: Object (6 properties)
+│       ├── PrivateLinkResources: Object (6 properties)[]
 │       │   ├── GroupId: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
@@ -651,44 +652,44 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── RequiredMembers: string[]
 │       │   └── Type: *string
 │       ├── ProvisioningState: *string
-│       ├── ServicePrincipalProfile: Object (2 properties)
+│       ├── ServicePrincipalProfile: *Object (2 properties)
 │       │   ├── ClientId: *string
 │       │   └── Secret: *string
-│       ├── Sku: Object (2 properties)
-│       │   ├── Name: Enum (1 value)
+│       ├── Sku: *Object (2 properties)
+│       │   ├── Name: *Enum (1 value)
 │       │   │   └── "Basic"
-│       │   └── Tier: Enum (2 values)
+│       │   └── Tier: *Enum (2 values)
 │       │       ├── "Free"
 │       │       └── "Paid"
 │       ├── Tags: map[string]string
 │       ├── Type: *string
-│       └── WindowsProfile: Object (4 properties)
+│       └── WindowsProfile: *Object (4 properties)
 │           ├── AdminPassword: *string
 │           ├── AdminUsername: *string
 │           ├── EnableCSIProxy: *bool
-│           └── LicenseType: Enum (2 values)
+│           └── LicenseType: *Enum (2 values)
 │               ├── "None"
 │               └── "Windows_Server"
 ├── ManagedCluster_STATUS_ARM: Object (9 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
-│   ├── Identity: Object (4 properties)
+│   ├── Identity: *Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   ├── Type: Enum (3 values)
+│   │   ├── Type: *Enum (3 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: Object (2 properties)
+│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │   │       ├── ClientId: *string
 │   │       └── PrincipalId: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (28 properties)
-│   │   ├── AadProfile: Object (7 properties)
+│   ├── Properties: *Object (28 properties)
+│   │   ├── AadProfile: *Object (7 properties)
 │   │   │   ├── AdminGroupObjectIDs: string[]
 │   │   │   ├── ClientAppID: *string
 │   │   │   ├── EnableAzureRBAC: *bool
@@ -697,7 +698,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
 │   │   ├── AddonProfiles: *v1.JSON
-│   │   ├── AgentPoolProfiles: Object (37 properties)
+│   │   ├── AgentPoolProfiles: Object (37 properties)[]
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
 │   │   │   ├── EnableAutoScaling: *bool
@@ -705,13 +706,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── EnableFIPS: *bool
 │   │   │   ├── EnableNodePublicIP: *bool
 │   │   │   ├── EnableUltraSSD: *bool
-│   │   │   ├── GpuInstanceProfile: Enum (5 values)
+│   │   │   ├── GpuInstanceProfile: *Enum (5 values)
 │   │   │   │   ├── "MIG1g"
 │   │   │   │   ├── "MIG2g"
 │   │   │   │   ├── "MIG3g"
 │   │   │   │   ├── "MIG4g"
 │   │   │   │   └── "MIG7g"
-│   │   │   ├── KubeletConfig: Object (11 properties)
+│   │   │   ├── KubeletConfig: *Object (11 properties)
 │   │   │   │   ├── AllowedUnsafeSysctls: string[]
 │   │   │   │   ├── ContainerLogMaxFiles: *int
 │   │   │   │   ├── ContainerLogMaxSizeMB: *int
@@ -723,12 +724,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   │   ├── ImageGcLowThreshold: *int
 │   │   │   │   ├── PodMaxPids: *int
 │   │   │   │   └── TopologyManagerPolicy: *string
-│   │   │   ├── KubeletDiskType: Enum (2 values)
+│   │   │   ├── KubeletDiskType: *Enum (2 values)
 │   │   │   │   ├── "OS"
 │   │   │   │   └── "Temporary"
-│   │   │   ├── LinuxOSConfig: Object (4 properties)
+│   │   │   ├── LinuxOSConfig: *Object (4 properties)
 │   │   │   │   ├── SwapFileSizeMB: *int
-│   │   │   │   ├── Sysctls: Object (28 properties)
+│   │   │   │   ├── Sysctls: *Object (28 properties)
 │   │   │   │   │   ├── FsAioMaxNr: *int
 │   │   │   │   │   ├── FsFileMax: *int
 │   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -762,7 +763,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── MaxCount: *int
 │   │   │   ├── MaxPods: *int
 │   │   │   ├── MinCount: *int
-│   │   │   ├── Mode: Enum (2 values)
+│   │   │   ├── Mode: *Enum (2 values)
 │   │   │   │   ├── "System"
 │   │   │   │   └── "User"
 │   │   │   ├── Name: *string
@@ -772,45 +773,45 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
 │   │   │   ├── OsDiskSizeGB: *int
-│   │   │   ├── OsDiskType: Enum (2 values)
+│   │   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   │   ├── "Ephemeral"
 │   │   │   │   └── "Managed"
-│   │   │   ├── OsSKU: Enum (2 values)
+│   │   │   ├── OsSKU: *Enum (2 values)
 │   │   │   │   ├── "CBLMariner"
 │   │   │   │   └── "Ubuntu"
-│   │   │   ├── OsType: Enum (2 values)
+│   │   │   ├── OsType: *Enum (2 values)
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetID: *string
-│   │   │   ├── PowerState: Object (1 property)
-│   │   │   │   └── Code: Enum (2 values)
+│   │   │   ├── PowerState: *Object (1 property)
+│   │   │   │   └── Code: *Enum (2 values)
 │   │   │   │       ├── "Running"
 │   │   │   │       └── "Stopped"
 │   │   │   ├── ProvisioningState: *string
 │   │   │   ├── ProximityPlacementGroupID: *string
-│   │   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
+│   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ScaleSetPriority: Enum (2 values)
+│   │   │   ├── ScaleSetPriority: *Enum (2 values)
 │   │   │   │   ├── "Regular"
 │   │   │   │   └── "Spot"
 │   │   │   ├── SpotMaxPrice: *float64
 │   │   │   ├── Tags: map[string]string
-│   │   │   ├── Type: Enum (2 values)
+│   │   │   ├── Type: *Enum (2 values)
 │   │   │   │   ├── "AvailabilitySet"
 │   │   │   │   └── "VirtualMachineScaleSets"
-│   │   │   ├── UpgradeSettings: Object (1 property)
+│   │   │   ├── UpgradeSettings: *Object (1 property)
 │   │   │   │   └── MaxSurge: *string
 │   │   │   ├── VmSize: *string
 │   │   │   └── VnetSubnetID: *string
-│   │   ├── ApiServerAccessProfile: Object (4 properties)
+│   │   ├── ApiServerAccessProfile: *Object (4 properties)
 │   │   │   ├── AuthorizedIPRanges: string[]
 │   │   │   ├── EnablePrivateCluster: *bool
 │   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
 │   │   │   └── PrivateDNSZone: *string
-│   │   ├── AutoScalerProfile: Object (17 properties)
+│   │   ├── AutoScalerProfile: *Object (17 properties)
 │   │   │   ├── BalanceSimilarNodeGroups: *string
-│   │   │   ├── Expander: Enum (4 values)
+│   │   │   ├── Expander: *Enum (4 values)
 │   │   │   │   ├── "least-waste"
 │   │   │   │   ├── "most-pods"
 │   │   │   │   ├── "priority"
@@ -830,8 +831,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ScanInterval: *string
 │   │   │   ├── SkipNodesWithLocalStorage: *string
 │   │   │   └── SkipNodesWithSystemPods: *string
-│   │   ├── AutoUpgradeProfile: Object (1 property)
-│   │   │   └── UpgradeChannel: Enum (5 values)
+│   │   ├── AutoUpgradeProfile: *Object (1 property)
+│   │   │   └── UpgradeChannel: *Enum (5 values)
 │   │   │       ├── "node-image"
 │   │   │       ├── "none"
 │   │   │       ├── "patch"
@@ -845,89 +846,89 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── EnableRBAC: *bool
 │   │   ├── Fqdn: *string
 │   │   ├── FqdnSubdomain: *string
-│   │   ├── HttpProxyConfig: Object (4 properties)
+│   │   ├── HttpProxyConfig: *Object (4 properties)
 │   │   │   ├── HttpProxy: *string
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
 │   │   ├── IdentityProfile: *v1.JSON
 │   │   ├── KubernetesVersion: *string
-│   │   ├── LinuxProfile: Object (2 properties)
+│   │   ├── LinuxProfile: *Object (2 properties)
 │   │   │   ├── AdminUsername: *string
-│   │   │   └── Ssh: Object (1 property)
-│   │   │       └── PublicKeys: Object (1 property)
+│   │   │   └── Ssh: *Object (1 property)
+│   │   │       └── PublicKeys: Object (1 property)[]
 │   │   │           └── KeyData: *string
 │   │   ├── MaxAgentPools: *int
-│   │   ├── NetworkProfile: Object (10 properties)
+│   │   ├── NetworkProfile: *Object (10 properties)
 │   │   │   ├── DnsServiceIP: *string
 │   │   │   ├── DockerBridgeCidr: *string
-│   │   │   ├── LoadBalancerProfile: Object (6 properties)
+│   │   │   ├── LoadBalancerProfile: *Object (6 properties)
 │   │   │   │   ├── AllocatedOutboundPorts: *int
-│   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)
+│   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │   ├── ManagedOutboundIPs: Object (1 property)
+│   │   │   │   ├── ManagedOutboundIPs: *Object (1 property)
 │   │   │   │   │   └── Count: *int
-│   │   │   │   ├── OutboundIPPrefixes: Object (1 property)
-│   │   │   │   │   └── PublicIPPrefixes: Object (1 property)
+│   │   │   │   ├── OutboundIPPrefixes: *Object (1 property)
+│   │   │   │   │   └── PublicIPPrefixes: Object (1 property)[]
 │   │   │   │   │       └── Id: *string
-│   │   │   │   └── OutboundIPs: Object (1 property)
-│   │   │   │       └── PublicIPs: Object (1 property)
+│   │   │   │   └── OutboundIPs: *Object (1 property)
+│   │   │   │       └── PublicIPs: Object (1 property)[]
 │   │   │   │           └── Id: *string
-│   │   │   ├── LoadBalancerSku: Enum (2 values)
+│   │   │   ├── LoadBalancerSku: *Enum (2 values)
 │   │   │   │   ├── "basic"
 │   │   │   │   └── "standard"
-│   │   │   ├── NetworkMode: Enum (2 values)
+│   │   │   ├── NetworkMode: *Enum (2 values)
 │   │   │   │   ├── "bridge"
 │   │   │   │   └── "transparent"
-│   │   │   ├── NetworkPlugin: Enum (2 values)
+│   │   │   ├── NetworkPlugin: *Enum (2 values)
 │   │   │   │   ├── "azure"
 │   │   │   │   └── "kubenet"
-│   │   │   ├── NetworkPolicy: Enum (2 values)
+│   │   │   ├── NetworkPolicy: *Enum (2 values)
 │   │   │   │   ├── "azure"
 │   │   │   │   └── "calico"
-│   │   │   ├── OutboundType: Enum (2 values)
+│   │   │   ├── OutboundType: *Enum (2 values)
 │   │   │   │   ├── "loadBalancer"
 │   │   │   │   └── "userDefinedRouting"
 │   │   │   ├── PodCidr: *string
 │   │   │   └── ServiceCidr: *string
 │   │   ├── NodeResourceGroup: *string
-│   │   ├── PodIdentityProfile: Object (4 properties)
+│   │   ├── PodIdentityProfile: *Object (4 properties)
 │   │   │   ├── AllowNetworkPluginKubenet: *bool
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── UserAssignedIdentities: Object (6 properties)
+│   │   │   ├── UserAssignedIdentities: Object (6 properties)[]
 │   │   │   │   ├── BindingSelector: *string
-│   │   │   │   ├── Identity: Object (3 properties)
+│   │   │   │   ├── Identity: *Object (3 properties)
 │   │   │   │   │   ├── ClientId: *string
 │   │   │   │   │   ├── ObjectId: *string
 │   │   │   │   │   └── ResourceId: *string
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── Namespace: *string
-│   │   │   │   ├── ProvisioningInfo: Object (1 property)
-│   │   │   │   │   └── Error: Object (1 property)
-│   │   │   │   │       └── Error: Object (4 properties)
+│   │   │   │   ├── ProvisioningInfo: *Object (1 property)
+│   │   │   │   │   └── Error: *Object (1 property)
+│   │   │   │   │       └── Error: *Object (4 properties)
 │   │   │   │   │           ├── Code: *string
-│   │   │   │   │           ├── Details: Object (3 properties)
+│   │   │   │   │           ├── Details: Object (3 properties)[]
 │   │   │   │   │           │   ├── Code: *string
 │   │   │   │   │           │   ├── Message: *string
 │   │   │   │   │           │   └── Target: *string
 │   │   │   │   │           ├── Message: *string
 │   │   │   │   │           └── Target: *string
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Assigned"
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       └── "Updating"
-│   │   │   └── UserAssignedIdentityExceptions: Object (3 properties)
+│   │   │   └── UserAssignedIdentityExceptions: Object (3 properties)[]
 │   │   │       ├── Name: *string
 │   │   │       ├── Namespace: *string
 │   │   │       └── PodLabels: map[string]string
-│   │   ├── PowerState: Object (1 property)
-│   │   │   └── Code: Enum (2 values)
+│   │   ├── PowerState: *Object (1 property)
+│   │   │   └── Code: *Enum (2 values)
 │   │   │       ├── "Running"
 │   │   │       └── "Stopped"
 │   │   ├── PrivateFQDN: *string
-│   │   ├── PrivateLinkResources: Object (6 properties)
+│   │   ├── PrivateLinkResources: Object (6 properties)[]
 │   │   │   ├── GroupId: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
@@ -935,39 +936,39 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── RequiredMembers: string[]
 │   │   │   └── Type: *string
 │   │   ├── ProvisioningState: *string
-│   │   ├── ServicePrincipalProfile: Object (2 properties)
+│   │   ├── ServicePrincipalProfile: *Object (2 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   └── Secret: *string
-│   │   └── WindowsProfile: Object (4 properties)
+│   │   └── WindowsProfile: *Object (4 properties)
 │   │       ├── AdminPassword: *string
 │   │       ├── AdminUsername: *string
 │   │       ├── EnableCSIProxy: *bool
-│   │       └── LicenseType: Enum (2 values)
+│   │       └── LicenseType: *Enum (2 values)
 │   │           ├── "None"
 │   │           └── "Windows_Server"
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (1 value)
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Name: *Enum (1 value)
 │   │   │   └── "Basic"
-│   │   └── Tier: Enum (2 values)
+│   │   └── Tier: *Enum (2 values)
 │   │       ├── "Free"
 │   │       └── "Paid"
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── ManagedCluster_Spec_ARM: Object (7 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
-│   ├── Identity: Object (2 properties)
-│   │   ├── Type: Enum (3 values)
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (3 values)
 │   │   │   ├── "None"
 │   │   │   ├── "SystemAssigned"
 │   │   │   └── "UserAssigned"
 │   │   └── UserAssignedIdentities: map[string]v1.JSON
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (22 properties)
-│   │   ├── AadProfile: Object (7 properties)
+│   ├── Properties: *Object (22 properties)
+│   │   ├── AadProfile: *Object (7 properties)
 │   │   │   ├── AdminGroupObjectIDs: string[]
 │   │   │   ├── ClientAppID: *string
 │   │   │   ├── EnableAzureRBAC: *bool
@@ -975,10 +976,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: Object (2 properties)
+│   │   ├── AddonProfiles: map[string]Object (2 properties)
 │   │   │   ├── Config: map[string]string
 │   │   │   └── Enabled: *bool
-│   │   ├── AgentPoolProfiles: Object (34 properties)
+│   │   ├── AgentPoolProfiles: Object (34 properties)[]
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
 │   │   │   ├── EnableAutoScaling: *bool
@@ -986,13 +987,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── EnableFIPS: *bool
 │   │   │   ├── EnableNodePublicIP: *bool
 │   │   │   ├── EnableUltraSSD: *bool
-│   │   │   ├── GpuInstanceProfile: Enum (5 values)
+│   │   │   ├── GpuInstanceProfile: *Enum (5 values)
 │   │   │   │   ├── "MIG1g"
 │   │   │   │   ├── "MIG2g"
 │   │   │   │   ├── "MIG3g"
 │   │   │   │   ├── "MIG4g"
 │   │   │   │   └── "MIG7g"
-│   │   │   ├── KubeletConfig: Object (11 properties)
+│   │   │   ├── KubeletConfig: *Object (11 properties)
 │   │   │   │   ├── AllowedUnsafeSysctls: string[]
 │   │   │   │   ├── ContainerLogMaxFiles: *int
 │   │   │   │   ├── ContainerLogMaxSizeMB: *int
@@ -1004,12 +1005,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   │   ├── ImageGcLowThreshold: *int
 │   │   │   │   ├── PodMaxPids: *int
 │   │   │   │   └── TopologyManagerPolicy: *string
-│   │   │   ├── KubeletDiskType: Enum (2 values)
+│   │   │   ├── KubeletDiskType: *Enum (2 values)
 │   │   │   │   ├── "OS"
 │   │   │   │   └── "Temporary"
-│   │   │   ├── LinuxOSConfig: Object (4 properties)
+│   │   │   ├── LinuxOSConfig: *Object (4 properties)
 │   │   │   │   ├── SwapFileSizeMB: *int
-│   │   │   │   ├── Sysctls: Object (28 properties)
+│   │   │   │   ├── Sysctls: *Object (28 properties)
 │   │   │   │   │   ├── FsAioMaxNr: *int
 │   │   │   │   │   ├── FsFileMax: *int
 │   │   │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -1043,7 +1044,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── MaxCount: *int
 │   │   │   ├── MaxPods: *int
 │   │   │   ├── MinCount: *int
-│   │   │   ├── Mode: Enum (2 values)
+│   │   │   ├── Mode: *Enum (2 values)
 │   │   │   │   ├── "System"
 │   │   │   │   └── "User"
 │   │   │   ├── Name: *string
@@ -1052,40 +1053,40 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
 │   │   │   ├── OsDiskSizeGB: *int
-│   │   │   ├── OsDiskType: Enum (2 values)
+│   │   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   │   ├── "Ephemeral"
 │   │   │   │   └── "Managed"
-│   │   │   ├── OsSKU: Enum (2 values)
+│   │   │   ├── OsSKU: *Enum (2 values)
 │   │   │   │   ├── "CBLMariner"
 │   │   │   │   └── "Ubuntu"
-│   │   │   ├── OsType: Enum (2 values)
+│   │   │   ├── OsType: *Enum (2 values)
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetID: *string
 │   │   │   ├── ProximityPlacementGroupID: *string
-│   │   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
+│   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
-│   │   │   ├── ScaleSetPriority: Enum (2 values)
+│   │   │   ├── ScaleSetPriority: *Enum (2 values)
 │   │   │   │   ├── "Regular"
 │   │   │   │   └── "Spot"
 │   │   │   ├── SpotMaxPrice: *float64
 │   │   │   ├── Tags: map[string]string
-│   │   │   ├── Type: Enum (2 values)
+│   │   │   ├── Type: *Enum (2 values)
 │   │   │   │   ├── "AvailabilitySet"
 │   │   │   │   └── "VirtualMachineScaleSets"
-│   │   │   ├── UpgradeSettings: Object (1 property)
+│   │   │   ├── UpgradeSettings: *Object (1 property)
 │   │   │   │   └── MaxSurge: *string
 │   │   │   ├── VmSize: *string
 │   │   │   └── VnetSubnetID: *string
-│   │   ├── ApiServerAccessProfile: Object (4 properties)
+│   │   ├── ApiServerAccessProfile: *Object (4 properties)
 │   │   │   ├── AuthorizedIPRanges: string[]
 │   │   │   ├── EnablePrivateCluster: *bool
 │   │   │   ├── EnablePrivateClusterPublicFQDN: *bool
 │   │   │   └── PrivateDNSZone: *string
-│   │   ├── AutoScalerProfile: Object (17 properties)
+│   │   ├── AutoScalerProfile: *Object (17 properties)
 │   │   │   ├── BalanceSimilarNodeGroups: *string
-│   │   │   ├── Expander: Enum (4 values)
+│   │   │   ├── Expander: *Enum (4 values)
 │   │   │   │   ├── "least-waste"
 │   │   │   │   ├── "most-pods"
 │   │   │   │   ├── "priority"
@@ -1105,8 +1106,8 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ScanInterval: *string
 │   │   │   ├── SkipNodesWithLocalStorage: *string
 │   │   │   └── SkipNodesWithSystemPods: *string
-│   │   ├── AutoUpgradeProfile: Object (1 property)
-│   │   │   └── UpgradeChannel: Enum (5 values)
+│   │   ├── AutoUpgradeProfile: *Object (1 property)
+│   │   │   └── UpgradeChannel: *Enum (5 values)
 │   │   │       ├── "node-image"
 │   │   │       ├── "none"
 │   │   │       ├── "patch"
@@ -1118,94 +1119,95 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── EnablePodSecurityPolicy: *bool
 │   │   ├── EnableRBAC: *bool
 │   │   ├── FqdnSubdomain: *string
-│   │   ├── HttpProxyConfig: Object (4 properties)
+│   │   ├── HttpProxyConfig: *Object (4 properties)
 │   │   │   ├── HttpProxy: *string
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── IdentityProfile: Object (3 properties)
+│   │   ├── IdentityProfile: map[string]Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── ObjectId: *string
 │   │   │   └── ResourceId: *string
 │   │   ├── KubernetesVersion: *string
-│   │   ├── LinuxProfile: Object (2 properties)
+│   │   ├── LinuxProfile: *Object (2 properties)
 │   │   │   ├── AdminUsername: *string
-│   │   │   └── Ssh: Object (1 property)
-│   │   │       └── PublicKeys: Object (1 property)
+│   │   │   └── Ssh: *Object (1 property)
+│   │   │       └── PublicKeys: Object (1 property)[]
 │   │   │           └── KeyData: *string
-│   │   ├── NetworkProfile: Object (10 properties)
+│   │   ├── NetworkProfile: *Object (10 properties)
 │   │   │   ├── DnsServiceIP: *string
 │   │   │   ├── DockerBridgeCidr: *string
-│   │   │   ├── LoadBalancerProfile: Object (6 properties)
+│   │   │   ├── LoadBalancerProfile: *Object (6 properties)
 │   │   │   │   ├── AllocatedOutboundPorts: *int
-│   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)
+│   │   │   │   ├── EffectiveOutboundIPs: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │   ├── ManagedOutboundIPs: Object (1 property)
+│   │   │   │   ├── ManagedOutboundIPs: *Object (1 property)
 │   │   │   │   │   └── Count: *int
-│   │   │   │   ├── OutboundIPPrefixes: Object (1 property)
-│   │   │   │   │   └── PublicIPPrefixes: Object (1 property)
+│   │   │   │   ├── OutboundIPPrefixes: *Object (1 property)
+│   │   │   │   │   └── PublicIPPrefixes: Object (1 property)[]
 │   │   │   │   │       └── Id: *string
-│   │   │   │   └── OutboundIPs: Object (1 property)
-│   │   │   │       └── PublicIPs: Object (1 property)
+│   │   │   │   └── OutboundIPs: *Object (1 property)
+│   │   │   │       └── PublicIPs: Object (1 property)[]
 │   │   │   │           └── Id: *string
-│   │   │   ├── LoadBalancerSku: Enum (2 values)
+│   │   │   ├── LoadBalancerSku: *Enum (2 values)
 │   │   │   │   ├── "basic"
 │   │   │   │   └── "standard"
-│   │   │   ├── NetworkMode: Enum (2 values)
+│   │   │   ├── NetworkMode: *Enum (2 values)
 │   │   │   │   ├── "bridge"
 │   │   │   │   └── "transparent"
-│   │   │   ├── NetworkPlugin: Enum (2 values)
+│   │   │   ├── NetworkPlugin: *Enum (2 values)
 │   │   │   │   ├── "azure"
 │   │   │   │   └── "kubenet"
-│   │   │   ├── NetworkPolicy: Enum (2 values)
+│   │   │   ├── NetworkPolicy: *Enum (2 values)
 │   │   │   │   ├── "azure"
 │   │   │   │   └── "calico"
-│   │   │   ├── OutboundType: Enum (2 values)
+│   │   │   ├── OutboundType: *Enum (2 values)
 │   │   │   │   ├── "loadBalancer"
 │   │   │   │   └── "userDefinedRouting"
 │   │   │   ├── PodCidr: *string
 │   │   │   └── ServiceCidr: *string
 │   │   ├── NodeResourceGroup: *string
-│   │   ├── PodIdentityProfile: Object (4 properties)
+│   │   ├── PodIdentityProfile: *Object (4 properties)
 │   │   │   ├── AllowNetworkPluginKubenet: *bool
 │   │   │   ├── Enabled: *bool
-│   │   │   ├── UserAssignedIdentities: Object (4 properties)
+│   │   │   ├── UserAssignedIdentities: Object (4 properties)[]
 │   │   │   │   ├── BindingSelector: *string
-│   │   │   │   ├── Identity: Object (3 properties)
+│   │   │   │   ├── Identity: *Object (3 properties)
 │   │   │   │   │   ├── ClientId: *string
 │   │   │   │   │   ├── ObjectId: *string
 │   │   │   │   │   └── ResourceId: *string
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── Namespace: *string
-│   │   │   └── UserAssignedIdentityExceptions: Object (3 properties)
+│   │   │   └── UserAssignedIdentityExceptions: Object (3 properties)[]
 │   │   │       ├── Name: *string
 │   │   │       ├── Namespace: *string
 │   │   │       └── PodLabels: map[string]string
-│   │   ├── PrivateLinkResources: Object (5 properties)
+│   │   ├── PrivateLinkResources: Object (5 properties)[]
 │   │   │   ├── GroupId: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
 │   │   │   ├── RequiredMembers: string[]
 │   │   │   └── Type: *string
-│   │   ├── ServicePrincipalProfile: Object (2 properties)
+│   │   ├── ServicePrincipalProfile: *Object (2 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   └── Secret: *string
-│   │   └── WindowsProfile: Object (4 properties)
+│   │   └── WindowsProfile: *Object (4 properties)
 │   │       ├── AdminPassword: *string
 │   │       ├── AdminUsername: *string
 │   │       ├── EnableCSIProxy: *bool
-│   │       └── LicenseType: Enum (2 values)
+│   │       └── LicenseType: *Enum (2 values)
 │   │           ├── "None"
 │   │           └── "Windows_Server"
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (1 value)
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Name: *Enum (1 value)
 │   │   │   └── "Basic"
-│   │   └── Tier: Enum (2 values)
+│   │   └── Tier: *Enum (2 values)
 │   │       ├── "Free"
 │   │       └── "Paid"
 │   └── Tags: map[string]string
 ├── ManagedClustersAgentPool: Resource
+│   ├── Owner: ManagedCluster
 │   ├── Spec: Object (36 properties)
 │   │   ├── AvailabilityZones: string[]
 │   │   ├── AzureName: string
@@ -1215,16 +1217,16 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── EnableFIPS: *bool
 │   │   ├── EnableNodePublicIP: *bool
 │   │   ├── EnableUltraSSD: *bool
-│   │   ├── GpuInstanceProfile: Enum (5 values)
+│   │   ├── GpuInstanceProfile: *Enum (5 values)
 │   │   │   ├── "MIG1g"
 │   │   │   ├── "MIG2g"
 │   │   │   ├── "MIG3g"
 │   │   │   ├── "MIG4g"
 │   │   │   └── "MIG7g"
-│   │   ├── KubeletConfig: Object (11 properties)
+│   │   ├── KubeletConfig: *Object (11 properties)
 │   │   │   ├── AllowedUnsafeSysctls: string[]
 │   │   │   ├── ContainerLogMaxFiles: Validated<*int> (1 rule)
-│   │   │   │   └── Rule 0: {Minimum 2}
+│   │   │   │   └── Rule 0: Minimum: 2
 │   │   │   ├── ContainerLogMaxSizeMB: *int
 │   │   │   ├── CpuCfsQuota: *bool
 │   │   │   ├── CpuCfsQuotaPeriod: *string
@@ -1234,12 +1236,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   │   ├── ImageGcLowThreshold: *int
 │   │   │   ├── PodMaxPids: *int
 │   │   │   └── TopologyManagerPolicy: *string
-│   │   ├── KubeletDiskType: Enum (2 values)
+│   │   ├── KubeletDiskType: *Enum (2 values)
 │   │   │   ├── "OS"
 │   │   │   └── "Temporary"
-│   │   ├── LinuxOSConfig: Object (4 properties)
+│   │   ├── LinuxOSConfig: *Object (4 properties)
 │   │   │   ├── SwapFileSizeMB: *int
-│   │   │   ├── Sysctls: Object (28 properties)
+│   │   │   ├── Sysctls: *Object (28 properties)
 │   │   │   │   ├── FsAioMaxNr: *int
 │   │   │   │   ├── FsFileMax: *int
 │   │   │   │   ├── FsInotifyMaxUserWatches: *int
@@ -1274,7 +1276,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── MaxCount: *int
 │   │   ├── MaxPods: *int
 │   │   ├── MinCount: *int
-│   │   ├── Mode: Enum (2 values)
+│   │   ├── Mode: *Enum (2 values)
 │   │   │   ├── "System"
 │   │   │   └── "User"
 │   │   ├── NodeLabels: map[string]string
@@ -1282,32 +1284,32 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │   │   ├── NodeTaints: string[]
 │   │   ├── OrchestratorVersion: *string
 │   │   ├── OsDiskSizeGB: Validated<*int> (2 rules)
-│   │   │   ├── Rule 0: {Maximum 2048}
-│   │   │   └── Rule 1: {Minimum 0}
-│   │   ├── OsDiskType: Enum (2 values)
+│   │   │   ├── Rule 0: Maximum: 2048
+│   │   │   └── Rule 1: Minimum: 0
+│   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   ├── "Ephemeral"
 │   │   │   └── "Managed"
-│   │   ├── OsSKU: Enum (2 values)
+│   │   ├── OsSKU: *Enum (2 values)
 │   │   │   ├── "CBLMariner"
 │   │   │   └── "Ubuntu"
-│   │   ├── OsType: Enum (2 values)
+│   │   ├── OsType: *Enum (2 values)
 │   │   │   ├── "Linux"
 │   │   │   └── "Windows"
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
 │   │   ├── ProximityPlacementGroupID: Validated<*string> (0 rules)
-│   │   ├── ScaleSetEvictionPolicy: Enum (2 values)
+│   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"
-│   │   ├── ScaleSetPriority: Enum (2 values)
+│   │   ├── ScaleSetPriority: *Enum (2 values)
 │   │   │   ├── "Regular"
 │   │   │   └── "Spot"
 │   │   ├── SpotMaxPrice: *float64
 │   │   ├── Tags: map[string]string
-│   │   ├── Type: Enum (2 values)
+│   │   ├── Type: *Enum (2 values)
 │   │   │   ├── "AvailabilitySet"
 │   │   │   └── "VirtualMachineScaleSets"
-│   │   ├── UpgradeSettings: Object (1 property)
+│   │   ├── UpgradeSettings: *Object (1 property)
 │   │   │   └── MaxSurge: *string
 │   │   ├── VmSize: *string
 │   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
@@ -1320,14 +1322,14 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       ├── EnableFIPS: *bool
 │       ├── EnableNodePublicIP: *bool
 │       ├── EnableUltraSSD: *bool
-│       ├── GpuInstanceProfile: Enum (5 values)
+│       ├── GpuInstanceProfile: *Enum (5 values)
 │       │   ├── "MIG1g"
 │       │   ├── "MIG2g"
 │       │   ├── "MIG3g"
 │       │   ├── "MIG4g"
 │       │   └── "MIG7g"
 │       ├── Id: *string
-│       ├── KubeletConfig: Object (11 properties)
+│       ├── KubeletConfig: *Object (11 properties)
 │       │   ├── AllowedUnsafeSysctls: string[]
 │       │   ├── ContainerLogMaxFiles: *int
 │       │   ├── ContainerLogMaxSizeMB: *int
@@ -1339,12 +1341,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       │   ├── ImageGcLowThreshold: *int
 │       │   ├── PodMaxPids: *int
 │       │   └── TopologyManagerPolicy: *string
-│       ├── KubeletDiskType: Enum (2 values)
+│       ├── KubeletDiskType: *Enum (2 values)
 │       │   ├── "OS"
 │       │   └── "Temporary"
-│       ├── LinuxOSConfig: Object (4 properties)
+│       ├── LinuxOSConfig: *Object (4 properties)
 │       │   ├── SwapFileSizeMB: *int
-│       │   ├── Sysctls: Object (28 properties)
+│       │   ├── Sysctls: *Object (28 properties)
 │       │   │   ├── FsAioMaxNr: *int
 │       │   │   ├── FsFileMax: *int
 │       │   │   ├── FsInotifyMaxUserWatches: *int
@@ -1378,7 +1380,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       ├── MaxCount: *int
 │       ├── MaxPods: *int
 │       ├── MinCount: *int
-│       ├── Mode: Enum (2 values)
+│       ├── Mode: *Enum (2 values)
 │       │   ├── "System"
 │       │   └── "User"
 │       ├── Name: *string
@@ -1388,42 +1390,42 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
 │       ├── NodeTaints: string[]
 │       ├── OrchestratorVersion: *string
 │       ├── OsDiskSizeGB: *int
-│       ├── OsDiskType: Enum (2 values)
+│       ├── OsDiskType: *Enum (2 values)
 │       │   ├── "Ephemeral"
 │       │   └── "Managed"
-│       ├── OsSKU: Enum (2 values)
+│       ├── OsSKU: *Enum (2 values)
 │       │   ├── "CBLMariner"
 │       │   └── "Ubuntu"
-│       ├── OsType: Enum (2 values)
+│       ├── OsType: *Enum (2 values)
 │       │   ├── "Linux"
 │       │   └── "Windows"
 │       ├── PodSubnetID: *string
-│       ├── PowerState: Object (1 property)
-│       │   └── Code: Enum (2 values)
+│       ├── PowerState: *Object (1 property)
+│       │   └── Code: *Enum (2 values)
 │       │       ├── "Running"
 │       │       └── "Stopped"
-│       ├── PropertiesType: Enum (2 values)
+│       ├── PropertiesType: *Enum (2 values)
 │       │   ├── "AvailabilitySet"
 │       │   └── "VirtualMachineScaleSets"
 │       ├── ProvisioningState: *string
 │       ├── ProximityPlacementGroupID: *string
-│       ├── ScaleSetEvictionPolicy: Enum (2 values)
+│       ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │       │   ├── "Deallocate"
 │       │   └── "Delete"
-│       ├── ScaleSetPriority: Enum (2 values)
+│       ├── ScaleSetPriority: *Enum (2 values)
 │       │   ├── "Regular"
 │       │   └── "Spot"
 │       ├── SpotMaxPrice: *float64
 │       ├── Tags: map[string]string
 │       ├── Type: *string
-│       ├── UpgradeSettings: Object (1 property)
+│       ├── UpgradeSettings: *Object (1 property)
 │       │   └── MaxSurge: *string
 │       ├── VmSize: *string
 │       └── VnetSubnetID: *string
 └── ManagedClusters_AgentPool_Spec_ARM: Object (3 properties)
     ├── Location: *string
     ├── Name: string
-    └── Properties: Object (33 properties)
+    └── Properties: *Object (33 properties)
         ├── AvailabilityZones: string[]
         ├── Count: *int
         ├── EnableAutoScaling: *bool
@@ -1431,13 +1433,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
         ├── EnableFIPS: *bool
         ├── EnableNodePublicIP: *bool
         ├── EnableUltraSSD: *bool
-        ├── GpuInstanceProfile: Enum (5 values)
+        ├── GpuInstanceProfile: *Enum (5 values)
         │   ├── "MIG1g"
         │   ├── "MIG2g"
         │   ├── "MIG3g"
         │   ├── "MIG4g"
         │   └── "MIG7g"
-        ├── KubeletConfig: Object (11 properties)
+        ├── KubeletConfig: *Object (11 properties)
         │   ├── AllowedUnsafeSysctls: string[]
         │   ├── ContainerLogMaxFiles: *int
         │   ├── ContainerLogMaxSizeMB: *int
@@ -1449,12 +1451,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
         │   ├── ImageGcLowThreshold: *int
         │   ├── PodMaxPids: *int
         │   └── TopologyManagerPolicy: *string
-        ├── KubeletDiskType: Enum (2 values)
+        ├── KubeletDiskType: *Enum (2 values)
         │   ├── "OS"
         │   └── "Temporary"
-        ├── LinuxOSConfig: Object (4 properties)
+        ├── LinuxOSConfig: *Object (4 properties)
         │   ├── SwapFileSizeMB: *int
-        │   ├── Sysctls: Object (28 properties)
+        │   ├── Sysctls: *Object (28 properties)
         │   │   ├── FsAioMaxNr: *int
         │   │   ├── FsFileMax: *int
         │   │   ├── FsInotifyMaxUserWatches: *int
@@ -1488,7 +1490,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
         ├── MaxCount: *int
         ├── MaxPods: *int
         ├── MinCount: *int
-        ├── Mode: Enum (2 values)
+        ├── Mode: *Enum (2 values)
         │   ├── "System"
         │   └── "User"
         ├── NodeLabels: map[string]string
@@ -1496,29 +1498,29 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501
         ├── NodeTaints: string[]
         ├── OrchestratorVersion: *string
         ├── OsDiskSizeGB: *int
-        ├── OsDiskType: Enum (2 values)
+        ├── OsDiskType: *Enum (2 values)
         │   ├── "Ephemeral"
         │   └── "Managed"
-        ├── OsSKU: Enum (2 values)
+        ├── OsSKU: *Enum (2 values)
         │   ├── "CBLMariner"
         │   └── "Ubuntu"
-        ├── OsType: Enum (2 values)
+        ├── OsType: *Enum (2 values)
         │   ├── "Linux"
         │   └── "Windows"
         ├── PodSubnetID: *string
         ├── ProximityPlacementGroupID: *string
-        ├── ScaleSetEvictionPolicy: Enum (2 values)
+        ├── ScaleSetEvictionPolicy: *Enum (2 values)
         │   ├── "Deallocate"
         │   └── "Delete"
-        ├── ScaleSetPriority: Enum (2 values)
+        ├── ScaleSetPriority: *Enum (2 values)
         │   ├── "Regular"
         │   └── "Spot"
         ├── SpotMaxPrice: *float64
         ├── Tags: map[string]string
-        ├── Type: Enum (2 values)
+        ├── Type: *Enum (2 values)
         │   ├── "AvailabilitySet"
         │   └── "VirtualMachineScaleSets"
-        ├── UpgradeSettings: Object (1 property)
+        ├── UpgradeSettings: *Object (1 property)
         │   └── MaxSurge: *string
         ├── VmSize: *string
         └── VnetSubnetID: *string

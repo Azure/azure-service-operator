@@ -2,24 +2,28 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
 ├── APIVersion: Enum (1 value)
 │   └── "2021-04-01-preview"
 └── Vault: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (7 properties)
     │   ├── AzureName: Validated<string> (1 rule)
-    │   │   └── Rule 0: {Pattern "^[a-zA-Z0-9-]{3,24}$"}
+    │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{3,24}$"
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── Properties: Object (15 properties)
-    │   │   ├── AccessPolicies: Object (5 properties)
+    │   ├── Properties: *Object (15 properties)
+    │   │   ├── AccessPolicies: Object (8 properties)[]
     │   │   │   ├── ApplicationId: *string
+    │   │   │   ├── ApplicationIdFromConfig: *genruntime.ConfigMapReference
     │   │   │   ├── ObjectId: *string
-    │   │   │   ├── Permissions: Object (5 properties)
+    │   │   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+    │   │   │   ├── Permissions: *Object (5 properties)
     │   │   │   │   ├── Certificates: string[]
     │   │   │   │   ├── Keys: string[]
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── Secrets: string[]
     │   │   │   │   └── Storage: string[]
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── TenantId: *string
+    │   │   │   ├── TenantId: *string
+    │   │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
     │   │   ├── CreateMode: *string
     │   │   ├── EnablePurgeProtection: *bool
     │   │   ├── EnableRbacAuthorization: *bool
@@ -27,20 +31,20 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
     │   │   ├── EnabledForDeployment: *bool
     │   │   ├── EnabledForDiskEncryption: *bool
     │   │   ├── EnabledForTemplateDeployment: *bool
-    │   │   ├── NetworkAcls: Object (5 properties)
+    │   │   ├── NetworkAcls: *Object (5 properties)
     │   │   │   ├── Bypass: *string
     │   │   │   ├── DefaultAction: *string
-    │   │   │   ├── IpRules: Object (2 properties)
+    │   │   │   ├── IpRules: Object (2 properties)[]
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── Value: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── VirtualNetworkRules: Object (3 properties)
+    │   │   │   └── VirtualNetworkRules: Object (3 properties)[]
     │   │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
     │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │       └── Reference: *genruntime.ResourceReference
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── ProvisioningState: *string
-    │   │   ├── Sku: Object (3 properties)
+    │   │   ├── Sku: *Object (3 properties)
     │   │   │   ├── Family: *string
     │   │   │   ├── Name: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -54,11 +58,11 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
         ├── Id: *string
         ├── Location: *string
         ├── Name: *string
-        ├── Properties: Object (17 properties)
-        │   ├── AccessPolicies: Object (5 properties)
+        ├── Properties: *Object (17 properties)
+        │   ├── AccessPolicies: Object (5 properties)[]
         │   │   ├── ApplicationId: *string
         │   │   ├── ObjectId: *string
-        │   │   ├── Permissions: Object (5 properties)
+        │   │   ├── Permissions: *Object (5 properties)
         │   │   │   ├── Certificates: string[]
         │   │   │   ├── Keys: string[]
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -74,24 +78,24 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
         │   ├── EnabledForDiskEncryption: *bool
         │   ├── EnabledForTemplateDeployment: *bool
         │   ├── HsmPoolResourceId: *string
-        │   ├── NetworkAcls: Object (5 properties)
+        │   ├── NetworkAcls: *Object (5 properties)
         │   │   ├── Bypass: *string
         │   │   ├── DefaultAction: *string
-        │   │   ├── IpRules: Object (2 properties)
+        │   │   ├── IpRules: Object (2 properties)[]
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   └── Value: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── VirtualNetworkRules: Object (3 properties)
+        │   │   └── VirtualNetworkRules: Object (3 properties)[]
         │   │       ├── Id: *string
         │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
         │   │       └── PropertyBag: genruntime.PropertyBag
-        │   ├── PrivateEndpointConnections: Object (6 properties)
+        │   ├── PrivateEndpointConnections: Object (6 properties)[]
         │   │   ├── Etag: *string
         │   │   ├── Id: *string
-        │   │   ├── PrivateEndpoint: Object (2 properties)
+        │   │   ├── PrivateEndpoint: *Object (2 properties)
         │   │   │   ├── Id: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
-        │   │   ├── PrivateLinkServiceConnectionState: Object (4 properties)
+        │   │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
         │   │   │   ├── ActionsRequired: *string
         │   │   │   ├── Description: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -100,7 +104,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
         │   │   └── ProvisioningState: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── ProvisioningState: *string
-        │   ├── Sku: Object (3 properties)
+        │   ├── Sku: *Object (3 properties)
         │   │   ├── Family: *string
         │   │   ├── Name: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
@@ -108,7 +112,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewsto
         │   ├── TenantId: *string
         │   └── VaultUri: *string
         ├── PropertyBag: genruntime.PropertyBag
-        ├── SystemData: Object (7 properties)
+        ├── SystemData: *Object (7 properties)
         │   ├── CreatedAt: *string
         │   ├── CreatedBy: *string
         │   ├── CreatedByType: *string

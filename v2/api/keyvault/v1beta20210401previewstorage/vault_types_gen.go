@@ -262,11 +262,14 @@ type VaultProperties_STATUS struct {
 // Storage version of v1beta20210401preview.AccessPolicyEntry
 // Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/AccessPolicyEntry
 type AccessPolicyEntry struct {
-	ApplicationId *string                `json:"applicationId,omitempty"`
-	ObjectId      *string                `json:"objectId,omitempty"`
-	Permissions   *Permissions           `json:"permissions,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId      *string                `json:"tenantId,omitempty"`
+	ApplicationId           *string                        `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
+	ApplicationIdFromConfig *genruntime.ConfigMapReference `json:"applicationIdFromConfig,omitempty" optionalConfigMapPair:"ApplicationId"`
+	ObjectId                *string                        `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdFromConfig      *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	Permissions             *Permissions                   `json:"permissions,omitempty"`
+	PropertyBag             genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	TenantId                *string                        `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	TenantIdFromConfig      *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 // Storage version of v1beta20210401preview.AccessPolicyEntry_STATUS

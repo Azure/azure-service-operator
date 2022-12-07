@@ -16,10 +16,9 @@ import (
 // We put these on the *API* versions of our spec types, giving us a way to obtain the right type of instance when the
 // reconciler is working with ARM.
 //
-// func (spec *SomeSpec) OriginalVersion() string {
-//     return GroupVersion.Version
-// }
-//
+//	func (spec *SomeSpec) OriginalVersion() string {
+//	    return GroupVersion.Version
+//	}
 type OriginalVersionFunction struct {
 	idFactory astmodel.IdentifierFactory
 }

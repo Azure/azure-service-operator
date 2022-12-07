@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 ├── APIVersion: Enum (1 value)
 │   └── "2018-09-01"
 ├── PrivateDnsZone: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── Etag: *string
@@ -17,7 +18,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │       ├── NumberOfRecordSets: *int
 │       ├── NumberOfVirtualNetworkLinks: *int
 │       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-│       └── ProvisioningState: Enum (6 values)
+│       └── ProvisioningState: *Enum (6 values)
 │           ├── "Canceled"
 │           ├── "Creating"
 │           ├── "Deleting"
@@ -31,14 +32,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901
 │   └── Tags: map[string]string
 └── PrivateZone_STATUS_ARM: Object (2 properties)
     ├── Etag: *string
-    └── Properties: Object (7 properties)
+    └── Properties: *Object (7 properties)
         ├── MaxNumberOfRecordSets: *int
         ├── MaxNumberOfVirtualNetworkLinks: *int
         ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
         ├── NumberOfRecordSets: *int
         ├── NumberOfVirtualNetworkLinks: *int
         ├── NumberOfVirtualNetworkLinksWithRegistration: *int
-        └── ProvisioningState: Enum (6 values)
+        └── ProvisioningState: *Enum (6 values)
             ├── "Canceled"
             ├── "Creating"
             ├── "Deleting"

@@ -2,212 +2,213 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 ├── APIVersion: Enum (1 value)
 │   └── "2020-11-01"
 ├── LoadBalancer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (12 properties)
 │   │   ├── AzureName: string
-│   │   ├── BackendAddressPools: Object (3 properties)
-│   │   │   ├── LoadBalancerBackendAddresses: Object (5 properties)
+│   │   ├── BackendAddressPools: Object (3 properties)[]
+│   │   │   ├── LoadBalancerBackendAddresses: Object (5 properties)[]
 │   │   │   │   ├── IpAddress: *string
-│   │   │   │   ├── LoadBalancerFrontendIPConfiguration: Object (1 property)
+│   │   │   │   ├── LoadBalancerFrontendIPConfiguration: *Object (1 property)
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   ├── Name: *string
-│   │   │   │   ├── Subnet: Object (1 property)
+│   │   │   │   ├── Subnet: *Object (1 property)
 │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │   └── VirtualNetwork: Object (1 property)
+│   │   │   │   └── VirtualNetwork: *Object (1 property)
 │   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   ├── Location: *string
 │   │   │   └── Name: *string
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── FrontendIPConfigurations: Object (8 properties)
+│   │   ├── FrontendIPConfigurations: Object (8 properties)[]
 │   │   │   ├── Name: *string
 │   │   │   ├── PrivateIPAddress: *string
-│   │   │   ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │   ├── "IPv4"
 │   │   │   │   └── "IPv6"
-│   │   │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │   │   ├── "Dynamic"
 │   │   │   │   └── "Static"
-│   │   │   ├── PublicIPAddress: Object (1 property)
+│   │   │   ├── PublicIPAddress: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── PublicIPPrefix: Object (1 property)
+│   │   │   ├── PublicIPPrefix: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── Subnet: Object (1 property)
+│   │   │   ├── Subnet: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   └── Zones: string[]
-│   │   ├── InboundNatPools: Object (9 properties)
+│   │   ├── InboundNatPools: Object (9 properties)[]
 │   │   │   ├── BackendPort: *int
 │   │   │   ├── EnableFloatingIP: *bool
 │   │   │   ├── EnableTcpReset: *bool
-│   │   │   ├── FrontendIPConfiguration: Object (1 property)
+│   │   │   ├── FrontendIPConfiguration: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── FrontendPortRangeEnd: *int
 │   │   │   ├── FrontendPortRangeStart: *int
 │   │   │   ├── IdleTimeoutInMinutes: *int
 │   │   │   ├── Name: *string
-│   │   │   └── Protocol: Enum (3 values)
+│   │   │   └── Protocol: *Enum (3 values)
 │   │   │       ├── "All"
 │   │   │       ├── "Tcp"
 │   │   │       └── "Udp"
-│   │   ├── LoadBalancingRules: Object (12 properties)
-│   │   │   ├── BackendAddressPool: Object (1 property)
+│   │   ├── LoadBalancingRules: Object (12 properties)[]
+│   │   │   ├── BackendAddressPool: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── BackendPort: *int
 │   │   │   ├── DisableOutboundSnat: *bool
 │   │   │   ├── EnableFloatingIP: *bool
 │   │   │   ├── EnableTcpReset: *bool
-│   │   │   ├── FrontendIPConfiguration: Object (1 property)
+│   │   │   ├── FrontendIPConfiguration: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── FrontendPort: *int
 │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   ├── LoadDistribution: Enum (3 values)
+│   │   │   ├── LoadDistribution: *Enum (3 values)
 │   │   │   │   ├── "Default"
 │   │   │   │   ├── "SourceIP"
 │   │   │   │   └── "SourceIPProtocol"
 │   │   │   ├── Name: *string
-│   │   │   ├── Probe: Object (1 property)
+│   │   │   ├── Probe: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   └── Protocol: Enum (3 values)
+│   │   │   └── Protocol: *Enum (3 values)
 │   │   │       ├── "All"
 │   │   │       ├── "Tcp"
 │   │   │       └── "Udp"
 │   │   ├── Location: *string
-│   │   ├── OutboundRules: Object (7 properties)
+│   │   ├── OutboundRules: Object (7 properties)[]
 │   │   │   ├── AllocatedOutboundPorts: *int
-│   │   │   ├── BackendAddressPool: Object (1 property)
+│   │   │   ├── BackendAddressPool: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── EnableTcpReset: *bool
-│   │   │   ├── FrontendIPConfigurations: Object (1 property)
+│   │   │   ├── FrontendIPConfigurations: Object (1 property)[]
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── IdleTimeoutInMinutes: *int
 │   │   │   ├── Name: *string
-│   │   │   └── Protocol: Enum (3 values)
+│   │   │   └── Protocol: *Enum (3 values)
 │   │   │       ├── "All"
 │   │   │       ├── "Tcp"
 │   │   │       └── "Udp"
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Probes: Object (6 properties)
+│   │   ├── Probes: Object (6 properties)[]
 │   │   │   ├── IntervalInSeconds: *int
 │   │   │   ├── Name: *string
 │   │   │   ├── NumberOfProbes: *int
 │   │   │   ├── Port: *int
-│   │   │   ├── Protocol: Enum (3 values)
+│   │   │   ├── Protocol: *Enum (3 values)
 │   │   │   │   ├── "Http"
 │   │   │   │   ├── "Https"
 │   │   │   │   └── "Tcp"
 │   │   │   └── RequestPath: *string
-│   │   ├── Sku: Object (2 properties)
-│   │   │   ├── Name: Enum (2 values)
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *Enum (2 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   └── "Standard"
-│   │   │   └── Tier: Enum (2 values)
+│   │   │   └── Tier: *Enum (2 values)
 │   │   │       ├── "Global"
 │   │   │       └── "Regional"
 │   │   └── Tags: map[string]string
 │   └── Status: Object (18 properties)
-│       ├── BackendAddressPools: Object (1 property)
+│       ├── BackendAddressPools: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Conditions: conditions.Condition[]
 │       ├── Etag: *string
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
-│       ├── FrontendIPConfigurations: Object (16 properties)
+│       ├── FrontendIPConfigurations: Object (16 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   ├── InboundNatPools: Object (1 property)
+│       │   ├── InboundNatPools: Object (1 property)[]
 │       │   │   └── Id: *string
-│       │   ├── InboundNatRules: Object (1 property)
+│       │   ├── InboundNatRules: Object (1 property)[]
 │       │   │   └── Id: *string
-│       │   ├── LoadBalancingRules: Object (1 property)
+│       │   ├── LoadBalancingRules: Object (1 property)[]
 │       │   │   └── Id: *string
 │       │   ├── Name: *string
-│       │   ├── OutboundRules: Object (1 property)
+│       │   ├── OutboundRules: Object (1 property)[]
 │       │   │   └── Id: *string
 │       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAddressVersion: Enum (2 values)
+│       │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │       │   │   ├── "IPv4"
 │       │   │   └── "IPv6"
-│       │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│       │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │       │   │   ├── "Dynamic"
 │       │   │   └── "Static"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
-│       │   ├── PublicIPAddress: Object (4 properties)
-│       │   │   ├── ExtendedLocation: Object (2 properties)
+│       │   ├── PublicIPAddress: *Object (4 properties)
+│       │   │   ├── ExtendedLocation: *Object (2 properties)
 │       │   │   │   ├── Name: *string
-│       │   │   │   └── Type: Enum (1 value)
+│       │   │   │   └── Type: *Enum (1 value)
 │       │   │   │       └── "EdgeZone"
 │       │   │   ├── Id: *string
-│       │   │   ├── Sku: Object (2 properties)
-│       │   │   │   ├── Name: Enum (2 values)
+│       │   │   ├── Sku: *Object (2 properties)
+│       │   │   │   ├── Name: *Enum (2 values)
 │       │   │   │   │   ├── "Basic"
 │       │   │   │   │   └── "Standard"
-│       │   │   │   └── Tier: Enum (2 values)
+│       │   │   │   └── Tier: *Enum (2 values)
 │       │   │   │       ├── "Global"
 │       │   │   │       └── "Regional"
 │       │   │   └── Zones: string[]
-│       │   ├── PublicIPPrefix: Object (1 property)
+│       │   ├── PublicIPPrefix: *Object (1 property)
 │       │   │   └── Id: *string
-│       │   ├── Subnet: Object (1 property)
+│       │   ├── Subnet: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── Type: *string
 │       │   └── Zones: string[]
 │       ├── Id: *string
-│       ├── InboundNatPools: Object (13 properties)
+│       ├── InboundNatPools: Object (13 properties)[]
 │       │   ├── BackendPort: *int
 │       │   ├── EnableFloatingIP: *bool
 │       │   ├── EnableTcpReset: *bool
 │       │   ├── Etag: *string
-│       │   ├── FrontendIPConfiguration: Object (1 property)
+│       │   ├── FrontendIPConfiguration: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── FrontendPortRangeEnd: *int
 │       │   ├── FrontendPortRangeStart: *int
 │       │   ├── Id: *string
 │       │   ├── IdleTimeoutInMinutes: *int
 │       │   ├── Name: *string
-│       │   ├── Protocol: Enum (3 values)
+│       │   ├── Protocol: *Enum (3 values)
 │       │   │   ├── "All"
 │       │   │   ├── "Tcp"
 │       │   │   └── "Udp"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
 │       │   └── Type: *string
-│       ├── InboundNatRules: Object (1 property)
+│       ├── InboundNatRules: Object (1 property)[]
 │       │   └── Id: *string
-│       ├── LoadBalancingRules: Object (16 properties)
-│       │   ├── BackendAddressPool: Object (1 property)
+│       ├── LoadBalancingRules: Object (16 properties)[]
+│       │   ├── BackendAddressPool: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── BackendPort: *int
 │       │   ├── DisableOutboundSnat: *bool
 │       │   ├── EnableFloatingIP: *bool
 │       │   ├── EnableTcpReset: *bool
 │       │   ├── Etag: *string
-│       │   ├── FrontendIPConfiguration: Object (1 property)
+│       │   ├── FrontendIPConfiguration: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── FrontendPort: *int
 │       │   ├── Id: *string
 │       │   ├── IdleTimeoutInMinutes: *int
-│       │   ├── LoadDistribution: Enum (3 values)
+│       │   ├── LoadDistribution: *Enum (3 values)
 │       │   │   ├── "Default"
 │       │   │   ├── "SourceIP"
 │       │   │   └── "SourceIPProtocol"
 │       │   ├── Name: *string
-│       │   ├── Probe: Object (1 property)
+│       │   ├── Probe: *Object (1 property)
 │       │   │   └── Id: *string
-│       │   ├── Protocol: Enum (3 values)
+│       │   ├── Protocol: *Enum (3 values)
 │       │   │   ├── "All"
 │       │   │   ├── "Tcp"
 │       │   │   └── "Udp"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
@@ -215,662 +216,664 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   └── Type: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── OutboundRules: Object (11 properties)
+│       ├── OutboundRules: Object (11 properties)[]
 │       │   ├── AllocatedOutboundPorts: *int
-│       │   ├── BackendAddressPool: Object (1 property)
+│       │   ├── BackendAddressPool: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── EnableTcpReset: *bool
 │       │   ├── Etag: *string
-│       │   ├── FrontendIPConfigurations: Object (1 property)
+│       │   ├── FrontendIPConfigurations: Object (1 property)[]
 │       │   │   └── Id: *string
 │       │   ├── Id: *string
 │       │   ├── IdleTimeoutInMinutes: *int
 │       │   ├── Name: *string
-│       │   ├── Protocol: Enum (3 values)
+│       │   ├── Protocol: *Enum (3 values)
 │       │   │   ├── "All"
 │       │   │   ├── "Tcp"
 │       │   │   └── "Udp"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
 │       │   └── Type: *string
-│       ├── Probes: Object (11 properties)
+│       ├── Probes: Object (11 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── IntervalInSeconds: *int
-│       │   ├── LoadBalancingRules: Object (1 property)
+│       │   ├── LoadBalancingRules: Object (1 property)[]
 │       │   │   └── Id: *string
 │       │   ├── Name: *string
 │       │   ├── NumberOfProbes: *int
 │       │   ├── Port: *int
-│       │   ├── Protocol: Enum (3 values)
+│       │   ├── Protocol: *Enum (3 values)
 │       │   │   ├── "Http"
 │       │   │   ├── "Https"
 │       │   │   └── "Tcp"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
 │       │   ├── RequestPath: *string
 │       │   └── Type: *string
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
 │       ├── ResourceGuid: *string
-│       ├── Sku: Object (2 properties)
-│       │   ├── Name: Enum (2 values)
+│       ├── Sku: *Object (2 properties)
+│       │   ├── Name: *Enum (2 values)
 │       │   │   ├── "Basic"
 │       │   │   └── "Standard"
-│       │   └── Tier: Enum (2 values)
+│       │   └── Tier: *Enum (2 values)
 │       │       ├── "Global"
 │       │       └── "Regional"
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── LoadBalancer_STATUS_ARM: Object (9 properties)
 │   ├── Etag: *string
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (9 properties)
-│   │   ├── BackendAddressPools: Object (1 property)
+│   ├── Properties: *Object (9 properties)
+│   │   ├── BackendAddressPools: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── FrontendIPConfigurations: Object (6 properties)
+│   │   ├── FrontendIPConfigurations: Object (6 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (11 properties)
-│   │   │   │   ├── InboundNatPools: Object (1 property)
+│   │   │   ├── Properties: *Object (11 properties)
+│   │   │   │   ├── InboundNatPools: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── InboundNatRules: Object (1 property)
+│   │   │   │   ├── InboundNatRules: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── LoadBalancingRules: Object (1 property)
+│   │   │   │   ├── LoadBalancingRules: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── OutboundRules: Object (1 property)
+│   │   │   │   ├── OutboundRules: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── PrivateIPAddress: *string
-│   │   │   │   ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │   │   ├── "IPv4"
 │   │   │   │   │   └── "IPv6"
-│   │   │   │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │   │   │   ├── "Dynamic"
 │   │   │   │   │   └── "Static"
-│   │   │   │   ├── ProvisioningState: Enum (4 values)
+│   │   │   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   │   │   ├── "Deleting"
 │   │   │   │   │   ├── "Failed"
 │   │   │   │   │   ├── "Succeeded"
 │   │   │   │   │   └── "Updating"
-│   │   │   │   ├── PublicIPAddress: Object (4 properties)
-│   │   │   │   │   ├── ExtendedLocation: Object (2 properties)
+│   │   │   │   ├── PublicIPAddress: *Object (4 properties)
+│   │   │   │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │   │   │       └── "EdgeZone"
 │   │   │   │   │   ├── Id: *string
-│   │   │   │   │   ├── Sku: Object (2 properties)
-│   │   │   │   │   │   ├── Name: Enum (2 values)
+│   │   │   │   │   ├── Sku: *Object (2 properties)
+│   │   │   │   │   │   ├── Name: *Enum (2 values)
 │   │   │   │   │   │   │   ├── "Basic"
 │   │   │   │   │   │   │   └── "Standard"
-│   │   │   │   │   │   └── Tier: Enum (2 values)
+│   │   │   │   │   │   └── Tier: *Enum (2 values)
 │   │   │   │   │   │       ├── "Global"
 │   │   │   │   │   │       └── "Regional"
 │   │   │   │   │   └── Zones: string[]
-│   │   │   │   ├── PublicIPPrefix: Object (1 property)
+│   │   │   │   ├── PublicIPPrefix: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   └── Subnet: Object (1 property)
+│   │   │   │   └── Subnet: *Object (1 property)
 │   │   │   │       └── Id: *string
 │   │   │   ├── Type: *string
 │   │   │   └── Zones: string[]
-│   │   ├── InboundNatPools: Object (5 properties)
+│   │   ├── InboundNatPools: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (9 properties)
+│   │   │   ├── Properties: *Object (9 properties)
 │   │   │   │   ├── BackendPort: *int
 │   │   │   │   ├── EnableFloatingIP: *bool
 │   │   │   │   ├── EnableTcpReset: *bool
-│   │   │   │   ├── FrontendIPConfiguration: Object (1 property)
+│   │   │   │   ├── FrontendIPConfiguration: *Object (1 property)
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── FrontendPortRangeEnd: *int
 │   │   │   │   ├── FrontendPortRangeStart: *int
 │   │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │   ├── Protocol: Enum (3 values)
+│   │   │   │   ├── Protocol: *Enum (3 values)
 │   │   │   │   │   ├── "All"
 │   │   │   │   │   ├── "Tcp"
 │   │   │   │   │   └── "Udp"
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       ├── "Succeeded"
 │   │   │   │       └── "Updating"
 │   │   │   └── Type: *string
-│   │   ├── InboundNatRules: Object (1 property)
+│   │   ├── InboundNatRules: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── LoadBalancingRules: Object (5 properties)
+│   │   ├── LoadBalancingRules: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (12 properties)
-│   │   │   │   ├── BackendAddressPool: Object (1 property)
+│   │   │   ├── Properties: *Object (12 properties)
+│   │   │   │   ├── BackendAddressPool: *Object (1 property)
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── BackendPort: *int
 │   │   │   │   ├── DisableOutboundSnat: *bool
 │   │   │   │   ├── EnableFloatingIP: *bool
 │   │   │   │   ├── EnableTcpReset: *bool
-│   │   │   │   ├── FrontendIPConfiguration: Object (1 property)
+│   │   │   │   ├── FrontendIPConfiguration: *Object (1 property)
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── FrontendPort: *int
 │   │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │   ├── LoadDistribution: Enum (3 values)
+│   │   │   │   ├── LoadDistribution: *Enum (3 values)
 │   │   │   │   │   ├── "Default"
 │   │   │   │   │   ├── "SourceIP"
 │   │   │   │   │   └── "SourceIPProtocol"
-│   │   │   │   ├── Probe: Object (1 property)
+│   │   │   │   ├── Probe: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── Protocol: Enum (3 values)
+│   │   │   │   ├── Protocol: *Enum (3 values)
 │   │   │   │   │   ├── "All"
 │   │   │   │   │   ├── "Tcp"
 │   │   │   │   │   └── "Udp"
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       ├── "Succeeded"
 │   │   │   │       └── "Updating"
 │   │   │   └── Type: *string
-│   │   ├── OutboundRules: Object (5 properties)
+│   │   ├── OutboundRules: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (7 properties)
+│   │   │   ├── Properties: *Object (7 properties)
 │   │   │   │   ├── AllocatedOutboundPorts: *int
-│   │   │   │   ├── BackendAddressPool: Object (1 property)
+│   │   │   │   ├── BackendAddressPool: *Object (1 property)
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── EnableTcpReset: *bool
-│   │   │   │   ├── FrontendIPConfigurations: Object (1 property)
+│   │   │   │   ├── FrontendIPConfigurations: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── IdleTimeoutInMinutes: *int
-│   │   │   │   ├── Protocol: Enum (3 values)
+│   │   │   │   ├── Protocol: *Enum (3 values)
 │   │   │   │   │   ├── "All"
 │   │   │   │   │   ├── "Tcp"
 │   │   │   │   │   └── "Udp"
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       ├── "Succeeded"
 │   │   │   │       └── "Updating"
 │   │   │   └── Type: *string
-│   │   ├── Probes: Object (5 properties)
+│   │   ├── Probes: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (7 properties)
+│   │   │   ├── Properties: *Object (7 properties)
 │   │   │   │   ├── IntervalInSeconds: *int
-│   │   │   │   ├── LoadBalancingRules: Object (1 property)
+│   │   │   │   ├── LoadBalancingRules: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── NumberOfProbes: *int
 │   │   │   │   ├── Port: *int
-│   │   │   │   ├── Protocol: Enum (3 values)
+│   │   │   │   ├── Protocol: *Enum (3 values)
 │   │   │   │   │   ├── "Http"
 │   │   │   │   │   ├── "Https"
 │   │   │   │   │   └── "Tcp"
-│   │   │   │   ├── ProvisioningState: Enum (4 values)
+│   │   │   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   │   │   ├── "Deleting"
 │   │   │   │   │   ├── "Failed"
 │   │   │   │   │   ├── "Succeeded"
 │   │   │   │   │   └── "Updating"
 │   │   │   │   └── RequestPath: *string
 │   │   │   └── Type: *string
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
 │   │   └── ResourceGuid: *string
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (2 values)
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Name: *Enum (2 values)
 │   │   │   ├── "Basic"
 │   │   │   └── "Standard"
-│   │   └── Tier: Enum (2 values)
+│   │   └── Tier: *Enum (2 values)
 │   │       ├── "Global"
 │   │       └── "Regional"
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── LoadBalancer_Spec_ARM: Object (6 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (6 properties)
-│   │   ├── BackendAddressPools: Object (2 properties)
+│   ├── Properties: *Object (6 properties)
+│   │   ├── BackendAddressPools: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (2 properties)
-│   │   │       ├── LoadBalancerBackendAddresses: Object (2 properties)
+│   │   │   └── Properties: *Object (2 properties)
+│   │   │       ├── LoadBalancerBackendAddresses: Object (2 properties)[]
 │   │   │       │   ├── Name: *string
-│   │   │       │   └── Properties: Object (4 properties)
+│   │   │       │   └── Properties: *Object (4 properties)
 │   │   │       │       ├── IpAddress: *string
-│   │   │       │       ├── LoadBalancerFrontendIPConfiguration: Object (1 property)
+│   │   │       │       ├── LoadBalancerFrontendIPConfiguration: *Object (1 property)
 │   │   │       │       │   └── Id: *string
-│   │   │       │       ├── Subnet: Object (1 property)
+│   │   │       │       ├── Subnet: *Object (1 property)
 │   │   │       │       │   └── Id: *string
-│   │   │       │       └── VirtualNetwork: Object (1 property)
+│   │   │       │       └── VirtualNetwork: *Object (1 property)
 │   │   │       │           └── Id: *string
 │   │   │       └── Location: *string
-│   │   ├── FrontendIPConfigurations: Object (3 properties)
+│   │   ├── FrontendIPConfigurations: Object (3 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (6 properties)
+│   │   │   ├── Properties: *Object (6 properties)
 │   │   │   │   ├── PrivateIPAddress: *string
-│   │   │   │   ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │   │   ├── "IPv4"
 │   │   │   │   │   └── "IPv6"
-│   │   │   │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │   │   │   ├── "Dynamic"
 │   │   │   │   │   └── "Static"
-│   │   │   │   ├── PublicIPAddress: Object (1 property)
+│   │   │   │   ├── PublicIPAddress: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── PublicIPPrefix: Object (1 property)
+│   │   │   │   ├── PublicIPPrefix: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   └── Subnet: Object (1 property)
+│   │   │   │   └── Subnet: *Object (1 property)
 │   │   │   │       └── Id: *string
 │   │   │   └── Zones: string[]
-│   │   ├── InboundNatPools: Object (2 properties)
+│   │   ├── InboundNatPools: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (8 properties)
+│   │   │   └── Properties: *Object (8 properties)
 │   │   │       ├── BackendPort: *int
 │   │   │       ├── EnableFloatingIP: *bool
 │   │   │       ├── EnableTcpReset: *bool
-│   │   │       ├── FrontendIPConfiguration: Object (1 property)
+│   │   │       ├── FrontendIPConfiguration: *Object (1 property)
 │   │   │       │   └── Id: *string
 │   │   │       ├── FrontendPortRangeEnd: *int
 │   │   │       ├── FrontendPortRangeStart: *int
 │   │   │       ├── IdleTimeoutInMinutes: *int
-│   │   │       └── Protocol: Enum (3 values)
+│   │   │       └── Protocol: *Enum (3 values)
 │   │   │           ├── "All"
 │   │   │           ├── "Tcp"
 │   │   │           └── "Udp"
-│   │   ├── LoadBalancingRules: Object (2 properties)
+│   │   ├── LoadBalancingRules: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (11 properties)
-│   │   │       ├── BackendAddressPool: Object (1 property)
+│   │   │   └── Properties: *Object (11 properties)
+│   │   │       ├── BackendAddressPool: *Object (1 property)
 │   │   │       │   └── Id: *string
 │   │   │       ├── BackendPort: *int
 │   │   │       ├── DisableOutboundSnat: *bool
 │   │   │       ├── EnableFloatingIP: *bool
 │   │   │       ├── EnableTcpReset: *bool
-│   │   │       ├── FrontendIPConfiguration: Object (1 property)
+│   │   │       ├── FrontendIPConfiguration: *Object (1 property)
 │   │   │       │   └── Id: *string
 │   │   │       ├── FrontendPort: *int
 │   │   │       ├── IdleTimeoutInMinutes: *int
-│   │   │       ├── LoadDistribution: Enum (3 values)
+│   │   │       ├── LoadDistribution: *Enum (3 values)
 │   │   │       │   ├── "Default"
 │   │   │       │   ├── "SourceIP"
 │   │   │       │   └── "SourceIPProtocol"
-│   │   │       ├── Probe: Object (1 property)
+│   │   │       ├── Probe: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       └── Protocol: Enum (3 values)
+│   │   │       └── Protocol: *Enum (3 values)
 │   │   │           ├── "All"
 │   │   │           ├── "Tcp"
 │   │   │           └── "Udp"
-│   │   ├── OutboundRules: Object (2 properties)
+│   │   ├── OutboundRules: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (6 properties)
+│   │   │   └── Properties: *Object (6 properties)
 │   │   │       ├── AllocatedOutboundPorts: *int
-│   │   │       ├── BackendAddressPool: Object (1 property)
+│   │   │       ├── BackendAddressPool: *Object (1 property)
 │   │   │       │   └── Id: *string
 │   │   │       ├── EnableTcpReset: *bool
-│   │   │       ├── FrontendIPConfigurations: Object (1 property)
+│   │   │       ├── FrontendIPConfigurations: Object (1 property)[]
 │   │   │       │   └── Id: *string
 │   │   │       ├── IdleTimeoutInMinutes: *int
-│   │   │       └── Protocol: Enum (3 values)
+│   │   │       └── Protocol: *Enum (3 values)
 │   │   │           ├── "All"
 │   │   │           ├── "Tcp"
 │   │   │           └── "Udp"
-│   │   └── Probes: Object (2 properties)
+│   │   └── Probes: Object (2 properties)[]
 │   │       ├── Name: *string
-│   │       └── Properties: Object (5 properties)
+│   │       └── Properties: *Object (5 properties)
 │   │           ├── IntervalInSeconds: *int
 │   │           ├── NumberOfProbes: *int
 │   │           ├── Port: *int
-│   │           ├── Protocol: Enum (3 values)
+│   │           ├── Protocol: *Enum (3 values)
 │   │           │   ├── "Http"
 │   │           │   ├── "Https"
 │   │           │   └── "Tcp"
 │   │           └── RequestPath: *string
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (2 values)
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Name: *Enum (2 values)
 │   │   │   ├── "Basic"
 │   │   │   └── "Standard"
-│   │   └── Tier: Enum (2 values)
+│   │   └── Tier: *Enum (2 values)
 │   │       ├── "Global"
 │   │       └── "Regional"
 │   └── Tags: map[string]string
 ├── NetworkInterface: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
-│   │   ├── DnsSettings: Object (2 properties)
+│   │   ├── DnsSettings: *Object (2 properties)
 │   │   │   ├── DnsServers: string[]
 │   │   │   └── InternalDnsNameLabel: *string
 │   │   ├── EnableAcceleratedNetworking: *bool
 │   │   ├── EnableIPForwarding: *bool
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── IpConfigurations: Object (12 properties)
-│   │   │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)
+│   │   ├── IpConfigurations: Object (12 properties)[]
+│   │   │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── ApplicationSecurityGroups: Object (1 property)
+│   │   │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── LoadBalancerBackendAddressPools: Object (1 property)
+│   │   │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── LoadBalancerInboundNatRules: Object (1 property)
+│   │   │   ├── LoadBalancerInboundNatRules: Object (1 property)[]
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── Name: *string
 │   │   │   ├── Primary: *bool
 │   │   │   ├── PrivateIPAddress: *string
-│   │   │   ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │   ├── "IPv4"
 │   │   │   │   └── "IPv6"
-│   │   │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │   │   ├── "Dynamic"
 │   │   │   │   └── "Static"
-│   │   │   ├── PublicIPAddress: Object (1 property)
+│   │   │   ├── PublicIPAddress: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   ├── Subnet: Object (1 property)
+│   │   │   ├── Subnet: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   └── VirtualNetworkTaps: Object (1 property)
+│   │   │   └── VirtualNetworkTaps: Object (1 property)[]
 │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
-│   │   ├── NetworkSecurityGroup: Object (1 property)
+│   │   ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── Tags: map[string]string
 │   └── Status: Object (25 properties)
 │       ├── Conditions: conditions.Condition[]
-│       ├── DnsSettings: Object (5 properties)
+│       ├── DnsSettings: *Object (5 properties)
 │       │   ├── AppliedDnsServers: string[]
 │       │   ├── DnsServers: string[]
 │       │   ├── InternalDnsNameLabel: *string
 │       │   ├── InternalDomainNameSuffix: *string
 │       │   └── InternalFqdn: *string
-│       ├── DscpConfiguration: Object (1 property)
+│       ├── DscpConfiguration: *Object (1 property)
 │       │   └── Id: *string
 │       ├── EnableAcceleratedNetworking: *bool
 │       ├── EnableIPForwarding: *bool
 │       ├── Etag: *string
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
 │       ├── HostedWorkloads: string[]
 │       ├── Id: *string
-│       ├── IpConfigurations: Object (17 properties)
-│       │   ├── ApplicationGatewayBackendAddressPools: Object (6 properties)
-│       │   │   ├── BackendAddresses: Object (2 properties)
+│       ├── IpConfigurations: Object (17 properties)[]
+│       │   ├── ApplicationGatewayBackendAddressPools: Object (6 properties)[]
+│       │   │   ├── BackendAddresses: Object (2 properties)[]
 │       │   │   │   ├── Fqdn: *string
 │       │   │   │   └── IpAddress: *string
 │       │   │   ├── Etag: *string
 │       │   │   ├── Id: *string
 │       │   │   ├── Name: *string
-│       │   │   ├── ProvisioningState: Enum (4 values)
+│       │   │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   │   ├── "Deleting"
 │       │   │   │   ├── "Failed"
 │       │   │   │   ├── "Succeeded"
 │       │   │   │   └── "Updating"
 │       │   │   └── Type: *string
-│       │   ├── ApplicationSecurityGroups: Object (1 property)
+│       │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │       │   │   └── Id: *string
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   ├── LoadBalancerBackendAddressPools: Object (1 property)
+│       │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │       │   │   └── Id: *string
-│       │   ├── LoadBalancerInboundNatRules: Object (1 property)
+│       │   ├── LoadBalancerInboundNatRules: Object (1 property)[]
 │       │   │   └── Id: *string
 │       │   ├── Name: *string
 │       │   ├── Primary: *bool
 │       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAddressVersion: Enum (2 values)
+│       │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │       │   │   ├── "IPv4"
 │       │   │   └── "IPv6"
-│       │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│       │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │       │   │   ├── "Dynamic"
 │       │   │   └── "Static"
-│       │   ├── PrivateLinkConnectionProperties: Object (3 properties)
+│       │   ├── PrivateLinkConnectionProperties: *Object (3 properties)
 │       │   │   ├── Fqdns: string[]
 │       │   │   ├── GroupId: *string
 │       │   │   └── RequiredMemberName: *string
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
-│       │   ├── PublicIPAddress: Object (4 properties)
-│       │   │   ├── ExtendedLocation: Object (2 properties)
+│       │   ├── PublicIPAddress: *Object (4 properties)
+│       │   │   ├── ExtendedLocation: *Object (2 properties)
 │       │   │   │   ├── Name: *string
-│       │   │   │   └── Type: Enum (1 value)
+│       │   │   │   └── Type: *Enum (1 value)
 │       │   │   │       └── "EdgeZone"
 │       │   │   ├── Id: *string
-│       │   │   ├── Sku: Object (2 properties)
-│       │   │   │   ├── Name: Enum (2 values)
+│       │   │   ├── Sku: *Object (2 properties)
+│       │   │   │   ├── Name: *Enum (2 values)
 │       │   │   │   │   ├── "Basic"
 │       │   │   │   │   └── "Standard"
-│       │   │   │   └── Tier: Enum (2 values)
+│       │   │   │   └── Tier: *Enum (2 values)
 │       │   │   │       ├── "Global"
 │       │   │   │       └── "Regional"
 │       │   │   └── Zones: string[]
-│       │   ├── Subnet: Object (1 property)
+│       │   ├── Subnet: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── Type: *string
-│       │   └── VirtualNetworkTaps: Object (1 property)
+│       │   └── VirtualNetworkTaps: Object (1 property)[]
 │       │       └── Id: *string
 │       ├── Location: *string
 │       ├── MacAddress: *string
-│       ├── MigrationPhase: Enum (5 values)
+│       ├── MigrationPhase: *Enum (5 values)
 │       │   ├── "Abort"
 │       │   ├── "Commit"
 │       │   ├── "Committed"
 │       │   ├── "None"
 │       │   └── "Prepare"
 │       ├── Name: *string
-│       ├── NetworkSecurityGroup: Object (1 property)
+│       ├── NetworkSecurityGroup: *Object (1 property)
 │       │   └── Id: *string
-│       ├── NicType: Enum (2 values)
+│       ├── NicType: *Enum (2 values)
 │       │   ├── "Elastic"
 │       │   └── "Standard"
 │       ├── Primary: *bool
-│       ├── PrivateEndpoint: Object (2 properties)
-│       │   ├── ExtendedLocation: Object (2 properties)
+│       ├── PrivateEndpoint: *Object (2 properties)
+│       │   ├── ExtendedLocation: *Object (2 properties)
 │       │   │   ├── Name: *string
-│       │   │   └── Type: Enum (1 value)
+│       │   │   └── Type: *Enum (1 value)
 │       │   │       └── "EdgeZone"
 │       │   └── Id: *string
-│       ├── PrivateLinkService: Object (2 properties)
-│       │   ├── ExtendedLocation: Object (2 properties)
+│       ├── PrivateLinkService: *Object (2 properties)
+│       │   ├── ExtendedLocation: *Object (2 properties)
 │       │   │   ├── Name: *string
-│       │   │   └── Type: Enum (1 value)
+│       │   │   └── Type: *Enum (1 value)
 │       │   │       └── "EdgeZone"
 │       │   └── Id: *string
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
 │       ├── ResourceGuid: *string
 │       ├── Tags: map[string]string
-│       ├── TapConfigurations: Object (1 property)
+│       ├── TapConfigurations: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Type: *string
-│       └── VirtualMachine: Object (1 property)
+│       └── VirtualMachine: *Object (1 property)
 │           └── Id: *string
 ├── NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded_ARM: Object (8 properties)
 │   ├── Etag: *string
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (17 properties)
-│   │   ├── DnsSettings: Object (5 properties)
+│   ├── Properties: *Object (17 properties)
+│   │   ├── DnsSettings: *Object (5 properties)
 │   │   │   ├── AppliedDnsServers: string[]
 │   │   │   ├── DnsServers: string[]
 │   │   │   ├── InternalDnsNameLabel: *string
 │   │   │   ├── InternalDomainNameSuffix: *string
 │   │   │   └── InternalFqdn: *string
-│   │   ├── DscpConfiguration: Object (1 property)
+│   │   ├── DscpConfiguration: *Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── EnableAcceleratedNetworking: *bool
 │   │   ├── EnableIPForwarding: *bool
 │   │   ├── HostedWorkloads: string[]
-│   │   ├── IpConfigurations: Object (5 properties)
+│   │   ├── IpConfigurations: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (13 properties)
-│   │   │   │   ├── ApplicationGatewayBackendAddressPools: Object (5 properties)
+│   │   │   ├── Properties: *Object (13 properties)
+│   │   │   │   ├── ApplicationGatewayBackendAddressPools: Object (5 properties)[]
 │   │   │   │   │   ├── Etag: *string
 │   │   │   │   │   ├── Id: *string
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   │   │   ├── BackendAddresses: Object (2 properties)
+│   │   │   │   │   ├── Properties: *Object (2 properties)
+│   │   │   │   │   │   ├── BackendAddresses: Object (2 properties)[]
 │   │   │   │   │   │   │   ├── Fqdn: *string
 │   │   │   │   │   │   │   └── IpAddress: *string
-│   │   │   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │   │   │       ├── "Deleting"
 │   │   │   │   │   │       ├── "Failed"
 │   │   │   │   │   │       ├── "Succeeded"
 │   │   │   │   │   │       └── "Updating"
 │   │   │   │   │   └── Type: *string
-│   │   │   │   ├── ApplicationSecurityGroups: Object (1 property)
+│   │   │   │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── LoadBalancerBackendAddressPools: Object (1 property)
+│   │   │   │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
-│   │   │   │   ├── LoadBalancerInboundNatRules: Object (1 property)
+│   │   │   │   ├── LoadBalancerInboundNatRules: Object (1 property)[]
 │   │   │   │   │   └── Id: *string
 │   │   │   │   ├── Primary: *bool
 │   │   │   │   ├── PrivateIPAddress: *string
-│   │   │   │   ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │   │   ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │   │   │   ├── "IPv4"
 │   │   │   │   │   └── "IPv6"
-│   │   │   │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │   │   │   ├── "Dynamic"
 │   │   │   │   │   └── "Static"
-│   │   │   │   ├── PrivateLinkConnectionProperties: Object (3 properties)
+│   │   │   │   ├── PrivateLinkConnectionProperties: *Object (3 properties)
 │   │   │   │   │   ├── Fqdns: string[]
 │   │   │   │   │   ├── GroupId: *string
 │   │   │   │   │   └── RequiredMemberName: *string
-│   │   │   │   ├── ProvisioningState: Enum (4 values)
+│   │   │   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   │   │   ├── "Deleting"
 │   │   │   │   │   ├── "Failed"
 │   │   │   │   │   ├── "Succeeded"
 │   │   │   │   │   └── "Updating"
-│   │   │   │   ├── PublicIPAddress: Object (4 properties)
-│   │   │   │   │   ├── ExtendedLocation: Object (2 properties)
+│   │   │   │   ├── PublicIPAddress: *Object (4 properties)
+│   │   │   │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │   │   │       └── "EdgeZone"
 │   │   │   │   │   ├── Id: *string
-│   │   │   │   │   ├── Sku: Object (2 properties)
-│   │   │   │   │   │   ├── Name: Enum (2 values)
+│   │   │   │   │   ├── Sku: *Object (2 properties)
+│   │   │   │   │   │   ├── Name: *Enum (2 values)
 │   │   │   │   │   │   │   ├── "Basic"
 │   │   │   │   │   │   │   └── "Standard"
-│   │   │   │   │   │   └── Tier: Enum (2 values)
+│   │   │   │   │   │   └── Tier: *Enum (2 values)
 │   │   │   │   │   │       ├── "Global"
 │   │   │   │   │   │       └── "Regional"
 │   │   │   │   │   └── Zones: string[]
-│   │   │   │   ├── Subnet: Object (1 property)
+│   │   │   │   ├── Subnet: *Object (1 property)
 │   │   │   │   │   └── Id: *string
-│   │   │   │   └── VirtualNetworkTaps: Object (1 property)
+│   │   │   │   └── VirtualNetworkTaps: Object (1 property)[]
 │   │   │   │       └── Id: *string
 │   │   │   └── Type: *string
 │   │   ├── MacAddress: *string
-│   │   ├── MigrationPhase: Enum (5 values)
+│   │   ├── MigrationPhase: *Enum (5 values)
 │   │   │   ├── "Abort"
 │   │   │   ├── "Commit"
 │   │   │   ├── "Committed"
 │   │   │   ├── "None"
 │   │   │   └── "Prepare"
-│   │   ├── NetworkSecurityGroup: Object (1 property)
+│   │   ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── NicType: Enum (2 values)
+│   │   ├── NicType: *Enum (2 values)
 │   │   │   ├── "Elastic"
 │   │   │   └── "Standard"
 │   │   ├── Primary: *bool
-│   │   ├── PrivateEndpoint: Object (2 properties)
-│   │   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── PrivateEndpoint: *Object (2 properties)
+│   │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │       └── "EdgeZone"
 │   │   │   └── Id: *string
-│   │   ├── PrivateLinkService: Object (2 properties)
-│   │   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── PrivateLinkService: *Object (2 properties)
+│   │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │       └── "EdgeZone"
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
 │   │   ├── ResourceGuid: *string
-│   │   ├── TapConfigurations: Object (1 property)
+│   │   ├── TapConfigurations: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   └── VirtualMachine: Object (1 property)
+│   │   └── VirtualMachine: *Object (1 property)
 │   │       └── Id: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── NetworkInterface_Spec_ARM: Object (5 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (5 properties)
-│   │   ├── DnsSettings: Object (2 properties)
+│   ├── Properties: *Object (5 properties)
+│   │   ├── DnsSettings: *Object (2 properties)
 │   │   │   ├── DnsServers: string[]
 │   │   │   └── InternalDnsNameLabel: *string
 │   │   ├── EnableAcceleratedNetworking: *bool
 │   │   ├── EnableIPForwarding: *bool
-│   │   ├── IpConfigurations: Object (2 properties)
+│   │   ├── IpConfigurations: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (11 properties)
-│   │   │       ├── ApplicationGatewayBackendAddressPools: Object (1 property)
+│   │   │   └── Properties: *Object (11 properties)
+│   │   │       ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │       │   └── Id: *string
-│   │   │       ├── ApplicationSecurityGroups: Object (1 property)
+│   │   │       ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │       │   └── Id: *string
-│   │   │       ├── LoadBalancerBackendAddressPools: Object (1 property)
+│   │   │       ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │       │   └── Id: *string
-│   │   │       ├── LoadBalancerInboundNatRules: Object (1 property)
+│   │   │       ├── LoadBalancerInboundNatRules: Object (1 property)[]
 │   │   │       │   └── Id: *string
 │   │   │       ├── Primary: *bool
 │   │   │       ├── PrivateIPAddress: *string
-│   │   │       ├── PrivateIPAddressVersion: Enum (2 values)
+│   │   │       ├── PrivateIPAddressVersion: *Enum (2 values)
 │   │   │       │   ├── "IPv4"
 │   │   │       │   └── "IPv6"
-│   │   │       ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │       ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │       │   ├── "Dynamic"
 │   │   │       │   └── "Static"
-│   │   │       ├── PublicIPAddress: Object (1 property)
+│   │   │       ├── PublicIPAddress: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       ├── Subnet: Object (1 property)
+│   │   │       ├── Subnet: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       └── VirtualNetworkTaps: Object (1 property)
+│   │   │       └── VirtualNetworkTaps: Object (1 property)[]
 │   │   │           └── Id: *string
-│   │   └── NetworkSecurityGroup: Object (1 property)
+│   │   └── NetworkSecurityGroup: *Object (1 property)
 │   │       └── Id: *string
 │   └── Tags: map[string]string
 ├── NetworkSecurityGroup: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -878,29 +881,29 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   └── Tags: map[string]string
 │   └── Status: Object (14 properties)
 │       ├── Conditions: conditions.Condition[]
-│       ├── DefaultSecurityRules: Object (1 property)
+│       ├── DefaultSecurityRules: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Etag: *string
-│       ├── FlowLogs: Object (1 property)
+│       ├── FlowLogs: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── NetworkInterfaces: Object (2 properties)
-│       │   ├── ExtendedLocation: Object (2 properties)
+│       ├── NetworkInterfaces: Object (2 properties)[]
+│       │   ├── ExtendedLocation: *Object (2 properties)
 │       │   │   ├── Name: *string
-│       │   │   └── Type: Enum (1 value)
+│       │   │   └── Type: *Enum (1 value)
 │       │   │       └── "EdgeZone"
 │       │   └── Id: *string
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
 │       ├── ResourceGuid: *string
-│       ├── SecurityRules: Object (1 property)
+│       ├── SecurityRules: Object (1 property)[]
 │       │   └── Id: *string
-│       ├── Subnets: Object (1 property)
+│       ├── Subnets: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Tags: map[string]string
 │       └── Type: *string
@@ -909,26 +912,26 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (7 properties)
-│   │   ├── DefaultSecurityRules: Object (1 property)
+│   ├── Properties: *Object (7 properties)
+│   │   ├── DefaultSecurityRules: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── FlowLogs: Object (1 property)
+│   │   ├── FlowLogs: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── NetworkInterfaces: Object (2 properties)
-│   │   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── NetworkInterfaces: Object (2 properties)[]
+│   │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │       └── "EdgeZone"
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
 │   │   ├── ResourceGuid: *string
-│   │   ├── SecurityRules: Object (1 property)
+│   │   ├── SecurityRules: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   └── Subnets: Object (1 property)
+│   │   └── Subnets: Object (1 property)[]
 │   │       └── Id: *string
 │   ├── Tags: map[string]string
 │   └── Type: *string
@@ -937,25 +940,26 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   ├── Name: string
 │   └── Tags: map[string]string
 ├── NetworkSecurityGroupsSecurityRule: Resource
+│   ├── Owner: NetworkSecurityGroup
 │   ├── Spec: Object (19 properties)
-│   │   ├── Access: Enum (2 values)
+│   │   ├── Access: *Enum (2 values)
 │   │   │   ├── "Allow"
 │   │   │   └── "Deny"
 │   │   ├── AzureName: string
 │   │   ├── Description: *string
 │   │   ├── DestinationAddressPrefix: *string
 │   │   ├── DestinationAddressPrefixes: string[]
-│   │   ├── DestinationApplicationSecurityGroups: Object (1 property)
+│   │   ├── DestinationApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── DestinationPortRange: *string
 │   │   ├── DestinationPortRanges: string[]
-│   │   ├── Direction: Enum (2 values)
+│   │   ├── Direction: *Enum (2 values)
 │   │   │   ├── "Inbound"
 │   │   │   └── "Outbound"
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Priority: *int
-│   │   ├── Protocol: Enum (6 values)
+│   │   ├── Protocol: *Enum (6 values)
 │   │   │   ├── "Ah"
 │   │   │   ├── "Esp"
 │   │   │   ├── "Icmp"
@@ -964,45 +968,45 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   └── "Udp"
 │   │   ├── SourceAddressPrefix: *string
 │   │   ├── SourceAddressPrefixes: string[]
-│   │   ├── SourceApplicationSecurityGroups: Object (1 property)
+│   │   ├── SourceApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── SourcePortRange: *string
 │   │   ├── SourcePortRanges: string[]
 │   │   └── Tags: map[string]string
 │   └── Status: Object (21 properties)
-│       ├── Access: Enum (2 values)
+│       ├── Access: *Enum (2 values)
 │       │   ├── "Allow"
 │       │   └── "Deny"
 │       ├── Conditions: conditions.Condition[]
 │       ├── Description: *string
 │       ├── DestinationAddressPrefix: *string
 │       ├── DestinationAddressPrefixes: string[]
-│       ├── DestinationApplicationSecurityGroups: Object (1 property)
+│       ├── DestinationApplicationSecurityGroups: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── DestinationPortRange: *string
 │       ├── DestinationPortRanges: string[]
-│       ├── Direction: Enum (2 values)
+│       ├── Direction: *Enum (2 values)
 │       │   ├── "Inbound"
 │       │   └── "Outbound"
 │       ├── Etag: *string
 │       ├── Id: *string
 │       ├── Name: *string
 │       ├── Priority: *int
-│       ├── Protocol: Enum (6 values)
+│       ├── Protocol: *Enum (6 values)
 │       │   ├── "Ah"
 │       │   ├── "Esp"
 │       │   ├── "Icmp"
 │       │   ├── "*"
 │       │   ├── "Tcp"
 │       │   └── "Udp"
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
 │       ├── SourceAddressPrefix: *string
 │       ├── SourceAddressPrefixes: string[]
-│       ├── SourceApplicationSecurityGroups: Object (1 property)
+│       ├── SourceApplicationSecurityGroups: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── SourcePortRange: *string
 │       ├── SourcePortRanges: string[]
@@ -1010,22 +1014,22 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 ├── NetworkSecurityGroups_SecurityRule_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (15 properties)
-│   │   ├── Access: Enum (2 values)
+│   ├── Properties: *Object (15 properties)
+│   │   ├── Access: *Enum (2 values)
 │   │   │   ├── "Allow"
 │   │   │   └── "Deny"
 │   │   ├── Description: *string
 │   │   ├── DestinationAddressPrefix: *string
 │   │   ├── DestinationAddressPrefixes: string[]
-│   │   ├── DestinationApplicationSecurityGroups: Object (1 property)
+│   │   ├── DestinationApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Id: *string
 │   │   ├── DestinationPortRange: *string
 │   │   ├── DestinationPortRanges: string[]
-│   │   ├── Direction: Enum (2 values)
+│   │   ├── Direction: *Enum (2 values)
 │   │   │   ├── "Inbound"
 │   │   │   └── "Outbound"
 │   │   ├── Priority: *int
-│   │   ├── Protocol: Enum (6 values)
+│   │   ├── Protocol: *Enum (6 values)
 │   │   │   ├── "Ah"
 │   │   │   ├── "Esp"
 │   │   │   ├── "Icmp"
@@ -1034,125 +1038,126 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   └── "Udp"
 │   │   ├── SourceAddressPrefix: *string
 │   │   ├── SourceAddressPrefixes: string[]
-│   │   ├── SourceApplicationSecurityGroups: Object (1 property)
+│   │   ├── SourceApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Id: *string
 │   │   ├── SourcePortRange: *string
 │   │   └── SourcePortRanges: string[]
 │   └── Tags: map[string]string
 ├── PublicIPAddress: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (15 properties)
 │   │   ├── AzureName: string
-│   │   ├── DdosSettings: Object (3 properties)
-│   │   │   ├── DdosCustomPolicy: Object (1 property)
+│   │   ├── DdosSettings: *Object (3 properties)
+│   │   │   ├── DdosCustomPolicy: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── ProtectedIP: *bool
-│   │   │   └── ProtectionCoverage: Enum (2 values)
+│   │   │   └── ProtectionCoverage: *Enum (2 values)
 │   │   │       ├── "Basic"
 │   │   │       └── "Standard"
-│   │   ├── DnsSettings: Object (3 properties)
+│   │   ├── DnsSettings: *Object (3 properties)
 │   │   │   ├── DomainNameLabel: *string
 │   │   │   ├── Fqdn: *string
 │   │   │   └── ReverseFqdn: *string
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
 │   │   ├── IdleTimeoutInMinutes: *int
 │   │   ├── IpAddress: *string
-│   │   ├── IpTags: Object (2 properties)
+│   │   ├── IpTags: Object (2 properties)[]
 │   │   │   ├── IpTagType: *string
 │   │   │   └── Tag: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicIPAddressVersion: Enum (2 values)
+│   │   ├── PublicIPAddressVersion: *Enum (2 values)
 │   │   │   ├── "IPv4"
 │   │   │   └── "IPv6"
-│   │   ├── PublicIPAllocationMethod: Enum (2 values)
+│   │   ├── PublicIPAllocationMethod: *Enum (2 values)
 │   │   │   ├── "Dynamic"
 │   │   │   └── "Static"
-│   │   ├── PublicIPPrefix: Object (1 property)
+│   │   ├── PublicIPPrefix: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Sku: Object (2 properties)
-│   │   │   ├── Name: Enum (2 values)
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *Enum (2 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   └── "Standard"
-│   │   │   └── Tier: Enum (2 values)
+│   │   │   └── Tier: *Enum (2 values)
 │   │   │       ├── "Global"
 │   │   │       └── "Regional"
 │   │   ├── Tags: map[string]string
 │   │   └── Zones: string[]
 │   └── Status: Object (23 properties)
 │       ├── Conditions: conditions.Condition[]
-│       ├── DdosSettings: Object (3 properties)
-│       │   ├── DdosCustomPolicy: Object (1 property)
+│       ├── DdosSettings: *Object (3 properties)
+│       │   ├── DdosCustomPolicy: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   ├── ProtectedIP: *bool
-│       │   └── ProtectionCoverage: Enum (2 values)
+│       │   └── ProtectionCoverage: *Enum (2 values)
 │       │       ├── "Basic"
 │       │       └── "Standard"
-│       ├── DnsSettings: Object (3 properties)
+│       ├── DnsSettings: *Object (3 properties)
 │       │   ├── DomainNameLabel: *string
 │       │   ├── Fqdn: *string
 │       │   └── ReverseFqdn: *string
 │       ├── Etag: *string
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
 │       ├── Id: *string
 │       ├── IdleTimeoutInMinutes: *int
 │       ├── IpAddress: *string
-│       ├── IpConfiguration: Object (7 properties)
+│       ├── IpConfiguration: *Object (7 properties)
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│       │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │       │   │   ├── "Dynamic"
 │       │   │   └── "Static"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
-│       │   └── Subnet: Object (1 property)
+│       │   └── Subnet: *Object (1 property)
 │       │       └── Id: *string
-│       ├── IpTags: Object (2 properties)
+│       ├── IpTags: Object (2 properties)[]
 │       │   ├── IpTagType: *string
 │       │   └── Tag: *string
 │       ├── Location: *string
-│       ├── MigrationPhase: Enum (5 values)
+│       ├── MigrationPhase: *Enum (5 values)
 │       │   ├── "Abort"
 │       │   ├── "Commit"
 │       │   ├── "Committed"
 │       │   ├── "None"
 │       │   └── "Prepare"
 │       ├── Name: *string
-│       ├── NatGateway: Object (3 properties)
+│       ├── NatGateway: *Object (3 properties)
 │       │   ├── Id: *string
-│       │   ├── Sku: Object (1 property)
-│       │   │   └── Name: Enum (1 value)
+│       │   ├── Sku: *Object (1 property)
+│       │   │   └── Name: *Enum (1 value)
 │       │   │       └── "Standard"
 │       │   └── Zones: string[]
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── PublicIPAddressVersion: Enum (2 values)
+│       ├── PublicIPAddressVersion: *Enum (2 values)
 │       │   ├── "IPv4"
 │       │   └── "IPv6"
-│       ├── PublicIPAllocationMethod: Enum (2 values)
+│       ├── PublicIPAllocationMethod: *Enum (2 values)
 │       │   ├── "Dynamic"
 │       │   └── "Static"
-│       ├── PublicIPPrefix: Object (1 property)
+│       ├── PublicIPPrefix: *Object (1 property)
 │       │   └── Id: *string
 │       ├── ResourceGuid: *string
-│       ├── Sku: Object (2 properties)
-│       │   ├── Name: Enum (2 values)
+│       ├── Sku: *Object (2 properties)
+│       │   ├── Name: *Enum (2 values)
 │       │   │   ├── "Basic"
 │       │   │   └── "Standard"
-│       │   └── Tier: Enum (2 values)
+│       │   └── Tier: *Enum (2 values)
 │       │       ├── "Global"
 │       │       └── "Regional"
 │       ├── Tags: map[string]string
@@ -1160,119 +1165,119 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       └── Zones: string[]
 ├── PublicIPAddress_STATUS_PublicIPAddresses_SubResourceEmbedded_ARM: Object (10 properties)
 │   ├── Etag: *string
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (13 properties)
-│   │   ├── DdosSettings: Object (3 properties)
-│   │   │   ├── DdosCustomPolicy: Object (1 property)
+│   ├── Properties: *Object (13 properties)
+│   │   ├── DdosSettings: *Object (3 properties)
+│   │   │   ├── DdosCustomPolicy: *Object (1 property)
 │   │   │   │   └── Id: *string
 │   │   │   ├── ProtectedIP: *bool
-│   │   │   └── ProtectionCoverage: Enum (2 values)
+│   │   │   └── ProtectionCoverage: *Enum (2 values)
 │   │   │       ├── "Basic"
 │   │   │       └── "Standard"
-│   │   ├── DnsSettings: Object (3 properties)
+│   │   ├── DnsSettings: *Object (3 properties)
 │   │   │   ├── DomainNameLabel: *string
 │   │   │   ├── Fqdn: *string
 │   │   │   └── ReverseFqdn: *string
 │   │   ├── IdleTimeoutInMinutes: *int
 │   │   ├── IpAddress: *string
-│   │   ├── IpConfiguration: Object (4 properties)
+│   │   ├── IpConfiguration: *Object (4 properties)
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (4 properties)
+│   │   │   └── Properties: *Object (4 properties)
 │   │   │       ├── PrivateIPAddress: *string
-│   │   │       ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │       ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │       │   ├── "Dynamic"
 │   │   │       │   └── "Static"
-│   │   │       ├── ProvisioningState: Enum (4 values)
+│   │   │       ├── ProvisioningState: *Enum (4 values)
 │   │   │       │   ├── "Deleting"
 │   │   │       │   ├── "Failed"
 │   │   │       │   ├── "Succeeded"
 │   │   │       │   └── "Updating"
-│   │   │       └── Subnet: Object (1 property)
+│   │   │       └── Subnet: *Object (1 property)
 │   │   │           └── Id: *string
-│   │   ├── IpTags: Object (2 properties)
+│   │   ├── IpTags: Object (2 properties)[]
 │   │   │   ├── IpTagType: *string
 │   │   │   └── Tag: *string
-│   │   ├── MigrationPhase: Enum (5 values)
+│   │   ├── MigrationPhase: *Enum (5 values)
 │   │   │   ├── "Abort"
 │   │   │   ├── "Commit"
 │   │   │   ├── "Committed"
 │   │   │   ├── "None"
 │   │   │   └── "Prepare"
-│   │   ├── NatGateway: Object (3 properties)
+│   │   ├── NatGateway: *Object (3 properties)
 │   │   │   ├── Id: *string
-│   │   │   ├── Sku: Object (1 property)
-│   │   │   │   └── Name: Enum (1 value)
+│   │   │   ├── Sku: *Object (1 property)
+│   │   │   │   └── Name: *Enum (1 value)
 │   │   │   │       └── "Standard"
 │   │   │   └── Zones: string[]
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── PublicIPAddressVersion: Enum (2 values)
+│   │   ├── PublicIPAddressVersion: *Enum (2 values)
 │   │   │   ├── "IPv4"
 │   │   │   └── "IPv6"
-│   │   ├── PublicIPAllocationMethod: Enum (2 values)
+│   │   ├── PublicIPAllocationMethod: *Enum (2 values)
 │   │   │   ├── "Dynamic"
 │   │   │   └── "Static"
-│   │   ├── PublicIPPrefix: Object (1 property)
+│   │   ├── PublicIPPrefix: *Object (1 property)
 │   │   │   └── Id: *string
 │   │   └── ResourceGuid: *string
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (2 values)
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Name: *Enum (2 values)
 │   │   │   ├── "Basic"
 │   │   │   └── "Standard"
-│   │   └── Tier: Enum (2 values)
+│   │   └── Tier: *Enum (2 values)
 │   │       ├── "Global"
 │   │       └── "Regional"
 │   ├── Tags: map[string]string
 │   ├── Type: *string
 │   └── Zones: string[]
 ├── PublicIPAddresses_Spec_ARM: Object (7 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (8 properties)
-│   │   ├── DdosSettings: Object (3 properties)
-│   │   │   ├── DdosCustomPolicy: Object (1 property)
+│   ├── Properties: *Object (8 properties)
+│   │   ├── DdosSettings: *Object (3 properties)
+│   │   │   ├── DdosCustomPolicy: *Object (1 property)
 │   │   │   │   └── Id: *string
 │   │   │   ├── ProtectedIP: *bool
-│   │   │   └── ProtectionCoverage: Enum (2 values)
+│   │   │   └── ProtectionCoverage: *Enum (2 values)
 │   │   │       ├── "Basic"
 │   │   │       └── "Standard"
-│   │   ├── DnsSettings: Object (3 properties)
+│   │   ├── DnsSettings: *Object (3 properties)
 │   │   │   ├── DomainNameLabel: *string
 │   │   │   ├── Fqdn: *string
 │   │   │   └── ReverseFqdn: *string
 │   │   ├── IdleTimeoutInMinutes: *int
 │   │   ├── IpAddress: *string
-│   │   ├── IpTags: Object (2 properties)
+│   │   ├── IpTags: Object (2 properties)[]
 │   │   │   ├── IpTagType: *string
 │   │   │   └── Tag: *string
-│   │   ├── PublicIPAddressVersion: Enum (2 values)
+│   │   ├── PublicIPAddressVersion: *Enum (2 values)
 │   │   │   ├── "IPv4"
 │   │   │   └── "IPv6"
-│   │   ├── PublicIPAllocationMethod: Enum (2 values)
+│   │   ├── PublicIPAllocationMethod: *Enum (2 values)
 │   │   │   ├── "Dynamic"
 │   │   │   └── "Static"
-│   │   └── PublicIPPrefix: Object (1 property)
+│   │   └── PublicIPPrefix: *Object (1 property)
 │   │       └── Id: *string
-│   ├── Sku: Object (2 properties)
-│   │   ├── Name: Enum (2 values)
+│   ├── Sku: *Object (2 properties)
+│   │   ├── Name: *Enum (2 values)
 │   │   │   ├── "Basic"
 │   │   │   └── "Standard"
-│   │   └── Tier: Enum (2 values)
+│   │   └── Tier: *Enum (2 values)
 │   │       ├── "Global"
 │   │       └── "Regional"
 │   ├── Tags: map[string]string
@@ -1281,36 +1286,36 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   ├── Etag: *string
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (16 properties)
-│   │   ├── Access: Enum (2 values)
+│   ├── Properties: *Object (16 properties)
+│   │   ├── Access: *Enum (2 values)
 │   │   │   ├── "Allow"
 │   │   │   └── "Deny"
 │   │   ├── Description: *string
 │   │   ├── DestinationAddressPrefix: *string
 │   │   ├── DestinationAddressPrefixes: string[]
-│   │   ├── DestinationApplicationSecurityGroups: Object (1 property)
+│   │   ├── DestinationApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Id: *string
 │   │   ├── DestinationPortRange: *string
 │   │   ├── DestinationPortRanges: string[]
-│   │   ├── Direction: Enum (2 values)
+│   │   ├── Direction: *Enum (2 values)
 │   │   │   ├── "Inbound"
 │   │   │   └── "Outbound"
 │   │   ├── Priority: *int
-│   │   ├── Protocol: Enum (6 values)
+│   │   ├── Protocol: *Enum (6 values)
 │   │   │   ├── "Ah"
 │   │   │   ├── "Esp"
 │   │   │   ├── "Icmp"
 │   │   │   ├── "*"
 │   │   │   ├── "Tcp"
 │   │   │   └── "Udp"
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
 │   │   ├── SourceAddressPrefix: *string
 │   │   ├── SourceAddressPrefixes: string[]
-│   │   ├── SourceApplicationSecurityGroups: Object (1 property)
+│   │   ├── SourceApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Id: *string
 │   │   ├── SourcePortRange: *string
 │   │   └── SourcePortRanges: string[]
@@ -1319,134 +1324,134 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   ├── Etag: *string
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (19 properties)
+│   ├── Properties: *Object (19 properties)
 │   │   ├── AddressPrefix: *string
 │   │   ├── AddressPrefixes: string[]
-│   │   ├── ApplicationGatewayIpConfigurations: Object (5 properties)
+│   │   ├── ApplicationGatewayIpConfigurations: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (2 properties)
-│   │   │   │   ├── ProvisioningState: Enum (4 values)
+│   │   │   ├── Properties: *Object (2 properties)
+│   │   │   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   │   │   ├── "Deleting"
 │   │   │   │   │   ├── "Failed"
 │   │   │   │   │   ├── "Succeeded"
 │   │   │   │   │   └── "Updating"
-│   │   │   │   └── Subnet: Object (1 property)
+│   │   │   │   └── Subnet: *Object (1 property)
 │   │   │   │       └── Id: *string
 │   │   │   └── Type: *string
-│   │   ├── Delegations: Object (5 properties)
+│   │   ├── Delegations: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (3 properties)
+│   │   │   ├── Properties: *Object (3 properties)
 │   │   │   │   ├── Actions: string[]
-│   │   │   │   ├── ProvisioningState: Enum (4 values)
+│   │   │   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   │   │   ├── "Deleting"
 │   │   │   │   │   ├── "Failed"
 │   │   │   │   │   ├── "Succeeded"
 │   │   │   │   │   └── "Updating"
 │   │   │   │   └── ServiceName: *string
 │   │   │   └── Type: *string
-│   │   ├── IpAllocations: Object (1 property)
+│   │   ├── IpAllocations: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── IpConfigurationProfiles: Object (5 properties)
+│   │   ├── IpConfigurationProfiles: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (1 property)
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   ├── Properties: *Object (1 property)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       ├── "Succeeded"
 │   │   │   │       └── "Updating"
 │   │   │   └── Type: *string
-│   │   ├── IpConfigurations: Object (4 properties)
+│   │   ├── IpConfigurations: Object (4 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (4 properties)
+│   │   │   └── Properties: *Object (4 properties)
 │   │   │       ├── PrivateIPAddress: *string
-│   │   │       ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │       ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │       │   ├── "Dynamic"
 │   │   │       │   └── "Static"
-│   │   │       ├── ProvisioningState: Enum (4 values)
+│   │   │       ├── ProvisioningState: *Enum (4 values)
 │   │   │       │   ├── "Deleting"
 │   │   │       │   ├── "Failed"
 │   │   │       │   ├── "Succeeded"
 │   │   │       │   └── "Updating"
-│   │   │       └── PublicIPAddress: Object (4 properties)
-│   │   │           ├── ExtendedLocation: Object (2 properties)
+│   │   │       └── PublicIPAddress: *Object (4 properties)
+│   │   │           ├── ExtendedLocation: *Object (2 properties)
 │   │   │           │   ├── Name: *string
-│   │   │           │   └── Type: Enum (1 value)
+│   │   │           │   └── Type: *Enum (1 value)
 │   │   │           │       └── "EdgeZone"
 │   │   │           ├── Id: *string
-│   │   │           ├── Sku: Object (2 properties)
-│   │   │           │   ├── Name: Enum (2 values)
+│   │   │           ├── Sku: *Object (2 properties)
+│   │   │           │   ├── Name: *Enum (2 values)
 │   │   │           │   │   ├── "Basic"
 │   │   │           │   │   └── "Standard"
-│   │   │           │   └── Tier: Enum (2 values)
+│   │   │           │   └── Tier: *Enum (2 values)
 │   │   │           │       ├── "Global"
 │   │   │           │       └── "Regional"
 │   │   │           └── Zones: string[]
-│   │   ├── NatGateway: Object (1 property)
+│   │   ├── NatGateway: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── NetworkSecurityGroup: Object (1 property)
+│   │   ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── PrivateEndpointNetworkPolicies: Enum (2 values)
+│   │   ├── PrivateEndpointNetworkPolicies: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── PrivateEndpoints: Object (2 properties)
-│   │   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── PrivateEndpoints: Object (2 properties)[]
+│   │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Type: Enum (1 value)
+│   │   │   │   └── Type: *Enum (1 value)
 │   │   │   │       └── "EdgeZone"
 │   │   │   └── Id: *string
-│   │   ├── PrivateLinkServiceNetworkPolicies: Enum (2 values)
+│   │   ├── PrivateLinkServiceNetworkPolicies: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
 │   │   ├── Purpose: *string
-│   │   ├── ResourceNavigationLinks: Object (5 properties)
+│   │   ├── ResourceNavigationLinks: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (3 properties)
+│   │   │   ├── Properties: *Object (3 properties)
 │   │   │   │   ├── Link: *string
 │   │   │   │   ├── LinkedResourceType: *string
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       ├── "Succeeded"
 │   │   │   │       └── "Updating"
 │   │   │   └── Type: *string
-│   │   ├── RouteTable: Object (1 property)
+│   │   ├── RouteTable: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── ServiceAssociationLinks: Object (5 properties)
+│   │   ├── ServiceAssociationLinks: Object (5 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   ├── Properties: Object (5 properties)
+│   │   │   ├── Properties: *Object (5 properties)
 │   │   │   │   ├── AllowDelete: *bool
 │   │   │   │   ├── Link: *string
 │   │   │   │   ├── LinkedResourceType: *string
 │   │   │   │   ├── Locations: string[]
-│   │   │   │   └── ProvisioningState: Enum (4 values)
+│   │   │   │   └── ProvisioningState: *Enum (4 values)
 │   │   │   │       ├── "Deleting"
 │   │   │   │       ├── "Failed"
 │   │   │   │       ├── "Succeeded"
 │   │   │   │       └── "Updating"
 │   │   │   └── Type: *string
-│   │   ├── ServiceEndpointPolicies: Object (2 properties)
+│   │   ├── ServiceEndpointPolicies: Object (2 properties)[]
 │   │   │   ├── Id: *string
 │   │   │   └── Kind: *string
-│   │   └── ServiceEndpoints: Object (3 properties)
+│   │   └── ServiceEndpoints: Object (3 properties)[]
 │   │       ├── Locations: string[]
-│   │       ├── ProvisioningState: Enum (4 values)
+│   │       ├── ProvisioningState: *Enum (4 values)
 │   │       │   ├── "Deleting"
 │   │       │   ├── "Failed"
 │   │       │   ├── "Succeeded"
@@ -1454,51 +1459,52 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │       └── Service: *string
 │   └── Type: *string
 ├── VirtualNetwork: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (12 properties)
-│   │   ├── AddressSpace: Object (1 property)
+│   │   ├── AddressSpace: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
 │   │   ├── AzureName: string
-│   │   ├── BgpCommunities: Object (1 property)
+│   │   ├── BgpCommunities: *Object (1 property)
 │   │   │   └── VirtualNetworkCommunity: *string
-│   │   ├── DdosProtectionPlan: Object (1 property)
+│   │   ├── DdosProtectionPlan: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── DhcpOptions: Object (1 property)
+│   │   ├── DhcpOptions: *Object (1 property)
 │   │   │   └── DnsServers: string[]
 │   │   ├── EnableDdosProtection: *bool
 │   │   ├── EnableVmProtection: *bool
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── IpAllocations: Object (1 property)
+│   │   ├── IpAllocations: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── Tags: map[string]string
 │   └── Status: Object (17 properties)
-│       ├── AddressSpace: Object (1 property)
+│       ├── AddressSpace: *Object (1 property)
 │       │   └── AddressPrefixes: string[]
-│       ├── BgpCommunities: Object (2 properties)
+│       ├── BgpCommunities: *Object (2 properties)
 │       │   ├── RegionalCommunity: *string
 │       │   └── VirtualNetworkCommunity: *string
 │       ├── Conditions: conditions.Condition[]
-│       ├── DdosProtectionPlan: Object (1 property)
+│       ├── DdosProtectionPlan: *Object (1 property)
 │       │   └── Id: *string
-│       ├── DhcpOptions: Object (1 property)
+│       ├── DhcpOptions: *Object (1 property)
 │       │   └── DnsServers: string[]
 │       ├── EnableDdosProtection: *bool
 │       ├── EnableVmProtection: *bool
 │       ├── Etag: *string
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
 │       ├── Id: *string
-│       ├── IpAllocations: Object (1 property)
+│       ├── IpAllocations: Object (1 property)[]
 │       │   └── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
@@ -1507,41 +1513,42 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── VirtualNetworkGateway: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (19 properties)
 │   │   ├── ActiveActive: *bool
 │   │   ├── AzureName: string
-│   │   ├── BgpSettings: Object (4 properties)
+│   │   ├── BgpSettings: *Object (4 properties)
 │   │   │   ├── Asn: *uint32
 │   │   │   ├── BgpPeeringAddress: *string
-│   │   │   ├── BgpPeeringAddresses: Object (2 properties)
+│   │   │   ├── BgpPeeringAddresses: Object (2 properties)[]
 │   │   │   │   ├── CustomBgpIpAddresses: string[]
 │   │   │   │   └── IpconfigurationId: *string
 │   │   │   └── PeerWeight: *int
-│   │   ├── CustomRoutes: Object (1 property)
+│   │   ├── CustomRoutes: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
 │   │   ├── EnableBgp: *bool
 │   │   ├── EnableDnsForwarding: *bool
 │   │   ├── EnablePrivateIpAddress: *bool
-│   │   ├── GatewayDefaultSite: Object (1 property)
+│   │   ├── GatewayDefaultSite: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── GatewayType: Enum (4 values)
+│   │   ├── GatewayType: *Enum (4 values)
 │   │   │   ├── "ExpressRoute"
 │   │   │   ├── "HyperNet"
 │   │   │   ├── "LocalGateway"
 │   │   │   └── "Vpn"
-│   │   ├── IpConfigurations: Object (4 properties)
+│   │   ├── IpConfigurations: Object (4 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │   │   ├── "Dynamic"
 │   │   │   │   └── "Static"
-│   │   │   ├── PublicIPAddress: Object (1 property)
+│   │   │   ├── PublicIPAddress: *Object (1 property)
 │   │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   └── Subnet: Object (1 property)
+│   │   │   └── Subnet: *Object (1 property)
 │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Sku: Object (2 properties)
-│   │   │   ├── Name: Enum (17 values)
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *Enum (17 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   ├── "ErGw1AZ"
 │   │   │   │   ├── "ErGw2AZ"
@@ -1559,7 +1566,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   ├── "VpnGw4AZ"
 │   │   │   │   ├── "VpnGw5"
 │   │   │   │   └── "VpnGw5AZ"
-│   │   │   └── Tier: Enum (17 values)
+│   │   │   └── Tier: *Enum (17 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "ErGw1AZ"
 │   │   │       ├── "ErGw2AZ"
@@ -1579,28 +1586,28 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │       └── "VpnGw5AZ"
 │   │   ├── Tags: map[string]string
 │   │   ├── VNetExtendedLocationResourceReference: *genruntime.ResourceReference
-│   │   ├── VirtualNetworkExtendedLocation: Object (2 properties)
+│   │   ├── VirtualNetworkExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── VpnClientConfiguration: Object (12 properties)
+│   │   ├── VpnClientConfiguration: *Object (12 properties)
 │   │   │   ├── AadAudience: *string
 │   │   │   ├── AadIssuer: *string
 │   │   │   ├── AadTenant: *string
 │   │   │   ├── RadiusServerAddress: *string
 │   │   │   ├── RadiusServerSecret: *string
-│   │   │   ├── RadiusServers: Object (3 properties)
+│   │   │   ├── RadiusServers: Object (3 properties)[]
 │   │   │   │   ├── RadiusServerAddress: *string
 │   │   │   │   ├── RadiusServerScore: *int
 │   │   │   │   └── RadiusServerSecret: *string
-│   │   │   ├── VpnAuthenticationTypes: Enum (3 values)
+│   │   │   ├── VpnAuthenticationTypes: Enum (3 values)[]
 │   │   │   │   ├── "AAD"
 │   │   │   │   ├── "Certificate"
 │   │   │   │   └── "Radius"
-│   │   │   ├── VpnClientAddressPool: Object (1 property)
+│   │   │   ├── VpnClientAddressPool: *Object (1 property)
 │   │   │   │   └── AddressPrefixes: string[]
-│   │   │   ├── VpnClientIpsecPolicies: Object (8 properties)
-│   │   │   │   ├── DhGroup: Enum (8 values)
+│   │   │   ├── VpnClientIpsecPolicies: Object (8 properties)[]
+│   │   │   │   ├── DhGroup: *Enum (8 values)
 │   │   │   │   │   ├── "DHGroup1"
 │   │   │   │   │   ├── "DHGroup14"
 │   │   │   │   │   ├── "DHGroup2"
@@ -1609,7 +1616,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "ECP256"
 │   │   │   │   │   ├── "ECP384"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── IkeEncryption: Enum (7 values)
+│   │   │   │   ├── IkeEncryption: *Enum (7 values)
 │   │   │   │   │   ├── "AES128"
 │   │   │   │   │   ├── "AES192"
 │   │   │   │   │   ├── "AES256"
@@ -1617,14 +1624,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "DES3"
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   └── "GCMAES256"
-│   │   │   │   ├── IkeIntegrity: Enum (6 values)
+│   │   │   │   ├── IkeIntegrity: *Enum (6 values)
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   ├── "MD5"
 │   │   │   │   │   ├── "SHA1"
 │   │   │   │   │   ├── "SHA256"
 │   │   │   │   │   └── "SHA384"
-│   │   │   │   ├── IpsecEncryption: Enum (9 values)
+│   │   │   │   ├── IpsecEncryption: *Enum (9 values)
 │   │   │   │   │   ├── "AES128"
 │   │   │   │   │   ├── "AES192"
 │   │   │   │   │   ├── "AES256"
@@ -1634,14 +1641,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "GCMAES192"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── IpsecIntegrity: Enum (6 values)
+│   │   │   │   ├── IpsecIntegrity: *Enum (6 values)
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   ├── "GCMAES192"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   ├── "MD5"
 │   │   │   │   │   ├── "SHA1"
 │   │   │   │   │   └── "SHA256"
-│   │   │   │   ├── PfsGroup: Enum (9 values)
+│   │   │   │   ├── PfsGroup: *Enum (9 values)
 │   │   │   │   │   ├── "ECP256"
 │   │   │   │   │   ├── "ECP384"
 │   │   │   │   │   ├── "None"
@@ -1653,81 +1660,81 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   └── "PFSMM"
 │   │   │   │   ├── SaDataSizeKilobytes: *int
 │   │   │   │   └── SaLifeTimeSeconds: *int
-│   │   │   ├── VpnClientProtocols: Enum (3 values)
+│   │   │   ├── VpnClientProtocols: Enum (3 values)[]
 │   │   │   │   ├── "IkeV2"
 │   │   │   │   ├── "OpenVPN"
 │   │   │   │   └── "SSTP"
-│   │   │   ├── VpnClientRevokedCertificates: Object (2 properties)
+│   │   │   ├── VpnClientRevokedCertificates: Object (2 properties)[]
 │   │   │   │   ├── Name: *string
 │   │   │   │   └── Thumbprint: *string
-│   │   │   └── VpnClientRootCertificates: Object (2 properties)
+│   │   │   └── VpnClientRootCertificates: Object (2 properties)[]
 │   │   │       ├── Name: *string
 │   │   │       └── PublicCertData: *string
-│   │   ├── VpnGatewayGeneration: Enum (3 values)
+│   │   ├── VpnGatewayGeneration: *Enum (3 values)
 │   │   │   ├── "Generation1"
 │   │   │   ├── "Generation2"
 │   │   │   └── "None"
-│   │   └── VpnType: Enum (2 values)
+│   │   └── VpnType: *Enum (2 values)
 │   │       ├── "PolicyBased"
 │   │       └── "RouteBased"
 │   └── Status: Object (25 properties)
 │       ├── ActiveActive: *bool
-│       ├── BgpSettings: Object (4 properties)
+│       ├── BgpSettings: *Object (4 properties)
 │       │   ├── Asn: *uint32
 │       │   ├── BgpPeeringAddress: *string
-│       │   ├── BgpPeeringAddresses: Object (4 properties)
+│       │   ├── BgpPeeringAddresses: Object (4 properties)[]
 │       │   │   ├── CustomBgpIpAddresses: string[]
 │       │   │   ├── DefaultBgpIpAddresses: string[]
 │       │   │   ├── IpconfigurationId: *string
 │       │   │   └── TunnelIpAddresses: string[]
 │       │   └── PeerWeight: *int
 │       ├── Conditions: conditions.Condition[]
-│       ├── CustomRoutes: Object (1 property)
+│       ├── CustomRoutes: *Object (1 property)
 │       │   └── AddressPrefixes: string[]
 │       ├── EnableBgp: *bool
 │       ├── EnableDnsForwarding: *bool
 │       ├── EnablePrivateIpAddress: *bool
 │       ├── Etag: *string
-│       ├── ExtendedLocation: Object (2 properties)
+│       ├── ExtendedLocation: *Object (2 properties)
 │       │   ├── Name: *string
-│       │   └── Type: Enum (1 value)
+│       │   └── Type: *Enum (1 value)
 │       │       └── "EdgeZone"
-│       ├── GatewayDefaultSite: Object (1 property)
+│       ├── GatewayDefaultSite: *Object (1 property)
 │       │   └── Id: *string
-│       ├── GatewayType: Enum (3 values)
+│       ├── GatewayType: *Enum (3 values)
 │       │   ├── "ExpressRoute"
 │       │   ├── "LocalGateway"
 │       │   └── "Vpn"
 │       ├── Id: *string
 │       ├── InboundDnsForwardingEndpoint: *string
-│       ├── IpConfigurations: Object (8 properties)
+│       ├── IpConfigurations: Object (8 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│       │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │       │   │   ├── "Dynamic"
 │       │   │   └── "Static"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
-│       │   ├── PublicIPAddress: Object (1 property)
+│       │   ├── PublicIPAddress: *Object (1 property)
 │       │   │   └── Id: *string
-│       │   └── Subnet: Object (1 property)
+│       │   └── Subnet: *Object (1 property)
 │       │       └── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
 │       ├── ResourceGuid: *string
-│       ├── Sku: Object (3 properties)
+│       ├── Sku: *Object (3 properties)
 │       │   ├── Capacity: *int
-│       │   ├── Name: Enum (17 values)
+│       │   ├── Name: *Enum (17 values)
 │       │   │   ├── "Basic"
 │       │   │   ├── "ErGw1AZ"
 │       │   │   ├── "ErGw2AZ"
@@ -1745,7 +1752,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   │   ├── "VpnGw4AZ"
 │       │   │   ├── "VpnGw5"
 │       │   │   └── "VpnGw5AZ"
-│       │   └── Tier: Enum (17 values)
+│       │   └── Tier: *Enum (17 values)
 │       │       ├── "Basic"
 │       │       ├── "ErGw1AZ"
 │       │       ├── "ErGw2AZ"
@@ -1766,24 +1773,24 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       ├── Tags: map[string]string
 │       ├── Type: *string
 │       ├── VNetExtendedLocationResourceId: *string
-│       ├── VpnClientConfiguration: Object (12 properties)
+│       ├── VpnClientConfiguration: *Object (12 properties)
 │       │   ├── AadAudience: *string
 │       │   ├── AadIssuer: *string
 │       │   ├── AadTenant: *string
 │       │   ├── RadiusServerAddress: *string
 │       │   ├── RadiusServerSecret: *string
-│       │   ├── RadiusServers: Object (3 properties)
+│       │   ├── RadiusServers: Object (3 properties)[]
 │       │   │   ├── RadiusServerAddress: *string
 │       │   │   ├── RadiusServerScore: *int
 │       │   │   └── RadiusServerSecret: *string
-│       │   ├── VpnAuthenticationTypes: Enum (3 values)
+│       │   ├── VpnAuthenticationTypes: Enum (3 values)[]
 │       │   │   ├── "AAD"
 │       │   │   ├── "Certificate"
 │       │   │   └── "Radius"
-│       │   ├── VpnClientAddressPool: Object (1 property)
+│       │   ├── VpnClientAddressPool: *Object (1 property)
 │       │   │   └── AddressPrefixes: string[]
-│       │   ├── VpnClientIpsecPolicies: Object (8 properties)
-│       │   │   ├── DhGroup: Enum (8 values)
+│       │   ├── VpnClientIpsecPolicies: Object (8 properties)[]
+│       │   │   ├── DhGroup: *Enum (8 values)
 │       │   │   │   ├── "DHGroup1"
 │       │   │   │   ├── "DHGroup14"
 │       │   │   │   ├── "DHGroup2"
@@ -1792,7 +1799,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   │   │   ├── "ECP256"
 │       │   │   │   ├── "ECP384"
 │       │   │   │   └── "None"
-│       │   │   ├── IkeEncryption: Enum (7 values)
+│       │   │   ├── IkeEncryption: *Enum (7 values)
 │       │   │   │   ├── "AES128"
 │       │   │   │   ├── "AES192"
 │       │   │   │   ├── "AES256"
@@ -1800,14 +1807,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   │   │   ├── "DES3"
 │       │   │   │   ├── "GCMAES128"
 │       │   │   │   └── "GCMAES256"
-│       │   │   ├── IkeIntegrity: Enum (6 values)
+│       │   │   ├── IkeIntegrity: *Enum (6 values)
 │       │   │   │   ├── "GCMAES128"
 │       │   │   │   ├── "GCMAES256"
 │       │   │   │   ├── "MD5"
 │       │   │   │   ├── "SHA1"
 │       │   │   │   ├── "SHA256"
 │       │   │   │   └── "SHA384"
-│       │   │   ├── IpsecEncryption: Enum (9 values)
+│       │   │   ├── IpsecEncryption: *Enum (9 values)
 │       │   │   │   ├── "AES128"
 │       │   │   │   ├── "AES192"
 │       │   │   │   ├── "AES256"
@@ -1817,14 +1824,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   │   │   ├── "GCMAES192"
 │       │   │   │   ├── "GCMAES256"
 │       │   │   │   └── "None"
-│       │   │   ├── IpsecIntegrity: Enum (6 values)
+│       │   │   ├── IpsecIntegrity: *Enum (6 values)
 │       │   │   │   ├── "GCMAES128"
 │       │   │   │   ├── "GCMAES192"
 │       │   │   │   ├── "GCMAES256"
 │       │   │   │   ├── "MD5"
 │       │   │   │   ├── "SHA1"
 │       │   │   │   └── "SHA256"
-│       │   │   ├── PfsGroup: Enum (9 values)
+│       │   │   ├── PfsGroup: *Enum (9 values)
 │       │   │   │   ├── "ECP256"
 │       │   │   │   ├── "ECP384"
 │       │   │   │   ├── "None"
@@ -1836,96 +1843,96 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   │   │   └── "PFSMM"
 │       │   │   ├── SaDataSizeKilobytes: *int
 │       │   │   └── SaLifeTimeSeconds: *int
-│       │   ├── VpnClientProtocols: Enum (3 values)
+│       │   ├── VpnClientProtocols: Enum (3 values)[]
 │       │   │   ├── "IkeV2"
 │       │   │   ├── "OpenVPN"
 │       │   │   └── "SSTP"
-│       │   ├── VpnClientRevokedCertificates: Object (5 properties)
+│       │   ├── VpnClientRevokedCertificates: Object (5 properties)[]
 │       │   │   ├── Etag: *string
 │       │   │   ├── Id: *string
 │       │   │   ├── Name: *string
-│       │   │   ├── ProvisioningState: Enum (4 values)
+│       │   │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   │   ├── "Deleting"
 │       │   │   │   ├── "Failed"
 │       │   │   │   ├── "Succeeded"
 │       │   │   │   └── "Updating"
 │       │   │   └── Thumbprint: *string
-│       │   └── VpnClientRootCertificates: Object (5 properties)
+│       │   └── VpnClientRootCertificates: Object (5 properties)[]
 │       │       ├── Etag: *string
 │       │       ├── Id: *string
 │       │       ├── Name: *string
-│       │       ├── ProvisioningState: Enum (4 values)
+│       │       ├── ProvisioningState: *Enum (4 values)
 │       │       │   ├── "Deleting"
 │       │       │   ├── "Failed"
 │       │       │   ├── "Succeeded"
 │       │       │   └── "Updating"
 │       │       └── PublicCertData: *string
-│       ├── VpnGatewayGeneration: Enum (3 values)
+│       ├── VpnGatewayGeneration: *Enum (3 values)
 │       │   ├── "Generation1"
 │       │   ├── "Generation2"
 │       │   └── "None"
-│       └── VpnType: Enum (2 values)
+│       └── VpnType: *Enum (2 values)
 │           ├── "PolicyBased"
 │           └── "RouteBased"
 ├── VirtualNetworkGateway_STATUS_ARM: Object (8 properties)
 │   ├── Etag: *string
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (17 properties)
+│   ├── Properties: *Object (17 properties)
 │   │   ├── ActiveActive: *bool
-│   │   ├── BgpSettings: Object (4 properties)
+│   │   ├── BgpSettings: *Object (4 properties)
 │   │   │   ├── Asn: *uint32
 │   │   │   ├── BgpPeeringAddress: *string
-│   │   │   ├── BgpPeeringAddresses: Object (4 properties)
+│   │   │   ├── BgpPeeringAddresses: Object (4 properties)[]
 │   │   │   │   ├── CustomBgpIpAddresses: string[]
 │   │   │   │   ├── DefaultBgpIpAddresses: string[]
 │   │   │   │   ├── IpconfigurationId: *string
 │   │   │   │   └── TunnelIpAddresses: string[]
 │   │   │   └── PeerWeight: *int
-│   │   ├── CustomRoutes: Object (1 property)
+│   │   ├── CustomRoutes: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
 │   │   ├── EnableBgp: *bool
 │   │   ├── EnableDnsForwarding: *bool
 │   │   ├── EnablePrivateIpAddress: *bool
-│   │   ├── GatewayDefaultSite: Object (1 property)
+│   │   ├── GatewayDefaultSite: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── GatewayType: Enum (3 values)
+│   │   ├── GatewayType: *Enum (3 values)
 │   │   │   ├── "ExpressRoute"
 │   │   │   ├── "LocalGateway"
 │   │   │   └── "Vpn"
 │   │   ├── InboundDnsForwardingEndpoint: *string
-│   │   ├── IpConfigurations: Object (4 properties)
+│   │   ├── IpConfigurations: Object (4 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (5 properties)
+│   │   │   └── Properties: *Object (5 properties)
 │   │   │       ├── PrivateIPAddress: *string
-│   │   │       ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │       ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │       │   ├── "Dynamic"
 │   │   │       │   └── "Static"
-│   │   │       ├── ProvisioningState: Enum (4 values)
+│   │   │       ├── ProvisioningState: *Enum (4 values)
 │   │   │       │   ├── "Deleting"
 │   │   │       │   ├── "Failed"
 │   │   │       │   ├── "Succeeded"
 │   │   │       │   └── "Updating"
-│   │   │       ├── PublicIPAddress: Object (1 property)
+│   │   │       ├── PublicIPAddress: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       └── Subnet: Object (1 property)
+│   │   │       └── Subnet: *Object (1 property)
 │   │   │           └── Id: *string
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
 │   │   ├── ResourceGuid: *string
-│   │   ├── Sku: Object (3 properties)
+│   │   ├── Sku: *Object (3 properties)
 │   │   │   ├── Capacity: *int
-│   │   │   ├── Name: Enum (17 values)
+│   │   │   ├── Name: *Enum (17 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   ├── "ErGw1AZ"
 │   │   │   │   ├── "ErGw2AZ"
@@ -1943,7 +1950,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   ├── "VpnGw4AZ"
 │   │   │   │   ├── "VpnGw5"
 │   │   │   │   └── "VpnGw5AZ"
-│   │   │   └── Tier: Enum (17 values)
+│   │   │   └── Tier: *Enum (17 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "ErGw1AZ"
 │   │   │       ├── "ErGw2AZ"
@@ -1962,24 +1969,24 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │       ├── "VpnGw5"
 │   │   │       └── "VpnGw5AZ"
 │   │   ├── VNetExtendedLocationResourceId: *string
-│   │   ├── VpnClientConfiguration: Object (12 properties)
+│   │   ├── VpnClientConfiguration: *Object (12 properties)
 │   │   │   ├── AadAudience: *string
 │   │   │   ├── AadIssuer: *string
 │   │   │   ├── AadTenant: *string
 │   │   │   ├── RadiusServerAddress: *string
 │   │   │   ├── RadiusServerSecret: *string
-│   │   │   ├── RadiusServers: Object (3 properties)
+│   │   │   ├── RadiusServers: Object (3 properties)[]
 │   │   │   │   ├── RadiusServerAddress: *string
 │   │   │   │   ├── RadiusServerScore: *int
 │   │   │   │   └── RadiusServerSecret: *string
-│   │   │   ├── VpnAuthenticationTypes: Enum (3 values)
+│   │   │   ├── VpnAuthenticationTypes: Enum (3 values)[]
 │   │   │   │   ├── "AAD"
 │   │   │   │   ├── "Certificate"
 │   │   │   │   └── "Radius"
-│   │   │   ├── VpnClientAddressPool: Object (1 property)
+│   │   │   ├── VpnClientAddressPool: *Object (1 property)
 │   │   │   │   └── AddressPrefixes: string[]
-│   │   │   ├── VpnClientIpsecPolicies: Object (8 properties)
-│   │   │   │   ├── DhGroup: Enum (8 values)
+│   │   │   ├── VpnClientIpsecPolicies: Object (8 properties)[]
+│   │   │   │   ├── DhGroup: *Enum (8 values)
 │   │   │   │   │   ├── "DHGroup1"
 │   │   │   │   │   ├── "DHGroup14"
 │   │   │   │   │   ├── "DHGroup2"
@@ -1988,7 +1995,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "ECP256"
 │   │   │   │   │   ├── "ECP384"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── IkeEncryption: Enum (7 values)
+│   │   │   │   ├── IkeEncryption: *Enum (7 values)
 │   │   │   │   │   ├── "AES128"
 │   │   │   │   │   ├── "AES192"
 │   │   │   │   │   ├── "AES256"
@@ -1996,14 +2003,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "DES3"
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   └── "GCMAES256"
-│   │   │   │   ├── IkeIntegrity: Enum (6 values)
+│   │   │   │   ├── IkeIntegrity: *Enum (6 values)
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   ├── "MD5"
 │   │   │   │   │   ├── "SHA1"
 │   │   │   │   │   ├── "SHA256"
 │   │   │   │   │   └── "SHA384"
-│   │   │   │   ├── IpsecEncryption: Enum (9 values)
+│   │   │   │   ├── IpsecEncryption: *Enum (9 values)
 │   │   │   │   │   ├── "AES128"
 │   │   │   │   │   ├── "AES192"
 │   │   │   │   │   ├── "AES256"
@@ -2013,14 +2020,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "GCMAES192"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── IpsecIntegrity: Enum (6 values)
+│   │   │   │   ├── IpsecIntegrity: *Enum (6 values)
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   ├── "GCMAES192"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   ├── "MD5"
 │   │   │   │   │   ├── "SHA1"
 │   │   │   │   │   └── "SHA256"
-│   │   │   │   ├── PfsGroup: Enum (9 values)
+│   │   │   │   ├── PfsGroup: *Enum (9 values)
 │   │   │   │   │   ├── "ECP256"
 │   │   │   │   │   ├── "ECP384"
 │   │   │   │   │   ├── "None"
@@ -2032,37 +2039,37 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   └── "PFSMM"
 │   │   │   │   ├── SaDataSizeKilobytes: *int
 │   │   │   │   └── SaLifeTimeSeconds: *int
-│   │   │   ├── VpnClientProtocols: Enum (3 values)
+│   │   │   ├── VpnClientProtocols: Enum (3 values)[]
 │   │   │   │   ├── "IkeV2"
 │   │   │   │   ├── "OpenVPN"
 │   │   │   │   └── "SSTP"
-│   │   │   ├── VpnClientRevokedCertificates: Object (4 properties)
+│   │   │   ├── VpnClientRevokedCertificates: Object (4 properties)[]
 │   │   │   │   ├── Etag: *string
 │   │   │   │   ├── Id: *string
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Properties: Object (2 properties)
-│   │   │   │       ├── ProvisioningState: Enum (4 values)
+│   │   │   │   └── Properties: *Object (2 properties)
+│   │   │   │       ├── ProvisioningState: *Enum (4 values)
 │   │   │   │       │   ├── "Deleting"
 │   │   │   │       │   ├── "Failed"
 │   │   │   │       │   ├── "Succeeded"
 │   │   │   │       │   └── "Updating"
 │   │   │   │       └── Thumbprint: *string
-│   │   │   └── VpnClientRootCertificates: Object (4 properties)
+│   │   │   └── VpnClientRootCertificates: Object (4 properties)[]
 │   │   │       ├── Etag: *string
 │   │   │       ├── Id: *string
 │   │   │       ├── Name: *string
-│   │   │       └── Properties: Object (2 properties)
-│   │   │           ├── ProvisioningState: Enum (4 values)
+│   │   │       └── Properties: *Object (2 properties)
+│   │   │           ├── ProvisioningState: *Enum (4 values)
 │   │   │           │   ├── "Deleting"
 │   │   │           │   ├── "Failed"
 │   │   │           │   ├── "Succeeded"
 │   │   │           │   └── "Updating"
 │   │   │           └── PublicCertData: *string
-│   │   ├── VpnGatewayGeneration: Enum (3 values)
+│   │   ├── VpnGatewayGeneration: *Enum (3 values)
 │   │   │   ├── "Generation1"
 │   │   │   ├── "Generation2"
 │   │   │   └── "None"
-│   │   └── VpnType: Enum (2 values)
+│   │   └── VpnType: *Enum (2 values)
 │   │       ├── "PolicyBased"
 │   │       └── "RouteBased"
 │   ├── Tags: map[string]string
@@ -2070,39 +2077,39 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 ├── VirtualNetworkGateway_Spec_ARM: Object (4 properties)
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (15 properties)
+│   ├── Properties: *Object (15 properties)
 │   │   ├── ActiveActive: *bool
-│   │   ├── BgpSettings: Object (4 properties)
+│   │   ├── BgpSettings: *Object (4 properties)
 │   │   │   ├── Asn: *uint32
 │   │   │   ├── BgpPeeringAddress: *string
-│   │   │   ├── BgpPeeringAddresses: Object (2 properties)
+│   │   │   ├── BgpPeeringAddresses: Object (2 properties)[]
 │   │   │   │   ├── CustomBgpIpAddresses: string[]
 │   │   │   │   └── IpconfigurationId: *string
 │   │   │   └── PeerWeight: *int
-│   │   ├── CustomRoutes: Object (1 property)
+│   │   ├── CustomRoutes: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
 │   │   ├── EnableBgp: *bool
 │   │   ├── EnableDnsForwarding: *bool
 │   │   ├── EnablePrivateIpAddress: *bool
-│   │   ├── GatewayDefaultSite: Object (1 property)
+│   │   ├── GatewayDefaultSite: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── GatewayType: Enum (4 values)
+│   │   ├── GatewayType: *Enum (4 values)
 │   │   │   ├── "ExpressRoute"
 │   │   │   ├── "HyperNet"
 │   │   │   ├── "LocalGateway"
 │   │   │   └── "Vpn"
-│   │   ├── IpConfigurations: Object (2 properties)
+│   │   ├── IpConfigurations: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (3 properties)
-│   │   │       ├── PrivateIPAllocationMethod: Enum (2 values)
+│   │   │   └── Properties: *Object (3 properties)
+│   │   │       ├── PrivateIPAllocationMethod: *Enum (2 values)
 │   │   │       │   ├── "Dynamic"
 │   │   │       │   └── "Static"
-│   │   │       ├── PublicIPAddress: Object (1 property)
+│   │   │       ├── PublicIPAddress: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       └── Subnet: Object (1 property)
+│   │   │       └── Subnet: *Object (1 property)
 │   │   │           └── Id: *string
-│   │   ├── Sku: Object (2 properties)
-│   │   │   ├── Name: Enum (17 values)
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *Enum (17 values)
 │   │   │   │   ├── "Basic"
 │   │   │   │   ├── "ErGw1AZ"
 │   │   │   │   ├── "ErGw2AZ"
@@ -2120,7 +2127,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   ├── "VpnGw4AZ"
 │   │   │   │   ├── "VpnGw5"
 │   │   │   │   └── "VpnGw5AZ"
-│   │   │   └── Tier: Enum (17 values)
+│   │   │   └── Tier: *Enum (17 values)
 │   │   │       ├── "Basic"
 │   │   │       ├── "ErGw1AZ"
 │   │   │       ├── "ErGw2AZ"
@@ -2139,28 +2146,28 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │       ├── "VpnGw5"
 │   │   │       └── "VpnGw5AZ"
 │   │   ├── VNetExtendedLocationResourceId: *string
-│   │   ├── VirtualNetworkExtendedLocation: Object (2 properties)
+│   │   ├── VirtualNetworkExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
-│   │   │   └── Type: Enum (1 value)
+│   │   │   └── Type: *Enum (1 value)
 │   │   │       └── "EdgeZone"
-│   │   ├── VpnClientConfiguration: Object (12 properties)
+│   │   ├── VpnClientConfiguration: *Object (12 properties)
 │   │   │   ├── AadAudience: *string
 │   │   │   ├── AadIssuer: *string
 │   │   │   ├── AadTenant: *string
 │   │   │   ├── RadiusServerAddress: *string
 │   │   │   ├── RadiusServerSecret: *string
-│   │   │   ├── RadiusServers: Object (3 properties)
+│   │   │   ├── RadiusServers: Object (3 properties)[]
 │   │   │   │   ├── RadiusServerAddress: *string
 │   │   │   │   ├── RadiusServerScore: *int
 │   │   │   │   └── RadiusServerSecret: *string
-│   │   │   ├── VpnAuthenticationTypes: Enum (3 values)
+│   │   │   ├── VpnAuthenticationTypes: Enum (3 values)[]
 │   │   │   │   ├── "AAD"
 │   │   │   │   ├── "Certificate"
 │   │   │   │   └── "Radius"
-│   │   │   ├── VpnClientAddressPool: Object (1 property)
+│   │   │   ├── VpnClientAddressPool: *Object (1 property)
 │   │   │   │   └── AddressPrefixes: string[]
-│   │   │   ├── VpnClientIpsecPolicies: Object (8 properties)
-│   │   │   │   ├── DhGroup: Enum (8 values)
+│   │   │   ├── VpnClientIpsecPolicies: Object (8 properties)[]
+│   │   │   │   ├── DhGroup: *Enum (8 values)
 │   │   │   │   │   ├── "DHGroup1"
 │   │   │   │   │   ├── "DHGroup14"
 │   │   │   │   │   ├── "DHGroup2"
@@ -2169,7 +2176,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "ECP256"
 │   │   │   │   │   ├── "ECP384"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── IkeEncryption: Enum (7 values)
+│   │   │   │   ├── IkeEncryption: *Enum (7 values)
 │   │   │   │   │   ├── "AES128"
 │   │   │   │   │   ├── "AES192"
 │   │   │   │   │   ├── "AES256"
@@ -2177,14 +2184,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "DES3"
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   └── "GCMAES256"
-│   │   │   │   ├── IkeIntegrity: Enum (6 values)
+│   │   │   │   ├── IkeIntegrity: *Enum (6 values)
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   ├── "MD5"
 │   │   │   │   │   ├── "SHA1"
 │   │   │   │   │   ├── "SHA256"
 │   │   │   │   │   └── "SHA384"
-│   │   │   │   ├── IpsecEncryption: Enum (9 values)
+│   │   │   │   ├── IpsecEncryption: *Enum (9 values)
 │   │   │   │   │   ├── "AES128"
 │   │   │   │   │   ├── "AES192"
 │   │   │   │   │   ├── "AES256"
@@ -2194,14 +2201,14 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   ├── "GCMAES192"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── IpsecIntegrity: Enum (6 values)
+│   │   │   │   ├── IpsecIntegrity: *Enum (6 values)
 │   │   │   │   │   ├── "GCMAES128"
 │   │   │   │   │   ├── "GCMAES192"
 │   │   │   │   │   ├── "GCMAES256"
 │   │   │   │   │   ├── "MD5"
 │   │   │   │   │   ├── "SHA1"
 │   │   │   │   │   └── "SHA256"
-│   │   │   │   ├── PfsGroup: Enum (9 values)
+│   │   │   │   ├── PfsGroup: *Enum (9 values)
 │   │   │   │   │   ├── "ECP256"
 │   │   │   │   │   ├── "ECP384"
 │   │   │   │   │   ├── "None"
@@ -2213,23 +2220,23 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   │   │   │   └── "PFSMM"
 │   │   │   │   ├── SaDataSizeKilobytes: *int
 │   │   │   │   └── SaLifeTimeSeconds: *int
-│   │   │   ├── VpnClientProtocols: Enum (3 values)
+│   │   │   ├── VpnClientProtocols: Enum (3 values)[]
 │   │   │   │   ├── "IkeV2"
 │   │   │   │   ├── "OpenVPN"
 │   │   │   │   └── "SSTP"
-│   │   │   ├── VpnClientRevokedCertificates: Object (2 properties)
+│   │   │   ├── VpnClientRevokedCertificates: Object (2 properties)[]
 │   │   │   │   ├── Name: *string
-│   │   │   │   └── Properties: Object (1 property)
+│   │   │   │   └── Properties: *Object (1 property)
 │   │   │   │       └── Thumbprint: *string
-│   │   │   └── VpnClientRootCertificates: Object (2 properties)
+│   │   │   └── VpnClientRootCertificates: Object (2 properties)[]
 │   │   │       ├── Name: *string
-│   │   │       └── Properties: Object (1 property)
+│   │   │       └── Properties: *Object (1 property)
 │   │   │           └── PublicCertData: *string
-│   │   ├── VpnGatewayGeneration: Enum (3 values)
+│   │   ├── VpnGatewayGeneration: *Enum (3 values)
 │   │   │   ├── "Generation1"
 │   │   │   ├── "Generation2"
 │   │   │   └── "None"
-│   │   └── VpnType: Enum (2 values)
+│   │   └── VpnType: *Enum (2 values)
 │   │       ├── "PolicyBased"
 │   │       └── "RouteBased"
 │   └── Tags: map[string]string
@@ -2237,54 +2244,54 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   ├── Etag: *string
 │   ├── Id: *string
 │   ├── Name: *string
-│   ├── Properties: Object (11 properties)
+│   ├── Properties: *Object (11 properties)
 │   │   ├── AllowForwardedTraffic: *bool
 │   │   ├── AllowGatewayTransit: *bool
 │   │   ├── AllowVirtualNetworkAccess: *bool
 │   │   ├── DoNotVerifyRemoteGateways: *bool
-│   │   ├── PeeringState: Enum (3 values)
+│   │   ├── PeeringState: *Enum (3 values)
 │   │   │   ├── "Connected"
 │   │   │   ├── "Disconnected"
 │   │   │   └── "Initiated"
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
 │   │   │   └── "Updating"
-│   │   ├── RemoteAddressSpace: Object (1 property)
+│   │   ├── RemoteAddressSpace: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
-│   │   ├── RemoteBgpCommunities: Object (2 properties)
+│   │   ├── RemoteBgpCommunities: *Object (2 properties)
 │   │   │   ├── RegionalCommunity: *string
 │   │   │   └── VirtualNetworkCommunity: *string
-│   │   ├── RemoteVirtualNetwork: Object (1 property)
+│   │   ├── RemoteVirtualNetwork: *Object (1 property)
 │   │   │   └── Id: *string
 │   │   ├── ResourceGuid: *string
 │   │   └── UseRemoteGateways: *bool
 │   └── Type: *string
 ├── VirtualNetwork_STATUS_ARM: Object (8 properties)
 │   ├── Etag: *string
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (9 properties)
-│   │   ├── AddressSpace: Object (1 property)
+│   ├── Properties: *Object (9 properties)
+│   │   ├── AddressSpace: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
-│   │   ├── BgpCommunities: Object (2 properties)
+│   │   ├── BgpCommunities: *Object (2 properties)
 │   │   │   ├── RegionalCommunity: *string
 │   │   │   └── VirtualNetworkCommunity: *string
-│   │   ├── DdosProtectionPlan: Object (1 property)
+│   │   ├── DdosProtectionPlan: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── DhcpOptions: Object (1 property)
+│   │   ├── DhcpOptions: *Object (1 property)
 │   │   │   └── DnsServers: string[]
 │   │   ├── EnableDdosProtection: *bool
 │   │   ├── EnableVmProtection: *bool
-│   │   ├── IpAllocations: Object (1 property)
+│   │   ├── IpAllocations: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── ProvisioningState: Enum (4 values)
+│   │   ├── ProvisioningState: *Enum (4 values)
 │   │   │   ├── "Deleting"
 │   │   │   ├── "Failed"
 │   │   │   ├── "Succeeded"
@@ -2293,113 +2300,114 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── VirtualNetwork_Spec_ARM: Object (5 properties)
-│   ├── ExtendedLocation: Object (2 properties)
+│   ├── ExtendedLocation: *Object (2 properties)
 │   │   ├── Name: *string
-│   │   └── Type: Enum (1 value)
+│   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: Object (9 properties)
-│   │   ├── AddressSpace: Object (1 property)
+│   ├── Properties: *Object (9 properties)
+│   │   ├── AddressSpace: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
-│   │   ├── BgpCommunities: Object (1 property)
+│   │   ├── BgpCommunities: *Object (1 property)
 │   │   │   └── VirtualNetworkCommunity: *string
-│   │   ├── DdosProtectionPlan: Object (1 property)
+│   │   ├── DdosProtectionPlan: *Object (1 property)
 │   │   │   └── Id: *string
-│   │   ├── DhcpOptions: Object (1 property)
+│   │   ├── DhcpOptions: *Object (1 property)
 │   │   │   └── DnsServers: string[]
 │   │   ├── EnableDdosProtection: *bool
 │   │   ├── EnableVmProtection: *bool
-│   │   ├── IpAllocations: Object (1 property)
+│   │   ├── IpAllocations: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── Subnets: Object (2 properties)
+│   │   ├── Subnets: Object (2 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   └── Properties: Object (11 properties)
+│   │   │   └── Properties: *Object (11 properties)
 │   │   │       ├── AddressPrefix: *string
 │   │   │       ├── AddressPrefixes: string[]
-│   │   │       ├── Delegations: Object (2 properties)
+│   │   │       ├── Delegations: Object (2 properties)[]
 │   │   │       │   ├── Name: *string
-│   │   │       │   └── Properties: Object (1 property)
+│   │   │       │   └── Properties: *Object (1 property)
 │   │   │       │       └── ServiceName: *string
-│   │   │       ├── IpAllocations: Object (1 property)
+│   │   │       ├── IpAllocations: Object (1 property)[]
 │   │   │       │   └── Id: *string
-│   │   │       ├── NatGateway: Object (1 property)
+│   │   │       ├── NatGateway: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       ├── NetworkSecurityGroup: Object (1 property)
+│   │   │       ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │       │   └── Id: *string
 │   │   │       ├── PrivateEndpointNetworkPolicies: *string
 │   │   │       ├── PrivateLinkServiceNetworkPolicies: *string
-│   │   │       ├── RouteTable: Object (1 property)
+│   │   │       ├── RouteTable: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       ├── ServiceEndpointPolicies: Object (1 property)
+│   │   │       ├── ServiceEndpointPolicies: Object (1 property)[]
 │   │   │       │   └── Id: *string
-│   │   │       └── ServiceEndpoints: Object (2 properties)
+│   │   │       └── ServiceEndpoints: Object (2 properties)[]
 │   │   │           ├── Locations: string[]
 │   │   │           └── Service: *string
-│   │   └── VirtualNetworkPeerings: Object (2 properties)
+│   │   └── VirtualNetworkPeerings: Object (2 properties)[]
 │   │       ├── Name: *string
-│   │       └── Properties: Object (8 properties)
+│   │       └── Properties: *Object (8 properties)
 │   │           ├── AllowForwardedTraffic: *bool
 │   │           ├── AllowGatewayTransit: *bool
 │   │           ├── AllowVirtualNetworkAccess: *bool
-│   │           ├── PeeringState: Enum (3 values)
+│   │           ├── PeeringState: *Enum (3 values)
 │   │           │   ├── "Connected"
 │   │           │   ├── "Disconnected"
 │   │           │   └── "Initiated"
-│   │           ├── RemoteAddressSpace: Object (1 property)
+│   │           ├── RemoteAddressSpace: *Object (1 property)
 │   │           │   └── AddressPrefixes: string[]
-│   │           ├── RemoteBgpCommunities: Object (1 property)
+│   │           ├── RemoteBgpCommunities: *Object (1 property)
 │   │           │   └── VirtualNetworkCommunity: *string
-│   │           ├── RemoteVirtualNetwork: Object (1 property)
+│   │           ├── RemoteVirtualNetwork: *Object (1 property)
 │   │           │   └── Id: *string
 │   │           └── UseRemoteGateways: *bool
 │   └── Tags: map[string]string
 ├── VirtualNetworksSubnet: Resource
+│   ├── Owner: VirtualNetwork
 │   ├── Spec: Object (13 properties)
 │   │   ├── AddressPrefix: *string
 │   │   ├── AddressPrefixes: string[]
 │   │   ├── AzureName: string
-│   │   ├── Delegations: Object (2 properties)
+│   │   ├── Delegations: Object (2 properties)[]
 │   │   │   ├── Name: *string
 │   │   │   └── ServiceName: *string
-│   │   ├── IpAllocations: Object (1 property)
+│   │   ├── IpAllocations: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── NatGateway: Object (1 property)
+│   │   ├── NatGateway: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── NetworkSecurityGroup: Object (1 property)
+│   │   ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PrivateEndpointNetworkPolicies: *string
 │   │   ├── PrivateLinkServiceNetworkPolicies: *string
-│   │   ├── RouteTable: Object (1 property)
+│   │   ├── RouteTable: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── ServiceEndpointPolicies: Object (1 property)
+│   │   ├── ServiceEndpointPolicies: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   └── ServiceEndpoints: Object (2 properties)
+│   │   └── ServiceEndpoints: Object (2 properties)[]
 │   │       ├── Locations: string[]
 │   │       └── Service: *string
 │   └── Status: Object (24 properties)
 │       ├── AddressPrefix: *string
 │       ├── AddressPrefixes: string[]
-│       ├── ApplicationGatewayIpConfigurations: Object (6 properties)
+│       ├── ApplicationGatewayIpConfigurations: Object (6 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
-│       │   ├── Subnet: Object (1 property)
+│       │   ├── Subnet: *Object (1 property)
 │       │   │   └── Id: *string
 │       │   └── Type: *string
 │       ├── Conditions: conditions.Condition[]
-│       ├── Delegations: Object (7 properties)
+│       ├── Delegations: Object (7 properties)[]
 │       │   ├── Actions: string[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
@@ -2408,83 +2416,83 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   └── Type: *string
 │       ├── Etag: *string
 │       ├── Id: *string
-│       ├── IpAllocations: Object (1 property)
+│       ├── IpAllocations: Object (1 property)[]
 │       │   └── Id: *string
-│       ├── IpConfigurationProfiles: Object (5 properties)
+│       ├── IpConfigurationProfiles: Object (5 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
 │       │   └── Type: *string
-│       ├── IpConfigurations: Object (7 properties)
+│       ├── IpConfigurations: Object (7 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAllocationMethod: Enum (2 values)
+│       │   ├── PrivateIPAllocationMethod: *Enum (2 values)
 │       │   │   ├── "Dynamic"
 │       │   │   └── "Static"
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
-│       │   └── PublicIPAddress: Object (4 properties)
-│       │       ├── ExtendedLocation: Object (2 properties)
+│       │   └── PublicIPAddress: *Object (4 properties)
+│       │       ├── ExtendedLocation: *Object (2 properties)
 │       │       │   ├── Name: *string
-│       │       │   └── Type: Enum (1 value)
+│       │       │   └── Type: *Enum (1 value)
 │       │       │       └── "EdgeZone"
 │       │       ├── Id: *string
-│       │       ├── Sku: Object (2 properties)
-│       │       │   ├── Name: Enum (2 values)
+│       │       ├── Sku: *Object (2 properties)
+│       │       │   ├── Name: *Enum (2 values)
 │       │       │   │   ├── "Basic"
 │       │       │   │   └── "Standard"
-│       │       │   └── Tier: Enum (2 values)
+│       │       │   └── Tier: *Enum (2 values)
 │       │       │       ├── "Global"
 │       │       │       └── "Regional"
 │       │       └── Zones: string[]
 │       ├── Name: *string
-│       ├── NatGateway: Object (1 property)
+│       ├── NatGateway: *Object (1 property)
 │       │   └── Id: *string
-│       ├── NetworkSecurityGroup: Object (1 property)
+│       ├── NetworkSecurityGroup: *Object (1 property)
 │       │   └── Id: *string
-│       ├── PrivateEndpointNetworkPolicies: Enum (2 values)
+│       ├── PrivateEndpointNetworkPolicies: *Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── PrivateEndpoints: Object (2 properties)
-│       │   ├── ExtendedLocation: Object (2 properties)
+│       ├── PrivateEndpoints: Object (2 properties)[]
+│       │   ├── ExtendedLocation: *Object (2 properties)
 │       │   │   ├── Name: *string
-│       │   │   └── Type: Enum (1 value)
+│       │   │   └── Type: *Enum (1 value)
 │       │   │       └── "EdgeZone"
 │       │   └── Id: *string
-│       ├── PrivateLinkServiceNetworkPolicies: Enum (2 values)
+│       ├── PrivateLinkServiceNetworkPolicies: *Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
 │       ├── Purpose: *string
-│       ├── ResourceNavigationLinks: Object (7 properties)
+│       ├── ResourceNavigationLinks: Object (7 properties)[]
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
 │       │   ├── Link: *string
 │       │   ├── LinkedResourceType: *string
 │       │   ├── Name: *string
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
 │       │   └── Type: *string
-│       ├── RouteTable: Object (1 property)
+│       ├── RouteTable: *Object (1 property)
 │       │   └── Id: *string
-│       ├── ServiceAssociationLinks: Object (9 properties)
+│       ├── ServiceAssociationLinks: Object (9 properties)[]
 │       │   ├── AllowDelete: *bool
 │       │   ├── Etag: *string
 │       │   ├── Id: *string
@@ -2492,18 +2500,18 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   ├── LinkedResourceType: *string
 │       │   ├── Locations: string[]
 │       │   ├── Name: *string
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
 │       │   │   └── "Updating"
 │       │   └── Type: *string
-│       ├── ServiceEndpointPolicies: Object (2 properties)
+│       ├── ServiceEndpointPolicies: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── Kind: *string
-│       ├── ServiceEndpoints: Object (3 properties)
+│       ├── ServiceEndpoints: Object (3 properties)[]
 │       │   ├── Locations: string[]
-│       │   ├── ProvisioningState: Enum (4 values)
+│       │   ├── ProvisioningState: *Enum (4 values)
 │       │   │   ├── "Deleting"
 │       │   │   ├── "Failed"
 │       │   │   ├── "Succeeded"
@@ -2511,6 +2519,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       │   └── Service: *string
 │       └── Type: *string
 ├── VirtualNetworksVirtualNetworkPeering: Resource
+│   ├── Owner: VirtualNetwork
 │   ├── Spec: Object (12 properties)
 │   │   ├── AllowForwardedTraffic: *bool
 │   │   ├── AllowGatewayTransit: *bool
@@ -2518,15 +2527,15 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PeeringState: Enum (3 values)
+│   │   ├── PeeringState: *Enum (3 values)
 │   │   │   ├── "Connected"
 │   │   │   ├── "Disconnected"
 │   │   │   └── "Initiated"
-│   │   ├── RemoteAddressSpace: Object (1 property)
+│   │   ├── RemoteAddressSpace: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
-│   │   ├── RemoteBgpCommunities: Object (1 property)
+│   │   ├── RemoteBgpCommunities: *Object (1 property)
 │   │   │   └── VirtualNetworkCommunity: *string
-│   │   ├── RemoteVirtualNetwork: Object (1 property)
+│   │   ├── RemoteVirtualNetwork: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Tags: map[string]string
 │   │   └── UseRemoteGateways: *bool
@@ -2539,65 +2548,65 @@ github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101
 │       ├── Etag: *string
 │       ├── Id: *string
 │       ├── Name: *string
-│       ├── PeeringState: Enum (3 values)
+│       ├── PeeringState: *Enum (3 values)
 │       │   ├── "Connected"
 │       │   ├── "Disconnected"
 │       │   └── "Initiated"
-│       ├── ProvisioningState: Enum (4 values)
+│       ├── ProvisioningState: *Enum (4 values)
 │       │   ├── "Deleting"
 │       │   ├── "Failed"
 │       │   ├── "Succeeded"
 │       │   └── "Updating"
-│       ├── RemoteAddressSpace: Object (1 property)
+│       ├── RemoteAddressSpace: *Object (1 property)
 │       │   └── AddressPrefixes: string[]
-│       ├── RemoteBgpCommunities: Object (2 properties)
+│       ├── RemoteBgpCommunities: *Object (2 properties)
 │       │   ├── RegionalCommunity: *string
 │       │   └── VirtualNetworkCommunity: *string
-│       ├── RemoteVirtualNetwork: Object (1 property)
+│       ├── RemoteVirtualNetwork: *Object (1 property)
 │       │   └── Id: *string
 │       ├── ResourceGuid: *string
 │       ├── Type: *string
 │       └── UseRemoteGateways: *bool
 ├── VirtualNetworks_Subnet_Spec_ARM: Object (2 properties)
 │   ├── Name: string
-│   └── Properties: Object (11 properties)
+│   └── Properties: *Object (11 properties)
 │       ├── AddressPrefix: *string
 │       ├── AddressPrefixes: string[]
-│       ├── Delegations: Object (2 properties)
+│       ├── Delegations: Object (2 properties)[]
 │       │   ├── Name: *string
-│       │   └── Properties: Object (1 property)
+│       │   └── Properties: *Object (1 property)
 │       │       └── ServiceName: *string
-│       ├── IpAllocations: Object (1 property)
+│       ├── IpAllocations: Object (1 property)[]
 │       │   └── Id: *string
-│       ├── NatGateway: Object (1 property)
+│       ├── NatGateway: *Object (1 property)
 │       │   └── Id: *string
-│       ├── NetworkSecurityGroup: Object (1 property)
+│       ├── NetworkSecurityGroup: *Object (1 property)
 │       │   └── Id: *string
 │       ├── PrivateEndpointNetworkPolicies: *string
 │       ├── PrivateLinkServiceNetworkPolicies: *string
-│       ├── RouteTable: Object (1 property)
+│       ├── RouteTable: *Object (1 property)
 │       │   └── Id: *string
-│       ├── ServiceEndpointPolicies: Object (1 property)
+│       ├── ServiceEndpointPolicies: Object (1 property)[]
 │       │   └── Id: *string
-│       └── ServiceEndpoints: Object (2 properties)
+│       └── ServiceEndpoints: Object (2 properties)[]
 │           ├── Locations: string[]
 │           └── Service: *string
 └── VirtualNetworks_VirtualNetworkPeering_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: Object (8 properties)
+    ├── Properties: *Object (8 properties)
     │   ├── AllowForwardedTraffic: *bool
     │   ├── AllowGatewayTransit: *bool
     │   ├── AllowVirtualNetworkAccess: *bool
-    │   ├── PeeringState: Enum (3 values)
+    │   ├── PeeringState: *Enum (3 values)
     │   │   ├── "Connected"
     │   │   ├── "Disconnected"
     │   │   └── "Initiated"
-    │   ├── RemoteAddressSpace: Object (1 property)
+    │   ├── RemoteAddressSpace: *Object (1 property)
     │   │   └── AddressPrefixes: string[]
-    │   ├── RemoteBgpCommunities: Object (1 property)
+    │   ├── RemoteBgpCommunities: *Object (1 property)
     │   │   └── VirtualNetworkCommunity: *string
-    │   ├── RemoteVirtualNetwork: Object (1 property)
+    │   ├── RemoteVirtualNetwork: *Object (1 property)
     │   │   └── Id: *string
     │   └── UseRemoteGateways: *bool
     └── Tags: map[string]string

@@ -22,7 +22,6 @@ import (
 // │ ObjectModelConfiguration │───────│ GroupConfiguration │───────║ VersionConfiguration ║───────│ TypeConfiguration │───────│ PropertyConfiguration │
 // │                          │1  1..n│                    │1  1..n║                      ║1  1..n│                   │1  1..n│                       │
 // └──────────────────────────┘       └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
-//
 type VersionConfiguration struct {
 	name    string
 	types   map[string]*TypeConfiguration

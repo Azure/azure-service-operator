@@ -1153,6 +1153,13 @@ objectModelConfiguration:
       Vault:
         $export: true
         $supportedFrom: v2.0.0-beta.1
+      AccessPolicyEntry:
+        TenantId:
+          $importConfigMapMode: optional
+        ApplicationId:
+          $importConfigMapMode: optional
+        ObjectId:
+          $importConfigMapMode: optional
       VirtualNetworkRule:
         Id:
           $armReference: true
@@ -1166,6 +1173,8 @@ objectModelConfiguration:
           $exportAsConfigMapPropertyName: ClientId
         PrincipalId:
           $exportAsConfigMapPropertyName: PrincipalId
+        TenantId:
+          $exportAsConfigMapPropertyName: TenantId
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:

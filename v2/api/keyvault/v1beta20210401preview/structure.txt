@@ -2,18 +2,21 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 ├── APIVersion: Enum (1 value)
 │   └── "2021-04-01-preview"
 ├── Vault: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: Validated<string> (1 rule)
-│   │   │   └── Rule 0: {Pattern "^[a-zA-Z0-9-]{3,24}$"}
+│   │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{3,24}$"
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── Properties: Object (14 properties)
-│   │   │   ├── AccessPolicies: Object (4 properties)
+│   │   ├── Properties: *Object (14 properties)
+│   │   │   ├── AccessPolicies: Object (7 properties)[]
 │   │   │   │   ├── ApplicationId: Validated<*string> (1 rule)
-│   │   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │   │   │   ├── ApplicationIdFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   ├── ObjectId: *string
-│   │   │   │   ├── Permissions: Object (4 properties)
-│   │   │   │   │   ├── Certificates: Enum (16 values)
+│   │   │   │   ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
+│   │   │   │   ├── Permissions: *Object (4 properties)
+│   │   │   │   │   ├── Certificates: Enum (16 values)[]
 │   │   │   │   │   │   ├── "backup"
 │   │   │   │   │   │   ├── "create"
 │   │   │   │   │   │   ├── "delete"
@@ -30,7 +33,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │   │   ├── "restore"
 │   │   │   │   │   │   ├── "setissuers"
 │   │   │   │   │   │   └── "update"
-│   │   │   │   │   ├── Keys: Enum (17 values)
+│   │   │   │   │   ├── Keys: Enum (17 values)[]
 │   │   │   │   │   │   ├── "backup"
 │   │   │   │   │   │   ├── "create"
 │   │   │   │   │   │   ├── "decrypt"
@@ -48,7 +51,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │   │   ├── "update"
 │   │   │   │   │   │   ├── "verify"
 │   │   │   │   │   │   └── "wrapKey"
-│   │   │   │   │   ├── Secrets: Enum (8 values)
+│   │   │   │   │   ├── Secrets: Enum (8 values)[]
 │   │   │   │   │   │   ├── "backup"
 │   │   │   │   │   │   ├── "delete"
 │   │   │   │   │   │   ├── "get"
@@ -57,7 +60,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │   │   ├── "recover"
 │   │   │   │   │   │   ├── "restore"
 │   │   │   │   │   │   └── "set"
-│   │   │   │   │   └── Storage: Enum (14 values)
+│   │   │   │   │   └── Storage: Enum (14 values)[]
 │   │   │   │   │       ├── "backup"
 │   │   │   │   │       ├── "delete"
 │   │   │   │   │       ├── "deletesas"
@@ -72,9 +75,10 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │       ├── "set"
 │   │   │   │   │       ├── "setsas"
 │   │   │   │   │       └── "update"
-│   │   │   │   └── TenantId: Validated<*string> (1 rule)
-│   │   │   │       └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
-│   │   │   ├── CreateMode: Enum (2 values)
+│   │   │   │   ├── TenantId: Validated<*string> (1 rule)
+│   │   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │   │   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
+│   │   │   ├── CreateMode: *Enum (2 values)
 │   │   │   │   ├── "default"
 │   │   │   │   └── "recover"
 │   │   │   ├── EnablePurgeProtection: *bool
@@ -83,30 +87,30 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   ├── EnabledForDeployment: *bool
 │   │   │   ├── EnabledForDiskEncryption: *bool
 │   │   │   ├── EnabledForTemplateDeployment: *bool
-│   │   │   ├── NetworkAcls: Object (4 properties)
-│   │   │   │   ├── Bypass: Enum (2 values)
+│   │   │   ├── NetworkAcls: *Object (4 properties)
+│   │   │   │   ├── Bypass: *Enum (2 values)
 │   │   │   │   │   ├── "AzureServices"
 │   │   │   │   │   └── "None"
-│   │   │   │   ├── DefaultAction: Enum (2 values)
+│   │   │   │   ├── DefaultAction: *Enum (2 values)
 │   │   │   │   │   ├── "Allow"
 │   │   │   │   │   └── "Deny"
-│   │   │   │   ├── IpRules: Object (1 property)
+│   │   │   │   ├── IpRules: Object (1 property)[]
 │   │   │   │   │   └── Value: *string
-│   │   │   │   └── VirtualNetworkRules: Object (2 properties)
+│   │   │   │   └── VirtualNetworkRules: Object (2 properties)[]
 │   │   │   │       ├── IgnoreMissingVnetServiceEndpoint: *bool
 │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   ├── ProvisioningState: Enum (2 values)
+│   │   │   ├── ProvisioningState: *Enum (2 values)
 │   │   │   │   ├── "RegisteringDns"
 │   │   │   │   └── "Succeeded"
-│   │   │   ├── Sku: Object (2 properties)
-│   │   │   │   ├── Family: Enum (1 value)
+│   │   │   ├── Sku: *Object (2 properties)
+│   │   │   │   ├── Family: *Enum (1 value)
 │   │   │   │   │   └── "A"
-│   │   │   │   └── Name: Enum (2 values)
+│   │   │   │   └── Name: *Enum (2 values)
 │   │   │   │       ├── "premium"
 │   │   │   │       └── "standard"
 │   │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   │   ├── TenantId: Validated<*string> (1 rule)
-│   │   │   │   └── Rule 0: {Pattern "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"}
+│   │   │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 │   │   │   └── VaultUri: *string
 │   │   └── Tags: map[string]string
 │   └── Status: Object (8 properties)
@@ -114,12 +118,12 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── Properties: Object (16 properties)
-│       │   ├── AccessPolicies: Object (4 properties)
+│       ├── Properties: *Object (16 properties)
+│       │   ├── AccessPolicies: Object (4 properties)[]
 │       │   │   ├── ApplicationId: *string
 │       │   │   ├── ObjectId: *string
-│       │   │   ├── Permissions: Object (4 properties)
-│       │   │   │   ├── Certificates: Enum (16 values)
+│       │   │   ├── Permissions: *Object (4 properties)
+│       │   │   │   ├── Certificates: Enum (16 values)[]
 │       │   │   │   │   ├── "backup"
 │       │   │   │   │   ├── "create"
 │       │   │   │   │   ├── "delete"
@@ -136,7 +140,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │       │   │   │   │   ├── "restore"
 │       │   │   │   │   ├── "setissuers"
 │       │   │   │   │   └── "update"
-│       │   │   │   ├── Keys: Enum (17 values)
+│       │   │   │   ├── Keys: Enum (17 values)[]
 │       │   │   │   │   ├── "backup"
 │       │   │   │   │   ├── "create"
 │       │   │   │   │   ├── "decrypt"
@@ -154,7 +158,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │       │   │   │   │   ├── "update"
 │       │   │   │   │   ├── "verify"
 │       │   │   │   │   └── "wrapKey"
-│       │   │   │   ├── Secrets: Enum (8 values)
+│       │   │   │   ├── Secrets: Enum (8 values)[]
 │       │   │   │   │   ├── "backup"
 │       │   │   │   │   ├── "delete"
 │       │   │   │   │   ├── "get"
@@ -163,7 +167,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │       │   │   │   │   ├── "recover"
 │       │   │   │   │   ├── "restore"
 │       │   │   │   │   └── "set"
-│       │   │   │   └── Storage: Enum (14 values)
+│       │   │   │   └── Storage: Enum (14 values)[]
 │       │   │   │       ├── "backup"
 │       │   │   │       ├── "delete"
 │       │   │   │       ├── "deletesas"
@@ -179,7 +183,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │       │   │   │       ├── "setsas"
 │       │   │   │       └── "update"
 │       │   │   └── TenantId: *string
-│       │   ├── CreateMode: Enum (2 values)
+│       │   ├── CreateMode: *Enum (2 values)
 │       │   │   ├── "default"
 │       │   │   └── "recover"
 │       │   ├── EnablePurgeProtection: *bool
@@ -189,62 +193,62 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │       │   ├── EnabledForDiskEncryption: *bool
 │       │   ├── EnabledForTemplateDeployment: *bool
 │       │   ├── HsmPoolResourceId: *string
-│       │   ├── NetworkAcls: Object (4 properties)
-│       │   │   ├── Bypass: Enum (2 values)
+│       │   ├── NetworkAcls: *Object (4 properties)
+│       │   │   ├── Bypass: *Enum (2 values)
 │       │   │   │   ├── "AzureServices"
 │       │   │   │   └── "None"
-│       │   │   ├── DefaultAction: Enum (2 values)
+│       │   │   ├── DefaultAction: *Enum (2 values)
 │       │   │   │   ├── "Allow"
 │       │   │   │   └── "Deny"
-│       │   │   ├── IpRules: Object (1 property)
+│       │   │   ├── IpRules: Object (1 property)[]
 │       │   │   │   └── Value: *string
-│       │   │   └── VirtualNetworkRules: Object (2 properties)
+│       │   │   └── VirtualNetworkRules: Object (2 properties)[]
 │       │   │       ├── Id: *string
 │       │   │       └── IgnoreMissingVnetServiceEndpoint: *bool
-│       │   ├── PrivateEndpointConnections: Object (5 properties)
+│       │   ├── PrivateEndpointConnections: Object (5 properties)[]
 │       │   │   ├── Etag: *string
 │       │   │   ├── Id: *string
-│       │   │   ├── PrivateEndpoint: Object (1 property)
+│       │   │   ├── PrivateEndpoint: *Object (1 property)
 │       │   │   │   └── Id: *string
-│       │   │   ├── PrivateLinkServiceConnectionState: Object (3 properties)
-│       │   │   │   ├── ActionsRequired: Enum (1 value)
+│       │   │   ├── PrivateLinkServiceConnectionState: *Object (3 properties)
+│       │   │   │   ├── ActionsRequired: *Enum (1 value)
 │       │   │   │   │   └── "None"
 │       │   │   │   ├── Description: *string
-│       │   │   │   └── Status: Enum (4 values)
+│       │   │   │   └── Status: *Enum (4 values)
 │       │   │   │       ├── "Approved"
 │       │   │   │       ├── "Disconnected"
 │       │   │   │       ├── "Pending"
 │       │   │   │       └── "Rejected"
-│       │   │   └── ProvisioningState: Enum (6 values)
+│       │   │   └── ProvisioningState: *Enum (6 values)
 │       │   │       ├── "Creating"
 │       │   │       ├── "Deleting"
 │       │   │       ├── "Disconnected"
 │       │   │       ├── "Failed"
 │       │   │       ├── "Succeeded"
 │       │   │       └── "Updating"
-│       │   ├── ProvisioningState: Enum (2 values)
+│       │   ├── ProvisioningState: *Enum (2 values)
 │       │   │   ├── "RegisteringDns"
 │       │   │   └── "Succeeded"
-│       │   ├── Sku: Object (2 properties)
-│       │   │   ├── Family: Enum (1 value)
+│       │   ├── Sku: *Object (2 properties)
+│       │   │   ├── Family: *Enum (1 value)
 │       │   │   │   └── "A"
-│       │   │   └── Name: Enum (2 values)
+│       │   │   └── Name: *Enum (2 values)
 │       │   │       ├── "premium"
 │       │   │       └── "standard"
 │       │   ├── SoftDeleteRetentionInDays: *int
 │       │   ├── TenantId: *string
 │       │   └── VaultUri: *string
-│       ├── SystemData: Object (6 properties)
+│       ├── SystemData: *Object (6 properties)
 │       │   ├── CreatedAt: *string
 │       │   ├── CreatedBy: *string
-│       │   ├── CreatedByType: Enum (4 values)
+│       │   ├── CreatedByType: *Enum (4 values)
 │       │   │   ├── "Application"
 │       │   │   ├── "Key"
 │       │   │   ├── "ManagedIdentity"
 │       │   │   └── "User"
 │       │   ├── LastModifiedAt: *string
 │       │   ├── LastModifiedBy: *string
-│       │   └── LastModifiedByType: Enum (4 values)
+│       │   └── LastModifiedByType: *Enum (4 values)
 │       │       ├── "Application"
 │       │       ├── "Key"
 │       │       ├── "ManagedIdentity"
@@ -255,12 +259,12 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   ├── Id: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (16 properties)
-│   │   ├── AccessPolicies: Object (4 properties)
+│   ├── Properties: *Object (16 properties)
+│   │   ├── AccessPolicies: Object (4 properties)[]
 │   │   │   ├── ApplicationId: *string
 │   │   │   ├── ObjectId: *string
-│   │   │   ├── Permissions: Object (4 properties)
-│   │   │   │   ├── Certificates: Enum (16 values)
+│   │   │   ├── Permissions: *Object (4 properties)
+│   │   │   │   ├── Certificates: Enum (16 values)[]
 │   │   │   │   │   ├── "backup"
 │   │   │   │   │   ├── "create"
 │   │   │   │   │   ├── "delete"
@@ -277,7 +281,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │   ├── "restore"
 │   │   │   │   │   ├── "setissuers"
 │   │   │   │   │   └── "update"
-│   │   │   │   ├── Keys: Enum (17 values)
+│   │   │   │   ├── Keys: Enum (17 values)[]
 │   │   │   │   │   ├── "backup"
 │   │   │   │   │   ├── "create"
 │   │   │   │   │   ├── "decrypt"
@@ -295,7 +299,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │   ├── "update"
 │   │   │   │   │   ├── "verify"
 │   │   │   │   │   └── "wrapKey"
-│   │   │   │   ├── Secrets: Enum (8 values)
+│   │   │   │   ├── Secrets: Enum (8 values)[]
 │   │   │   │   │   ├── "backup"
 │   │   │   │   │   ├── "delete"
 │   │   │   │   │   ├── "get"
@@ -304,7 +308,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │   │   ├── "recover"
 │   │   │   │   │   ├── "restore"
 │   │   │   │   │   └── "set"
-│   │   │   │   └── Storage: Enum (14 values)
+│   │   │   │   └── Storage: Enum (14 values)[]
 │   │   │   │       ├── "backup"
 │   │   │   │       ├── "delete"
 │   │   │   │       ├── "deletesas"
@@ -320,7 +324,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   │   │       ├── "setsas"
 │   │   │   │       └── "update"
 │   │   │   └── TenantId: *string
-│   │   ├── CreateMode: Enum (2 values)
+│   │   ├── CreateMode: *Enum (2 values)
 │   │   │   ├── "default"
 │   │   │   └── "recover"
 │   │   ├── EnablePurgeProtection: *bool
@@ -330,63 +334,63 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 │   │   ├── EnabledForDiskEncryption: *bool
 │   │   ├── EnabledForTemplateDeployment: *bool
 │   │   ├── HsmPoolResourceId: *string
-│   │   ├── NetworkAcls: Object (4 properties)
-│   │   │   ├── Bypass: Enum (2 values)
+│   │   ├── NetworkAcls: *Object (4 properties)
+│   │   │   ├── Bypass: *Enum (2 values)
 │   │   │   │   ├── "AzureServices"
 │   │   │   │   └── "None"
-│   │   │   ├── DefaultAction: Enum (2 values)
+│   │   │   ├── DefaultAction: *Enum (2 values)
 │   │   │   │   ├── "Allow"
 │   │   │   │   └── "Deny"
-│   │   │   ├── IpRules: Object (1 property)
+│   │   │   ├── IpRules: Object (1 property)[]
 │   │   │   │   └── Value: *string
-│   │   │   └── VirtualNetworkRules: Object (2 properties)
+│   │   │   └── VirtualNetworkRules: Object (2 properties)[]
 │   │   │       ├── Id: *string
 │   │   │       └── IgnoreMissingVnetServiceEndpoint: *bool
-│   │   ├── PrivateEndpointConnections: Object (3 properties)
+│   │   ├── PrivateEndpointConnections: Object (3 properties)[]
 │   │   │   ├── Etag: *string
 │   │   │   ├── Id: *string
-│   │   │   └── Properties: Object (3 properties)
-│   │   │       ├── PrivateEndpoint: Object (1 property)
+│   │   │   └── Properties: *Object (3 properties)
+│   │   │       ├── PrivateEndpoint: *Object (1 property)
 │   │   │       │   └── Id: *string
-│   │   │       ├── PrivateLinkServiceConnectionState: Object (3 properties)
-│   │   │       │   ├── ActionsRequired: Enum (1 value)
+│   │   │       ├── PrivateLinkServiceConnectionState: *Object (3 properties)
+│   │   │       │   ├── ActionsRequired: *Enum (1 value)
 │   │   │       │   │   └── "None"
 │   │   │       │   ├── Description: *string
-│   │   │       │   └── Status: Enum (4 values)
+│   │   │       │   └── Status: *Enum (4 values)
 │   │   │       │       ├── "Approved"
 │   │   │       │       ├── "Disconnected"
 │   │   │       │       ├── "Pending"
 │   │   │       │       └── "Rejected"
-│   │   │       └── ProvisioningState: Enum (6 values)
+│   │   │       └── ProvisioningState: *Enum (6 values)
 │   │   │           ├── "Creating"
 │   │   │           ├── "Deleting"
 │   │   │           ├── "Disconnected"
 │   │   │           ├── "Failed"
 │   │   │           ├── "Succeeded"
 │   │   │           └── "Updating"
-│   │   ├── ProvisioningState: Enum (2 values)
+│   │   ├── ProvisioningState: *Enum (2 values)
 │   │   │   ├── "RegisteringDns"
 │   │   │   └── "Succeeded"
-│   │   ├── Sku: Object (2 properties)
-│   │   │   ├── Family: Enum (1 value)
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Family: *Enum (1 value)
 │   │   │   │   └── "A"
-│   │   │   └── Name: Enum (2 values)
+│   │   │   └── Name: *Enum (2 values)
 │   │   │       ├── "premium"
 │   │   │       └── "standard"
 │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   ├── TenantId: *string
 │   │   └── VaultUri: *string
-│   ├── SystemData: Object (6 properties)
+│   ├── SystemData: *Object (6 properties)
 │   │   ├── CreatedAt: *string
 │   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: Enum (4 values)
+│   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   ├── "Application"
 │   │   │   ├── "Key"
 │   │   │   ├── "ManagedIdentity"
 │   │   │   └── "User"
 │   │   ├── LastModifiedAt: *string
 │   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: Enum (4 values)
+│   │   └── LastModifiedByType: *Enum (4 values)
 │   │       ├── "Application"
 │   │       ├── "Key"
 │   │       ├── "ManagedIdentity"
@@ -396,12 +400,12 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
 └── Vault_Spec_ARM: Object (4 properties)
     ├── Location: *string
     ├── Name: string
-    ├── Properties: Object (14 properties)
-    │   ├── AccessPolicies: Object (4 properties)
+    ├── Properties: *Object (14 properties)
+    │   ├── AccessPolicies: Object (4 properties)[]
     │   │   ├── ApplicationId: *string
     │   │   ├── ObjectId: *string
-    │   │   ├── Permissions: Object (4 properties)
-    │   │   │   ├── Certificates: Enum (16 values)
+    │   │   ├── Permissions: *Object (4 properties)
+    │   │   │   ├── Certificates: Enum (16 values)[]
     │   │   │   │   ├── "backup"
     │   │   │   │   ├── "create"
     │   │   │   │   ├── "delete"
@@ -418,7 +422,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
     │   │   │   │   ├── "restore"
     │   │   │   │   ├── "setissuers"
     │   │   │   │   └── "update"
-    │   │   │   ├── Keys: Enum (17 values)
+    │   │   │   ├── Keys: Enum (17 values)[]
     │   │   │   │   ├── "backup"
     │   │   │   │   ├── "create"
     │   │   │   │   ├── "decrypt"
@@ -436,7 +440,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
     │   │   │   │   ├── "update"
     │   │   │   │   ├── "verify"
     │   │   │   │   └── "wrapKey"
-    │   │   │   ├── Secrets: Enum (8 values)
+    │   │   │   ├── Secrets: Enum (8 values)[]
     │   │   │   │   ├── "backup"
     │   │   │   │   ├── "delete"
     │   │   │   │   ├── "get"
@@ -445,7 +449,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
     │   │   │   │   ├── "recover"
     │   │   │   │   ├── "restore"
     │   │   │   │   └── "set"
-    │   │   │   └── Storage: Enum (14 values)
+    │   │   │   └── Storage: Enum (14 values)[]
     │   │   │       ├── "backup"
     │   │   │       ├── "delete"
     │   │   │       ├── "deletesas"
@@ -461,7 +465,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
     │   │   │       ├── "setsas"
     │   │   │       └── "update"
     │   │   └── TenantId: *string
-    │   ├── CreateMode: Enum (2 values)
+    │   ├── CreateMode: *Enum (2 values)
     │   │   ├── "default"
     │   │   └── "recover"
     │   ├── EnablePurgeProtection: *bool
@@ -470,25 +474,25 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview
     │   ├── EnabledForDeployment: *bool
     │   ├── EnabledForDiskEncryption: *bool
     │   ├── EnabledForTemplateDeployment: *bool
-    │   ├── NetworkAcls: Object (4 properties)
-    │   │   ├── Bypass: Enum (2 values)
+    │   ├── NetworkAcls: *Object (4 properties)
+    │   │   ├── Bypass: *Enum (2 values)
     │   │   │   ├── "AzureServices"
     │   │   │   └── "None"
-    │   │   ├── DefaultAction: Enum (2 values)
+    │   │   ├── DefaultAction: *Enum (2 values)
     │   │   │   ├── "Allow"
     │   │   │   └── "Deny"
-    │   │   ├── IpRules: Object (1 property)
+    │   │   ├── IpRules: Object (1 property)[]
     │   │   │   └── Value: *string
-    │   │   └── VirtualNetworkRules: Object (2 properties)
+    │   │   └── VirtualNetworkRules: Object (2 properties)[]
     │   │       ├── Id: *string
     │   │       └── IgnoreMissingVnetServiceEndpoint: *bool
-    │   ├── ProvisioningState: Enum (2 values)
+    │   ├── ProvisioningState: *Enum (2 values)
     │   │   ├── "RegisteringDns"
     │   │   └── "Succeeded"
-    │   ├── Sku: Object (2 properties)
-    │   │   ├── Family: Enum (1 value)
+    │   ├── Sku: *Object (2 properties)
+    │   │   ├── Family: *Enum (1 value)
     │   │   │   └── "A"
-    │   │   └── Name: Enum (2 values)
+    │   │   └── Name: *Enum (2 values)
     │   │       ├── "premium"
     │   │       └── "standard"
     │   ├── SoftDeleteRetentionInDays: *int

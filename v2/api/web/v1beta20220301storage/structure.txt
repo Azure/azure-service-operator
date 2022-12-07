@@ -2,21 +2,22 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-03-01"
 ├── ServerFarm: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (24 properties)
 │   │   ├── AzureName: string
 │   │   ├── ElasticScaleEnabled: *bool
-│   │   ├── ExtendedLocation: Object (2 properties)
+│   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── FreeOfferExpirationTime: *string
-│   │   ├── HostingEnvironmentProfile: Object (2 properties)
+│   │   ├── HostingEnvironmentProfile: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── HyperV: *bool
 │   │   ├── IsSpot: *bool
 │   │   ├── IsXenon: *bool
 │   │   ├── Kind: *string
-│   │   ├── KubeEnvironmentProfile: Object (2 properties)
+│   │   ├── KubeEnvironmentProfile: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
@@ -26,8 +27,8 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │   │   ├── PerSiteScaling: *bool
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Reserved: *bool
-│   │   ├── Sku: Object (9 properties)
-│   │   │   ├── Capabilities: Object (4 properties)
+│   │   ├── Sku: *Object (9 properties)
+│   │   │   ├── Capabilities: Object (4 properties)[]
 │   │   │   │   ├── Name: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── Reason: *string
@@ -38,7 +39,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Size: *string
-│   │   │   ├── SkuCapacity: Object (6 properties)
+│   │   │   ├── SkuCapacity: *Object (6 properties)
 │   │   │   │   ├── Default: *int
 │   │   │   │   ├── ElasticMaximum: *int
 │   │   │   │   ├── Maximum: *int
@@ -55,13 +56,13 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │   └── Status: Object (33 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── ElasticScaleEnabled: *bool
-│       ├── ExtendedLocation: Object (3 properties)
+│       ├── ExtendedLocation: *Object (3 properties)
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Type: *string
 │       ├── FreeOfferExpirationTime: *string
 │       ├── GeoRegion: *string
-│       ├── HostingEnvironmentProfile: Object (4 properties)
+│       ├── HostingEnvironmentProfile: *Object (4 properties)
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -71,7 +72,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │       ├── IsSpot: *bool
 │       ├── IsXenon: *bool
 │       ├── Kind: *string
-│       ├── KubeEnvironmentProfile: Object (4 properties)
+│       ├── KubeEnvironmentProfile: *Object (4 properties)
 │       │   ├── Id: *string
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -87,8 +88,8 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │       ├── ProvisioningState: *string
 │       ├── Reserved: *bool
 │       ├── ResourceGroup: *string
-│       ├── Sku: Object (9 properties)
-│       │   ├── Capabilities: Object (4 properties)
+│       ├── Sku: *Object (9 properties)
+│       │   ├── Capabilities: Object (4 properties)[]
 │       │   │   ├── Name: *string
 │       │   │   ├── PropertyBag: genruntime.PropertyBag
 │       │   │   ├── Reason: *string
@@ -99,7 +100,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │       │   ├── Name: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── Size: *string
-│       │   ├── SkuCapacity: Object (6 properties)
+│       │   ├── SkuCapacity: *Object (6 properties)
 │       │   │   ├── Default: *int
 │       │   │   ├── ElasticMaximum: *int
 │       │   │   ├── Maximum: *int
@@ -117,13 +118,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
 │       ├── WorkerTierName: *string
 │       └── ZoneRedundant: *bool
 └── Site: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
     ├── Spec: Object (36 properties)
     │   ├── AzureName: string
     │   ├── ClientAffinityEnabled: *bool
     │   ├── ClientCertEnabled: *bool
     │   ├── ClientCertExclusionPaths: *string
     │   ├── ClientCertMode: *string
-    │   ├── CloningInfo: Object (12 properties)
+    │   ├── CloningInfo: *Object (12 properties)
     │   │   ├── AppSettingsOverrides: map[string]string
     │   │   ├── CloneCustomHostNames: *bool
     │   │   ├── CloneSourceControl: *bool
@@ -140,10 +142,10 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   ├── CustomDomainVerificationId: *string
     │   ├── DailyMemoryTimeQuota: *int
     │   ├── Enabled: *bool
-    │   ├── ExtendedLocation: Object (2 properties)
+    │   ├── ExtendedLocation: *Object (2 properties)
     │   │   ├── Name: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── HostNameSslStates: Object (7 properties)
+    │   ├── HostNameSslStates: Object (7 properties)[]
     │   │   ├── HostType: *string
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -152,12 +154,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── ToUpdate: *bool
     │   │   └── VirtualIP: *string
     │   ├── HostNamesDisabled: *bool
-    │   ├── HostingEnvironmentProfile: Object (2 properties)
+    │   ├── HostingEnvironmentProfile: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
     │   ├── HttpsOnly: *bool
     │   ├── HyperV: *bool
-    │   ├── Identity: Object (3 properties)
+    │   ├── Identity: *Object (3 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── Type: *string
     │   │   └── UserAssignedIdentities: map[string]v1.JSON
@@ -173,52 +175,52 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   ├── Reserved: *bool
     │   ├── ScmSiteAlsoStopped: *bool
     │   ├── ServerFarmReference: *genruntime.ResourceReference
-    │   ├── SiteConfig: Object (67 properties)
+    │   ├── SiteConfig: *Object (67 properties)
     │   │   ├── AcrUseManagedIdentityCreds: *bool
     │   │   ├── AcrUserManagedIdentityID: *string
     │   │   ├── AlwaysOn: *bool
-    │   │   ├── ApiDefinition: Object (2 properties)
+    │   │   ├── ApiDefinition: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Url: *string
-    │   │   ├── ApiManagementConfig: Object (2 properties)
+    │   │   ├── ApiManagementConfig: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   ├── AppCommandLine: *string
-    │   │   ├── AppSettings: Object (3 properties)
+    │   │   ├── AppSettings: Object (3 properties)[]
     │   │   │   ├── Name: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Value: *string
     │   │   ├── AutoHealEnabled: *bool
-    │   │   ├── AutoHealRules: Object (3 properties)
-    │   │   │   ├── Actions: Object (4 properties)
+    │   │   ├── AutoHealRules: *Object (3 properties)
+    │   │   │   ├── Actions: *Object (4 properties)
     │   │   │   │   ├── ActionType: *string
-    │   │   │   │   ├── CustomAction: Object (3 properties)
+    │   │   │   │   ├── CustomAction: *Object (3 properties)
     │   │   │   │   │   ├── Exe: *string
     │   │   │   │   │   ├── Parameters: *string
     │   │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── MinProcessExecutionTime: *string
     │   │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── Triggers: Object (7 properties)
+    │   │   │   └── Triggers: *Object (7 properties)
     │   │   │       ├── PrivateBytesInKB: *int
     │   │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │   │       ├── Requests: Object (3 properties)
+    │   │   │       ├── Requests: *Object (3 properties)
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │       │   └── TimeInterval: *string
-    │   │   │       ├── SlowRequests: Object (5 properties)
+    │   │   │       ├── SlowRequests: *Object (5 properties)
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── Path: *string
     │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │       │   ├── TimeInterval: *string
     │   │   │       │   └── TimeTaken: *string
-    │   │   │       ├── SlowRequestsWithPath: Object (5 properties)
+    │   │   │       ├── SlowRequestsWithPath: Object (5 properties)[]
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── Path: *string
     │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │       │   ├── TimeInterval: *string
     │   │   │       │   └── TimeTaken: *string
-    │   │   │       ├── StatusCodes: Object (7 properties)
+    │   │   │       ├── StatusCodes: Object (7 properties)[]
     │   │   │       │   ├── Count: *int
     │   │   │       │   ├── Path: *string
     │   │   │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -226,35 +228,35 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   │       │   ├── SubStatus: *int
     │   │   │       │   ├── TimeInterval: *string
     │   │   │       │   └── Win32Status: *int
-    │   │   │       └── StatusCodesRange: Object (5 properties)
+    │   │   │       └── StatusCodesRange: Object (5 properties)[]
     │   │   │           ├── Count: *int
     │   │   │           ├── Path: *string
     │   │   │           ├── PropertyBag: genruntime.PropertyBag
     │   │   │           ├── StatusCodes: *string
     │   │   │           └── TimeInterval: *string
     │   │   ├── AutoSwapSlotName: *string
-    │   │   ├── AzureStorageAccounts: Object (6 properties)
+    │   │   ├── AzureStorageAccounts: map[string]Object (6 properties)
     │   │   │   ├── AccessKey: *genruntime.SecretReference
     │   │   │   ├── AccountName: *string
     │   │   │   ├── MountPath: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── ShareName: *string
     │   │   │   └── Type: *string
-    │   │   ├── ConnectionStrings: Object (4 properties)
+    │   │   ├── ConnectionStrings: Object (4 properties)[]
     │   │   │   ├── ConnectionString: *string
     │   │   │   ├── Name: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── Type: *string
-    │   │   ├── Cors: Object (3 properties)
+    │   │   ├── Cors: *Object (3 properties)
     │   │   │   ├── AllowedOrigins: string[]
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   └── SupportCredentials: *bool
     │   │   ├── DefaultDocuments: string[]
     │   │   ├── DetailedErrorLoggingEnabled: *bool
     │   │   ├── DocumentRoot: *string
-    │   │   ├── Experiments: Object (2 properties)
+    │   │   ├── Experiments: *Object (2 properties)
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   └── RampUpRules: Object (9 properties)
+    │   │   │   └── RampUpRules: Object (9 properties)[]
     │   │   │       ├── ActionHostName: *string
     │   │   │       ├── ChangeDecisionCallbackUrl: *string
     │   │   │       ├── ChangeIntervalInMinutes: *int
@@ -267,7 +269,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── FtpsState: *string
     │   │   ├── FunctionAppScaleLimit: *int
     │   │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
-    │   │   ├── HandlerMappings: Object (4 properties)
+    │   │   ├── HandlerMappings: Object (4 properties)[]
     │   │   │   ├── Arguments: *string
     │   │   │   ├── Extension: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -275,7 +277,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── HealthCheckPath: *string
     │   │   ├── Http20Enabled: *bool
     │   │   ├── HttpLoggingEnabled: *bool
-    │   │   ├── IpSecurityRestrictions: Object (12 properties)
+    │   │   ├── IpSecurityRestrictions: Object (12 properties)[]
     │   │   │   ├── Action: *string
     │   │   │   ├── Description: *string
     │   │   │   ├── Headers: map[string]string[]
@@ -292,7 +294,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── JavaContainerVersion: *string
     │   │   ├── JavaVersion: *string
     │   │   ├── KeyVaultReferenceIdentity: *string
-    │   │   ├── Limits: Object (4 properties)
+    │   │   ├── Limits: *Object (4 properties)
     │   │   │   ├── MaxDiskSizeInMb: *int
     │   │   │   ├── MaxMemoryInMb: *int
     │   │   │   ├── MaxPercentageCpu: *float64
@@ -314,7 +316,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── PublicNetworkAccess: *string
     │   │   ├── PublishingUsername: *string
-    │   │   ├── Push: Object (6 properties)
+    │   │   ├── Push: *Object (6 properties)
     │   │   │   ├── DynamicTagsJson: *string
     │   │   │   ├── IsPushEnabled: *bool
     │   │   │   ├── Kind: *string
@@ -326,7 +328,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── RemoteDebuggingVersion: *string
     │   │   ├── RequestTracingEnabled: *bool
     │   │   ├── RequestTracingExpirationTime: *string
-    │   │   ├── ScmIpSecurityRestrictions: Object (12 properties)
+    │   │   ├── ScmIpSecurityRestrictions: Object (12 properties)[]
     │   │   │   ├── Action: *string
     │   │   │   ├── Description: *string
     │   │   │   ├── Headers: map[string]string[]
@@ -344,11 +346,11 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
     │   │   ├── ScmType: *string
     │   │   ├── TracingOptions: *string
     │   │   ├── Use32BitWorkerProcess: *bool
-    │   │   ├── VirtualApplications: Object (5 properties)
+    │   │   ├── VirtualApplications: Object (5 properties)[]
     │   │   │   ├── PhysicalPath: *string
     │   │   │   ├── PreloadEnabled: *bool
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── VirtualDirectories: Object (3 properties)
+    │   │   │   ├── VirtualDirectories: Object (3 properties)[]
     │   │   │   │   ├── PhysicalPath: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   └── VirtualPath: *string
@@ -372,7 +374,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         ├── ClientCertEnabled: *bool
         ├── ClientCertExclusionPaths: *string
         ├── ClientCertMode: *string
-        ├── CloningInfo: Object (12 properties)
+        ├── CloningInfo: *Object (12 properties)
         │   ├── AppSettingsOverrides: map[string]string
         │   ├── CloneCustomHostNames: *bool
         │   ├── CloneSourceControl: *bool
@@ -392,11 +394,11 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         ├── DefaultHostName: *string
         ├── Enabled: *bool
         ├── EnabledHostNames: string[]
-        ├── ExtendedLocation: Object (3 properties)
+        ├── ExtendedLocation: *Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Type: *string
-        ├── HostNameSslStates: Object (7 properties)
+        ├── HostNameSslStates: Object (7 properties)[]
         │   ├── HostType: *string
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
@@ -406,7 +408,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   └── VirtualIP: *string
         ├── HostNames: string[]
         ├── HostNamesDisabled: *bool
-        ├── HostingEnvironmentProfile: Object (4 properties)
+        ├── HostingEnvironmentProfile: *Object (4 properties)
         │   ├── Id: *string
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
@@ -414,12 +416,12 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         ├── HttpsOnly: *bool
         ├── HyperV: *bool
         ├── Id: *string
-        ├── Identity: Object (5 properties)
+        ├── Identity: *Object (5 properties)
         │   ├── PrincipalId: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── TenantId: *string
         │   ├── Type: *string
-        │   └── UserAssignedIdentities: Object (3 properties)
+        │   └── UserAssignedIdentities: map[string]Object (3 properties)
         │       ├── ClientId: *string
         │       ├── PrincipalId: *string
         │       └── PropertyBag: genruntime.PropertyBag
@@ -442,52 +444,52 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         ├── ResourceGroup: *string
         ├── ScmSiteAlsoStopped: *bool
         ├── ServerFarmId: *string
-        ├── SiteConfig: Object (68 properties)
+        ├── SiteConfig: *Object (68 properties)
         │   ├── AcrUseManagedIdentityCreds: *bool
         │   ├── AcrUserManagedIdentityID: *string
         │   ├── AlwaysOn: *bool
-        │   ├── ApiDefinition: Object (2 properties)
+        │   ├── ApiDefinition: *Object (2 properties)
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Url: *string
-        │   ├── ApiManagementConfig: Object (2 properties)
+        │   ├── ApiManagementConfig: *Object (2 properties)
         │   │   ├── Id: *string
         │   │   └── PropertyBag: genruntime.PropertyBag
         │   ├── AppCommandLine: *string
-        │   ├── AppSettings: Object (3 properties)
+        │   ├── AppSettings: Object (3 properties)[]
         │   │   ├── Name: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Value: *string
         │   ├── AutoHealEnabled: *bool
-        │   ├── AutoHealRules: Object (3 properties)
-        │   │   ├── Actions: Object (4 properties)
+        │   ├── AutoHealRules: *Object (3 properties)
+        │   │   ├── Actions: *Object (4 properties)
         │   │   │   ├── ActionType: *string
-        │   │   │   ├── CustomAction: Object (3 properties)
+        │   │   │   ├── CustomAction: *Object (3 properties)
         │   │   │   │   ├── Exe: *string
         │   │   │   │   ├── Parameters: *string
         │   │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── MinProcessExecutionTime: *string
         │   │   │   └── PropertyBag: genruntime.PropertyBag
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── Triggers: Object (7 properties)
+        │   │   └── Triggers: *Object (7 properties)
         │   │       ├── PrivateBytesInKB: *int
         │   │       ├── PropertyBag: genruntime.PropertyBag
-        │   │       ├── Requests: Object (3 properties)
+        │   │       ├── Requests: *Object (3 properties)
         │   │       │   ├── Count: *int
         │   │       │   ├── PropertyBag: genruntime.PropertyBag
         │   │       │   └── TimeInterval: *string
-        │   │       ├── SlowRequests: Object (5 properties)
+        │   │       ├── SlowRequests: *Object (5 properties)
         │   │       │   ├── Count: *int
         │   │       │   ├── Path: *string
         │   │       │   ├── PropertyBag: genruntime.PropertyBag
         │   │       │   ├── TimeInterval: *string
         │   │       │   └── TimeTaken: *string
-        │   │       ├── SlowRequestsWithPath: Object (5 properties)
+        │   │       ├── SlowRequestsWithPath: Object (5 properties)[]
         │   │       │   ├── Count: *int
         │   │       │   ├── Path: *string
         │   │       │   ├── PropertyBag: genruntime.PropertyBag
         │   │       │   ├── TimeInterval: *string
         │   │       │   └── TimeTaken: *string
-        │   │       ├── StatusCodes: Object (7 properties)
+        │   │       ├── StatusCodes: Object (7 properties)[]
         │   │       │   ├── Count: *int
         │   │       │   ├── Path: *string
         │   │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -495,35 +497,35 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   │       │   ├── SubStatus: *int
         │   │       │   ├── TimeInterval: *string
         │   │       │   └── Win32Status: *int
-        │   │       └── StatusCodesRange: Object (5 properties)
+        │   │       └── StatusCodesRange: Object (5 properties)[]
         │   │           ├── Count: *int
         │   │           ├── Path: *string
         │   │           ├── PropertyBag: genruntime.PropertyBag
         │   │           ├── StatusCodes: *string
         │   │           └── TimeInterval: *string
         │   ├── AutoSwapSlotName: *string
-        │   ├── AzureStorageAccounts: Object (6 properties)
+        │   ├── AzureStorageAccounts: map[string]Object (6 properties)
         │   │   ├── AccountName: *string
         │   │   ├── MountPath: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   ├── ShareName: *string
         │   │   ├── State: *string
         │   │   └── Type: *string
-        │   ├── ConnectionStrings: Object (4 properties)
+        │   ├── ConnectionStrings: Object (4 properties)[]
         │   │   ├── ConnectionString: *string
         │   │   ├── Name: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── Type: *string
-        │   ├── Cors: Object (3 properties)
+        │   ├── Cors: *Object (3 properties)
         │   │   ├── AllowedOrigins: string[]
         │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   └── SupportCredentials: *bool
         │   ├── DefaultDocuments: string[]
         │   ├── DetailedErrorLoggingEnabled: *bool
         │   ├── DocumentRoot: *string
-        │   ├── Experiments: Object (2 properties)
+        │   ├── Experiments: *Object (2 properties)
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── RampUpRules: Object (9 properties)
+        │   │   └── RampUpRules: Object (9 properties)[]
         │   │       ├── ActionHostName: *string
         │   │       ├── ChangeDecisionCallbackUrl: *string
         │   │       ├── ChangeIntervalInMinutes: *int
@@ -536,7 +538,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── FtpsState: *string
         │   ├── FunctionAppScaleLimit: *int
         │   ├── FunctionsRuntimeScaleMonitoringEnabled: *bool
-        │   ├── HandlerMappings: Object (4 properties)
+        │   ├── HandlerMappings: Object (4 properties)[]
         │   │   ├── Arguments: *string
         │   │   ├── Extension: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -544,7 +546,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── HealthCheckPath: *string
         │   ├── Http20Enabled: *bool
         │   ├── HttpLoggingEnabled: *bool
-        │   ├── IpSecurityRestrictions: Object (12 properties)
+        │   ├── IpSecurityRestrictions: Object (12 properties)[]
         │   │   ├── Action: *string
         │   │   ├── Description: *string
         │   │   ├── Headers: map[string]string[]
@@ -561,7 +563,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── JavaContainerVersion: *string
         │   ├── JavaVersion: *string
         │   ├── KeyVaultReferenceIdentity: *string
-        │   ├── Limits: Object (4 properties)
+        │   ├── Limits: *Object (4 properties)
         │   │   ├── MaxDiskSizeInMb: *int
         │   │   ├── MaxMemoryInMb: *int
         │   │   ├── MaxPercentageCpu: *float64
@@ -570,7 +572,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── LoadBalancing: *string
         │   ├── LocalMySqlEnabled: *bool
         │   ├── LogsDirectorySizeLimit: *int
-        │   ├── MachineKey: Object (5 properties)
+        │   ├── MachineKey: *Object (5 properties)
         │   │   ├── Decryption: *string
         │   │   ├── DecryptionKey: *string
         │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -589,7 +591,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── PublicNetworkAccess: *string
         │   ├── PublishingUsername: *string
-        │   ├── Push: Object (9 properties)
+        │   ├── Push: *Object (9 properties)
         │   │   ├── DynamicTagsJson: *string
         │   │   ├── Id: *string
         │   │   ├── IsPushEnabled: *bool
@@ -604,7 +606,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── RemoteDebuggingVersion: *string
         │   ├── RequestTracingEnabled: *bool
         │   ├── RequestTracingExpirationTime: *string
-        │   ├── ScmIpSecurityRestrictions: Object (12 properties)
+        │   ├── ScmIpSecurityRestrictions: Object (12 properties)[]
         │   │   ├── Action: *string
         │   │   ├── Description: *string
         │   │   ├── Headers: map[string]string[]
@@ -622,11 +624,11 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── ScmType: *string
         │   ├── TracingOptions: *string
         │   ├── Use32BitWorkerProcess: *bool
-        │   ├── VirtualApplications: Object (5 properties)
+        │   ├── VirtualApplications: Object (5 properties)[]
         │   │   ├── PhysicalPath: *string
         │   │   ├── PreloadEnabled: *bool
         │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   ├── VirtualDirectories: Object (3 properties)
+        │   │   ├── VirtualDirectories: Object (3 properties)[]
         │   │   │   ├── PhysicalPath: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   └── VirtualPath: *string
@@ -638,7 +640,7 @@ github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage
         │   ├── WebsiteTimeZone: *string
         │   ├── WindowsFxVersion: *string
         │   └── XManagedServiceIdentityId: *int
-        ├── SlotSwapStatus: Object (4 properties)
+        ├── SlotSwapStatus: *Object (4 properties)
         │   ├── DestinationSlotName: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   ├── SourceSlotName: *string

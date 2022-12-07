@@ -7,40 +7,40 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │   ├── Kind: *string
 │   ├── Location: *string
 │   ├── Name: *string
-│   ├── Properties: Object (25 properties)
+│   ├── Properties: *Object (25 properties)
 │   │   ├── AppId: *string
 │   │   ├── ApplicationId: *string
-│   │   ├── Application_Type: Enum (2 values)
+│   │   ├── Application_Type: *Enum (2 values)
 │   │   │   ├── "other"
 │   │   │   └── "web"
 │   │   ├── ConnectionString: *string
 │   │   ├── CreationDate: *string
 │   │   ├── DisableIpMasking: *bool
 │   │   ├── DisableLocalAuth: *bool
-│   │   ├── Flow_Type: Enum (1 value)
+│   │   ├── Flow_Type: *Enum (1 value)
 │   │   │   └── "Bluefield"
 │   │   ├── ForceCustomerStorageForProfiler: *bool
 │   │   ├── HockeyAppId: *string
 │   │   ├── HockeyAppToken: *string
 │   │   ├── ImmediatePurgeDataOn30Days: *bool
-│   │   ├── IngestionMode: Enum (3 values)
+│   │   ├── IngestionMode: *Enum (3 values)
 │   │   │   ├── "ApplicationInsights"
 │   │   │   ├── "ApplicationInsightsWithDiagnosticSettings"
 │   │   │   └── "LogAnalytics"
 │   │   ├── InstrumentationKey: *string
 │   │   ├── LaMigrationDate: *string
 │   │   ├── Name: *string
-│   │   ├── PrivateLinkScopedResources: Object (2 properties)
+│   │   ├── PrivateLinkScopedResources: Object (2 properties)[]
 │   │   │   ├── ResourceId: *string
 │   │   │   └── ScopeId: *string
 │   │   ├── ProvisioningState: *string
-│   │   ├── PublicNetworkAccessForIngestion: Enum (2 values)
+│   │   ├── PublicNetworkAccessForIngestion: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── PublicNetworkAccessForQuery: Enum (2 values)
+│   │   ├── PublicNetworkAccessForQuery: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── Request_Source: Enum (1 value)
+│   │   ├── Request_Source: *Enum (1 value)
 │   │   │   └── "rest"
 │   │   ├── RetentionInDays: *int
 │   │   ├── SamplingPercentage: *float64
@@ -49,33 +49,34 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │   ├── Tags: *v1.JSON
 │   └── Type: *string
 ├── Component: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (20 properties)
-│   │   ├── Application_Type: Enum (2 values)
+│   │   ├── Application_Type: *Enum (2 values)
 │   │   │   ├── "other"
 │   │   │   └── "web"
 │   │   ├── AzureName: string
 │   │   ├── DisableIpMasking: *bool
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── Etag: *string
-│   │   ├── Flow_Type: Enum (1 value)
+│   │   ├── Flow_Type: *Enum (1 value)
 │   │   │   └── "Bluefield"
 │   │   ├── ForceCustomerStorageForProfiler: *bool
 │   │   ├── HockeyAppId: *string
 │   │   ├── ImmediatePurgeDataOn30Days: *bool
-│   │   ├── IngestionMode: Enum (3 values)
+│   │   ├── IngestionMode: *Enum (3 values)
 │   │   │   ├── "ApplicationInsights"
 │   │   │   ├── "ApplicationInsightsWithDiagnosticSettings"
 │   │   │   └── "LogAnalytics"
 │   │   ├── Kind: *string
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PublicNetworkAccessForIngestion: Enum (2 values)
+│   │   ├── PublicNetworkAccessForIngestion: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── PublicNetworkAccessForQuery: Enum (2 values)
+│   │   ├── PublicNetworkAccessForQuery: *Enum (2 values)
 │   │   │   ├── "Disabled"
 │   │   │   └── "Enabled"
-│   │   ├── Request_Source: Enum (1 value)
+│   │   ├── Request_Source: *Enum (1 value)
 │   │   │   └── "rest"
 │   │   ├── RetentionInDays: *int
 │   │   ├── SamplingPercentage: *float64
@@ -84,7 +85,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │   └── Status: Object (33 properties)
 │       ├── AppId: *string
 │       ├── ApplicationId: *string
-│       ├── Application_Type: Enum (2 values)
+│       ├── Application_Type: *Enum (2 values)
 │       │   ├── "other"
 │       │   └── "web"
 │       ├── Conditions: conditions.Condition[]
@@ -93,14 +94,14 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │       ├── DisableIpMasking: *bool
 │       ├── DisableLocalAuth: *bool
 │       ├── Etag: *string
-│       ├── Flow_Type: Enum (1 value)
+│       ├── Flow_Type: *Enum (1 value)
 │       │   └── "Bluefield"
 │       ├── ForceCustomerStorageForProfiler: *bool
 │       ├── HockeyAppId: *string
 │       ├── HockeyAppToken: *string
 │       ├── Id: *string
 │       ├── ImmediatePurgeDataOn30Days: *bool
-│       ├── IngestionMode: Enum (3 values)
+│       ├── IngestionMode: *Enum (3 values)
 │       │   ├── "ApplicationInsights"
 │       │   ├── "ApplicationInsightsWithDiagnosticSettings"
 │       │   └── "LogAnalytics"
@@ -109,18 +110,18 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
 │       ├── LaMigrationDate: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── PrivateLinkScopedResources: Object (2 properties)
+│       ├── PrivateLinkScopedResources: Object (2 properties)[]
 │       │   ├── ResourceId: *string
 │       │   └── ScopeId: *string
 │       ├── PropertiesName: *string
 │       ├── ProvisioningState: *string
-│       ├── PublicNetworkAccessForIngestion: Enum (2 values)
+│       ├── PublicNetworkAccessForIngestion: *Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── PublicNetworkAccessForQuery: Enum (2 values)
+│       ├── PublicNetworkAccessForQuery: *Enum (2 values)
 │       │   ├── "Disabled"
 │       │   └── "Enabled"
-│       ├── Request_Source: Enum (1 value)
+│       ├── Request_Source: *Enum (1 value)
 │       │   └── "rest"
 │       ├── RetentionInDays: *int
 │       ├── SamplingPercentage: *float64
@@ -133,28 +134,28 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202
     ├── Kind: *string
     ├── Location: *string
     ├── Name: string
-    ├── Properties: Object (14 properties)
-    │   ├── Application_Type: Enum (2 values)
+    ├── Properties: *Object (14 properties)
+    │   ├── Application_Type: *Enum (2 values)
     │   │   ├── "other"
     │   │   └── "web"
     │   ├── DisableIpMasking: *bool
     │   ├── DisableLocalAuth: *bool
-    │   ├── Flow_Type: Enum (1 value)
+    │   ├── Flow_Type: *Enum (1 value)
     │   │   └── "Bluefield"
     │   ├── ForceCustomerStorageForProfiler: *bool
     │   ├── HockeyAppId: *string
     │   ├── ImmediatePurgeDataOn30Days: *bool
-    │   ├── IngestionMode: Enum (3 values)
+    │   ├── IngestionMode: *Enum (3 values)
     │   │   ├── "ApplicationInsights"
     │   │   ├── "ApplicationInsightsWithDiagnosticSettings"
     │   │   └── "LogAnalytics"
-    │   ├── PublicNetworkAccessForIngestion: Enum (2 values)
+    │   ├── PublicNetworkAccessForIngestion: *Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
-    │   ├── PublicNetworkAccessForQuery: Enum (2 values)
+    │   ├── PublicNetworkAccessForQuery: *Enum (2 values)
     │   │   ├── "Disabled"
     │   │   └── "Enabled"
-    │   ├── Request_Source: Enum (1 value)
+    │   ├── Request_Source: *Enum (1 value)
     │   │   └── "rest"
     │   ├── RetentionInDays: *int
     │   ├── SamplingPercentage: *float64
