@@ -41,9 +41,18 @@ func ValidateWriteOnceProperties(oldObj ARMMetaObject, newObj ARMMetaObject) err
 		errs = append(errs, errors.Errorf("updating 'AzureName' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
 	}
 
-	// Allow ResourceGroup update only if resource is not created successfully
-	if oldObj.Owner().Name != newObj.Owner().Name {
+	// Ensure that owner has not been changed
+	oldOwner := oldObj.Owner()
+	newOwner := newObj.Owner()
+
+	bothHaveOwner := oldOwner != nil && newOwner != nil
+	ownerAdded := oldOwner == nil && newOwner != nil
+	ownerRemoved := oldOwner != nil && newOwner == nil
+
+	if (bothHaveOwner && oldOwner.Name != newOwner.Name) || ownerAdded {
 		errs = append(errs, errors.Errorf("updating 'Owner.Name' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
+	} else if ownerRemoved {
+		errs = append(errs, errors.Errorf("removing 'Owner' is not allowed for '%s : %s", oldObj.GetObjectKind().GroupVersionKind(), oldObj.GetName()))
 	}
 
 	return kerrors.NewAggregate(errs)

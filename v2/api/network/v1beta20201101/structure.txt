@@ -2,6 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 ├── APIVersion: Enum (1 value)
 │   └── "2020-11-01"
 ├── LoadBalancer: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (12 properties)
 │   │   ├── AzureName: string
 │   │   ├── BackendAddressPools: Object (3 properties)[]
@@ -553,6 +554,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   │       └── "Regional"
 │   └── Tags: map[string]string
 ├── NetworkInterface: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
 │   │   ├── DnsSettings: *Object (2 properties)
@@ -871,6 +873,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   │       └── Id: *string
 │   └── Tags: map[string]string
 ├── NetworkSecurityGroup: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (4 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string
@@ -937,6 +940,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   ├── Name: string
 │   └── Tags: map[string]string
 ├── NetworkSecurityGroupsSecurityRule: Resource
+│   ├── Owner: NetworkSecurityGroup
 │   ├── Spec: Object (19 properties)
 │   │   ├── Access: *Enum (2 values)
 │   │   │   ├── "Allow"
@@ -1040,6 +1044,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   │   └── SourcePortRanges: string[]
 │   └── Tags: map[string]string
 ├── PublicIPAddress: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (15 properties)
 │   │   ├── AzureName: string
 │   │   ├── DdosSettings: *Object (3 properties)
@@ -1278,6 +1283,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   ├── Tags: map[string]string
 │   └── Zones: string[]
 ├── RouteTable: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (5 properties)
 │   │   ├── AzureName: string
 │   │   ├── DisableBgpRoutePropagation: *bool
@@ -1333,6 +1339,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   │               └── "VnetLocal"
 │   └── Tags: map[string]string
 ├── RouteTablesRoute: Resource
+│   ├── Owner: RouteTable
 │   ├── Spec: Object (6 properties)
 │   │   ├── AddressPrefix: *string
 │   │   ├── AzureName: string
@@ -1574,6 +1581,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   │       └── Service: *string
 │   └── Type: *string
 ├── VirtualNetwork: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (12 properties)
 │   │   ├── AddressSpace: *Object (1 property)
 │   │   │   └── AddressPrefixes: string[]
@@ -1627,6 +1635,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │       ├── Tags: map[string]string
 │       └── Type: *string
 ├── VirtualNetworkGateway: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (19 properties)
 │   │   ├── ActiveActive: *bool
 │   │   ├── AzureName: string
@@ -2475,6 +2484,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │   │           └── UseRemoteGateways: *bool
 │   └── Tags: map[string]string
 ├── VirtualNetworksSubnet: Resource
+│   ├── Owner: VirtualNetwork
 │   ├── Spec: Object (13 properties)
 │   │   ├── AddressPrefix: *string
 │   │   ├── AddressPrefixes: string[]
@@ -2631,6 +2641,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101
 │       │   └── Service: *string
 │       └── Type: *string
 ├── VirtualNetworksVirtualNetworkPeering: Resource
+│   ├── Owner: VirtualNetwork
 │   ├── Spec: Object (12 properties)
 │   │   ├── AllowForwardedTraffic: *bool
 │   │   ├── AllowGatewayTransit: *bool

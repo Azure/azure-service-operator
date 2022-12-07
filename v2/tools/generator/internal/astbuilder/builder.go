@@ -14,8 +14,8 @@ import (
 
 // CheckErrorAndReturn checks if the err is non-nil, and if it is returns.
 //
-// 	if err != nil {
-// 		return <otherReturns...>, err
+//	if err != nil {
+//		return <otherReturns...>, err
 //	}
 func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 	retStmt := &dst.ReturnStmt{
@@ -28,16 +28,15 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 // CheckErrorAndWrap checks if the err is non-nil, and if it is returns it, wrapped with additional information
 // If no arguments are provided, will generate
 //
-// if err != nil {
-//      return errors.Wrap(err, <message>)
-// }
+//	if err != nil {
+//	     return errors.Wrap(err, <message>)
+//	}
 //
 // otherwise will generate
 //
-// if err != nil {
-//      return errors.Wrapf(err, <message>, <args>)
-// }
-//
+//	if err != nil {
+//	     return errors.Wrapf(err, <message>, <args>)
+//	}
 func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) dst.Stmt {
 	wrap := WrapError(errorsPackage, "err", message, args...)
 	return CheckErrorAndSingleStatement(Returns(wrap))
@@ -45,8 +44,8 @@ func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) d
 
 // CheckErrorAndSingleStatement checks if the err is non-nil, and if it is executes the provided statement.
 //
-// 	if err != nil {
-// 		<stmt>
+//	if err != nil {
+//		<stmt>
 //	}
 func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
 	return &dst.IfStmt{
@@ -82,10 +81,12 @@ func WrapError(errorsPackage string, err string, message string, args ...dst.Exp
 // with its default value.
 //
 // For example:
-//     var <varName> <packageRef>.<structName>
+//
+//	var <varName> <packageRef>.<structName>
 //
 // Note that it does *not* do:
-//     <varName> := <packageRef>.<structName>{}
+//
+//	<varName> := <packageRef>.<structName>{}
 //
 // …as that does not work for enum types.
 func NewVariableQualified(varName string, qualifier string, structName string) dst.Stmt {
@@ -109,10 +110,12 @@ func NewVariableQualified(varName string, qualifier string, structName string) d
 // with its default value.
 //
 // For example:
-//     var <varName> <structName>
+//
+//	var <varName> <structName>
 //
 // Note that it does *not* do:
-//     <varName> := <structName>{}
+//
+//	<varName> := <structName>{}
 //
 // …as that does not work for enum types.
 func NewVariable(varName string, structName string) dst.Stmt {
@@ -135,8 +138,7 @@ func NewVariableWithType(varName string, varType dst.Expr) dst.Stmt {
 
 // LocalVariableDeclaration performs a local variable declaration for use within a method
 //
-// 	var <ident> <typ>
-//
+//	var <ident> <typ>
 func LocalVariableDeclaration(ident string, typ dst.Expr, comment string) *dst.DeclStmt {
 	return &dst.DeclStmt{
 		Decl: VariableDeclaration(ident, typ, comment),
@@ -145,8 +147,8 @@ func LocalVariableDeclaration(ident string, typ dst.Expr, comment string) *dst.D
 
 // VariableDeclaration performs a global variable declaration
 //
-//  // <comment>
-// 	var <ident> <typ>
+//	 // <comment>
+//		var <ident> <typ>
 //
 // For a LocalVariable within a method, use LocalVariableDeclaration() to create an ast.Stmt instead
 func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDecl {
@@ -169,8 +171,7 @@ func VariableDeclaration(ident string, typ dst.Expr, comment string) *dst.GenDec
 
 // TypeAssert returns an assignment statement with a type assertion
 //
-// 	<lhs>, ok := <rhs>.(<type>)
-//
+//	<lhs>, ok := <rhs>.(<type>)
 func TypeAssert(lhs dst.Expr, rhs dst.Expr, typ dst.Expr) *dst.AssignStmt {
 	return &dst.AssignStmt{
 		Lhs: []dst.Expr{
@@ -192,7 +193,6 @@ func TypeAssert(lhs dst.Expr, rhs dst.Expr, typ dst.Expr) *dst.AssignStmt {
 //	if ok {
 //		return <returns>
 //	}
-//
 func ReturnIfOk(returns ...dst.Expr) *dst.IfStmt {
 	return ReturnIfExpr(dst.NewIdent("ok"), returns...)
 }
@@ -202,7 +202,6 @@ func ReturnIfOk(returns ...dst.Expr) *dst.IfStmt {
 //	if !ok {
 //		return <returns>
 //	}
-//
 func ReturnIfNotOk(returns ...dst.Expr) *dst.IfStmt {
 	return ReturnIfExpr(
 		&dst.UnaryExpr{
@@ -214,10 +213,9 @@ func ReturnIfNotOk(returns ...dst.Expr) *dst.IfStmt {
 
 // ReturnIfNil checks if a variable is nil and if it is returns
 //
-// 	if <toCheck> == nil {
-// 		return <returns...>
+//	if <toCheck> == nil {
+//		return <returns...>
 //	}
-//
 func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
 		AreEqual(toCheck, Nil()),
@@ -226,10 +224,9 @@ func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 
 // ReturnIfNotNil checks if a variable is not nil and if it is returns
 //
-// 	if <toCheck> != nil {
-// 		return <returns...>
+//	if <toCheck> != nil {
+//		return <returns...>
 //	}
-//
 func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
 		AreNotEqual(toCheck, Nil()),
@@ -239,9 +236,8 @@ func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 // ReturnIfExpr returns if the expression evaluates as true
 //
 //	if <cond> {
-// 		return <returns...>
+//		return <returns...>
 //	}
-//
 func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 	if len(returns) == 0 {
 		panic("Expected at least 1 return for ReturnIfOk")
@@ -262,7 +258,6 @@ func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 // FormatError produces a call to fmt.Errorf with the given format string and args
 //
 //	fmt.Errorf(<formatString>, <args>)
-//
 func FormatError(fmtPackage string, formatString string, args ...dst.Expr) dst.Expr {
 	var callArgs []dst.Expr
 	callArgs = append(
@@ -275,7 +270,6 @@ func FormatError(fmtPackage string, formatString string, args ...dst.Expr) dst.E
 // AddrOf returns a statement that gets the address of the provided expression.
 //
 //	&<expr>
-//
 func AddrOf(expr dst.Expr) *dst.UnaryExpr {
 	return &dst.UnaryExpr{
 		Op: token.AND,
@@ -299,7 +293,6 @@ func AsReference(expr dst.Expr) dst.Expr {
 // Dereference returns a statement that dereferences the pointer returned by the provided expression
 //
 // *<expr>
-//
 func Dereference(expr dst.Expr) dst.Expr {
 	return &dst.StarExpr{
 		X: dst.Clone(expr).(dst.Expr),
@@ -308,9 +301,9 @@ func Dereference(expr dst.Expr) dst.Expr {
 
 // Returns creates a return statement with one or more expressions, of the form
 //
-//    return <expr>
-// or return <expr>, <expr>, ...
+//	return <expr>
 //
+// or return <expr>, <expr>, ...
 func Returns(returns ...dst.Expr) dst.Stmt {
 	return &dst.ReturnStmt{
 		Decs: dst.ReturnStmtDecorations{
@@ -324,9 +317,8 @@ func Returns(returns ...dst.Expr) dst.Stmt {
 
 // ReturnNoError creates a return nil statement for when no error occurs
 //
-//    // No error
-//    return nil
-//
+//	// No error
+//	return nil
 func ReturnNoError() dst.Stmt {
 	result := Returns(Nil())
 	result.Decorations().Before = dst.EmptyLine
@@ -350,7 +342,6 @@ func WrappedErrorf(errorsPackage string, template string, args ...interface{}) d
 // QualifiedTypeName generates a reference to a type within an imported package
 //
 // <pkg>.<name>
-//
 func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
 	return &dst.SelectorExpr{
 		X:   dst.NewIdent(pkg),
@@ -361,7 +352,6 @@ func QualifiedTypeName(pkg string, name string) *dst.SelectorExpr {
 // Selector generates a field reference into an existing expression
 //
 // <expr>.<name0>.(<name1>.<name2>…)
-//
 func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 	exprs := []dst.Expr{dst.Clone(expr).(dst.Expr)}
 	for _, name := range names {
@@ -379,7 +369,6 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 // AreEqual generates a == comparison between the two expressions
 //
 // <lhs> == <rhs>
-//
 func AreEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 	return BinaryExpr(lhs, token.EQL, rhs)
 }
@@ -387,7 +376,6 @@ func AreEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 // AreNotEqual generates a != comparison between the two expressions
 //
 // <lhs> != <rhs>
-//
 func AreNotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 	return BinaryExpr(lhs, token.NEQ, rhs)
 }
