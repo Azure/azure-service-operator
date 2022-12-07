@@ -39,7 +39,8 @@ const (
 	NamespacedSecretName        = "aso-credential"
 	PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
 	namespacedNameSeparator     = "/"
-	tokenFile                   = "/var/run/secrets/tokens/azure-identity"
+	// #nosec
+	tokenFile = "/var/run/secrets/tokens/azure-identity"
 )
 
 // ARMClientCache is a cache for armClients to hold multiple credential clients and global credential client.
@@ -203,7 +204,7 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
 		errs = append(errs, err)
 	}
-	
+
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
 		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
@@ -265,6 +266,7 @@ type workloadIdentityCredential struct {
 	tokenFilePath string
 	cred          *azidentity.ClientAssertionCredential
 	lastRead      time.Time
+	lock          sync.Mutex
 }
 
 func newWorkloadIdentityCredential(tenantID, clientID, file string) (*workloadIdentityCredential, error) {
@@ -278,10 +280,15 @@ func newWorkloadIdentityCredential(tenantID, clientID, file string) (*workloadId
 }
 
 func (w *workloadIdentityCredential) GetToken(ctx context.Context, opts policy.TokenRequestOptions) (azcore.AccessToken, error) {
+	w.lock.Lock()
+	defer w.lock.Unlock()
 	return w.cred.GetToken(ctx, opts)
 }
 
 func (w *workloadIdentityCredential) getAssertion(context.Context) (string, error) {
+	w.lock.Lock()
+	defer w.lock.Unlock()
+
 	if now := time.Now(); w.lastRead.Add(5 * time.Minute).Before(now) {
 		content, err := os.ReadFile(w.tokenFilePath)
 		if err != nil {
