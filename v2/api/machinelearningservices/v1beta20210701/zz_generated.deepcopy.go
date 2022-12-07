@@ -25,6 +25,11 @@ func (in *AKS) DeepCopyInto(out *AKS) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(AKS_ComputeType)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -339,6 +344,11 @@ func (in *AKS_STATUS) DeepCopyInto(out *AKS_STATUS) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(AKS_ComputeType_STATUS)
+		**out = **in
+	}
 	if in.CreatedOn != nil {
 		in, out := &in.CreatedOn, &out.CreatedOn
 		*out = new(string)
@@ -611,6 +621,11 @@ func (in *AmlCompute) DeepCopyInto(out *AmlCompute) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(AmlCompute_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -1015,6 +1030,11 @@ func (in *AmlCompute_STATUS) DeepCopyInto(out *AmlCompute_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(AmlCompute_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
@@ -1534,6 +1554,11 @@ func (in *ComputeInstance) DeepCopyInto(out *ComputeInstance) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(ComputeInstance_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -2224,6 +2249,11 @@ func (in *ComputeInstance_STATUS) DeepCopyInto(out *ComputeInstance_STATUS) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(ComputeInstance_ComputeType_STATUS)
+		**out = **in
+	}
 	if in.CreatedOn != nil {
 		in, out := &in.CreatedOn, &out.CreatedOn
 		*out = new(string)
@@ -2633,6 +2663,11 @@ func (in *DataFactory) DeepCopyInto(out *DataFactory) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(DataFactory_ComputeType)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -2701,6 +2736,11 @@ func (in *DataFactory_STATUS) DeepCopyInto(out *DataFactory_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(DataFactory_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
@@ -2825,6 +2865,11 @@ func (in *DataLakeAnalytics) DeepCopyInto(out *DataLakeAnalytics) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(DataLakeAnalytics_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -2987,6 +3032,11 @@ func (in *DataLakeAnalytics_STATUS) DeepCopyInto(out *DataLakeAnalytics_STATUS) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(DataLakeAnalytics_ComputeType_STATUS)
+		**out = **in
+	}
 	if in.CreatedOn != nil {
 		in, out := &in.CreatedOn, &out.CreatedOn
 		*out = new(string)
@@ -3119,6 +3169,11 @@ func (in *Databricks) DeepCopyInto(out *Databricks) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(Databricks_ComputeType)
 		**out = **in
 	}
 	if in.Description != nil {
@@ -3299,6 +3354,11 @@ func (in *Databricks_STATUS) DeepCopyInto(out *Databricks_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(Databricks_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
@@ -3811,6 +3871,11 @@ func (in *HDInsight) DeepCopyInto(out *HDInsight) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(HDInsight_ComputeType)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4009,6 +4074,11 @@ func (in *HDInsight_STATUS) DeepCopyInto(out *HDInsight_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(HDInsight_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
@@ -4683,6 +4753,11 @@ func (in *Kubernetes) DeepCopyInto(out *Kubernetes) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(Kubernetes_ComputeType)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4969,6 +5044,11 @@ func (in *Kubernetes_STATUS) DeepCopyInto(out *Kubernetes_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(Kubernetes_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
@@ -6505,6 +6585,11 @@ func (in *SynapseSpark) DeepCopyInto(out *SynapseSpark) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(SynapseSpark_ComputeType)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -6843,6 +6928,11 @@ func (in *SynapseSpark_STATUS) DeepCopyInto(out *SynapseSpark_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(SynapseSpark_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
@@ -7399,6 +7489,11 @@ func (in *VirtualMachine) DeepCopyInto(out *VirtualMachine) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(VirtualMachine_ComputeType)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -7857,6 +7952,11 @@ func (in *VirtualMachine_STATUS) DeepCopyInto(out *VirtualMachine_STATUS) {
 	if in.ComputeLocation != nil {
 		in, out := &in.ComputeLocation, &out.ComputeLocation
 		*out = new(string)
+		**out = **in
+	}
+	if in.ComputeType != nil {
+		in, out := &in.ComputeType, &out.ComputeType
+		*out = new(VirtualMachine_ComputeType_STATUS)
 		**out = **in
 	}
 	if in.CreatedOn != nil {
