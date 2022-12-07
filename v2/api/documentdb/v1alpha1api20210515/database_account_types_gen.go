@@ -5102,7 +5102,7 @@ const (
 // Deprecated version of ContinuousModeBackupPolicy. Use v1beta20210515.ContinuousModeBackupPolicy instead
 type ContinuousModeBackupPolicy struct {
 	// +kubebuilder:validation:Required
-	Type ContinuousModeBackupPolicy_Type `json:"type,omitempty"`
+	Type *ContinuousModeBackupPolicy_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContinuousModeBackupPolicy{}
@@ -5115,7 +5115,9 @@ func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.Conve
 	result := &ContinuousModeBackupPolicy_ARM{}
 
 	// Set property ‘Type’:
-	result.Type = policy.Type
+	if policy.Type != nil {
+		result.Type = *policy.Type
+	}
 	return result, nil
 }
 
@@ -5132,7 +5134,7 @@ func (policy *ContinuousModeBackupPolicy) PopulateFromARM(owner genruntime.Arbit
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	policy.Type = &typedInput.Type
 
 	// No error
 	return nil
@@ -5143,9 +5145,10 @@ func (policy *ContinuousModeBackupPolicy) AssignProperties_From_ContinuousModeBa
 
 	// Type
 	if source.Type != nil {
-		policy.Type = ContinuousModeBackupPolicy_Type(*source.Type)
+		typeVar := ContinuousModeBackupPolicy_Type(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -5158,8 +5161,12 @@ func (policy *ContinuousModeBackupPolicy) AssignProperties_To_ContinuousModeBack
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5174,7 +5181,7 @@ func (policy *ContinuousModeBackupPolicy) AssignProperties_To_ContinuousModeBack
 
 // Deprecated version of ContinuousModeBackupPolicy_STATUS. Use v1beta20210515.ContinuousModeBackupPolicy_STATUS instead
 type ContinuousModeBackupPolicy_STATUS struct {
-	Type ContinuousModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+	Type *ContinuousModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContinuousModeBackupPolicy_STATUS{}
@@ -5192,7 +5199,7 @@ func (policy *ContinuousModeBackupPolicy_STATUS) PopulateFromARM(owner genruntim
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	policy.Type = &typedInput.Type
 
 	// No error
 	return nil
@@ -5203,9 +5210,10 @@ func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_From_Continuou
 
 	// Type
 	if source.Type != nil {
-		policy.Type = ContinuousModeBackupPolicy_Type_STATUS(*source.Type)
+		typeVar := ContinuousModeBackupPolicy_Type_STATUS(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -5218,8 +5226,12 @@ func (policy *ContinuousModeBackupPolicy_STATUS) AssignProperties_To_ContinuousM
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5433,7 +5445,7 @@ type PeriodicModeBackupPolicy struct {
 	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
+	Type *PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PeriodicModeBackupPolicy{}
@@ -5456,7 +5468,9 @@ func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.Convert
 	}
 
 	// Set property ‘Type’:
-	result.Type = policy.Type
+	if policy.Type != nil {
+		result.Type = *policy.Type
+	}
 	return result, nil
 }
 
@@ -5484,7 +5498,7 @@ func (policy *PeriodicModeBackupPolicy) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	policy.Type = &typedInput.Type
 
 	// No error
 	return nil
@@ -5507,9 +5521,10 @@ func (policy *PeriodicModeBackupPolicy) AssignProperties_From_PeriodicModeBackup
 
 	// Type
 	if source.Type != nil {
-		policy.Type = PeriodicModeBackupPolicy_Type(*source.Type)
+		typeVar := PeriodicModeBackupPolicy_Type(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -5534,8 +5549,12 @@ func (policy *PeriodicModeBackupPolicy) AssignProperties_To_PeriodicModeBackupPo
 	}
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5550,8 +5569,8 @@ func (policy *PeriodicModeBackupPolicy) AssignProperties_To_PeriodicModeBackupPo
 
 // Deprecated version of PeriodicModeBackupPolicy_STATUS. Use v1beta20210515.PeriodicModeBackupPolicy_STATUS instead
 type PeriodicModeBackupPolicy_STATUS struct {
-	PeriodicModeProperties *PeriodicModeProperties_STATUS       `json:"periodicModeProperties,omitempty"`
-	Type                   PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
+	PeriodicModeProperties *PeriodicModeProperties_STATUS        `json:"periodicModeProperties,omitempty"`
+	Type                   *PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PeriodicModeBackupPolicy_STATUS{}
@@ -5580,7 +5599,7 @@ func (policy *PeriodicModeBackupPolicy_STATUS) PopulateFromARM(owner genruntime.
 	}
 
 	// Set property ‘Type’:
-	policy.Type = typedInput.Type
+	policy.Type = &typedInput.Type
 
 	// No error
 	return nil
@@ -5603,9 +5622,10 @@ func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_From_PeriodicMod
 
 	// Type
 	if source.Type != nil {
-		policy.Type = PeriodicModeBackupPolicy_Type_STATUS(*source.Type)
+		typeVar := PeriodicModeBackupPolicy_Type_STATUS(*source.Type)
+		policy.Type = &typeVar
 	} else {
-		policy.Type = ""
+		policy.Type = nil
 	}
 
 	// No error
@@ -5630,8 +5650,12 @@ func (policy *PeriodicModeBackupPolicy_STATUS) AssignProperties_To_PeriodicModeB
 	}
 
 	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
+	if policy.Type != nil {
+		typeVar := string(*policy.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

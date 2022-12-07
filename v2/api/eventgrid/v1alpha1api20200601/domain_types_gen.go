@@ -1799,9 +1799,9 @@ type JsonInputSchemaMapping struct {
 	Id          *JsonField            `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
-	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
-	Subject                *JsonFieldWithDefault                         `json:"subject,omitempty"`
-	Topic                  *JsonField                                    `json:"topic,omitempty"`
+	InputSchemaMappingType *JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	Subject                *JsonFieldWithDefault                          `json:"subject,omitempty"`
+	Topic                  *JsonField                                     `json:"topic,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &JsonInputSchemaMapping{}
@@ -1814,7 +1814,9 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 	result := &JsonInputSchemaMapping_ARM{}
 
 	// Set property ‘InputSchemaMappingType’:
-	result.InputSchemaMappingType = mapping.InputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		result.InputSchemaMappingType = *mapping.InputSchemaMappingType
+	}
 
 	// Set property ‘Properties’:
 	if mapping.DataVersion != nil ||
@@ -1945,7 +1947,7 @@ func (mapping *JsonInputSchemaMapping) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘InputSchemaMappingType’:
-	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
 
 	// Set property ‘Subject’:
 	// copying flattened property:
@@ -2032,9 +2034,10 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapp
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		mapping.InputSchemaMappingType = JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
+		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
-		mapping.InputSchemaMappingType = ""
+		mapping.InputSchemaMappingType = nil
 	}
 
 	// Subject
@@ -2119,8 +2122,12 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMappin
 	}
 
 	// InputSchemaMappingType
-	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
+		destination.InputSchemaMappingType = &inputSchemaMappingType
+	} else {
+		destination.InputSchemaMappingType = nil
+	}
 
 	// Subject
 	if mapping.Subject != nil {
@@ -2159,13 +2166,13 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMappin
 
 // Deprecated version of JsonInputSchemaMapping_STATUS. Use v1beta20200601.JsonInputSchemaMapping_STATUS instead
 type JsonInputSchemaMapping_STATUS struct {
-	DataVersion            *JsonFieldWithDefault_STATUS                         `json:"dataVersion,omitempty"`
-	EventTime              *JsonField_STATUS                                    `json:"eventTime,omitempty"`
-	EventType              *JsonFieldWithDefault_STATUS                         `json:"eventType,omitempty"`
-	Id                     *JsonField_STATUS                                    `json:"id,omitempty"`
-	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
-	Subject                *JsonFieldWithDefault_STATUS                         `json:"subject,omitempty"`
-	Topic                  *JsonField_STATUS                                    `json:"topic,omitempty"`
+	DataVersion            *JsonFieldWithDefault_STATUS                          `json:"dataVersion,omitempty"`
+	EventTime              *JsonField_STATUS                                     `json:"eventTime,omitempty"`
+	EventType              *JsonFieldWithDefault_STATUS                          `json:"eventType,omitempty"`
+	Id                     *JsonField_STATUS                                     `json:"id,omitempty"`
+	InputSchemaMappingType *JsonInputSchemaMapping_InputSchemaMappingType_STATUS `json:"inputSchemaMappingType,omitempty"`
+	Subject                *JsonFieldWithDefault_STATUS                          `json:"subject,omitempty"`
+	Topic                  *JsonField_STATUS                                     `json:"topic,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &JsonInputSchemaMapping_STATUS{}
@@ -2239,7 +2246,7 @@ func (mapping *JsonInputSchemaMapping_STATUS) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘InputSchemaMappingType’:
-	mapping.InputSchemaMappingType = typedInput.InputSchemaMappingType
+	mapping.InputSchemaMappingType = &typedInput.InputSchemaMappingType
 
 	// Set property ‘Subject’:
 	// copying flattened property:
@@ -2326,9 +2333,10 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_From_JsonInputSch
 
 	// InputSchemaMappingType
 	if source.InputSchemaMappingType != nil {
-		mapping.InputSchemaMappingType = JsonInputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
+		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType_STATUS(*source.InputSchemaMappingType)
+		mapping.InputSchemaMappingType = &inputSchemaMappingType
 	} else {
-		mapping.InputSchemaMappingType = ""
+		mapping.InputSchemaMappingType = nil
 	}
 
 	// Subject
@@ -2413,8 +2421,12 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchem
 	}
 
 	// InputSchemaMappingType
-	inputSchemaMappingType := string(mapping.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
+	if mapping.InputSchemaMappingType != nil {
+		inputSchemaMappingType := string(*mapping.InputSchemaMappingType)
+		destination.InputSchemaMappingType = &inputSchemaMappingType
+	} else {
+		destination.InputSchemaMappingType = nil
+	}
 
 	// Subject
 	if mapping.Subject != nil {

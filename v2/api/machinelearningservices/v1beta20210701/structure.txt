@@ -357,7 +357,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   ├── Properties: *Object (10 properties)
 │   │   │   ├── AKS: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "AKS"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -395,7 +395,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── AmlCompute: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "AmlCompute"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -428,7 +428,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── ComputeInstance: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "ComputeInstance"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -465,14 +465,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── DataFactory: *Object (5 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "DataFactory"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── DataLakeAnalytics: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "DataLakeAnalytics"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -481,7 +481,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── Databricks: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "Databricks"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -491,7 +491,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── HDInsight: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "HDInsight"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -506,7 +506,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── Kubernetes: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "Kubernetes"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -526,7 +526,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── SynapseSpark: *Object (6 properties)
 │   │   │   │   ├── ComputeLocation: *string
-│   │   │   │   ├── ComputeType: Enum (1 value)
+│   │   │   │   ├── ComputeType: *Enum (1 value)
 │   │   │   │   │   └── "SynapseSpark"
 │   │   │   │   ├── Description: *string
 │   │   │   │   ├── DisableLocalAuth: *bool
@@ -549,7 +549,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   └── VirtualMachine: *Object (6 properties)
 │   │   │       ├── ComputeLocation: *string
-│   │   │       ├── ComputeType: Enum (1 value)
+│   │   │       ├── ComputeType: *Enum (1 value)
 │   │   │       │   └── "VirtualMachine"
 │   │   │       ├── Description: *string
 │   │   │       ├── DisableLocalAuth: *bool
@@ -603,7 +603,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       ├── Properties: *Object (10 properties)
 │       │   ├── AKS: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "AKS"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -667,7 +667,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── AmlCompute: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "AmlCompute"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -754,7 +754,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── ComputeInstance: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "ComputeInstance"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -878,7 +878,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── DataFactory: *Object (10 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "DataFactory"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -911,7 +911,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── DataLakeAnalytics: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "DataLakeAnalytics"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -946,7 +946,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── Databricks: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "Databricks"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -982,7 +982,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── HDInsight: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "HDInsight"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -1023,7 +1023,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── Kubernetes: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "Kubernetes"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -1067,7 +1067,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   ├── SynapseSpark: *Object (11 properties)
 │       │   │   ├── ComputeLocation: *string
-│       │   │   ├── ComputeType: Enum (1 value)
+│       │   │   ├── ComputeType: *Enum (1 value)
 │       │   │   │   └── "SynapseSpark"
 │       │   │   ├── CreatedOn: *string
 │       │   │   ├── Description: *string
@@ -1116,7 +1116,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │       │   │   └── ResourceId: *string
 │       │   └── VirtualMachine: *Object (11 properties)
 │       │       ├── ComputeLocation: *string
-│       │       ├── ComputeType: Enum (1 value)
+│       │       ├── ComputeType: *Enum (1 value)
 │       │       │   └── "VirtualMachine"
 │       │       ├── CreatedOn: *string
 │       │       ├── Description: *string

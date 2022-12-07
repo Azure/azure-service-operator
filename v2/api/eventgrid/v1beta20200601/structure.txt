@@ -25,7 +25,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │       │   └── SourceField: *string
 │   │   │       ├── Id: *Object (1 property)
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── InputSchemaMappingType: Enum (1 value)
+│   │   │       ├── InputSchemaMappingType: *Enum (1 value)
 │   │   │       │   └── "Json"
 │   │   │       ├── Subject: *Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
@@ -62,7 +62,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │       │   └── SourceField: *string
 │       │       ├── Id: *Object (1 property)
 │       │       │   └── SourceField: *string
-│       │       ├── InputSchemaMappingType: Enum (1 value)
+│       │       ├── InputSchemaMappingType: *Enum (1 value)
 │       │       │   └── "Json"
 │       │       ├── Subject: *Object (2 properties)
 │       │       │   ├── DefaultValue: *string
@@ -268,41 +268,41 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   ├── DeadLetterDestination: *Object (1 property)
 │   │   │   └── StorageBlob: *Object (3 properties)
 │   │   │       ├── BlobContainerName: *string
-│   │   │       ├── EndpointType: Enum (1 value)
+│   │   │       ├── EndpointType: *Enum (1 value)
 │   │   │       │   └── "StorageBlob"
 │   │   │       └── ResourceReference: *genruntime.ResourceReference
 │   │   ├── Destination: *Object (7 properties)
 │   │   │   ├── AzureFunction: *Object (4 properties)
-│   │   │   │   ├── EndpointType: Enum (1 value)
+│   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "AzureFunction"
 │   │   │   │   ├── MaxEventsPerBatch: *int
 │   │   │   │   ├── PreferredBatchSizeInKilobytes: *int
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── EventHub: *Object (2 properties)
-│   │   │   │   ├── EndpointType: Enum (1 value)
+│   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "EventHub"
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── HybridConnection: *Object (2 properties)
-│   │   │   │   ├── EndpointType: Enum (1 value)
+│   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "HybridConnection"
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── ServiceBusQueue: *Object (2 properties)
-│   │   │   │   ├── EndpointType: Enum (1 value)
+│   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "ServiceBusQueue"
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── ServiceBusTopic: *Object (2 properties)
-│   │   │   │   ├── EndpointType: Enum (1 value)
+│   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "ServiceBusTopic"
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   ├── StorageQueue: *Object (3 properties)
-│   │   │   │   ├── EndpointType: Enum (1 value)
+│   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "StorageQueue"
 │   │   │   │   ├── QueueName: *string
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
 │   │   │   └── WebHook: *Object (6 properties)
 │   │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
 │   │   │       ├── AzureActiveDirectoryTenantId: *string
-│   │   │       ├── EndpointType: Enum (1 value)
+│   │   │       ├── EndpointType: *Enum (1 value)
 │   │   │       │   └── "WebHook"
 │   │   │       ├── EndpointUrl: *genruntime.SecretReference
 │   │   │       ├── MaxEventsPerBatch: *int
@@ -316,62 +316,62 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │   ├── AdvancedFilters: Object (12 properties)[]
 │   │   │   │   ├── BoolEquals: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "BoolEquals"
 │   │   │   │   │   └── Value: *bool
 │   │   │   │   ├── NumberGreaterThan: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "NumberGreaterThan"
 │   │   │   │   │   └── Value: *float64
 │   │   │   │   ├── NumberGreaterThanOrEquals: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "NumberGreaterThanOrEquals"
 │   │   │   │   │   └── Value: *float64
 │   │   │   │   ├── NumberIn: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "NumberIn"
 │   │   │   │   │   └── Values: float64[]
 │   │   │   │   ├── NumberLessThan: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "NumberLessThan"
 │   │   │   │   │   └── Value: *float64
 │   │   │   │   ├── NumberLessThanOrEquals: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "NumberLessThanOrEquals"
 │   │   │   │   │   └── Value: *float64
 │   │   │   │   ├── NumberNotIn: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "NumberNotIn"
 │   │   │   │   │   └── Values: float64[]
 │   │   │   │   ├── StringBeginsWith: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "StringBeginsWith"
 │   │   │   │   │   └── Values: string[]
 │   │   │   │   ├── StringContains: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "StringContains"
 │   │   │   │   │   └── Values: string[]
 │   │   │   │   ├── StringEndsWith: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "StringEndsWith"
 │   │   │   │   │   └── Values: string[]
 │   │   │   │   ├── StringIn: *Object (3 properties)
 │   │   │   │   │   ├── Key: *string
-│   │   │   │   │   ├── OperatorType: Enum (1 value)
+│   │   │   │   │   ├── OperatorType: *Enum (1 value)
 │   │   │   │   │   │   └── "StringIn"
 │   │   │   │   │   └── Values: string[]
 │   │   │   │   └── StringNotIn: *Object (3 properties)
 │   │   │   │       ├── Key: *string
-│   │   │   │       ├── OperatorType: Enum (1 value)
+│   │   │   │       ├── OperatorType: *Enum (1 value)
 │   │   │   │       │   └── "StringNotIn"
 │   │   │   │       └── Values: string[]
 │   │   │   ├── IncludedEventTypes: string[]
@@ -388,34 +388,34 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       ├── DeadLetterDestination: *Object (1 property)
 │       │   └── StorageBlob: *Object (3 properties)
 │       │       ├── BlobContainerName: *string
-│       │       ├── EndpointType: Enum (1 value)
+│       │       ├── EndpointType: *Enum (1 value)
 │       │       │   └── "StorageBlob"
 │       │       └── ResourceId: *string
 │       ├── Destination: *Object (7 properties)
 │       │   ├── AzureFunction: *Object (4 properties)
-│       │   │   ├── EndpointType: Enum (1 value)
+│       │   │   ├── EndpointType: *Enum (1 value)
 │       │   │   │   └── "AzureFunction"
 │       │   │   ├── MaxEventsPerBatch: *int
 │       │   │   ├── PreferredBatchSizeInKilobytes: *int
 │       │   │   └── ResourceId: *string
 │       │   ├── EventHub: *Object (2 properties)
-│       │   │   ├── EndpointType: Enum (1 value)
+│       │   │   ├── EndpointType: *Enum (1 value)
 │       │   │   │   └── "EventHub"
 │       │   │   └── ResourceId: *string
 │       │   ├── HybridConnection: *Object (2 properties)
-│       │   │   ├── EndpointType: Enum (1 value)
+│       │   │   ├── EndpointType: *Enum (1 value)
 │       │   │   │   └── "HybridConnection"
 │       │   │   └── ResourceId: *string
 │       │   ├── ServiceBusQueue: *Object (2 properties)
-│       │   │   ├── EndpointType: Enum (1 value)
+│       │   │   ├── EndpointType: *Enum (1 value)
 │       │   │   │   └── "ServiceBusQueue"
 │       │   │   └── ResourceId: *string
 │       │   ├── ServiceBusTopic: *Object (2 properties)
-│       │   │   ├── EndpointType: Enum (1 value)
+│       │   │   ├── EndpointType: *Enum (1 value)
 │       │   │   │   └── "ServiceBusTopic"
 │       │   │   └── ResourceId: *string
 │       │   ├── StorageQueue: *Object (3 properties)
-│       │   │   ├── EndpointType: Enum (1 value)
+│       │   │   ├── EndpointType: *Enum (1 value)
 │       │   │   │   └── "StorageQueue"
 │       │   │   ├── QueueName: *string
 │       │   │   └── ResourceId: *string
@@ -423,7 +423,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
 │       │       ├── AzureActiveDirectoryTenantId: *string
 │       │       ├── EndpointBaseUrl: *string
-│       │       ├── EndpointType: Enum (1 value)
+│       │       ├── EndpointType: *Enum (1 value)
 │       │       │   └── "WebHook"
 │       │       ├── MaxEventsPerBatch: *int
 │       │       └── PreferredBatchSizeInKilobytes: *int
@@ -436,62 +436,62 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │   ├── AdvancedFilters: Object (12 properties)[]
 │       │   │   ├── BoolEquals: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "BoolEquals"
 │       │   │   │   └── Value: *bool
 │       │   │   ├── NumberGreaterThan: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "NumberGreaterThan"
 │       │   │   │   └── Value: *float64
 │       │   │   ├── NumberGreaterThanOrEquals: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "NumberGreaterThanOrEquals"
 │       │   │   │   └── Value: *float64
 │       │   │   ├── NumberIn: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "NumberIn"
 │       │   │   │   └── Values: float64[]
 │       │   │   ├── NumberLessThan: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "NumberLessThan"
 │       │   │   │   └── Value: *float64
 │       │   │   ├── NumberLessThanOrEquals: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "NumberLessThanOrEquals"
 │       │   │   │   └── Value: *float64
 │       │   │   ├── NumberNotIn: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "NumberNotIn"
 │       │   │   │   └── Values: float64[]
 │       │   │   ├── StringBeginsWith: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "StringBeginsWith"
 │       │   │   │   └── Values: string[]
 │       │   │   ├── StringContains: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "StringContains"
 │       │   │   │   └── Values: string[]
 │       │   │   ├── StringEndsWith: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "StringEndsWith"
 │       │   │   │   └── Values: string[]
 │       │   │   ├── StringIn: *Object (3 properties)
 │       │   │   │   ├── Key: *string
-│       │   │   │   ├── OperatorType: Enum (1 value)
+│       │   │   │   ├── OperatorType: *Enum (1 value)
 │       │   │   │   │   └── "StringIn"
 │       │   │   │   └── Values: string[]
 │       │   │   └── StringNotIn: *Object (3 properties)
 │       │   │       ├── Key: *string
-│       │   │       ├── OperatorType: Enum (1 value)
+│       │   │       ├── OperatorType: *Enum (1 value)
 │       │   │       │   └── "StringNotIn"
 │       │   │       └── Values: string[]
 │       │   ├── IncludedEventTypes: string[]
@@ -835,7 +835,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │   │   │       │   └── SourceField: *string
 │   │   │       ├── Id: *Object (1 property)
 │   │   │       │   └── SourceField: *string
-│   │   │       ├── InputSchemaMappingType: Enum (1 value)
+│   │   │       ├── InputSchemaMappingType: *Enum (1 value)
 │   │   │       │   └── "Json"
 │   │   │       ├── Subject: *Object (2 properties)
 │   │   │       │   ├── DefaultValue: *string
@@ -872,7 +872,7 @@ github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601
 │       │       │   └── SourceField: *string
 │       │       ├── Id: *Object (1 property)
 │       │       │   └── SourceField: *string
-│       │       ├── InputSchemaMappingType: Enum (1 value)
+│       │       ├── InputSchemaMappingType: *Enum (1 value)
 │       │       │   └── "Json"
 │       │       ├── Subject: *Object (2 properties)
 │       │       │   ├── DefaultValue: *string

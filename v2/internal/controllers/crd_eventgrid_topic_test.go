@@ -107,7 +107,7 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 			Owner: tc.AsExtensionOwner(topic),
 			Destination: &eventgrid.EventSubscriptionDestination{
 				StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-					EndpointType: endpointType, // TODO[donotmerge]: This should be a ptr but isn't, see https://github.com/Azure/azure-service-operator/issues/2619
+					EndpointType: &endpointType,
 					// TODO[donotmerge]: These properties used to be in a "Properties" property but are flattened
 					// TODO[donotmerge]: in the Swagger branch
 					//Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{

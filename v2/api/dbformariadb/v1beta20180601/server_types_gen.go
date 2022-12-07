@@ -2292,7 +2292,7 @@ type ServerPropertiesForDefaultCreate struct {
 
 	// +kubebuilder:validation:Required
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
 	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
@@ -2334,7 +2334,9 @@ func (create *ServerPropertiesForDefaultCreate) ConvertToARM(resolved genruntime
 	result.AdministratorLoginPassword = administratorLoginPasswordSecret
 
 	// Set property ‘CreateMode’:
-	result.CreateMode = create.CreateMode
+	if create.CreateMode != nil {
+		result.CreateMode = *create.CreateMode
+	}
 
 	// Set property ‘MinimalTlsVersion’:
 	if create.MinimalTlsVersion != nil {
@@ -2393,7 +2395,7 @@ func (create *ServerPropertiesForDefaultCreate) PopulateFromARM(owner genruntime
 	// no assignment for property ‘AdministratorLoginPassword’
 
 	// Set property ‘CreateMode’:
-	create.CreateMode = typedInput.CreateMode
+	create.CreateMode = &typedInput.CreateMode
 
 	// Set property ‘MinimalTlsVersion’:
 	if typedInput.MinimalTlsVersion != nil {
@@ -2449,9 +2451,10 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// CreateMode
 	if source.CreateMode != nil {
-		create.CreateMode = ServerPropertiesForDefaultCreate_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForDefaultCreate_CreateMode(*source.CreateMode)
+		create.CreateMode = &createMode
 	} else {
-		create.CreateMode = ""
+		create.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
@@ -2515,8 +2518,12 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 	destination.AdministratorLoginPassword = &administratorLoginPassword
 
 	// CreateMode
-	createMode := string(create.CreateMode)
-	destination.CreateMode = &createMode
+	if create.CreateMode != nil {
+		createMode := string(*create.CreateMode)
+		destination.CreateMode = &createMode
+	} else {
+		destination.CreateMode = nil
+	}
 
 	// MinimalTlsVersion
 	if create.MinimalTlsVersion != nil {
@@ -2576,7 +2583,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 type ServerPropertiesForGeoRestore struct {
 	// +kubebuilder:validation:Required
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
 	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
@@ -2609,7 +2616,9 @@ func (restore *ServerPropertiesForGeoRestore) ConvertToARM(resolved genruntime.C
 	result := &ServerPropertiesForGeoRestore_ARM{}
 
 	// Set property ‘CreateMode’:
-	result.CreateMode = restore.CreateMode
+	if restore.CreateMode != nil {
+		result.CreateMode = *restore.CreateMode
+	}
 
 	// Set property ‘MinimalTlsVersion’:
 	if restore.MinimalTlsVersion != nil {
@@ -2666,7 +2675,7 @@ func (restore *ServerPropertiesForGeoRestore) PopulateFromARM(owner genruntime.A
 	}
 
 	// Set property ‘CreateMode’:
-	restore.CreateMode = typedInput.CreateMode
+	restore.CreateMode = &typedInput.CreateMode
 
 	// Set property ‘MinimalTlsVersion’:
 	if typedInput.MinimalTlsVersion != nil {
@@ -2718,9 +2727,10 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// CreateMode
 	if source.CreateMode != nil {
-		restore.CreateMode = ServerPropertiesForGeoRestore_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForGeoRestore_CreateMode(*source.CreateMode)
+		restore.CreateMode = &createMode
 	} else {
-		restore.CreateMode = ""
+		restore.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
@@ -2780,8 +2790,12 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerProperti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreateMode
-	createMode := string(restore.CreateMode)
-	destination.CreateMode = &createMode
+	if restore.CreateMode != nil {
+		createMode := string(*restore.CreateMode)
+		destination.CreateMode = &createMode
+	} else {
+		destination.CreateMode = nil
+	}
 
 	// MinimalTlsVersion
 	if restore.MinimalTlsVersion != nil {
@@ -2844,7 +2858,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerProperti
 type ServerPropertiesForReplica struct {
 	// +kubebuilder:validation:Required
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
 	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
@@ -2877,7 +2891,9 @@ func (replica *ServerPropertiesForReplica) ConvertToARM(resolved genruntime.Conv
 	result := &ServerPropertiesForReplica_ARM{}
 
 	// Set property ‘CreateMode’:
-	result.CreateMode = replica.CreateMode
+	if replica.CreateMode != nil {
+		result.CreateMode = *replica.CreateMode
+	}
 
 	// Set property ‘MinimalTlsVersion’:
 	if replica.MinimalTlsVersion != nil {
@@ -2934,7 +2950,7 @@ func (replica *ServerPropertiesForReplica) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘CreateMode’:
-	replica.CreateMode = typedInput.CreateMode
+	replica.CreateMode = &typedInput.CreateMode
 
 	// Set property ‘MinimalTlsVersion’:
 	if typedInput.MinimalTlsVersion != nil {
@@ -2986,9 +3002,10 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// CreateMode
 	if source.CreateMode != nil {
-		replica.CreateMode = ServerPropertiesForReplica_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForReplica_CreateMode(*source.CreateMode)
+		replica.CreateMode = &createMode
 	} else {
-		replica.CreateMode = ""
+		replica.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
@@ -3048,8 +3065,12 @@ func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesF
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreateMode
-	createMode := string(replica.CreateMode)
-	destination.CreateMode = &createMode
+	if replica.CreateMode != nil {
+		createMode := string(*replica.CreateMode)
+		destination.CreateMode = &createMode
+	} else {
+		destination.CreateMode = nil
+	}
 
 	// MinimalTlsVersion
 	if replica.MinimalTlsVersion != nil {
@@ -3112,7 +3133,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesF
 type ServerPropertiesForRestore struct {
 	// +kubebuilder:validation:Required
 	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
 	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
@@ -3149,7 +3170,9 @@ func (restore *ServerPropertiesForRestore) ConvertToARM(resolved genruntime.Conv
 	result := &ServerPropertiesForRestore_ARM{}
 
 	// Set property ‘CreateMode’:
-	result.CreateMode = restore.CreateMode
+	if restore.CreateMode != nil {
+		result.CreateMode = *restore.CreateMode
+	}
 
 	// Set property ‘MinimalTlsVersion’:
 	if restore.MinimalTlsVersion != nil {
@@ -3212,7 +3235,7 @@ func (restore *ServerPropertiesForRestore) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘CreateMode’:
-	restore.CreateMode = typedInput.CreateMode
+	restore.CreateMode = &typedInput.CreateMode
 
 	// Set property ‘MinimalTlsVersion’:
 	if typedInput.MinimalTlsVersion != nil {
@@ -3270,9 +3293,10 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// CreateMode
 	if source.CreateMode != nil {
-		restore.CreateMode = ServerPropertiesForRestore_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForRestore_CreateMode(*source.CreateMode)
+		restore.CreateMode = &createMode
 	} else {
-		restore.CreateMode = ""
+		restore.CreateMode = nil
 	}
 
 	// MinimalTlsVersion
@@ -3340,8 +3364,12 @@ func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesF
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreateMode
-	createMode := string(restore.CreateMode)
-	destination.CreateMode = &createMode
+	if restore.CreateMode != nil {
+		createMode := string(*restore.CreateMode)
+		destination.CreateMode = &createMode
+	} else {
+		destination.CreateMode = nil
+	}
 
 	// MinimalTlsVersion
 	if restore.MinimalTlsVersion != nil {

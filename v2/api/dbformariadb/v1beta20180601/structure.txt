@@ -46,7 +46,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │   ├── Default: *Object (8 properties)
 │   │   │   │   ├── AdministratorLogin: *string
 │   │   │   │   ├── AdministratorLoginPassword: genruntime.SecretReference
-│   │   │   │   ├── CreateMode: Enum (1 value)
+│   │   │   │   ├── CreateMode: *Enum (1 value)
 │   │   │   │   │   └── "Default"
 │   │   │   │   ├── MinimalTlsVersion: *Enum (4 values)
 │   │   │   │   │   ├── "TLS1_0"
@@ -72,7 +72,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │   │       ├── "10.2"
 │   │   │   │       └── "10.3"
 │   │   │   ├── GeoRestore: *Object (7 properties)
-│   │   │   │   ├── CreateMode: Enum (1 value)
+│   │   │   │   ├── CreateMode: *Enum (1 value)
 │   │   │   │   │   └── "GeoRestore"
 │   │   │   │   ├── MinimalTlsVersion: *Enum (4 values)
 │   │   │   │   │   ├── "TLS1_0"
@@ -99,7 +99,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │   │       ├── "10.2"
 │   │   │   │       └── "10.3"
 │   │   │   ├── PointInTimeRestore: *Object (8 properties)
-│   │   │   │   ├── CreateMode: Enum (1 value)
+│   │   │   │   ├── CreateMode: *Enum (1 value)
 │   │   │   │   │   └── "PointInTimeRestore"
 │   │   │   │   ├── MinimalTlsVersion: *Enum (4 values)
 │   │   │   │   │   ├── "TLS1_0"
@@ -127,7 +127,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │   │       ├── "10.2"
 │   │   │   │       └── "10.3"
 │   │   │   └── Replica: *Object (7 properties)
-│   │   │       ├── CreateMode: Enum (1 value)
+│   │   │       ├── CreateMode: *Enum (1 value)
 │   │   │       │   └── "Replica"
 │   │   │       ├── MinimalTlsVersion: *Enum (4 values)
 │   │   │       │   ├── "TLS1_0"

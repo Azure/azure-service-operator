@@ -2009,7 +2009,7 @@ type AKS struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType AKS_ComputeType `json:"computeType,omitempty"`
+	ComputeType *AKS_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -2041,7 +2041,9 @@ func (aks *AKS) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = aks.ComputeType
+	if aks.ComputeType != nil {
+		result.ComputeType = *aks.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if aks.Description != nil {
@@ -2096,7 +2098,7 @@ func (aks *AKS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	}
 
 	// Set property ‘ComputeType’:
-	aks.ComputeType = typedInput.ComputeType
+	aks.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -2135,9 +2137,10 @@ func (aks *AKS) AssignProperties_From_AKS(source *v20210701s.AKS) error {
 
 	// ComputeType
 	if source.ComputeType != nil {
-		aks.ComputeType = AKS_ComputeType(*source.ComputeType)
+		computeType := AKS_ComputeType(*source.ComputeType)
+		aks.ComputeType = &computeType
 	} else {
-		aks.ComputeType = ""
+		aks.ComputeType = nil
 	}
 
 	// Description
@@ -2184,8 +2187,12 @@ func (aks *AKS) AssignProperties_To_AKS(destination *v20210701s.AKS) error {
 	destination.ComputeLocation = genruntime.ClonePointerToString(aks.ComputeLocation)
 
 	// ComputeType
-	computeType := string(aks.ComputeType)
-	destination.ComputeType = &computeType
+	if aks.ComputeType != nil {
+		computeType := string(*aks.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(aks.Description)
@@ -2234,7 +2241,7 @@ type AKS_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType AKS_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *AKS_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -2288,7 +2295,7 @@ func (aks *AKS_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	}
 
 	// Set property ‘ComputeType’:
-	aks.ComputeType = typedInput.ComputeType
+	aks.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -2365,9 +2372,10 @@ func (aks *AKS_STATUS) AssignProperties_From_AKS_STATUS(source *v20210701s.AKS_S
 
 	// ComputeType
 	if source.ComputeType != nil {
-		aks.ComputeType = AKS_ComputeType_STATUS(*source.ComputeType)
+		computeType := AKS_ComputeType_STATUS(*source.ComputeType)
+		aks.ComputeType = &computeType
 	} else {
-		aks.ComputeType = ""
+		aks.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -2449,8 +2457,12 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *v20210701s.AK
 	destination.ComputeLocation = genruntime.ClonePointerToString(aks.ComputeLocation)
 
 	// ComputeType
-	computeType := string(aks.ComputeType)
-	destination.ComputeType = &computeType
+	if aks.ComputeType != nil {
+		computeType := string(*aks.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(aks.CreatedOn)
@@ -2535,7 +2547,7 @@ type AmlCompute struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType AmlCompute_ComputeType `json:"computeType,omitempty"`
+	ComputeType *AmlCompute_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -2567,7 +2579,9 @@ func (compute *AmlCompute) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = compute.ComputeType
+	if compute.ComputeType != nil {
+		result.ComputeType = *compute.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if compute.Description != nil {
@@ -2622,7 +2636,7 @@ func (compute *AmlCompute) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘ComputeType’:
-	compute.ComputeType = typedInput.ComputeType
+	compute.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -2661,9 +2675,10 @@ func (compute *AmlCompute) AssignProperties_From_AmlCompute(source *v20210701s.A
 
 	// ComputeType
 	if source.ComputeType != nil {
-		compute.ComputeType = AmlCompute_ComputeType(*source.ComputeType)
+		computeType := AmlCompute_ComputeType(*source.ComputeType)
+		compute.ComputeType = &computeType
 	} else {
-		compute.ComputeType = ""
+		compute.ComputeType = nil
 	}
 
 	// Description
@@ -2710,8 +2725,12 @@ func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *v20210701
 	destination.ComputeLocation = genruntime.ClonePointerToString(compute.ComputeLocation)
 
 	// ComputeType
-	computeType := string(compute.ComputeType)
-	destination.ComputeType = &computeType
+	if compute.ComputeType != nil {
+		computeType := string(*compute.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(compute.Description)
@@ -2760,7 +2779,7 @@ type AmlCompute_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType AmlCompute_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *AmlCompute_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -2814,7 +2833,7 @@ func (compute *AmlCompute_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘ComputeType’:
-	compute.ComputeType = typedInput.ComputeType
+	compute.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -2891,9 +2910,10 @@ func (compute *AmlCompute_STATUS) AssignProperties_From_AmlCompute_STATUS(source
 
 	// ComputeType
 	if source.ComputeType != nil {
-		compute.ComputeType = AmlCompute_ComputeType_STATUS(*source.ComputeType)
+		computeType := AmlCompute_ComputeType_STATUS(*source.ComputeType)
+		compute.ComputeType = &computeType
 	} else {
-		compute.ComputeType = ""
+		compute.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -2975,8 +2995,12 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 	destination.ComputeLocation = genruntime.ClonePointerToString(compute.ComputeLocation)
 
 	// ComputeType
-	computeType := string(compute.ComputeType)
-	destination.ComputeType = &computeType
+	if compute.ComputeType != nil {
+		computeType := string(*compute.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(compute.CreatedOn)
@@ -3061,7 +3085,7 @@ type ComputeInstance struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType ComputeInstance_ComputeType `json:"computeType,omitempty"`
+	ComputeType *ComputeInstance_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -3093,7 +3117,9 @@ func (instance *ComputeInstance) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = instance.ComputeType
+	if instance.ComputeType != nil {
+		result.ComputeType = *instance.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if instance.Description != nil {
@@ -3148,7 +3174,7 @@ func (instance *ComputeInstance) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘ComputeType’:
-	instance.ComputeType = typedInput.ComputeType
+	instance.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -3187,9 +3213,10 @@ func (instance *ComputeInstance) AssignProperties_From_ComputeInstance(source *v
 
 	// ComputeType
 	if source.ComputeType != nil {
-		instance.ComputeType = ComputeInstance_ComputeType(*source.ComputeType)
+		computeType := ComputeInstance_ComputeType(*source.ComputeType)
+		instance.ComputeType = &computeType
 	} else {
-		instance.ComputeType = ""
+		instance.ComputeType = nil
 	}
 
 	// Description
@@ -3236,8 +3263,12 @@ func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination
 	destination.ComputeLocation = genruntime.ClonePointerToString(instance.ComputeLocation)
 
 	// ComputeType
-	computeType := string(instance.ComputeType)
-	destination.ComputeType = &computeType
+	if instance.ComputeType != nil {
+		computeType := string(*instance.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(instance.Description)
@@ -3286,7 +3317,7 @@ type ComputeInstance_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType ComputeInstance_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *ComputeInstance_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -3340,7 +3371,7 @@ func (instance *ComputeInstance_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	}
 
 	// Set property ‘ComputeType’:
-	instance.ComputeType = typedInput.ComputeType
+	instance.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -3417,9 +3448,10 @@ func (instance *ComputeInstance_STATUS) AssignProperties_From_ComputeInstance_ST
 
 	// ComputeType
 	if source.ComputeType != nil {
-		instance.ComputeType = ComputeInstance_ComputeType_STATUS(*source.ComputeType)
+		computeType := ComputeInstance_ComputeType_STATUS(*source.ComputeType)
+		instance.ComputeType = &computeType
 	} else {
-		instance.ComputeType = ""
+		instance.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -3501,8 +3533,12 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 	destination.ComputeLocation = genruntime.ClonePointerToString(instance.ComputeLocation)
 
 	// ComputeType
-	computeType := string(instance.ComputeType)
-	destination.ComputeType = &computeType
+	if instance.ComputeType != nil {
+		computeType := string(*instance.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(instance.CreatedOn)
@@ -3587,7 +3623,7 @@ type Databricks struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType Databricks_ComputeType `json:"computeType,omitempty"`
+	ComputeType *Databricks_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -3617,7 +3653,9 @@ func (databricks *Databricks) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = databricks.ComputeType
+	if databricks.ComputeType != nil {
+		result.ComputeType = *databricks.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if databricks.Description != nil {
@@ -3672,7 +3710,7 @@ func (databricks *Databricks) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property ‘ComputeType’:
-	databricks.ComputeType = typedInput.ComputeType
+	databricks.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -3711,9 +3749,10 @@ func (databricks *Databricks) AssignProperties_From_Databricks(source *v20210701
 
 	// ComputeType
 	if source.ComputeType != nil {
-		databricks.ComputeType = Databricks_ComputeType(*source.ComputeType)
+		computeType := Databricks_ComputeType(*source.ComputeType)
+		databricks.ComputeType = &computeType
 	} else {
-		databricks.ComputeType = ""
+		databricks.ComputeType = nil
 	}
 
 	// Description
@@ -3760,8 +3799,12 @@ func (databricks *Databricks) AssignProperties_To_Databricks(destination *v20210
 	destination.ComputeLocation = genruntime.ClonePointerToString(databricks.ComputeLocation)
 
 	// ComputeType
-	computeType := string(databricks.ComputeType)
-	destination.ComputeType = &computeType
+	if databricks.ComputeType != nil {
+		computeType := string(*databricks.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(databricks.Description)
@@ -3810,7 +3853,7 @@ type Databricks_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType Databricks_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *Databricks_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -3862,7 +3905,7 @@ func (databricks *Databricks_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property ‘ComputeType’:
-	databricks.ComputeType = typedInput.ComputeType
+	databricks.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -3939,9 +3982,10 @@ func (databricks *Databricks_STATUS) AssignProperties_From_Databricks_STATUS(sou
 
 	// ComputeType
 	if source.ComputeType != nil {
-		databricks.ComputeType = Databricks_ComputeType_STATUS(*source.ComputeType)
+		computeType := Databricks_ComputeType_STATUS(*source.ComputeType)
+		databricks.ComputeType = &computeType
 	} else {
-		databricks.ComputeType = ""
+		databricks.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -4023,8 +4067,12 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 	destination.ComputeLocation = genruntime.ClonePointerToString(databricks.ComputeLocation)
 
 	// ComputeType
-	computeType := string(databricks.ComputeType)
-	destination.ComputeType = &computeType
+	if databricks.ComputeType != nil {
+		computeType := string(*databricks.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(databricks.CreatedOn)
@@ -4109,7 +4157,7 @@ type DataFactory struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType DataFactory_ComputeType `json:"computeType,omitempty"`
+	ComputeType *DataFactory_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -4138,7 +4186,9 @@ func (factory *DataFactory) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = factory.ComputeType
+	if factory.ComputeType != nil {
+		result.ComputeType = *factory.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if factory.Description != nil {
@@ -4183,7 +4233,7 @@ func (factory *DataFactory) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	}
 
 	// Set property ‘ComputeType’:
-	factory.ComputeType = typedInput.ComputeType
+	factory.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -4211,9 +4261,10 @@ func (factory *DataFactory) AssignProperties_From_DataFactory(source *v20210701s
 
 	// ComputeType
 	if source.ComputeType != nil {
-		factory.ComputeType = DataFactory_ComputeType(*source.ComputeType)
+		computeType := DataFactory_ComputeType(*source.ComputeType)
+		factory.ComputeType = &computeType
 	} else {
-		factory.ComputeType = ""
+		factory.ComputeType = nil
 	}
 
 	// Description
@@ -4248,8 +4299,12 @@ func (factory *DataFactory) AssignProperties_To_DataFactory(destination *v202107
 	destination.ComputeLocation = genruntime.ClonePointerToString(factory.ComputeLocation)
 
 	// ComputeType
-	computeType := string(factory.ComputeType)
-	destination.ComputeType = &computeType
+	if factory.ComputeType != nil {
+		computeType := string(*factory.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(factory.Description)
@@ -4286,7 +4341,7 @@ type DataFactory_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType DataFactory_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *DataFactory_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -4337,7 +4392,7 @@ func (factory *DataFactory_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	}
 
 	// Set property ‘ComputeType’:
-	factory.ComputeType = typedInput.ComputeType
+	factory.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -4403,9 +4458,10 @@ func (factory *DataFactory_STATUS) AssignProperties_From_DataFactory_STATUS(sour
 
 	// ComputeType
 	if source.ComputeType != nil {
-		factory.ComputeType = DataFactory_ComputeType_STATUS(*source.ComputeType)
+		computeType := DataFactory_ComputeType_STATUS(*source.ComputeType)
+		factory.ComputeType = &computeType
 	} else {
-		factory.ComputeType = ""
+		factory.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -4475,8 +4531,12 @@ func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destin
 	destination.ComputeLocation = genruntime.ClonePointerToString(factory.ComputeLocation)
 
 	// ComputeType
-	computeType := string(factory.ComputeType)
-	destination.ComputeType = &computeType
+	if factory.ComputeType != nil {
+		computeType := string(*factory.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(factory.CreatedOn)
@@ -4549,7 +4609,7 @@ type DataLakeAnalytics struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
+	ComputeType *DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -4579,7 +4639,9 @@ func (analytics *DataLakeAnalytics) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = analytics.ComputeType
+	if analytics.ComputeType != nil {
+		result.ComputeType = *analytics.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if analytics.Description != nil {
@@ -4634,7 +4696,7 @@ func (analytics *DataLakeAnalytics) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// Set property ‘ComputeType’:
-	analytics.ComputeType = typedInput.ComputeType
+	analytics.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -4673,9 +4735,10 @@ func (analytics *DataLakeAnalytics) AssignProperties_From_DataLakeAnalytics(sour
 
 	// ComputeType
 	if source.ComputeType != nil {
-		analytics.ComputeType = DataLakeAnalytics_ComputeType(*source.ComputeType)
+		computeType := DataLakeAnalytics_ComputeType(*source.ComputeType)
+		analytics.ComputeType = &computeType
 	} else {
-		analytics.ComputeType = ""
+		analytics.ComputeType = nil
 	}
 
 	// Description
@@ -4722,8 +4785,12 @@ func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destin
 	destination.ComputeLocation = genruntime.ClonePointerToString(analytics.ComputeLocation)
 
 	// ComputeType
-	computeType := string(analytics.ComputeType)
-	destination.ComputeType = &computeType
+	if analytics.ComputeType != nil {
+		computeType := string(*analytics.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(analytics.Description)
@@ -4772,7 +4839,7 @@ type DataLakeAnalytics_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType DataLakeAnalytics_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *DataLakeAnalytics_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -4824,7 +4891,7 @@ func (analytics *DataLakeAnalytics_STATUS) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘ComputeType’:
-	analytics.ComputeType = typedInput.ComputeType
+	analytics.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -4901,9 +4968,10 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_From_DataLakeAnalyti
 
 	// ComputeType
 	if source.ComputeType != nil {
-		analytics.ComputeType = DataLakeAnalytics_ComputeType_STATUS(*source.ComputeType)
+		computeType := DataLakeAnalytics_ComputeType_STATUS(*source.ComputeType)
+		analytics.ComputeType = &computeType
 	} else {
-		analytics.ComputeType = ""
+		analytics.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -4985,8 +5053,12 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 	destination.ComputeLocation = genruntime.ClonePointerToString(analytics.ComputeLocation)
 
 	// ComputeType
-	computeType := string(analytics.ComputeType)
-	destination.ComputeType = &computeType
+	if analytics.ComputeType != nil {
+		computeType := string(*analytics.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(analytics.CreatedOn)
@@ -5071,7 +5143,7 @@ type HDInsight struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType HDInsight_ComputeType `json:"computeType,omitempty"`
+	ComputeType *HDInsight_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -5101,7 +5173,9 @@ func (insight *HDInsight) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = insight.ComputeType
+	if insight.ComputeType != nil {
+		result.ComputeType = *insight.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if insight.Description != nil {
@@ -5156,7 +5230,7 @@ func (insight *HDInsight) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	}
 
 	// Set property ‘ComputeType’:
-	insight.ComputeType = typedInput.ComputeType
+	insight.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -5195,9 +5269,10 @@ func (insight *HDInsight) AssignProperties_From_HDInsight(source *v20210701s.HDI
 
 	// ComputeType
 	if source.ComputeType != nil {
-		insight.ComputeType = HDInsight_ComputeType(*source.ComputeType)
+		computeType := HDInsight_ComputeType(*source.ComputeType)
+		insight.ComputeType = &computeType
 	} else {
-		insight.ComputeType = ""
+		insight.ComputeType = nil
 	}
 
 	// Description
@@ -5244,8 +5319,12 @@ func (insight *HDInsight) AssignProperties_To_HDInsight(destination *v20210701s.
 	destination.ComputeLocation = genruntime.ClonePointerToString(insight.ComputeLocation)
 
 	// ComputeType
-	computeType := string(insight.ComputeType)
-	destination.ComputeType = &computeType
+	if insight.ComputeType != nil {
+		computeType := string(*insight.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(insight.Description)
@@ -5294,7 +5373,7 @@ type HDInsight_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType HDInsight_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *HDInsight_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -5346,7 +5425,7 @@ func (insight *HDInsight_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	}
 
 	// Set property ‘ComputeType’:
-	insight.ComputeType = typedInput.ComputeType
+	insight.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -5423,9 +5502,10 @@ func (insight *HDInsight_STATUS) AssignProperties_From_HDInsight_STATUS(source *
 
 	// ComputeType
 	if source.ComputeType != nil {
-		insight.ComputeType = HDInsight_ComputeType_STATUS(*source.ComputeType)
+		computeType := HDInsight_ComputeType_STATUS(*source.ComputeType)
+		insight.ComputeType = &computeType
 	} else {
-		insight.ComputeType = ""
+		insight.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -5507,8 +5587,12 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 	destination.ComputeLocation = genruntime.ClonePointerToString(insight.ComputeLocation)
 
 	// ComputeType
-	computeType := string(insight.ComputeType)
-	destination.ComputeType = &computeType
+	if insight.ComputeType != nil {
+		computeType := string(*insight.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(insight.CreatedOn)
@@ -5593,7 +5677,7 @@ type Kubernetes struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType Kubernetes_ComputeType `json:"computeType,omitempty"`
+	ComputeType *Kubernetes_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -5625,7 +5709,9 @@ func (kubernetes *Kubernetes) ConvertToARM(resolved genruntime.ConvertToARMResol
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = kubernetes.ComputeType
+	if kubernetes.ComputeType != nil {
+		result.ComputeType = *kubernetes.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if kubernetes.Description != nil {
@@ -5680,7 +5766,7 @@ func (kubernetes *Kubernetes) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	}
 
 	// Set property ‘ComputeType’:
-	kubernetes.ComputeType = typedInput.ComputeType
+	kubernetes.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -5719,9 +5805,10 @@ func (kubernetes *Kubernetes) AssignProperties_From_Kubernetes(source *v20210701
 
 	// ComputeType
 	if source.ComputeType != nil {
-		kubernetes.ComputeType = Kubernetes_ComputeType(*source.ComputeType)
+		computeType := Kubernetes_ComputeType(*source.ComputeType)
+		kubernetes.ComputeType = &computeType
 	} else {
-		kubernetes.ComputeType = ""
+		kubernetes.ComputeType = nil
 	}
 
 	// Description
@@ -5768,8 +5855,12 @@ func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *v20210
 	destination.ComputeLocation = genruntime.ClonePointerToString(kubernetes.ComputeLocation)
 
 	// ComputeType
-	computeType := string(kubernetes.ComputeType)
-	destination.ComputeType = &computeType
+	if kubernetes.ComputeType != nil {
+		computeType := string(*kubernetes.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(kubernetes.Description)
@@ -5818,7 +5909,7 @@ type Kubernetes_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType Kubernetes_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *Kubernetes_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -5872,7 +5963,7 @@ func (kubernetes *Kubernetes_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	}
 
 	// Set property ‘ComputeType’:
-	kubernetes.ComputeType = typedInput.ComputeType
+	kubernetes.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -5949,9 +6040,10 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_From_Kubernetes_STATUS(sou
 
 	// ComputeType
 	if source.ComputeType != nil {
-		kubernetes.ComputeType = Kubernetes_ComputeType_STATUS(*source.ComputeType)
+		computeType := Kubernetes_ComputeType_STATUS(*source.ComputeType)
+		kubernetes.ComputeType = &computeType
 	} else {
-		kubernetes.ComputeType = ""
+		kubernetes.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -6033,8 +6125,12 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 	destination.ComputeLocation = genruntime.ClonePointerToString(kubernetes.ComputeLocation)
 
 	// ComputeType
-	computeType := string(kubernetes.ComputeType)
-	destination.ComputeType = &computeType
+	if kubernetes.ComputeType != nil {
+		computeType := string(*kubernetes.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(kubernetes.CreatedOn)
@@ -6119,7 +6215,7 @@ type SynapseSpark struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType SynapseSpark_ComputeType `json:"computeType,omitempty"`
+	ComputeType *SynapseSpark_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -6149,7 +6245,9 @@ func (spark *SynapseSpark) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = spark.ComputeType
+	if spark.ComputeType != nil {
+		result.ComputeType = *spark.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if spark.Description != nil {
@@ -6204,7 +6302,7 @@ func (spark *SynapseSpark) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	}
 
 	// Set property ‘ComputeType’:
-	spark.ComputeType = typedInput.ComputeType
+	spark.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -6243,9 +6341,10 @@ func (spark *SynapseSpark) AssignProperties_From_SynapseSpark(source *v20210701s
 
 	// ComputeType
 	if source.ComputeType != nil {
-		spark.ComputeType = SynapseSpark_ComputeType(*source.ComputeType)
+		computeType := SynapseSpark_ComputeType(*source.ComputeType)
+		spark.ComputeType = &computeType
 	} else {
-		spark.ComputeType = ""
+		spark.ComputeType = nil
 	}
 
 	// Description
@@ -6292,8 +6391,12 @@ func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *v202107
 	destination.ComputeLocation = genruntime.ClonePointerToString(spark.ComputeLocation)
 
 	// ComputeType
-	computeType := string(spark.ComputeType)
-	destination.ComputeType = &computeType
+	if spark.ComputeType != nil {
+		computeType := string(*spark.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(spark.Description)
@@ -6342,7 +6445,7 @@ type SynapseSpark_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType SynapseSpark_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *SynapseSpark_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -6394,7 +6497,7 @@ func (spark *SynapseSpark_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwne
 	}
 
 	// Set property ‘ComputeType’:
-	spark.ComputeType = typedInput.ComputeType
+	spark.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -6471,9 +6574,10 @@ func (spark *SynapseSpark_STATUS) AssignProperties_From_SynapseSpark_STATUS(sour
 
 	// ComputeType
 	if source.ComputeType != nil {
-		spark.ComputeType = SynapseSpark_ComputeType_STATUS(*source.ComputeType)
+		computeType := SynapseSpark_ComputeType_STATUS(*source.ComputeType)
+		spark.ComputeType = &computeType
 	} else {
-		spark.ComputeType = ""
+		spark.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -6555,8 +6659,12 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 	destination.ComputeLocation = genruntime.ClonePointerToString(spark.ComputeLocation)
 
 	// ComputeType
-	computeType := string(spark.ComputeType)
-	destination.ComputeType = &computeType
+	if spark.ComputeType != nil {
+		computeType := string(*spark.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(spark.CreatedOn)
@@ -6641,7 +6749,7 @@ type VirtualMachine struct {
 
 	// +kubebuilder:validation:Required
 	// ComputeType: The type of compute
-	ComputeType VirtualMachine_ComputeType `json:"computeType,omitempty"`
+	ComputeType *VirtualMachine_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -6671,7 +6779,9 @@ func (machine *VirtualMachine) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘ComputeType’:
-	result.ComputeType = machine.ComputeType
+	if machine.ComputeType != nil {
+		result.ComputeType = *machine.ComputeType
+	}
 
 	// Set property ‘Description’:
 	if machine.Description != nil {
@@ -6726,7 +6836,7 @@ func (machine *VirtualMachine) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// Set property ‘ComputeType’:
-	machine.ComputeType = typedInput.ComputeType
+	machine.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘Description’:
 	if typedInput.Description != nil {
@@ -6765,9 +6875,10 @@ func (machine *VirtualMachine) AssignProperties_From_VirtualMachine(source *v202
 
 	// ComputeType
 	if source.ComputeType != nil {
-		machine.ComputeType = VirtualMachine_ComputeType(*source.ComputeType)
+		computeType := VirtualMachine_ComputeType(*source.ComputeType)
+		machine.ComputeType = &computeType
 	} else {
-		machine.ComputeType = ""
+		machine.ComputeType = nil
 	}
 
 	// Description
@@ -6814,8 +6925,12 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v
 	destination.ComputeLocation = genruntime.ClonePointerToString(machine.ComputeLocation)
 
 	// ComputeType
-	computeType := string(machine.ComputeType)
-	destination.ComputeType = &computeType
+	if machine.ComputeType != nil {
+		computeType := string(*machine.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(machine.Description)
@@ -6864,7 +6979,7 @@ type VirtualMachine_STATUS struct {
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// ComputeType: The type of compute
-	ComputeType VirtualMachine_ComputeType_STATUS `json:"computeType,omitempty"`
+	ComputeType *VirtualMachine_ComputeType_STATUS `json:"computeType,omitempty"`
 
 	// CreatedOn: The time at which the compute was created.
 	CreatedOn *string `json:"createdOn,omitempty"`
@@ -6916,7 +7031,7 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	}
 
 	// Set property ‘ComputeType’:
-	machine.ComputeType = typedInput.ComputeType
+	machine.ComputeType = &typedInput.ComputeType
 
 	// Set property ‘CreatedOn’:
 	if typedInput.CreatedOn != nil {
@@ -6993,9 +7108,10 @@ func (machine *VirtualMachine_STATUS) AssignProperties_From_VirtualMachine_STATU
 
 	// ComputeType
 	if source.ComputeType != nil {
-		machine.ComputeType = VirtualMachine_ComputeType_STATUS(*source.ComputeType)
+		computeType := VirtualMachine_ComputeType_STATUS(*source.ComputeType)
+		machine.ComputeType = &computeType
 	} else {
-		machine.ComputeType = ""
+		machine.ComputeType = nil
 	}
 
 	// CreatedOn
@@ -7077,8 +7193,12 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	destination.ComputeLocation = genruntime.ClonePointerToString(machine.ComputeLocation)
 
 	// ComputeType
-	computeType := string(machine.ComputeType)
-	destination.ComputeType = &computeType
+	if machine.ComputeType != nil {
+		computeType := string(*machine.ComputeType)
+		destination.ComputeType = &computeType
+	} else {
+		destination.ComputeType = nil
+	}
 
 	// CreatedOn
 	destination.CreatedOn = genruntime.ClonePointerToString(machine.CreatedOn)

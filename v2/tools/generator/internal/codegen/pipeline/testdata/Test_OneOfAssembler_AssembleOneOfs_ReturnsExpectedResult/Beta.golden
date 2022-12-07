@@ -5,5 +5,5 @@ github.com/Azure/azure-service-operator/testing/person/v20200101
         ├── Object (1 property)
         │   └── FullName: string
         └── Object (1 property)
-            └── Discriminator: Enum (1 value)
+            └── Discriminator: *Enum (1 value)
                 └── "Beta"

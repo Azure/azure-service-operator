@@ -313,12 +313,14 @@ func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.TypeName, rootN
 			valueName := oa.idFactory.CreateIdentifier(discriminatorValue, astmodel.Exported)
 
 			// Create the discriminator property as a single valued enum
+			enumType := astmodel.NewEnumType(
+				astmodel.StringType,
+				astmodel.MakeEnumValue(valueName, fmt.Sprintf("%q", discriminatorValue)))
+
 			property := astmodel.NewPropertyDefinition(
 				propertyName,
 				propertyJson,
-				astmodel.NewEnumType(
-					astmodel.StringType,
-					astmodel.MakeEnumValue(valueName, fmt.Sprintf("%q", discriminatorValue))))
+				astmodel.NewOptionalType(enumType))
 
 			if discriminatorValue == "" {
 				klog.Warning("Weirdness")
