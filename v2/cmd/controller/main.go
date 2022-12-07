@@ -58,7 +58,6 @@ func main() {
 
 	armMetrics := asometrics.NewARMClientMetrics()
 	asometrics.RegisterMetrics(armMetrics)
-
 	scheme := controllers.CreateScheme()
 
 	ctrl.SetLogger(klogr.New())
@@ -101,7 +100,7 @@ func main() {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil)
+	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, armMetrics)
 
 	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
 		return armClientCache.GetClient(ctx, obj)
