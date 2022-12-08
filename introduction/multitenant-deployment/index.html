@@ -35,7 +35,7 @@ Single operator multitenancy (default) Single operator deployed in the azureserv
 Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
  Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential.">
 
-<meta itemprop="wordCount" content="996">
+<meta itemprop="wordCount" content="1164">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Service Operator v2 in multi-tenant mode"/>
 <meta name="twitter:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
@@ -504,8 +504,10 @@ Single operator multitenancy (default) Single operator deployed in the azureserv
   <ul>
     <li><a href="#single-operator-multitenancy-default">Single operator multitenancy (default)</a>
       <ul>
-        <li><a href="#deployment">Deployment</a></li>
+        <li><a href="#deployment-using-service-principal">Deployment using Service Principal</a></li>
         <li><a href="#example-secret">Example Secret</a></li>
+        <li><a href="#deployment-using-workload-identity">Deployment using Workload Identity</a></li>
+        <li><a href="#example-secret-1">Example Secret</a></li>
       </ul>
     </li>
     <li><a href="#multiple-operator-multitenancy">Multiple operator multitenancy</a>
@@ -586,7 +588,7 @@ Per-namespace credential <code>aso-credential</code>. Create this in a Kubernete
 <li>Per-resource credential, indicated by the <code>serviceoperator.azure.com/credential-from</code> annotation. Create this annotation on each resource to configure the credential used for that resource. The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different tenant or subscription than both the global credential and per-namespace credential.</li>
 </ul>
 <p>When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.</p>
-<h3 id="deployment">Deployment</h3>
+<h3 id="deployment-using-service-principal">Deployment using Service Principal</h3>
 <p>To deploy the operator in single-operator multi-tenant mode:</p>
 <ol>
 <li>Follow the normal ASO <a href="https://azure.github.io/azure-service-operator/#installation">installation</a></li>
@@ -604,6 +606,25 @@ Per-namespace credential <code>aso-credential</code>. Create this in a Kubernete
      <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>
      <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>
      <span style="color:#f92672">AZURE_CLIENT_SECRET</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_SECRET&#34;</span>
+</code></pre></div><h3 id="deployment-using-workload-identity">Deployment using Workload Identity</h3>
+<p>To deploy the operator in single-operator multi-tenant mode:</p>
+<ol>
+<li>Follow the normal ASO <a href="https://azure.github.io/azure-service-operator/introduction/authentication/#azure-workload-identity">workload identity installation</a></li>
+<li>To use namespace scoped credential, create a credential secret named <code>aso-credential</code> in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.</li>
+<li>To use per-resource credential, create a credential secret and add an annotation to the resource like <code>serviceoperator.azure.com/credential-from: &lt;SECRET_NAMESPACE&gt;/&lt;SECRET_NAME&gt;</code></li>
+</ol>
+<p><strong>Note:</strong> Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See <a href="https://azure.github.io/azure-service-operator/introduction/authentication/#configure-trust">how to configure trust</a> for more details.</p>
+<h3 id="example-secret-1">Example Secret</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+   <span style="color:#f92672">metadata</span>:
+     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential </span>
+     <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">any-namespace</span>
+   <span style="color:#f92672">stringData</span>:
+     <span style="color:#f92672">AZURE_SUBSCRIPTION_ID</span>: <span style="color:#e6db74">&#34;$AZURE_SUBSCRIPTION_ID&#34;</span>  <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+     <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>              <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+     <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>              <span style="color:#75715e"># The Client ID (sometimes called App Id) of the Service Principal, </span>
+                                                      <span style="color:#75715e"># or the Client ID of the Managed Identity with which you are using Workload Identity.</span>
 </code></pre></div><h2 id="multiple-operator-multitenancy">Multiple operator multitenancy</h2>
 <p>Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.</p>
 <p>ASO may also be deployed in a <em>multi-tenant</em> configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</p>
