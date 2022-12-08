@@ -17,3 +17,8 @@ spec:
     key: password
   storage:
     storageSizeGB: 128
+  operatorSpec:
+    configMaps:
+      fullyQualifiedDomainName:
+        name: serverConfig
+        key: fqdn

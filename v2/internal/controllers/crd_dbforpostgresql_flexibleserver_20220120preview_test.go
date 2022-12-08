@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -46,7 +47,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	}
 	version := postgresql.ServerProperties_Version_13
 	tier := postgresql.Sku_Tier_GeneralPurpose
-	fqdnSecret := "fqdnsecret"
+	fqdnConfig := "fqdnconfig"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
@@ -62,23 +63,18 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 			Storage: &postgresql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
-			OperatorSpec: &postgresql.FlexibleServerOperatorSpec{
-				Secrets: &postgresql.FlexibleServerOperatorSecrets{
-					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
-				},
-			},
 		},
 	}
 
-	// TODO: Create the secret here instead?
 	tc.CreateResourceAndWait(flexibleServer)
 
 	// It should be created in Kubernetes
 	g.Expect(flexibleServer.Status.Id).ToNot(BeNil())
+	g.Expect(flexibleServer.Status.FullyQualifiedDomainName).ToNot(BeNil())
 	armId := *flexibleServer.Status.Id
 
-	// It should have the expected secret data written
-	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
+	// It should have the expected config data written
+	tc.ExpectConfigMapHasKeysAndValues(fqdnConfig, "fqdn", *flexibleServer.Status.FullyQualifiedDomainName)
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
@@ -90,7 +86,18 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	tc.Expect(flexibleServer.Status.MaintenanceWindow).ToNot(BeNil())
 	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.IntPtr(5)))
 
+	// There should be no config maps at this point
+	list := &v1.ConfigMapList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).To(HaveLen(0))
+
 	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "ConfigMapValuesWrittenToSameConfigMap",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc, flexibleServer)
+			},
+		},
 		testcommon.Subtest{
 			Name: "Flexible servers database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
@@ -118,6 +125,25 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
+}
+
+func FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+	old := flexibleServer.DeepCopy()
+	flexibleServerConfigMap := "serverConfigMap"
+	flexibleServerConfigMapKey := "fqdn"
+
+	flexibleServer.Spec.OperatorSpec = &postgresql.FlexibleServerOperatorSpec{
+		ConfigMaps: &postgresql.FlexibleServerOperatorConfigMaps{
+			FullyQualifiedDomainName: &genruntime.ConfigMapDestination{Name: flexibleServerConfigMap, Key: flexibleServerConfigMapKey},
+		},
+	}
+
+	tc.PatchResourceAndWait(old, flexibleServer)
+
+	tc.ExpectConfigMapHasKeysAndValues(
+		flexibleServerConfigMap,
+		flexibleServerConfigMapKey,
+		*flexibleServer.Status.FullyQualifiedDomainName)
 }
 
 func FlexibleServer_Database_20220120preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {

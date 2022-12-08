@@ -29,10 +29,10 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120pre
 │   │   │   ├── PrivateDnsZoneArmResourceReference: *genruntime.ResourceReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OperatorSpec: *Object (2 properties)
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Secrets: *Object (2 properties)
-│   │   │       ├── FullyQualifiedDomainName: *genruntime.SecretDestination
-│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   │   ├── FullyQualifiedDomainName: *genruntime.ConfigMapDestination
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PointInTimeUTC: *string

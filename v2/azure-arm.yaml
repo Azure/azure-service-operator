@@ -1025,8 +1025,9 @@ objectModelConfiguration:
       FlexibleServer:
         $export: true
         $supportedFrom: v2.0.0-beta.4
-        $azureGeneratedSecrets:
-          - FullyQualifiedDomainName
+      Server_STATUS:
+        FullyQualifiedDomainName:
+          $exportAsConfigMapPropertyName: FullyQualifiedDomainName
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.0.0-beta.4

@@ -4,16 +4,21 @@
 package v1beta20220120preview
 
 import (
+	"context"
 	"fmt"
 	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -102,6 +107,23 @@ func (server *FlexibleServer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FlexibleServer resource
 func (server *FlexibleServer) defaultImpl() { server.defaultAzureName() }
+
+var _ genruntime.KubernetesExporter = &FlexibleServer{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (server *FlexibleServer) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(server.Namespace)
+	if server.Spec.OperatorSpec != nil && server.Spec.OperatorSpec.ConfigMaps != nil {
+		if server.Status.FullyQualifiedDomainName != nil {
+			collector.AddValue(server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName, *server.Status.FullyQualifiedDomainName)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
+}
 
 var _ genruntime.KubernetesResource = &FlexibleServer{}
 
@@ -226,7 +248,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() error {
-	return []func() error{server.validateResourceReferences, server.validateSecretDestinations}
+	return []func() error{server.validateResourceReferences, server.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -242,9 +264,23 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) err
 		},
 		server.validateWriteOnceProperties,
 		func(old runtime.Object) error {
-			return server.validateSecretDestinations()
+			return server.validateConfigMapDestinations()
 		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+func (server *FlexibleServer) validateConfigMapDestinations() error {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if server.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		server.Spec.OperatorSpec.ConfigMaps.FullyQualifiedDomainName,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -254,20 +290,6 @@ func (server *FlexibleServer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (server *FlexibleServer) validateSecretDestinations() error {
-	if server.Spec.OperatorSpec == nil {
-		return nil
-	}
-	if server.Spec.OperatorSpec.Secrets == nil {
-		return nil
-	}
-	toValidate := []*genruntime.SecretDestination{
-		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
-	}
-	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -1957,23 +1979,23 @@ func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *v202
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type FlexibleServerOperatorSpec struct {
-	// Secrets: configures where to place Azure generated secrets.
-	Secrets *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *FlexibleServerOperatorConfigMaps `json:"configMaps,omitempty"`
 }
 
 // AssignProperties_From_FlexibleServerOperatorSpec populates our FlexibleServerOperatorSpec from the provided source FlexibleServerOperatorSpec
 func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServerOperatorSpec(source *v20220120ps.FlexibleServerOperatorSpec) error {
 
-	// Secrets
-	if source.Secrets != nil {
-		var secret FlexibleServerOperatorSecrets
-		err := secret.AssignProperties_From_FlexibleServerOperatorSecrets(source.Secrets)
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap FlexibleServerOperatorConfigMaps
+		err := configMap.AssignProperties_From_FlexibleServerOperatorConfigMaps(source.ConfigMaps)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServerOperatorSecrets() to populate field Secrets")
+			return errors.Wrap(err, "calling AssignProperties_From_FlexibleServerOperatorConfigMaps() to populate field ConfigMaps")
 		}
-		operator.Secrets = &secret
+		operator.ConfigMaps = &configMap
 	} else {
-		operator.Secrets = nil
+		operator.ConfigMaps = nil
 	}
 
 	// No error
@@ -1985,16 +2007,16 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Secrets
-	if operator.Secrets != nil {
-		var secret v20220120ps.FlexibleServerOperatorSecrets
-		err := operator.Secrets.AssignProperties_To_FlexibleServerOperatorSecrets(&secret)
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v20220120ps.FlexibleServerOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_FlexibleServerOperatorConfigMaps(&configMap)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorSecrets() to populate field Secrets")
+			return errors.Wrap(err, "calling AssignProperties_To_FlexibleServerOperatorConfigMaps() to populate field ConfigMaps")
 		}
-		destination.Secrets = &secret
+		destination.ConfigMaps = &configMap
 	} else {
-		destination.Secrets = nil
+		destination.ConfigMaps = nil
 	}
 
 	// Update the property bag
@@ -3214,35 +3236,35 @@ const (
 	Backup_GeoRedundantBackup_STATUS_Enabled  = Backup_GeoRedundantBackup_STATUS("Enabled")
 )
 
-type FlexibleServerOperatorSecrets struct {
-	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
-	// will not be retrieved from Azure.
-	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+type FlexibleServerOperatorConfigMaps struct {
+	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
+	// config map will be created.
+	FullyQualifiedDomainName *genruntime.ConfigMapDestination `json:"fullyQualifiedDomainName,omitempty"`
 }
 
-// AssignProperties_From_FlexibleServerOperatorSecrets populates our FlexibleServerOperatorSecrets from the provided source FlexibleServerOperatorSecrets
-func (secrets *FlexibleServerOperatorSecrets) AssignProperties_From_FlexibleServerOperatorSecrets(source *v20220120ps.FlexibleServerOperatorSecrets) error {
+// AssignProperties_From_FlexibleServerOperatorConfigMaps populates our FlexibleServerOperatorConfigMaps from the provided source FlexibleServerOperatorConfigMaps
+func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_From_FlexibleServerOperatorConfigMaps(source *v20220120ps.FlexibleServerOperatorConfigMaps) error {
 
 	// FullyQualifiedDomainName
 	if source.FullyQualifiedDomainName != nil {
 		fullyQualifiedDomainName := source.FullyQualifiedDomainName.Copy()
-		secrets.FullyQualifiedDomainName = &fullyQualifiedDomainName
+		maps.FullyQualifiedDomainName = &fullyQualifiedDomainName
 	} else {
-		secrets.FullyQualifiedDomainName = nil
+		maps.FullyQualifiedDomainName = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_FlexibleServerOperatorSecrets populates the provided destination FlexibleServerOperatorSecrets from our FlexibleServerOperatorSecrets
-func (secrets *FlexibleServerOperatorSecrets) AssignProperties_To_FlexibleServerOperatorSecrets(destination *v20220120ps.FlexibleServerOperatorSecrets) error {
+// AssignProperties_To_FlexibleServerOperatorConfigMaps populates the provided destination FlexibleServerOperatorConfigMaps from our FlexibleServerOperatorConfigMaps
+func (maps *FlexibleServerOperatorConfigMaps) AssignProperties_To_FlexibleServerOperatorConfigMaps(destination *v20220120ps.FlexibleServerOperatorConfigMaps) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FullyQualifiedDomainName
-	if secrets.FullyQualifiedDomainName != nil {
-		fullyQualifiedDomainName := secrets.FullyQualifiedDomainName.Copy()
+	if maps.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := maps.FullyQualifiedDomainName.Copy()
 		destination.FullyQualifiedDomainName = &fullyQualifiedDomainName
 	} else {
 		destination.FullyQualifiedDomainName = nil
