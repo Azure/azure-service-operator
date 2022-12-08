@@ -52,6 +52,7 @@ type ARMClientCache struct {
 	globalClient *armClient
 	kubeClient   kubeclient.Client
 	httpClient   *http.Client
+	armMetrics   *metrics.ARMClientMetrics
 }
 
 func NewARMClientCache(
@@ -59,7 +60,8 @@ func NewARMClientCache(
 	podNamespace string,
 	kubeClient kubeclient.Client,
 	configuration cloud.Configuration,
-	httpClient *http.Client) *ARMClientCache {
+	httpClient *http.Client,
+	armMetrics *metrics.ARMClientMetrics) *ARMClientCache {
 
 	globalClient := &armClient{
 		genericClient:  client,
@@ -73,6 +75,7 @@ func NewARMClientCache(
 		kubeClient:   kubeClient,
 		globalClient: globalClient,
 		httpClient:   httpClient,
+		armMetrics:   armMetrics,
 	}
 }
 
@@ -184,7 +187,7 @@ func (c *ARMClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, 
 		return nil, err
 	}
 
-	newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, c.armMetrics)
 	if err != nil {
 		return nil, err
 	}

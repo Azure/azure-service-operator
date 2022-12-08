@@ -52,7 +52,7 @@ func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
 		return nil, err
 	}
 
-	return NewARMClientCache(globalARMClient, cfg.PodNamespace, client, cfg.Cloud(), nil), nil
+	return NewARMClientCache(globalARMClient, cfg.PodNamespace, client, cfg.Cloud(), nil, metrics.NewARMClientMetrics()), nil
 }
 
 type testResources struct {
