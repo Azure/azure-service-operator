@@ -6,6 +6,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -15,10 +16,10 @@ import (
 
 const (
 	// #nosec
-	AzureClientSecretVar       = "AZURE_CLIENT_SECRET"
+	ClientSecretVar            = "AZURE_CLIENT_SECRET"
 	SubscriptionIDVar          = "AZURE_SUBSCRIPTION_ID"
 	TenantIDVar                = "AZURE_TENANT_ID"
-	AzureClientIDVar           = "AZURE_CLIENT_ID"
+	ClientIDVar                = "AZURE_CLIENT_ID"
 	AzureFederatedTokenFileVar = "AZURE_FEDERATED_TOKEN_FILE"
 	targetNamespacesVar        = "AZURE_TARGET_NAMESPACES"
 	operatorModeVar            = "AZURE_OPERATOR_MODE"
@@ -27,6 +28,7 @@ const (
 	resourceManagerAudienceVar = "AZURE_RESOURCE_MANAGER_AUDIENCE"
 	azureAuthorityHostVar      = "AZURE_AUTHORITY_HOST"
 	podNamespaceVar            = "POD_NAMESPACE"
+	useWorkloadIdentityAuth    = "USE_WORKLOAD_IDENTITY_AUTH"
 
 	// TODO: These values are used for single operator multitenancy tests. We can get rid of them once we have Managed Identity support.
 	AzureClientIDMultitenantVar = "AZURE_CLIENT_ID_MULTITENANT"
@@ -48,6 +50,14 @@ type Values struct {
 	// SubscriptionID is the Azure subscription the operator will use
 	// for ARM communication.
 	SubscriptionID string
+
+	// TenantID is the Azure tenantID the operator will use
+	// for ARM communication.
+	TenantID string
+
+	// ClientID is the Azure clientID the operator will use
+	// for ARM communication.
+	ClientID string
 
 	// PodNamespace is the namespace the operator pods are running in.
 	PodNamespace string
@@ -91,6 +101,9 @@ type Values struct {
 	// is the AAD URL for the public cloud: https://login.microsoftonline.com/. See
 	// https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud
 	AzureAuthorityHost string
+
+	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
+	UseWorkloadIdentityAuth bool
 }
 
 var _ fmt.Stringer = Values{}
@@ -171,6 +184,11 @@ func ReadFromEnvironment() (Values, error) {
 	result.ResourceManagerEndpoint = envOrDefault(resourceManagerEndpointVar, DefaultEndpoint)
 	result.ResourceManagerAudience = envOrDefault(resourceManagerAudienceVar, DefaultAudience)
 	result.AzureAuthorityHost = envOrDefault(azureAuthorityHostVar, DefaultAADAuthorityHost)
+	result.ClientID = os.Getenv(ClientIDVar)
+	result.TenantID = os.Getenv(TenantIDVar)
+
+	// Ignoring error here, as any other value or empty value means we should default to false
+	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(useWorkloadIdentityAuth))
 
 	if err != nil {
 		return result, errors.Wrapf(err, "parsing %q", syncPeriodVar)
