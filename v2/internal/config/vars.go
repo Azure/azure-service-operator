@@ -111,15 +111,18 @@ var _ fmt.Stringer = Values{}
 // Returns the configuration as a string
 func (v Values) String() string {
 	return fmt.Sprintf(
-		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s",
+		"SubscriptionID:%s/TenantID:%s/ClientID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s/UseWorkloadIdentityAuth:%t",
 		v.SubscriptionID,
+		v.TenantID,
+		v.ClientID,
 		v.PodNamespace,
 		v.OperatorMode,
 		strings.Join(v.TargetNamespaces, "|"),
 		v.SyncPeriod,
 		v.ResourceManagerEndpoint,
 		v.ResourceManagerAudience,
-		v.AzureAuthorityHost)
+		v.AzureAuthorityHost,
+		v.UseWorkloadIdentityAuth)
 }
 
 // Cloud returns the cloud the configuration is using
