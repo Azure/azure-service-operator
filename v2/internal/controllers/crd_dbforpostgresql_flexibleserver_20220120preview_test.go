@@ -63,6 +63,14 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 			Storage: &postgresql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
+			OperatorSpec: &postgresql.FlexibleServerOperatorSpec{
+				ConfigMaps: &postgresql.FlexibleServerOperatorConfigMaps{
+					FullyQualifiedDomainName: &genruntime.ConfigMapDestination{
+						Name: fqdnConfig,
+						Key:  "fqdn",
+					},
+				},
+			},
 		},
 	}
 
@@ -85,11 +93,6 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, flexibleServer)
 	tc.Expect(flexibleServer.Status.MaintenanceWindow).ToNot(BeNil())
 	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.IntPtr(5)))
-
-	// There should be no config maps at this point
-	list := &v1.ConfigMapList{}
-	tc.ListResources(list, client.InNamespace(tc.Namespace))
-	tc.Expect(list.Items).To(HaveLen(0))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -134,11 +137,19 @@ func FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTes
 
 	flexibleServer.Spec.OperatorSpec = &postgresql.FlexibleServerOperatorSpec{
 		ConfigMaps: &postgresql.FlexibleServerOperatorConfigMaps{
-			FullyQualifiedDomainName: &genruntime.ConfigMapDestination{Name: flexibleServerConfigMap, Key: flexibleServerConfigMapKey},
+			FullyQualifiedDomainName: &genruntime.ConfigMapDestination{
+				Name: flexibleServerConfigMap,
+				Key:  flexibleServerConfigMapKey,
+			},
 		},
 	}
 
 	tc.PatchResourceAndWait(old, flexibleServer)
+
+	// There should be at least some config maps at this point
+	list := &v1.ConfigMapList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).NotTo(HaveLen(0))
 
 	tc.ExpectConfigMapHasKeysAndValues(
 		flexibleServerConfigMap,
