@@ -455,6 +455,7 @@ func (tc *KubePerTestContext) PatchResourceAndWait(old client.Object, new client
 
 // GetResource retrieves the current state of the resource from K8s (not from Azure).
 func (tc *KubePerTestContext) GetResource(key types.NamespacedName, obj client.Object) {
+	tc.T.Helper()
 	tc.G.Expect(tc.kubeClient.Get(tc.Ctx, key, obj)).To(gomega.Succeed())
 }
 
