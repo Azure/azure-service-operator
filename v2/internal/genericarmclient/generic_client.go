@@ -37,18 +37,18 @@ type GenericClient struct {
 	subscriptionID string
 	creds          azcore.TokenCredential
 	opts           *arm.ClientOptions
-	metrics        metrics.ARMClientMetrics
+	metrics        *metrics.ARMClientMetrics
 }
 
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, metrics *metrics.ARMClientMetrics) (*GenericClient, error) {
 	return NewGenericClientFromHTTPClient(cloudCfg, creds, nil, subscriptionID, metrics)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics *metrics.ARMClientMetrics) (*GenericClient, error) {
 	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
 	if !ok {
 		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)

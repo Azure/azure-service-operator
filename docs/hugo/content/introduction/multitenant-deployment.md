@@ -14,7 +14,7 @@ This operator can be configured to manage resources with multiple different iden
 
 When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.
 
-### Deployment
+### Deployment using Service Principal
 
 To deploy the operator in single-operator multi-tenant mode:
 
@@ -35,6 +35,31 @@ To deploy the operator in single-operator multi-tenant mode:
      AZURE_TENANT_ID: "$AZURE_TENANT_ID"
      AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
      AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+```
+
+### Deployment using Workload Identity
+
+To deploy the operator in single-operator multi-tenant mode:
+
+1. Follow the normal ASO [workload identity installation](https://azure.github.io/azure-service-operator/introduction/authentication/#azure-workload-identity)
+2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
+3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
+
+**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](https://azure.github.io/azure-service-operator/introduction/authentication/#configure-trust) for more details.
+
+### Example Secret
+
+```yaml
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: aso-credential 
+     namespace: any-namespace
+   stringData:
+     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"  # The Azure Subscription ID the identity is in.
+     AZURE_TENANT_ID: "$AZURE_TENANT_ID"              # The Azure AAD Tenant the identity/subscription is associated with.
+     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"              # The Client ID (sometimes called App Id) of the Service Principal, 
+                                                      # or the Client ID of the Managed Identity with which you are using Workload Identity.
 ```
 
 

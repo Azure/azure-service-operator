@@ -23,14 +23,14 @@ const (
 )
 
 type ARMClientMetrics struct {
-	azureRequestsTotal       *prometheus.CounterVec
-	azureFailedRequestsTotal *prometheus.CounterVec
-	azureRequestsTime        *prometheus.HistogramVec
+	azureSuccessfulRequestsTotal *prometheus.CounterVec
+	azureFailedRequestsTotal     *prometheus.CounterVec
+	azureRequestsTime            *prometheus.HistogramVec
 }
 
 var _ Metrics = &ARMClientMetrics{}
 
-func NewARMClientMetrics() ARMClientMetrics {
+func NewARMClientMetrics() *ARMClientMetrics {
 
 	azureSuccessfulRequestsTotal := prometheus.NewCounterVec(prometheus.CounterOpts{
 		Name: "azure_successful_requests_total",
@@ -47,25 +47,25 @@ func NewARMClientMetrics() ARMClientMetrics {
 		Help: "Length of time per ARM request",
 	}, []string{"resource", "requestType"})
 
-	return ARMClientMetrics{
-		azureRequestsTotal:       azureSuccessfulRequestsTotal,
-		azureFailedRequestsTotal: azureFailedRequestsTotal,
-		azureRequestsTime:        azureRequestsTime,
+	return &ARMClientMetrics{
+		azureSuccessfulRequestsTotal: azureSuccessfulRequestsTotal,
+		azureFailedRequestsTotal:     azureFailedRequestsTotal,
+		azureRequestsTime:            azureRequestsTime,
 	}
 }
 
 // RegisterMetrics registers the collectors with prometheus server.
-func (a ARMClientMetrics) RegisterMetrics() {
-	metrics.Registry.MustRegister(a.azureRequestsTime, a.azureRequestsTotal, a.azureFailedRequestsTotal)
+func (a *ARMClientMetrics) RegisterMetrics() {
+	metrics.Registry.MustRegister(a.azureRequestsTime, a.azureSuccessfulRequestsTotal, a.azureFailedRequestsTotal)
 }
 
 // RecordAzureSuccessRequestsTotal records the total successful number requests to ARM by increasing the counter.
-func (a ARMClientMetrics) RecordAzureSuccessRequestsTotal(resourceName string, statusCode int, method HTTPMethod) {
-	a.azureRequestsTotal.WithLabelValues(resourceName, string(method), strconv.Itoa(statusCode)).Inc()
+func (a *ARMClientMetrics) RecordAzureSuccessRequestsTotal(resourceName string, statusCode int, method HTTPMethod) {
+	a.azureSuccessfulRequestsTotal.WithLabelValues(resourceName, string(method), strconv.Itoa(statusCode)).Inc()
 }
 
 // RecordAzureFailedRequestsTotal records the number of failed requests to ARM.
-func (a ARMClientMetrics) RecordAzureFailedRequestsTotal(resourceName string, method HTTPMethod) {
+func (a *ARMClientMetrics) RecordAzureFailedRequestsTotal(resourceName string, method HTTPMethod) {
 	a.azureFailedRequestsTotal.WithLabelValues(resourceName, string(method)).Inc()
 }
 
