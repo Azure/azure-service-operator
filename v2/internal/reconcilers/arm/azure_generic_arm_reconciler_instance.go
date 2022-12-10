@@ -19,6 +19,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -511,7 +512,7 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 	}
 
 	// Also check if the resource itself implements KubernetesExporter
-	exporter, ok := r.Obj.(genruntime.KubernetesExporter)
+	exporter, ok := r.ObjAsKubernetesExporter()
 	if ok {
 		var additionalResources []client.Object
 		additionalResources, err = exporter.ExportKubernetesResources(ctx, r.Obj, r.ARMClient, r.Log)
@@ -551,6 +552,45 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 	}
 
 	return nil
+}
+
+// ObjAsKubernetesExporter returns r.Obj as a genruntime.KubernetesExporter if it supports that interface, respecting
+// the original API version used to create the resource.
+func (r *azureDeploymentReconcilerInstance) ObjAsKubernetesExporter() (genruntime.KubernetesExporter, bool) {
+	resource := r.Obj
+	resourceGVK := resource.GetObjectKind().GroupVersionKind()
+
+	desiredGVK := genruntime.GetOriginalGVK(resource)
+	if resourceGVK != desiredGVK {
+		// Need to convert the hub resource we have to the original version used
+		scheme := r.ResourceResolver.Scheme()
+		versionedResource, err := genruntime.NewEmptyVersionedResourceFromGVK(scheme, desiredGVK)
+		if err != nil {
+			r.Log.V(Status).Info(
+				"Unable to create expected resource version",
+				"have", resourceGVK,
+				"desired", desiredGVK)
+			return nil, false
+		}
+
+		if convertible, ok := versionedResource.(conversion.Convertible); ok {
+			hub := resource.(conversion.Hub)
+			err := convertible.ConvertFrom(hub)
+			if err != nil {
+				r.Log.V(Status).Info(
+					"Unable to convert resource to expected version",
+					"original", resourceGVK,
+					"destination", desiredGVK)
+				return nil, false
+			}
+		}
+
+		resource = versionedResource
+	}
+
+	// Now test whether we support the interface
+	result, ok := resource.(genruntime.KubernetesExporter)
+	return result, ok
 }
 
 // ConvertResourceToARMResource converts a genruntime.ARMMetaObject (a Kubernetes representation of a resource) into
