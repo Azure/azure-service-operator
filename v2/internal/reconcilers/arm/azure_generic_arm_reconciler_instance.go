@@ -566,7 +566,10 @@ func (r *azureDeploymentReconcilerInstance) ObjAsKubernetesExporter() (genruntim
 		scheme := r.ResourceResolver.Scheme()
 		versionedResource, err := genruntime.NewEmptyVersionedResourceFromGVK(scheme, desiredGVK)
 		if err != nil {
-			r.Log.V(Status).Info("Unable to create expected version of %s", desiredGVK)
+			r.Log.V(Status).Info(
+				"Unable to create expected resource version",
+				"have", resourceGVK,
+				"desired", desiredGVK)
 			return nil, false
 		}
 
@@ -574,7 +577,10 @@ func (r *azureDeploymentReconcilerInstance) ObjAsKubernetesExporter() (genruntim
 			hub := resource.(conversion.Hub)
 			err := convertible.ConvertFrom(hub)
 			if err != nil {
-				r.Log.V(Status).Info("Unable to convert resource to %s", desiredGVK)
+				r.Log.V(Status).Info(
+					"Unable to convert resource to expected version",
+					"original", resourceGVK,
+					"destination", desiredGVK)
 				return nil, false
 			}
 		}
