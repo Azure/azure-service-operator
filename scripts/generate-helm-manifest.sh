@@ -45,7 +45,7 @@ grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure th
 sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$GEN_FILES_DIR"/*_deployment_* # Replace hardcoded ASO image
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
-perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations | indent 6 \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
+perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.useWorkloadIdentityAuth \}\}\n$2azure.workload.identity\/inject-proxy-sidecar: "true"\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_*
 
 # ServiceAccount replacements
@@ -86,7 +86,9 @@ flow_control "aadpodidbinding" "aadpodidbinding" "$IF_TENANT" "$GEN_FILES_DIR"/*
 
 flow_control "--enable-leader-election" "--enable-leader-election" "$IF_TENANT" "$GEN_FILES_DIR"/*_deployment_*
 
-flow_control "volumeMounts:" "secretName:" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
+# TODO: This bit is tricky to exclude kube-rbac-proxy and webhook stuff.
+flow_control "serving-certs" "name: https" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
+flow_control "- name: cert" "secretName" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deployment_*
 
 
 # Helm chart packaging, indexing and updating dependencies
