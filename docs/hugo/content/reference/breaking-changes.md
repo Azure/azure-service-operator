@@ -4,431 +4,420 @@ In the 'beta.4' release of Azure Service Operator (ASO) we are pivoting to using
 
 This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 
-Unfortunately, this change brings with it a few breaking changes, listed here.
+Unfortunately, this change brings with it a few breaking changes, listed in this document. 
 
-These changes fall into a few categories:
+We expect that most users will find their resources are unaffected by these changes. However, if you are using a resource that is affected, you will need to take action to migrate your resources to the new format.
 
-**Unused**: Properties that were previously generated but actually had no function have been removed.
+The impact of these breaking changes falls into two categories, *immediate migration required* and *upgrade when modified*, distinguished by when you need to take remedial action.
 
-Examples include:
+### Immediate migration required
 
-* `Location` on subresources that inherit their actual location from their parent resource
-* `Tags` on resources that don't support tags
+As a part of upgrading ASO in your cluster, you will need to modify these resources as described. In all cases, the changes are straightforward and can be done with a simple text editor.
 
-If your resource Spec was using one of these properties, no action is required; the new release of ASO will silently ignore them.
+The process to follow is as follows:
 
-**Status Only**: Properties that cannot set by the end user on a resource spec. Typically these are actually Status properties included in the Spec in error.
+1. Annotate the resource with `serviceoperator.azure.com/reconcile-policy: skip` to prevent ASO from trying to reconcile the resource while you are upgrading.
+2. Download the current YAML for the resource using `kubectl` if you don't have it elsewhere.
+3. Delete the resource from your cluster using `kubectl delete`. Your Azure resource will be left untouched because of the `reconcile-policy` annotation you added above.
+4. Upgrade the version of ASO in your cluster.
+5. Modify the YAML for your resource to address the breaking changes noted below.
+6. Apply the updated YAML to your cluster using `kubectl apply`. If any errors occur, address them.
+7. If the `reconcile-policy` annotation is still present, remove the it from the resource.
 
-Examples include:
+### Upgrade when modified
 
-* Identity.UserAssignedIdentities
+You can upgrade ASO in your cluster and the resource will continue to operate normally. If you modify the resource in the future you will need to make the indicated changes at that point.
 
-If your resource Spec was using one of these properties, no action is required; the new release of ASO will silently ignore them.
+## Types of breaking changes
 
-**Subresources**: In some cases we weren't correctly identifying sub-resources and breaking them out into separate CRDs, leaving those properties inline in the parent resource.
+| Type                | Description                                                                                                                                                                                                                                                                                                                                                            | Impact                                           |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------- |
+| Discriminator       | The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option. Previously we were synthesizing a name based on other factors, resulting in longer property names that did not appear in the ARM/Bicep documentation.<br/><br/>*Example*:<br/>`DeliveryRuleCacheExpiration` renamed to `CacheExpiration` | Immediate migration                              |
+| Enumeration         | Properties that previously had a base type but no enumeration values have been updated to include the enumeration values.<br/><br/>*Example*:<br/>`KubernetesCluster.KubernetesVersion`.                                                                                                                                                                               | Immediate migration for malformed resources only |
+| Inlined             | Objects that were incorrectly generated as nested properties have been inlined.<br/><br/>*Example:<br/>Properties found in `DeadLetterDestination.Properties` have been promoted to `DeadLetterDestination`.                                                                                                                                                           | Immediate migration                              |
+| Reference Detection | Id fields now correctly identified as references which now allow for linking to a resource in Kubernetes instead of only in Azure.<br/><br/>*Example:*<br/>Property `VirtualMachineProfile.NetworkProfile.Id` has been changed to `VirtualMachineProfile.NetworkProfile.Reference`.                                                                                    | Immediate migration                              |
+| Status Only         | Status properties that cannot be set by the end user on a Spec that were included in the Spec in error.<br/><br/>*Example*:<br/>`Identity.UserAssignedIdentities`                                                                                                                                                                                                      | Upgrade when modified                            |
+| Subresource         | Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.<br/><br/>*Example*:<br/>`VirtualNetworkGateway.VirtualNetworkExtendedLocation`                                                                                                                                                                            | Immediate migration                              |
+| Unused              | Properties that previously included on Spec but actually had no function have been removed.<br/><br/>*Examples*:<br/>`Location` on child resources that inherit their actual location from their parent resource.<br/>`Tags` on resources that don't support tags.                                                                                                     | Upgrade when modified                            |
+| Validation          | Validation rules have been tightened, or added to properties that previously had no validation rules.<br/><br/>*Example:*<br/> The property `BatchAccount.AzureName` now has a more restrictive regular expression.                                                                                                                                                    | Upgrade when modified                            |
 
-Examples include:
-
-* VirtualNetworkGateway.VirtualNetworkExtendedLocation
-
-If your resource was inlining one of these, you'll need to modify the YAML for your resource to replace the existing properties with a reference to a new resource, and to list that resource elsewhere in the same YAML file.
-
-**Enumerations**: In a few cases we previously had only a base type for a property, without any enumeration values to restrict, even though there were only a few legitimate values to provide. The allowed Kubernetes resource could be created with any value at all even though creation of the Azure resource would fail.
-
-If your resource was using an invalid value for one of these properties, you'll need to modify the YAML for your resource to use a valid value. 
-
-Note that any resource successfully created in Azure will be fine.
-
-**Fixed value fields**: Fields that required a specific value to be provided, with no option; these are similar to Status Only fields.
-
-**Inlined objects**: We're now correctly inlining some objects that were previously generated as nested properties.
-
-If your resource is using one of these, you'll need to modify your resource to promote the property to the parent object.
-
-**Discriminator use**: We now use the discriminator value for polymorphic types to name the property used to specify that option. Previously we were synthesizing a name based on other factors, resulting in longer property names that did not appear in the ARM/Bicep documentation.
-
-If your resource is using one of these, you'll need to change the name of the parent property as detailed below.
 
 ## Authorization
 
 ### RoleAssignment
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
+
+## Batch
+
+### BatchAccount
+
+| Property  | Change     | Reason     |
+| :-------- | :--------- | :--------- |
+| AzureName | Restricted | Validation |
 
 ## Cache v2020-12-01
 
 ### RedisFirewallRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### RedisLinkedServer
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### RedisPatchSchedule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ## Cache v2021-03-01
 
 ### RedisEnterpriseDatabase
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
-
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ## CDN v2021-06-01
 
 ### ProfilesEndpoint
 
-| Property                                                            | Change (Reason)                                       | Impact           |
-| ------------------------------------------------------------------- | ----------------------------------------------------- | ---------------- |
-| DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration            | Renamed to CacheExpiration (discriminator)            | Update your YAML |
-| DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString        | Renamed to CacheKeyQueryString (discriminator)        | Update your YAML |
-| DeliveryPolicy.Rules.Actions.DeliveryRuleRequestHeader              | Renamed to ModifyRequestHeader (discriminator)        | Update your YAML |
-| DeliveryPolicy.Rules.Actions.DeliveryRuleResponseHeader             | Renamed to ModifyResponseHeader (discriminator)       | Update your YAML |
-| DeliveryPolicy.Rules.Actions.DeliveryRuleRouteConfigurationOverride | Renamed to RouteConfigurationOverride (discriminator) | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleClientPort              | Renamed to ClientPort (discriminator)                 | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleCookies                 | Renamed to Cookies (discriminator)                    | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleHostName                | Renamed to HostName (discriminator)                   | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleHttpVersion             | Renamed to HttpVersion (discriminator)                | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleIsDevice                | Renamed to IsDevice (discriminator)                   | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRulePostArgs                | Renamed to PostArgs (discriminator)                   | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleQueryString             | Renamed to QueryString (discriminator)                | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleRemoteAddress           | Renamed to RemoteAddress (discriminator)              | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestBody             | Renamed to RequestBody (discriminator)                | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestHeader           | Renamed to RequestHeader (discriminator)              | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestMethod           | Renamed to RequestMethod (discriminator)              | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestScheme           | Renamed to RequestScheme (discriminator)              | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestUri              | Renamed to RequestUri (discriminator)                 | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleServerPort              | Renamed to ServerPort (discriminator)                 | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleSslProtocol             | Renamed to SslProtocol (discriminator)                | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileExtension        | Renamed to UrlFileExtension (discriminator)           | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileName             | Renamed to UrlFileName (discriminator)                | Update your YAML |
-| DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlPath                 | Renamed to UrlPath (discriminator)                    | Update your YAML |
+| Property                                                            | Change                                | Reason        |
+| ------------------------------------------------------------------- | ------------------------------------- | ------------- |
+| DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration            | Renamed to CacheExpiration            | Discriminator |
+| DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString        | Renamed to CacheKeyQueryString        | Discriminator |
+| DeliveryPolicy.Rules.Actions.DeliveryRuleRequestHeader              | Renamed to ModifyRequestHeader        | Discriminator |
+| DeliveryPolicy.Rules.Actions.DeliveryRuleResponseHeader             | Renamed to ModifyResponseHeader       | Discriminator |
+| DeliveryPolicy.Rules.Actions.DeliveryRuleRouteConfigurationOverride | Renamed to RouteConfigurationOverride | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleClientPort              | Renamed to ClientPort                 | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleCookies                 | Renamed to Cookies                    | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleHostName                | Renamed to HostName                   | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleHttpVersion             | Renamed to HttpVersion                | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleIsDevice                | Renamed to IsDevice                   | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRulePostArgs                | Renamed to PostArgs                   | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleQueryString             | Renamed to QueryString                | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleRemoteAddress           | Renamed to RemoteAddress              | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestBody             | Renamed to RequestBody                | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestHeader           | Renamed to RequestHeader              | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestMethod           | Renamed to RequestMethod              | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestScheme           | Renamed to RequestScheme              | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestUri              | Renamed to RequestUri                 | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleServerPort              | Renamed to ServerPort                 | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleSslProtocol             | Renamed to SslProtocol                | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileExtension        | Renamed to UrlFileExtension           | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileName             | Renamed to UrlFileName                | Discriminator |
+| DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlPath                 | Renamed to UrlPath                    | Discriminator |
 
 
 ## Compute v2020-12-01
 
 ### VirtualMachineScaleSet
 
-| Property                                                 | Change (Reason) | Impact |
-| -------------------------------------------------------- | --------------- | ------ |
-| VirtualMachineProfile.NetworkProfile.Id                  | Removed (??)    | ??     |
-| VirtualMachineProfile.NetworkProfile.IpConfigurations.Id | Removed (??)    | ??     |
+| Property                                                 | Change               | Reason              |
+| -------------------------------------------------------- | -------------------- | ------------------- |
+| VirtualMachineProfile.NetworkProfile.Id                  | Renamed to Reference | Reference Detection |
+| VirtualMachineProfile.NetworkProfile.IpConfigurations.Id | Renamed to Reference | Reference Detection |
 
+
+## Compute v2022-03-01
+
+### VirtualMachineScaleSet
+
+| Property                                                 | Change               | Reason              |
+| -------------------------------------------------------- | -------------------- | ------------------- |
+| VirtualMachineProfile.NetworkProfile.Id                  | Renamed to Reference | Reference Detection |
+| VirtualMachineProfile.NetworkProfile.IpConfigurations.Id | Renamed to Reference | Reference Detection |
 
 ## Container Service
 
 ### ManagedCluster
 
-| Property                        | Change (Reason)       | Impact |
-| ------------------------------- | --------------------- | ------ |
-| Identity.UserAssignedIdentities | Removed (Status Only) | None   |
+| Property                        | Change  | Reason      |
+| ------------------------------- | ------- | ----------- |
+| Identity.UserAssignedIdentities | Removed | Status Only |
 
 ### ManagedClustersAgentPool
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
 
 ## DbForMariaDB v2018-06-01
 
 ### Configuration
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
-
-### Server
-
-| Property                                    | Change (Reason)                               | Impact                                |
-| :------------------------------------------ | :-------------------------------------------- | :------------------------------------ |
-| Properties.ServerPropertiesForDefaultCreate | Renamed to Default (discriminator)            | Update your YAML to use the new name. |
-| Properties.ServerPropertiesForGeoRestore    | Renamed to GeoRestore (discriminator)         | Update your YAML to use the new name. |
-| Properties.ServerPropertiesForReplica       | Renamed to Replica (discriminator)            | Update your YAML to use the new name. |
-| Properties.ServerPropertiesForRestore       | Renamed to PointInTimeRestore (discriminator) | Update your YAML to use the new name. |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### Database
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
+
+### Server
+
+| Property                                    | Change                        | Reason        |
+| :------------------------------------------ | :---------------------------- | :------------ |
+| Properties.ServerPropertiesForDefaultCreate | Renamed to Default            | Discriminator |
+| Properties.ServerPropertiesForGeoRestore    | Renamed to GeoRestore         | Discriminator |
+| Properties.ServerPropertiesForReplica       | Renamed to Replica            | Discriminator |
+| Properties.ServerPropertiesForRestore       | Renamed to PointInTimeRestore | Discriminator |
 
 
 ## DbForMySql v2021-05-01
 
 ### FlexibleServersDatabase
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### FlexibleServersFirewallRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ## DbForPostgreSQL v2021-06-01
 
 ### FlexibleServersConfiguration
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### FlexibleServersDatabase
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### FlexibleServersFirewallRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ## EventGrid v2020-06-01
 
 ### Domain
 
-| Property                                  | Change (Reason)       | Impact           |
-| ----------------------------------------- | --------------------- | ---------------- |
-| InputSchemaMapping.InputSchemaMappingType | Removed (Fixed value) | Remove from YAML |
-| InputSchemaMapping.Properties             | Renamed to Json (??)  | Rename in YAML   |
+| Property                                  | Change          | Reason        |
+| ----------------------------------------- | --------------- | ------------- |
+| InputSchemaMapping.InputSchemaMappingType | Removed         | Discriminator |
+| InputSchemaMapping.Properties             | Renamed to Json | Discriminator |
 
 ### DomainsTopic
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### EventSubscription
 
-| Property                                | Change (Reason)   | Impact      |
-| :-------------------------------------- | :---------------- | :---------- |
-| DeadLetterDestination.Properties        | Removed (Inlined) | Modify YAML |
-| Destination.AzureFunction.Properties    | Removed (Inlined) | Modify YAML |
-| Destination.EventHub.Properties         | Removed (Inlined) | Modify YAML |
-| Destination.HybridConnection.Properties | Removed (Inlined) | Modify YAML |
-| Destination.ServiceBusQueue.Properties  | Removed (Inlined) | Modify YAML |
-| Destination.ServiceBusTopic.Properties  | Removed (Inlined) | Modify YAML |
-| Destination.StorageQueue.Properties     | Removed (Inlined) | Modify YAML |
-| Destination.WebHook.Properties          | Removed (Inlined) | Modify YAML |
-| Location                                | Removed (Unused)  | None        |
-| Tags                                    | Removed (Unused)  | None        |
+| Property                                | Change             | Reason  |
+| :-------------------------------------- | :----------------- | :------ |
+| DeadLetterDestination.Properties        | Promoted to parent | Inlined |
+| Destination.AzureFunction.Properties    | Promoted to parent | Inlined |
+| Destination.EventHub.Properties         | Promoted to parent | Inlined |
+| Destination.HybridConnection.Properties | Promoted to parent | Inlined |
+| Destination.ServiceBusQueue.Properties  | Promoted to parent | Inlined |
+| Destination.ServiceBusTopic.Properties  | Promoted to parent | Inlined |
+| Destination.StorageQueue.Properties     | Promoted to parent | Inlined |
+| Destination.WebHook.Properties          | Promoted to parent | Inlined |
+| Location                                | Removed            | Unused  |
+| Tags                                    | Removed            | Unused  |
 
 ## EventHub v2021-11-01
 
 ### Namespace
 
-| Property                   | Change (Reason)       | Impact |
-| -------------------------- | --------------------- | ------ |
-| PrivateEndpointConnections | Removed (Status only) | None   |
+| Property                   | Change  | Reason      |
+| -------------------------- | ------- | ----------- |
+| PrivateEndpointConnections | Removed | Status Only |
 
 ### NamespacesAuthorizationRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### NamespacesEventhub
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### NamespacesEventhubsAuthorizationRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### NamespacesEventhubsConsumerGroup
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
-
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ## MachineLearningServices v2021-07-01
 
 ### Workspace
 
-| Property                        | Change (Reason)       | Impact |
-| ------------------------------- | --------------------- | ------ |
-| Identity.UserAssignedIdentities | Removed (Status Only) | None   |
+| Property                        | Change  | Reason      |
+| ------------------------------- | ------- | ----------- |
+| Identity.UserAssignedIdentities | Removed | Status Only |
 
 ### WorkspacesCompute
 
-| Property                        | Change (Reason)       | Impact |
-| ------------------------------- | --------------------- | ------ |
-| Identity.UserAssignedIdentities | Removed (Status Only) | None   |
+| Property                        | Change  | Reason      |
+| ------------------------------- | ------- | ----------- |
+| Identity.UserAssignedIdentities | Removed | Status Only |
 
 ### WorkspacesConnection
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
-
-## Network v2018-09-01
-
-### PrivateDnsZone
-
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
 
 ## Network v2020-11-01
 
 ### LoadBalancer
 
-| Property                     | Change (Reason)  | Impact |
-| :--------------------------- | :--------------- | :----- |
-| BackendAddressPools.Location | Removed (Unused) | None   |
+| Property                     | Change  | Reason |
+| :--------------------------- | :------ | :----- |
+| BackendAddressPools.Location | Removed | Unused |
 
 ### NetworkSecurityGroupsSecurityRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### VirtualNetworkGateway
 
-| Property                       | Change (Reason)           | Impact |
-| :----------------------------- | :------------------------ | :----- |
-| GatewayType                    | Option 'HyperNet` removed | #2631  |
-| VirtualNetworkExtendedLocation | Removed (Subresource)     | ??     |
+| Property                       | Change                      | Reason        |
+| :----------------------------- | :-------------------------- | :------------ |
+| VirtualNetworkExtendedLocation | Renamed to ExtendedLocation | Discriminator |
 
 ## Operational Insights v2021-06-01
 
 ### Workspace
 
-| Property                      | Change (Reason) | Impact |
-| :---------------------------- | :-------------- | :----- |
-| Features.AdditionalProperties | ??              |        |
+| Property                     | Change     | Reason     |
+| :--------------------------- | :--------- | :--------- |
+| Sku.CapacityReservationLevel | Restricted | Validation |
 
 ## ServiceBus v2021-10-01
 
 ### NamespacesQueue
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### NamespacesTopic
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
+
 
 ### NamespacesTopicsSubscription
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### NamespacesTopicsSubscriptionsRule
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
-
-### VirtualNetworksSubnet
-
-| Property                           | Change (Reason)            | Impact |
-| :--------------------------------- | :------------------------- | :----- |
-| ApplicationGatewayIpConfigurations | Removed (Status Only)      | None   |
-| PrivateEndpointNetworkPolicies     | Type changed (Enumeration) | None   |
-| PrivateLinkServiceNetworkPolicies  | Type changed (Enumeration) | None   |
-
-### VirtualNetworksVirtualNetworkPeering
-
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
-
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ## SignalRService v2021-11-01
 
-| Property                        | Change (Reason)       | Impact |
-| ------------------------------- | --------------------- | ------ |
-| Identity.UserAssignedIdentities | Removed (Status Only) | None   |
+| Property                        | Change  | Reason      |
+| ------------------------------- | ------- | ----------- |
+| Identity.UserAssignedIdentities | Removed | Status Only |
 
 
 ## Storage v2021-04-01
 
 ### StorageAccountsBlobService
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
+### StorageAccountsBlobServicesContainer
+
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 ### StorageAccountsManagementPolicy
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Tags     | Removed | Unused |
 
-StorageAccountsQueueService
+## StorageAccountsQueueService
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
-StorageAccountsQueueServicesQueue
+## StorageAccountsQueueServicesQueue
 
-| Property | Change (Reason)  | Impact |
-| :------- | :--------------- | :----- |
-| Location | Removed (Unused) | None   |
-| Tags     | Removed (Unused) | None   |
+| Property | Change  | Reason |
+| :------- | :------ | :----- |
+| Location | Removed | Unused |
+| Tags     | Removed | Unused |
 
 
 ## Web v2022-03-1
 
 ### Site
 
-| Property                        | Change (Reason)       | Impact |
-| ------------------------------- | --------------------- | ------ |
-| Identity.UserAssignedIdentities | Removed (Status Only) | None   |
+| Property                        | Change  | Reason Only |
+| ------------------------------- | ------- | ----------- |
+| Identity.UserAssignedIdentities | Removed | Status Only |
