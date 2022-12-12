@@ -20,5 +20,5 @@ spec:
   operatorSpec:
     configMaps:
       fullyQualifiedDomainName:
-        name: serverConfig
+        name: serverconfig
         key: fqdn
