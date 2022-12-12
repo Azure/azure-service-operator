@@ -11,8 +11,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-
-	//v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
@@ -47,10 +46,10 @@ func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 
 func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.PublicIPAddress {
 	publicIPAddressSku := network.PublicIPAddressSku_Name_Standard
-	allocationMethod := network.PublicIPAddressPropertiesFormat_PublicIPAllocationMethod_Static
+	allocationMethod := network.IPAllocationMethod_Static
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
+		Spec: network.PublicIPAddress_Spec{
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &network.PublicIPAddressSku{
@@ -65,7 +64,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 	loadBalancerSku := network.LoadBalancerSku_Name_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormat_Protocol_Tcp
+	protocol := network.TransportProtocol_Tcp
 
 	// TODO: Getting this is SUPER awkward
 	frontIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
@@ -88,15 +87,15 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancer_Properties_FrontendIPConfigurations_Spec{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.SubResource{
+					PublicIPAddress: &network.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},
 			},
-			InboundNatPools: []network.LoadBalancer_Properties_InboundNatPools_Spec{
+			InboundNatPools: []network.InboundNatPool{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
@@ -145,7 +144,7 @@ func newVMSS20201201(
 			UpgradePolicy: &compute2020.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
+			VirtualMachineProfile: &compute2020.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute2020.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2020.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -154,13 +153,13 @@ func newVMSS20201201(
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
+				OsProfile: &compute2020.VirtualMachineScaleSetOSProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2020.LinuxConfiguration{
 						DisablePasswordAuthentication: to.BoolPtr(true),
 						Ssh: &compute2020.SshConfiguration{
-							PublicKeys: []compute2020.SshPublicKey{
+							PublicKeys: []compute2020.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
 									Path:    to.StringPtr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
@@ -169,12 +168,12 @@ func newVMSS20201201(
 						},
 					},
 				},
-				NetworkProfile: &compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
-					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
+				NetworkProfile: &compute2020.VirtualMachineScaleSetNetworkProfile{
+					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
-							IpConfigurations: []compute2020.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
+							IpConfigurations: []compute2020.VirtualMachineScaleSetIPConfiguration{
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute2020.ApiEntityReference{
@@ -219,7 +218,6 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	armId := *vmss.Status.Id
 
 	// Perform a simple patch to add a basic custom script extension
-	/* TODO: disabled pending (evildiscriminator)
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
 	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2020.VirtualMachineScaleSetExtensionProfile{
@@ -250,7 +248,6 @@ func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 		}
 	}
 	tc.Expect(found).To(BeTrue())
-	*/
 
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)

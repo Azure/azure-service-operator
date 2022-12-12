@@ -11,43 +11,12 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestOneOfOneTypeReturnsThatType(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	oneType := StringType
-	result := BuildOneOfType(oneType)
-
-	g.Expect(result).To(BeIdenticalTo(oneType))
-}
-
-func TestOneOfIdenticalTypesReturnsThatType(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	oneType := StringType
-	result := BuildOneOfType(oneType, oneType)
-
-	g.Expect(result).To(BeIdenticalTo(oneType))
-}
-
-func TestOneOfFlattensNestedOneOfs(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	result := BuildOneOfType(BoolType, BuildOneOfType(StringType, IntType))
-
-	expected := BuildOneOfType(BoolType, StringType, IntType)
-
-	g.Expect(result).To(Equal(expected))
-}
-
 func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := BuildOneOfType(StringType, BoolType)
-	y := BuildOneOfType(BoolType, StringType)
+	x := NewOneOfType("x", StringType, BoolType)
+	y := NewOneOfType("y", BoolType, StringType)
 
 	g.Expect(TypeEquals(x, y)).To(BeTrue())
 	g.Expect(TypeEquals(y, x)).To(BeTrue())
@@ -57,8 +26,8 @@ func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := BuildOneOfType(StringType, BoolType, FloatType)
-	y := BuildOneOfType(BoolType, StringType)
+	x := NewOneOfType("x", StringType, BoolType, FloatType)
+	y := NewOneOfType("y", BoolType, StringType)
 
 	g.Expect(TypeEquals(x, y)).To(BeFalse())
 	g.Expect(TypeEquals(y, x)).To(BeFalse())
@@ -68,8 +37,8 @@ func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	x := BuildOneOfType(StringType, FloatType)
-	y := BuildOneOfType(BoolType, StringType)
+	x := NewOneOfType("x", StringType, FloatType)
+	y := NewOneOfType("y", BoolType, StringType)
 
 	g.Expect(TypeEquals(x, y)).To(BeFalse())
 	g.Expect(TypeEquals(y, x)).To(BeFalse())
@@ -105,4 +74,38 @@ func TestOneOfRequiredImportsPanics(t *testing.T) {
 	g.Expect(func() {
 		x.RequiredPackageReferences()
 	}).To(PanicWith(MatchError(expectedOneOfPanic)))
+}
+
+func TestOneOfType_WithAdditionalPropertiesFromObject_GivenProperties_ReturnsOneOfContainingProperties(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	oneOf := NewOneOfType("oneOf")
+	objA := NewObjectType().WithProperties(
+		NewPropertyDefinition("FullName", "fullName", StringType),
+		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+	objB := NewObjectType().WithProperties(
+		NewPropertyDefinition("FullName", "fullName", StringType),
+		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+
+	result := oneOf.WithAdditionalPropertyObject(objA).WithAdditionalPropertyObject(objB)
+	g.Expect(result).NotTo(BeNil())
+
+	g.Expect(result.PropertyObjects()).To(HaveLen(2))
+}
+
+func TestOneOfType_WithoutAnyPropertyObjects_GivenProperties_ReturnsOneOfWithNone(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	oneOf := NewOneOfType("oneOf")
+	obj := NewObjectType().WithProperties(
+		NewPropertyDefinition("FullName", "fullName", StringType),
+		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+
+	oneOf = oneOf.WithAdditionalPropertyObject(obj)
+
+	result := oneOf.WithoutAnyPropertyObjects()
+	g.Expect(result).NotTo(BeNil())
+	g.Expect(result.PropertyObjects()).To(HaveLen(0))
 }

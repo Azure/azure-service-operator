@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
+// Generator information:
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -322,7 +324,9 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
+// Generator information:
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -353,9 +357,6 @@ type RoleAssignment_Spec struct {
 	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
@@ -374,9 +375,6 @@ type RoleAssignment_Spec struct {
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -387,12 +385,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		return nil, nil
 	}
 	result := &RoleAssignment_Spec_ARM{}
-
-	// Set property ‘Location’:
-	if assignment.Location != nil {
-		location := *assignment.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -448,14 +440,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		roleDefinitionId := roleDefinitionIdARMID
 		result.Properties.RoleDefinitionId = &roleDefinitionId
 	}
-
-	// Set property ‘Tags’:
-	if assignment.Tags != nil {
-		result.Tags = make(map[string]string, len(assignment.Tags))
-		for key, value := range assignment.Tags {
-			result.Tags[key] = value
-		}
-	}
 	return result, nil
 }
 
@@ -510,12 +494,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		assignment.Location = &location
-	}
-
 	// Set property ‘Owner’:
 	assignment.Owner = &owner
 
@@ -540,14 +518,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// no assignment for property ‘RoleDefinitionReference’
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		assignment.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			assignment.Tags[key] = value
-		}
-	}
 
 	// No error
 	return nil
@@ -621,9 +591,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
-	// Location
-	assignment.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -659,9 +626,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 		assignment.RoleDefinitionReference = nil
 	}
 
-	// Tags
-	assignment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
 	// No error
 	return nil
 }
@@ -685,9 +649,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(assignment.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion()
@@ -726,9 +687,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	} else {
 		destination.RoleDefinitionReference = nil
 	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(assignment.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -75,7 +75,7 @@ func SqlRoleAssignmentGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlRoleAssignment is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlRoleAssignment(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlRoleAssignment_SpecGenerator()
-	gens["Status"] = SqlRoleAssignmentGetResults_STATUSGenerator()
+	gens["Status"] = DatabaseAccounts_SqlRoleAssignment_STATUSGenerator()
 }
 
 func Test_DatabaseAccounts_SqlRoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -143,20 +143,20 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec(
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_SqlRoleAssignmentGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_SqlRoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlRoleAssignmentGetResults_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS, SqlRoleAssignmentGetResults_STATUSGenerator()))
+		"Round trip of DatabaseAccounts_SqlRoleAssignment_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_STATUS, DatabaseAccounts_SqlRoleAssignment_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS runs a test to see if a specific instance of SqlRoleAssignmentGetResults_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS(subject SqlRoleAssignmentGetResults_STATUS) string {
+// RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_STATUS runs a test to see if a specific instance of DatabaseAccounts_SqlRoleAssignment_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_SqlRoleAssignment_STATUS(subject DatabaseAccounts_SqlRoleAssignment_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -164,7 +164,7 @@ func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS(subject SqlRo
 	}
 
 	// Deserialize back into memory
-	var actual SqlRoleAssignmentGetResults_STATUS
+	var actual DatabaseAccounts_SqlRoleAssignment_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -182,25 +182,25 @@ func RunJSONSerializationTestForSqlRoleAssignmentGetResults_STATUS(subject SqlRo
 	return ""
 }
 
-// Generator of SqlRoleAssignmentGetResults_STATUS instances for property testing - lazily instantiated by
-// SqlRoleAssignmentGetResults_STATUSGenerator()
-var sqlRoleAssignmentGetResults_STATUSGenerator gopter.Gen
+// Generator of DatabaseAccounts_SqlRoleAssignment_STATUS instances for property testing - lazily instantiated by
+// DatabaseAccounts_SqlRoleAssignment_STATUSGenerator()
+var databaseAccounts_SqlRoleAssignment_STATUSGenerator gopter.Gen
 
-// SqlRoleAssignmentGetResults_STATUSGenerator returns a generator of SqlRoleAssignmentGetResults_STATUS instances for property testing.
-func SqlRoleAssignmentGetResults_STATUSGenerator() gopter.Gen {
-	if sqlRoleAssignmentGetResults_STATUSGenerator != nil {
-		return sqlRoleAssignmentGetResults_STATUSGenerator
+// DatabaseAccounts_SqlRoleAssignment_STATUSGenerator returns a generator of DatabaseAccounts_SqlRoleAssignment_STATUS instances for property testing.
+func DatabaseAccounts_SqlRoleAssignment_STATUSGenerator() gopter.Gen {
+	if databaseAccounts_SqlRoleAssignment_STATUSGenerator != nil {
+		return databaseAccounts_SqlRoleAssignment_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS(generators)
-	sqlRoleAssignmentGetResults_STATUSGenerator = gen.Struct(reflect.TypeOf(SqlRoleAssignmentGetResults_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_STATUS(generators)
+	databaseAccounts_SqlRoleAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlRoleAssignment_STATUS{}), generators)
 
-	return sqlRoleAssignmentGetResults_STATUSGenerator
+	return databaseAccounts_SqlRoleAssignment_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlRoleAssignmentGetResults_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())

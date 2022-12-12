@@ -153,7 +153,7 @@ func ExtendedLocation_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocation_Type_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_ImageProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -223,7 +223,7 @@ func ImageProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForImageProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImageProperties_ARM(gens map[string]gopter.Gen) {
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(ImageProperties_HyperVGeneration_V1, ImageProperties_HyperVGeneration_V2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_V1, HyperVGenerationType_V2))
 }
 
 // AddRelatedPropertyGeneratorsForImageProperties_ARM is a factory method for creating gopter generators
@@ -439,18 +439,18 @@ func AddIndependentPropertyGeneratorsForImageDataDisk_ARM(gens map[string]gopter
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Lun"] = gen.PtrOf(gen.Int())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ImageDataDisk_StorageAccountType_PremiumV2_LRS,
-		ImageDataDisk_StorageAccountType_Premium_LRS,
-		ImageDataDisk_StorageAccountType_Premium_ZRS,
-		ImageDataDisk_StorageAccountType_StandardSSD_LRS,
-		ImageDataDisk_StorageAccountType_StandardSSD_ZRS,
-		ImageDataDisk_StorageAccountType_Standard_LRS,
-		ImageDataDisk_StorageAccountType_UltraSSD_LRS))
+		StorageAccountType_PremiumV2_LRS,
+		StorageAccountType_Premium_LRS,
+		StorageAccountType_Premium_ZRS,
+		StorageAccountType_StandardSSD_LRS,
+		StorageAccountType_StandardSSD_ZRS,
+		StorageAccountType_Standard_LRS,
+		StorageAccountType_UltraSSD_LRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageDataDisk_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForImageDataDisk_ARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParameters_ARMGenerator())
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_ARMGenerator())
 	gens["ManagedDisk"] = gen.PtrOf(SubResource_ARMGenerator())
 	gens["Snapshot"] = gen.PtrOf(SubResource_ARMGenerator())
 }
@@ -527,79 +527,18 @@ func AddIndependentPropertyGeneratorsForImageOSDisk_ARM(gens map[string]gopter.G
 	gens["OsState"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsState_Generalized, ImageOSDisk_OsState_Specialized))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ImageOSDisk_OsType_Linux, ImageOSDisk_OsType_Windows))
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		ImageOSDisk_StorageAccountType_PremiumV2_LRS,
-		ImageOSDisk_StorageAccountType_Premium_LRS,
-		ImageOSDisk_StorageAccountType_Premium_ZRS,
-		ImageOSDisk_StorageAccountType_StandardSSD_LRS,
-		ImageOSDisk_StorageAccountType_StandardSSD_ZRS,
-		ImageOSDisk_StorageAccountType_Standard_LRS,
-		ImageOSDisk_StorageAccountType_UltraSSD_LRS))
+		StorageAccountType_PremiumV2_LRS,
+		StorageAccountType_Premium_LRS,
+		StorageAccountType_Premium_ZRS,
+		StorageAccountType_StandardSSD_LRS,
+		StorageAccountType_StandardSSD_ZRS,
+		StorageAccountType_Standard_LRS,
+		StorageAccountType_UltraSSD_LRS))
 }
 
 // AddRelatedPropertyGeneratorsForImageOSDisk_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForImageOSDisk_ARM(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParameters_ARMGenerator())
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_ARMGenerator())
 	gens["ManagedDisk"] = gen.PtrOf(SubResource_ARMGenerator())
 	gens["Snapshot"] = gen.PtrOf(SubResource_ARMGenerator())
-}
-
-func Test_DiskEncryptionSetParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskEncryptionSetParameters_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSetParameters_ARM, DiskEncryptionSetParameters_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDiskEncryptionSetParameters_ARM runs a test to see if a specific instance of DiskEncryptionSetParameters_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskEncryptionSetParameters_ARM(subject DiskEncryptionSetParameters_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DiskEncryptionSetParameters_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DiskEncryptionSetParameters_ARM instances for property testing - lazily instantiated by
-// DiskEncryptionSetParameters_ARMGenerator()
-var diskEncryptionSetParameters_ARMGenerator gopter.Gen
-
-// DiskEncryptionSetParameters_ARMGenerator returns a generator of DiskEncryptionSetParameters_ARM instances for property testing.
-func DiskEncryptionSetParameters_ARMGenerator() gopter.Gen {
-	if diskEncryptionSetParameters_ARMGenerator != nil {
-		return diskEncryptionSetParameters_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDiskEncryptionSetParameters_ARM(generators)
-	diskEncryptionSetParameters_ARMGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSetParameters_ARM{}), generators)
-
-	return diskEncryptionSetParameters_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDiskEncryptionSetParameters_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDiskEncryptionSetParameters_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

@@ -1,9 +1,5 @@
-schemaUrls:
-  - 'https://schema.management.azure.com/schemas/2019-08-01/tenantDeploymentTemplate.json'
-  - 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json'
-schemaUrlRewrite:
-  from: 'https://schema.management.azure.com/schemas/'
-  to: 'specs/azure-resource-manager-schemas/schemas/'
+schemaRoot: "./specs/azure-rest-api-specs/specification/"
+
 destinationGoModuleFile: go.mod
 
 # typesOutputPath specifies the output folder name, relative to the directory containing the mod file above.
@@ -47,10 +43,6 @@ supportedResourcesReport:
 # Filters are applied in document order, with the earliest matching filter being applied for each type.
 #
 typeFilters:
-  - action: prune
-    group: definitions
-    name: Expression
-    because: expression is an ARM template construct which doesn't belong in CRDs
 
   - action: include
     group: servicebus
@@ -87,90 +79,35 @@ typeFilters:
     because: preview SDK versions are excluded by default (they often do very strange things)
 
   - action: prune
-    group: compute
-    name: VirtualMachineScaleSets_Extensions_ChildResource;VirtualMachines_Extensions_ChildResource
-    because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
-
-  - action: prune
-    group: solutions
-    because: There seems to be some issue with embedded JSON objects, specifically "CreateUiDefinition"
-
-  - action: prune
-    group: aadiam
-    version: v*20170401
-    because: These seem to be defined twice (and differently) in the tenant and resourceGroup scoped manifests...
-
-  - action: include
-    group: network
-    version: v*2018*
-    name: private*
-
-  - action: prune
-    group: network
-    version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
-    because: Pruning all older networking api versions types since we don't use them anyway (and they have odd issues)
-
-  - action: prune
-    group: compute
-    version: 'v*beta201*'
-    because: Pruning all older compute api versions types since we don't use them anyway (and they have odd issues)
-
-  - action: prune
-    group: kusto
-    because: Some types use OneOf in a way we don't currently handle correctly.
-
-  - action: prune
-    group: timeseriesinsights
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: databoxedge
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: datashare
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: apimanagement
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: automation
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
-    group: machinelearningservices
-    name: Workspaces_Service*
-    because: Some types use OneOf to model inheritance, which we don't currently support.
-
-  - action: prune
+    name: Deployment
     group: resources
-    name: DeploymentScript*
-    because: Some types use OneOf to model inheritance, which we don't currently support.
+    because: Terrifying.
+
+  # TODO: I believe this type exists at
+  # TODO : https://github.com/Azure/azure-rest-api-specs/blob/88e7838a09868a51de3894114355c75929847a46/specification/azsadmin/resource-manager/compute/Microsoft.Compute.Admin/stable/2021-04-01/Disks.json#L224
+  # TODO: If we ever want access to the assadmin Microsoft.Compute.Admin RP we'll need to bring this back
+  - action: prune
+    name: Disk
+    group: compute.admin
+    because: "Don't know how to intersect types: []github.com/Azure/azure-service-operator/v2/api/compute.admin/v1beta20210401/Disk and (object)"
 
   - action: prune
-    group: hdinsight
-    name: Clusters;Clusters_Extensions
-    because: Uses one-of in a way we don't support
-    
+    name: DiskListInput
+    group: compute.admin
+    because: "Ends up with nil due to above"
+
   - action: prune
-    group: resources
-    name: Tags
-    because: This type is defined recursively.
+    group: securityinsights
+    name: Workspaces_Providers*
+    because: Resource ownership is malformed
 
   - action: prune
     group: management
     because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
 
-  - action: include
-    group: compute.extensions
-    name: GenericExtension
-    because: This is the one kind of extension we want to allow
-
   - action: prune
-    group: compute.extensions
-    because: All other extensions should be removed
+    group: costmanagement
+    because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 
 # Exclusions for packages that currently produce types including AnyType.
 # TODO: get rid of these, either by chasing the teams generating
@@ -179,11 +116,6 @@ anyTypePackages:
 
 typeTransformers:
   # Deal with stuff that exists on ARM resources but doesn't make sense on CRDs
-  - group: definitions
-    name: NumberOrExpression
-    because: NumberOrExpression is an ARM template artifact that doesn't make sense in CRDs
-    target:
-      name: float
   - name: "*"
     property: Tags
     ifType: 
@@ -199,86 +131,13 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
-  - group: cache
-    name: RedisCreateProperties
-    property: RedisConfiguration
-    target:
-      map:
-        key:
-          name: string
-        value:
-          name: string
-    because: the definition in resource manager schemas uses additionalProperties + defined fields which we don't support
-  - group: cache
-    name: RedisProperties_Status
-    property: RedisConfiguration
-    target:
-      map:
-        key:
-          name: string
-        value:
-          name: string
-    because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
+
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
-  - group: deploymenttemplate
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-  - group: definitions
-    name: ResourceLocations
-    target:
-      name: string
-    because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-  - name: "*"
-    property: Condition
-    ifType:
-      name: bool
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - name: "*"
-    property: Copy
-    ifType:
-      group: deploymenttemplate
-      version: "2019-04-01"
-      name: ResourceCopy
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - name: "*"
-    property: Copy
-    ifType:
-      group: definitions
-      version: "*"
-      name: ResourceCopy
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD. Doesn't match the above because of a quirk in how autogenerated resources include resourceBase.
-  - name: "*"
-    property: Copy
-    ifType:
-      group: tenantdeploymenttemplate
-      version: "2019-08-01"
-      name: ResourceCopy
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - name: "*"
-    property: DependsOn
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - name: "*"
-    property: Comments
-    ifType:
-      name: string
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
+
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: BatchAccountIdentity
     group: batch
@@ -295,38 +154,39 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - name: StorageAccounts_ManagementPolicy_Spec
-    group: storage
-    property: Location
-    remove: true
-    because: This property should be marked readonly
+
   - name: ManagedServiceIdentity
     group: documentdb
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - name: PrivateEndpointConnectionProperties
     group: storage
     property: PrivateEndpoint
     remove: true
     because: The PrivateEndpoint property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - group: compute
     name: VirtualMachineScaleSetIdentity;VirtualMachineScaleSetIdentity_Status;VirtualMachineIdentity;VirtualMachineIdentity_Status
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - group: eventhub
     name: Identity
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - group: containerinstance
-    name: ContainerGroupIdentity
+
+  - group: dbformysql
+    name: Identity
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - group: dbformysql
-    name: Identity
+
+  - group: containerinstance
+    name: ContainerGroupIdentity
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
@@ -335,6 +195,11 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: Namespace_Properties_Spec
+    group: eventhub
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: PrivateLinkServiceConnectionState
@@ -345,41 +210,91 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: Namespaces_Eventhub_Properties_Spec
+
+  - group: network
+    version: "*"
+    name: RouteTables_Route_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: NetworkInterfaceIPConfiguration
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: NetworkInterfacePropertiesFormat
+    property: MigrationPhase
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: PublicIPAddressPropertiesFormat
+    property: MigrationPhase
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: NetworkSecurityGroups_SecurityRule_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: VirtualNetworks_Subnet_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: VirtualNetworks_VirtualNetworkPeering_Spec
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: Delegation
+    property: Type
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: Delegation
+    property: Id
+    # TODO[donotmerge]: We should do something more clean than this
+    # Delegation is not getting its ID field removed when in the subnet context. This is
+    # because it's set as resource: false. We can either:
+    #  1. Manually prune the ID field.
+    #  2. Make resourceEmbeddedInParent and resource separate so that both
+    #     can be set.
+    #  3. Make resourceEmbeddedInParent optionally a collection and mark Delegation as embedded both in subnet and vnet
+    #  4. Live with it.
+    remove: true
+    because: We don't handle this very well right now, manually remove until TODO above has been done
+
+  - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
     property: Status
     remove: true
-    because: This property should be marked readonly
-  - group: eventgrid
-    version: v*20190601
-    name: Domain_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
-  - group: eventgrid
-    version: "*"
-    name: Topic_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
-  - group: network
-    version: "*"
-    name: PrivateDnsZone_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
+    because: These properties should be marked readonly
 
-  # Deal with properties that should have been marked readOnly but weren't
+  ## Deal with properties that should have been marked readOnly but weren't
+
+    # TODO: Unused or renamed?
   - group: servicebus
-    name: Namespace_Properties_Spec  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    name: SBNamespaceProperties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
     property: PrivateEndpointConnections
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBTopicProperties  # This type is subsequently flattened into NamespacesTopics_Spec
     property: Status
@@ -395,6 +310,7 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: compute
     name: DiskProperties  # This type is subsequently flattened into Disks_Spec
     property: DiskState
@@ -425,68 +341,14 @@ typeTransformers:
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
-  - group: containerservice
-    name: ManagedClusters_AgentPool_Spec
-    property: Tags
-    remove: true
-    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
-  - group: network
-    name: VirtualNetworks_Subnet_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: VirtualNetworks_Subnet_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - group: network
-    name: RouteTables_Route_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: RouteTables_Route_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - name: Alias_Spec
-    group: subscription
-    property: Location
-    remove: true
-    because: This shouldn't be on subscription.
-  - name: Alias_Spec
-    group: subscription
-    property: Tags
-    remove: true
-    because: Tags for subscription are in a different place
-  - name: UserAssignedIdentities_FederatedIdentityCredential_Spec
-    group: managedidentity
-    property: Location
-    remove: true
-    because: Child resource shouldn't have location
-  - name: UserAssignedIdentities_FederatedIdentityCredential_Spec
-    group: managedidentity
-    property: Tags
-    remove: true
-    because: Child resource shouldn't have tags
-  - name: DatabaseAccounts_SqlRoleAssignment_Spec
-    group: documentdb
-    property: Tags
-    remove: true
-    because: Shouldn't have tags
-  - name: DatabaseAccounts_SqlRoleAssignment_Spec
-    group: documentdb
-    property: Location
-    remove: true
-    because: Child resource shouldn't have Location
 
   # Deal with service Swaggers that are just wrong
   - group: insights
-    name: WebTest_Spec
+    name: Webtest_Spec
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
   - group: insights
     name: WebTest_Status
     property: Kind
@@ -494,7 +356,6 @@ typeTransformers:
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
 status:
-  schemaRoot: "./specs/azure-rest-api-specs/specification"
 
   overrides: [
     {
@@ -697,6 +558,19 @@ status:
 #     work if you put it in the same section as $exportAs; you instead need 
 #     to place $supportedFrom in a section using the name specified by $exportAs
 #
+# $isResource: <bool>
+#     Configures if the given type is a resource or not. This can be used to
+#     mark types that are labelled as a resources in the Swagger as normal (non-resource) types.
+#     This is needed especially for compute and networking groups whose SubResource incorrectly labels
+#     many resource references as resources instead.
+#
+# $resourceEmbeddedInParent: <resource name>
+#     Labels the given type as a resource in some contexts, while not in others.
+#     In particular this caters to pseudo-resources which have ARM IDs associated with them
+#     and have GET APIs but cannot be created except as part of their parent. This enables
+#     the generator to prune these resources from all contexts except their creation context.
+#     A concrete example of this can be seen on LoadBalancer with "resources" like LoadBalancingRule.
+#
 # Available 'property' modifiers:
 #
 # $armReference: <bool>
@@ -718,11 +592,13 @@ status:
 #     Establishes a connection between the two properties allowing for proper
 #     forward and backward conversion.
 #
-# $isResourceLifecycleOwnedByParent: <bool>
+# $resourceLifecycleOwnedByParent: <string>
 #     Specifies that the property references a misbehaving embedded resource, one whose parent
 #     resource owns the lifecycle of the child resource.
 #     These resources are embedded resources which are overwritten when their parent resource
 #     is changed. For example see https://github.com/Azure/azure-service-operator/issues/1944.
+#     The value should be the name of the parent resource which owns the lifecycle of the
+#     sub-resource.
 #
 objectModelConfiguration:
   appconfiguration:
@@ -743,6 +619,10 @@ objectModelConfiguration:
           - SecondaryReadOnlyKeyID
           - SecondaryReadOnlyKey
           - SecondaryReadOnlyConnectionString
+      PrivateEndpointConnectionReference_STATUS:
+        # This is a subresource but it's not labelled as one in their Swagger, instead there's a duplicate entity
+        # shaped the same called PrivateEndpointConnection which is labelled as a resource. We want to prune this.
+        $isResource: true
   authorization:
     2020-08-01-preview:
       RoleAssignment:
@@ -769,9 +649,6 @@ objectModelConfiguration:
           - HostName
           - Port
           - SSLPort
-      RedisCreateProperties:
-        SubnetId:
-          $armReference: true
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
@@ -790,12 +667,27 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
   cdn:
     2021-06-01:
+      DeepCreatedOriginGroup:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+      DeepCreatedOriginGroup_STATUS:
+        $isResource: false
+      DeepCreatedOriginGroupProperties:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+      DeepCreatedOriginGroupProperties_STATUS:
+        $isResource: false
+      DeepCreatedOrigin:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
+      DeepCreatedOrigin_STATUS:
+        $isResource: false
       DeepCreatedOriginProperties:
+        $isResource: false  # TODO[breaking]: This actually is a resource but we initially had it in our model so leaving it here for now
         PrivateLinkLocation:
           $armReference: true
         PrivateLinkResourceId:
           $armReference: true
-      EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink:
+      DeepCreatedOriginProperties_STATUS:
+        $isResource: false
+      EndpointProperties_WebApplicationFirewallPolicyLink:
         Id:
           $armReference: true
       Profile:
@@ -804,9 +696,6 @@ objectModelConfiguration:
       Profiles_Endpoint:
         $exportAs: ProfilesEndpoint
         $supportedFrom: v2.0.0-beta.1
-      ResourceReference:
-        Id:
-          $armReference: true
   compute:
     2020-09-30:
       CreationData:
@@ -837,106 +726,102 @@ objectModelConfiguration:
       ApiEntityReference:
         Id:
           $armReference: true
-      DiskEncryptionSetParameters:
-        Id:
-          $armReference: true
       ImageReference:
-        Id:
-          $armReference: true
+        $isResource: false
+      ImageReference_STATUS:
+        $isResource: false
+      ManagedDiskParameters:
+        $isResource: false
+      ManagedDiskParameters_STATUS:
+        $isResource: false
+      NetworkInterfaceReference:
+        $isResource: false
+      NetworkInterfaceReference_STATUS:
+        $isResource: false
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      VirtualMachineExtension_STATUS:
+        $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-        Id:
-          $armReference: false
-      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-        Id:
-          $armReference: false
-      SubResource:
-        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
-        Id:
-          $armReference: true
-      VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec:
-        Id:
-          $armReference: true
-      ManagedDiskParameters:
-        Id:
-          $armReference: true
+      VirtualMachineScaleSetExtension:
+        $isResource: false
+      VirtualMachineScaleSetExtension_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration_STATUS:
+        $isResource: false
     2021-07-01:
-      DiskEncryptionSetParameters:
-        Id: 
-          $armReference: true
       Image:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
-      SubResource:
-        Id:
-          $armReference: true
     2022-03-01:
       ApiEntityReference:
-        Id:
-          $armReference: true
-      DiskEncryptionSetParameters:
         Id:
           $armReference: true
       Image:
         $export: true
         $supportedFrom: v2.0.0-beta.2
       ImageReference:
-        Id:
-          $armReference: true
-        version:
+        $isResource: false
+        Version:
           $armReference: false
+      ImageReference_STATUS:
+        $isResource: false
       ManagedDiskParameters:
-        Id:
-          $armReference: true
-      SubResource:
-        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
-        Id:
-          $armReference: true
+        $isResource: false
+      ManagedDiskParameters_STATUS:
+        $isResource: false
+#      NetworkInterfaceConfiguration:
+#        $isResource: false
+      NetworkInterfaceReference:
+        $isResource: false
+      NetworkInterfaceReference_STATUS:
+        $isResource: false
+      NetworkProfile:
+        $isResource: false
+      NetworkProfile_STATUS:
+        $isResource: false
       VMGalleryApplication:
         PackageReferenceId:
           $armReference: true
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+      VirtualMachineExtension_STATUS:
+        $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-        Id:
-          $armReference: false
-      VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-        Id:
-          $armReference: false
-      VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec:
-        Id:
-          $armReference: true
+      VirtualMachineScaleSetExtension:
+        $isResource: false
+      VirtualMachineScaleSetExtension_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetIPConfiguration_STATUS:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration:
+        $isResource: false
+      VirtualMachineScaleSetNetworkConfiguration_STATUS:
+        $isResource: false
   containerinstance:
     2021-10-01:
       ContainerGroup:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec:
-        WorkspaceResourceId:
-          $armReference: true
       ContainerGroupSubnetId:
         Id:
+          $armReference: true
+      LogAnalytics:
+        WorkspaceResourceId:
           $armReference: true
   containerregistry:
     2021-09-01:
@@ -979,20 +864,12 @@ objectModelConfiguration:
       Servers_Database:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
-      ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
-        $exportAs: ServerPropertiesForDefaultCreate
-      ServerPropertiesForCreate_ServerPropertiesForGeoRestore:
-        $exportAs: ServerPropertiesForGeoRestore
-      ServerPropertiesForCreate_ServerPropertiesForReplica:
-        $exportAs: ServerPropertiesForReplica
-      ServerPropertiesForCreate_ServerPropertiesForRestore:
-        $exportAs: ServerPropertiesForRestore
   dbformysql:
     2021-05-01:
       DataEncryption:
-        PrimaryUserAssignedIdentityId:
-          $armReference: true
         GeoBackupUserAssignedIdentityId:
+          $armReference: true
+        PrimaryUserAssignedIdentityId:
           $armReference: true
       FlexibleServer: 
         $export: true
@@ -1025,7 +902,7 @@ objectModelConfiguration:
       FlexibleServer:
         $export: true
         $supportedFrom: v2.0.0-beta.4
-      Server_STATUS:
+      FlexibleServer_STATUS:
         FullyQualifiedDomainName:
           $exportAsConfigMapPropertyName: FullyQualifiedDomainName
       FlexibleServers_Configuration:
@@ -1135,7 +1012,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.3
   eventhub:
     2021-11-01:
-      DestinationProperties:
+      Destination_Properties:
         StorageAccountResourceId:
           $armReference: true
       Namespace:
@@ -1156,12 +1033,14 @@ objectModelConfiguration:
       Namespace_Properties_Spec:
         ClusterArmId:
           $armReference: true
-      PrivateEndpoint:
-        Id:
-          $armReference: true
+# TODO: I think this has been (correctly) pruned now
+#      PrivateEndpoint:
+#        Id:
+#          $armReference: true
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
+      
   insights:
     2018-05-01-preview:
       Webtest:
@@ -1197,7 +1076,7 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      Identity_STATUS:
+      UserAssignedIdentity_STATUS:
         ClientId:
           $exportAsConfigMapPropertyName: ClientId
         PrincipalId:
@@ -1207,11 +1086,16 @@ objectModelConfiguration:
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:
-        $export: true
         $exportAs: FederatedIdentityCredential
         $supportedFrom: v2.0.0-beta.3
   machinelearningservices:
     2021-07-01:
+      AksNetworkingConfiguration:
+        SubnetId:
+          $armReference: true
+      Kubernetes:
+        ResourceId:
+          $armReference: true
       Workspace:
         $export: true
         $supportedFrom: v2.0.0-beta.2
@@ -1223,16 +1107,16 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-      Workspace_Properties_Spec:
+      WorkspaceProperties:
         ApplicationInsights:
+          $armReference: true
+        ContainerRegistry:
+          $armReference: true
+        KeyVault:
           $armReference: true
         PrimaryUserAssignedIdentity:
           $armReference: true
         StorageAccount:
-          $armReference: true
-        KeyVault:
-          $armReference: true
-        ContainerRegistry:
           $armReference: true
       SharedPrivateLinkResourceProperty:
         PrivateLinkResourceId:
@@ -1240,41 +1124,35 @@ objectModelConfiguration:
       Workspaces_Compute:
         $exportAs: WorkspacesCompute
         $supportedFrom: v2.0.0-beta.2
+      HDInsight:
+        ResourceId:
+          $armReference: true
+      DataFactory:
+        ResourceId:
+          $armReference: true
+      DataLakeAnalytics:
+        ResourceId:
+          $armReference: true
+      Databricks:
+        ResourceId:
+          $armReference: true
+      AKS:
+        ResourceId:
+          $armReference: true
+      ComputeInstance:
+        ResourceId:
+          $armReference: true
+      SynapseSpark:
+        ResourceId:
+          $armReference: true
+      AmlCompute:
+        ResourceId:
+          $armReference: true
+      VirtualMachine:
+        ResourceId:
+          $armReference: true
       VirtualMachineImage:
         Id:
-          $armReference: true
-      Compute_HDInsight:
-        ResourceId:
-          $armReference: true
-      ResourceId:
-        Id:
-          $armReference: true
-      Compute_DataLakeAnalytics:
-        ResourceId:
-          $armReference: true
-      AksNetworkingConfiguration:
-        SubnetId:
-          $armReference: true
-      Compute_Databricks:
-        ResourceId:
-          $armReference: true
-      Compute_DataFactory:
-        ResourceId:
-          $armReference: true
-      Compute_AKS:
-        ResourceId:
-          $armReference: true
-      Compute_ComputeInstance:
-        ResourceId:
-          $armReference: true
-      Compute_SynapseSpark:
-        ResourceId:
-          $armReference: true
-      Compute_AmlCompute:
-        ResourceId:
-          $armReference: true
-      Compute_VirtualMachine:
-        ResourceId:
           $armReference: true
       UserAccountCredentials:
         AdminUserPassword:
@@ -1293,55 +1171,115 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-beta.2
     2020-11-01:
+      BackendAddressPool:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      BackendAddressPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Delegation:
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
+      Delegation_STATUS:
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
+      FrontendIPConfiguration:
+        $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
+      FrontendIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatRule:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatPool:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource
+      InboundNatPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
       LoadBalancer:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      LoadBalancingRule:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
+      LoadBalancingRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
       NetworkInterface:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
+      NetworkInterfaceIPConfiguration:
+        $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
+      NetworkInterfaceIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: NetworkInterface
       NetworkSecurityGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-      PublicIPAddresses:
+      OutboundRule:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      OutboundRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Probe:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      Probe_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTable_Properties_Spec:
+      RouteTablePropertiesFormat:
         Routes:
-          $isResourceLifecycleOwnedByParent: true
+          $resourceLifecycleOwnedByParent: RouteTable
       RouteTables_Route:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
-      SubResource:
-        Id:
-          $armReference: true
+#      SecurityRule_NetworkInterface_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
+#      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
+#      Subnet_VirtualNetwork_SubResourceEmbedded:
+#        Id:
+#          $armReference: true
       VirtualNetwork:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetwork_Properties_Spec:
+      VirtualNetworkGatewayPropertiesFormat:
+        VNetExtendedLocationResourceId:
+          $armReference: true
+      VirtualNetworkGatewayIPConfiguration:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkPropertiesFormat:
         Subnets:
-          $isResourceLifecycleOwnedByParent: true
+          $resourceLifecycleOwnedByParent: VirtualNetwork
         VirtualNetworkPeerings:
           # Technically this resource behaves fine (updating the vnet doesn't delete these if they
           # aren't included in the payload). Marking it here so that the pruning takes effect.
-          $isResourceLifecycleOwnedByParent: true
+          $resourceLifecycleOwnedByParent: VirtualNetwork
       VirtualNetworks_Subnet:
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGateway_Properties_Spec:
-        VNetExtendedLocationResourceId:
-          $armReference: true
   operationalinsights:
     2021-06-01:
       Workspace:
@@ -1363,6 +1301,10 @@ objectModelConfiguration:
       Namespaces_Topic:
         $exportAs: NamespacesTopic
         $supportedFrom: v2.0.0-alpha.1
+# TODO: What happened to this?
+#      PrivateEndpoint:
+#        Id:
+#          $armReference: false # TODO: should be removed
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
@@ -1439,6 +1381,12 @@ objectModelConfiguration:
       KubeEnvironmentProfile:
         Id:
           $armReference: true
+      PushSettings:
+        # This actually is a resource I think, but as far as I can tell in the context it's used
+        # here as part of SitesConfig it has to be embedded as there is no writable ID field
+        $isResource: false
+      PushSettings_STATUS:
+        $isResource: false
       ServerFarm:
         $exportAs: ServerFarm
         $supportedFrom: v2.0.0-beta.3

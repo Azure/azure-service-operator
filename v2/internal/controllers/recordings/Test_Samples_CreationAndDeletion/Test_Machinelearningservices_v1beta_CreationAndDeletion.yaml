@@ -895,7 +895,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"location":"westus3","name":"workspacescomputensgrule","properties":{"access":"Allow","description":"Allow
+    body: '{"name":"workspacescomputensgrule","properties":{"access":"Allow","description":"Allow
       access to any source port","destinationAddressPrefix":"*","destinationPortRange":"22","direction":"Inbound","priority":101,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRange":"*"}}'
     form: {}
     headers:
@@ -2228,7 +2228,7 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"location":"westus3","name":"asotestsflbjz","properties":{"authType":"PAT","category":"ACR","target":"www.sample.com","value":"{}","valueFormat":"JSON"}}'
+    body: '{"name":"asotestsflbjz","properties":{"authType":"PAT","category":"ACR","target":"www.sample.com","value":"{}","valueFormat":"JSON"}}'
     form: {}
     headers:
       Accept:

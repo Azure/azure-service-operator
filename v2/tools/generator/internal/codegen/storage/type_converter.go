@@ -51,7 +51,7 @@ func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel
 	}
 
 	description := t.descriptionForStorageVariant(def)
-	result = result.WithDescription(description)
+	result = result.WithDescription(description...)
 
 	return result, nil
 }

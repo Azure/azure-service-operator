@@ -244,3 +244,65 @@ func DhcpOptions_STATUS_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDhcpOptions_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
+
+func Test_VirtualNetworkBgpCommunities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkBgpCommunities_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUS_ARM, VirtualNetworkBgpCommunities_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUS_ARM runs a test to see if a specific instance of VirtualNetworkBgpCommunities_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUS_ARM(subject VirtualNetworkBgpCommunities_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkBgpCommunities_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkBgpCommunities_STATUS_ARM instances for property testing - lazily instantiated by
+// VirtualNetworkBgpCommunities_STATUS_ARMGenerator()
+var virtualNetworkBgpCommunities_STATUS_ARMGenerator gopter.Gen
+
+// VirtualNetworkBgpCommunities_STATUS_ARMGenerator returns a generator of VirtualNetworkBgpCommunities_STATUS_ARM instances for property testing.
+func VirtualNetworkBgpCommunities_STATUS_ARMGenerator() gopter.Gen {
+	if virtualNetworkBgpCommunities_STATUS_ARMGenerator != nil {
+		return virtualNetworkBgpCommunities_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS_ARM(generators)
+	virtualNetworkBgpCommunities_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkBgpCommunities_STATUS_ARM{}), generators)
+
+	return virtualNetworkBgpCommunities_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
+	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
+}

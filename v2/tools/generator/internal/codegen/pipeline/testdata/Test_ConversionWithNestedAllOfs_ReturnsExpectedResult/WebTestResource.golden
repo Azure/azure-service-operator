@@ -1,0 +1,12 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── WebTestResource: Resource
+    ├── Spec: Object (6 properties)
+    │   ├── AzureName: string
+    │   ├── Kind: *Enum (2 values)
+    │   │   ├── multistep
+    │   │   └── ping
+    │   ├── Location: *string
+    │   ├── Name: string
+    │   ├── Properties: WebTestProperties
+    │   └── Tags: *interface{}
+    └── Status: WebTest_Status

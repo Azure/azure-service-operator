@@ -84,9 +84,7 @@ func RoleAssignment_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoleAssignment_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleAssignment_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRoleAssignment_Spec_ARM is a factory method for creating gopter generators

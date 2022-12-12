@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"regexp"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -21,11 +22,14 @@ import (
 // both JSON Schema and Swagger; but this is not yet done.
 type Schema interface {
 	url() *url.URL
+	Id() string // Unique ID of this Schema within the document (if any)
 	title() *string
 	description() *string
 
 	// for extensions like x-ms-...
-	extensions(key string) interface{}
+	extensionAsString(key string) (string, bool)
+	extensionAsBool(key string) bool
+	hasExtension(key string) bool
 
 	hasType(schemaType SchemaType) bool
 
@@ -44,7 +48,9 @@ type Schema interface {
 
 	// complex things
 	hasOneOf() bool
-	oneOf() []Schema
+	oneOf() []Schema                      // Returns any directly embedded definitions held within a OneOf
+	discriminator() string                // Returns the name of the discriminator field, or "" if it has none
+	discriminatorValues() set.Set[string] // Finds the set of expected discriminators, or nil if this has none
 
 	hasAnyOf() bool
 	anyOf() []Schema
@@ -66,6 +72,7 @@ type Schema interface {
 	properties() map[string]Schema
 	additionalPropertiesAllowed() bool
 	additionalPropertiesSchema() Schema
+	readOnly() bool
 
 	// ref things
 	isRef() bool

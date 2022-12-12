@@ -26,6 +26,7 @@ func VerifyNoErroredTypes() *Stage {
 			visitor := newErrorCollectingVisitor()
 
 			for _, def := range state.definitions {
+
 				_, err := visitor.visitor.Visit(def.Type(), erroredTypeVisitorContext{name: def.Name()})
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed while visiting %q", def.Name())

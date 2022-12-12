@@ -8,10 +8,11 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
@@ -44,17 +45,17 @@ func Test_Networking_VirtualNetworkGateway_CRUD(t *testing.T) {
 }
 
 func newVnetGateway(tc *testcommon.KubePerTestContext, publicIPAddress *network.PublicIPAddress, subnet *network.VirtualNetworksSubnet, rg *resources.ResourceGroup) *network.VirtualNetworkGateway {
-	gatewayType := network.VirtualNetworkGateway_Properties_GatewayType_Spec_Vpn
+	gatewayType := network.VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn
 	skuName := network.VirtualNetworkGatewaySku_Name_VpnGw2
 	skuTier := network.VirtualNetworkGatewaySku_Tier_VpnGw2
-	vpnGatewayGen := network.VirtualNetworkGateway_Properties_VpnGatewayGeneration_Spec_Generation1
-	vpnType := network.VirtualNetworkGateway_Properties_VpnType_Spec_RouteBased
+	vpnGatewayGen := network.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1
+	vpnType := network.VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased
 
 	return &network.VirtualNetworkGateway{
 		ObjectMeta: tc.MakeObjectMeta("gateway"),
 		Spec: network.VirtualNetworkGateway_Spec{
 			GatewayType: &gatewayType,
-			IpConfigurations: []network.VirtualNetworkGateway_Properties_IpConfigurations_Spec{{
+			IpConfigurations: []network.VirtualNetworkGatewayIPConfiguration{{
 				Name: to.StringPtr("config1"),
 				PublicIPAddress: &network.SubResource{
 					Reference: tc.MakeReferenceFromResource(publicIPAddress),

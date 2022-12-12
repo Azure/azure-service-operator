@@ -13,6 +13,14 @@ type EnumValue struct {
 	Value string
 }
 
+// MakeEnumValue makes a new EnumValue with the given identifier and value
+func MakeEnumValue(id string, value string) EnumValue {
+	return EnumValue{
+		Identifier: id,
+		Value:      value,
+	}
+}
+
 // Equals tests to see if the passed EnumValue has the same name and value
 func (value *EnumValue) Equals(v *EnumValue) bool {
 	if value == v {

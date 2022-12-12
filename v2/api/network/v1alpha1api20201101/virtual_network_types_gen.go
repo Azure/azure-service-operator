@@ -332,7 +332,6 @@ type VirtualNetworkList struct {
 }
 
 type VirtualNetwork_Spec struct {
-	// +kubebuilder:validation:Required
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -391,7 +390,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		network.EnableDdosProtection != nil ||
 		network.EnableVmProtection != nil ||
 		network.IpAllocations != nil {
-		result.Properties = &VirtualNetwork_Properties_Spec_ARM{}
+		result.Properties = &VirtualNetworkPropertiesFormat_ARM{}
 	}
 	if network.AddressSpace != nil {
 		addressSpace_ARM, err := (*network.AddressSpace).ConvertToARM(resolved)
@@ -1415,7 +1414,6 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 // Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
 type AddressSpace struct {
-	// +kubebuilder:validation:Required
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
@@ -1544,7 +1542,6 @@ func (space *AddressSpace_STATUS) AssignProperties_To_AddressSpace_STATUS(destin
 
 // Deprecated version of DhcpOptions. Use v1beta20201101.DhcpOptions instead
 type DhcpOptions struct {
-	// +kubebuilder:validation:Required
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 

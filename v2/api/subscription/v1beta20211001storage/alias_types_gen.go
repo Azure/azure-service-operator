@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20211001.Alias
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases
+// Generator information:
+// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
+// - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Alias_Spec                       `json:"spec,omitempty"`
-	Status            SubscriptionAliasResponse_STATUS `json:"status,omitempty"`
+	Spec              Alias_Spec   `json:"spec,omitempty"`
+	Status            Alias_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Alias{}
@@ -76,7 +78,7 @@ func (alias *Alias) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (alias *Alias) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SubscriptionAliasResponse_STATUS{}
+	return &Alias_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -87,13 +89,13 @@ func (alias *Alias) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SubscriptionAliasResponse_STATUS); ok {
+	if st, ok := status.(*Alias_STATUS); ok {
 		alias.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SubscriptionAliasResponse_STATUS
+	var st Alias_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -117,7 +119,9 @@ func (alias *Alias) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20211001.Alias
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/tenant_resourceDefinitions/aliases
+// Generator information:
+// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
+// - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
 type AliasList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -154,14 +158,8 @@ func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return destination.ConvertSpecFrom(alias)
 }
 
-// Storage version of v1beta20211001.APIVersion
-// +kubebuilder:validation:Enum={"2021-10-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2021-10-01")
-
-// Storage version of v1beta20211001.SubscriptionAliasResponse_STATUS
-type SubscriptionAliasResponse_STATUS struct {
+// Storage version of v1beta20211001.Alias_STATUS
+type Alias_STATUS struct {
 	Conditions  []conditions.Condition                      `json:"conditions,omitempty"`
 	Id          *string                                     `json:"id,omitempty"`
 	Name        *string                                     `json:"name,omitempty"`
@@ -171,28 +169,33 @@ type SubscriptionAliasResponse_STATUS struct {
 	Type        *string                                     `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SubscriptionAliasResponse_STATUS{}
+var _ genruntime.ConvertibleStatus = &Alias_STATUS{}
 
-// ConvertStatusFrom populates our SubscriptionAliasResponse_STATUS from the provided source
-func (response *SubscriptionAliasResponse_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == response {
+// ConvertStatusFrom populates our Alias_STATUS from the provided source
+func (alias *Alias_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == alias {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(response)
+	return source.ConvertStatusTo(alias)
 }
 
-// ConvertStatusTo populates the provided destination from our SubscriptionAliasResponse_STATUS
-func (response *SubscriptionAliasResponse_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == response {
+// ConvertStatusTo populates the provided destination from our Alias_STATUS
+func (alias *Alias_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == alias {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(response)
+	return destination.ConvertStatusFrom(alias)
 }
+
+// Storage version of v1beta20211001.APIVersion
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2021-10-01")
 
 // Storage version of v1beta20211001.PutAliasRequestProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties
 type PutAliasRequestProperties struct {
 	AdditionalProperties *PutAliasRequestAdditionalProperties `json:"additionalProperties,omitempty"`
 	BillingScope         *string                              `json:"billingScope,omitempty"`
@@ -232,7 +235,6 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20211001.PutAliasRequestAdditionalProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties
 type PutAliasRequestAdditionalProperties struct {
 	ManagementGroupId    *string                `json:"managementGroupId,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`

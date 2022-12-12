@@ -1564,15 +1564,19 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
 │   │   │   ├── ExtensionProfile: *Object (2 properties)
-│   │   │   │   ├── Extensions: Object (5 properties)[]
+│   │   │   │   ├── Extensions: Object (12 properties)[]
+│   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   ├── Publisher: Validated<*string> (1 rule)
-│   │   │   │   │   │   └── Rule 0: MinLength: 1
+│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │   ├── ProvisionAfterExtensions: string[]
+│   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
-│   │   │   │   │   ├── Type: Validated<*string> (1 rule)
-│   │   │   │   │   │   └── Rule 0: MinLength: 1
-│   │   │   │   │   └── TypeHandlerVersion: Validated<*string> (1 rule)
-│   │   │   │   │       └── Rule 0: MinLength: 1
+│   │   │   │   │   ├── SuppressFailures: *bool
+│   │   │   │   │   ├── Type: *string
+│   │   │   │   │   └── TypeHandlerVersion: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── HardwareProfile: *Object (1 property)
 │   │   │   │   └── VmSizeProperties: *Object (2 properties)
@@ -1593,13 +1597,11 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │       ├── EnableAcceleratedNetworking: *bool
 │   │   │   │       ├── EnableFpga: *bool
 │   │   │   │       ├── EnableIPForwarding: *bool
-│   │   │   │       ├── Id: *string
 │   │   │   │       ├── IpConfigurations: Object (10 properties)[]
 │   │   │   │       │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │       │   ├── Id: *string
 │   │   │   │       │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       │   ├── LoadBalancerInboundNatPools: Object (1 property)[]
@@ -1632,12 +1634,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │       │   │       └── Tier: *Enum (2 values)
 │   │   │   │       │   │           ├── "Global"
 │   │   │   │       │   │           └── "Regional"
+│   │   │   │       │   ├── Reference: *genruntime.ResourceReference
 │   │   │   │       │   └── Subnet: *Object (1 property)
 │   │   │   │       │       └── Reference: *genruntime.ResourceReference
 │   │   │   │       ├── Name: *string
 │   │   │   │       ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   │       │   └── Reference: *genruntime.ResourceReference
-│   │   │   │       └── Primary: *bool
+│   │   │   │       ├── Primary: *bool
+│   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   ├── OsProfile: *Object (8 properties)
 │   │   │   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   │   │   ├── AdminUsername: *string
@@ -2610,9 +2614,16 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   ├── ExtensionProfile: *Object (2 properties)
 │   │   │   │   ├── Extensions: Object (2 properties)[]
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   └── Properties: *Object (4 properties)
+│   │   │   │   │   └── Properties: *Object (11 properties)
+│   │   │   │   │       ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │       ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │       ├── ForceUpdateTag: *string
+│   │   │   │   │       ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │       ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │       ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │       ├── Publisher: *string
 │   │   │   │   │       ├── Settings: map[string]v1.JSON
+│   │   │   │   │       ├── SuppressFailures: *bool
 │   │   │   │   │       ├── Type: *string
 │   │   │   │   │       └── TypeHandlerVersion: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string

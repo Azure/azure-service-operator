@@ -61,7 +61,11 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 
 	allDefinitions := codeGenerationContext.GetAllReachableDefinitions()
-	discrimJSONName, valuesMapping := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)
+	discrimJSONName, valuesMapping, err := astmodel.DetermineDiscriminantAndValues(f.oneOfObject, allDefinitions)
+	if err != nil {
+		// Something went wrong; this late in the process we can't do anything about it, so we panic
+		panic(err)
+	}
 
 	paramName := "data"
 	mapName := "rawJson"

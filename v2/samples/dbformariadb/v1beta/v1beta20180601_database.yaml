@@ -4,6 +4,5 @@ metadata:
   name: adventureworks
   namespace: default
 spec:
-  location: eastus
   owner:
     name: myserver

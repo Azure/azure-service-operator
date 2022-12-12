@@ -161,7 +161,7 @@ func NamespacesTopicGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Topic_SpecGenerator()
-	gens["Status"] = SBTopic_STATUSGenerator()
+	gens["Status"] = Namespaces_Topic_STATUSGenerator()
 }
 
 func Test_Namespaces_Topic_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -271,40 +271,38 @@ func AddIndependentPropertyGeneratorsForNamespaces_Topic_Spec(gens map[string]go
 	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
 	gens["EnableExpress"] = gen.PtrOf(gen.Bool())
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-func Test_SBTopic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Namespaces_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SBTopic_STATUS to SBTopic_STATUS via AssignProperties_To_SBTopic_STATUS & AssignProperties_From_SBTopic_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSBTopic_STATUS, SBTopic_STATUSGenerator()))
+		"Round trip from Namespaces_Topic_STATUS to Namespaces_Topic_STATUS via AssignProperties_To_Namespaces_Topic_STATUS & AssignProperties_From_Namespaces_Topic_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topic_STATUS, Namespaces_Topic_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSBTopic_STATUS tests if a specific instance of SBTopic_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForSBTopic_STATUS(subject SBTopic_STATUS) string {
+// RunPropertyAssignmentTestForNamespaces_Topic_STATUS tests if a specific instance of Namespaces_Topic_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topic_STATUS(subject Namespaces_Topic_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.SBTopic_STATUS
-	err := copied.AssignProperties_To_SBTopic_STATUS(&other)
+	var other v20210101ps.Namespaces_Topic_STATUS
+	err := copied.AssignProperties_To_Namespaces_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SBTopic_STATUS
-	err = actual.AssignProperties_From_SBTopic_STATUS(&other)
+	var actual Namespaces_Topic_STATUS
+	err = actual.AssignProperties_From_Namespaces_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -321,20 +319,20 @@ func RunPropertyAssignmentTestForSBTopic_STATUS(subject SBTopic_STATUS) string {
 	return ""
 }
 
-func Test_SBTopic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Topic_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SBTopic_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBTopic_STATUS, SBTopic_STATUSGenerator()))
+		"Round trip of Namespaces_Topic_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topic_STATUS, Namespaces_Topic_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBTopic_STATUS runs a test to see if a specific instance of SBTopic_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBTopic_STATUS(subject SBTopic_STATUS) string {
+// RunJSONSerializationTestForNamespaces_Topic_STATUS runs a test to see if a specific instance of Namespaces_Topic_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topic_STATUS(subject Namespaces_Topic_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -342,7 +340,7 @@ func RunJSONSerializationTestForSBTopic_STATUS(subject SBTopic_STATUS) string {
 	}
 
 	// Deserialize back into memory
-	var actual SBTopic_STATUS
+	var actual Namespaces_Topic_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -360,33 +358,34 @@ func RunJSONSerializationTestForSBTopic_STATUS(subject SBTopic_STATUS) string {
 	return ""
 }
 
-// Generator of SBTopic_STATUS instances for property testing - lazily instantiated by SBTopic_STATUSGenerator()
-var sbTopic_STATUSGenerator gopter.Gen
+// Generator of Namespaces_Topic_STATUS instances for property testing - lazily instantiated by
+// Namespaces_Topic_STATUSGenerator()
+var namespaces_Topic_STATUSGenerator gopter.Gen
 
-// SBTopic_STATUSGenerator returns a generator of SBTopic_STATUS instances for property testing.
-// We first initialize sbTopic_STATUSGenerator with a simplified generator based on the
+// Namespaces_Topic_STATUSGenerator returns a generator of Namespaces_Topic_STATUS instances for property testing.
+// We first initialize namespaces_Topic_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBTopic_STATUSGenerator() gopter.Gen {
-	if sbTopic_STATUSGenerator != nil {
-		return sbTopic_STATUSGenerator
+func Namespaces_Topic_STATUSGenerator() gopter.Gen {
+	if namespaces_Topic_STATUSGenerator != nil {
+		return namespaces_Topic_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopic_STATUS(generators)
-	sbTopic_STATUSGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUS(generators)
+	namespaces_Topic_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topic_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopic_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSBTopic_STATUS(generators)
-	sbTopic_STATUSGenerator = gen.Struct(reflect.TypeOf(SBTopic_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUS(generators)
+	namespaces_Topic_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topic_STATUS{}), generators)
 
-	return sbTopic_STATUSGenerator
+	return namespaces_Topic_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBTopic_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBTopic_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topic_STATUS(gens map[string]gopter.Gen) {
 	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -407,8 +406,8 @@ func AddIndependentPropertyGeneratorsForSBTopic_STATUS(gens map[string]gopter.Ge
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBTopic_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBTopic_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Topic_STATUS(gens map[string]gopter.Gen) {
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

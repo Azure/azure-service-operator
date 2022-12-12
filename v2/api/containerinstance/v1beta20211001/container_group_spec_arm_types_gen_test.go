@@ -165,17 +165,17 @@ func ContainerGroup_Properties_Spec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerGroup_Properties_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_OsType_Spec_Linux, ContainerGroup_Properties_OsType_Spec_Windows))
 	gens["RestartPolicy"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_RestartPolicy_Spec_Always, ContainerGroup_Properties_RestartPolicy_Spec_Never, ContainerGroup_Properties_RestartPolicy_Spec_OnFailure))
-	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_Sku_Spec_Dedicated, ContainerGroup_Properties_Sku_Spec_Standard))
+	gens["Sku"] = gen.PtrOf(gen.OneConstOf(ContainerGroupSku_Dedicated, ContainerGroupSku_Standard))
 }
 
 // AddRelatedPropertyGeneratorsForContainerGroup_Properties_Spec_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForContainerGroup_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Containers"] = gen.SliceOf(ContainerGroup_Properties_Containers_Spec_ARMGenerator())
-	gens["Diagnostics"] = gen.PtrOf(ContainerGroup_Properties_Diagnostics_Spec_ARMGenerator())
+	gens["Containers"] = gen.SliceOf(Container_ARMGenerator())
+	gens["Diagnostics"] = gen.PtrOf(ContainerGroupDiagnostics_ARMGenerator())
 	gens["DnsConfig"] = gen.PtrOf(DnsConfiguration_ARMGenerator())
 	gens["EncryptionProperties"] = gen.PtrOf(EncryptionProperties_ARMGenerator())
-	gens["ImageRegistryCredentials"] = gen.SliceOf(ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator())
-	gens["InitContainers"] = gen.SliceOf(ContainerGroup_Properties_InitContainers_Spec_ARMGenerator())
+	gens["ImageRegistryCredentials"] = gen.SliceOf(ImageRegistryCredential_ARMGenerator())
+	gens["InitContainers"] = gen.SliceOf(InitContainerDefinition_ARMGenerator())
 	gens["IpAddress"] = gen.PtrOf(IpAddress_ARMGenerator())
 	gens["SubnetIds"] = gen.SliceOf(ContainerGroupSubnetId_ARMGenerator())
 	gens["Volumes"] = gen.SliceOf(Volume_ARMGenerator())
@@ -246,20 +246,20 @@ func AddIndependentPropertyGeneratorsForContainerGroupIdentity_ARM(gens map[stri
 		ContainerGroupIdentity_Type_UserAssigned))
 }
 
-func Test_ContainerGroup_Properties_Containers_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Container_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroup_Properties_Containers_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_Containers_Spec_ARM, ContainerGroup_Properties_Containers_Spec_ARMGenerator()))
+		"Round trip of Container_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainer_ARM, Container_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroup_Properties_Containers_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_Containers_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_Containers_Spec_ARM(subject ContainerGroup_Properties_Containers_Spec_ARM) string {
+// RunJSONSerializationTestForContainer_ARM runs a test to see if a specific instance of Container_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainer_ARM(subject Container_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -267,7 +267,7 @@ func RunJSONSerializationTestForContainerGroup_Properties_Containers_Spec_ARM(su
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroup_Properties_Containers_Spec_ARM
+	var actual Container_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -285,56 +285,55 @@ func RunJSONSerializationTestForContainerGroup_Properties_Containers_Spec_ARM(su
 	return ""
 }
 
-// Generator of ContainerGroup_Properties_Containers_Spec_ARM instances for property testing - lazily instantiated by
-// ContainerGroup_Properties_Containers_Spec_ARMGenerator()
-var containerGroup_Properties_Containers_Spec_ARMGenerator gopter.Gen
+// Generator of Container_ARM instances for property testing - lazily instantiated by Container_ARMGenerator()
+var container_ARMGenerator gopter.Gen
 
-// ContainerGroup_Properties_Containers_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_Containers_Spec_ARM instances for property testing.
-// We first initialize containerGroup_Properties_Containers_Spec_ARMGenerator with a simplified generator based on the
+// Container_ARMGenerator returns a generator of Container_ARM instances for property testing.
+// We first initialize container_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_Properties_Containers_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_Containers_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_Containers_Spec_ARMGenerator
+func Container_ARMGenerator() gopter.Gen {
+	if container_ARMGenerator != nil {
+		return container_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM(generators)
-	containerGroup_Properties_Containers_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Containers_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainer_ARM(generators)
+	container_ARMGenerator = gen.Struct(reflect.TypeOf(Container_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM(generators)
-	containerGroup_Properties_Containers_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Containers_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainer_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainer_ARM(generators)
+	container_ARMGenerator = gen.Struct(reflect.TypeOf(Container_ARM{}), generators)
 
-	return containerGroup_Properties_Containers_Spec_ARMGenerator
+	return container_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainer_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainer_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_Containers_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ContainerGroup_Properties_Containers_Properties_Spec_ARMGenerator())
+// AddRelatedPropertyGeneratorsForContainer_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainer_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ContainerProperties_ARMGenerator())
 }
 
-func Test_ContainerGroup_Properties_Diagnostics_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerGroupDiagnostics_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroup_Properties_Diagnostics_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_Spec_ARM, ContainerGroup_Properties_Diagnostics_Spec_ARMGenerator()))
+		"Round trip of ContainerGroupDiagnostics_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerGroupDiagnostics_ARM, ContainerGroupDiagnostics_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_Diagnostics_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_Spec_ARM(subject ContainerGroup_Properties_Diagnostics_Spec_ARM) string {
+// RunJSONSerializationTestForContainerGroupDiagnostics_ARM runs a test to see if a specific instance of ContainerGroupDiagnostics_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerGroupDiagnostics_ARM(subject ContainerGroupDiagnostics_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -342,7 +341,7 @@ func RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_Spec_ARM(s
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroup_Properties_Diagnostics_Spec_ARM
+	var actual ContainerGroupDiagnostics_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -360,166 +359,26 @@ func RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_Spec_ARM(s
 	return ""
 }
 
-// Generator of ContainerGroup_Properties_Diagnostics_Spec_ARM instances for property testing - lazily instantiated by
-// ContainerGroup_Properties_Diagnostics_Spec_ARMGenerator()
-var containerGroup_Properties_Diagnostics_Spec_ARMGenerator gopter.Gen
+// Generator of ContainerGroupDiagnostics_ARM instances for property testing - lazily instantiated by
+// ContainerGroupDiagnostics_ARMGenerator()
+var containerGroupDiagnostics_ARMGenerator gopter.Gen
 
-// ContainerGroup_Properties_Diagnostics_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_Diagnostics_Spec_ARM instances for property testing.
-func ContainerGroup_Properties_Diagnostics_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_Diagnostics_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_Diagnostics_Spec_ARMGenerator
+// ContainerGroupDiagnostics_ARMGenerator returns a generator of ContainerGroupDiagnostics_ARM instances for property testing.
+func ContainerGroupDiagnostics_ARMGenerator() gopter.Gen {
+	if containerGroupDiagnostics_ARMGenerator != nil {
+		return containerGroupDiagnostics_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_Diagnostics_Spec_ARM(generators)
-	containerGroup_Properties_Diagnostics_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Diagnostics_Spec_ARM{}), generators)
+	AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_ARM(generators)
+	containerGroupDiagnostics_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroupDiagnostics_ARM{}), generators)
 
-	return containerGroup_Properties_Diagnostics_Spec_ARMGenerator
+	return containerGroupDiagnostics_ARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_Diagnostics_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_Diagnostics_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["LogAnalytics"] = gen.PtrOf(ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator())
-}
-
-func Test_ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM, ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM(subject ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM instances for property testing - lazily
-// instantiated by ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator()
-var containerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator gopter.Gen
-
-// ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM instances for property testing.
-func ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM(generators)
-	containerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM{}), generators)
-
-	return containerGroup_Properties_ImageRegistryCredentials_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(gen.AlphaString())
-	gens["IdentityUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
-	gens["Server"] = gen.PtrOf(gen.AlphaString())
-	gens["Username"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ContainerGroup_Properties_InitContainers_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroup_Properties_InitContainers_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Spec_ARM, ContainerGroup_Properties_InitContainers_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_InitContainers_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Spec_ARM(subject ContainerGroup_Properties_InitContainers_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroup_Properties_InitContainers_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroup_Properties_InitContainers_Spec_ARM instances for property testing - lazily instantiated
-// by ContainerGroup_Properties_InitContainers_Spec_ARMGenerator()
-var containerGroup_Properties_InitContainers_Spec_ARMGenerator gopter.Gen
-
-// ContainerGroup_Properties_InitContainers_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_InitContainers_Spec_ARM instances for property testing.
-// We first initialize containerGroup_Properties_InitContainers_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_Properties_InitContainers_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_InitContainers_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_InitContainers_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM(generators)
-	containerGroup_Properties_InitContainers_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InitContainers_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM(generators)
-	containerGroup_Properties_InitContainers_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InitContainers_Spec_ARM{}), generators)
-
-	return containerGroup_Properties_InitContainers_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_InitContainers_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ContainerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerGroupDiagnostics_ARM(gens map[string]gopter.Gen) {
+	gens["LogAnalytics"] = gen.PtrOf(LogAnalytics_ARMGenerator())
 }
 
 func Test_ContainerGroupSubnetId_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -708,6 +567,146 @@ func AddIndependentPropertyGeneratorsForEncryptionProperties_ARM(gens map[string
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultBaseUrl"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ImageRegistryCredential_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ImageRegistryCredential_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForImageRegistryCredential_ARM, ImageRegistryCredential_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForImageRegistryCredential_ARM runs a test to see if a specific instance of ImageRegistryCredential_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForImageRegistryCredential_ARM(subject ImageRegistryCredential_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ImageRegistryCredential_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ImageRegistryCredential_ARM instances for property testing - lazily instantiated by
+// ImageRegistryCredential_ARMGenerator()
+var imageRegistryCredential_ARMGenerator gopter.Gen
+
+// ImageRegistryCredential_ARMGenerator returns a generator of ImageRegistryCredential_ARM instances for property testing.
+func ImageRegistryCredential_ARMGenerator() gopter.Gen {
+	if imageRegistryCredential_ARMGenerator != nil {
+		return imageRegistryCredential_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForImageRegistryCredential_ARM(generators)
+	imageRegistryCredential_ARMGenerator = gen.Struct(reflect.TypeOf(ImageRegistryCredential_ARM{}), generators)
+
+	return imageRegistryCredential_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForImageRegistryCredential_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForImageRegistryCredential_ARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(gen.AlphaString())
+	gens["IdentityUrl"] = gen.PtrOf(gen.AlphaString())
+	gens["Password"] = gen.PtrOf(gen.AlphaString())
+	gens["Server"] = gen.PtrOf(gen.AlphaString())
+	gens["Username"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_InitContainerDefinition_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InitContainerDefinition_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInitContainerDefinition_ARM, InitContainerDefinition_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInitContainerDefinition_ARM runs a test to see if a specific instance of InitContainerDefinition_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInitContainerDefinition_ARM(subject InitContainerDefinition_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InitContainerDefinition_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InitContainerDefinition_ARM instances for property testing - lazily instantiated by
+// InitContainerDefinition_ARMGenerator()
+var initContainerDefinition_ARMGenerator gopter.Gen
+
+// InitContainerDefinition_ARMGenerator returns a generator of InitContainerDefinition_ARM instances for property testing.
+// We first initialize initContainerDefinition_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func InitContainerDefinition_ARMGenerator() gopter.Gen {
+	if initContainerDefinition_ARMGenerator != nil {
+		return initContainerDefinition_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInitContainerDefinition_ARM(generators)
+	initContainerDefinition_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerDefinition_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInitContainerDefinition_ARM(generators)
+	AddRelatedPropertyGeneratorsForInitContainerDefinition_ARM(generators)
+	initContainerDefinition_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerDefinition_ARM{}), generators)
+
+	return initContainerDefinition_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInitContainerDefinition_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInitContainerDefinition_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForInitContainerDefinition_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInitContainerDefinition_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(InitContainerPropertiesDefinition_ARMGenerator())
 }
 
 func Test_IpAddress_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -932,20 +931,20 @@ func AddIndependentPropertyGeneratorsForAzureFileVolume_ARM(gens map[string]gopt
 	gens["StorageAccountName"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ContainerGroup_Properties_Containers_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
+	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerGroup_Properties_Containers_Properties_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_Spec_ARM, ContainerGroup_Properties_Containers_Properties_Spec_ARMGenerator()))
+		"Round trip of ContainerProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerProperties_ARM, ContainerProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_Containers_Properties_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_Spec_ARM(subject ContainerGroup_Properties_Containers_Properties_Spec_ARM) string {
+// RunJSONSerializationTestForContainerProperties_ARM runs a test to see if a specific instance of ContainerProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerProperties_ARM(subject ContainerProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -953,7 +952,7 @@ func RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_
 	}
 
 	// Deserialize back into memory
-	var actual ContainerGroup_Properties_Containers_Properties_Spec_ARM
+	var actual ContainerProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -971,187 +970,45 @@ func RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_
 	return ""
 }
 
-// Generator of ContainerGroup_Properties_Containers_Properties_Spec_ARM instances for property testing - lazily
-// instantiated by ContainerGroup_Properties_Containers_Properties_Spec_ARMGenerator()
-var containerGroup_Properties_Containers_Properties_Spec_ARMGenerator gopter.Gen
+// Generator of ContainerProperties_ARM instances for property testing - lazily instantiated by
+// ContainerProperties_ARMGenerator()
+var containerProperties_ARMGenerator gopter.Gen
 
-// ContainerGroup_Properties_Containers_Properties_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_Containers_Properties_Spec_ARM instances for property testing.
-// We first initialize containerGroup_Properties_Containers_Properties_Spec_ARMGenerator with a simplified generator based on the
+// ContainerProperties_ARMGenerator returns a generator of ContainerProperties_ARM instances for property testing.
+// We first initialize containerProperties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_Properties_Containers_Properties_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_Containers_Properties_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_Containers_Properties_Spec_ARMGenerator
+func ContainerProperties_ARMGenerator() gopter.Gen {
+	if containerProperties_ARMGenerator != nil {
+		return containerProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM(generators)
-	containerGroup_Properties_Containers_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Containers_Properties_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProperties_ARM(generators)
+	containerProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM(generators)
-	containerGroup_Properties_Containers_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Containers_Properties_Spec_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForContainerProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForContainerProperties_ARM(generators)
+	containerProperties_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerProperties_ARM{}), generators)
 
-	return containerGroup_Properties_Containers_Properties_Spec_ARMGenerator
+	return containerProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerProperties_ARM(gens map[string]gopter.Gen) {
 	gens["Command"] = gen.SliceOf(gen.AlphaString())
 	gens["Image"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["EnvironmentVariables"] = gen.SliceOf(ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator())
+// AddRelatedPropertyGeneratorsForContainerProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerProperties_ARM(gens map[string]gopter.Gen) {
+	gens["EnvironmentVariables"] = gen.SliceOf(EnvironmentVariable_ARMGenerator())
 	gens["LivenessProbe"] = gen.PtrOf(ContainerProbe_ARMGenerator())
 	gens["Ports"] = gen.SliceOf(ContainerPort_ARMGenerator())
 	gens["ReadinessProbe"] = gen.PtrOf(ContainerProbe_ARMGenerator())
 	gens["Resources"] = gen.PtrOf(ResourceRequirements_ARMGenerator())
-	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_ARMGenerator())
-}
-
-func Test_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM, ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM(subject ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM instances for property testing - lazily
-// instantiated by ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator()
-var containerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator gopter.Gen
-
-// ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM instances for property testing.
-func ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM(generators)
-	containerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM{}), generators)
-
-	return containerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["LogType"] = gen.PtrOf(gen.OneConstOf(ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec_ContainerInsights, ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec_ContainerInstanceLogs))
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
-	gens["WorkspaceKey"] = gen.AlphaString()
-	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ContainerGroup_Properties_InitContainers_Properties_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroup_Properties_InitContainers_Properties_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Properties_Spec_ARM, ContainerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Properties_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_InitContainers_Properties_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Properties_Spec_ARM(subject ContainerGroup_Properties_InitContainers_Properties_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroup_Properties_InitContainers_Properties_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroup_Properties_InitContainers_Properties_Spec_ARM instances for property testing - lazily
-// instantiated by ContainerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator()
-var containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator gopter.Gen
-
-// ContainerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_InitContainers_Properties_Spec_ARM instances for property testing.
-// We first initialize containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ContainerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM(generators)
-	containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InitContainers_Properties_Spec_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM(generators)
-	AddRelatedPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM(generators)
-	containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InitContainers_Properties_Spec_ARM{}), generators)
-
-	return containerGroup_Properties_InitContainers_Properties_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Command"] = gen.SliceOf(gen.AlphaString())
-	gens["Image"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["EnvironmentVariables"] = gen.SliceOf(ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator())
 	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_ARMGenerator())
 }
 
@@ -1217,6 +1074,147 @@ func AddIndependentPropertyGeneratorsForGitRepoVolume_ARM(gens map[string]gopter
 	gens["Revision"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_InitContainerPropertiesDefinition_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InitContainerPropertiesDefinition_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInitContainerPropertiesDefinition_ARM, InitContainerPropertiesDefinition_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInitContainerPropertiesDefinition_ARM runs a test to see if a specific instance of InitContainerPropertiesDefinition_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInitContainerPropertiesDefinition_ARM(subject InitContainerPropertiesDefinition_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InitContainerPropertiesDefinition_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InitContainerPropertiesDefinition_ARM instances for property testing - lazily instantiated by
+// InitContainerPropertiesDefinition_ARMGenerator()
+var initContainerPropertiesDefinition_ARMGenerator gopter.Gen
+
+// InitContainerPropertiesDefinition_ARMGenerator returns a generator of InitContainerPropertiesDefinition_ARM instances for property testing.
+// We first initialize initContainerPropertiesDefinition_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func InitContainerPropertiesDefinition_ARMGenerator() gopter.Gen {
+	if initContainerPropertiesDefinition_ARMGenerator != nil {
+		return initContainerPropertiesDefinition_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_ARM(generators)
+	initContainerPropertiesDefinition_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_ARM(generators)
+	AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_ARM(generators)
+	initContainerPropertiesDefinition_ARMGenerator = gen.Struct(reflect.TypeOf(InitContainerPropertiesDefinition_ARM{}), generators)
+
+	return initContainerPropertiesDefinition_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInitContainerPropertiesDefinition_ARM(gens map[string]gopter.Gen) {
+	gens["Command"] = gen.SliceOf(gen.AlphaString())
+	gens["Image"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInitContainerPropertiesDefinition_ARM(gens map[string]gopter.Gen) {
+	gens["EnvironmentVariables"] = gen.SliceOf(EnvironmentVariable_ARMGenerator())
+	gens["VolumeMounts"] = gen.SliceOf(VolumeMount_ARMGenerator())
+}
+
+func Test_LogAnalytics_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of LogAnalytics_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLogAnalytics_ARM, LogAnalytics_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForLogAnalytics_ARM runs a test to see if a specific instance of LogAnalytics_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForLogAnalytics_ARM(subject LogAnalytics_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual LogAnalytics_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of LogAnalytics_ARM instances for property testing - lazily instantiated by LogAnalytics_ARMGenerator()
+var logAnalytics_ARMGenerator gopter.Gen
+
+// LogAnalytics_ARMGenerator returns a generator of LogAnalytics_ARM instances for property testing.
+func LogAnalytics_ARMGenerator() gopter.Gen {
+	if logAnalytics_ARMGenerator != nil {
+		return logAnalytics_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForLogAnalytics_ARM(generators)
+	logAnalytics_ARMGenerator = gen.Struct(reflect.TypeOf(LogAnalytics_ARM{}), generators)
+
+	return logAnalytics_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForLogAnalytics_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLogAnalytics_ARM(gens map[string]gopter.Gen) {
+	gens["LogType"] = gen.PtrOf(gen.OneConstOf(LogAnalytics_LogType_ContainerInsights, LogAnalytics_LogType_ContainerInstanceLogs))
+	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
+	gens["WorkspaceKey"] = gen.AlphaString()
+	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Port_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1276,133 +1274,6 @@ func Port_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPort_ARM(gens map[string]gopter.Gen) {
 	gens["Port"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(Port_Protocol_TCP, Port_Protocol_UDP))
-}
-
-func Test_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM, ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM(subject ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM instances for property
-// testing - lazily instantiated by ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator()
-var containerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator gopter.Gen
-
-// ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM instances for property testing.
-func ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM(generators)
-	containerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM{}), generators)
-
-	return containerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["SecureValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM, ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM runs a test to see if a specific instance of ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM(subject ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM instances for property
-// testing - lazily instantiated by
-// ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator()
-var containerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator gopter.Gen
-
-// ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator returns a generator of ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM instances for property testing.
-func ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator() gopter.Gen {
-	if containerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator != nil {
-		return containerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM(generators)
-	containerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator = gen.Struct(reflect.TypeOf(ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM{}), generators)
-
-	return containerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["SecureValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ContainerPort_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1543,6 +1414,69 @@ func AddIndependentPropertyGeneratorsForContainerProbe_ARM(gens map[string]gopte
 func AddRelatedPropertyGeneratorsForContainerProbe_ARM(gens map[string]gopter.Gen) {
 	gens["Exec"] = gen.PtrOf(ContainerExec_ARMGenerator())
 	gens["HttpGet"] = gen.PtrOf(ContainerHttpGet_ARMGenerator())
+}
+
+func Test_EnvironmentVariable_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of EnvironmentVariable_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEnvironmentVariable_ARM, EnvironmentVariable_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForEnvironmentVariable_ARM runs a test to see if a specific instance of EnvironmentVariable_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForEnvironmentVariable_ARM(subject EnvironmentVariable_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual EnvironmentVariable_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of EnvironmentVariable_ARM instances for property testing - lazily instantiated by
+// EnvironmentVariable_ARMGenerator()
+var environmentVariable_ARMGenerator gopter.Gen
+
+// EnvironmentVariable_ARMGenerator returns a generator of EnvironmentVariable_ARM instances for property testing.
+func EnvironmentVariable_ARMGenerator() gopter.Gen {
+	if environmentVariable_ARMGenerator != nil {
+		return environmentVariable_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForEnvironmentVariable_ARM(generators)
+	environmentVariable_ARMGenerator = gen.Struct(reflect.TypeOf(EnvironmentVariable_ARM{}), generators)
+
+	return environmentVariable_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForEnvironmentVariable_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEnvironmentVariable_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["SecureValue"] = gen.PtrOf(gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceRequirements_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

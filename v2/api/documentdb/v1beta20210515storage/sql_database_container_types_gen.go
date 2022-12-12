@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.SqlDatabaseContainer
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Container_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlDatabases_Container_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -76,7 +78,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerGetResults_STATUS{}
+	return &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Container_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerGetResults_STATUS
+	var st DatabaseAccounts_SqlDatabases_Container_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.SqlDatabaseContainer
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,8 +172,8 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) ConvertSpecTo(des
 	return destination.ConvertSpecFrom(container)
 }
 
-// Storage version of v1beta20210515.SqlContainerGetResults_STATUS
-type SqlContainerGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Container_STATUS
+type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
 	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
 	Id          *string                                    `json:"id,omitempty"`
 	Location    *string                                    `json:"location,omitempty"`
@@ -181,24 +185,24 @@ type SqlContainerGetResults_STATUS struct {
 	Type        *string                                    `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 
-// ConvertStatusFrom populates our SqlContainerGetResults_STATUS from the provided source
-func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Container_STATUS from the provided source
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(container)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(container)
 }
 
 // Storage version of v1beta20210515.SqlContainerGetProperties_Resource_STATUS
@@ -217,7 +221,6 @@ type SqlContainerGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlContainerResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
 type SqlContainerResource struct {
 	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
@@ -230,7 +233,6 @@ type SqlContainerResource struct {
 }
 
 // Storage version of v1beta20210515.ConflictResolutionPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
 type ConflictResolutionPolicy struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
@@ -247,7 +249,6 @@ type ConflictResolutionPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.ContainerPartitionKey
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
 type ContainerPartitionKey struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
@@ -265,7 +266,6 @@ type ContainerPartitionKey_STATUS struct {
 }
 
 // Storage version of v1beta20210515.IndexingPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
 type IndexingPolicy struct {
 	Automatic        *bool                  `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath      `json:"compositeIndexes,omitempty"`
@@ -288,7 +288,6 @@ type IndexingPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.UniqueKeyPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
 type UniqueKeyPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UniqueKeys  []UniqueKey            `json:"uniqueKeys,omitempty"`
@@ -301,7 +300,6 @@ type UniqueKeyPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.CompositePath
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
 type CompositePath struct {
 	Order       *string                `json:"order,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -316,7 +314,6 @@ type CompositePath_STATUS struct {
 }
 
 // Storage version of v1beta20210515.ExcludedPath
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPath struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -329,7 +326,6 @@ type ExcludedPath_STATUS struct {
 }
 
 // Storage version of v1beta20210515.IncludedPath
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
 type IncludedPath struct {
 	Indexes     []Indexes              `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -344,7 +340,6 @@ type IncludedPath_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SpatialSpec
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpec struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -359,7 +354,6 @@ type SpatialSpec_STATUS struct {
 }
 
 // Storage version of v1beta20210515.UniqueKey
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
 type UniqueKey struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -372,7 +366,6 @@ type UniqueKey_STATUS struct {
 }
 
 // Storage version of v1beta20210515.Indexes
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
 type Indexes struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`

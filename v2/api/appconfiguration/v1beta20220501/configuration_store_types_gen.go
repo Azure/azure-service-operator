@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/resourceDefinitions/configurationStores
+// Generator information:
+// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
 type ConfigurationStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -339,7 +341,9 @@ func (store *ConfigurationStore) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/resourceDefinitions/configurationStores
+// Generator information:
+// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
 type ConfigurationStoreList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -368,12 +372,13 @@ type ConfigurationStore_Spec struct {
 	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
 	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
 
-	// Encryption: The encryption settings for a configuration store.
+	// Encryption: The encryption settings of the configuration store.
 	Encryption *EncryptionProperties `json:"encryption,omitempty"`
 
-	// Identity: An identity that can be associated with a resource.
+	// Identity: The managed identity information, if configured.
 	Identity *ResourceIdentity `json:"identity,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -392,17 +397,17 @@ type ConfigurationStore_Spec struct {
 	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: Describes a configuration store SKU.
+	// Sku: The sku of the configuration store.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
 	// deleted.
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Resource system metadata.
 	SystemData *SystemData `json:"systemData,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -1619,9 +1624,8 @@ const (
 	ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/EncryptionProperties
 type EncryptionProperties struct {
-	// KeyVaultProperties: Settings concerning key vault encryption for a configuration store.
+	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 }
 
@@ -1859,7 +1863,6 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_To_
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/ResourceIdentity
 type ResourceIdentity struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
@@ -2098,7 +2101,6 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_ST
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The SKU name of the configuration store.
@@ -2231,7 +2233,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20220501s.Sk
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/SystemData
 type SystemData struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -2868,7 +2869,6 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`

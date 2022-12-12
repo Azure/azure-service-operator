@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20220301.ServerFarm
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
+// Generator information:
+// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Serverfarm_Spec       `json:"spec,omitempty"`
-	Status            AppServicePlan_STATUS `json:"status,omitempty"`
+	Spec              Serverfarm_Spec   `json:"spec,omitempty"`
+	Status            Serverfarm_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServerFarm{}
@@ -76,7 +78,7 @@ func (farm *ServerFarm) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AppServicePlan_STATUS{}
+	return &Serverfarm_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AppServicePlan_STATUS); ok {
+	if st, ok := status.(*Serverfarm_STATUS); ok {
 		farm.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AppServicePlan_STATUS
+	var st Serverfarm_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (farm *ServerFarm) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20220301.ServerFarm
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
+// Generator information:
+// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
 type ServerFarmList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -134,63 +138,6 @@ type ServerFarmList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-03-01")
-
-// Storage version of v1beta20220301.AppServicePlan_STATUS
-type AppServicePlan_STATUS struct {
-	Conditions                []conditions.Condition            `json:"conditions,omitempty"`
-	ElasticScaleEnabled       *bool                             `json:"elasticScaleEnabled,omitempty"`
-	ExtendedLocation          *ExtendedLocation_STATUS          `json:"extendedLocation,omitempty"`
-	FreeOfferExpirationTime   *string                           `json:"freeOfferExpirationTime,omitempty"`
-	GeoRegion                 *string                           `json:"geoRegion,omitempty"`
-	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS `json:"hostingEnvironmentProfile,omitempty"`
-	HyperV                    *bool                             `json:"hyperV,omitempty"`
-	Id                        *string                           `json:"id,omitempty"`
-	IsSpot                    *bool                             `json:"isSpot,omitempty"`
-	IsXenon                   *bool                             `json:"isXenon,omitempty"`
-	Kind                      *string                           `json:"kind,omitempty"`
-	KubeEnvironmentProfile    *KubeEnvironmentProfile_STATUS    `json:"kubeEnvironmentProfile,omitempty"`
-	Location                  *string                           `json:"location,omitempty"`
-	MaximumElasticWorkerCount *int                              `json:"maximumElasticWorkerCount,omitempty"`
-	MaximumNumberOfWorkers    *int                              `json:"maximumNumberOfWorkers,omitempty"`
-	Name                      *string                           `json:"name,omitempty"`
-	NumberOfSites             *int                              `json:"numberOfSites,omitempty"`
-	NumberOfWorkers           *int                              `json:"numberOfWorkers,omitempty"`
-	PerSiteScaling            *bool                             `json:"perSiteScaling,omitempty"`
-	PropertyBag               genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                           `json:"provisioningState,omitempty"`
-	Reserved                  *bool                             `json:"reserved,omitempty"`
-	ResourceGroup             *string                           `json:"resourceGroup,omitempty"`
-	Sku                       *SkuDescription_STATUS            `json:"sku,omitempty"`
-	SpotExpirationTime        *string                           `json:"spotExpirationTime,omitempty"`
-	Status                    *string                           `json:"status,omitempty"`
-	Subscription              *string                           `json:"subscription,omitempty"`
-	Tags                      map[string]string                 `json:"tags,omitempty"`
-	TargetWorkerCount         *int                              `json:"targetWorkerCount,omitempty"`
-	TargetWorkerSizeId        *int                              `json:"targetWorkerSizeId,omitempty"`
-	Type                      *string                           `json:"type,omitempty"`
-	WorkerTierName            *string                           `json:"workerTierName,omitempty"`
-	ZoneRedundant             *bool                             `json:"zoneRedundant,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &AppServicePlan_STATUS{}
-
-// ConvertStatusFrom populates our AppServicePlan_STATUS from the provided source
-func (plan *AppServicePlan_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == plan {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(plan)
-}
-
-// ConvertStatusTo populates the provided destination from our AppServicePlan_STATUS
-func (plan *AppServicePlan_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == plan {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(plan)
-}
 
 // Storage version of v1beta20220301.Serverfarm_Spec
 type Serverfarm_Spec struct {
@@ -247,8 +194,64 @@ func (serverfarm *Serverfarm_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(serverfarm)
 }
 
+// Storage version of v1beta20220301.Serverfarm_STATUS
+type Serverfarm_STATUS struct {
+	Conditions                []conditions.Condition            `json:"conditions,omitempty"`
+	ElasticScaleEnabled       *bool                             `json:"elasticScaleEnabled,omitempty"`
+	ExtendedLocation          *ExtendedLocation_STATUS          `json:"extendedLocation,omitempty"`
+	FreeOfferExpirationTime   *string                           `json:"freeOfferExpirationTime,omitempty"`
+	GeoRegion                 *string                           `json:"geoRegion,omitempty"`
+	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS `json:"hostingEnvironmentProfile,omitempty"`
+	HyperV                    *bool                             `json:"hyperV,omitempty"`
+	Id                        *string                           `json:"id,omitempty"`
+	IsSpot                    *bool                             `json:"isSpot,omitempty"`
+	IsXenon                   *bool                             `json:"isXenon,omitempty"`
+	Kind                      *string                           `json:"kind,omitempty"`
+	KubeEnvironmentProfile    *KubeEnvironmentProfile_STATUS    `json:"kubeEnvironmentProfile,omitempty"`
+	Location                  *string                           `json:"location,omitempty"`
+	MaximumElasticWorkerCount *int                              `json:"maximumElasticWorkerCount,omitempty"`
+	MaximumNumberOfWorkers    *int                              `json:"maximumNumberOfWorkers,omitempty"`
+	Name                      *string                           `json:"name,omitempty"`
+	NumberOfSites             *int                              `json:"numberOfSites,omitempty"`
+	NumberOfWorkers           *int                              `json:"numberOfWorkers,omitempty"`
+	PerSiteScaling            *bool                             `json:"perSiteScaling,omitempty"`
+	PropertyBag               genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	ProvisioningState         *string                           `json:"provisioningState,omitempty"`
+	Reserved                  *bool                             `json:"reserved,omitempty"`
+	ResourceGroup             *string                           `json:"resourceGroup,omitempty"`
+	Sku                       *SkuDescription_STATUS            `json:"sku,omitempty"`
+	SpotExpirationTime        *string                           `json:"spotExpirationTime,omitempty"`
+	Status                    *string                           `json:"status,omitempty"`
+	Subscription              *string                           `json:"subscription,omitempty"`
+	Tags                      map[string]string                 `json:"tags,omitempty"`
+	TargetWorkerCount         *int                              `json:"targetWorkerCount,omitempty"`
+	TargetWorkerSizeId        *int                              `json:"targetWorkerSizeId,omitempty"`
+	Type                      *string                           `json:"type,omitempty"`
+	WorkerTierName            *string                           `json:"workerTierName,omitempty"`
+	ZoneRedundant             *bool                             `json:"zoneRedundant,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Serverfarm_STATUS{}
+
+// ConvertStatusFrom populates our Serverfarm_STATUS from the provided source
+func (serverfarm *Serverfarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == serverfarm {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(serverfarm)
+}
+
+// ConvertStatusTo populates the provided destination from our Serverfarm_STATUS
+func (serverfarm *Serverfarm_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == serverfarm {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(serverfarm)
+}
+
 // Storage version of v1beta20220301.ExtendedLocation
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -262,7 +265,6 @@ type ExtendedLocation_STATUS struct {
 }
 
 // Storage version of v1beta20220301.HostingEnvironmentProfile
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HostingEnvironmentProfile
 type HostingEnvironmentProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -279,7 +281,6 @@ type HostingEnvironmentProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.KubeEnvironmentProfile
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/KubeEnvironmentProfile
 type KubeEnvironmentProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -296,7 +297,6 @@ type KubeEnvironmentProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SkuDescription
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SkuDescription
 type SkuDescription struct {
 	Capabilities []Capability           `json:"capabilities,omitempty"`
 	Capacity     *int                   `json:"capacity,omitempty"`
@@ -323,7 +323,6 @@ type SkuDescription_STATUS struct {
 }
 
 // Storage version of v1beta20220301.Capability
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/Capability
 type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -340,7 +339,6 @@ type Capability_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SkuCapacity
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SkuCapacity
 type SkuCapacity struct {
 	Default        *int                   `json:"default,omitempty"`
 	ElasticMaximum *int                   `json:"elasticMaximum,omitempty"`

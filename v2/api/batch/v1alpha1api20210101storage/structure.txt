@@ -10,7 +10,7 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
     │   ├── AzureName: Validated<string> (3 rules)
     │   │   ├── Rule 0: MaxLength: 24
     │   │   ├── Rule 1: MinLength: 3
-    │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]+$"
+    │   │   └── Rule 2: Pattern: "^[a-z0-9]+$"
     │   ├── Encryption: *Object (3 properties)
     │   │   ├── KeySource: *string
     │   │   ├── KeyVaultProperties: *Object (2 properties)
@@ -70,21 +70,9 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage
         ├── Name: *string
         ├── PoolAllocationMode: *string
         ├── PoolQuota: *int
-        ├── PrivateEndpointConnections: Object (8 properties)[]
-        │   ├── Etag: *string
+        ├── PrivateEndpointConnections: Object (2 properties)[]
         │   ├── Id: *string
-        │   ├── Name: *string
-        │   ├── PrivateEndpoint: *Object (2 properties)
-        │   │   ├── Id: *string
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   ├── PrivateLinkServiceConnectionState: *Object (4 properties)
-        │   │   ├── ActionRequired: *string
-        │   │   ├── Description: *string
-        │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   └── Status: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── ProvisioningState: *string
-        │   └── Type: *string
+        │   └── PropertyBag: genruntime.PropertyBag
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
         ├── PublicNetworkAccess: *string

@@ -102,14 +102,12 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120pre
 │       └── Version: *string
 ├── FlexibleServersConfiguration: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview.FlexibleServer
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Source: *string
-│   │   ├── Tags: map[string]string
 │   │   └── Value: *string
 │   └── Status: Object (17 properties)
 │       ├── AllowedValues: *string
@@ -138,15 +136,13 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120pre
 │       └── Value: *string
 ├── FlexibleServersDatabase: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview.FlexibleServer
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (8 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
@@ -165,15 +161,13 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120pre
 │       └── Type: *string
 └── FlexibleServersFirewallRule: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview.FlexibleServer
-    ├── Spec: Object (8 properties)
+    ├── Spec: Object (6 properties)
     │   ├── AzureName: string
     │   ├── EndIpAddress: *string
-    │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── StartIpAddress: *string
-    │   └── Tags: map[string]string
+    │   └── StartIpAddress: *string
     └── Status: Object (8 properties)
         ├── Conditions: conditions.Condition[]
         ├── EndIpAddress: *string

@@ -675,9 +675,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── EvictionPolicy: *string
     │   │   ├── ExtensionProfile: *Object (3 properties)
-    │   │   │   ├── Extensions: Object (6 properties)[]
+    │   │   │   ├── Extensions: Object (11 properties)[]
+    │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+    │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+    │   │   │   │   ├── ForceUpdateTag: *string
     │   │   │   │   ├── Name: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+    │   │   │   │   ├── ProvisionAfterExtensions: string[]
     │   │   │   │   ├── Publisher: *string
     │   │   │   │   ├── Settings: map[string]v1.JSON
     │   │   │   │   ├── Type: *string
@@ -696,7 +701,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   ├── EnableAcceleratedNetworking: *bool
     │   │   │   │   ├── EnableFpga: *bool
     │   │   │   │   ├── EnableIPForwarding: *bool
-    │   │   │   │   ├── Id: *string
     │   │   │   │   ├── IpConfigurations: Object (11 properties)[]
     │   │   │   │   │   ├── ApplicationGatewayBackendAddressPools: Object (2 properties)[]
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -704,7 +708,6 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   │   ├── ApplicationSecurityGroups: Object (2 properties)[]
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
-    │   │   │   │   │   ├── Id: *string
     │   │   │   │   │   ├── LoadBalancerBackendAddressPools: Object (2 properties)[]
     │   │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
@@ -730,6 +733,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   │   │   └── PublicIPPrefix: *Object (2 properties)
     │   │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
+    │   │   │   │   │   ├── Reference: *genruntime.ResourceReference
     │   │   │   │   │   └── Subnet: *Object (2 properties)
     │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │       └── Reference: *genruntime.ResourceReference
@@ -738,7 +742,8 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
     │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   │   ├── Primary: *bool
-    │   │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   └── Reference: *genruntime.ResourceReference
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── OsProfile: *Object (8 properties)
     │   │   │   ├── AdminPassword: *genruntime.SecretReference

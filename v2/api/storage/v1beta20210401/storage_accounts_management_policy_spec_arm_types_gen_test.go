@@ -85,7 +85,6 @@ func StorageAccounts_ManagementPolicy_Spec_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccounts_ManagementPolicy_Spec_ARM is a factory method for creating gopter generators

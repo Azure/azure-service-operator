@@ -27,12 +27,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20181130.UserAssignedIdentity
-// Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentity_Spec `json:"spec,omitempty"`
-	Status            Identity_STATUS           `json:"status,omitempty"`
+	Spec              UserAssignedIdentity_Spec   `json:"spec,omitempty"`
+	Status            UserAssignedIdentity_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -108,7 +110,7 @@ func (identity *UserAssignedIdentity) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Identity_STATUS{}
+	return &UserAssignedIdentity_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -124,13 +126,13 @@ func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Identity_STATUS); ok {
+	if st, ok := status.(*UserAssignedIdentity_STATUS); ok {
 		identity.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Identity_STATUS
+	var st UserAssignedIdentity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -154,7 +156,9 @@ func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20181130.UserAssignedIdentity
-// Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}
 type UserAssignedIdentityList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -166,40 +170,6 @@ type UserAssignedIdentityList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-11-30")
-
-// Storage version of v1beta20181130.Identity_STATUS
-type Identity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Location    *string                `json:"location,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tags        map[string]string      `json:"tags,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Identity_STATUS{}
-
-// ConvertStatusFrom populates our Identity_STATUS from the provided source
-func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(identity)
-}
-
-// ConvertStatusTo populates the provided destination from our Identity_STATUS
-func (identity *Identity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(identity)
-}
 
 // Storage version of v1beta20181130.UserAssignedIdentity_Spec
 type UserAssignedIdentity_Spec struct {
@@ -237,6 +207,40 @@ func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.
 	}
 
 	return destination.ConvertSpecFrom(identity)
+}
+
+// Storage version of v1beta20181130.UserAssignedIdentity_STATUS
+type UserAssignedIdentity_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Location    *string                `json:"location,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Tags        map[string]string      `json:"tags,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}
+
+// ConvertStatusFrom populates our UserAssignedIdentity_STATUS from the provided source
+func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == identity {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(identity)
+}
+
+// ConvertStatusTo populates the provided destination from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == identity {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(identity)
 }
 
 // Storage version of v1beta20181130.UserAssignedIdentityOperatorSpec

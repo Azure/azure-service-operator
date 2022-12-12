@@ -11,8 +11,9 @@ import (
 	"os"
 	"sort"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 type TypeCatalogReport struct {
@@ -245,6 +246,25 @@ func (tcr *TypeCatalogReport) writeProperty(
 	tcr.writeType(sub, prop.PropertyType(), currentPackage, parentTypes)
 }
 
+func (tcr *TypeCatalogReport) writeComplexType(
+	rpt *StructureReport,
+	propertyType astmodel.Type,
+	currentPackage astmodel.PackageReference,
+	parentTypes astmodel.TypeNameSet) {
+
+	// If we have a complex type, we may need to write it out in detail
+	switch t := propertyType.(type) {
+	case *astmodel.ObjectType,
+		*astmodel.ResourceType,
+		*astmodel.EnumType,
+		*astmodel.OneOfType,
+		*astmodel.AllOfType,
+		*astmodel.ValidatedType:
+		tcr.writeType(rpt, t, currentPackage, parentTypes)
+	case *astmodel.OptionalType:
+		tcr.writeComplexType(rpt, t.Element(), currentPackage, parentTypes)
+	}
+}
 func (tcr *TypeCatalogReport) writeErroredType(
 	rpt *StructureReport,
 	et *astmodel.ErroredType,
@@ -268,7 +288,6 @@ func (tcr *TypeCatalogReport) writeValidatedType(
 	_ astmodel.PackageReference,
 	_ astmodel.TypeNameSet,
 ) {
-
 	for index, rule := range vt.Validations().ToKubeBuilderValidations() {
 		rpt.Addf("Rule %d: %s", index, rule)
 	}
@@ -352,8 +371,9 @@ func (tcr *TypeCatalogReport) asShortNameForType(
 			tcr.formatCount(t.Properties().Len(), "property", "properties"))
 	case *astmodel.OneOfType:
 		return fmt.Sprintf(
-			"OneOf (%s)",
-			tcr.formatCount(t.Types().Len(), "choice", "choices"))
+			"OneOf (%s, %s)",
+			tcr.formatCount(len(t.PropertyObjects()), "object", "objects"),
+			tcr.formatCount(t.Types().Len(), "option", "options"))
 	case *astmodel.AllOfType:
 		return fmt.Sprintf(
 			"AllOf (%s)",
@@ -405,10 +425,47 @@ func (tcr *TypeCatalogReport) writeOneOfType(
 	currentPackage astmodel.PackageReference,
 	parentTypes astmodel.TypeNameSet,
 ) {
-	oneOf.Types().ForEach(func(t astmodel.Type, index int) {
-		sub := rpt.Addf("option %d: %s", index, tcr.asShortNameForType(t, currentPackage, parentTypes))
-		tcr.writeType(sub, t, currentPackage, parentTypes)
-	})
+	if oneOf.HasDiscriminatorProperty() {
+		rpt.Addf("discriminator: %s", oneOf.DiscriminatorProperty())
+	}
+
+	if oneOf.HasDiscriminatorValue() {
+		rpt.Addf("discriminator value: %s", oneOf.DiscriminatorValue())
+	}
+
+	if propertyObjects := oneOf.PropertyObjects(); len(propertyObjects) > 0 {
+		// We expect the order of PropertyObjects() to be consistent, so no need to sort
+		sub := rpt.Addf("Property Objects (%s):", tcr.formatCount(len(propertyObjects), "object", "objects"))
+		for _, t := range propertyObjects {
+			subsub := sub.Addf("%s", tcr.asShortNameForType(t, currentPackage, parentTypes))
+			tcr.writeComplexType(subsub, t, currentPackage, parentTypes)
+		}
+	}
+
+	// The order of entries in oneOf.Types() can vary but isn't significant
+	// So we pull them out and write them in sorted order
+	options := oneOf.Types()
+	if options.Len() > 0 {
+		optionTypes := make([]astmodel.Type, 0, options.Len())
+		typesToNames := make(map[astmodel.Type]string, options.Len())
+		options.ForEach(func(t astmodel.Type, _ int) {
+			name := tcr.asShortNameForType(t, currentPackage, parentTypes)
+			optionTypes = append(optionTypes, t)
+			typesToNames[t] = name
+		})
+
+		sort.Slice(optionTypes, func(i, j int) bool {
+			iname := typesToNames[optionTypes[i]]
+			jname := typesToNames[optionTypes[j]]
+			return iname < jname
+		})
+
+		sub := rpt.Addf("Options (%s):", tcr.formatCount(len(optionTypes), "option", "options"))
+		for index, t := range optionTypes {
+			subsub := sub.Addf("Option %d: %s", index, tcr.asShortNameForType(t, currentPackage, parentTypes))
+			tcr.writeComplexType(subsub, t, currentPackage, parentTypes)
+		}
+	}
 }
 
 // writeAllOfType writes an allof to the report.

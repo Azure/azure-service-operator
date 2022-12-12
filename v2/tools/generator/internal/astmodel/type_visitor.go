@@ -359,7 +359,25 @@ func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 }
 
 func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error) {
-	var newTypes []Type
+
+	result := it.WithoutAnyPropertyObjects()
+
+	propertyObjects := it.PropertyObjects()
+	for _, obj := range propertyObjects {
+		newObj, err := this.Visit(obj, ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		obj, ok := newObj.(*ObjectType)
+		if !ok {
+			return nil, errors.Errorf("expected to visit oneof property object to result in object type, instead got %T", newObj)
+		}
+
+		result = result.WithAdditionalPropertyObject(obj)
+	}
+
+	newTypes := make([]Type, 0, it.Types().Len())
 	err := it.Types().ForEachError(func(oneOf Type, _ int) error {
 		newType, err := this.Visit(oneOf, ctx)
 		if err != nil {
@@ -369,15 +387,12 @@ func IdentityVisitOfOneOfType(this *TypeVisitor, it *OneOfType, ctx interface{})
 		newTypes = append(newTypes, newType)
 		return nil
 	})
+
 	if err != nil {
 		return nil, err
 	}
 
-	if typeSlicesFastEqual(newTypes, it.types.types) {
-		return it, nil // short-circuit
-	}
-
-	return BuildOneOfType(newTypes...), nil
+	return result.WithTypes(newTypes), nil
 }
 
 func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error) {

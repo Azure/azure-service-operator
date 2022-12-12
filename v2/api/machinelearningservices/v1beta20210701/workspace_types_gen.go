@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/resourceDefinitions/workspaces
+// Generator information:
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -335,7 +336,9 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/resourceDefinitions/workspaces
+// Generator information:
+// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -367,8 +370,10 @@ type Workspace_Spec struct {
 	Description *string `json:"description,omitempty"`
 
 	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
-	DiscoveryUrl *string             `json:"discoveryUrl,omitempty"`
-	Encryption   *EncryptionProperty `json:"encryption,omitempty"`
+	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
+
+	// Encryption: The encryption settings of Azure ML workspace.
+	Encryption *EncryptionProperty `json:"encryption,omitempty"`
 
 	// FriendlyName: The friendly name for this workspace. This name in mutable
 	FriendlyName *string `json:"friendlyName,omitempty"`
@@ -376,7 +381,7 @@ type Workspace_Spec struct {
 	// HbiWorkspace: The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service
 	HbiWorkspace *bool `json:"hbiWorkspace,omitempty"`
 
-	// Identity: Identity for the resource.
+	// Identity: The identity of the resource.
 	Identity *Identity `json:"identity,omitempty"`
 
 	// ImageBuildCompute: The compute name for image build
@@ -403,20 +408,22 @@ type Workspace_Spec struct {
 	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess             *Workspace_Properties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings               `json:"serviceManagedResourcesSettings,omitempty"`
+	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// ServiceManagedResourcesSettings: The service managed resource settings.
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings `json:"serviceManagedResourcesSettings,omitempty"`
 
 	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []Workspace_Properties_SharedPrivateLinkResources_Spec `json:"sharedPrivateLinkResources,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource `json:"sharedPrivateLinkResources,omitempty"`
 
-	// Sku: Sku of the resource
+	// Sku: The sku of the workspace.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// StorageAccountReference: ARM id of the storage account associated with this workspace. This cannot be changed once the
 	// workspace has been created
 	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccount" json:"storageAccountReference,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: System data
 	SystemData *SystemData `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
@@ -467,7 +474,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		workspace.ServiceManagedResourcesSettings != nil ||
 		workspace.SharedPrivateLinkResources != nil ||
 		workspace.StorageAccountReference != nil {
-		result.Properties = &Workspace_Properties_Spec_ARM{}
+		result.Properties = &WorkspaceProperties_ARM{}
 	}
 	if workspace.AllowPublicAccessWhenBehindVnet != nil {
 		allowPublicAccessWhenBehindVnet := *workspace.AllowPublicAccessWhenBehindVnet
@@ -550,7 +557,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.SharedPrivateLinkResources = append(result.Properties.SharedPrivateLinkResources, *item_ARM.(*Workspace_Properties_SharedPrivateLinkResources_Spec_ARM))
+		result.Properties.SharedPrivateLinkResources = append(result.Properties.SharedPrivateLinkResources, *item_ARM.(*SharedPrivateLinkResource_ARM))
 	}
 	if workspace.StorageAccountReference != nil {
 		storageAccountARMID, err := resolved.ResolvedReferences.Lookup(*workspace.StorageAccountReference)
@@ -731,7 +738,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
-			var item1 Workspace_Properties_SharedPrivateLinkResources_Spec
+			var item1 SharedPrivateLinkResource
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -941,7 +948,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := Workspace_Properties_PublicNetworkAccess_Spec(*source.PublicNetworkAccess)
+		publicNetworkAccess := WorkspaceProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
 		workspace.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		workspace.PublicNetworkAccess = nil
@@ -961,14 +968,14 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 
 	// SharedPrivateLinkResources
 	if source.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]Workspace_Properties_SharedPrivateLinkResources_Spec, len(source.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource, len(source.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource Workspace_Properties_SharedPrivateLinkResources_Spec
-			err := sharedPrivateLinkResource.AssignProperties_From_Workspace_Properties_SharedPrivateLinkResources_Spec(&sharedPrivateLinkResourceItem)
+			var sharedPrivateLinkResource SharedPrivateLinkResource
+			err := sharedPrivateLinkResource.AssignProperties_From_SharedPrivateLinkResource(&sharedPrivateLinkResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Workspace_Properties_SharedPrivateLinkResources_Spec() to populate field SharedPrivateLinkResources")
+				return errors.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResource() to populate field SharedPrivateLinkResources")
 			}
 			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
 		}
@@ -1156,14 +1163,14 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 
 	// SharedPrivateLinkResources
 	if workspace.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v20210701s.Workspace_Properties_SharedPrivateLinkResources_Spec, len(workspace.SharedPrivateLinkResources))
+		sharedPrivateLinkResourceList := make([]v20210701s.SharedPrivateLinkResource, len(workspace.SharedPrivateLinkResources))
 		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range workspace.SharedPrivateLinkResources {
 			// Shadow the loop variable to avoid aliasing
 			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v20210701s.Workspace_Properties_SharedPrivateLinkResources_Spec
-			err := sharedPrivateLinkResourceItem.AssignProperties_To_Workspace_Properties_SharedPrivateLinkResources_Spec(&sharedPrivateLinkResource)
+			var sharedPrivateLinkResource v20210701s.SharedPrivateLinkResource
+			err := sharedPrivateLinkResourceItem.AssignProperties_To_SharedPrivateLinkResource(&sharedPrivateLinkResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Workspace_Properties_SharedPrivateLinkResources_Spec() to populate field SharedPrivateLinkResources")
+				return errors.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource() to populate field SharedPrivateLinkResources")
 			}
 			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
 		}
@@ -1286,7 +1293,7 @@ type Workspace_STATUS struct {
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
 
 	// PrivateLinkCount: Count of private connections in the workspace
 	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
@@ -1560,7 +1567,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			var item1 PrivateEndpointConnection_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1804,14 +1811,14 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -2021,14 +2028,14 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 
 	// PrivateEndpointConnections
 	if workspace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(workspace.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20210701s.PrivateEndpointConnection_STATUS, len(workspace.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range workspace.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
+			var privateEndpointConnection v20210701s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -2147,12 +2154,12 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/EncryptionProperty
 type EncryptionProperty struct {
-	// Identity: Identity that will be used to access key vault for encryption at rest
+	// Identity: The identity that will be used to access the key vault for encryption at rest.
 	Identity *IdentityForCmk `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
+	// KeyVaultProperties: Customer Key vault properties.
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -2472,13 +2479,9 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Identity
 type Identity struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: dictionary containing all the user assigned identities, with resourceId of the UAI as key.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Identity{}
@@ -2494,14 +2497,6 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for key, value := range identity.UserAssignedIdentities {
-			result.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
 	}
 	return result, nil
 }
@@ -2524,14 +2519,6 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
-		for key, value := range typedInput.UserAssignedIdentities {
-			identity.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-
 	// No error
 	return nil
 }
@@ -2545,19 +2532,6 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20210701s.Iden
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2575,19 +2549,6 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210701s.I
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -2861,167 +2822,53 @@ func (info *NotebookResourceInfo_STATUS) AssignProperties_To_NotebookResourceInf
 	return nil
 }
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM{}
+func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM)
+func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 Identity_STATUS
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		embedded.Identity = &identity
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku_STATUS
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		embedded.Sku = &sku
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		embedded.SystemData = &systemData
+		connection.Id = &id
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(source *v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210701s.PrivateEndpointConnection_STATUS) error {
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity_STATUS
-		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
-		}
-		embedded.Identity = &identity
-	} else {
-		embedded.Identity = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku_STATUS
-		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
-		}
-		embedded.Sku = &sku
-	} else {
-		embedded.Sku = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
+	connection.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(destination *v20210701s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *v20210701s.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Identity
-	if embedded.Identity != nil {
-		var identity v20210701s.Identity_STATUS
-		err := embedded.Identity.AssignProperties_To_Identity_STATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// Sku
-	if embedded.Sku != nil {
-		var sku v20210701s.Sku_STATUS
-		err := embedded.Sku.AssignProperties_To_Sku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum v20210701s.SystemData_STATUS
-		err := embedded.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3034,8 +2881,8 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ServiceManagedResourcesSettings
 type ServiceManagedResourcesSettings struct {
+	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings `json:"cosmosDb,omitempty"`
 }
 
@@ -3215,6 +3062,192 @@ func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_To_Serv
 	return nil
 }
 
+type SharedPrivateLinkResource struct {
+	// GroupId: The private link resource group id.
+	GroupId *string `json:"groupId,omitempty"`
+
+	// Name: Unique name of the private link.
+	Name *string `json:"name,omitempty"`
+
+	// PrivateLinkResourceReference: The resource id that private link links to.
+	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
+
+	// RequestMessage: Request message.
+	RequestMessage *string `json:"requestMessage,omitempty"`
+
+	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &SharedPrivateLinkResource{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (resource *SharedPrivateLinkResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
+		return nil, nil
+	}
+	result := &SharedPrivateLinkResource_ARM{}
+
+	// Set property ‘Name’:
+	if resource.Name != nil {
+		name := *resource.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if resource.GroupId != nil ||
+		resource.PrivateLinkResourceReference != nil ||
+		resource.RequestMessage != nil ||
+		resource.Status != nil {
+		result.Properties = &SharedPrivateLinkResourceProperty_ARM{}
+	}
+	if resource.GroupId != nil {
+		groupId := *resource.GroupId
+		result.Properties.GroupId = &groupId
+	}
+	if resource.PrivateLinkResourceReference != nil {
+		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*resource.PrivateLinkResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		privateLinkResourceId := privateLinkResourceIdARMID
+		result.Properties.PrivateLinkResourceId = &privateLinkResourceId
+	}
+	if resource.RequestMessage != nil {
+		requestMessage := *resource.RequestMessage
+		result.Properties.RequestMessage = &requestMessage
+	}
+	if resource.Status != nil {
+		status := *resource.Status
+		result.Properties.Status = &status
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SharedPrivateLinkResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SharedPrivateLinkResource_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SharedPrivateLinkResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SharedPrivateLinkResource_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResource_ARM, got %T", armInput)
+	}
+
+	// Set property ‘GroupId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.GroupId != nil {
+			groupId := *typedInput.Properties.GroupId
+			resource.GroupId = &groupId
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		resource.Name = &name
+	}
+
+	// no assignment for property ‘PrivateLinkResourceReference’
+
+	// Set property ‘RequestMessage’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequestMessage != nil {
+			requestMessage := *typedInput.Properties.RequestMessage
+			resource.RequestMessage = &requestMessage
+		}
+	}
+
+	// Set property ‘Status’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Status != nil {
+			status := *typedInput.Properties.Status
+			resource.Status = &status
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SharedPrivateLinkResource populates our SharedPrivateLinkResource from the provided source SharedPrivateLinkResource
+func (resource *SharedPrivateLinkResource) AssignProperties_From_SharedPrivateLinkResource(source *v20210701s.SharedPrivateLinkResource) error {
+
+	// GroupId
+	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
+
+	// Name
+	resource.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateLinkResourceReference
+	if source.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
+		resource.PrivateLinkResourceReference = &privateLinkResourceReference
+	} else {
+		resource.PrivateLinkResourceReference = nil
+	}
+
+	// RequestMessage
+	resource.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
+
+	// Status
+	if source.Status != nil {
+		status := PrivateEndpointServiceConnectionStatus(*source.Status)
+		resource.Status = &status
+	} else {
+		resource.Status = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SharedPrivateLinkResource populates the provided destination SharedPrivateLinkResource from our SharedPrivateLinkResource
+func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLinkResource(destination *v20210701s.SharedPrivateLinkResource) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// GroupId
+	destination.GroupId = genruntime.ClonePointerToString(resource.GroupId)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(resource.Name)
+
+	// PrivateLinkResourceReference
+	if resource.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := resource.PrivateLinkResourceReference.Copy()
+		destination.PrivateLinkResourceReference = &privateLinkResourceReference
+	} else {
+		destination.PrivateLinkResourceReference = nil
+	}
+
+	// RequestMessage
+	destination.RequestMessage = genruntime.ClonePointerToString(resource.RequestMessage)
+
+	// Status
+	if resource.Status != nil {
+		status := string(*resource.Status)
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type SharedPrivateLinkResource_STATUS struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`
@@ -3355,7 +3388,6 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPriv
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Sku
 type Sku struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -3523,7 +3555,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210701s.Sk
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SystemData
 type SystemData struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -3895,200 +3926,6 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Workspace_Properties_PublicNetworkAccess_Spec string
-
-const (
-	Workspace_Properties_PublicNetworkAccess_Spec_Disabled = Workspace_Properties_PublicNetworkAccess_Spec("Disabled")
-	Workspace_Properties_PublicNetworkAccess_Spec_Enabled  = Workspace_Properties_PublicNetworkAccess_Spec("Enabled")
-)
-
-type Workspace_Properties_SharedPrivateLinkResources_Spec struct {
-	// GroupId: The private link resource group id.
-	GroupId *string `json:"groupId,omitempty"`
-
-	// Name: Unique name of the private link.
-	Name *string `json:"name,omitempty"`
-
-	// PrivateLinkResourceReference: The resource id that private link links to.
-	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
-
-	// RequestMessage: Request message.
-	RequestMessage *string `json:"requestMessage,omitempty"`
-
-	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *SharedPrivateLinkResourceProperty_Status `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Workspace_Properties_SharedPrivateLinkResources_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resources *Workspace_Properties_SharedPrivateLinkResources_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resources == nil {
-		return nil, nil
-	}
-	result := &Workspace_Properties_SharedPrivateLinkResources_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if resources.Name != nil {
-		name := *resources.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if resources.GroupId != nil ||
-		resources.PrivateLinkResourceReference != nil ||
-		resources.RequestMessage != nil ||
-		resources.Status != nil {
-		result.Properties = &SharedPrivateLinkResourceProperty_ARM{}
-	}
-	if resources.GroupId != nil {
-		groupId := *resources.GroupId
-		result.Properties.GroupId = &groupId
-	}
-	if resources.PrivateLinkResourceReference != nil {
-		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*resources.PrivateLinkResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		privateLinkResourceId := privateLinkResourceIdARMID
-		result.Properties.PrivateLinkResourceId = &privateLinkResourceId
-	}
-	if resources.RequestMessage != nil {
-		requestMessage := *resources.RequestMessage
-		result.Properties.RequestMessage = &requestMessage
-	}
-	if resources.Status != nil {
-		status := *resources.Status
-		result.Properties.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resources *Workspace_Properties_SharedPrivateLinkResources_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Workspace_Properties_SharedPrivateLinkResources_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resources *Workspace_Properties_SharedPrivateLinkResources_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Workspace_Properties_SharedPrivateLinkResources_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Workspace_Properties_SharedPrivateLinkResources_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘GroupId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.GroupId != nil {
-			groupId := *typedInput.Properties.GroupId
-			resources.GroupId = &groupId
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		resources.Name = &name
-	}
-
-	// no assignment for property ‘PrivateLinkResourceReference’
-
-	// Set property ‘RequestMessage’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RequestMessage != nil {
-			requestMessage := *typedInput.Properties.RequestMessage
-			resources.RequestMessage = &requestMessage
-		}
-	}
-
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			resources.Status = &status
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Workspace_Properties_SharedPrivateLinkResources_Spec populates our Workspace_Properties_SharedPrivateLinkResources_Spec from the provided source Workspace_Properties_SharedPrivateLinkResources_Spec
-func (resources *Workspace_Properties_SharedPrivateLinkResources_Spec) AssignProperties_From_Workspace_Properties_SharedPrivateLinkResources_Spec(source *v20210701s.Workspace_Properties_SharedPrivateLinkResources_Spec) error {
-
-	// GroupId
-	resources.GroupId = genruntime.ClonePointerToString(source.GroupId)
-
-	// Name
-	resources.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkResourceReference
-	if source.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
-		resources.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		resources.PrivateLinkResourceReference = nil
-	}
-
-	// RequestMessage
-	resources.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
-
-	// Status
-	if source.Status != nil {
-		status := SharedPrivateLinkResourceProperty_Status(*source.Status)
-		resources.Status = &status
-	} else {
-		resources.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Workspace_Properties_SharedPrivateLinkResources_Spec populates the provided destination Workspace_Properties_SharedPrivateLinkResources_Spec from our Workspace_Properties_SharedPrivateLinkResources_Spec
-func (resources *Workspace_Properties_SharedPrivateLinkResources_Spec) AssignProperties_To_Workspace_Properties_SharedPrivateLinkResources_Spec(destination *v20210701s.Workspace_Properties_SharedPrivateLinkResources_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// GroupId
-	destination.GroupId = genruntime.ClonePointerToString(resources.GroupId)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(resources.Name)
-
-	// PrivateLinkResourceReference
-	if resources.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := resources.PrivateLinkResourceReference.Copy()
-		destination.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		destination.PrivateLinkResourceReference = nil
-	}
-
-	// RequestMessage
-	destination.RequestMessage = genruntime.ClonePointerToString(resources.RequestMessage)
-
-	// Status
-	if resources.Status != nil {
-		status := string(*resources.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type WorkspaceOperatorSpec struct {
 	// Secrets: configures where to place Azure generated secrets.
@@ -4154,6 +3991,14 @@ const (
 	WorkspaceProperties_ProvisioningState_STATUS_Updating  = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
 
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type WorkspaceProperties_PublicNetworkAccess string
+
+const (
+	WorkspaceProperties_PublicNetworkAccess_Disabled = WorkspaceProperties_PublicNetworkAccess("Disabled")
+	WorkspaceProperties_PublicNetworkAccess_Enabled  = WorkspaceProperties_PublicNetworkAccess("Enabled")
+)
+
 type WorkspaceProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -4161,7 +4006,6 @@ const (
 	WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled  = WorkspaceProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/CosmosDbSettings
 type CosmosDbSettings struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
@@ -4308,7 +4152,6 @@ const (
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("Enabled")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/IdentityForCmk
 type IdentityForCmk struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
@@ -4440,7 +4283,6 @@ func (forCmk *IdentityForCmk_STATUS) AssignProperties_To_IdentityForCmk_STATUS(d
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
@@ -4716,6 +4558,17 @@ func (error *NotebookPreparationError_STATUS) AssignProperties_To_NotebookPrepar
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
+type PrivateEndpointServiceConnectionStatus string
+
+const (
+	PrivateEndpointServiceConnectionStatus_Approved     = PrivateEndpointServiceConnectionStatus("Approved")
+	PrivateEndpointServiceConnectionStatus_Disconnected = PrivateEndpointServiceConnectionStatus("Disconnected")
+	PrivateEndpointServiceConnectionStatus_Pending      = PrivateEndpointServiceConnectionStatus("Pending")
+	PrivateEndpointServiceConnectionStatus_Rejected     = PrivateEndpointServiceConnectionStatus("Rejected")
+	PrivateEndpointServiceConnectionStatus_Timeout      = PrivateEndpointServiceConnectionStatus("Timeout")
+)
+
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
@@ -4724,17 +4577,6 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Pending      = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
 	PrivateEndpointServiceConnectionStatus_STATUS_Rejected     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 	PrivateEndpointServiceConnectionStatus_STATUS_Timeout      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
-)
-
-// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
-type SharedPrivateLinkResourceProperty_Status string
-
-const (
-	SharedPrivateLinkResourceProperty_Status_Approved     = SharedPrivateLinkResourceProperty_Status("Approved")
-	SharedPrivateLinkResourceProperty_Status_Disconnected = SharedPrivateLinkResourceProperty_Status("Disconnected")
-	SharedPrivateLinkResourceProperty_Status_Pending      = SharedPrivateLinkResourceProperty_Status("Pending")
-	SharedPrivateLinkResourceProperty_Status_Rejected     = SharedPrivateLinkResourceProperty_Status("Rejected")
-	SharedPrivateLinkResourceProperty_Status_Timeout      = SharedPrivateLinkResourceProperty_Status("Timeout")
 )
 
 type UserAssignedIdentity_STATUS struct {

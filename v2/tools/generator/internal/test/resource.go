@@ -53,15 +53,27 @@ func CreateARMResource(
 	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pkg, name), resourceType)
 }
 
+func MakeSpecName(
+	pkg astmodel.PackageReference,
+	name string) astmodel.TypeName {
+	return astmodel.MakeTypeName(pkg, name+astmodel.SpecSuffix)
+}
+
 // CreateSpec makes a spec for testing
 func CreateSpec(
 	pkg astmodel.PackageReference,
 	name string,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
-	specName := astmodel.MakeTypeName(pkg, name+astmodel.SpecSuffix)
+	specName := MakeSpecName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		specName,
 		astmodel.NewObjectType().WithProperties(properties...))
+}
+
+func MakeStatusName(
+	pkg astmodel.PackageReference,
+	name string) astmodel.TypeName {
+	return astmodel.MakeTypeName(pkg, name+astmodel.StatusSuffix)
 }
 
 // CreateStatus makes a status for testing
@@ -69,13 +81,13 @@ func CreateStatus(
 	pkg astmodel.PackageReference,
 	name string,
 	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
-	statusName := astmodel.MakeTypeName(pkg, name+astmodel.StatusSuffix)
+	statusName := MakeStatusName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		statusName,
 		astmodel.NewObjectType().WithProperties(StatusProperty).WithProperties(properties...))
 }
 
-// CreateObjectDefinition makes an object for testing
+// CreateObjectDefinition makes a type definition with an object for testing
 func CreateObjectDefinition(
 	pkg astmodel.PackageReference,
 	name string,
@@ -84,7 +96,7 @@ func CreateObjectDefinition(
 	typeName := astmodel.MakeTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
-		astmodel.NewObjectType().WithProperties(properties...))
+		CreateObjectType(properties...))
 }
 
 // CreateObjectDefinition makes an object with function for testing
@@ -97,7 +109,11 @@ func CreateObjectDefinitionWithFunction(
 	typeName := astmodel.MakeTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
-		astmodel.NewObjectType().WithProperties(properties...).WithFunction(function))
+		CreateObjectType(properties...).WithFunction(function))
+}
+
+func CreateObjectType(properties ...*astmodel.PropertyDefinition) *astmodel.ObjectType {
+	return astmodel.NewObjectType().WithProperties(properties...)
 }
 
 func CreateSimpleResource(

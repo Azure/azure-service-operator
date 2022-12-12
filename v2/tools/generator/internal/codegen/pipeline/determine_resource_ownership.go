@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"regexp"
 	"strings"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -34,7 +35,8 @@ func DetermineResourceOwnership(
 func determineOwnership(
 	definitions astmodel.TypeDefinitionSet,
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory) (astmodel.TypeDefinitionSet, error) {
+	idFactory astmodel.IdentifierFactory,
+) (astmodel.TypeDefinitionSet, error) {
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 
 	resources := astmodel.FindResourceDefinitions(definitions)
@@ -44,22 +46,8 @@ func determineOwnership(
 			return nil, errors.Wrapf(err, "unable to find resource %s spec and status", def.Name())
 		}
 
-		childResourcePropertyTypeDef, err := extractChildResourcePropertyTypeDef(
-			definitions,
-			def.Name(),
-			resolved.SpecDef.Name(),
-			resolved.SpecType)
-		if err != nil {
-			return nil, err
-		}
-		if childResourcePropertyTypeDef == nil {
-			continue // This just means skip
-		}
-
-		childResourceTypeNames, err := extractChildResourceTypeNames(*childResourcePropertyTypeDef)
-		if err != nil {
-			return nil, err
-		}
+		rt := def.Type().(*astmodel.ResourceType)
+		childResourceTypeNames := findChildren(rt, def.Name(), resources)
 
 		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs, idFactory)
 		if err != nil {
@@ -67,6 +55,7 @@ func determineOwnership(
 		}
 
 		// Remove the resources property from the owning resource spec
+		// TODO: Can delete this once we drop JSON schema golden files
 		newDef := resolved.SpecDef.WithType(resolved.SpecType.WithoutProperty(resourcesPropertyName))
 		updatedDefs[resolved.SpecDef.Name()] = newDef
 	}
@@ -76,100 +65,63 @@ func determineOwnership(
 	return definitions.OverlayWith(updatedDefs), nil
 }
 
-func extractChildResourcePropertyTypeDef(
-	definitions astmodel.TypeDefinitionSet,
-	resourceName astmodel.TypeName,
-	resourceSpecName astmodel.TypeName,
-	specType *astmodel.ObjectType,
-) (*astmodel.TypeDefinition, error) {
-	// We're looking for a magical "Resources" property - if we don't find
-	// one just move on
-	resourcesProp, ok := specType.Property(resourcesPropertyName)
-	if !ok {
-		return nil, nil
-	}
+var urlParamRegex = regexp.MustCompile("\\{.*?}")
 
-	// The resources property should be an array
-	resourcesPropArray, ok := resourcesProp.PropertyType().(*astmodel.ArrayType)
-	if !ok {
-		return nil, errors.Errorf(
-			"Resource %s has spec %s with Resources property whose type is %T not array",
-			resourceName,
-			resourceSpecName,
-			resourcesProp.PropertyType())
-	}
+func findChildren(rt *astmodel.ResourceType, resourceName astmodel.TypeName, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+	// append "/" to the ARM URI so that if this is (e.g.):
+	//     /resource/name
+	// it doesn't match as a prefix of:
+	//     /resource/namedThing
+	// but it is a prefix of:
+	//     /resource/name/subresource/subname
+	myPrefix := rt.ARMURI() + "/"
+	myPrefix = canonicalizeURI(myPrefix)
 
-	// We're really interested in the type of this array
-	resourcesPropertyTypeName, ok := resourcesPropArray.Element().(astmodel.TypeName)
-	if !ok {
-		return nil, errors.Errorf(
-			"Resource %s has spec %s with Resources property of type array but whose inner type is not TypeName, instead being %T",
-			resourceName,
-			resourceSpecName,
-			resourcesPropArray.Element())
-	}
-
-	resourcesDef, ok := definitions[resourcesPropertyTypeName]
-	if !ok {
-		return nil, errors.Errorf("couldn't find definition Resources property type %s", resourcesPropertyTypeName)
-	}
-
-	return &resourcesDef, nil
-}
-
-func resolveResourcesTypeNames(
-	resourcesPropertyName astmodel.TypeName,
-	resourcesPropertyType *astmodel.ObjectType,
-) ([]astmodel.TypeName, error) {
-	props := resourcesPropertyType.Properties().Copy()
-	results := make([]astmodel.TypeName, 0, len(props))
-
-	// Each property type is a subresource type
-	//!!
-	for _, prop := range props {
-		optionalType, ok := prop.PropertyType().(*astmodel.OptionalType)
+	var result []astmodel.TypeName
+	for otherName, otherDef := range others {
+		other, ok := astmodel.AsResourceType(otherDef.Type())
 		if !ok {
-			return nil, errors.Errorf(
-				"OneOf type %s property %s not of type *astmodel.OptionalType",
-				resourcesPropertyName.Name(),
-				prop.PropertyName())
+			continue
+		}
+		if rt == other {
+			continue // don’t self-own
 		}
 
-		propTypeName, ok := optionalType.Element().(astmodel.TypeName)
-		if !ok {
-			return nil, errors.Errorf(
-				"OneOf type %s optional property %s not of type astmodel.TypeName",
-				resourcesPropertyName.Name(),
-				prop.PropertyName())
+		// TODO: If it ever arises that we have a resource whose owner doesn't exist in the same API
+		// TODO: version this might be an issue.
+		// Ownership transcends APIVersion, but in order for things like $exportAs to work, it's best if
+		// ownership for each resource points to the owner in the same package. This ensures that standard tools
+		// like renamingVisitor work.
+		if !otherDef.Name().PackageReference.Equals(resourceName.PackageReference) {
+			continue // Don't own if in a different package
 		}
-		results = append(results, propTypeName)
+
+		otherURI := canonicalizeURI(other.ARMURI())
+
+		// Compare case-insensitive in case specs have different URL casings in their Swagger
+		if strings.HasPrefix(strings.ToLower(otherURI), strings.ToLower(myPrefix)) {
+			// now, accept it only if it contains two '/' exactly:
+			// so that the string is of the form:
+			//     {prefix}/resourceType/resourceName
+			// and not a grandchild resource:
+			//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
+			withoutPrefix := otherURI[len(myPrefix)-1:]
+			if strings.Count(withoutPrefix, "/") == 2 {
+				result = append(result, otherName)
+			}
+
+		}
 	}
 
-	return results, nil
+	return result
 }
 
-func extractChildResourceTypeNames(resourcesPropertyTypeDef astmodel.TypeDefinition) ([]astmodel.TypeName, error) {
-	// This type should be ResourceType, or ObjectType if modelling a OneOf/AllOf
-	_, isResource := resourcesPropertyTypeDef.Type().(*astmodel.ResourceType)
-
-	resourcesPropertyTypeAsObject, ok := astmodel.AsObjectType(resourcesPropertyTypeDef.Type())
-	if !isResource && !ok {
-		return nil, errors.Errorf(
-			"Resources property type %s was not of type *astmodel.ResourceType and didn't wrap *astmodel.ObjectType, instead %T",
-			resourcesPropertyTypeDef.Name(),
-			resourcesPropertyTypeDef.Type())
-	}
-
-	// Determine if this is a OneOf/AllOf
-	if ok && astmodel.OneOfFlag.IsOn(resourcesPropertyTypeDef.Type()) {
-		return resolveResourcesTypeNames(resourcesPropertyTypeDef.Name(), resourcesPropertyTypeAsObject)
-	} else {
-		return []astmodel.TypeName{resourcesPropertyTypeDef.Name()}, nil
-	}
+func canonicalizeURI(uri string) string {
+	// Replace all {.*}'s with {}, in case different URIs use different names for the same
+	// parameter
+	uri = urlParamRegex.ReplaceAllString(uri, "{}")
+	return uri
 }
-
-// this is the name we expect to see on "child resources" in the ARM JSON schema
-const ChildResourceNameSuffix = "_ChildResource"
 
 func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
@@ -178,18 +130,8 @@ func updateChildResourceDefinitionsWithOwner(
 	updatedDefs astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory,
 ) error {
+
 	for _, typeName := range childResourceTypeNames {
-		// If the typename ends in ChildResource, remove that
-		if strings.HasSuffix(typeName.Name(), ChildResourceNameSuffix) {
-			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), ChildResourceNameSuffix))
-		}
-
-		// If type typename is ExtensionsChild, remove Child -- this is a special case due to
-		// compute...
-		if typeName.Name() == "ExtensionsChild" {
-			typeName = astmodel.MakeTypeName(typeName.PackageReference, strings.TrimSuffix(typeName.Name(), "Child"))
-		}
-
 		// Use the singular form of the name
 		typeName = typeName.Singular(idFactory)
 
@@ -206,13 +148,24 @@ func updateChildResourceDefinitionsWithOwner(
 		}
 
 		childResourceDef = childResourceDef.WithType(childResource.WithOwner(&owningResourceName))
-		if updatedDef, ok := updatedDefs[typeName]; ok {
-			// already exists, make sure it is the same
-			if !astmodel.TypeEquals(updatedDef.Type(), childResourceDef.Type()) {
-				return errors.Errorf("conflicting child resource already defined for %s", typeName)
+		err := updatedDefs.AddAllowDuplicates(childResourceDef)
+		if err != nil {
+			// workaround: StorSimple has the same URIs on multiple "different" types
+			// resolve in favour of the one that has a matching package
+			if childResourceDef.Name().PackageReference.Equals(owningResourceName.PackageReference) {
+				// override
+				updatedDefs[childResourceDef.Name()] = childResourceDef
+				continue // okay!
+			} else {
+				// double-check that existing one matches
+				existingDef := updatedDefs[childResourceDef.Name()]
+				rt := existingDef.Type().(*astmodel.ResourceType)
+				if existingDef.Name().PackageReference.Equals(rt.Owner().PackageReference) {
+					continue // okay!
+				}
 			}
-		} else {
-			updatedDefs.Add(childResourceDef)
+
+			return errors.Wrapf(err, "conflicting child resource already defined for %s [%s]", typeName, childResource.ARMURI())
 		}
 	}
 
@@ -226,7 +179,7 @@ func setDefaultOwner(
 	definitions astmodel.TypeDefinitionSet,
 	updatedDefs astmodel.TypeDefinitionSet,
 ) {
-	// Go over all of the resource types and flag any that don't have an owner as having resource group as their owner
+	// Go over all the resource types and flag any that don't have an owner as having resource group as their owner
 	for _, def := range definitions {
 		// Check if we've already modified this type - we need to use the already modified value
 		if updatedDef, ok := updatedDefs[def.Name()]; ok {

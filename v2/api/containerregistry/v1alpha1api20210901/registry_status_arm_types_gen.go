@@ -26,20 +26,20 @@ type IdentityProperties_STATUS_ARM struct {
 
 // Deprecated version of RegistryProperties_STATUS. Use v1beta20210901.RegistryProperties_STATUS instead
 type RegistryProperties_STATUS_ARM struct {
-	AdminUserEnabled           *bool                                                      `json:"adminUserEnabled,omitempty"`
-	CreationDate               *string                                                    `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                                                      `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                                                   `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_STATUS_ARM                             `json:"encryption,omitempty"`
-	LoginServer                *string                                                    `json:"loginServer,omitempty"`
-	NetworkRuleBypassOptions   *RegistryProperties_NetworkRuleBypassOptions_STATUS        `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_STATUS_ARM                                 `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_STATUS_ARM                                       `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryProperties_ProvisioningState_STATUS               `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess_STATUS             `json:"publicNetworkAccess,omitempty"`
-	Status                     *Status_STATUS_ARM                                         `json:"status,omitempty"`
-	ZoneRedundancy             *RegistryProperties_ZoneRedundancy_STATUS                  `json:"zoneRedundancy,omitempty"`
+	AdminUserEnabled           *bool                                               `json:"adminUserEnabled,omitempty"`
+	CreationDate               *string                                             `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                                               `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                                            `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_STATUS_ARM                      `json:"encryption,omitempty"`
+	LoginServer                *string                                             `json:"loginServer,omitempty"`
+	NetworkRuleBypassOptions   *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUS_ARM                          `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUS_ARM                                `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM              `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *RegistryProperties_ProvisioningState_STATUS        `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess_STATUS      `json:"publicNetworkAccess,omitempty"`
+	Status                     *Status_STATUS_ARM                                  `json:"status,omitempty"`
+	ZoneRedundancy             *RegistryProperties_ZoneRedundancy_STATUS           `json:"zoneRedundancy,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210901.Sku_STATUS instead
@@ -88,10 +88,9 @@ type Policies_STATUS_ARM struct {
 	TrustPolicy      *TrustPolicy_STATUS_ARM      `json:"trustPolicy,omitempty"`
 }
 
-// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
-	Id         *string                `json:"id,omitempty"`
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210901.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUS_ARM struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of Sku_Name_STATUS. Use v1beta20210901.Sku_Name_STATUS instead

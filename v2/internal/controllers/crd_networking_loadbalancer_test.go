@@ -31,13 +31,13 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 
 	// Public IP Address
 	sku := network.PublicIPAddressSku_Name_Standard
-	allocationMethod := network.PublicIPAddressPropertiesFormat_PublicIPAllocationMethod_Static
+	allocationMethod := network.IPAllocationMethod_Static
 	publicIPAddress := &network.PublicIPAddress{
 		TypeMeta: metav1.TypeMeta{
 			Kind: reflect.TypeOf(network.PublicIPAddress{}).Name(),
 		},
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
+		Spec: network.PublicIPAddress_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.PublicIPAddressSku{
@@ -53,7 +53,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	loadBalancerSku := network.LoadBalancerSku_Name_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormat_Protocol_Tcp
+	protocol := network.TransportProtocol_Tcp
 
 	// TODO: This is still really awkward
 	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
@@ -76,16 +76,16 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancer_Properties_FrontendIPConfigurations_Spec{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.SubResource{
+					PublicIPAddress: &network.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},
 			},
 			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
-			InboundNatPools: []network.LoadBalancer_Properties_InboundNatPools_Spec{
+			InboundNatPools: []network.InboundNatPool{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{

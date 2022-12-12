@@ -171,7 +171,7 @@ func AddIndependentPropertyGeneratorsForDiskProperties_ARM(gens map[string]gopte
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_V1, DiskProperties_HyperVGeneration_V2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(DiskProperties_NetworkAccessPolicy_AllowAll, DiskProperties_NetworkAccessPolicy_AllowPrivate, DiskProperties_NetworkAccessPolicy_DenyAll))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_Linux, DiskProperties_OsType_Windows))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
@@ -307,7 +307,7 @@ func ExtendedLocation_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocation_Type_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_CreationData_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -455,7 +455,7 @@ func Encryption_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryption_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption_ARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Encryption_Type_EncryptionAtRestWithCustomerKey, Encryption_Type_EncryptionAtRestWithPlatformAndCustomerKeys, Encryption_Type_EncryptionAtRestWithPlatformKey))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_EncryptionAtRestWithCustomerKey, EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_EncryptionAtRestWithPlatformKey))
 }
 
 func Test_EncryptionSettingsCollection_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

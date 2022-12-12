@@ -45,7 +45,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	version := postgresql.ServerProperties_Version_13
+	version := postgresql.ServerVersion_13
 	tier := postgresql.Sku_Tier_GeneralPurpose
 	fqdnConfig := "fqdnconfig"
 	flexibleServer := &postgresql.FlexibleServer{
