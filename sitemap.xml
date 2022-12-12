@@ -10,6 +10,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/breaking-changes/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-07-pipeline-architecture/</loc>

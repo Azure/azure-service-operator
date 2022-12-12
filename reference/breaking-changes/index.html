@@ -18,24 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Tutorial: PostgreSQL Votes | Azure Service Operator</title>
-<meta name="description" content="Follow the guided example
-to create a simple voting application backed by PostgreSQL.
-The PostgreSQL Server and Database are hosted in Azure but …">
-<meta property="og:title" content="Tutorial: PostgreSQL Votes" />
-<meta property="og:description" content="Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!" />
+<title>Azure Service Operator</title>
+<meta name="description" content="Breaking Changes in beta.4
+In the &lsquo;beta.4&rsquo; release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API …">
+<meta property="og:title" content="" />
+<meta property="og:description" content="Breaking Changes in beta.4 In the &lsquo;beta.4&rsquo; release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API Specifications as our sole source of truth for our code generator.
+This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
+Unfortunately, this change brings with it a few breaking changes, listed in this document." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" /><meta property="article:section" content="introduction" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/breaking-changes/" /><meta property="article:section" content="reference" />
 
 
 
-<meta itemprop="name" content="Tutorial: PostgreSQL Votes">
-<meta itemprop="description" content="Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!">
+<meta itemprop="name" content="">
+<meta itemprop="description" content="Breaking Changes in beta.4 In the &lsquo;beta.4&rsquo; release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API Specifications as our sole source of truth for our code generator.
+This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
+Unfortunately, this change brings with it a few breaking changes, listed in this document.">
 
-<meta itemprop="wordCount" content="31">
+<meta itemprop="wordCount" content="1246">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tutorial: PostgreSQL Votes"/>
-<meta name="twitter:description" content="Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Breaking Changes in beta.4 In the &lsquo;beta.4&rsquo; release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API Specifications as our sole source of truth for our code generator.
+This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
+Unfortunately, this change brings with it a few breaking changes, listed in this document."/>
 
 
 
@@ -69,7 +74,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
 				
 				
 				
-				<a class="nav-link active" href="/azure-service-operator/introduction/" ><span class="active">Guide</span></a>
+				<a class="nav-link" href="/azure-service-operator/introduction/" ><span>Guide</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -81,7 +86,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/reference/" ><span>Supported Resources</span></a>
+				<a class="nav-link active" href="/azure-service-operator/reference/" ><span class="active">Supported Resources</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -135,47 +140,47 @@ The PostgreSQL Server and Database are hosted in Azure but …">
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorintroduction-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorintroduction-li">
   <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmetrics-li">
   <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class="">ASO Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionauthentication-li">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
   <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
   <a href="/azure-service-operator/introduction/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionfrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionsecrets-li">
   <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
   <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
   <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconfigmaps-li">
   <a href="/azure-service-operator/introduction/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
-  <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="td-sidebar-nav-active-item">Tutorial: PostgreSQL Votes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
+  <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconditions-li">
   <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionuninstalling-li">
   <a href="/azure-service-operator/introduction/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionuninstalling"><span class="">Uninstalling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionupgrading-li">
   <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="">Upgrading</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebreaking-changes-li">
-  <a href="/azure-service-operator/reference/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebreaking-changes"><span class=""></span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencebreaking-changes-li">
+  <a href="/azure-service-operator/reference/breaking-changes/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebreaking-changes"><span class="td-sidebar-nav-active-item"></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
@@ -184,7 +189,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
@@ -193,7 +198,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
@@ -206,14 +211,14 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
@@ -232,14 +237,14 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
@@ -248,7 +253,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
@@ -257,14 +262,14 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
@@ -275,7 +280,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
@@ -284,7 +289,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="">dbforpostgresql.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
@@ -293,7 +298,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
@@ -302,7 +307,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
@@ -311,7 +316,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
@@ -324,21 +329,21 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
@@ -347,7 +352,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/managedidentity/v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
@@ -358,7 +363,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
@@ -367,7 +372,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
@@ -376,7 +381,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
@@ -385,7 +390,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
@@ -394,7 +399,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
@@ -403,7 +408,7 @@ The PostgreSQL Server and Database are hosted in Azure but …">
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
@@ -497,6 +502,139 @@ The PostgreSQL Server and Database are hosted in Azure but …">
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#immediate-migration-required">Immediate migration required</a></li>
+        <li><a href="#upgrade-when-modified">Upgrade when modified</a></li>
+      </ul>
+    </li>
+    <li><a href="#types-of-breaking-changes">Types of breaking changes</a></li>
+    <li><a href="#authorization">Authorization</a>
+      <ul>
+        <li><a href="#roleassignment">RoleAssignment</a></li>
+      </ul>
+    </li>
+    <li><a href="#batch">Batch</a>
+      <ul>
+        <li><a href="#batchaccount">BatchAccount</a></li>
+      </ul>
+    </li>
+    <li><a href="#cache-v2020-12-01">Cache v2020-12-01</a>
+      <ul>
+        <li><a href="#redisfirewallrule">RedisFirewallRule</a></li>
+        <li><a href="#redislinkedserver">RedisLinkedServer</a></li>
+        <li><a href="#redispatchschedule">RedisPatchSchedule</a></li>
+      </ul>
+    </li>
+    <li><a href="#cache-v2021-03-01">Cache v2021-03-01</a>
+      <ul>
+        <li><a href="#redisenterprisedatabase">RedisEnterpriseDatabase</a></li>
+      </ul>
+    </li>
+    <li><a href="#cdn-v2021-06-01">CDN v2021-06-01</a>
+      <ul>
+        <li><a href="#profilesendpoint">ProfilesEndpoint</a></li>
+      </ul>
+    </li>
+    <li><a href="#compute-v2020-12-01">Compute v2020-12-01</a>
+      <ul>
+        <li><a href="#virtualmachinescaleset">VirtualMachineScaleSet</a></li>
+      </ul>
+    </li>
+    <li><a href="#compute-v2022-03-01">Compute v2022-03-01</a>
+      <ul>
+        <li><a href="#virtualmachinescaleset-1">VirtualMachineScaleSet</a></li>
+      </ul>
+    </li>
+    <li><a href="#container-service">Container Service</a>
+      <ul>
+        <li><a href="#managedcluster">ManagedCluster</a></li>
+        <li><a href="#managedclustersagentpool">ManagedClustersAgentPool</a></li>
+      </ul>
+    </li>
+    <li><a href="#dbformariadb-v2018-06-01">DbForMariaDB v2018-06-01</a>
+      <ul>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#database">Database</a></li>
+        <li><a href="#server">Server</a></li>
+      </ul>
+    </li>
+    <li><a href="#dbformysql-v2021-05-01">DbForMySql v2021-05-01</a>
+      <ul>
+        <li><a href="#flexibleserversdatabase">FlexibleServersDatabase</a></li>
+        <li><a href="#flexibleserversfirewallrule">FlexibleServersFirewallRule</a></li>
+      </ul>
+    </li>
+    <li><a href="#dbforpostgresql-v2021-06-01">DbForPostgreSQL v2021-06-01</a>
+      <ul>
+        <li><a href="#flexibleserversconfiguration">FlexibleServersConfiguration</a></li>
+        <li><a href="#flexibleserversdatabase-1">FlexibleServersDatabase</a></li>
+        <li><a href="#flexibleserversfirewallrule-1">FlexibleServersFirewallRule</a></li>
+      </ul>
+    </li>
+    <li><a href="#eventgrid-v2020-06-01">EventGrid v2020-06-01</a>
+      <ul>
+        <li><a href="#domain">Domain</a></li>
+        <li><a href="#domainstopic">DomainsTopic</a></li>
+        <li><a href="#eventsubscription">EventSubscription</a></li>
+      </ul>
+    </li>
+    <li><a href="#eventhub-v2021-11-01">EventHub v2021-11-01</a>
+      <ul>
+        <li><a href="#namespace">Namespace</a></li>
+        <li><a href="#namespacesauthorizationrule">NamespacesAuthorizationRule</a></li>
+        <li><a href="#namespaceseventhub">NamespacesEventhub</a></li>
+        <li><a href="#namespaceseventhubsauthorizationrule">NamespacesEventhubsAuthorizationRule</a></li>
+        <li><a href="#namespaceseventhubsconsumergroup">NamespacesEventhubsConsumerGroup</a></li>
+      </ul>
+    </li>
+    <li><a href="#machinelearningservices-v2021-07-01">MachineLearningServices v2021-07-01</a>
+      <ul>
+        <li><a href="#workspace">Workspace</a></li>
+        <li><a href="#workspacescompute">WorkspacesCompute</a></li>
+        <li><a href="#workspacesconnection">WorkspacesConnection</a></li>
+      </ul>
+    </li>
+    <li><a href="#network-v2020-11-01">Network v2020-11-01</a>
+      <ul>
+        <li><a href="#loadbalancer">LoadBalancer</a></li>
+        <li><a href="#networksecuritygroupssecurityrule">NetworkSecurityGroupsSecurityRule</a></li>
+        <li><a href="#virtualnetworkgateway">VirtualNetworkGateway</a></li>
+      </ul>
+    </li>
+    <li><a href="#operational-insights-v2021-06-01">Operational Insights v2021-06-01</a>
+      <ul>
+        <li><a href="#workspace-1">Workspace</a></li>
+      </ul>
+    </li>
+    <li><a href="#servicebus-v2021-10-01">ServiceBus v2021-10-01</a>
+      <ul>
+        <li><a href="#namespacesqueue">NamespacesQueue</a></li>
+        <li><a href="#namespacestopic">NamespacesTopic</a></li>
+        <li><a href="#namespacestopicssubscription">NamespacesTopicsSubscription</a></li>
+        <li><a href="#namespacestopicssubscriptionsrule">NamespacesTopicsSubscriptionsRule</a></li>
+      </ul>
+    </li>
+    <li><a href="#signalrservice-v2021-11-01">SignalRService v2021-11-01</a></li>
+    <li><a href="#storage-v2021-04-01">Storage v2021-04-01</a>
+      <ul>
+        <li><a href="#storageaccountsblobservice">StorageAccountsBlobService</a></li>
+        <li><a href="#storageaccountsblobservicescontainer">StorageAccountsBlobServicesContainer</a></li>
+        <li><a href="#storageaccountsmanagementpolicy">StorageAccountsManagementPolicy</a></li>
+      </ul>
+    </li>
+    <li><a href="#storageaccountsqueueservice">StorageAccountsQueueService</a></li>
+    <li><a href="#storageaccountsqueueservicesqueue">StorageAccountsQueueServicesQueue</a></li>
+    <li><a href="#web-v2022-03-1">Web v2022-03-1</a>
+      <ul>
+        <li><a href="#site">Site</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -527,16 +665,16 @@ The PostgreSQL Server and Database are hosted in Azure but …">
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/introduction/">Guide</a>
+    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/">Tutorial: PostgreSQL Votes</a>
+    <a href="https://azure.github.io/azure-service-operator/reference/breaking-changes/"></a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Tutorial: PostgreSQL Votes</h1>
+	<h1></h1>
 	
 	<header class="article-meta">
 		
@@ -553,9 +691,1183 @@ The PostgreSQL Server and Database are hosted in Azure but …">
 
 		
 	</header>    
-	<p>Follow the <a href="https://github.com/Azure-Samples/azure-service-operator-samples/tree/master/azure-votes-postgresql">guided example</a>
-to create a simple voting application backed by PostgreSQL.
-The PostgreSQL Server and Database are hosted in Azure but created easily via <code>kubectl</code> and Azure Service Operator!</p>
+	<h1 id="breaking-changes-in-beta4">Breaking Changes in beta.4</h1>
+<p>In the &lsquo;beta.4&rsquo; release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API Specifications as our sole source of truth for our code generator.</p>
+<p>This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.</p>
+<p>Unfortunately, this change brings with it a few breaking changes, listed in this document.</p>
+<p>We expect that most users will find their resources are unaffected by these changes. However, if you are using a resource that is affected, you will need to take action to migrate your resources to the new format.</p>
+<p>The impact of these breaking changes falls into two categories, <em>immediate migration required</em> and <em>upgrade when modified</em>, distinguished by when you need to take remedial action.</p>
+<h3 id="immediate-migration-required">Immediate migration required</h3>
+<p>As a part of upgrading ASO in your cluster, you will need to modify these resources as described. In all cases, the changes are straightforward and can be done with a simple text editor.</p>
+<p>The process to follow is as follows:</p>
+<ol>
+<li>Annotate the resource with <code>serviceoperator.azure.com/reconcile-policy: skip</code> to prevent ASO from trying to reconcile the resource while you are upgrading.</li>
+<li>Download the current YAML for the resource using <code>kubectl</code> if you don&rsquo;t have it elsewhere.</li>
+<li>Delete the resource from your cluster using <code>kubectl delete</code>. Your Azure resource will be left untouched because of the <code>reconcile-policy</code> annotation you added above.</li>
+<li><a href="https://azure.github.io/azure-service-operator/introduction/upgrading/">Upgrade ASO</a> in your cluster.</li>
+<li>Modify the YAML for your resource to address the breaking changes noted below.</li>
+<li>Apply the updated YAML to your cluster using <code>kubectl apply</code>. If any errors occur, address them.</li>
+<li>If the <code>reconcile-policy</code> annotation is still present, remove the it from the resource.</li>
+</ol>
+<p>If you are updating multiple resources, you may want to apply the <code>reconcile-policy: skip</code> annotation to all the resources up front, and then remove it only once you&rsquo;ve successfully applied all the changes to all the resources.</p>
+<h3 id="upgrade-when-modified">Upgrade when modified</h3>
+<p>You can upgrade ASO in your cluster and the resource will continue to operate normally. If you modify the resource in the future you will need to make the indicated changes at that point.</p>
+<h2 id="types-of-breaking-changes">Types of breaking changes</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+<th style="text-align:left">Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Discriminator</td>
+<td style="text-align:left">The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option. Previously we were synthesizing a name based on other factors, resulting in longer property names that did not appear in the ARM/Bicep documentation.<br/><br/><em>Example</em>:<br/><code>DeliveryRuleCacheExpiration</code> renamed to <code>CacheExpiration</code></td>
+<td style="text-align:left">Immediate migration</td>
+</tr>
+<tr>
+<td style="text-align:left">Enumeration</td>
+<td style="text-align:left">Properties that previously had a base type but no enumeration values have been updated to include the enumeration values.<br/><br/><em>Example</em>:<br/><code>KubernetesCluster.KubernetesVersion</code>.</td>
+<td style="text-align:left">Immediate migration for malformed resources only</td>
+</tr>
+<tr>
+<td style="text-align:left">Inlined</td>
+<td style="text-align:left">Objects that were incorrectly generated as nested properties have been inlined.<br/><br/>*Example:<br/>Properties found in <code>DeadLetterDestination.Properties</code> have been promoted to <code>DeadLetterDestination</code>.</td>
+<td style="text-align:left">Immediate migration</td>
+</tr>
+<tr>
+<td style="text-align:left">Reference Detection</td>
+<td style="text-align:left">Id fields now correctly identified as references which now allow for linking to a resource in Kubernetes instead of only in Azure.<br/><br/><em>Example:</em><br/>Property <code>VirtualMachineProfile.NetworkProfile.Id</code> has been changed to <code>VirtualMachineProfile.NetworkProfile.Reference</code>.</td>
+<td style="text-align:left">Immediate migration</td>
+</tr>
+<tr>
+<td style="text-align:left">Status Only</td>
+<td style="text-align:left">Status properties that cannot be set by the end user on a Spec that were included in the Spec in error.<br/><br/><em>Example</em>:<br/><code>Identity.UserAssignedIdentities</code></td>
+<td style="text-align:left">Upgrade when modified</td>
+</tr>
+<tr>
+<td style="text-align:left">Subresource</td>
+<td style="text-align:left">Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.<br/><br/><em>Example</em>:<br/><code>VirtualNetworkGateway.VirtualNetworkExtendedLocation</code></td>
+<td style="text-align:left">Immediate migration</td>
+</tr>
+<tr>
+<td style="text-align:left">Unused</td>
+<td style="text-align:left">Properties that previously included on Spec but actually had no function have been removed.<br/><br/><em>Examples</em>:<br/><code>Location</code> on child resources that inherit their actual location from their parent resource.<br/><code>Tags</code> on resources that don&rsquo;t support tags.</td>
+<td style="text-align:left">Upgrade when modified</td>
+</tr>
+<tr>
+<td style="text-align:left">Validation</td>
+<td style="text-align:left">Validation rules have been tightened, or added to properties that previously had no validation rules.<br/><br/><em>Example:</em><br/> The property <code>BatchAccount.AzureName</code> now has a more restrictive regular expression.</td>
+<td style="text-align:left">Upgrade when modified</td>
+</tr>
+</tbody>
+</table>
+<h2 id="authorization">Authorization</h2>
+<h3 id="roleassignment">RoleAssignment</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="batch">Batch</h2>
+<h3 id="batchaccount">BatchAccount</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">AzureName</td>
+<td style="text-align:left">Restricted</td>
+<td style="text-align:left">Validation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cache-v2020-12-01">Cache v2020-12-01</h2>
+<h3 id="redisfirewallrule">RedisFirewallRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="redislinkedserver">RedisLinkedServer</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="redispatchschedule">RedisPatchSchedule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cache-v2021-03-01">Cache v2021-03-01</h2>
+<h3 id="redisenterprisedatabase">RedisEnterpriseDatabase</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cdn-v2021-06-01">CDN v2021-06-01</h2>
+<h3 id="profilesendpoint">ProfilesEndpoint</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration</td>
+<td>Renamed to CacheExpiration</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString</td>
+<td>Renamed to CacheKeyQueryString</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Actions.DeliveryRuleRequestHeader</td>
+<td>Renamed to ModifyRequestHeader</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Actions.DeliveryRuleResponseHeader</td>
+<td>Renamed to ModifyResponseHeader</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Actions.DeliveryRuleRouteConfigurationOverride</td>
+<td>Renamed to RouteConfigurationOverride</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleClientPort</td>
+<td>Renamed to ClientPort</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleCookies</td>
+<td>Renamed to Cookies</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleHostName</td>
+<td>Renamed to HostName</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleHttpVersion</td>
+<td>Renamed to HttpVersion</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleIsDevice</td>
+<td>Renamed to IsDevice</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRulePostArgs</td>
+<td>Renamed to PostArgs</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleQueryString</td>
+<td>Renamed to QueryString</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRemoteAddress</td>
+<td>Renamed to RemoteAddress</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestBody</td>
+<td>Renamed to RequestBody</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestHeader</td>
+<td>Renamed to RequestHeader</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestMethod</td>
+<td>Renamed to RequestMethod</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestScheme</td>
+<td>Renamed to RequestScheme</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestUri</td>
+<td>Renamed to RequestUri</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleServerPort</td>
+<td>Renamed to ServerPort</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleSslProtocol</td>
+<td>Renamed to SslProtocol</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileExtension</td>
+<td>Renamed to UrlFileExtension</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileName</td>
+<td>Renamed to UrlFileName</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlPath</td>
+<td>Renamed to UrlPath</td>
+<td>Discriminator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="compute-v2020-12-01">Compute v2020-12-01</h2>
+<h3 id="virtualmachinescaleset">VirtualMachineScaleSet</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VirtualMachineProfile.NetworkProfile.Id</td>
+<td>Renamed to Reference</td>
+<td>Reference Detection</td>
+</tr>
+<tr>
+<td>VirtualMachineProfile.NetworkProfile.IpConfigurations.Id</td>
+<td>Renamed to Reference</td>
+<td>Reference Detection</td>
+</tr>
+</tbody>
+</table>
+<h2 id="compute-v2022-03-01">Compute v2022-03-01</h2>
+<h3 id="virtualmachinescaleset-1">VirtualMachineScaleSet</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VirtualMachineProfile.NetworkProfile.Id</td>
+<td>Renamed to Reference</td>
+<td>Reference Detection</td>
+</tr>
+<tr>
+<td>VirtualMachineProfile.NetworkProfile.IpConfigurations.Id</td>
+<td>Renamed to Reference</td>
+<td>Reference Detection</td>
+</tr>
+</tbody>
+</table>
+<h2 id="container-service">Container Service</h2>
+<h3 id="managedcluster">ManagedCluster</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity.UserAssignedIdentities</td>
+<td>Removed</td>
+<td>Status Only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="managedclustersagentpool">ManagedClustersAgentPool</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dbformariadb-v2018-06-01">DbForMariaDB v2018-06-01</h2>
+<h3 id="configuration">Configuration</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="database">Database</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="server">Server</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Properties.ServerPropertiesForDefaultCreate</td>
+<td style="text-align:left">Renamed to Default</td>
+<td style="text-align:left">Discriminator</td>
+</tr>
+<tr>
+<td style="text-align:left">Properties.ServerPropertiesForGeoRestore</td>
+<td style="text-align:left">Renamed to GeoRestore</td>
+<td style="text-align:left">Discriminator</td>
+</tr>
+<tr>
+<td style="text-align:left">Properties.ServerPropertiesForReplica</td>
+<td style="text-align:left">Renamed to Replica</td>
+<td style="text-align:left">Discriminator</td>
+</tr>
+<tr>
+<td style="text-align:left">Properties.ServerPropertiesForRestore</td>
+<td style="text-align:left">Renamed to PointInTimeRestore</td>
+<td style="text-align:left">Discriminator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dbformysql-v2021-05-01">DbForMySql v2021-05-01</h2>
+<h3 id="flexibleserversdatabase">FlexibleServersDatabase</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="flexibleserversfirewallrule">FlexibleServersFirewallRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dbforpostgresql-v2021-06-01">DbForPostgreSQL v2021-06-01</h2>
+<h3 id="flexibleserversconfiguration">FlexibleServersConfiguration</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="flexibleserversdatabase-1">FlexibleServersDatabase</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="flexibleserversfirewallrule-1">FlexibleServersFirewallRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="eventgrid-v2020-06-01">EventGrid v2020-06-01</h2>
+<h3 id="domain">Domain</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>InputSchemaMapping.InputSchemaMappingType</td>
+<td>Removed</td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td>InputSchemaMapping.Properties</td>
+<td>Renamed to Json</td>
+<td>Discriminator</td>
+</tr>
+</tbody>
+</table>
+<h3 id="domainstopic">DomainsTopic</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="eventsubscription">EventSubscription</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DeadLetterDestination.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.AzureFunction.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.EventHub.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.HybridConnection.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.ServiceBusQueue.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.ServiceBusTopic.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.StorageQueue.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Destination.WebHook.Properties</td>
+<td style="text-align:left">Promoted to parent</td>
+<td style="text-align:left">Inlined</td>
+</tr>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="eventhub-v2021-11-01">EventHub v2021-11-01</h2>
+<h3 id="namespace">Namespace</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PrivateEndpointConnections</td>
+<td>Removed</td>
+<td>Status Only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespacesauthorizationrule">NamespacesAuthorizationRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespaceseventhub">NamespacesEventhub</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespaceseventhubsauthorizationrule">NamespacesEventhubsAuthorizationRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespaceseventhubsconsumergroup">NamespacesEventhubsConsumerGroup</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="machinelearningservices-v2021-07-01">MachineLearningServices v2021-07-01</h2>
+<h3 id="workspace">Workspace</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity.UserAssignedIdentities</td>
+<td>Removed</td>
+<td>Status Only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="workspacescompute">WorkspacesCompute</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity.UserAssignedIdentities</td>
+<td>Removed</td>
+<td>Status Only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="workspacesconnection">WorkspacesConnection</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="network-v2020-11-01">Network v2020-11-01</h2>
+<h3 id="loadbalancer">LoadBalancer</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">BackendAddressPools.Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="networksecuritygroupssecurityrule">NetworkSecurityGroupsSecurityRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="virtualnetworkgateway">VirtualNetworkGateway</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">VirtualNetworkExtendedLocation</td>
+<td style="text-align:left">Renamed to ExtendedLocation</td>
+<td style="text-align:left">Discriminator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="operational-insights-v2021-06-01">Operational Insights v2021-06-01</h2>
+<h3 id="workspace-1">Workspace</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Sku.CapacityReservationLevel</td>
+<td style="text-align:left">Restricted</td>
+<td style="text-align:left">Validation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="servicebus-v2021-10-01">ServiceBus v2021-10-01</h2>
+<h3 id="namespacesqueue">NamespacesQueue</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespacestopic">NamespacesTopic</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespacestopicssubscription">NamespacesTopicsSubscription</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespacestopicssubscriptionsrule">NamespacesTopicsSubscriptionsRule</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="signalrservice-v2021-11-01">SignalRService v2021-11-01</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity.UserAssignedIdentities</td>
+<td>Removed</td>
+<td>Status Only</td>
+</tr>
+</tbody>
+</table>
+<h2 id="storage-v2021-04-01">Storage v2021-04-01</h2>
+<h3 id="storageaccountsblobservice">StorageAccountsBlobService</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storageaccountsblobservicescontainer">StorageAccountsBlobServicesContainer</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storageaccountsmanagementpolicy">StorageAccountsManagementPolicy</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="storageaccountsqueueservice">StorageAccountsQueueService</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="storageaccountsqueueservicesqueue">StorageAccountsQueueServicesQueue</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Property</th>
+<th style="text-align:left">Change</th>
+<th style="text-align:left">Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Location</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+<tr>
+<td style="text-align:left">Tags</td>
+<td style="text-align:left">Removed</td>
+<td style="text-align:left">Unused</td>
+</tr>
+</tbody>
+</table>
+<h2 id="web-v2022-03-1">Web v2022-03-1</h2>
+<h3 id="site">Site</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Change</th>
+<th>Reason Only</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity.UserAssignedIdentities</td>
+<td>Removed</td>
+<td>Status Only</td>
+</tr>
+</tbody>
+</table>
 
 	
 	
