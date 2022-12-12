@@ -70,6 +70,8 @@ import (
 	dbforpostgresql_alpha20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601storage"
 	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
+	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_alpha20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515"
 	documentdb_alpha20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
@@ -582,6 +584,18 @@ func getKnownTypes() []client.Object {
 		new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule))
 	result = append(
 		result,
+		new(dbforpostgresql_v20220120p.FlexibleServer),
+		new(dbforpostgresql_v20220120p.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20220120p.FlexibleServersDatabase),
+		new(dbforpostgresql_v20220120p.FlexibleServersFirewallRule))
+	result = append(
+		result,
+		new(dbforpostgresql_v20220120ps.FlexibleServer),
+		new(dbforpostgresql_v20220120ps.FlexibleServersConfiguration),
+		new(dbforpostgresql_v20220120ps.FlexibleServersDatabase),
+		new(dbforpostgresql_v20220120ps.FlexibleServersFirewallRule))
+	result = append(
+		result,
 		new(documentdb_alpha20210515.DatabaseAccount),
 		new(documentdb_alpha20210515.MongodbDatabase),
 		new(documentdb_alpha20210515.MongodbDatabaseCollection),
@@ -895,6 +909,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_alpha20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
+	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
+	_ = dbforpostgresql_v20220120ps.AddToScheme(scheme)
 	_ = documentdb_alpha20210515.AddToScheme(scheme)
 	_ = documentdb_alpha20210515s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
