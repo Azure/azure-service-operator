@@ -132,7 +132,7 @@ func Test_DBForPostgreSQL_FlexibleServer_20220120preview_CRUD(t *testing.T) {
 
 func FlexibleServer_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	old := flexibleServer.DeepCopy()
-	flexibleServerConfigMap := "serverConfigMap"
+	flexibleServerConfigMap := "serverconfig"
 	flexibleServerConfigMapKey := "fqdn"
 
 	flexibleServer.Spec.OperatorSpec = &postgresql.FlexibleServerOperatorSpec{
