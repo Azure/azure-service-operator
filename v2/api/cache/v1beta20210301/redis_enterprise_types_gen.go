@@ -1057,6 +1057,7 @@ const (
 	ClusterProperties_MinimumTlsVersion_STATUS_12 = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -1116,6 +1117,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Current provisioning status
 type ProvisioningState_STATUS string
 
 const (
@@ -1127,6 +1129,7 @@ const (
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
+// Current resource status
 type ResourceState_STATUS string
 
 const (
@@ -1144,6 +1147,7 @@ const (
 	ResourceState_STATUS_Updating      = ResourceState_STATUS("Updating")
 )
 
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
@@ -1250,6 +1254,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210301s.Sku) error {
 	return nil
 }
 
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku_STATUS struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.

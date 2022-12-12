@@ -29,6 +29,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() stri
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
+// The properties of a container.
 type ContainerProperties_ARM struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
@@ -47,6 +48,7 @@ type ContainerProperties_ARM struct {
 	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
 }
 
+// Object level immutability properties of the container.
 type ImmutableStorageWithVersioning_ARM struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`

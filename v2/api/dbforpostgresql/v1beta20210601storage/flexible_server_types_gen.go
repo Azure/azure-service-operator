@@ -242,6 +242,7 @@ func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.Conv
 }
 
 // Storage version of v1beta20210601.Backup
+// Backup properties of a server
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -249,6 +250,7 @@ type Backup struct {
 }
 
 // Storage version of v1beta20210601.Backup_STATUS
+// Backup properties of a server
 type Backup_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -264,6 +266,7 @@ type FlexibleServerOperatorSpec struct {
 }
 
 // Storage version of v1beta20210601.HighAvailability
+// High availability properties of a server
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -271,6 +274,7 @@ type HighAvailability struct {
 }
 
 // Storage version of v1beta20210601.HighAvailability_STATUS
+// High availability properties of a server
 type HighAvailability_STATUS struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -279,6 +283,7 @@ type HighAvailability_STATUS struct {
 }
 
 // Storage version of v1beta20210601.MaintenanceWindow
+// Maintenance window properties of a server.
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -288,6 +293,7 @@ type MaintenanceWindow struct {
 }
 
 // Storage version of v1beta20210601.MaintenanceWindow_STATUS
+// Maintenance window properties of a server.
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -297,6 +303,7 @@ type MaintenanceWindow_STATUS struct {
 }
 
 // Storage version of v1beta20210601.Network
+// Network properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: delegated subnet arm resource id.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -307,6 +314,7 @@ type Network struct {
 }
 
 // Storage version of v1beta20210601.Network_STATUS
+// Network properties of a server
 type Network_STATUS struct {
 	DelegatedSubnetResourceId   *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string                `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -315,6 +323,7 @@ type Network_STATUS struct {
 }
 
 // Storage version of v1beta20210601.Sku
+// Sku information related properties of a server.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -322,6 +331,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210601.Sku_STATUS
+// Sku information related properties of a server.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -329,18 +339,21 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210601.Storage
+// Storage properties of a server
 type Storage struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }
 
 // Storage version of v1beta20210601.Storage_STATUS
+// Storage properties of a server
 type Storage_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }
 
 // Storage version of v1beta20210601.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200930
 
+// Snapshot resource.
 type Snapshot_STATUS_ARM struct {
 	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
@@ -17,9 +18,14 @@ type Snapshot_STATUS_ARM struct {
 	ManagedBy *string `json:"managedBy,omitempty"`
 
 	// Name: Resource name
-	Name       *string                        `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Snapshot resource properties.
 	Properties *SnapshotProperties_STATUS_ARM `json:"properties,omitempty"`
-	Sku        *SnapshotSku_STATUS_ARM        `json:"sku,omitempty"`
+
+	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	Sku *SnapshotSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -28,6 +34,7 @@ type Snapshot_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Snapshot resource properties.
 type SnapshotProperties_STATUS_ARM struct {
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_STATUS_ARM `json:"creationData,omitempty"`
@@ -58,7 +65,9 @@ type SnapshotProperties_STATUS_ARM struct {
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
-	Incremental         *bool                       `json:"incremental,omitempty"`
+	Incremental *bool `json:"incremental,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -77,6 +86,8 @@ type SnapshotProperties_STATUS_ARM struct {
 	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_STATUS_ARM struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`

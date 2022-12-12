@@ -29,6 +29,7 @@ func (topic *Namespaces_Topic_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
+// The Topic Properties definition.
 type SBTopicProperties_ARM struct {
 	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.

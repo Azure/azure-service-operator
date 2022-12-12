@@ -21,6 +21,7 @@ type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS_ARM struct 
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB StoredProcedure
 type SqlStoredProcedureGetProperties_STATUS_ARM struct {
 	Resource *SqlStoredProcedureGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }

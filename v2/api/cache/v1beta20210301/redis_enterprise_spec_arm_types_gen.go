@@ -40,11 +40,13 @@ func (enterprise *RedisEnterprise_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
+// Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
 type ClusterProperties_ARM struct {
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku_ARM struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.

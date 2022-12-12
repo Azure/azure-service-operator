@@ -32,6 +32,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
+// Properties to create and update Azure Cosmos DB userDefinedFunction.
 type SqlUserDefinedFunctionCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -41,6 +42,7 @@ type SqlUserDefinedFunctionCreateUpdateProperties_ARM struct {
 	Resource *SqlUserDefinedFunctionResource_ARM `json:"resource,omitempty"`
 }
 
+// Cosmos DB SQL userDefinedFunction resource object
 type SqlUserDefinedFunctionResource_ARM struct {
 	// Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`

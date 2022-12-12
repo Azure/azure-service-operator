@@ -51,6 +51,7 @@ func (account *StorageAccount_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -59,14 +60,20 @@ type ExtendedLocation_ARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
+// Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
+// The SKU of the storage account.
 type Sku_ARM struct {
+	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+	//  accountType.
 	Name *SkuName `json:"name,omitempty"`
-	Tier *Tier    `json:"tier,omitempty"`
+
+	// Tier: The SKU tier. This is based on the SKU name.
+	Tier *Tier `json:"tier,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
@@ -80,6 +87,7 @@ const (
 	StorageAccount_Kind_Spec_StorageV2        = StorageAccount_Kind_Spec("StorageV2")
 )
 
+// The parameters used to create the storage account.
 type StorageAccountPropertiesCreateParameters_ARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
 	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
@@ -138,6 +146,7 @@ type StorageAccountPropertiesCreateParameters_ARM struct {
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
+// Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication_ARM struct {
 	// ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties_ARM `json:"activeDirectoryProperties,omitempty"`
@@ -149,6 +158,7 @@ type AzureFilesIdentityBasedAuthentication_ARM struct {
 	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
+// The custom domain assigned to this storage account. This can be set via Update.
 type CustomDomain_ARM struct {
 	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
 	Name *string `json:"name,omitempty"`
@@ -158,6 +168,7 @@ type CustomDomain_ARM struct {
 	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
 }
 
+// The encryption settings on the storage account.
 type Encryption_ARM struct {
 	// Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity_ARM `json:"identity,omitempty"`
@@ -177,6 +188,7 @@ type Encryption_ARM struct {
 	Services *EncryptionServices_ARM `json:"services,omitempty"`
 }
 
+// The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
@@ -192,11 +204,13 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+// KeyPolicy assigned to the storage account.
 type KeyPolicy_ARM struct {
 	// KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
+// Network rule set
 type NetworkRuleSet_ARM struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
 	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
@@ -215,6 +229,8 @@ type NetworkRuleSet_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
+// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
+// data, the default option is microsoft routing
 type RoutingPreference_ARM struct {
 	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
 	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
@@ -226,6 +242,7 @@ type RoutingPreference_ARM struct {
 	RoutingChoice *RoutingPreference_RoutingChoice `json:"routingChoice,omitempty"`
 }
 
+// SasPolicy assigned to the storage account.
 type SasPolicy_ARM struct {
 	// ExpirationAction: The SAS expiration action. Can only be Log.
 	ExpirationAction *SasPolicy_ExpirationAction `json:"expirationAction,omitempty"`
@@ -234,6 +251,8 @@ type SasPolicy_ARM struct {
 	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
+// The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+// accountType.
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_GRS","Standard_GZRS","Standard_LRS","Standard_RAGRS","Standard_RAGZRS","Standard_ZRS"}
 type SkuName string
 
@@ -248,6 +267,7 @@ const (
 	SkuName_Standard_ZRS    = SkuName("Standard_ZRS")
 )
 
+// The SKU tier. This is based on the SKU name.
 // +kubebuilder:validation:Enum={"Premium","Standard"}
 type Tier string
 
@@ -256,6 +276,7 @@ const (
 	Tier_Standard = Tier("Standard")
 )
 
+// Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties_ARM struct {
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
 	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
@@ -276,10 +297,12 @@ type ActiveDirectoryProperties_ARM struct {
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
+// Encryption identity for the storage account.
 type EncryptionIdentity_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
+// A list of services that support encryption.
 type EncryptionServices_ARM struct {
 	// Blob: The encryption function of the blob storage service.
 	Blob *EncryptionService_ARM `json:"blob,omitempty"`
@@ -294,6 +317,7 @@ type EncryptionServices_ARM struct {
 	Table *EncryptionService_ARM `json:"table,omitempty"`
 }
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_ARM struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
@@ -302,6 +326,7 @@ type IPRule_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Properties of key vault.
 type KeyVaultProperties_ARM struct {
 	// Keyname: The name of KeyVault key.
 	Keyname *string `json:"keyname,omitempty"`
@@ -313,6 +338,7 @@ type KeyVaultProperties_ARM struct {
 	Keyversion *string `json:"keyversion,omitempty"`
 }
 
+// Resource Access Rule.
 type ResourceAccessRule_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 
@@ -320,6 +346,7 @@ type ResourceAccessRule_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// Virtual Network rule.
 type VirtualNetworkRule_ARM struct {
 	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRule_Action `json:"action,omitempty"`
@@ -329,6 +356,7 @@ type VirtualNetworkRule_ARM struct {
 	State *VirtualNetworkRule_State `json:"state,omitempty"`
 }
 
+// A service that allows server-side encryption to be used.
 type EncryptionService_ARM struct {
 	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
 	Enabled *bool `json:"enabled,omitempty"`

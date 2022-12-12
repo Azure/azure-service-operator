@@ -30,6 +30,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
+// Security rule resource.
 type SecurityRulePropertiesFormat_ARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess `json:"access,omitempty"`
@@ -83,6 +84,7 @@ type SecurityRulePropertiesFormat_ARM struct {
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
 
+// An application security group in a resource group.
 type ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

@@ -521,6 +521,7 @@ func (group *NetworkSecurityGroup_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (group *NetworkSecurityGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1023,6 +1024,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 	return nil
 }
 
+// A flow log resource.
 type FlowLog_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1081,6 +1083,7 @@ func (flowLog *FlowLog_STATUS) AssignProperties_To_FlowLog_STATUS(destination *v
 	return nil
 }
 
+// A network interface in a resource group.
 type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1139,6 +1142,7 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 	return nil
 }
 
+// Network security rule.
 type SecurityRule_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1197,6 +1201,7 @@ func (rule *SecurityRule_STATUS) AssignProperties_To_SecurityRule_STATUS(destina
 	return nil
 }
 
+// Subnet in a virtual network resource.
 type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`

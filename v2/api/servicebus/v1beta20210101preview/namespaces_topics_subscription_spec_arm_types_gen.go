@@ -29,6 +29,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics/subscriptions"
 }
 
+// Description of Subscription Resource.
 type SBSubscriptionProperties_ARM struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.

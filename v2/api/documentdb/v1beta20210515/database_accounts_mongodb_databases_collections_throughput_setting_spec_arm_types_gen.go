@@ -32,11 +32,13 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
+// Properties to update Azure Cosmos DB resource throughput.
 type ThroughputSettingsUpdateProperties_ARM struct {
 	// Resource: The standard JSON format of a resource throughput
 	Resource *ThroughputSettingsResource_ARM `json:"resource,omitempty"`
 }
 
+// Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both.
 type ThroughputSettingsResource_ARM struct {
 	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
 	// required, but not both.
@@ -47,6 +49,7 @@ type ThroughputSettingsResource_ARM struct {
 	Throughput *int `json:"throughput,omitempty"`
 }
 
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource_ARM struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_ARM `json:"autoUpgradePolicy,omitempty"`
@@ -55,11 +58,13 @@ type AutoscaleSettingsResource_ARM struct {
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_ARM struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_ARM `json:"throughputPolicy,omitempty"`
 }
 
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource_ARM struct {
 	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`

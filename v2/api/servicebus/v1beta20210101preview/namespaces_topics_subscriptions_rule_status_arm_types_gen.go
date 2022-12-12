@@ -20,6 +20,7 @@ type Namespaces_Topics_Subscriptions_Rule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Description of Rule Resource.
 type Ruleproperties_STATUS_ARM struct {
 	// Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
 	// filter expression.
@@ -35,6 +36,8 @@ type Ruleproperties_STATUS_ARM struct {
 	SqlFilter *SqlFilter_STATUS_ARM `json:"sqlFilter,omitempty"`
 }
 
+// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+// expression.
 type Action_STATUS_ARM struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.
@@ -47,6 +50,7 @@ type Action_STATUS_ARM struct {
 	SqlExpression *string `json:"sqlExpression,omitempty"`
 }
 
+// Represents the correlation filter expression.
 type CorrelationFilter_STATUS_ARM struct {
 	// ContentType: Content type of the message.
 	ContentType *string `json:"contentType,omitempty"`
@@ -79,6 +83,7 @@ type CorrelationFilter_STATUS_ARM struct {
 	To *string `json:"to,omitempty"`
 }
 
+// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter_STATUS_ARM struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.

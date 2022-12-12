@@ -1342,6 +1342,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) SetAzureName(azureName string) {
 	scaleSet.AzureName = azureName
 }
 
+// Describes a Virtual Machine Scale Set.
 type VirtualMachineScaleSet_STATUS struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
 	// Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data
@@ -2244,6 +2245,7 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) AssignProperties_To_VirtualMachin
 	return nil
 }
 
+// Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
 type AutomaticRepairsPolicy struct {
 	// Enabled: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is
 	// false.
@@ -2384,6 +2386,7 @@ func (policy *AutomaticRepairsPolicy) AssignProperties_To_AutomaticRepairsPolicy
 	return nil
 }
 
+// Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
 type AutomaticRepairsPolicy_STATUS struct {
 	// Enabled: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is
 	// false.
@@ -2497,6 +2500,7 @@ func (policy *AutomaticRepairsPolicy_STATUS) AssignProperties_To_AutomaticRepair
 	return nil
 }
 
+// Specifies the orchestration mode for the virtual machine scale set.
 // +kubebuilder:validation:Enum={"Flexible","Uniform"}
 type OrchestrationMode string
 
@@ -2505,6 +2509,7 @@ const (
 	OrchestrationMode_Uniform  = OrchestrationMode("Uniform")
 )
 
+// Specifies the orchestration mode for the virtual machine scale set.
 type OrchestrationMode_STATUS string
 
 const (
@@ -2512,6 +2517,7 @@ const (
 	OrchestrationMode_STATUS_Uniform  = OrchestrationMode_STATUS("Uniform")
 )
 
+// Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy struct {
 	// ForceDeletion: This property allows you to specify if virtual machines chosen for removal have to be force deleted when
 	// a virtual machine scale set is being scaled-in.(Feature in Preview)
@@ -2645,6 +2651,7 @@ func (policy *ScaleInPolicy) AssignProperties_To_ScaleInPolicy(destination *v202
 	return nil
 }
 
+// Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy_STATUS struct {
 	// ForceDeletion: This property allows you to specify if virtual machines chosen for removal have to be force deleted when
 	// a virtual machine scale set is being scaled-in.(Feature in Preview)
@@ -2758,6 +2765,8 @@ func (policy *ScaleInPolicy_STATUS) AssignProperties_To_ScaleInPolicy_STATUS(des
 	return nil
 }
 
+// Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is
+// currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
 type Sku struct {
 	// Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
@@ -2876,6 +2885,8 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20220301s.Sku) error {
 	return nil
 }
 
+// Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is
+// currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
 type Sku_STATUS struct {
 	// Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
@@ -2967,6 +2978,10 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20220301s.Sk
 	return nil
 }
 
+// Specifies the Spot-Try-Restore properties for the virtual machine scale set.
+// With this property customer can
+// enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity
+// availability and pricing constraint.
 type SpotRestorePolicy struct {
 	// Enabled: Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored
 	// opportunistically based on capacity availability and pricing constraints
@@ -3073,6 +3088,10 @@ func (policy *SpotRestorePolicy) AssignProperties_To_SpotRestorePolicy(destinati
 	return nil
 }
 
+// Specifies the Spot-Try-Restore properties for the virtual machine scale set.
+// With this property customer can
+// enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity
+// availability and pricing constraint.
 type SpotRestorePolicy_STATUS struct {
 	// Enabled: Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored
 	// opportunistically based on capacity availability and pricing constraints
@@ -3158,6 +3177,7 @@ func (policy *SpotRestorePolicy_STATUS) AssignProperties_To_SpotRestorePolicy_ST
 	return nil
 }
 
+// Describes an upgrade policy - automatic, manual, or rolling.
 type UpgradePolicy struct {
 	// AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic OS Upgrade.
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy `json:"automaticOSUpgradePolicy,omitempty"`
@@ -3341,6 +3361,7 @@ func (policy *UpgradePolicy) AssignProperties_To_UpgradePolicy(destination *v202
 	return nil
 }
 
+// Describes an upgrade policy - automatic, manual, or rolling.
 type UpgradePolicy_STATUS struct {
 	// AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic OS Upgrade.
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_STATUS `json:"automaticOSUpgradePolicy,omitempty"`
@@ -3489,6 +3510,7 @@ func (policy *UpgradePolicy_STATUS) AssignProperties_To_UpgradePolicy_STATUS(des
 	return nil
 }
 
+// Identity for the virtual machine scale set.
 type VirtualMachineScaleSetIdentity struct {
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
@@ -3574,6 +3596,7 @@ func (identity *VirtualMachineScaleSetIdentity) AssignProperties_To_VirtualMachi
 	return nil
 }
 
+// Identity for the virtual machine scale set.
 type VirtualMachineScaleSetIdentity_STATUS struct {
 	// PrincipalId: The principal id of virtual machine scale set identity. This property will only be provided for a system
 	// assigned identity.
@@ -3676,6 +3699,7 @@ func (identity *VirtualMachineScaleSetIdentity_STATUS) AssignProperties_To_Virtu
 	return nil
 }
 
+// Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile struct {
 	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
 	ApplicationProfile *ApplicationProfile `json:"applicationProfile,omitempty"`
@@ -4381,6 +4405,7 @@ func (profile *VirtualMachineScaleSetVMProfile) AssignProperties_To_VirtualMachi
 	return nil
 }
 
+// Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile_STATUS struct {
 	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
 	ApplicationProfile *ApplicationProfile_STATUS `json:"applicationProfile,omitempty"`
@@ -4943,6 +4968,7 @@ func (profile *VirtualMachineScaleSetVMProfile_STATUS) AssignProperties_To_Virtu
 	return nil
 }
 
+// The configuration parameters used for performing automatic OS upgrade.
 type AutomaticOSUpgradePolicy struct {
 	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
@@ -5093,6 +5119,7 @@ func (policy *AutomaticOSUpgradePolicy) AssignProperties_To_AutomaticOSUpgradePo
 	return nil
 }
 
+// The configuration parameters used for performing automatic OS upgrade.
 type AutomaticOSUpgradePolicy_STATUS struct {
 	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
 	DisableAutomaticRollback *bool `json:"disableAutomaticRollback,omitempty"`
@@ -5233,6 +5260,7 @@ const (
 	AutomaticRepairsPolicy_RepairAction_STATUS_Restart = AutomaticRepairsPolicy_RepairAction_STATUS("Restart")
 )
 
+// The configuration parameters used while performing a rolling upgrade.
 type RollingUpgradePolicy struct {
 	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
 	// the Update Domain and maxBatchInstancePercent to determine the batch size.
@@ -5476,6 +5504,7 @@ func (policy *RollingUpgradePolicy) AssignProperties_To_RollingUpgradePolicy(des
 	return nil
 }
 
+// The configuration parameters used while performing a rolling upgrade.
 type RollingUpgradePolicy_STATUS struct {
 	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
 	// the Update Domain and maxBatchInstancePercent to determine the batch size.
@@ -5672,6 +5701,7 @@ const (
 	UpgradePolicy_Mode_STATUS_Rolling   = UpgradePolicy_Mode_STATUS("Rolling")
 )
 
+// Describes a virtual machine scale set extension profile.
 type VirtualMachineScaleSetExtensionProfile struct {
 	// Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSetExtension `json:"extensions,omitempty"`
@@ -5806,6 +5836,7 @@ func (profile *VirtualMachineScaleSetExtensionProfile) AssignProperties_To_Virtu
 	return nil
 }
 
+// Describes a virtual machine scale set extension profile.
 type VirtualMachineScaleSetExtensionProfile_STATUS struct {
 	// Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSetExtension_STATUS `json:"extensions,omitempty"`
@@ -5916,6 +5947,7 @@ func (profile *VirtualMachineScaleSetExtensionProfile_STATUS) AssignProperties_T
 	return nil
 }
 
+// Specifies the hardware settings for the virtual machine scale set.
 type VirtualMachineScaleSetHardwareProfile struct {
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2022-03-01.
@@ -6018,6 +6050,7 @@ func (profile *VirtualMachineScaleSetHardwareProfile) AssignProperties_To_Virtua
 	return nil
 }
 
+// Specifies the hardware settings for the virtual machine scale set.
 type VirtualMachineScaleSetHardwareProfile_STATUS struct {
 	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
 	// 2022-03-01.
@@ -6101,6 +6134,7 @@ func (profile *VirtualMachineScaleSetHardwareProfile_STATUS) AssignProperties_To
 	return nil
 }
 
+// Describes a virtual machine scale set network profile.
 type VirtualMachineScaleSetNetworkProfile struct {
 	// HealthProbe: A reference to a load balancer probe used to determine the health of an instance in the virtual machine
 	// scale set. The reference will be in the form:
@@ -6293,6 +6327,7 @@ func (profile *VirtualMachineScaleSetNetworkProfile) AssignProperties_To_Virtual
 	return nil
 }
 
+// Describes a virtual machine scale set network profile.
 type VirtualMachineScaleSetNetworkProfile_STATUS struct {
 	// HealthProbe: A reference to a load balancer probe used to determine the health of an instance in the virtual machine
 	// scale set. The reference will be in the form:
@@ -6451,6 +6486,7 @@ func (profile *VirtualMachineScaleSetNetworkProfile_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Describes a virtual machine scale set OS profile.
 type VirtualMachineScaleSetOSProfile struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
@@ -6814,6 +6850,7 @@ func (profile *VirtualMachineScaleSetOSProfile) AssignProperties_To_VirtualMachi
 	return nil
 }
 
+// Describes a virtual machine scale set OS profile.
 type VirtualMachineScaleSetOSProfile_STATUS struct {
 	// AdminUsername: Specifies the name of the administrator account.
 	// Windows-only restriction: Cannot end in "."
@@ -7069,6 +7106,7 @@ func (profile *VirtualMachineScaleSetOSProfile_STATUS) AssignProperties_To_Virtu
 	return nil
 }
 
+// Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfile struct {
 	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -7281,6 +7319,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) AssignProperties_To_Virtual
 	return nil
 }
 
+// Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfile_STATUS struct {
 	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -7455,6 +7494,7 @@ func (profile *VirtualMachineScaleSetStorageProfile_STATUS) AssignProperties_To_
 	return nil
 }
 
+// The API entity reference.
 type ApiEntityReference struct {
 	// Reference: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -7538,6 +7578,7 @@ func (reference *ApiEntityReference) AssignProperties_To_ApiEntityReference(dest
 	return nil
 }
 
+// The API entity reference.
 type ApiEntityReference_STATUS struct {
 	// Id: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Id *string `json:"id,omitempty"`
@@ -7596,6 +7637,7 @@ func (reference *ApiEntityReference_STATUS) AssignProperties_To_ApiEntityReferen
 	return nil
 }
 
+// Describes a virtual machine scale set data disk.
 type VirtualMachineScaleSetDataDisk struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -7942,6 +7984,7 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignProperties_To_VirtualMachineSc
 	return nil
 }
 
+// Describes a virtual machine scale set data disk.
 type VirtualMachineScaleSetDataDisk_STATUS struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -8213,6 +8256,7 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) AssignProperties_To_VirtualMa
 	return nil
 }
 
+// Describes a Virtual Machine Scale Set Extension.
 type VirtualMachineScaleSetExtension struct {
 	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
 	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
@@ -8650,6 +8694,7 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMac
 	return nil
 }
 
+// Describes a Virtual Machine Scale Set Extension.
 type VirtualMachineScaleSetExtension_STATUS struct {
 	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
 	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
@@ -9056,6 +9101,7 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_To_Vir
 	return nil
 }
 
+// Describes a virtual machine scale set network profile's network configurations.
 type VirtualMachineScaleSetNetworkConfiguration struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
@@ -9491,6 +9537,7 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 	return nil
 }
 
+// Describes a virtual machine scale set network profile's network configurations.
 type VirtualMachineScaleSetNetworkConfiguration_STATUS struct {
 	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *VirtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
@@ -9847,6 +9894,7 @@ type VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_STATUS string
 
 const VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_STATUS_20201101 = VirtualMachineScaleSetNetworkProfile_NetworkApiVersion_STATUS("2020-11-01")
 
+// Describes a virtual machine scale set operating system disk.
 type VirtualMachineScaleSetOSDisk struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -10281,6 +10329,7 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignProperties_To_VirtualMachineScal
 	return nil
 }
 
+// Describes a virtual machine scale set operating system disk.
 type VirtualMachineScaleSetOSDisk_STATUS struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -10628,6 +10677,7 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
+// Describes a virtual machine scale set network profile's IP configuration.
 type VirtualMachineScaleSetIPConfiguration struct {
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot
@@ -11150,6 +11200,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignProperties_To_
 	return nil
 }
 
+// Describes a virtual machine scale set network profile's IP configuration.
 type VirtualMachineScaleSetIPConfiguration_STATUS struct {
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot
@@ -11576,6 +11627,7 @@ func (configuration *VirtualMachineScaleSetIPConfiguration_STATUS) AssignPropert
 	return nil
 }
 
+// Describes the parameters of a ScaleSet managed disk.
 type VirtualMachineScaleSetManagedDiskParameters struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
@@ -11756,6 +11808,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignProperties_
 	return nil
 }
 
+// Describes the parameters of a ScaleSet managed disk.
 type VirtualMachineScaleSetManagedDiskParameters_STATUS struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResource_STATUS `json:"diskEncryptionSet,omitempty"`
@@ -11901,6 +11954,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_STATUS) AssignProp
 	return nil
 }
 
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -11972,6 +12026,7 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPro
 	return nil
 }
 
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -12074,6 +12129,7 @@ const (
 	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv6")
 )
 
+// Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 type VirtualMachineScaleSetPublicIPAddressConfiguration struct {
 	// DeleteOption: Specify what happens to the public IP when the VM is deleted
 	DeleteOption *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
@@ -12096,8 +12152,10 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration struct {
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
-	PublicIPPrefix *SubResource        `json:"publicIPPrefix,omitempty"`
-	Sku            *PublicIPAddressSku `json:"sku,omitempty"`
+	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
+
+	// Sku: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
+	Sku *PublicIPAddressSku `json:"sku,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetPublicIPAddressConfiguration{}
@@ -12448,6 +12506,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) AssignP
 	return nil
 }
 
+// Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 type VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS struct {
 	// DeleteOption: Specify what happens to the public IP when the VM is deleted
 	DeleteOption *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
@@ -12469,8 +12528,10 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS struct {
 	PublicIPAddressVersion *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
 
 	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
-	PublicIPPrefix *SubResource_STATUS        `json:"publicIPPrefix,omitempty"`
-	Sku            *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
+	PublicIPPrefix *SubResource_STATUS `json:"publicIPPrefix,omitempty"`
+
+	// Sku: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
+	Sku *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS{}
@@ -12751,6 +12812,7 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) 
 	return nil
 }
 
+// Contains the IP tag associated with the public IP address.
 type VirtualMachineScaleSetIpTag struct {
 	// IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -12845,6 +12907,7 @@ func (ipTag *VirtualMachineScaleSetIpTag) AssignProperties_To_VirtualMachineScal
 	return nil
 }
 
+// Contains the IP tag associated with the public IP address.
 type VirtualMachineScaleSetIpTag_STATUS struct {
 	// IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -12918,6 +12981,7 @@ func (ipTag *VirtualMachineScaleSetIpTag_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	// +kubebuilder:validation:Required
 	// DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
@@ -12993,6 +13057,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 	return nil
 }
 
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS struct {
 	// DomainNameLabel: The Domain name label.The concatenation of the domain name label and vm index will be the domain name
 	// labels of the PublicIPAddress resources that will be created

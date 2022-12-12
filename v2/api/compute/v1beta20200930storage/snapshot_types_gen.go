@@ -186,6 +186,7 @@ func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // Storage version of v1beta20200930.Snapshot_STATUS
+// Snapshot resource.
 type Snapshot_STATUS struct {
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
 	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
@@ -235,12 +236,16 @@ func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.Converti
 }
 
 // Storage version of v1beta20200930.SnapshotSku
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200930.SnapshotSku_STATUS
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

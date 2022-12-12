@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
+// The top level Workspace resource container.
 type Workspace_STATUS_ARM struct {
 	// Etag: The etag of the workspace.
 	Etag *string `json:"etag,omitempty"`
@@ -27,6 +28,7 @@ type Workspace_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Workspace properties.
 type WorkspaceProperties_STATUS_ARM struct {
 	// CreatedDate: Workspace creation date.
 	CreatedDate *string `json:"createdDate,omitempty"`
@@ -66,6 +68,7 @@ type WorkspaceProperties_STATUS_ARM struct {
 	WorkspaceCapping *WorkspaceCapping_STATUS_ARM `json:"workspaceCapping,omitempty"`
 }
 
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS_ARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -74,6 +77,7 @@ type PrivateLinkScopedResource_STATUS_ARM struct {
 	ScopeId *string `json:"scopeId,omitempty"`
 }
 
+// The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS_ARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
@@ -85,6 +89,7 @@ type WorkspaceCapping_STATUS_ARM struct {
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
 }
 
+// Workspace features.
 type WorkspaceFeatures_STATUS_ARM struct {
 	// ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
@@ -102,6 +107,7 @@ type WorkspaceFeatures_STATUS_ARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
+// The SKU (tier) of a workspace.
 type WorkspaceSku_STATUS_ARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.

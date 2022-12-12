@@ -29,6 +29,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules"
 }
 
+// Description of Rule Resource.
 type Ruleproperties_ARM struct {
 	// Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
 	// filter expression.
@@ -44,6 +45,8 @@ type Ruleproperties_ARM struct {
 	SqlFilter *SqlFilter_ARM `json:"sqlFilter,omitempty"`
 }
 
+// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+// expression.
 type Action_ARM struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.
@@ -56,6 +59,7 @@ type Action_ARM struct {
 	SqlExpression *string `json:"sqlExpression,omitempty"`
 }
 
+// Represents the correlation filter expression.
 type CorrelationFilter_ARM struct {
 	// ContentType: Content type of the message.
 	ContentType *string `json:"contentType,omitempty"`
@@ -88,6 +92,7 @@ type CorrelationFilter_ARM struct {
 	To *string `json:"to,omitempty"`
 }
 
+// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter_ARM struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.

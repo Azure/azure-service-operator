@@ -211,6 +211,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // Storage version of v1beta20210701.Workspace_STATUS
+// An object that represents a machine learning workspace.
 type Workspace_STATUS struct {
 	AllowPublicAccessWhenBehindVnet *bool                                   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 	ApplicationInsights             *string                                 `json:"applicationInsights,omitempty"`
@@ -285,12 +286,14 @@ type EncryptionProperty_STATUS struct {
 }
 
 // Storage version of v1beta20210701.Identity
+// Identity for the resource.
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210701.Identity_STATUS
+// Identity for the resource.
 type Identity_STATUS struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -308,6 +311,7 @@ type NotebookResourceInfo_STATUS struct {
 }
 
 // Storage version of v1beta20210701.PrivateEndpointConnection_STATUS
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -348,6 +352,7 @@ type SharedPrivateLinkResource_STATUS struct {
 }
 
 // Storage version of v1beta20210701.Sku
+// Sku of the resource
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -355,6 +360,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210701.Sku_STATUS
+// Sku of the resource
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -362,6 +368,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210701.SystemData
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -373,6 +380,7 @@ type SystemData struct {
 }
 
 // Storage version of v1beta20210701.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -403,12 +411,14 @@ type CosmosDbSettings_STATUS struct {
 }
 
 // Storage version of v1beta20210701.IdentityForCmk
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }
 
 // Storage version of v1beta20210701.IdentityForCmk_STATUS
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk_STATUS struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
@@ -438,6 +448,7 @@ type NotebookPreparationError_STATUS struct {
 }
 
 // Storage version of v1beta20210701.UserAssignedIdentity_STATUS
+// User Assigned Identity
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`

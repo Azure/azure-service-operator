@@ -32,6 +32,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_A
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
+// Properties to create and update Azure Cosmos DB storedProcedure.
 type SqlStoredProcedureCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -41,6 +42,7 @@ type SqlStoredProcedureCreateUpdateProperties_ARM struct {
 	Resource *SqlStoredProcedureResource_ARM `json:"resource,omitempty"`
 }
 
+// Cosmos DB SQL storedProcedure resource object
 type SqlStoredProcedureResource_ARM struct {
 	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`

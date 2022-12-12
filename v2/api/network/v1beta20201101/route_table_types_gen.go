@@ -558,6 +558,7 @@ func (table *RouteTable_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (table *RouteTable_Spec) SetAzureName(azureName string) { table.AzureName = azureName }
 
+// Route table resource.
 type RouteTable_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

@@ -21,6 +21,7 @@ type StorageAccounts_BlobServices_Container_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a container.
 type ContainerProperties_STATUS_ARM struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
@@ -80,6 +81,7 @@ type ContainerProperties_STATUS_ARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
+// The properties of an ImmutabilityPolicy of a blob container.
 type ImmutabilityPolicyProperties_STATUS_ARM struct {
 	// Etag: ImmutabilityPolicy Etag.
 	Etag *string `json:"etag,omitempty"`
@@ -91,6 +93,7 @@ type ImmutabilityPolicyProperties_STATUS_ARM struct {
 	UpdateHistory []UpdateHistoryProperty_STATUS_ARM `json:"updateHistory,omitempty"`
 }
 
+// Object level immutability properties of the container.
 type ImmutableStorageWithVersioning_STATUS_ARM struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -102,6 +105,7 @@ type ImmutableStorageWithVersioning_STATUS_ARM struct {
 	TimeStamp *string `json:"timeStamp,omitempty"`
 }
 
+// The LegalHold property of a blob container.
 type LegalHoldProperties_STATUS_ARM struct {
 	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
 	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
@@ -112,6 +116,7 @@ type LegalHoldProperties_STATUS_ARM struct {
 	Tags []TagProperty_STATUS_ARM `json:"tags,omitempty"`
 }
 
+// The properties of an ImmutabilityPolicy of a blob container.
 type ImmutabilityPolicyProperty_STATUS_ARM struct {
 	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
 	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
@@ -127,6 +132,7 @@ type ImmutabilityPolicyProperty_STATUS_ARM struct {
 	State *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
 }
 
+// A tag of the LegalHold of a blob container.
 type TagProperty_STATUS_ARM struct {
 	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -144,6 +150,7 @@ type TagProperty_STATUS_ARM struct {
 	Upn *string `json:"upn,omitempty"`
 }
 
+// An update history of the ImmutabilityPolicy of a blob container.
 type UpdateHistoryProperty_STATUS_ARM struct {
 	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
 	// in days.

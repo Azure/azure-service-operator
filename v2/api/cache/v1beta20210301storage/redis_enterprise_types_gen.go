@@ -219,12 +219,14 @@ func (enterprise *RedisEnterprise_STATUS) ConvertStatusTo(destination genruntime
 }
 
 // Storage version of v1beta20210301.PrivateEndpointConnection_STATUS
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210301.Sku
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -232,6 +234,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210301.Sku_STATUS
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`

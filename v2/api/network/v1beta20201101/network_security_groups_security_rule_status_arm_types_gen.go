@@ -20,6 +20,7 @@ type NetworkSecurityGroups_SecurityRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Security rule resource.
 type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
@@ -76,6 +77,7 @@ type SecurityRulePropertiesFormat_STATUS_ARM struct {
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
 
+// An application security group in a resource group.
 type ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`

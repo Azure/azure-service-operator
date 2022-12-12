@@ -20,6 +20,7 @@ type RouteTables_Route_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Route resource.
 type RoutePropertiesFormat_STATUS_ARM struct {
 	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`

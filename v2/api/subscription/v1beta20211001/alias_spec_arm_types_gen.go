@@ -29,6 +29,7 @@ func (alias *Alias_Spec_ARM) GetType() string {
 	return "Microsoft.Subscription/aliases"
 }
 
+// Put subscription properties.
 type PutAliasRequestProperties_ARM struct {
 	// AdditionalProperties: Put alias request additional properties.
 	AdditionalProperties *PutAliasRequestAdditionalProperties_ARM `json:"additionalProperties,omitempty"`
@@ -41,10 +42,13 @@ type PutAliasRequestProperties_ARM struct {
 	ResellerId *string `json:"resellerId,omitempty"`
 
 	// SubscriptionId: This parameter can be used to create alias for existing subscription Id
-	SubscriptionId *string   `json:"subscriptionId,omitempty"`
-	Workload       *Workload `json:"workload,omitempty"`
+	SubscriptionId *string `json:"subscriptionId,omitempty"`
+
+	// Workload: The workload type of the subscription. It can be either Production or DevTest.
+	Workload *Workload `json:"workload,omitempty"`
 }
 
+// Put subscription additional properties.
 type PutAliasRequestAdditionalProperties_ARM struct {
 	// ManagementGroupId: Management group Id for the subscription.
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
@@ -59,6 +63,7 @@ type PutAliasRequestAdditionalProperties_ARM struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
+// The workload type of the subscription. It can be either Production or DevTest.
 // +kubebuilder:validation:Enum={"DevTest","Production"}
 type Workload string
 

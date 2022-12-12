@@ -1578,6 +1578,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 	return nil
 }
 
+// Entity status.
 type EntityStatus_STATUS string
 
 const (
@@ -1592,6 +1593,7 @@ const (
 	EntityStatus_STATUS_Unknown         = EntityStatus_STATUS("Unknown")
 )
 
+// Message Count Details.
 type MessageCountDetails_STATUS struct {
 	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
 	ActiveMessageCount *int `json:"activeMessageCount,omitempty"`

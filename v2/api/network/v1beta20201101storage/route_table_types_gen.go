@@ -172,6 +172,7 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 }
 
 // Storage version of v1beta20201101.RouteTable_STATUS
+// Route table resource.
 type RouteTable_STATUS struct {
 	Conditions                 []conditions.Condition `json:"conditions,omitempty"`
 	DisableBgpRoutePropagation *bool                  `json:"disableBgpRoutePropagation,omitempty"`

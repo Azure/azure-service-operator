@@ -6,6 +6,7 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Serverfarm_Spec_ARM struct {
+	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Kind: Kind of resource.
@@ -17,7 +18,9 @@ type Serverfarm_Spec_ARM struct {
 
 	// Properties: AppServicePlan resource specific properties
 	Properties *Serverfarm_Properties_Spec_ARM `json:"properties,omitempty"`
-	Sku        *SkuDescription_ARM             `json:"sku,omitempty"`
+
+	// Sku: Description of a SKU for a scalable resource.
+	Sku *SkuDescription_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -40,6 +43,7 @@ func (serverfarm *Serverfarm_Spec_ARM) GetType() string {
 	return "Microsoft.Web/serverfarms"
 }
 
+// Extended Location.
 type ExtendedLocation_ARM struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
@@ -95,6 +99,7 @@ type Serverfarm_Properties_Spec_ARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
+// Description of a SKU for a scalable resource.
 type SkuDescription_ARM struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability_ARM `json:"capabilities,omitempty"`
@@ -121,6 +126,7 @@ type SkuDescription_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability_ARM struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -132,14 +138,17 @@ type Capability_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Description of the App Service plan scale options.
 type SkuCapacity_ARM struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`

@@ -18,6 +18,7 @@ type StorageAccounts_ManagementPolicy_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The Storage Account ManagementPolicy properties.
 type ManagementPolicyProperties_STATUS_ARM struct {
 	// LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
@@ -27,12 +28,15 @@ type ManagementPolicyProperties_STATUS_ARM struct {
 	Policy *ManagementPolicySchema_STATUS_ARM `json:"policy,omitempty"`
 }
 
+// The Storage Account ManagementPolicies Rules. See more details in:
+// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema_STATUS_ARM struct {
 	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule_STATUS_ARM `json:"rules,omitempty"`
 }
 
+// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule_STATUS_ARM struct {
 	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_STATUS_ARM `json:"definition,omitempty"`
@@ -48,6 +52,7 @@ type ManagementPolicyRule_STATUS_ARM struct {
 	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
 }
 
+// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition_STATUS_ARM struct {
 	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_STATUS_ARM `json:"actions,omitempty"`
@@ -56,6 +61,7 @@ type ManagementPolicyDefinition_STATUS_ARM struct {
 	Filters *ManagementPolicyFilter_STATUS_ARM `json:"filters,omitempty"`
 }
 
+// Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction_STATUS_ARM struct {
 	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_STATUS_ARM `json:"baseBlob,omitempty"`
@@ -67,6 +73,8 @@ type ManagementPolicyAction_STATUS_ARM struct {
 	Version *ManagementPolicyVersion_STATUS_ARM `json:"version,omitempty"`
 }
 
+// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
+// AND is performed on all filters.
 type ManagementPolicyFilter_STATUS_ARM struct {
 	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_STATUS_ARM `json:"blobIndexMatch,omitempty"`
@@ -79,6 +87,7 @@ type ManagementPolicyFilter_STATUS_ARM struct {
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
 }
 
+// Management policy action for base blob.
 type ManagementPolicyBaseBlob_STATUS_ARM struct {
 	// Delete: The function to delete the blob
 	Delete *DateAfterModification_STATUS_ARM `json:"delete,omitempty"`
@@ -94,6 +103,7 @@ type ManagementPolicyBaseBlob_STATUS_ARM struct {
 	TierToCool *DateAfterModification_STATUS_ARM `json:"tierToCool,omitempty"`
 }
 
+// Management policy action for snapshot.
 type ManagementPolicySnapShot_STATUS_ARM struct {
 	// Delete: The function to delete the blob snapshot
 	Delete *DateAfterCreation_STATUS_ARM `json:"delete,omitempty"`
@@ -105,6 +115,7 @@ type ManagementPolicySnapShot_STATUS_ARM struct {
 	TierToCool *DateAfterCreation_STATUS_ARM `json:"tierToCool,omitempty"`
 }
 
+// Management policy action for blob version.
 type ManagementPolicyVersion_STATUS_ARM struct {
 	// Delete: The function to delete the blob version
 	Delete *DateAfterCreation_STATUS_ARM `json:"delete,omitempty"`
@@ -116,6 +127,7 @@ type ManagementPolicyVersion_STATUS_ARM struct {
 	TierToCool *DateAfterCreation_STATUS_ARM `json:"tierToCool,omitempty"`
 }
 
+// Blob index tag based filtering for blob objects
 type TagFilter_STATUS_ARM struct {
 	// Name: This is the filter tag name, it can have 1 - 128 characters
 	Name *string `json:"name,omitempty"`
@@ -128,11 +140,14 @@ type TagFilter_STATUS_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Object to define the number of days after creation.
 type DateAfterCreation_STATUS_ARM struct {
 	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
+// Object to define the number of days after object last modification Or last access. Properties
+// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
 type DateAfterModification_STATUS_ARM struct {
 	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
 	// used in conjunction with last access time tracking policy

@@ -505,7 +505,9 @@ type Alias_STATUS struct {
 
 	// Properties: Subscription Alias response properties.
 	Properties *SubscriptionAliasResponseProperties_STATUS `json:"properties,omitempty"`
-	SystemData *SystemData_STATUS                          `json:"systemData,omitempty"`
+
+	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: Resource type, Microsoft.Subscription/aliases.
 	Type *string `json:"type,omitempty"`
@@ -721,6 +723,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
 
+// Put subscription properties.
 type PutAliasRequestProperties struct {
 	// AdditionalProperties: Put alias request additional properties.
 	AdditionalProperties *PutAliasRequestAdditionalProperties `json:"additionalProperties,omitempty"`
@@ -733,8 +736,10 @@ type PutAliasRequestProperties struct {
 	ResellerId *string `json:"resellerId,omitempty"`
 
 	// SubscriptionId: This parameter can be used to create alias for existing subscription Id
-	SubscriptionId *string   `json:"subscriptionId,omitempty"`
-	Workload       *Workload `json:"workload,omitempty"`
+	SubscriptionId *string `json:"subscriptionId,omitempty"`
+
+	// Workload: The workload type of the subscription. It can be either Production or DevTest.
+	Workload *Workload `json:"workload,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PutAliasRequestProperties{}
@@ -932,7 +937,9 @@ func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequest
 	return nil
 }
 
+// Put subscription creation result properties.
 type SubscriptionAliasResponseProperties_STATUS struct {
+	// AcceptOwnershipState: The accept ownership state of the resource.
 	AcceptOwnershipState *AcceptOwnershipState_STATUS `json:"acceptOwnershipState,omitempty"`
 
 	// AcceptOwnershipUrl: Url to accept ownership of the subscription.
@@ -961,8 +968,10 @@ type SubscriptionAliasResponseProperties_STATUS struct {
 	SubscriptionOwnerId *string `json:"subscriptionOwnerId,omitempty"`
 
 	// Tags: Tags for the subscription
-	Tags     map[string]string `json:"tags,omitempty"`
-	Workload *Workload_STATUS  `json:"workload,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Workload: The workload type of the subscription. It can be either Production or DevTest.
+	Workload *Workload_STATUS `json:"workload,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SubscriptionAliasResponseProperties_STATUS{}
@@ -1182,6 +1191,7 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_T
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -1335,6 +1345,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
+// Put subscription additional properties.
 type PutAliasRequestAdditionalProperties struct {
 	// ManagementGroupId: Management group Id for the subscription.
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`

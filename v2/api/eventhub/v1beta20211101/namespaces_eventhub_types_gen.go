@@ -962,6 +962,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_To_Namespaces_Event
 	return nil
 }
 
+// Properties to configure capture description for eventhub
 type CaptureDescription struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *Destination `json:"destination,omitempty"`
@@ -1200,6 +1201,7 @@ func (description *CaptureDescription) AssignProperties_To_CaptureDescription(de
 	return nil
 }
 
+// Properties to configure capture description for eventhub
 type CaptureDescription_STATUS struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *Destination_STATUS `json:"destination,omitempty"`
@@ -1418,6 +1420,7 @@ const (
 	CaptureDescription_Encoding_STATUS_AvroDeflate = CaptureDescription_Encoding_STATUS("AvroDeflate")
 )
 
+// Capture storage details for capture description
 type Destination struct {
 	// ArchiveNameFormat: Blob naming convention for archive, e.g.
 	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
@@ -1653,6 +1656,7 @@ func (destination *Destination) AssignProperties_To_Destination(target *v2021110
 	return nil
 }
 
+// Capture storage details for capture description
 type Destination_STATUS struct {
 	// ArchiveNameFormat: Blob naming convention for archive, e.g.
 	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters

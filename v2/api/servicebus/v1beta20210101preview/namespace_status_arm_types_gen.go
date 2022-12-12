@@ -32,6 +32,7 @@ type Namespace_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_STATUS_ARM struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -46,6 +47,7 @@ type Identity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]DictionaryValue_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// Properties of the namespace.
 type SBNamespaceProperties_STATUS_ARM struct {
 	// CreatedAt: The time the namespace was created
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -75,6 +77,7 @@ type SBNamespaceProperties_STATUS_ARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
+// SKU of the namespace.
 type SBSku_STATUS_ARM struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
@@ -86,6 +89,7 @@ type SBSku_STATUS_ARM struct {
 	Tier *SBSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -106,6 +110,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// Recognized Dictionary value.
 type DictionaryValue_STATUS_ARM struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -114,6 +119,7 @@ type DictionaryValue_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// Properties to configure Encryption
 type Encryption_STATUS_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
@@ -134,6 +140,7 @@ const (
 	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
+// Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -173,6 +180,7 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS_ARM struct {
 	Identity *UserAssignedIdentityProperties_STATUS_ARM `json:"identity,omitempty"`
 

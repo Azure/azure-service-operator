@@ -174,6 +174,7 @@ func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // Storage version of v1beta20180601.Server_STATUS
+// Represents a server.
 type Server_STATUS struct {
 	AdministratorLogin         *string                                  `json:"administratorLogin,omitempty"`
 	Conditions                 []conditions.Condition                   `json:"conditions,omitempty"`
@@ -226,6 +227,7 @@ type ServerOperatorSpec struct {
 }
 
 // Storage version of v1beta20180601.ServerPrivateEndpointConnection_STATUS
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS struct {
 	Id          *string                                           `json:"id,omitempty"`
 	Properties  *ServerPrivateEndpointConnectionProperties_STATUS `json:"properties,omitempty"`
@@ -242,6 +244,7 @@ type ServerPropertiesForCreate struct {
 }
 
 // Storage version of v1beta20180601.Sku
+// Billing information related properties of a server.
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -252,6 +255,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20180601.Sku_STATUS
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -262,6 +266,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20180601.StorageProfile_STATUS
+// Storage Profile properties of a server
 type StorageProfile_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -277,6 +282,7 @@ type ServerOperatorSecrets struct {
 }
 
 // Storage version of v1beta20180601.ServerPrivateEndpointConnectionProperties_STATUS
+// Properties of a private endpoint connection.
 type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	PrivateEndpoint                   *PrivateEndpointProperty_STATUS                         `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
@@ -349,6 +355,7 @@ type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
 }
 
 // Storage version of v1beta20180601.StorageProfile
+// Storage Profile properties of a server
 type StorageProfile struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`

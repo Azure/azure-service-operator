@@ -21,6 +21,7 @@ type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS_ARM 
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB resource throughput
 type ThroughputSettingsGetProperties_STATUS_ARM struct {
 	Resource *ThroughputSettingsGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
@@ -50,6 +51,7 @@ type ThroughputSettingsGetProperties_Resource_STATUS_ARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource_STATUS_ARM struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_STATUS_ARM `json:"autoUpgradePolicy,omitempty"`
@@ -62,11 +64,13 @@ type AutoscaleSettingsResource_STATUS_ARM struct {
 	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS_ARM struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_STATUS_ARM `json:"throughputPolicy,omitempty"`
 }
 
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource_STATUS_ARM struct {
 	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`

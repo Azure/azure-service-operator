@@ -972,6 +972,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 	return nil
 }
 
+// Cosmos DB SQL userDefinedFunction resource object
 type SqlUserDefinedFunctionResource struct {
 	// Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`

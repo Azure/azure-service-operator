@@ -41,6 +41,7 @@ func (component *Component_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/components"
 }
 
+// Properties that define an Application Insights component resource.
 type ApplicationInsightsComponentProperties_ARM struct {
 	// Application_Type: Type of application being monitored.
 	Application_Type *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`

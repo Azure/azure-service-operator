@@ -10,8 +10,10 @@ import (
 
 type Profiles_Endpoint_Spec_ARM struct {
 	// Location: Resource location.
-	Location   *string                 `json:"location,omitempty"`
-	Name       string                  `json:"name,omitempty"`
+	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+
+	// Properties: The JSON object that contains the properties required to create an endpoint.
 	Properties *EndpointProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
@@ -35,6 +37,7 @@ func (endpoint *Profiles_Endpoint_Spec_ARM) GetType() string {
 	return "Microsoft.Cdn/profiles/endpoints"
 }
 
+// The JSON object that contains the properties required to create an endpoint.
 type EndpointProperties_ARM struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
@@ -99,15 +102,22 @@ type EndpointProperties_ARM struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_ARM `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
+// The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin_ARM struct {
 	// Name: Origin name which must be unique within the endpoint.
-	Name       *string                          `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the origin created on the CDN endpoint.
 	Properties *DeepCreatedOriginProperties_ARM `json:"properties,omitempty"`
 }
 
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
 type DeepCreatedOriginGroup_ARM struct {
 	// Name: Origin group name which must be unique within the endpoint.
-	Name       *string                               `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the origin group created on the CDN endpoint.
 	Properties *DeepCreatedOriginGroupProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -123,6 +133,7 @@ type EndpointProperties_WebApplicationFirewallPolicyLink_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Rules defining user's geo access within a CDN endpoint.
 type GeoFilter_ARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
 	Action *GeoFilter_Action `json:"action,omitempty"`
@@ -134,10 +145,12 @@ type GeoFilter_ARM struct {
 	RelativePath *string `json:"relativePath,omitempty"`
 }
 
+// Reference to another resource.
 type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Url signing key
 type UrlSigningKey_ARM struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
@@ -147,6 +160,7 @@ type UrlSigningKey_ARM struct {
 	KeySourceParameters *KeyVaultSigningKeyParameters_ARM `json:"keySourceParameters,omitempty"`
 }
 
+// Properties of the origin group created on the CDN endpoint.
 type DeepCreatedOriginGroupProperties_ARM struct {
 	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
 	HealthProbeSettings *HealthProbeParameters_ARM `json:"healthProbeSettings,omitempty"`
@@ -164,6 +178,7 @@ type DeepCreatedOriginGroupProperties_ARM struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
+// Properties of the origin created on the CDN endpoint.
 type DeepCreatedOriginProperties_ARM struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -200,6 +215,7 @@ type DeepCreatedOriginProperties_ARM struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
+// A rule that specifies a set of actions and conditions
 type DeliveryRule_ARM struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
 	Actions []DeliveryRuleAction_ARM `json:"actions,omitempty"`
@@ -216,6 +232,7 @@ type DeliveryRule_ARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_ARM struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
@@ -234,6 +251,7 @@ type KeyVaultSigningKeyParameters_ARM struct {
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
+// An action for the delivery rule.
 type DeliveryRuleAction_ARM struct {
 	// CacheExpiration: Mutually exclusive with all other properties
 	CacheExpiration *DeliveryRuleCacheExpirationAction_ARM `json:"cacheExpiration,omitempty"`
@@ -344,6 +362,7 @@ func (action *DeliveryRuleAction_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// A condition for the delivery rule.
 type DeliveryRuleCondition_ARM struct {
 	// ClientPort: Mutually exclusive with all other properties
 	ClientPort *DeliveryRuleClientPortCondition_ARM `json:"clientPort,omitempty"`
@@ -554,6 +573,7 @@ func (condition *DeliveryRuleCondition_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_ARM struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
@@ -568,6 +588,7 @@ type HealthProbeParameters_ARM struct {
 	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters_ARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
@@ -772,6 +793,7 @@ type DeliveryRuleUrlPathCondition_ARM struct {
 	Parameters *UrlPathMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_ARM struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
@@ -812,6 +834,7 @@ type UrlSigningAction_ARM struct {
 	Parameters *UrlSigningActionParameters_ARM `json:"parameters,omitempty"`
 }
 
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters_ARM struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior `json:"cacheBehavior,omitempty"`
@@ -824,6 +847,7 @@ type CacheExpirationActionParameters_ARM struct {
 	TypeName  *CacheExpirationActionParameters_TypeName  `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters_ARM struct {
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
@@ -833,6 +857,7 @@ type CacheKeyQueryStringActionParameters_ARM struct {
 	TypeName            *CacheKeyQueryStringActionParameters_TypeName            `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -848,6 +873,7 @@ type ClientPortMatchConditionParameters_ARM struct {
 	TypeName   *ClientPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -866,6 +892,7 @@ type CookiesMatchConditionParameters_ARM struct {
 	TypeName   *CookiesMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the request header action.
 type HeaderActionParameters_ARM struct {
 	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction `json:"headerAction,omitempty"`
@@ -878,6 +905,7 @@ type HeaderActionParameters_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -893,6 +921,7 @@ type HostNameMatchConditionParameters_ARM struct {
 	TypeName   *HostNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -908,6 +937,7 @@ type HttpVersionMatchConditionParameters_ARM struct {
 	TypeName   *HttpVersionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -923,12 +953,14 @@ type IsDeviceMatchConditionParameters_ARM struct {
 	TypeName   *IsDeviceMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_ARM struct {
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference_ARM                        `json:"originGroup,omitempty"`
 	TypeName    *OriginGroupOverrideActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -947,6 +979,7 @@ type PostArgsMatchConditionParameters_ARM struct {
 	TypeName   *PostArgsMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -962,6 +995,7 @@ type QueryStringMatchConditionParameters_ARM struct {
 	TypeName   *QueryStringMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters_ARM struct {
 	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
 	// them match the variable with the given operator this match condition is considered a match.
@@ -978,6 +1012,7 @@ type RemoteAddressMatchConditionParameters_ARM struct {
 	TypeName   *RemoteAddressMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -993,6 +1028,7 @@ type RequestBodyMatchConditionParameters_ARM struct {
 	TypeName   *RequestBodyMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1011,6 +1047,7 @@ type RequestHeaderMatchConditionParameters_ARM struct {
 	TypeName   *RequestHeaderMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -1026,6 +1063,7 @@ type RequestMethodMatchConditionParameters_ARM struct {
 	TypeName   *RequestMethodMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -1041,6 +1079,7 @@ type RequestSchemeMatchConditionParameters_ARM struct {
 	TypeName   *RequestSchemeMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1056,6 +1095,7 @@ type RequestUriMatchConditionParameters_ARM struct {
 	TypeName   *RequestUriMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters_ARM struct {
 	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
 	// cacheConfiguration object.
@@ -1067,6 +1107,7 @@ type RouteConfigurationOverrideActionParameters_ARM struct {
 	TypeName            *RouteConfigurationOverrideActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1082,6 +1123,7 @@ type ServerPortMatchConditionParameters_ARM struct {
 	TypeName   *ServerPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1097,6 +1139,7 @@ type SocketAddrMatchConditionParameters_ARM struct {
 	TypeName   *SocketAddrMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []SslProtocol `json:"matchValues,omitempty"`
@@ -1112,6 +1155,7 @@ type SslProtocolMatchConditionParameters_ARM struct {
 	TypeName   *SslProtocolMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1127,6 +1171,7 @@ type UrlFileExtensionMatchConditionParameters_ARM struct {
 	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1142,6 +1187,7 @@ type UrlFileNameMatchConditionParameters_ARM struct {
 	TypeName   *UrlFileNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1157,6 +1203,7 @@ type UrlPathMatchConditionParameters_ARM struct {
 	TypeName   *UrlPathMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters_ARM struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
 	// the #.
@@ -1182,6 +1229,7 @@ type UrlRedirectActionParameters_ARM struct {
 	TypeName     *UrlRedirectActionParameters_TypeName     `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters_ARM struct {
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
 	Destination *string `json:"destination,omitempty"`
@@ -1195,6 +1243,7 @@ type UrlRewriteActionParameters_ARM struct {
 	TypeName      *UrlRewriteActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters_ARM struct {
 	// Algorithm: Algorithm to use for URL signing
 	Algorithm *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
@@ -1204,6 +1253,7 @@ type UrlSigningActionParameters_ARM struct {
 	TypeName              *UrlSigningActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration_ARM struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheConfiguration_CacheBehavior `json:"cacheBehavior,omitempty"`
@@ -1225,6 +1275,7 @@ type CacheConfiguration_ARM struct {
 	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 }
 
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride_ARM struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
@@ -1233,6 +1284,7 @@ type OriginGroupOverride_ARM struct {
 	OriginGroup *ResourceReference_ARM `json:"originGroup,omitempty"`
 }
 
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier_ARM struct {
 	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator `json:"paramIndicator,omitempty"`

@@ -329,8 +329,10 @@ const APIVersion_Value = APIVersion("2021-10-01")
 type SignalR_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string               `json:"azureName,omitempty"`
-	Cors      *SignalRCorsSettings `json:"cors,omitempty"`
+	AzureName string `json:"azureName,omitempty"`
+
+	// Cors: Cross-Origin Resource Sharing (CORS) settings.
+	Cors *SignalRCorsSettings `json:"cors,omitempty"`
 
 	// DisableAadAuth: DisableLocalAuth
 	// Enable or disable aad auth
@@ -348,11 +350,17 @@ type SignalR_Spec struct {
 	// When a featureFlag is not explicitly set, its globally default value will be used
 	// But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
 	Features []SignalRFeature `json:"features,omitempty"`
+
+	// Identity: A class represent managed identities used for request and response
 	Identity *ManagedIdentity `json:"identity,omitempty"`
-	Kind     *ServiceKind     `json:"kind,omitempty"`
+
+	// Kind: The kind of the service, it can be SignalR or RawWebSockets
+	Kind *ServiceKind `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
-	Location    *string             `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
+
+	// NetworkACLs: Network ACLs for the resource
 	NetworkACLs *SignalRNetworkACLs `json:"networkACLs,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -364,13 +372,21 @@ type SignalR_Spec struct {
 	// PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	// When it's Enabled, network ACLs still apply.
 	// When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
-	PublicNetworkAccess      *string                   `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
+
+	// ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
 	ResourceLogConfiguration *ResourceLogConfiguration `json:"resourceLogConfiguration,omitempty"`
-	Sku                      *ResourceSku              `json:"sku,omitempty"`
+
+	// Sku: The billing information of the resource.
+	Sku *ResourceSku `json:"sku,omitempty"`
 
 	// Tags: Tags of the service which is a list of key value pairs that describe the resource.
-	Tags     map[string]string           `json:"tags,omitempty"`
-	Tls      *SignalRTlsSettings         `json:"tls,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Tls: TLS settings for the resource
+	Tls *SignalRTlsSettings `json:"tls,omitempty"`
+
+	// Upstream: The settings for the Upstream when the service is in server-less mode.
 	Upstream *ServerlessUpstreamSettings `json:"upstream,omitempty"`
 }
 
@@ -1052,8 +1068,10 @@ func (signalR *SignalR_Spec) SetAzureName(azureName string) { signalR.AzureName 
 
 type SignalR_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition      `json:"conditions,omitempty"`
-	Cors       *SignalRCorsSettings_STATUS `json:"cors,omitempty"`
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// Cors: Cross-Origin Resource Sharing (CORS) settings.
+	Cors *SignalRCorsSettings_STATUS `json:"cors,omitempty"`
 
 	// DisableAadAuth: DisableLocalAuth
 	// Enable or disable aad auth
@@ -1082,20 +1100,28 @@ type SignalR_STATUS struct {
 	HostNamePrefix *string `json:"hostNamePrefix,omitempty"`
 
 	// Id: Fully qualified resource Id for the resource.
-	Id       *string                 `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Identity: A class represent managed identities used for request and response
 	Identity *ManagedIdentity_STATUS `json:"identity,omitempty"`
-	Kind     *ServiceKind_STATUS     `json:"kind,omitempty"`
+
+	// Kind: The kind of the service, it can be SignalR or RawWebSockets
+	Kind *ServiceKind_STATUS `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the resource.
-	Name        *string                    `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// NetworkACLs: Network ACLs for the resource
 	NetworkACLs *SignalRNetworkACLs_STATUS `json:"networkACLs,omitempty"`
 
 	// PrivateEndpointConnections: Private endpoint connections to the resource.
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState_STATUS                                      `json:"provisioningState,omitempty"`
+
+	// ProvisioningState: Provisioning state of the resource.
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	// When it's Enabled, network ACLs still apply.
@@ -1103,7 +1129,9 @@ type SignalR_STATUS struct {
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
 	// PublicPort: The publicly accessible port of the resource which is designed for browser/client side usage.
-	PublicPort               *int                             `json:"publicPort,omitempty"`
+	PublicPort *int `json:"publicPort,omitempty"`
+
+	// ResourceLogConfiguration: Resource log configuration of a Microsoft.SignalRService resource.
 	ResourceLogConfiguration *ResourceLogConfiguration_STATUS `json:"resourceLogConfiguration,omitempty"`
 
 	// ServerPort: The publicly accessible port of the resource which is designed for customer server side usage.
@@ -1111,15 +1139,23 @@ type SignalR_STATUS struct {
 
 	// SharedPrivateLinkResources: The list of shared private link resources.
 	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                        *ResourceSku_STATUS                                            `json:"sku,omitempty"`
-	SystemData                 *SystemData_STATUS                                             `json:"systemData,omitempty"`
+
+	// Sku: The billing information of the resource.
+	Sku *ResourceSku_STATUS `json:"sku,omitempty"`
+
+	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Tags of the service which is a list of key value pairs that describe the resource.
-	Tags map[string]string          `json:"tags,omitempty"`
-	Tls  *SignalRTlsSettings_STATUS `json:"tls,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Tls: TLS settings for the resource
+	Tls *SignalRTlsSettings_STATUS `json:"tls,omitempty"`
 
 	// Type: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
-	Type     *string                            `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
+
+	// Upstream: The settings for the Upstream when the service is in server-less mode.
 	Upstream *ServerlessUpstreamSettings_STATUS `json:"upstream,omitempty"`
 
 	// Version: Version of the resource. Probably you need the same or higher version of client SDKs.
@@ -1931,7 +1967,9 @@ func (signalR *SignalR_STATUS) AssignProperties_To_SignalR_STATUS(destination *v
 	return nil
 }
 
+// A class represent managed identities used for request and response
 type ManagedIdentity struct {
+	// Type: Represents the identity type: systemAssigned, userAssigned, None
 	Type *ManagedIdentityType `json:"type,omitempty"`
 }
 
@@ -2013,6 +2051,7 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 	return nil
 }
 
+// A class represent managed identities used for request and response
 type ManagedIdentity_STATUS struct {
 	// PrincipalId: Get the principal id for the system assigned identity.
 	// Only be used in response.
@@ -2020,8 +2059,10 @@ type ManagedIdentity_STATUS struct {
 
 	// TenantId: Get the tenant id for the system assigned identity.
 	// Only be used in response
-	TenantId *string                     `json:"tenantId,omitempty"`
-	Type     *ManagedIdentityType_STATUS `json:"type,omitempty"`
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: Represents the identity type: systemAssigned, userAssigned, None
+	Type *ManagedIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: Get or set the user assigned identities
 	UserAssignedIdentities map[string]UserAssignedIdentityProperty_STATUS `json:"userAssignedIdentities,omitempty"`
@@ -2163,6 +2204,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 	return nil
 }
 
+// A private endpoint connection to an azure resource
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded struct {
 	// Id: Fully qualified resource Id for the resource.
 	Id *string `json:"id,omitempty"`
@@ -2221,6 +2263,7 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 	return nil
 }
 
+// Provisioning state of the resource.
 type ProvisioningState_STATUS string
 
 const (
@@ -2235,6 +2278,7 @@ const (
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
+// Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration struct {
 	// Categories: Gets or sets the list of category configurations.
 	Categories []ResourceLogCategory `json:"categories,omitempty"`
@@ -2345,6 +2389,7 @@ func (configuration *ResourceLogConfiguration) AssignProperties_To_ResourceLogCo
 	return nil
 }
 
+// Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration_STATUS struct {
 	// Categories: Gets or sets the list of category configurations.
 	Categories []ResourceLogCategory_STATUS `json:"categories,omitempty"`
@@ -2437,6 +2482,7 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_To_Resour
 	return nil
 }
 
+// The billing information of the resource.
 type ResourceSku struct {
 	// Capacity: Optional, integer. The unit count of the resource. 1 by default.
 	// If present, following values are allowed:
@@ -2447,7 +2493,10 @@ type ResourceSku struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the SKU. Required.
 	// Allowed values: Standard_S1, Free_F1
-	Name *string         `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
+	// `Basic` is deprecated, use `Standard` instead.
 	Tier *SignalRSkuTier `json:"tier,omitempty"`
 }
 
@@ -2565,6 +2614,7 @@ func (resourceSku *ResourceSku) AssignProperties_To_ResourceSku(destination *v20
 	return nil
 }
 
+// The billing information of the resource.
 type ResourceSku_STATUS struct {
 	// Capacity: Optional, integer. The unit count of the resource. 1 by default.
 	// If present, following values are allowed:
@@ -2580,7 +2630,10 @@ type ResourceSku_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Size: Not used. Retained for future use.
-	Size *string                `json:"size,omitempty"`
+	Size *string `json:"size,omitempty"`
+
+	// Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
+	// `Basic` is deprecated, use `Standard` instead.
 	Tier *SignalRSkuTier_STATUS `json:"tier,omitempty"`
 }
 
@@ -2695,6 +2748,7 @@ func (resourceSku *ResourceSku_STATUS) AssignProperties_To_ResourceSku_STATUS(de
 	return nil
 }
 
+// The settings for the Upstream when the service is in server-less mode.
 type ServerlessUpstreamSettings struct {
 	// Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplate `json:"templates,omitempty"`
@@ -2805,6 +2859,7 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_To_ServerlessUpstre
 	return nil
 }
 
+// The settings for the Upstream when the service is in server-less mode.
 type ServerlessUpstreamSettings_STATUS struct {
 	// Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplate_STATUS `json:"templates,omitempty"`
@@ -2897,6 +2952,7 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_To_Serverles
 	return nil
 }
 
+// Describes a Shared Private Link Resource
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded struct {
 	// Id: Fully qualified resource Id for the resource.
 	Id *string `json:"id,omitempty"`
@@ -2955,6 +3011,7 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 	return nil
 }
 
+// Cross-Origin Resource Sharing (CORS) settings.
 type SignalRCorsSettings struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
 	// http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
@@ -3027,6 +3084,7 @@ func (settings *SignalRCorsSettings) AssignProperties_To_SignalRCorsSettings(des
 	return nil
 }
 
+// Cross-Origin Resource Sharing (CORS) settings.
 type SignalRCorsSettings_STATUS struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
 	// http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
@@ -3085,8 +3143,19 @@ func (settings *SignalRCorsSettings_STATUS) AssignProperties_To_SignalRCorsSetti
 	return nil
 }
 
+// Feature of a resource, which controls the runtime behavior.
 type SignalRFeature struct {
 	// +kubebuilder:validation:Required
+	// Flag: FeatureFlags is the supported features of Azure SignalR service.
+	// - ServiceMode: Flag for backend server for SignalR  service. Values allowed: "Default": have your own backend server;
+	// "Serverless": your application doesn't have a backend  server; "Classic": for backward compatibility. Support both
+	// Default and Serverless mode but not recommended;  "PredefinedOnly": for future use.
+	// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log  category respectively.
+	// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category  respectively.
+	// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will  give you live
+	// traces in real time, it will be helpful when you developing your own Azure SignalR based web application  or
+	// self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+	// Values allowed: "true"/"false", to enable/disable live trace feature.
 	Flag *FeatureFlags `json:"flag,omitempty"`
 
 	// Properties: Optional properties related to this feature.
@@ -3228,7 +3297,18 @@ func (feature *SignalRFeature) AssignProperties_To_SignalRFeature(destination *v
 	return nil
 }
 
+// Feature of a resource, which controls the runtime behavior.
 type SignalRFeature_STATUS struct {
+	// Flag: FeatureFlags is the supported features of Azure SignalR service.
+	// - ServiceMode: Flag for backend server for SignalR  service. Values allowed: "Default": have your own backend server;
+	// "Serverless": your application doesn't have a backend  server; "Classic": for backward compatibility. Support both
+	// Default and Serverless mode but not recommended;  "PredefinedOnly": for future use.
+	// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log  category respectively.
+	// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category  respectively.
+	// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will  give you live
+	// traces in real time, it will be helpful when you developing your own Azure SignalR based web application  or
+	// self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+	// Values allowed: "true"/"false", to enable/disable live trace feature.
 	Flag *FeatureFlags_STATUS `json:"flag,omitempty"`
 
 	// Properties: Optional properties related to this feature.
@@ -3328,12 +3408,16 @@ func (feature *SignalRFeature_STATUS) AssignProperties_To_SignalRFeature_STATUS(
 	return nil
 }
 
+// Network ACLs for the resource
 type SignalRNetworkACLs struct {
+	// DefaultAction: Azure Networking ACL Action.
 	DefaultAction *ACLAction `json:"defaultAction,omitempty"`
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACL `json:"privateEndpoints,omitempty"`
-	PublicNetwork    *NetworkACL          `json:"publicNetwork,omitempty"`
+
+	// PublicNetwork: Network ACL
+	PublicNetwork *NetworkACL `json:"publicNetwork,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SignalRNetworkACLs{}
@@ -3514,12 +3598,16 @@ func (acLs *SignalRNetworkACLs) AssignProperties_To_SignalRNetworkACLs(destinati
 	return nil
 }
 
+// Network ACLs for the resource
 type SignalRNetworkACLs_STATUS struct {
+	// DefaultAction: Azure Networking ACL Action.
 	DefaultAction *ACLAction_STATUS `json:"defaultAction,omitempty"`
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACL_STATUS `json:"privateEndpoints,omitempty"`
-	PublicNetwork    *NetworkACL_STATUS          `json:"publicNetwork,omitempty"`
+
+	// PublicNetwork: Network ACL
+	PublicNetwork *NetworkACL_STATUS `json:"publicNetwork,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SignalRNetworkACLs_STATUS{}
@@ -3666,6 +3754,7 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_To_SignalRNetworkACLs_ST
 	return nil
 }
 
+// TLS settings for the resource
 type SignalRTlsSettings struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
@@ -3749,6 +3838,7 @@ func (settings *SignalRTlsSettings) AssignProperties_To_SignalRTlsSettings(desti
 	return nil
 }
 
+// TLS settings for the resource
 type SignalRTlsSettings_STATUS struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
@@ -3817,6 +3907,7 @@ func (settings *SignalRTlsSettings_STATUS) AssignProperties_To_SignalRTlsSetting
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -3970,6 +4061,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
+// Azure Networking ACL Action.
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type ACLAction string
 
@@ -3978,6 +4070,7 @@ const (
 	ACLAction_Deny  = ACLAction("Deny")
 )
 
+// Azure Networking ACL Action.
 type ACLAction_STATUS string
 
 const (
@@ -3985,6 +4078,19 @@ const (
 	ACLAction_STATUS_Deny  = ACLAction_STATUS("Deny")
 )
 
+// FeatureFlags is the supported features of Azure SignalR service.
+// - ServiceMode: Flag for backend server for SignalR
+// service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend
+// server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended;
+// "PredefinedOnly": for future use.
+// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
+// category respectively.
+// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category
+// respectively.
+// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will
+// give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application
+// or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+// Values allowed: "true"/"false", to enable/disable live trace feature.
 // +kubebuilder:validation:Enum={"EnableConnectivityLogs","EnableLiveTrace","EnableMessagingLogs","ServiceMode"}
 type FeatureFlags string
 
@@ -3995,6 +4101,19 @@ const (
 	FeatureFlags_ServiceMode            = FeatureFlags("ServiceMode")
 )
 
+// FeatureFlags is the supported features of Azure SignalR service.
+// - ServiceMode: Flag for backend server for SignalR
+// service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend
+// server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended;
+// "PredefinedOnly": for future use.
+// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
+// category respectively.
+// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category
+// respectively.
+// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will
+// give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application
+// or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+// Values allowed: "true"/"false", to enable/disable live trace feature.
 type FeatureFlags_STATUS string
 
 const (
@@ -4004,6 +4123,7 @@ const (
 	FeatureFlags_STATUS_ServiceMode            = FeatureFlags_STATUS("ServiceMode")
 )
 
+// Network ACL
 type NetworkACL struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType `json:"allow,omitempty"`
@@ -4134,6 +4254,7 @@ func (networkACL *NetworkACL) AssignProperties_To_NetworkACL(destination *v20211
 	return nil
 }
 
+// Network ACL
 type NetworkACL_STATUS struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
@@ -4245,6 +4366,7 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_To_NetworkACL_STATUS(desti
 	return nil
 }
 
+// ACL for a private endpoint
 type PrivateEndpointACL struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType `json:"allow,omitempty"`
@@ -4397,6 +4519,7 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_To_PrivateEndpointACL(de
 	return nil
 }
 
+// ACL for a private endpoint
 type PrivateEndpointACL_STATUS struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
 	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
@@ -4523,6 +4646,7 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_To_PrivateEndpoin
 	return nil
 }
 
+// Resource log category configuration of a Microsoft.SignalRService resource.
 type ResourceLogCategory struct {
 	// Enabled: Indicates whether or the resource log category is enabled.
 	// Available values: true, false.
@@ -4621,6 +4745,7 @@ func (category *ResourceLogCategory) AssignProperties_To_ResourceLogCategory(des
 	return nil
 }
 
+// Resource log category configuration of a Microsoft.SignalRService resource.
 type ResourceLogCategory_STATUS struct {
 	// Enabled: Indicates whether or the resource log category is enabled.
 	// Available values: true, false.
@@ -4698,7 +4823,11 @@ func (category *ResourceLogCategory_STATUS) AssignProperties_To_ResourceLogCateg
 	return nil
 }
 
+// Upstream template item settings. It defines the Upstream URL of the incoming requests.
+// The template defines the pattern
+// of the event, the hub or the category of the incoming request that matches current URL template.
 type UpstreamTemplate struct {
+	// Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettings `json:"auth,omitempty"`
 
 	// CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
@@ -4898,7 +5027,11 @@ func (template *UpstreamTemplate) AssignProperties_To_UpstreamTemplate(destinati
 	return nil
 }
 
+// Upstream template item settings. It defines the Upstream URL of the incoming requests.
+// The template defines the pattern
+// of the event, the hub or the category of the incoming request that matches current URL template.
 type UpstreamTemplate_STATUS struct {
+	// Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettings_STATUS `json:"auth,omitempty"`
 
 	// CategoryPattern: Gets or sets the matching pattern for category names. If not set, it matches any category.
@@ -5054,6 +5187,7 @@ func (template *UpstreamTemplate_STATUS) AssignProperties_To_UpstreamTemplate_ST
 	return nil
 }
 
+// Properties of user assigned identity.
 type UserAssignedIdentityProperty_STATUS struct {
 	// ClientId: Get the client id for the user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -5127,6 +5261,7 @@ func (property *UserAssignedIdentityProperty_STATUS) AssignProperties_To_UserAss
 	return nil
 }
 
+// The incoming request type to the service
 // +kubebuilder:validation:Enum={"ClientConnection","RESTAPI","ServerConnection","Trace"}
 type SignalRRequestType string
 
@@ -5137,6 +5272,7 @@ const (
 	SignalRRequestType_Trace            = SignalRRequestType("Trace")
 )
 
+// The incoming request type to the service
 type SignalRRequestType_STATUS string
 
 const (
@@ -5146,9 +5282,13 @@ const (
 	SignalRRequestType_STATUS_Trace            = SignalRRequestType_STATUS("Trace")
 )
 
+// Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings struct {
+	// ManagedIdentity: Managed identity settings for upstream.
 	ManagedIdentity *ManagedIdentitySettings `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthType        `json:"type,omitempty"`
+
+	// Type: Upstream auth type enum.
+	Type *UpstreamAuthType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UpstreamAuthSettings{}
@@ -5274,9 +5414,13 @@ func (settings *UpstreamAuthSettings) AssignProperties_To_UpstreamAuthSettings(d
 	return nil
 }
 
+// Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings_STATUS struct {
+	// ManagedIdentity: Managed identity settings for upstream.
 	ManagedIdentity *ManagedIdentitySettings_STATUS `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthType_STATUS        `json:"type,omitempty"`
+
+	// Type: Upstream auth type enum.
+	Type *UpstreamAuthType_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UpstreamAuthSettings_STATUS{}
@@ -5377,6 +5521,7 @@ func (settings *UpstreamAuthSettings_STATUS) AssignProperties_To_UpstreamAuthSet
 	return nil
 }
 
+// Managed identity settings for upstream.
 type ManagedIdentitySettings struct {
 	// Resource: The Resource indicating the App ID URI of the target resource.
 	// It also appears in the aud (audience) claim of the issued token.
@@ -5451,6 +5596,7 @@ func (settings *ManagedIdentitySettings) AssignProperties_To_ManagedIdentitySett
 	return nil
 }
 
+// Managed identity settings for upstream.
 type ManagedIdentitySettings_STATUS struct {
 	// Resource: The Resource indicating the App ID URI of the target resource.
 	// It also appears in the aud (audience) claim of the issued token.
@@ -5510,6 +5656,7 @@ func (settings *ManagedIdentitySettings_STATUS) AssignProperties_To_ManagedIdent
 	return nil
 }
 
+// Upstream auth type enum.
 // +kubebuilder:validation:Enum={"ManagedIdentity","None"}
 type UpstreamAuthType string
 
@@ -5518,6 +5665,7 @@ const (
 	UpstreamAuthType_None            = UpstreamAuthType("None")
 )
 
+// Upstream auth type enum.
 type UpstreamAuthType_STATUS string
 
 const (

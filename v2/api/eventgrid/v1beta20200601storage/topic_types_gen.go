@@ -175,6 +175,7 @@ func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 }
 
 // Storage version of v1beta20200601.Topic_STATUS
+// EventGrid Topic
 type Topic_STATUS struct {
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`

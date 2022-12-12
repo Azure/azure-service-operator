@@ -10,10 +10,14 @@ type Disk_Spec_ARM struct {
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Location: Resource location
-	Location   *string             `json:"location,omitempty"`
-	Name       string              `json:"name,omitempty"`
+	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+
+	// Properties: Disk resource properties.
 	Properties *DiskProperties_ARM `json:"properties,omitempty"`
-	Sku        *DiskSku_ARM        `json:"sku,omitempty"`
+
+	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+	Sku *DiskSku_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -39,6 +43,7 @@ func (disk *Disk_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/disks"
 }
 
+// Disk resource properties.
 type DiskProperties_ARM struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
 	// disabled by default. Does not apply to Ultra disks.
@@ -81,7 +86,9 @@ type DiskProperties_ARM struct {
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
-	MaxShares           *int                 `json:"maxShares,omitempty"`
+	MaxShares *int `json:"maxShares,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -96,11 +103,13 @@ type DiskProperties_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku_ARM struct {
 	// Name: The sku name.
 	Name *DiskSku_Name `json:"name,omitempty"`
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -109,6 +118,7 @@ type ExtendedLocation_ARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
+// Data used when creating a disk.
 type CreationData_ARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption *CreationData_CreateOption `json:"createOption,omitempty"`
@@ -147,11 +157,15 @@ const (
 	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
 )
 
+// Encryption at rest settings for disk or snapshot
 type Encryption_ARM struct {
-	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+
+	// Type: The type of key used to encrypt the data of the disk.
+	Type *EncryptionType `json:"type,omitempty"`
 }
 
+// Encryption settings for disk or snapshot
 type EncryptionSettingsCollection_ARM struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	// this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
@@ -166,11 +180,13 @@ type EncryptionSettingsCollection_ARM struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
+// The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan_ARM struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -186,6 +202,7 @@ type PurchasePlan_ARM struct {
 	Publisher *string `json:"publisher,omitempty"`
 }
 
+// Encryption settings for one disk volume.
 type EncryptionSettingsElement_ARM struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference_ARM `json:"diskEncryptionKey,omitempty"`
@@ -195,6 +212,7 @@ type EncryptionSettingsElement_ARM struct {
 	KeyEncryptionKey *KeyVaultAndKeyReference_ARM `json:"keyEncryptionKey,omitempty"`
 }
 
+// The source image used for creating the disk.
 type ImageDiskReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -203,6 +221,7 @@ type ImageDiskReference_ARM struct {
 	Lun *int `json:"lun,omitempty"`
 }
 
+// Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference_ARM struct {
 	// KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
@@ -211,6 +230,7 @@ type KeyVaultAndKeyReference_ARM struct {
 	SourceVault *SourceVault_ARM `json:"sourceVault,omitempty"`
 }
 
+// Key Vault Secret Url and vault id of the encryption key
 type KeyVaultAndSecretReference_ARM struct {
 	// SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
@@ -219,6 +239,8 @@ type KeyVaultAndSecretReference_ARM struct {
 	SourceVault *SourceVault_ARM `json:"sourceVault,omitempty"`
 }
 
+// The vault id is an Azure Resource Manager Resource id in the form
+// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

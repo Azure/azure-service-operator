@@ -32,6 +32,7 @@ func (subscription *EventSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
+// Properties of the Event Subscription.
 type EventSubscriptionProperties_ARM struct {
 	// DeadLetterDestination: The DeadLetter destination of the event subscription.
 	DeadLetterDestination *DeadLetterDestination_ARM `json:"deadLetterDestination,omitempty"`
@@ -176,6 +177,7 @@ func (destination *EventSubscriptionDestination_ARM) UnmarshalJSON(data []byte) 
 	return nil
 }
 
+// Filter for the Event Subscription.
 type EventSubscriptionFilter_ARM struct {
 	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
@@ -198,6 +200,7 @@ type EventSubscriptionFilter_ARM struct {
 	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
 }
 
+// Information about the retry policy for an event subscription.
 type RetryPolicy_ARM struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
@@ -410,6 +413,7 @@ type WebHookEventSubscriptionDestination_ARM struct {
 	Properties *WebHookEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// The properties that represent the Azure Function destination of an event subscription.
 type AzureFunctionEventSubscriptionDestinationProperties_ARM struct {
 	// MaxEventsPerBatch: Maximum number of events per batch.
 	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
@@ -430,10 +434,12 @@ type BoolEqualsAdvancedFilter_ARM struct {
 	Value *bool `json:"value,omitempty"`
 }
 
+// The properties for a event hub destination.
 type EventHubEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// The properties for a hybrid connection destination.
 type HybridConnectionEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
@@ -504,20 +510,24 @@ type NumberNotInAdvancedFilter_ARM struct {
 	Values []float64 `json:"values,omitempty"`
 }
 
+// The properties that represent the Service Bus destination of an event subscription.
 type ServiceBusQueueEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// The properties that represent the Service Bus Topic destination of an event subscription.
 type ServiceBusTopicEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// Properties of the storage blob based dead letter destination.
 type StorageBlobDeadLetterDestinationProperties_ARM struct {
 	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 	ResourceId        *string `json:"resourceId,omitempty"`
 }
 
+// The properties for a storage queue destination.
 type StorageQueueEventSubscriptionDestinationProperties_ARM struct {
 	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName  *string `json:"queueName,omitempty"`
@@ -579,6 +589,7 @@ type StringNotInAdvancedFilter_ARM struct {
 	Values []string `json:"values,omitempty"`
 }
 
+// Information about the webhook destination properties for an event subscription.
 type WebHookEventSubscriptionDestinationProperties_ARM struct {
 	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
 	// will be included as the bearer token in delivery requests.

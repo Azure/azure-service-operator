@@ -190,6 +190,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertSpecTo(destination genruntime.
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGateway_STATUS
+// A common class for general resource information.
 type VirtualNetworkGateway_STATUS struct {
 	ActiveActive                   *bool                                         `json:"activeActive,omitempty"`
 	BgpSettings                    *BgpSettings_STATUS                           `json:"bgpSettings,omitempty"`
@@ -240,6 +241,7 @@ func (gateway *VirtualNetworkGateway_STATUS) ConvertStatusTo(destination genrunt
 }
 
 // Storage version of v1beta20201101.BgpSettings
+// BGP settings details.
 type BgpSettings struct {
 	Asn                 *uint32                            `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                            `json:"bgpPeeringAddress,omitempty"`
@@ -249,6 +251,7 @@ type BgpSettings struct {
 }
 
 // Storage version of v1beta20201101.BgpSettings_STATUS
+// BGP settings details.
 type BgpSettings_STATUS struct {
 	Asn                 *uint32                                   `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                                   `json:"bgpPeeringAddress,omitempty"`
@@ -258,6 +261,7 @@ type BgpSettings_STATUS struct {
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration
+// IP configuration for virtual network gateway.
 type VirtualNetworkGatewayIPConfiguration struct {
 	Name                      *string                `json:"name,omitempty"`
 	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
@@ -267,6 +271,7 @@ type VirtualNetworkGatewayIPConfiguration struct {
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGatewayIPConfiguration_STATUS
+// IP configuration for virtual network gateway.
 type VirtualNetworkGatewayIPConfiguration_STATUS struct {
 	Etag                      *string                `json:"etag,omitempty"`
 	Id                        *string                `json:"id,omitempty"`
@@ -280,6 +285,7 @@ type VirtualNetworkGatewayIPConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGatewaySku
+// VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -287,6 +293,7 @@ type VirtualNetworkGatewaySku struct {
 }
 
 // Storage version of v1beta20201101.VirtualNetworkGatewaySku_STATUS
+// VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -295,6 +302,7 @@ type VirtualNetworkGatewaySku_STATUS struct {
 }
 
 // Storage version of v1beta20201101.VpnClientConfiguration
+// VpnClientConfiguration for P2S client.
 type VpnClientConfiguration struct {
 	AadAudience                  *string                       `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                       `json:"aadIssuer,omitempty"`
@@ -312,6 +320,7 @@ type VpnClientConfiguration struct {
 }
 
 // Storage version of v1beta20201101.VpnClientConfiguration_STATUS
+// VpnClientConfiguration for P2S client.
 type VpnClientConfiguration_STATUS struct {
 	AadAudience                  *string                              `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                              `json:"aadIssuer,omitempty"`
@@ -329,6 +338,7 @@ type VpnClientConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20201101.IPConfigurationBgpPeeringAddress
+// Properties of IPConfigurationBgpPeeringAddress.
 type IPConfigurationBgpPeeringAddress struct {
 	CustomBgpIpAddresses []string               `json:"customBgpIpAddresses,omitempty"`
 	IpconfigurationId    *string                `json:"ipconfigurationId,omitempty"`
@@ -336,6 +346,7 @@ type IPConfigurationBgpPeeringAddress struct {
 }
 
 // Storage version of v1beta20201101.IPConfigurationBgpPeeringAddress_STATUS
+// Properties of IPConfigurationBgpPeeringAddress.
 type IPConfigurationBgpPeeringAddress_STATUS struct {
 	CustomBgpIpAddresses  []string               `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string               `json:"defaultBgpIpAddresses,omitempty"`
@@ -345,6 +356,7 @@ type IPConfigurationBgpPeeringAddress_STATUS struct {
 }
 
 // Storage version of v1beta20201101.IpsecPolicy
+// An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -358,6 +370,7 @@ type IpsecPolicy struct {
 }
 
 // Storage version of v1beta20201101.IpsecPolicy_STATUS
+// An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy_STATUS struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -371,6 +384,7 @@ type IpsecPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20201101.RadiusServer
+// Radius Server Settings.
 type RadiusServer struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -379,6 +393,7 @@ type RadiusServer struct {
 }
 
 // Storage version of v1beta20201101.RadiusServer_STATUS
+// Radius Server Settings.
 type RadiusServer_STATUS struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -387,6 +402,7 @@ type RadiusServer_STATUS struct {
 }
 
 // Storage version of v1beta20201101.VpnClientRevokedCertificate
+// VPN client revoked certificate of virtual network gateway.
 type VpnClientRevokedCertificate struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -394,6 +410,7 @@ type VpnClientRevokedCertificate struct {
 }
 
 // Storage version of v1beta20201101.VpnClientRevokedCertificate_STATUS
+// VPN client revoked certificate of virtual network gateway.
 type VpnClientRevokedCertificate_STATUS struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -404,6 +421,7 @@ type VpnClientRevokedCertificate_STATUS struct {
 }
 
 // Storage version of v1beta20201101.VpnClientRootCertificate
+// VPN client root certificate of virtual network gateway.
 type VpnClientRootCertificate struct {
 	Name           *string                `json:"name,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -411,6 +429,7 @@ type VpnClientRootCertificate struct {
 }
 
 // Storage version of v1beta20201101.VpnClientRootCertificate_STATUS
+// VPN client root certificate of virtual network gateway.
 type VpnClientRootCertificate_STATUS struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`

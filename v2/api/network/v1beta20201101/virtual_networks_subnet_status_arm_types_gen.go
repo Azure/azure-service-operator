@@ -20,6 +20,7 @@ type VirtualNetworks_Subnet_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the subnet.
 type SubnetPropertiesFormat_STATUS_ARM struct {
 	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -80,11 +81,13 @@ type SubnetPropertiesFormat_STATUS_ARM struct {
 	ServiceEndpoints []ServiceEndpointPropertiesFormat_STATUS_ARM `json:"serviceEndpoints,omitempty"`
 }
 
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Details the service to which the subnet is delegated.
 type Delegation_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -102,46 +105,55 @@ type Delegation_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// IP configuration.
 type IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// IP configuration profile child resource.
 type IPConfigurationProfile_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Private endpoint resource.
 type PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// ResourceNavigationLink resource.
 type ResourceNavigationLink_STATUS_ARM struct {
 	// Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 }
 
+// Route table resource.
 type RouteTable_STATUS_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// ServiceAssociationLink resource.
 type ServiceAssociationLink_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Service End point policy resource.
 type ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// The service endpoint properties.
 type ServiceEndpointPropertiesFormat_STATUS_ARM struct {
 	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
@@ -153,6 +165,7 @@ type ServiceEndpointPropertiesFormat_STATUS_ARM struct {
 	Service *string `json:"service,omitempty"`
 }
 
+// Properties of a service delegation.
 type ServiceDelegationPropertiesFormat_STATUS_ARM struct {
 	// Actions: The actions permitted to the service upon delegation.
 	Actions []string `json:"actions,omitempty"`

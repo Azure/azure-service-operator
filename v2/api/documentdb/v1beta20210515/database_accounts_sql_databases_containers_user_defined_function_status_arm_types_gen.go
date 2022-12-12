@@ -21,6 +21,7 @@ type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS_ARM str
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB userDefinedFunction
 type SqlUserDefinedFunctionGetProperties_STATUS_ARM struct {
 	Resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }

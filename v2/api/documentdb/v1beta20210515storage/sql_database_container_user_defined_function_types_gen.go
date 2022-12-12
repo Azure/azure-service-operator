@@ -215,6 +215,7 @@ type SqlUserDefinedFunctionGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlUserDefinedFunctionResource
+// Cosmos DB SQL userDefinedFunction resource object
 type SqlUserDefinedFunctionResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`

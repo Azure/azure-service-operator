@@ -1233,6 +1233,7 @@ func (workspace *Workspace_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (workspace *Workspace_Spec) SetAzureName(azureName string) { workspace.AzureName = azureName }
 
+// An object that represents a machine learning workspace.
 type Workspace_STATUS struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -2479,6 +2480,7 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 	return nil
 }
 
+// Identity for the resource.
 type Identity struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
@@ -2562,6 +2564,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210701s.I
 	return nil
 }
 
+// Identity for the resource.
 type Identity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2822,6 +2825,7 @@ func (info *NotebookResourceInfo_STATUS) AssignProperties_To_NotebookResourceInf
 	return nil
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -3388,6 +3392,7 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPriv
 	return nil
 }
 
+// Sku of the resource
 type Sku struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -3482,6 +3487,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210701s.Sku) error {
 	return nil
 }
 
+// Sku of the resource
 type Sku_STATUS struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -3555,6 +3561,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210701s.Sk
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -3773,6 +3780,7 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *v20210701s.S
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -4152,6 +4160,7 @@ const (
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("Enabled")
 )
 
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
@@ -4225,6 +4234,7 @@ func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *v2
 	return nil
 }
 
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk_STATUS struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
@@ -4558,6 +4568,7 @@ func (error *NotebookPreparationError_STATUS) AssignProperties_To_NotebookPrepar
 	return nil
 }
 
+// The private endpoint connection status.
 // +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
 type PrivateEndpointServiceConnectionStatus string
 
@@ -4569,6 +4580,7 @@ const (
 	PrivateEndpointServiceConnectionStatus_Timeout      = PrivateEndpointServiceConnectionStatus("Timeout")
 )
 
+// The private endpoint connection status.
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
@@ -4579,6 +4591,7 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Timeout      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
 )
 
+// User Assigned Identity
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: The clientId(aka appId) of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`

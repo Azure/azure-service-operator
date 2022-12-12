@@ -37,6 +37,7 @@ func (server *FlexibleServer_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
+// The properties of a server.
 type ServerProperties_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -75,6 +76,7 @@ type ServerProperties_ARM struct {
 	Version *ServerVersion `json:"version,omitempty"`
 }
 
+// Sku information related properties of a server.
 type Sku_ARM struct {
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
@@ -83,6 +85,7 @@ type Sku_ARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
+// Backup properties of a server
 type Backup_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -91,6 +94,7 @@ type Backup_ARM struct {
 	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
+// High availability properties of a server
 type HighAvailability_ARM struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
@@ -99,6 +103,7 @@ type HighAvailability_ARM struct {
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
 
+// Maintenance window properties of a server.
 type MaintenanceWindow_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -113,6 +118,7 @@ type MaintenanceWindow_ARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
+// Network properties of a server
 type Network_ARM struct {
 	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -127,6 +133,7 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
+// Storage properties of a server
 type Storage_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`

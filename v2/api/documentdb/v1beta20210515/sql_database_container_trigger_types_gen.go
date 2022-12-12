@@ -1022,6 +1022,7 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_To_Sql
 	return nil
 }
 
+// Cosmos DB SQL trigger resource object
 type SqlTriggerResource struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`

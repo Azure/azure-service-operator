@@ -12,13 +12,17 @@ type Alias_STATUS_ARM struct {
 
 	// Properties: Subscription Alias response properties.
 	Properties *SubscriptionAliasResponseProperties_STATUS_ARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUS_ARM                          `json:"systemData,omitempty"`
+
+	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Type: Resource type, Microsoft.Subscription/aliases.
 	Type *string `json:"type,omitempty"`
 }
 
+// Put subscription creation result properties.
 type SubscriptionAliasResponseProperties_STATUS_ARM struct {
+	// AcceptOwnershipState: The accept ownership state of the resource.
 	AcceptOwnershipState *AcceptOwnershipState_STATUS `json:"acceptOwnershipState,omitempty"`
 
 	// AcceptOwnershipUrl: Url to accept ownership of the subscription.
@@ -47,10 +51,13 @@ type SubscriptionAliasResponseProperties_STATUS_ARM struct {
 	SubscriptionOwnerId *string `json:"subscriptionOwnerId,omitempty"`
 
 	// Tags: Tags for the subscription
-	Tags     map[string]string `json:"tags,omitempty"`
-	Workload *Workload_STATUS  `json:"workload,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Workload: The workload type of the subscription. It can be either Production or DevTest.
+	Workload *Workload_STATUS `json:"workload,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -71,6 +78,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// The accept ownership state of the resource.
 type AcceptOwnershipState_STATUS string
 
 const (
@@ -105,6 +113,7 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
+// The workload type of the subscription. It can be either Production or DevTest.
 type Workload_STATUS string
 
 const (

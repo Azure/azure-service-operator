@@ -37,6 +37,7 @@ func (redis *Redis_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis"
 }
 
+// Properties supplied to Create Redis operation.
 type RedisCreateProperties_ARM struct {
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
@@ -122,6 +123,7 @@ type RedisCreateProperties_RedisConfiguration_ARM struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
+// SKU parameters supplied to the create Redis operation.
 type Sku_ARM struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).

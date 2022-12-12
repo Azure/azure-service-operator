@@ -239,6 +239,7 @@ func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime
 }
 
 // Storage version of v1beta20210601.DeepCreatedCustomDomain_STATUS
+// Custom domains created on the CDN endpoint.
 type DeepCreatedCustomDomain_STATUS struct {
 	HostName       *string                `json:"hostName,omitempty"`
 	Name           *string                `json:"name,omitempty"`
@@ -247,6 +248,7 @@ type DeepCreatedCustomDomain_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeepCreatedOrigin
+// The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin struct {
 	Enabled                    *bool   `json:"enabled,omitempty"`
 	HostName                   *string `json:"hostName,omitempty"`
@@ -270,6 +272,7 @@ type DeepCreatedOrigin struct {
 }
 
 // Storage version of v1beta20210601.DeepCreatedOrigin_STATUS
+// The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin_STATUS struct {
 	Enabled                    *bool                  `json:"enabled,omitempty"`
 	HostName                   *string                `json:"hostName,omitempty"`
@@ -288,6 +291,8 @@ type DeepCreatedOrigin_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeepCreatedOriginGroup
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
 type DeepCreatedOriginGroup struct {
 	HealthProbeSettings                                   *HealthProbeParameters                       `json:"healthProbeSettings,omitempty"`
 	Name                                                  *string                                      `json:"name,omitempty"`
@@ -298,6 +303,8 @@ type DeepCreatedOriginGroup struct {
 }
 
 // Storage version of v1beta20210601.DeepCreatedOriginGroup_STATUS
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
 type DeepCreatedOriginGroup_STATUS struct {
 	HealthProbeSettings                                   *HealthProbeParameters_STATUS                       `json:"healthProbeSettings,omitempty"`
 	Name                                                  *string                                             `json:"name,omitempty"`
@@ -336,6 +343,7 @@ type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
 }
 
 // Storage version of v1beta20210601.GeoFilter
+// Rules defining user's geo access within a CDN endpoint.
 type GeoFilter struct {
 	Action       *string                `json:"action,omitempty"`
 	CountryCodes []string               `json:"countryCodes,omitempty"`
@@ -344,6 +352,7 @@ type GeoFilter struct {
 }
 
 // Storage version of v1beta20210601.GeoFilter_STATUS
+// Rules defining user's geo access within a CDN endpoint.
 type GeoFilter_STATUS struct {
 	Action       *string                `json:"action,omitempty"`
 	CountryCodes []string               `json:"countryCodes,omitempty"`
@@ -352,6 +361,7 @@ type GeoFilter_STATUS struct {
 }
 
 // Storage version of v1beta20210601.ResourceReference
+// Reference to another resource.
 type ResourceReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -360,12 +370,14 @@ type ResourceReference struct {
 }
 
 // Storage version of v1beta20210601.ResourceReference_STATUS
+// Reference to another resource.
 type ResourceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.UrlSigningKey
+// Url signing key
 type UrlSigningKey struct {
 	KeyId               *string                       `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters `json:"keySourceParameters,omitempty"`
@@ -373,6 +385,7 @@ type UrlSigningKey struct {
 }
 
 // Storage version of v1beta20210601.UrlSigningKey_STATUS
+// Url signing key
 type UrlSigningKey_STATUS struct {
 	KeyId               *string                              `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
@@ -380,6 +393,7 @@ type UrlSigningKey_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRule
+// A rule that specifies a set of actions and conditions
 type DeliveryRule struct {
 	Actions     []DeliveryRuleAction    `json:"actions,omitempty"`
 	Conditions  []DeliveryRuleCondition `json:"conditions,omitempty"`
@@ -389,6 +403,7 @@ type DeliveryRule struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRule_STATUS
+// A rule that specifies a set of actions and conditions
 type DeliveryRule_STATUS struct {
 	Actions     []DeliveryRuleAction_STATUS    `json:"actions,omitempty"`
 	Conditions  []DeliveryRuleCondition_STATUS `json:"conditions,omitempty"`
@@ -398,6 +413,7 @@ type DeliveryRule_STATUS struct {
 }
 
 // Storage version of v1beta20210601.HealthProbeParameters
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters struct {
 	ProbeIntervalInSeconds *int                   `json:"probeIntervalInSeconds,omitempty"`
 	ProbePath              *string                `json:"probePath,omitempty"`
@@ -407,6 +423,7 @@ type HealthProbeParameters struct {
 }
 
 // Storage version of v1beta20210601.HealthProbeParameters_STATUS
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS struct {
 	ProbeIntervalInSeconds *int                   `json:"probeIntervalInSeconds,omitempty"`
 	ProbePath              *string                `json:"probePath,omitempty"`
@@ -416,6 +433,7 @@ type HealthProbeParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.KeyVaultSigningKeyParameters
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceGroupName *string                `json:"resourceGroupName,omitempty"`
@@ -427,6 +445,7 @@ type KeyVaultSigningKeyParameters struct {
 }
 
 // Storage version of v1beta20210601.KeyVaultSigningKeyParameters_STATUS
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceGroupName *string                `json:"resourceGroupName,omitempty"`
@@ -438,6 +457,7 @@ type KeyVaultSigningKeyParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.ResponseBasedOriginErrorDetectionParameters
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters struct {
 	HttpErrorRanges                          []HttpErrorRangeParameters `json:"httpErrorRanges,omitempty"`
 	PropertyBag                              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -446,6 +466,7 @@ type ResponseBasedOriginErrorDetectionParameters struct {
 }
 
 // Storage version of v1beta20210601.ResponseBasedOriginErrorDetectionParameters_STATUS
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	HttpErrorRanges                          []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
 	PropertyBag                              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -454,6 +475,7 @@ type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRuleAction
+// An action for the delivery rule.
 type DeliveryRuleAction struct {
 	CacheExpiration            *DeliveryRuleCacheExpirationAction            `json:"cacheExpiration,omitempty"`
 	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction        `json:"cacheKeyQueryString,omitempty"`
@@ -468,6 +490,7 @@ type DeliveryRuleAction struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRuleAction_STATUS
+// An action for the delivery rule.
 type DeliveryRuleAction_STATUS struct {
 	CacheExpiration            *DeliveryRuleCacheExpirationAction_STATUS            `json:"cacheExpiration,omitempty"`
 	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction_STATUS        `json:"cacheKeyQueryString,omitempty"`
@@ -482,6 +505,7 @@ type DeliveryRuleAction_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCondition
+// A condition for the delivery rule.
 type DeliveryRuleCondition struct {
 	ClientPort       *DeliveryRuleClientPortCondition       `json:"clientPort,omitempty"`
 	Cookies          *DeliveryRuleCookiesCondition          `json:"cookies,omitempty"`
@@ -506,6 +530,7 @@ type DeliveryRuleCondition struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCondition_STATUS
+// A condition for the delivery rule.
 type DeliveryRuleCondition_STATUS struct {
 	ClientPort       *DeliveryRuleClientPortCondition_STATUS       `json:"clientPort,omitempty"`
 	Cookies          *DeliveryRuleCookiesCondition_STATUS          `json:"cookies,omitempty"`
@@ -530,6 +555,7 @@ type DeliveryRuleCondition_STATUS struct {
 }
 
 // Storage version of v1beta20210601.HttpErrorRangeParameters
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters struct {
 	Begin       *int                   `json:"begin,omitempty"`
 	End         *int                   `json:"end,omitempty"`
@@ -537,6 +563,7 @@ type HttpErrorRangeParameters struct {
 }
 
 // Storage version of v1beta20210601.HttpErrorRangeParameters_STATUS
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_STATUS struct {
 	Begin       *int                   `json:"begin,omitempty"`
 	End         *int                   `json:"end,omitempty"`
@@ -936,6 +963,7 @@ type UrlSigningAction_STATUS struct {
 }
 
 // Storage version of v1beta20210601.CacheExpirationActionParameters
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters struct {
 	CacheBehavior *string                `json:"cacheBehavior,omitempty"`
 	CacheDuration *string                `json:"cacheDuration,omitempty"`
@@ -945,6 +973,7 @@ type CacheExpirationActionParameters struct {
 }
 
 // Storage version of v1beta20210601.CacheExpirationActionParameters_STATUS
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters_STATUS struct {
 	CacheBehavior *string                `json:"cacheBehavior,omitempty"`
 	CacheDuration *string                `json:"cacheDuration,omitempty"`
@@ -954,6 +983,7 @@ type CacheExpirationActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.CacheKeyQueryStringActionParameters
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	QueryParameters     *string                `json:"queryParameters,omitempty"`
@@ -962,6 +992,7 @@ type CacheKeyQueryStringActionParameters struct {
 }
 
 // Storage version of v1beta20210601.CacheKeyQueryStringActionParameters_STATUS
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters_STATUS struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	QueryParameters     *string                `json:"queryParameters,omitempty"`
@@ -970,6 +1001,7 @@ type CacheKeyQueryStringActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.ClientPortMatchConditionParameters
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -980,6 +1012,7 @@ type ClientPortMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.ClientPortMatchConditionParameters_STATUS
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -990,6 +1023,7 @@ type ClientPortMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.CookiesMatchConditionParameters
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1001,6 +1035,7 @@ type CookiesMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.CookiesMatchConditionParameters_STATUS
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1012,6 +1047,7 @@ type CookiesMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.HeaderActionParameters
+// Defines the parameters for the request header action.
 type HeaderActionParameters struct {
 	HeaderAction *string                `json:"headerAction,omitempty"`
 	HeaderName   *string                `json:"headerName,omitempty"`
@@ -1021,6 +1057,7 @@ type HeaderActionParameters struct {
 }
 
 // Storage version of v1beta20210601.HeaderActionParameters_STATUS
+// Defines the parameters for the request header action.
 type HeaderActionParameters_STATUS struct {
 	HeaderAction *string                `json:"headerAction,omitempty"`
 	HeaderName   *string                `json:"headerName,omitempty"`
@@ -1030,6 +1067,7 @@ type HeaderActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.HostNameMatchConditionParameters
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1040,6 +1078,7 @@ type HostNameMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.HostNameMatchConditionParameters_STATUS
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1050,6 +1089,7 @@ type HostNameMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.HttpVersionMatchConditionParameters
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1060,6 +1100,7 @@ type HttpVersionMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.HttpVersionMatchConditionParameters_STATUS
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1070,6 +1111,7 @@ type HttpVersionMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.IsDeviceMatchConditionParameters
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1080,6 +1122,7 @@ type IsDeviceMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.IsDeviceMatchConditionParameters_STATUS
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1090,6 +1133,7 @@ type IsDeviceMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.OriginGroupOverrideActionParameters
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters struct {
 	OriginGroup *ResourceReference     `json:"originGroup,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1097,6 +1141,7 @@ type OriginGroupOverrideActionParameters struct {
 }
 
 // Storage version of v1beta20210601.OriginGroupOverrideActionParameters_STATUS
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_STATUS struct {
 	OriginGroup *ResourceReference_STATUS `json:"originGroup,omitempty"`
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -1104,6 +1149,7 @@ type OriginGroupOverrideActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.PostArgsMatchConditionParameters
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1115,6 +1161,7 @@ type PostArgsMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.PostArgsMatchConditionParameters_STATUS
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1126,6 +1173,7 @@ type PostArgsMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.QueryStringMatchConditionParameters
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1136,6 +1184,7 @@ type QueryStringMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.QueryStringMatchConditionParameters_STATUS
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1146,6 +1195,7 @@ type QueryStringMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RemoteAddressMatchConditionParameters
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1156,6 +1206,7 @@ type RemoteAddressMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.RemoteAddressMatchConditionParameters_STATUS
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1166,6 +1217,7 @@ type RemoteAddressMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RequestBodyMatchConditionParameters
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1176,6 +1228,7 @@ type RequestBodyMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.RequestBodyMatchConditionParameters_STATUS
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1186,6 +1239,7 @@ type RequestBodyMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RequestHeaderMatchConditionParameters
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1197,6 +1251,7 @@ type RequestHeaderMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.RequestHeaderMatchConditionParameters_STATUS
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1208,6 +1263,7 @@ type RequestHeaderMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RequestMethodMatchConditionParameters
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1218,6 +1274,7 @@ type RequestMethodMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.RequestMethodMatchConditionParameters_STATUS
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1228,6 +1285,7 @@ type RequestMethodMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RequestSchemeMatchConditionParameters
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1238,6 +1296,7 @@ type RequestSchemeMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.RequestSchemeMatchConditionParameters_STATUS
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1248,6 +1307,7 @@ type RequestSchemeMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RequestUriMatchConditionParameters
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1258,6 +1318,7 @@ type RequestUriMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.RequestUriMatchConditionParameters_STATUS
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1268,6 +1329,7 @@ type RequestUriMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.RouteConfigurationOverrideActionParameters
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters struct {
 	CacheConfiguration  *CacheConfiguration    `json:"cacheConfiguration,omitempty"`
 	OriginGroupOverride *OriginGroupOverride   `json:"originGroupOverride,omitempty"`
@@ -1276,6 +1338,7 @@ type RouteConfigurationOverrideActionParameters struct {
 }
 
 // Storage version of v1beta20210601.RouteConfigurationOverrideActionParameters_STATUS
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters_STATUS struct {
 	CacheConfiguration  *CacheConfiguration_STATUS  `json:"cacheConfiguration,omitempty"`
 	OriginGroupOverride *OriginGroupOverride_STATUS `json:"originGroupOverride,omitempty"`
@@ -1284,6 +1347,7 @@ type RouteConfigurationOverrideActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.ServerPortMatchConditionParameters
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1294,6 +1358,7 @@ type ServerPortMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.ServerPortMatchConditionParameters_STATUS
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1304,6 +1369,7 @@ type ServerPortMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.SocketAddrMatchConditionParameters
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1314,6 +1380,7 @@ type SocketAddrMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.SocketAddrMatchConditionParameters_STATUS
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1324,6 +1391,7 @@ type SocketAddrMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.SslProtocolMatchConditionParameters
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1334,6 +1402,7 @@ type SslProtocolMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.SslProtocolMatchConditionParameters_STATUS
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1344,6 +1413,7 @@ type SslProtocolMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlFileExtensionMatchConditionParameters
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1354,6 +1424,7 @@ type UrlFileExtensionMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.UrlFileExtensionMatchConditionParameters_STATUS
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1364,6 +1435,7 @@ type UrlFileExtensionMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlFileNameMatchConditionParameters
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1374,6 +1446,7 @@ type UrlFileNameMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.UrlFileNameMatchConditionParameters_STATUS
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1384,6 +1457,7 @@ type UrlFileNameMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlPathMatchConditionParameters
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1394,6 +1468,7 @@ type UrlPathMatchConditionParameters struct {
 }
 
 // Storage version of v1beta20210601.UrlPathMatchConditionParameters_STATUS
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters_STATUS struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1404,6 +1479,7 @@ type UrlPathMatchConditionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlRedirectActionParameters
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters struct {
 	CustomFragment      *string                `json:"customFragment,omitempty"`
 	CustomHostname      *string                `json:"customHostname,omitempty"`
@@ -1416,6 +1492,7 @@ type UrlRedirectActionParameters struct {
 }
 
 // Storage version of v1beta20210601.UrlRedirectActionParameters_STATUS
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters_STATUS struct {
 	CustomFragment      *string                `json:"customFragment,omitempty"`
 	CustomHostname      *string                `json:"customHostname,omitempty"`
@@ -1428,6 +1505,7 @@ type UrlRedirectActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlRewriteActionParameters
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters struct {
 	Destination           *string                `json:"destination,omitempty"`
 	PreserveUnmatchedPath *bool                  `json:"preserveUnmatchedPath,omitempty"`
@@ -1437,6 +1515,7 @@ type UrlRewriteActionParameters struct {
 }
 
 // Storage version of v1beta20210601.UrlRewriteActionParameters_STATUS
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters_STATUS struct {
 	Destination           *string                `json:"destination,omitempty"`
 	PreserveUnmatchedPath *bool                  `json:"preserveUnmatchedPath,omitempty"`
@@ -1446,6 +1525,7 @@ type UrlRewriteActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlSigningActionParameters
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters struct {
 	Algorithm             *string                     `json:"algorithm,omitempty"`
 	ParameterNameOverride []UrlSigningParamIdentifier `json:"parameterNameOverride,omitempty"`
@@ -1454,6 +1534,7 @@ type UrlSigningActionParameters struct {
 }
 
 // Storage version of v1beta20210601.UrlSigningActionParameters_STATUS
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters_STATUS struct {
 	Algorithm             *string                            `json:"algorithm,omitempty"`
 	ParameterNameOverride []UrlSigningParamIdentifier_STATUS `json:"parameterNameOverride,omitempty"`
@@ -1462,6 +1543,7 @@ type UrlSigningActionParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.CacheConfiguration
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration struct {
 	CacheBehavior              *string                `json:"cacheBehavior,omitempty"`
 	CacheDuration              *string                `json:"cacheDuration,omitempty"`
@@ -1472,6 +1554,7 @@ type CacheConfiguration struct {
 }
 
 // Storage version of v1beta20210601.CacheConfiguration_STATUS
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration_STATUS struct {
 	CacheBehavior              *string                `json:"cacheBehavior,omitempty"`
 	CacheDuration              *string                `json:"cacheDuration,omitempty"`
@@ -1482,6 +1565,7 @@ type CacheConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20210601.OriginGroupOverride
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride struct {
 	ForwardingProtocol *string                `json:"forwardingProtocol,omitempty"`
 	OriginGroup        *ResourceReference     `json:"originGroup,omitempty"`
@@ -1489,6 +1573,7 @@ type OriginGroupOverride struct {
 }
 
 // Storage version of v1beta20210601.OriginGroupOverride_STATUS
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride_STATUS struct {
 	ForwardingProtocol *string                   `json:"forwardingProtocol,omitempty"`
 	OriginGroup        *ResourceReference_STATUS `json:"originGroup,omitempty"`
@@ -1496,6 +1581,7 @@ type OriginGroupOverride_STATUS struct {
 }
 
 // Storage version of v1beta20210601.UrlSigningParamIdentifier
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier struct {
 	ParamIndicator *string                `json:"paramIndicator,omitempty"`
 	ParamName      *string                `json:"paramName,omitempty"`
@@ -1503,6 +1589,7 @@ type UrlSigningParamIdentifier struct {
 }
 
 // Storage version of v1beta20210601.UrlSigningParamIdentifier_STATUS
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier_STATUS struct {
 	ParamIndicator *string                `json:"paramIndicator,omitempty"`
 	ParamName      *string                `json:"paramName,omitempty"`

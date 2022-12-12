@@ -18,6 +18,7 @@ type Servers_Database_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a database.
 type DatabaseProperties_STATUS_ARM struct {
 	// Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`

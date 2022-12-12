@@ -333,8 +333,10 @@ type Serverfarm_Spec struct {
 
 	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
 	// ElasticPremium sku
-	ElasticScaleEnabled *bool             `json:"elasticScaleEnabled,omitempty"`
-	ExtendedLocation    *ExtendedLocation `json:"extendedLocation,omitempty"`
+	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
+
+	// ExtendedLocation: Extended Location.
+	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// FreeOfferExpirationTime: The time when the server farm free offer expires.
 	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
@@ -375,8 +377,10 @@ type Serverfarm_Spec struct {
 	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
 
 	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
-	Reserved *bool           `json:"reserved,omitempty"`
-	Sku      *SkuDescription `json:"sku,omitempty"`
+	Reserved *bool `json:"reserved,omitempty"`
+
+	// Sku: Description of a SKU for a scalable resource.
+	Sku *SkuDescription `json:"sku,omitempty"`
 
 	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
@@ -1142,8 +1146,10 @@ type Serverfarm_STATUS struct {
 
 	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
 	// ElasticPremium sku
-	ElasticScaleEnabled *bool                    `json:"elasticScaleEnabled,omitempty"`
-	ExtendedLocation    *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
+	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
+
+	// ExtendedLocation: Extended Location.
+	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
 	// FreeOfferExpirationTime: The time when the server farm free offer expires.
 	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
@@ -1201,8 +1207,10 @@ type Serverfarm_STATUS struct {
 	Reserved *bool `json:"reserved,omitempty"`
 
 	// ResourceGroup: Resource group of the App Service plan.
-	ResourceGroup *string                `json:"resourceGroup,omitempty"`
-	Sku           *SkuDescription_STATUS `json:"sku,omitempty"`
+	ResourceGroup *string `json:"resourceGroup,omitempty"`
+
+	// Sku: Description of a SKU for a scalable resource.
+	Sku *SkuDescription_STATUS `json:"sku,omitempty"`
 
 	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
@@ -1957,6 +1965,7 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(desti
 	return nil
 }
 
+// Extended Location.
 type ExtendedLocation struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
@@ -2030,6 +2039,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// Extended Location.
 type ExtendedLocation_STATUS struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
@@ -2103,6 +2113,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile struct {
 	// Reference: Resource ID of the App Service Environment.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2186,6 +2197,7 @@ func (profile *HostingEnvironmentProfile) AssignProperties_To_HostingEnvironment
 	return nil
 }
 
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile_STATUS struct {
 	// Id: Resource ID of the App Service Environment.
 	Id *string `json:"id,omitempty"`
@@ -2274,6 +2286,7 @@ func (profile *HostingEnvironmentProfile_STATUS) AssignProperties_To_HostingEnvi
 	return nil
 }
 
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile struct {
 	// Reference: Resource ID of the Kubernetes Environment.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2357,6 +2370,7 @@ func (profile *KubeEnvironmentProfile) AssignProperties_To_KubeEnvironmentProfil
 	return nil
 }
 
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile_STATUS struct {
 	// Id: Resource ID of the Kubernetes Environment.
 	Id *string `json:"id,omitempty"`
@@ -2463,6 +2477,7 @@ const (
 	Serverfarm_Properties_Status_STATUS_Ready    = Serverfarm_Properties_Status_STATUS("Ready")
 )
 
+// Description of a SKU for a scalable resource.
 type SkuDescription struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability `json:"capabilities,omitempty"`
@@ -2745,6 +2760,7 @@ func (description *SkuDescription) AssignProperties_To_SkuDescription(destinatio
 	return nil
 }
 
+// Description of a SKU for a scalable resource.
 type SkuDescription_STATUS struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability_STATUS `json:"capabilities,omitempty"`
@@ -2964,6 +2980,7 @@ func (description *SkuDescription_STATUS) AssignProperties_To_SkuDescription_STA
 	return nil
 }
 
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -3079,6 +3096,7 @@ func (capability *Capability) AssignProperties_To_Capability(destination *v20220
 	return nil
 }
 
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability_STATUS struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -3167,6 +3185,7 @@ func (capability *Capability_STATUS) AssignProperties_To_Capability_STATUS(desti
 	return nil
 }
 
+// Description of the App Service plan scale options.
 type SkuCapacity struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`
@@ -3324,6 +3343,7 @@ func (capacity *SkuCapacity) AssignProperties_To_SkuCapacity(destination *v20220
 	return nil
 }
 
+// Description of the App Service plan scale options.
 type SkuCapacity_STATUS struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`

@@ -7,8 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Profile_Spec_ARM struct {
 	// Location: Resource location.
-	Location   *string                `json:"location,omitempty"`
-	Name       string                 `json:"name,omitempty"`
+	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+
+	// Properties: The JSON object that contains the properties required to create a profile.
 	Properties *ProfileProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
@@ -36,12 +38,37 @@ func (profile *Profile_Spec_ARM) GetType() string {
 	return "Microsoft.Cdn/profiles"
 }
 
+// The JSON object that contains the properties required to create a profile.
 type ProfileProperties_ARM struct {
 	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
 	// request fails and returns.
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 }
 
+// Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+// Premium_Verizon = The SKU name for a Premium Verizon
+// CDN profile.
+// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+// Standard_Akamai = The SKU name for an
+// Akamai CDN profile.
+// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using
+// GB based billing model.
+// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+// Standard_AzureFrontDoor
+// =  The SKU name for an Azure Front Door Standard profile.
+// Premium_AzureFrontDoor = The SKU name for an Azure Front Door
+// Premium profile.
+// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download
+// scenarios using 95-5 peak bandwidth billing model.
+// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile
+// for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
+// StandardPlus_ChinaCdn = The SKU
+// name for a China CDN profile for live-streaming using GB based billing model.
+// StandardPlus_955BandWidth_ChinaCdn = The
+// SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing
+// model.
+// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average
+// peak bandwidth billing model.
 type Sku_ARM struct {
 	// Name: Name of the pricing tier.
 	Name *Sku_Name `json:"name,omitempty"`

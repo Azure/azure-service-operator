@@ -952,6 +952,7 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 	return nil
 }
 
+// Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both.
 type ThroughputSettingsResource struct {
 	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
 	// required, but not both.
@@ -1075,6 +1076,7 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 	return nil
 }
 
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
@@ -1197,6 +1199,7 @@ func (resource *AutoscaleSettingsResource) AssignProperties_To_AutoscaleSettings
 	return nil
 }
 
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource_STATUS struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_STATUS `json:"autoUpgradePolicy,omitempty"`
@@ -1309,6 +1312,7 @@ func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_To_AutoscaleS
 	return nil
 }
 
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
@@ -1409,6 +1413,7 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_To_AutoUpgradePolicy
 	return nil
 }
 
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_STATUS `json:"throughputPolicy,omitempty"`
@@ -1490,6 +1495,7 @@ func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_To_AutoUpgrad
 	return nil
 }
 
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource struct {
 	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`
@@ -1594,6 +1600,7 @@ func (resource *ThroughputPolicyResource) AssignProperties_To_ThroughputPolicyRe
 	return nil
 }
 
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource_STATUS struct {
 	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
 	IncrementPercent *int `json:"incrementPercent,omitempty"`

@@ -43,6 +43,7 @@ func (address *PublicIPAddress_Spec_ARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
+// Public IP address properties.
 type PublicIPAddressPropertiesFormat_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings_ARM `json:"ddosSettings,omitempty"`
@@ -78,6 +79,7 @@ type PublicIPAddressPropertiesFormat_ARM struct {
 	ServicePublicIPAddress *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM `json:"servicePublicIPAddress,omitempty"`
 }
 
+// SKU of a public IP address.
 type PublicIPAddressSku_ARM struct {
 	// Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
@@ -86,6 +88,7 @@ type PublicIPAddressSku_ARM struct {
 	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
 }
 
+// Contains the DDoS protection settings of the public IP.
 type DdosSettings_ARM struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource_ARM `json:"ddosCustomPolicy,omitempty"`
@@ -98,6 +101,7 @@ type DdosSettings_ARM struct {
 	ProtectionCoverage *DdosSettings_ProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
+// Contains the IpTag associated with the object.
 type IpTag_ARM struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -106,10 +110,12 @@ type IpTag_ARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
+// Nat Gateway resource.
 type NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Contains FQDN of the DNS record associated with the public IP address.
 type PublicIPAddressDnsSettings_ARM struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
@@ -142,10 +148,12 @@ const (
 	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
 )
 
+// Public IP address resource.
 type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Reference to another subresource.
 type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

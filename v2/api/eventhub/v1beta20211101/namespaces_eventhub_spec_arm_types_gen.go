@@ -40,6 +40,7 @@ type Namespaces_Eventhub_Properties_Spec_ARM struct {
 	PartitionCount *int `json:"partitionCount,omitempty"`
 }
 
+// Properties to configure capture description for eventhub
 type CaptureDescription_ARM struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *Destination_ARM `json:"destination,omitempty"`
@@ -63,6 +64,7 @@ type CaptureDescription_ARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
+// Capture storage details for capture description
 type Destination_ARM struct {
 	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`

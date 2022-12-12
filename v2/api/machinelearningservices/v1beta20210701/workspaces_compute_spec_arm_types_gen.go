@@ -235,9 +235,11 @@ type Databricks_ARM struct {
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                     `json:"disableLocalAuth,omitempty"`
-	Properties       *DatabricksProperties_ARM `json:"properties,omitempty"`
-	ResourceId       *string                   `json:"resourceId,omitempty"`
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// Properties: Properties of Databricks
+	Properties *DatabricksProperties_ARM `json:"properties,omitempty"`
+	ResourceId *string                   `json:"resourceId,omitempty"`
 }
 
 type DataFactory_ARM struct {
@@ -285,9 +287,11 @@ type HDInsight_ARM struct {
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                    `json:"disableLocalAuth,omitempty"`
-	Properties       *HDInsightProperties_ARM `json:"properties,omitempty"`
-	ResourceId       *string                  `json:"resourceId,omitempty"`
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// Properties: HDInsight compute properties
+	Properties *HDInsightProperties_ARM `json:"properties,omitempty"`
+	ResourceId *string                  `json:"resourceId,omitempty"`
 }
 
 type Kubernetes_ARM struct {
@@ -379,6 +383,7 @@ type AmlCompute_ComputeType string
 
 const AmlCompute_ComputeType_AmlCompute = AmlCompute_ComputeType("AmlCompute")
 
+// AML Compute properties
 type AmlComputeProperties_ARM struct {
 	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
 	// true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will
@@ -422,6 +427,7 @@ type ComputeInstance_ComputeType string
 
 const ComputeInstance_ComputeType_ComputeInstance = ComputeInstance_ComputeType("ComputeInstance")
 
+// Compute Instance properties
 type ComputeInstanceProperties_ARM struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
 	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
@@ -452,6 +458,7 @@ type Databricks_ComputeType string
 
 const Databricks_ComputeType_Databricks = Databricks_ComputeType("Databricks")
 
+// Properties of Databricks
 type DatabricksProperties_ARM struct {
 	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
@@ -480,6 +487,7 @@ type HDInsight_ComputeType string
 
 const HDInsight_ComputeType_HDInsight = HDInsight_ComputeType("HDInsight")
 
+// HDInsight compute properties
 type HDInsightProperties_ARM struct {
 	// Address: Public IP address of the master node of the cluster.
 	Address *string `json:"address,omitempty"`
@@ -496,6 +504,7 @@ type Kubernetes_ComputeType string
 
 const Kubernetes_ComputeType_Kubernetes = Kubernetes_ComputeType("Kubernetes")
 
+// Kubernetes properties
 type KubernetesProperties_ARM struct {
 	// DefaultInstanceType: Default instance type
 	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
@@ -598,6 +607,7 @@ const (
 	AKS_Properties_LoadBalancerType_PublicIp             = AKS_Properties_LoadBalancerType("PublicIp")
 )
 
+// Advance configuration for AKS networking
 type AksNetworkingConfiguration_ARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
@@ -638,11 +648,13 @@ const (
 	AmlComputeProperties_VmPriority_LowPriority = AmlComputeProperties_VmPriority("LowPriority")
 )
 
+// Auto pause properties
 type AutoPauseProperties_ARM struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
 }
 
+// Auto scale properties
 type AutoScaleProperties_ARM struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
@@ -662,6 +674,7 @@ type ComputeInstanceProperties_ComputeInstanceAuthorizationType string
 
 const ComputeInstanceProperties_ComputeInstanceAuthorizationType_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType("personal")
 
+// Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings_ARM struct {
 	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
 	// key pairs.
@@ -673,6 +686,7 @@ type ComputeInstanceSshSettings_ARM struct {
 	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess `json:"sshPublicAccess,omitempty"`
 }
 
+// Instance type schema.
 type InstanceTypeSchema_ARM struct {
 	// NodeSelector: Node Selector
 	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
@@ -681,15 +695,18 @@ type InstanceTypeSchema_ARM struct {
 	Resources *InstanceTypeSchema_Resources_ARM `json:"resources,omitempty"`
 }
 
+// Settings for a personal compute instance.
 type PersonalComputeInstanceSettings_ARM struct {
 	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser_ARM `json:"assignedUser,omitempty"`
 }
 
+// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 type ResourceId_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// scale settings for AML Compute
 type ScaleSettings_ARM struct {
 	// MaxNodeCount: Max number of nodes to use
 	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
@@ -701,11 +718,13 @@ type ScaleSettings_ARM struct {
 	NodeIdleTimeBeforeScaleDown *string `json:"nodeIdleTimeBeforeScaleDown,omitempty"`
 }
 
+// Details of customized scripts to execute for setting up the cluster.
 type SetupScripts_ARM struct {
 	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute_ARM `json:"scripts,omitempty"`
 }
 
+// The ssl configuration for scoring
 type SslConfiguration_ARM struct {
 	// Cert: Cert data
 	Cert *string `json:"cert,omitempty"`
@@ -726,6 +745,7 @@ type SslConfiguration_ARM struct {
 	Status *SslConfiguration_Status `json:"status,omitempty"`
 }
 
+// Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials_ARM struct {
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
 	AdminUserName *string `json:"adminUserName,omitempty"`
@@ -737,10 +757,12 @@ type UserAccountCredentials_ARM struct {
 	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
+// Virtual Machine image for Windows AML Compute
 type VirtualMachineImage_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Admin credentials for virtual machine
 type VirtualMachineSshCredentials_ARM struct {
 	// Password: Password of admin account
 	Password *string `json:"password,omitempty"`
@@ -755,6 +777,7 @@ type VirtualMachineSshCredentials_ARM struct {
 	Username *string `json:"username,omitempty"`
 }
 
+// A user that can be assigned to a compute instance.
 type AssignedUser_ARM struct {
 	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
@@ -779,6 +802,7 @@ type InstanceTypeSchema_Resources_ARM struct {
 	Requests map[string]string `json:"requests,omitempty"`
 }
 
+// Customized setup scripts
 type ScriptsToExecute_ARM struct {
 	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference_ARM `json:"creationScript,omitempty"`
@@ -796,6 +820,7 @@ const (
 	SslConfiguration_Status_Enabled  = SslConfiguration_Status("Enabled")
 )
 
+// Script reference
 type ScriptReference_ARM struct {
 	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`

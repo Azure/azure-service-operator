@@ -1281,6 +1281,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	return nil
 }
 
+// Properties to configure Encryption
 type Encryption struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
@@ -1453,6 +1454,7 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20210
 	return nil
 }
 
+// Properties to configure Encryption
 type Encryption_STATUS struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
@@ -1595,6 +1597,7 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
@@ -1678,6 +1681,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210101ps.
 	return nil
 }
 
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_STATUS struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -1881,6 +1885,7 @@ func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec
 	return nil
 }
 
+// Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -1939,6 +1944,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// SKU of the namespace.
 type SBSku struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
@@ -2075,6 +2081,7 @@ func (sbSku *SBSku) AssignProperties_To_SBSku(destination *v20210101ps.SBSku) er
 	return nil
 }
 
+// SKU of the namespace.
 type SBSku_STATUS struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
@@ -2183,6 +2190,7 @@ func (sbSku *SBSku_STATUS) AssignProperties_To_SBSku_STATUS(destination *v202101
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -2336,6 +2344,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
+// Recognized Dictionary value.
 type DictionaryValue_STATUS struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -2418,6 +2427,7 @@ type Encryption_KeySource_STATUS string
 
 const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties struct {
 	Identity *UserAssignedIdentityProperties `json:"identity,omitempty"`
 
@@ -2580,6 +2590,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS struct {
 	Identity *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
 

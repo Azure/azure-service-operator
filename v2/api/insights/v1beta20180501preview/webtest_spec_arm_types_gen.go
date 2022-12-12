@@ -34,6 +34,7 @@ func (webtest *Webtest_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
+// Metadata describing a web test for an Azure resource.
 type WebTestProperties_ARM struct {
 	// Configuration: An XML configuration specification for a WebTest.
 	Configuration *WebTestProperties_Configuration_ARM `json:"Configuration,omitempty"`
@@ -73,6 +74,7 @@ type WebTestProperties_ARM struct {
 	ValidationRules *WebTestProperties_ValidationRules_ARM `json:"ValidationRules,omitempty"`
 }
 
+// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation_ARM struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
@@ -121,6 +123,7 @@ type WebTestProperties_ValidationRules_ARM struct {
 	SSLCheck *bool `json:"SSLCheck,omitempty"`
 }
 
+// A header to add to the WebTest.
 type HeaderField_ARM struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`

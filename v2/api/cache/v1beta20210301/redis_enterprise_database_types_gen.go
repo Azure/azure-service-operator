@@ -1173,6 +1173,7 @@ const (
 	DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
 
+// Specifies configuration of a redis module
 type Module struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
@@ -1268,6 +1269,7 @@ func (module *Module) AssignProperties_To_Module(destination *v20210301s.Module)
 	return nil
 }
 
+// Specifies configuration of a redis module
 type Module_STATUS struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
@@ -1356,6 +1358,7 @@ func (module *Module_STATUS) AssignProperties_To_Module_STATUS(destination *v202
 	return nil
 }
 
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence struct {
 	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`
@@ -1532,6 +1535,7 @@ func (persistence *Persistence) AssignProperties_To_Persistence(destination *v20
 	return nil
 }
 
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence_STATUS struct {
 	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`

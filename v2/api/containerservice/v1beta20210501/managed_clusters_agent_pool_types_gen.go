@@ -360,7 +360,10 @@ type ManagedClusters_AgentPool_Spec struct {
 	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig   `json:"kubeletConfig,omitempty"`
+	KubeletConfig *KubeletConfig `json:"kubeletConfig,omitempty"`
+
+	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
+	// storage.
 	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
@@ -373,8 +376,11 @@ type ManagedClusters_AgentPool_Spec struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int           `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode `json:"mode,omitempty"`
+	MinCount *int `json:"minCount,omitempty"`
+
+	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
+	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	Mode *AgentPoolMode `json:"mode,omitempty"`
 
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
@@ -393,9 +399,17 @@ type ManagedClusters_AgentPool_Spec struct {
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType             `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
-	OsType              *OSType                 `json:"osType,omitempty"`
+
+	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
+	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	OsDiskType *OSDiskType `json:"osDiskType,omitempty"`
+
+	// OsSKU: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+	OsSKU *OSSKU `json:"osSKU,omitempty"`
+
+	// OsType: The operating system type. The default is Linux.
+	OsType *OSType `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -425,7 +439,9 @@ type ManagedClusters_AgentPool_Spec struct {
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string `json:"tags,omitempty"`
-	Type *AgentPoolType    `json:"type,omitempty"`
+
+	// Type: The type of Agent Pool.
+	Type *AgentPoolType `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings `json:"upgradeSettings,omitempty"`
@@ -1566,7 +1582,10 @@ type ManagedClusters_AgentPool_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig_STATUS   `json:"kubeletConfig,omitempty"`
+	KubeletConfig *KubeletConfig_STATUS `json:"kubeletConfig,omitempty"`
+
+	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
+	// storage.
 	KubeletDiskType *KubeletDiskType_STATUS `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
@@ -1579,8 +1598,11 @@ type ManagedClusters_AgentPool_STATUS struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int                  `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode_STATUS `json:"mode,omitempty"`
+	MinCount *int `json:"minCount,omitempty"`
+
+	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
+	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	Mode *AgentPoolMode_STATUS `json:"mode,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -1603,11 +1625,19 @@ type ManagedClusters_AgentPool_STATUS struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType_STATUS `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU_STATUS      `json:"osSKU,omitempty"`
-	OsType              *OSType_STATUS     `json:"osType,omitempty"`
+	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int    `json:"osDiskSizeGB,omitempty"`
+
+	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
+	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	OsDiskType *OSDiskType_STATUS `json:"osDiskType,omitempty"`
+
+	// OsSKU: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+	OsSKU *OSSKU_STATUS `json:"osSKU,omitempty"`
+
+	// OsType: The operating system type. The default is Linux.
+	OsType *OSType_STATUS `json:"osType,omitempty"`
 
 	// PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is
 	// of the form:
@@ -1615,7 +1645,9 @@ type ManagedClusters_AgentPool_STATUS struct {
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// PowerState: Describes whether the Agent Pool is Running or Stopped
-	PowerState     *PowerState_STATUS    `json:"powerState,omitempty"`
+	PowerState *PowerState_STATUS `json:"powerState,omitempty"`
+
+	// PropertiesType: The type of Agent Pool.
 	PropertiesType *AgentPoolType_STATUS `json:"properties_type,omitempty"`
 
 	// ProvisioningState: The current deployment or provisioning state.
@@ -2575,6 +2607,8 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 	return nil
 }
 
+// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
+// and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 // +kubebuilder:validation:Enum={"System","User"}
 type AgentPoolMode string
 
@@ -2583,6 +2617,8 @@ const (
 	AgentPoolMode_User   = AgentPoolMode("User")
 )
 
+// A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions
+// and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
 type AgentPoolMode_STATUS string
 
 const (
@@ -2590,6 +2626,7 @@ const (
 	AgentPoolMode_STATUS_User   = AgentPoolMode_STATUS("User")
 )
 
+// The type of Agent Pool.
 // +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
 type AgentPoolType string
 
@@ -2598,6 +2635,7 @@ const (
 	AgentPoolType_VirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
 )
 
+// The type of Agent Pool.
 type AgentPoolType_STATUS string
 
 const (
@@ -2605,6 +2643,7 @@ const (
 	AgentPoolType_STATUS_VirtualMachineScaleSets = AgentPoolType_STATUS("VirtualMachineScaleSets")
 )
 
+// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
 	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
@@ -2681,6 +2720,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 	return nil
 }
 
+// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_STATUS struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
 	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
@@ -2746,6 +2786,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 // +kubebuilder:validation:Minimum=0
 type ContainerServiceOSDisk int
 
+// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 // +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
 type GPUInstanceProfile string
 
@@ -2757,6 +2798,7 @@ const (
 	GPUInstanceProfile_MIG7G = GPUInstanceProfile("MIG7g")
 )
 
+// GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
 type GPUInstanceProfile_STATUS string
 
 const (
@@ -2767,6 +2809,7 @@ const (
 	GPUInstanceProfile_STATUS_MIG7G = GPUInstanceProfile_STATUS("MIG7g")
 )
 
+// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
@@ -3085,6 +3128,7 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v202
 	return nil
 }
 
+// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_STATUS struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
@@ -3318,6 +3362,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 	return nil
 }
 
+// Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
 // +kubebuilder:validation:Enum={"OS","Temporary"}
 type KubeletDiskType string
 
@@ -3326,6 +3371,7 @@ const (
 	KubeletDiskType_Temporary = KubeletDiskType("Temporary")
 )
 
+// Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
 type KubeletDiskType_STATUS string
 
 const (
@@ -3333,6 +3379,7 @@ const (
 	KubeletDiskType_STATUS_Temporary = KubeletDiskType_STATUS("Temporary")
 )
 
+// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
@@ -3500,6 +3547,7 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v202
 	return nil
 }
 
+// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_STATUS struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
@@ -3630,6 +3678,9 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 	return nil
 }
 
+// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
+// defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 // +kubebuilder:validation:Enum={"Ephemeral","Managed"}
 type OSDiskType string
 
@@ -3638,6 +3689,9 @@ const (
 	OSDiskType_Managed   = OSDiskType("Managed")
 )
 
+// The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise,
+// defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
 type OSDiskType_STATUS string
 
 const (
@@ -3645,6 +3699,7 @@ const (
 	OSDiskType_STATUS_Managed   = OSDiskType_STATUS("Managed")
 )
 
+// Specifies an OS SKU. This value must not be specified if OSType is Windows.
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
 type OSSKU string
 
@@ -3653,6 +3708,7 @@ const (
 	OSSKU_Ubuntu     = OSSKU("Ubuntu")
 )
 
+// Specifies an OS SKU. This value must not be specified if OSType is Windows.
 type OSSKU_STATUS string
 
 const (
@@ -3660,6 +3716,7 @@ const (
 	OSSKU_STATUS_Ubuntu     = OSSKU_STATUS("Ubuntu")
 )
 
+// The operating system type. The default is Linux.
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type OSType string
 
@@ -3668,6 +3725,7 @@ const (
 	OSType_Windows = OSType("Windows")
 )
 
+// The operating system type. The default is Linux.
 type OSType_STATUS string
 
 const (
@@ -3677,6 +3735,8 @@ const (
 
 type ProximityPlacementGroupID string
 
+// The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
+// about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type ScaleSetEvictionPolicy string
 
@@ -3685,6 +3745,8 @@ const (
 	ScaleSetEvictionPolicy_Delete     = ScaleSetEvictionPolicy("Delete")
 )
 
+// The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
+// about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)
 type ScaleSetEvictionPolicy_STATUS string
 
 const (
@@ -3692,6 +3754,7 @@ const (
 	ScaleSetEvictionPolicy_STATUS_Delete     = ScaleSetEvictionPolicy_STATUS("Delete")
 )
 
+// The Virtual Machine Scale Set priority.
 // +kubebuilder:validation:Enum={"Regular","Spot"}
 type ScaleSetPriority string
 
@@ -3700,6 +3763,7 @@ const (
 	ScaleSetPriority_Spot    = ScaleSetPriority("Spot")
 )
 
+// The Virtual Machine Scale Set priority.
 type ScaleSetPriority_STATUS string
 
 const (
@@ -3707,6 +3771,7 @@ const (
 	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
 )
 
+// Sysctl settings for Linux agent nodes.
 type SysctlConfig struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`
@@ -4357,6 +4422,7 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20210
 	return nil
 }
 
+// Sysctl settings for Linux agent nodes.
 type SysctlConfig_STATUS struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`

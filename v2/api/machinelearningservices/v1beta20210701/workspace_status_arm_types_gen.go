@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
+// An object that represents a machine learning workspace.
 type Workspace_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -33,6 +34,7 @@ type Workspace_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Identity for the resource.
 type Identity_STATUS_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -47,6 +49,7 @@ type Identity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// Sku of the resource
 type Sku_STATUS_ARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -55,6 +58,7 @@ type Sku_STATUS_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -75,6 +79,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// The properties of a machine learning workspace.
 type WorkspaceProperties_STATUS_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -185,6 +190,7 @@ type NotebookResourceInfo_STATUS_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -222,6 +228,7 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
+// User Assigned Identity
 type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: The clientId(aka appId) of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -238,6 +245,7 @@ type CosmosDbSettings_STATUS_ARM struct {
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk_STATUS_ARM struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
@@ -259,6 +267,7 @@ type NotebookPreparationError_STATUS_ARM struct {
 	StatusCode   *int    `json:"statusCode,omitempty"`
 }
 
+// Properties of a shared private link resource.
 type SharedPrivateLinkResourceProperty_STATUS_ARM struct {
 	// GroupId: The private link resource group id.
 	GroupId *string `json:"groupId,omitempty"`

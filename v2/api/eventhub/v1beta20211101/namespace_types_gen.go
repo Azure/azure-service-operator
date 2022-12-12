@@ -1551,6 +1551,7 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	return nil
 }
 
+// Properties to configure Encryption
 type Encryption struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
@@ -1723,6 +1724,7 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20211
 	return nil
 }
 
+// Properties to configure Encryption
 type Encryption_STATUS struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
@@ -1865,6 +1867,7 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
@@ -1948,6 +1951,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20211101s.I
 	return nil
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2098,6 +2102,7 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+// Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -2157,6 +2162,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// SKU parameters supplied to the create namespace operation
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
 	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
@@ -2305,6 +2311,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20211101s.Sku) error {
 	return nil
 }
 
+// SKU parameters supplied to the create namespace operation
 type Sku_STATUS struct {
 	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
 	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
@@ -2414,6 +2421,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20211101s.Sk
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -2576,6 +2584,7 @@ type Encryption_KeySource_STATUS string
 
 const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties struct {
 	Identity *UserAssignedIdentityProperties `json:"identity,omitempty"`
 
@@ -2738,6 +2747,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS struct {
 	Identity *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
 
@@ -2863,6 +2873,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
+// Recognized Dictionary value.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
