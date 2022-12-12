@@ -25,7 +25,7 @@ func Test_CosmosDB_DatabaseAccount_SecretsFromAzure(t *testing.T) {
 	// Custom namer because cosmosdb accounts have stricter name
 	// requirements - no hyphens allowed.
 	// Create a Cosmos DB account
-	offerType := documentdb.DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard
+	offerType := documentdb.DatabaseAccountOfferType_Standard
 	kind := documentdb.DatabaseAccount_Kind_Spec_GlobalDocumentDB
 	acct := &documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),

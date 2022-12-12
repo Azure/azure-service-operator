@@ -60,6 +60,11 @@ type Identity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+type Sku_STATUS_ARM struct {
+	Name *SkuName_STATUS `json:"name,omitempty"`
+	Tier *Tier_STATUS    `json:"tier,omitempty"`
+}
+
 type StorageAccount_Kind_STATUS string
 
 const (
@@ -143,7 +148,7 @@ type StorageAccountProperties_STATUS_ARM struct {
 	PrimaryLocation *string `json:"primaryLocation,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
 	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -311,7 +316,7 @@ type NetworkRuleSet_STATUS_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -335,6 +340,26 @@ type SasPolicy_STATUS_ARM struct {
 	// SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
 	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
+
+type SkuName_STATUS string
+
+const (
+	SkuName_STATUS_Premium_LRS     = SkuName_STATUS("Premium_LRS")
+	SkuName_STATUS_Premium_ZRS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_STATUS_Standard_GRS    = SkuName_STATUS("Standard_GRS")
+	SkuName_STATUS_Standard_GZRS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_STATUS_Standard_LRS    = SkuName_STATUS("Standard_LRS")
+	SkuName_STATUS_Standard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_STATUS_Standard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
+)
+
+type Tier_STATUS string
+
+const (
+	Tier_STATUS_Premium  = Tier_STATUS("Premium")
+	Tier_STATUS_Standard = Tier_STATUS("Standard")
+)
 
 type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: The client ID of the identity.

@@ -33,11 +33,11 @@ func (account *BatchAccount_Spec_ARM) GetType() string {
 
 // Deprecated version of BatchAccountCreateProperties. Use v1beta20210101.BatchAccountCreateProperties instead
 type BatchAccountCreateProperties_ARM struct {
-	AutoStorage         *AutoStorageBaseProperties_ARM                    `json:"autoStorage,omitempty"`
-	Encryption          *EncryptionProperties_ARM                         `json:"encryption,omitempty"`
-	KeyVaultReference   *KeyVaultReference_ARM                            `json:"keyVaultReference,omitempty"`
-	PoolAllocationMode  *BatchAccountCreateProperties_PoolAllocationMode  `json:"poolAllocationMode,omitempty"`
-	PublicNetworkAccess *BatchAccountCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	AutoStorage         *AutoStorageBaseProperties_ARM `json:"autoStorage,omitempty"`
+	Encryption          *EncryptionProperties_ARM      `json:"encryption,omitempty"`
+	KeyVaultReference   *KeyVaultReference_ARM         `json:"keyVaultReference,omitempty"`
+	PoolAllocationMode  *PoolAllocationMode            `json:"poolAllocationMode,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccessType       `json:"publicNetworkAccess,omitempty"`
 }
 
 // Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead

@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_FirewallRule_Spec. Use v1beta20201201.Redis_FirewallRule_Spec instead
 type Redis_FirewallRule_Spec_ARM struct {
-	Location   *string                          `json:"location,omitempty"`
 	Name       string                           `json:"name,omitempty"`
 	Properties *RedisFirewallRuleProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Redis_FirewallRule_Spec_ARM{}

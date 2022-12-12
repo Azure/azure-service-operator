@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.MongodbDatabase
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabase_Spec `json:"spec,omitempty"`
-	Status            MongoDBDatabaseGetResults_STATUS      `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabase_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_MongodbDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -76,7 +78,7 @@ func (database *MongodbDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBDatabaseGetResults_STATUS{}
+	return &DatabaseAccounts_MongodbDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBDatabaseGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_MongodbDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBDatabaseGetResults_STATUS
+	var st DatabaseAccounts_MongodbDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.MongodbDatabase
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}
 type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,8 +172,8 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) ConvertSpecTo(destination
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1beta20210515.MongoDBDatabaseGetResults_STATUS
-type MongoDBDatabaseGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabase_STATUS
+type DatabaseAccounts_MongodbDatabase_STATUS struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
 	Location    *string                                       `json:"location,omitempty"`
@@ -181,28 +185,27 @@ type MongoDBDatabaseGetResults_STATUS struct {
 	Type        *string                                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &MongoDBDatabaseGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabase_STATUS{}
 
-// ConvertStatusFrom populates our MongoDBDatabaseGetResults_STATUS from the provided source
-func (results *MongoDBDatabaseGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabase_STATUS from the provided source
+func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our MongoDBDatabaseGetResults_STATUS
-func (results *MongoDBDatabaseGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabase_STATUS
+func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(database)
 }
 
 // Storage version of v1beta20210515.CreateUpdateOptions
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
 type CreateUpdateOptions struct {
 	AutoscaleSettings *AutoscaleSettings     `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -219,7 +222,6 @@ type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.MongoDBDatabaseResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
 type MongoDBDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -233,7 +235,6 @@ type OptionsResource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.AutoscaleSettings
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
 type AutoscaleSettings struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`

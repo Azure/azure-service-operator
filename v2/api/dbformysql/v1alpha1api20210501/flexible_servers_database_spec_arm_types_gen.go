@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of FlexibleServers_Database_Spec. Use v1beta20210501.FlexibleServers_Database_Spec instead
 type FlexibleServers_Database_Spec_ARM struct {
-	Location   *string                 `json:"location,omitempty"`
 	Name       string                  `json:"name,omitempty"`
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string       `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServers_Database_Spec_ARM{}

@@ -344,35 +344,37 @@ type VirtualMachine_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                                         `json:"azureName,omitempty"`
-	BillingProfile       *BillingProfile                                `json:"billingProfile,omitempty"`
-	DiagnosticsProfile   *DiagnosticsProfile                            `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *VirtualMachine_Properties_EvictionPolicy_Spec `json:"evictionPolicy,omitempty"`
-	ExtendedLocation     *ExtendedLocation                              `json:"extendedLocation,omitempty"`
-	ExtensionsTimeBudget *string                                        `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile      *HardwareProfile                               `json:"hardwareProfile,omitempty"`
-	Host                 *SubResource                                   `json:"host,omitempty"`
-	HostGroup            *SubResource                                   `json:"hostGroup,omitempty"`
-	Identity             *VirtualMachineIdentity                        `json:"identity,omitempty"`
-	LicenseType          *string                                        `json:"licenseType,omitempty"`
-	Location             *string                                        `json:"location,omitempty"`
-	NetworkProfile       *VirtualMachine_Properties_NetworkProfile_Spec `json:"networkProfile,omitempty"`
-	OsProfile            *VirtualMachine_Properties_OsProfile_Spec      `json:"osProfile,omitempty"`
+	AzureName            string                  `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile         `json:"billingProfile,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *EvictionPolicy         `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation       `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                 `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile        `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource            `json:"host,omitempty"`
+	HostGroup            *SubResource            `json:"hostGroup,omitempty"`
+	Identity             *VirtualMachineIdentity `json:"identity,omitempty"`
+	LicenseType          *string                 `json:"licenseType,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location       *string         `json:"location,omitempty"`
+	NetworkProfile *NetworkProfile `json:"networkProfile,omitempty"`
+	OsProfile      *OSProfile      `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                   *genruntime.KnownResourceReference       `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Plan                    *Plan                                    `json:"plan,omitempty"`
-	PlatformFaultDomain     *int                                     `json:"platformFaultDomain,omitempty"`
-	Priority                *VirtualMachine_Properties_Priority_Spec `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResource                             `json:"proximityPlacementGroup,omitempty"`
-	SecurityProfile         *SecurityProfile                         `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfile                          `json:"storageProfile,omitempty"`
-	Tags                    map[string]string                        `json:"tags,omitempty"`
-	VirtualMachineScaleSet  *SubResource                             `json:"virtualMachineScaleSet,omitempty"`
-	Zones                   []string                                 `json:"zones,omitempty"`
+	Owner                   *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Plan                    *Plan                              `json:"plan,omitempty"`
+	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
+	Priority                *Priority                          `json:"priority,omitempty"`
+	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
+	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
+	Tags                    map[string]string                  `json:"tags,omitempty"`
+	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
+	Zones                   []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachine_Spec{}
@@ -442,7 +444,7 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		machine.SecurityProfile != nil ||
 		machine.StorageProfile != nil ||
 		machine.VirtualMachineScaleSet != nil {
-		result.Properties = &VirtualMachine_Properties_Spec_ARM{}
+		result.Properties = &VirtualMachineProperties_ARM{}
 	}
 	if machine.AdditionalCapabilities != nil {
 		additionalCapabilities_ARM, err := (*machine.AdditionalCapabilities).ConvertToARM(resolved)
@@ -517,7 +519,7 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		networkProfile := *networkProfile_ARM.(*VirtualMachine_Properties_NetworkProfile_Spec_ARM)
+		networkProfile := *networkProfile_ARM.(*NetworkProfile_ARM)
 		result.Properties.NetworkProfile = &networkProfile
 	}
 	if machine.OsProfile != nil {
@@ -525,7 +527,7 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		osProfile := *osProfile_ARM.(*VirtualMachine_Properties_OsProfile_Spec_ARM)
+		osProfile := *osProfile_ARM.(*OSProfile_ARM)
 		result.Properties.OsProfile = &osProfile
 	}
 	if machine.PlatformFaultDomain != nil {
@@ -756,7 +758,7 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkProfile != nil {
-			var networkProfile1 VirtualMachine_Properties_NetworkProfile_Spec
+			var networkProfile1 NetworkProfile
 			err := networkProfile1.PopulateFromARM(owner, *typedInput.Properties.NetworkProfile)
 			if err != nil {
 				return err
@@ -770,7 +772,7 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OsProfile != nil {
-			var osProfile1 VirtualMachine_Properties_OsProfile_Spec
+			var osProfile1 OSProfile
 			err := osProfile1.PopulateFromARM(owner, *typedInput.Properties.OsProfile)
 			if err != nil {
 				return err
@@ -991,7 +993,7 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// EvictionPolicy
 	if source.EvictionPolicy != nil {
-		evictionPolicy := VirtualMachine_Properties_EvictionPolicy_Spec(*source.EvictionPolicy)
+		evictionPolicy := EvictionPolicy(*source.EvictionPolicy)
 		machine.EvictionPolicy = &evictionPolicy
 	} else {
 		machine.EvictionPolicy = nil
@@ -1068,10 +1070,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachine_Properties_NetworkProfile_Spec
-		err := networkProfile.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source.NetworkProfile)
+		var networkProfile NetworkProfile
+		err := networkProfile.AssignProperties_From_NetworkProfile(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkProfile() to populate field NetworkProfile")
 		}
 		machine.NetworkProfile = &networkProfile
 	} else {
@@ -1080,10 +1082,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// OsProfile
 	if source.OsProfile != nil {
-		var osProfile VirtualMachine_Properties_OsProfile_Spec
-		err := osProfile.AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source.OsProfile)
+		var osProfile OSProfile
+		err := osProfile.AssignProperties_From_OSProfile(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_OSProfile() to populate field OsProfile")
 		}
 		machine.OsProfile = &osProfile
 	} else {
@@ -1115,7 +1117,7 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// Priority
 	if source.Priority != nil {
-		priority := VirtualMachine_Properties_Priority_Spec(*source.Priority)
+		priority := Priority(*source.Priority)
 		machine.Priority = &priority
 	} else {
 		machine.Priority = nil
@@ -1314,10 +1316,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 
 	// NetworkProfile
 	if machine.NetworkProfile != nil {
-		var networkProfile alpha20201201s.VirtualMachine_Properties_NetworkProfile_Spec
-		err := machine.NetworkProfile.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(&networkProfile)
+		var networkProfile alpha20201201s.NetworkProfile
+		err := machine.NetworkProfile.AssignProperties_To_NetworkProfile(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkProfile() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -1329,10 +1331,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 
 	// OsProfile
 	if machine.OsProfile != nil {
-		var osProfile alpha20201201s.VirtualMachine_Properties_OsProfile_Spec
-		err := machine.OsProfile.AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(&osProfile)
+		var osProfile alpha20201201s.OSProfile
+		err := machine.OsProfile.AssignProperties_To_OSProfile(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_OSProfile() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -2944,6 +2946,15 @@ func (profile *DiagnosticsProfile_STATUS) AssignProperties_To_DiagnosticsProfile
 	return nil
 }
 
+// Deprecated version of EvictionPolicy. Use v1beta20201201.EvictionPolicy instead
+// +kubebuilder:validation:Enum={"Deallocate","Delete"}
+type EvictionPolicy string
+
+const (
+	EvictionPolicy_Deallocate = EvictionPolicy("Deallocate")
+	EvictionPolicy_Delete     = EvictionPolicy("Delete")
+)
+
 // Deprecated version of EvictionPolicy_STATUS. Use v1beta20201201.EvictionPolicy_STATUS instead
 type EvictionPolicy_STATUS string
 
@@ -2954,8 +2965,8 @@ const (
 
 // Deprecated version of ExtendedLocation. Use v1beta20201201.ExtendedLocation instead
 type ExtendedLocation struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -3017,7 +3028,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -3286,6 +3297,116 @@ func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATU
 	return nil
 }
 
+// Deprecated version of NetworkProfile. Use v1beta20201201.NetworkProfile instead
+type NetworkProfile struct {
+	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &NetworkProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *NetworkProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &NetworkProfile_ARM{}
+
+	// Set property ‘NetworkInterfaces’:
+	for _, item := range profile.NetworkInterfaces {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.NetworkInterfaces = append(result.NetworkInterfaces, *item_ARM.(*NetworkInterfaceReference_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *NetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkProfile_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *NetworkProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkProfile_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkProfile_ARM, got %T", armInput)
+	}
+
+	// Set property ‘NetworkInterfaces’:
+	for _, item := range typedInput.NetworkInterfaces {
+		var item1 NetworkInterfaceReference
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.NetworkInterfaces = append(profile.NetworkInterfaces, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_NetworkProfile populates our NetworkProfile from the provided source NetworkProfile
+func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *alpha20201201s.NetworkProfile) error {
+
+	// NetworkInterfaces
+	if source.NetworkInterfaces != nil {
+		networkInterfaceList := make([]NetworkInterfaceReference, len(source.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface NetworkInterfaceReference
+			err := networkInterface.AssignProperties_From_NetworkInterfaceReference(&networkInterfaceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceReference() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		profile.NetworkInterfaces = networkInterfaceList
+	} else {
+		profile.NetworkInterfaces = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkProfile populates the provided destination NetworkProfile from our NetworkProfile
+func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *alpha20201201s.NetworkProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// NetworkInterfaces
+	if profile.NetworkInterfaces != nil {
+		networkInterfaceList := make([]alpha20201201s.NetworkInterfaceReference, len(profile.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface alpha20201201s.NetworkInterfaceReference
+			err := networkInterfaceItem.AssignProperties_To_NetworkInterfaceReference(&networkInterface)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceReference() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		destination.NetworkInterfaces = networkInterfaceList
+	} else {
+		destination.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of NetworkProfile_STATUS. Use v1beta20201201.NetworkProfile_STATUS instead
 type NetworkProfile_STATUS struct {
 	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
@@ -3365,6 +3486,352 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 		destination.NetworkInterfaces = networkInterfaceList
 	} else {
 		destination.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
+type OSProfile struct {
+	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername               *string                     `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                     `json:"computerName,omitempty"`
+	CustomData                  *string                     `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &OSProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *OSProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &OSProfile_ARM{}
+
+	// Set property ‘AdminPassword’:
+	if profile.AdminPassword != nil {
+		adminPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*profile.AdminPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
+		}
+		adminPassword := adminPasswordSecret
+		result.AdminPassword = &adminPassword
+	}
+
+	// Set property ‘AdminUsername’:
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		result.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘AllowExtensionOperations’:
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperations := *profile.AllowExtensionOperations
+		result.AllowExtensionOperations = &allowExtensionOperations
+	}
+
+	// Set property ‘ComputerName’:
+	if profile.ComputerName != nil {
+		computerName := *profile.ComputerName
+		result.ComputerName = &computerName
+	}
+
+	// Set property ‘CustomData’:
+	if profile.CustomData != nil {
+		customData := *profile.CustomData
+		result.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if profile.LinuxConfiguration != nil {
+		linuxConfiguration_ARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		linuxConfiguration := *linuxConfiguration_ARM.(*LinuxConfiguration_ARM)
+		result.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘RequireGuestProvisionSignal’:
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		result.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range profile.Secrets {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Secrets = append(result.Secrets, *item_ARM.(*VaultSecretGroup_ARM))
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if profile.WindowsConfiguration != nil {
+		windowsConfiguration_ARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		windowsConfiguration := *windowsConfiguration_ARM.(*WindowsConfiguration_ARM)
+		result.WindowsConfiguration = &windowsConfiguration
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *OSProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &OSProfile_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *OSProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(OSProfile_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OSProfile_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘AdminPassword’
+
+	// Set property ‘AdminUsername’:
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘AllowExtensionOperations’:
+	if typedInput.AllowExtensionOperations != nil {
+		allowExtensionOperations := *typedInput.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperations
+	}
+
+	// Set property ‘ComputerName’:
+	if typedInput.ComputerName != nil {
+		computerName := *typedInput.ComputerName
+		profile.ComputerName = &computerName
+	}
+
+	// Set property ‘CustomData’:
+	if typedInput.CustomData != nil {
+		customData := *typedInput.CustomData
+		profile.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if typedInput.LinuxConfiguration != nil {
+		var linuxConfiguration1 LinuxConfiguration
+		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
+		if err != nil {
+			return err
+		}
+		linuxConfiguration := linuxConfiguration1
+		profile.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘RequireGuestProvisionSignal’:
+	if typedInput.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *typedInput.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range typedInput.Secrets {
+		var item1 VaultSecretGroup
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.Secrets = append(profile.Secrets, item1)
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if typedInput.WindowsConfiguration != nil {
+		var windowsConfiguration1 WindowsConfiguration
+		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
+		if err != nil {
+			return err
+		}
+		windowsConfiguration := windowsConfiguration1
+		profile.WindowsConfiguration = &windowsConfiguration
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_OSProfile populates our OSProfile from the provided source OSProfile
+func (profile *OSProfile) AssignProperties_From_OSProfile(source *alpha20201201s.OSProfile) error {
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		allowExtensionOperation := *source.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		profile.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if source.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		profile.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OSProfile populates the provided destination OSProfile from our OSProfile
+func (profile *OSProfile) AssignProperties_To_OSProfile(destination *alpha20201201s.OSProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperation := *profile.AllowExtensionOperations
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration alpha20201201s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		destination.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]alpha20201201s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret alpha20201201s.VaultSecretGroup
+			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration alpha20201201s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
 	}
 
 	// Update the property bag
@@ -3853,6 +4320,16 @@ func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *alpha20201
 	// No error
 	return nil
 }
+
+// Deprecated version of Priority. Use v1beta20201201.Priority instead
+// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
+type Priority string
+
+const (
+	Priority_Low     = Priority("Low")
+	Priority_Regular = Priority("Regular")
+	Priority_Spot    = Priority("Spot")
+)
 
 // Deprecated version of Priority_STATUS. Use v1beta20201201.Priority_STATUS instead
 type Priority_STATUS string
@@ -4654,483 +5131,6 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	// No error
 	return nil
 }
-
-// Deprecated version of VirtualMachine_Properties_EvictionPolicy_Spec. Use
-// v1beta20201201.VirtualMachine_Properties_EvictionPolicy_Spec instead
-// +kubebuilder:validation:Enum={"Deallocate","Delete"}
-type VirtualMachine_Properties_EvictionPolicy_Spec string
-
-const (
-	VirtualMachine_Properties_EvictionPolicy_Spec_Deallocate = VirtualMachine_Properties_EvictionPolicy_Spec("Deallocate")
-	VirtualMachine_Properties_EvictionPolicy_Spec_Delete     = VirtualMachine_Properties_EvictionPolicy_Spec("Delete")
-)
-
-// Deprecated version of VirtualMachine_Properties_NetworkProfile_Spec. Use v1beta20201201.VirtualMachine_Properties_NetworkProfile_Spec instead
-type VirtualMachine_Properties_NetworkProfile_Spec struct {
-	NetworkInterfaces []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec `json:"networkInterfaces,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &VirtualMachine_Properties_NetworkProfile_Spec_ARM{}
-
-	// Set property ‘NetworkInterfaces’:
-	for _, item := range profile.NetworkInterfaces {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.NetworkInterfaces = append(result.NetworkInterfaces, *item_ARM.(*VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_Properties_NetworkProfile_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘NetworkInterfaces’:
-	for _, item := range typedInput.NetworkInterfaces {
-		var item1 VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.NetworkInterfaces = append(profile.NetworkInterfaces, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec populates our VirtualMachine_Properties_NetworkProfile_Spec from the provided source VirtualMachine_Properties_NetworkProfile_Spec
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source *alpha20201201s.VirtualMachine_Properties_NetworkProfile_Spec) error {
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-			err := networkInterface.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		profile.NetworkInterfaces = networkInterfaceList
-	} else {
-		profile.NetworkInterfaces = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_Spec from our VirtualMachine_Properties_NetworkProfile_Spec
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(destination *alpha20201201s.VirtualMachine_Properties_NetworkProfile_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// NetworkInterfaces
-	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]alpha20201201s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(profile.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface alpha20201201s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-			err := networkInterfaceItem.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachine_Properties_OsProfile_Spec. Use v1beta20201201.VirtualMachine_Properties_OsProfile_Spec instead
-type VirtualMachine_Properties_OsProfile_Spec struct {
-	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
-	AdminUsername               *string                     `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                     `json:"computerName,omitempty"`
-	CustomData                  *string                     `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
-	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachine_Properties_OsProfile_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachine_Properties_OsProfile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &VirtualMachine_Properties_OsProfile_Spec_ARM{}
-
-	// Set property ‘AdminPassword’:
-	if profile.AdminPassword != nil {
-		adminPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*profile.AdminPassword)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
-		}
-		adminPassword := adminPasswordSecret
-		result.AdminPassword = &adminPassword
-	}
-
-	// Set property ‘AdminUsername’:
-	if profile.AdminUsername != nil {
-		adminUsername := *profile.AdminUsername
-		result.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘AllowExtensionOperations’:
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperations := *profile.AllowExtensionOperations
-		result.AllowExtensionOperations = &allowExtensionOperations
-	}
-
-	// Set property ‘ComputerName’:
-	if profile.ComputerName != nil {
-		computerName := *profile.ComputerName
-		result.ComputerName = &computerName
-	}
-
-	// Set property ‘CustomData’:
-	if profile.CustomData != nil {
-		customData := *profile.CustomData
-		result.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if profile.LinuxConfiguration != nil {
-		linuxConfiguration_ARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		linuxConfiguration := *linuxConfiguration_ARM.(*LinuxConfiguration_ARM)
-		result.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘RequireGuestProvisionSignal’:
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		result.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range profile.Secrets {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Secrets = append(result.Secrets, *item_ARM.(*VaultSecretGroup_ARM))
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if profile.WindowsConfiguration != nil {
-		windowsConfiguration_ARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		windowsConfiguration := *windowsConfiguration_ARM.(*WindowsConfiguration_ARM)
-		result.WindowsConfiguration = &windowsConfiguration
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachine_Properties_OsProfile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_Properties_OsProfile_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachine_Properties_OsProfile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_Properties_OsProfile_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_OsProfile_Spec_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘AdminPassword’
-
-	// Set property ‘AdminUsername’:
-	if typedInput.AdminUsername != nil {
-		adminUsername := *typedInput.AdminUsername
-		profile.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘AllowExtensionOperations’:
-	if typedInput.AllowExtensionOperations != nil {
-		allowExtensionOperations := *typedInput.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperations
-	}
-
-	// Set property ‘ComputerName’:
-	if typedInput.ComputerName != nil {
-		computerName := *typedInput.ComputerName
-		profile.ComputerName = &computerName
-	}
-
-	// Set property ‘CustomData’:
-	if typedInput.CustomData != nil {
-		customData := *typedInput.CustomData
-		profile.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if typedInput.LinuxConfiguration != nil {
-		var linuxConfiguration1 LinuxConfiguration
-		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
-		if err != nil {
-			return err
-		}
-		linuxConfiguration := linuxConfiguration1
-		profile.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘RequireGuestProvisionSignal’:
-	if typedInput.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *typedInput.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range typedInput.Secrets {
-		var item1 VaultSecretGroup
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.Secrets = append(profile.Secrets, item1)
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if typedInput.WindowsConfiguration != nil {
-		var windowsConfiguration1 WindowsConfiguration
-		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
-		if err != nil {
-			return err
-		}
-		windowsConfiguration := windowsConfiguration1
-		profile.WindowsConfiguration = &windowsConfiguration
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec populates our VirtualMachine_Properties_OsProfile_Spec from the provided source VirtualMachine_Properties_OsProfile_Spec
-func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source *alpha20201201s.VirtualMachine_Properties_OsProfile_Spec) error {
-
-	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := source.AdminPassword.Copy()
-		profile.AdminPassword = &adminPassword
-	} else {
-		profile.AdminPassword = nil
-	}
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if source.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		profile.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec populates the provided destination VirtualMachine_Properties_OsProfile_Spec from our VirtualMachine_Properties_OsProfile_Spec
-func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(destination *alpha20201201s.VirtualMachine_Properties_OsProfile_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdminPassword
-	if profile.AdminPassword != nil {
-		adminPassword := profile.AdminPassword.Copy()
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
-
-	// AdminUsername
-	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
-
-	// AllowExtensionOperations
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperation := *profile.AllowExtensionOperations
-		destination.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		destination.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
-
-	// CustomData
-	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
-
-	// LinuxConfiguration
-	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration alpha20201201s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		destination.LinuxConfiguration = &linuxConfiguration
-	} else {
-		destination.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		destination.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if profile.Secrets != nil {
-		secretList := make([]alpha20201201s.VaultSecretGroup, len(profile.Secrets))
-		for secretIndex, secretItem := range profile.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret alpha20201201s.VaultSecretGroup
-			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		destination.Secrets = secretList
-	} else {
-		destination.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration alpha20201201s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		destination.WindowsConfiguration = &windowsConfiguration
-	} else {
-		destination.WindowsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachine_Properties_Priority_Spec. Use
-// v1beta20201201.VirtualMachine_Properties_Priority_Spec instead
-// +kubebuilder:validation:Enum={"Low","Regular","Spot"}
-type VirtualMachine_Properties_Priority_Spec string
-
-const (
-	VirtualMachine_Properties_Priority_Spec_Low     = VirtualMachine_Properties_Priority_Spec("Low")
-	VirtualMachine_Properties_Priority_Spec_Regular = VirtualMachine_Properties_Priority_Spec("Regular")
-	VirtualMachine_Properties_Priority_Spec_Spot    = VirtualMachine_Properties_Priority_Spec("Spot")
-)
 
 // Deprecated version of VirtualMachineExtension_STATUS. Use v1beta20201201.VirtualMachineExtension_STATUS instead
 type VirtualMachineExtension_STATUS struct {
@@ -6440,13 +6440,13 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_To_BootDiagnost
 
 // Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
 type DataDisk struct {
-	Caching *DataDisk_Caching `json:"caching,omitempty"`
+	Caching *Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreateOption *DataDisk_CreateOption `json:"createOption,omitempty"`
-	DetachOption *DataDisk_DetachOption `json:"detachOption,omitempty"`
-	DiskSizeGB   *int                   `json:"diskSizeGB,omitempty"`
-	Image        *VirtualHardDisk       `json:"image,omitempty"`
+	CreateOption *CreateOption    `json:"createOption,omitempty"`
+	DetachOption *DetachOption    `json:"detachOption,omitempty"`
+	DiskSizeGB   *int             `json:"diskSizeGB,omitempty"`
+	Image        *VirtualHardDisk `json:"image,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Lun                     *int                   `json:"lun,omitempty"`
@@ -6648,7 +6648,7 @@ func (disk *DataDisk) AssignProperties_From_DataDisk(source *alpha20201201s.Data
 
 	// Caching
 	if source.Caching != nil {
-		caching := DataDisk_Caching(*source.Caching)
+		caching := Caching(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -6656,7 +6656,7 @@ func (disk *DataDisk) AssignProperties_From_DataDisk(source *alpha20201201s.Data
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := DataDisk_CreateOption(*source.CreateOption)
+		createOption := CreateOption(*source.CreateOption)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -6664,7 +6664,7 @@ func (disk *DataDisk) AssignProperties_From_DataDisk(source *alpha20201201s.Data
 
 	// DetachOption
 	if source.DetachOption != nil {
-		detachOption := DataDisk_DetachOption(*source.DetachOption)
+		detachOption := DetachOption(*source.DetachOption)
 		disk.DetachOption = &detachOption
 	} else {
 		disk.DetachOption = nil
@@ -8591,6 +8591,124 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceR
 	return nil
 }
 
+// Deprecated version of NetworkInterfaceReference. Use v1beta20201201.NetworkInterfaceReference instead
+type NetworkInterfaceReference struct {
+	Primary   *bool                         `json:"primary,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &NetworkInterfaceReference{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (reference *NetworkInterfaceReference) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if reference == nil {
+		return nil, nil
+	}
+	result := &NetworkInterfaceReference_ARM{}
+
+	// Set property ‘Id’:
+	if reference.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*reference.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference1 := referenceARMID
+		result.Id = &reference1
+	}
+
+	// Set property ‘Properties’:
+	if reference.Primary != nil {
+		result.Properties = &NetworkInterfaceReferenceProperties_ARM{}
+	}
+	if reference.Primary != nil {
+		primary := *reference.Primary
+		result.Properties.Primary = &primary
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (reference *NetworkInterfaceReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkInterfaceReference_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkInterfaceReference_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceReference_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Primary’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			reference.Primary = &primary
+		}
+	}
+
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_NetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
+func (reference *NetworkInterfaceReference) AssignProperties_From_NetworkInterfaceReference(source *alpha20201201s.NetworkInterfaceReference) error {
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		reference.Primary = &primary
+	} else {
+		reference.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkInterfaceReference populates the provided destination NetworkInterfaceReference from our NetworkInterfaceReference
+func (reference *NetworkInterfaceReference) AssignProperties_To_NetworkInterfaceReference(destination *alpha20201201s.NetworkInterfaceReference) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Primary
+	if reference.Primary != nil {
+		primary := *reference.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of NetworkInterfaceReference_STATUS. Use v1beta20201201.NetworkInterfaceReference_STATUS instead
 type NetworkInterfaceReference_STATUS struct {
 	Id      *string `json:"id,omitempty"`
@@ -8677,10 +8795,10 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkIn
 
 // Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
 type OSDisk struct {
-	Caching *OSDisk_Caching `json:"caching,omitempty"`
+	Caching *Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreateOption            *OSDisk_CreateOption    `json:"createOption,omitempty"`
+	CreateOption            *CreateOption           `json:"createOption,omitempty"`
 	DiffDiskSettings        *DiffDiskSettings       `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                    `json:"diskSizeGB,omitempty"`
 	EncryptionSettings      *DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
@@ -8901,7 +9019,7 @@ func (disk *OSDisk) AssignProperties_From_OSDisk(source *alpha20201201s.OSDisk) 
 
 	// Caching
 	if source.Caching != nil {
-		caching := OSDisk_Caching(*source.Caching)
+		caching := Caching(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -8909,7 +9027,7 @@ func (disk *OSDisk) AssignProperties_From_OSDisk(source *alpha20201201s.OSDisk) 
 
 	// CreateOption
 	if source.CreateOption != nil {
-		createOption := OSDisk_CreateOption(*source.CreateOption)
+		createOption := CreateOption(*source.CreateOption)
 		disk.CreateOption = &createOption
 	} else {
 		disk.CreateOption = nil
@@ -9943,124 +10061,6 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 		destination.VaultCertificates = vaultCertificateList
 	} else {
 		destination.VaultCertificates = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec. Use v1beta20201201.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec instead
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec struct {
-	Primary   *bool                         `json:"primary,omitempty"`
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if interfaces == nil {
-		return nil, nil
-	}
-	result := &VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM{}
-
-	// Set property ‘Id’:
-	if interfaces.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*interfaces.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-
-	// Set property ‘Properties’:
-	if interfaces.Primary != nil {
-		result.Properties = &NetworkInterfaceReferenceProperties_ARM{}
-	}
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		result.Properties.Primary = &primary
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Primary’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Primary != nil {
-			primary := *typedInput.Properties.Primary
-			interfaces.Primary = &primary
-		}
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(source *alpha20201201s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		interfaces.Primary = &primary
-	} else {
-		interfaces.Primary = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		interfaces.Reference = &reference
-	} else {
-		interfaces.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(destination *alpha20201201s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Primary
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// Reference
-	if interfaces.Reference != nil {
-		reference := interfaces.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -11639,6 +11639,16 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_To_AvailablePatchS
 	return nil
 }
 
+// Deprecated version of Caching. Use v1beta20201201.Caching instead
+// +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
+type Caching string
+
+const (
+	Caching_None      = Caching("None")
+	Caching_ReadOnly  = Caching("ReadOnly")
+	Caching_ReadWrite = Caching("ReadWrite")
+)
+
 // Deprecated version of Caching_STATUS. Use v1beta20201201.Caching_STATUS instead
 type Caching_STATUS string
 
@@ -11646,6 +11656,16 @@ const (
 	Caching_STATUS_None      = Caching_STATUS("None")
 	Caching_STATUS_ReadOnly  = Caching_STATUS("ReadOnly")
 	Caching_STATUS_ReadWrite = Caching_STATUS("ReadWrite")
+)
+
+// Deprecated version of CreateOption. Use v1beta20201201.CreateOption instead
+// +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
+type CreateOption string
+
+const (
+	CreateOption_Attach    = CreateOption("Attach")
+	CreateOption_Empty     = CreateOption("Empty")
+	CreateOption_FromImage = CreateOption("FromImage")
 )
 
 // Deprecated version of CreateOption_STATUS. Use v1beta20201201.CreateOption_STATUS instead
@@ -11657,31 +11677,11 @@ const (
 	CreateOption_STATUS_FromImage = CreateOption_STATUS("FromImage")
 )
 
-// Deprecated version of DataDisk_Caching. Use v1beta20201201.DataDisk_Caching instead
-// +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
-type DataDisk_Caching string
-
-const (
-	DataDisk_Caching_None      = DataDisk_Caching("None")
-	DataDisk_Caching_ReadOnly  = DataDisk_Caching("ReadOnly")
-	DataDisk_Caching_ReadWrite = DataDisk_Caching("ReadWrite")
-)
-
-// Deprecated version of DataDisk_CreateOption. Use v1beta20201201.DataDisk_CreateOption instead
-// +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
-type DataDisk_CreateOption string
-
-const (
-	DataDisk_CreateOption_Attach    = DataDisk_CreateOption("Attach")
-	DataDisk_CreateOption_Empty     = DataDisk_CreateOption("Empty")
-	DataDisk_CreateOption_FromImage = DataDisk_CreateOption("FromImage")
-)
-
-// Deprecated version of DataDisk_DetachOption. Use v1beta20201201.DataDisk_DetachOption instead
+// Deprecated version of DetachOption. Use v1beta20201201.DetachOption instead
 // +kubebuilder:validation:Enum={"ForceDetach"}
-type DataDisk_DetachOption string
+type DetachOption string
 
-const DataDisk_DetachOption_ForceDetach = DataDisk_DetachOption("ForceDetach")
+const DetachOption_ForceDetach = DetachOption("ForceDetach")
 
 // Deprecated version of DetachOption_STATUS. Use v1beta20201201.DetachOption_STATUS instead
 type DetachOption_STATUS string
@@ -11690,8 +11690,8 @@ const DetachOption_STATUS_ForceDetach = DetachOption_STATUS("ForceDetach")
 
 // Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
 type DiffDiskSettings struct {
-	Option    *DiffDiskSettings_Option    `json:"option,omitempty"`
-	Placement *DiffDiskSettings_Placement `json:"placement,omitempty"`
+	Option    *DiffDiskOption    `json:"option,omitempty"`
+	Placement *DiffDiskPlacement `json:"placement,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DiffDiskSettings{}
@@ -11750,7 +11750,7 @@ func (settings *DiffDiskSettings) AssignProperties_From_DiffDiskSettings(source 
 
 	// Option
 	if source.Option != nil {
-		option := DiffDiskSettings_Option(*source.Option)
+		option := DiffDiskOption(*source.Option)
 		settings.Option = &option
 	} else {
 		settings.Option = nil
@@ -11758,7 +11758,7 @@ func (settings *DiffDiskSettings) AssignProperties_From_DiffDiskSettings(source 
 
 	// Placement
 	if source.Placement != nil {
-		placement := DiffDiskSettings_Placement(*source.Placement)
+		placement := DiffDiskPlacement(*source.Placement)
 		settings.Placement = &placement
 	} else {
 		settings.Placement = nil
@@ -12610,9 +12610,9 @@ const (
 
 // Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
 type ManagedDiskParameters struct {
-	DiskEncryptionSet  *DiskEncryptionSetParameters              `json:"diskEncryptionSet,omitempty"`
-	Reference          *genruntime.ResourceReference             `armReference:"Id" json:"reference,omitempty"`
-	StorageAccountType *ManagedDiskParameters_StorageAccountType `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource                  `json:"diskEncryptionSet,omitempty"`
+	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	StorageAccountType *StorageAccountType           `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedDiskParameters{}
@@ -12630,7 +12630,7 @@ func (parameters *ManagedDiskParameters) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSet_ARM.(*DiskEncryptionSetParameters_ARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*SubResource_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -12666,7 +12666,7 @@ func (parameters *ManagedDiskParameters) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 DiskEncryptionSetParameters
+		var diskEncryptionSet1 SubResource
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -12692,10 +12692,10 @@ func (parameters *ManagedDiskParameters) AssignProperties_From_ManagedDiskParame
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err := diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource
+		err := diskEncryptionSet.AssignProperties_From_SubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DiskEncryptionSet")
 		}
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -12712,7 +12712,7 @@ func (parameters *ManagedDiskParameters) AssignProperties_From_ManagedDiskParame
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := ManagedDiskParameters_StorageAccountType(*source.StorageAccountType)
+		storageAccountType := StorageAccountType(*source.StorageAccountType)
 		parameters.StorageAccountType = &storageAccountType
 	} else {
 		parameters.StorageAccountType = nil
@@ -12729,10 +12729,10 @@ func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParamete
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20201201s.DiskEncryptionSetParameters
-		err := parameters.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet alpha20201201s.SubResource
+		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -12882,26 +12882,6 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_To_ManagedDiskP
 	// No error
 	return nil
 }
-
-// Deprecated version of OSDisk_Caching. Use v1beta20201201.OSDisk_Caching instead
-// +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
-type OSDisk_Caching string
-
-const (
-	OSDisk_Caching_None      = OSDisk_Caching("None")
-	OSDisk_Caching_ReadOnly  = OSDisk_Caching("ReadOnly")
-	OSDisk_Caching_ReadWrite = OSDisk_Caching("ReadWrite")
-)
-
-// Deprecated version of OSDisk_CreateOption. Use v1beta20201201.OSDisk_CreateOption instead
-// +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
-type OSDisk_CreateOption string
-
-const (
-	OSDisk_CreateOption_Attach    = OSDisk_CreateOption("Attach")
-	OSDisk_CreateOption_Empty     = OSDisk_CreateOption("Empty")
-	OSDisk_CreateOption_FromImage = OSDisk_CreateOption("FromImage")
-)
 
 // Deprecated version of OSDisk_OsType. Use v1beta20201201.OSDisk_OsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
@@ -13125,7 +13105,7 @@ func (settings *PatchSettings_STATUS) AssignProperties_To_PatchSettings_STATUS(d
 
 // Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
 type SshConfiguration struct {
-	PublicKeys []SshPublicKey `json:"publicKeys,omitempty"`
+	PublicKeys []SshPublicKeySpec `json:"publicKeys,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SshConfiguration{}
@@ -13143,7 +13123,7 @@ func (configuration *SshConfiguration) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.PublicKeys = append(result.PublicKeys, *item_ARM.(*SshPublicKey_ARM))
+		result.PublicKeys = append(result.PublicKeys, *item_ARM.(*SshPublicKeySpec_ARM))
 	}
 	return result, nil
 }
@@ -13162,7 +13142,7 @@ func (configuration *SshConfiguration) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘PublicKeys’:
 	for _, item := range typedInput.PublicKeys {
-		var item1 SshPublicKey
+		var item1 SshPublicKeySpec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -13179,14 +13159,14 @@ func (configuration *SshConfiguration) AssignProperties_From_SshConfiguration(so
 
 	// PublicKeys
 	if source.PublicKeys != nil {
-		publicKeyList := make([]SshPublicKey, len(source.PublicKeys))
+		publicKeyList := make([]SshPublicKeySpec, len(source.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey SshPublicKey
-			err := publicKey.AssignProperties_From_SshPublicKey(&publicKeyItem)
+			var publicKey SshPublicKeySpec
+			err := publicKey.AssignProperties_From_SshPublicKeySpec(&publicKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_From_SshPublicKeySpec() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -13206,14 +13186,14 @@ func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(dest
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]alpha20201201s.SshPublicKey, len(configuration.PublicKeys))
+		publicKeyList := make([]alpha20201201s.SshPublicKeySpec, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey alpha20201201s.SshPublicKey
-			err := publicKeyItem.AssignProperties_To_SshPublicKey(&publicKey)
+			var publicKey alpha20201201s.SshPublicKeySpec
+			err := publicKeyItem.AssignProperties_To_SshPublicKeySpec(&publicKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_To_SshPublicKeySpec() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -14150,10 +14130,25 @@ const (
 	AvailablePatchSummary_Status_STATUS_Unknown               = AvailablePatchSummary_Status_STATUS("Unknown")
 )
 
+// Deprecated version of DiffDiskOption. Use v1beta20201201.DiffDiskOption instead
+// +kubebuilder:validation:Enum={"Local"}
+type DiffDiskOption string
+
+const DiffDiskOption_Local = DiffDiskOption("Local")
+
 // Deprecated version of DiffDiskOption_STATUS. Use v1beta20201201.DiffDiskOption_STATUS instead
 type DiffDiskOption_STATUS string
 
 const DiffDiskOption_STATUS_Local = DiffDiskOption_STATUS("Local")
+
+// Deprecated version of DiffDiskPlacement. Use v1beta20201201.DiffDiskPlacement instead
+// +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
+type DiffDiskPlacement string
+
+const (
+	DiffDiskPlacement_CacheDisk    = DiffDiskPlacement("CacheDisk")
+	DiffDiskPlacement_ResourceDisk = DiffDiskPlacement("ResourceDisk")
+)
 
 // Deprecated version of DiffDiskPlacement_STATUS. Use v1beta20201201.DiffDiskPlacement_STATUS instead
 type DiffDiskPlacement_STATUS string
@@ -14162,104 +14157,6 @@ const (
 	DiffDiskPlacement_STATUS_CacheDisk    = DiffDiskPlacement_STATUS("CacheDisk")
 	DiffDiskPlacement_STATUS_ResourceDisk = DiffDiskPlacement_STATUS("ResourceDisk")
 )
-
-// Deprecated version of DiffDiskSettings_Option. Use v1beta20201201.DiffDiskSettings_Option instead
-// +kubebuilder:validation:Enum={"Local"}
-type DiffDiskSettings_Option string
-
-const DiffDiskSettings_Option_Local = DiffDiskSettings_Option("Local")
-
-// Deprecated version of DiffDiskSettings_Placement. Use v1beta20201201.DiffDiskSettings_Placement instead
-// +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
-type DiffDiskSettings_Placement string
-
-const (
-	DiffDiskSettings_Placement_CacheDisk    = DiffDiskSettings_Placement("CacheDisk")
-	DiffDiskSettings_Placement_ResourceDisk = DiffDiskSettings_Placement("ResourceDisk")
-)
-
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters struct {
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DiskEncryptionSetParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &DiskEncryptionSetParameters_ARM{}
-
-	// Set property ‘Id’:
-	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*parameters.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *DiskEncryptionSetParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskEncryptionSetParameters_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *DiskEncryptionSetParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(DiskEncryptionSetParameters_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSetParameters_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_DiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_From_DiskEncryptionSetParameters(source *alpha20201201s.DiskEncryptionSetParameters) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_DiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_To_DiskEncryptionSetParameters(destination *alpha20201201s.DiskEncryptionSetParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
 type KeyVaultKeyReference struct {
@@ -14722,20 +14619,6 @@ const (
 	LinuxPatchSettings_PatchMode_STATUS_ImageDefault        = LinuxPatchSettings_PatchMode_STATUS("ImageDefault")
 )
 
-// Deprecated version of ManagedDiskParameters_StorageAccountType. Use
-// v1beta20201201.ManagedDiskParameters_StorageAccountType instead
-// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
-type ManagedDiskParameters_StorageAccountType string
-
-const (
-	ManagedDiskParameters_StorageAccountType_Premium_LRS     = ManagedDiskParameters_StorageAccountType("Premium_LRS")
-	ManagedDiskParameters_StorageAccountType_Premium_ZRS     = ManagedDiskParameters_StorageAccountType("Premium_ZRS")
-	ManagedDiskParameters_StorageAccountType_StandardSSD_LRS = ManagedDiskParameters_StorageAccountType("StandardSSD_LRS")
-	ManagedDiskParameters_StorageAccountType_StandardSSD_ZRS = ManagedDiskParameters_StorageAccountType("StandardSSD_ZRS")
-	ManagedDiskParameters_StorageAccountType_Standard_LRS    = ManagedDiskParameters_StorageAccountType("Standard_LRS")
-	ManagedDiskParameters_StorageAccountType_UltraSSD_LRS    = ManagedDiskParameters_StorageAccountType("UltraSSD_LRS")
-)
-
 // Deprecated version of PatchSettings_PatchMode. Use v1beta20201201.PatchSettings_PatchMode instead
 // +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
 type PatchSettings_PatchMode string
@@ -14754,98 +14637,6 @@ const (
 	PatchSettings_PatchMode_STATUS_AutomaticByPlatform = PatchSettings_PatchMode_STATUS("AutomaticByPlatform")
 	PatchSettings_PatchMode_STATUS_Manual              = PatchSettings_PatchMode_STATUS("Manual")
 )
-
-// Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
-type SshPublicKey struct {
-	KeyData *string `json:"keyData,omitempty"`
-	Path    *string `json:"path,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SshPublicKey{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (publicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if publicKey == nil {
-		return nil, nil
-	}
-	result := &SshPublicKey_ARM{}
-
-	// Set property ‘KeyData’:
-	if publicKey.KeyData != nil {
-		keyData := *publicKey.KeyData
-		result.KeyData = &keyData
-	}
-
-	// Set property ‘Path’:
-	if publicKey.Path != nil {
-		path := *publicKey.Path
-		result.Path = &path
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicKey *SshPublicKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SshPublicKey_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (publicKey *SshPublicKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SshPublicKey_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKey_ARM, got %T", armInput)
-	}
-
-	// Set property ‘KeyData’:
-	if typedInput.KeyData != nil {
-		keyData := *typedInput.KeyData
-		publicKey.KeyData = &keyData
-	}
-
-	// Set property ‘Path’:
-	if typedInput.Path != nil {
-		path := *typedInput.Path
-		publicKey.Path = &path
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_SshPublicKey populates our SshPublicKey from the provided source SshPublicKey
-func (publicKey *SshPublicKey) AssignProperties_From_SshPublicKey(source *alpha20201201s.SshPublicKey) error {
-
-	// KeyData
-	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
-
-	// Path
-	publicKey.Path = genruntime.ClonePointerToString(source.Path)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SshPublicKey populates the provided destination SshPublicKey from our SshPublicKey
-func (publicKey *SshPublicKey) AssignProperties_To_SshPublicKey(destination *alpha20201201s.SshPublicKey) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// KeyData
-	destination.KeyData = genruntime.ClonePointerToString(publicKey.KeyData)
-
-	// Path
-	destination.Path = genruntime.ClonePointerToString(publicKey.Path)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Deprecated version of SshPublicKey_STATUS. Use v1beta20201201.SshPublicKey_STATUS instead
 type SshPublicKey_STATUS struct {
@@ -14917,6 +14708,111 @@ func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(de
 	// No error
 	return nil
 }
+
+// Deprecated version of SshPublicKeySpec. Use v1beta20201201.SshPublicKeySpec instead
+type SshPublicKeySpec struct {
+	KeyData *string `json:"keyData,omitempty"`
+	Path    *string `json:"path,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &SshPublicKeySpec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (publicKey *SshPublicKeySpec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if publicKey == nil {
+		return nil, nil
+	}
+	result := &SshPublicKeySpec_ARM{}
+
+	// Set property ‘KeyData’:
+	if publicKey.KeyData != nil {
+		keyData := *publicKey.KeyData
+		result.KeyData = &keyData
+	}
+
+	// Set property ‘Path’:
+	if publicKey.Path != nil {
+		path := *publicKey.Path
+		result.Path = &path
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicKey *SshPublicKeySpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SshPublicKeySpec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (publicKey *SshPublicKeySpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SshPublicKeySpec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SshPublicKeySpec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘KeyData’:
+	if typedInput.KeyData != nil {
+		keyData := *typedInput.KeyData
+		publicKey.KeyData = &keyData
+	}
+
+	// Set property ‘Path’:
+	if typedInput.Path != nil {
+		path := *typedInput.Path
+		publicKey.Path = &path
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_SshPublicKeySpec populates our SshPublicKeySpec from the provided source SshPublicKeySpec
+func (publicKey *SshPublicKeySpec) AssignProperties_From_SshPublicKeySpec(source *alpha20201201s.SshPublicKeySpec) error {
+
+	// KeyData
+	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
+
+	// Path
+	publicKey.Path = genruntime.ClonePointerToString(source.Path)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SshPublicKeySpec populates the provided destination SshPublicKeySpec from our SshPublicKeySpec
+func (publicKey *SshPublicKeySpec) AssignProperties_To_SshPublicKeySpec(destination *alpha20201201s.SshPublicKeySpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// KeyData
+	destination.KeyData = genruntime.ClonePointerToString(publicKey.KeyData)
+
+	// Path
+	destination.Path = genruntime.ClonePointerToString(publicKey.Path)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of StorageAccountType. Use v1beta20201201.StorageAccountType instead
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
+type StorageAccountType string
+
+const (
+	StorageAccountType_Premium_LRS     = StorageAccountType("Premium_LRS")
+	StorageAccountType_Premium_ZRS     = StorageAccountType("Premium_ZRS")
+	StorageAccountType_StandardSSD_LRS = StorageAccountType("StandardSSD_LRS")
+	StorageAccountType_StandardSSD_ZRS = StorageAccountType("StandardSSD_ZRS")
+	StorageAccountType_Standard_LRS    = StorageAccountType("Standard_LRS")
+	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
+)
 
 // Deprecated version of StorageAccountType_STATUS. Use v1beta20201201.StorageAccountType_STATUS instead
 type StorageAccountType_STATUS string

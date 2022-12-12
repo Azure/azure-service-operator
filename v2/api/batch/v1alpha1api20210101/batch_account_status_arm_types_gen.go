@@ -75,11 +75,7 @@ type KeyVaultReference_STATUS_ARM struct {
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210101.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS_ARM struct {
-	Etag       *string                                         `json:"etag,omitempty"`
-	Id         *string                                         `json:"id,omitempty"`
-	Name       *string                                         `json:"name,omitempty"`
-	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
-	Type       *string                                         `json:"type,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of VirtualMachineFamilyCoreQuota_STATUS. Use v1beta20210101.VirtualMachineFamilyCoreQuota_STATUS instead
@@ -91,23 +87,4 @@ type VirtualMachineFamilyCoreQuota_STATUS_ARM struct {
 // Deprecated version of KeyVaultProperties_STATUS. Use v1beta20210101.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS_ARM struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-}
-
-// Deprecated version of PrivateEndpointConnectionProperties_STATUS. Use v1beta20210101.PrivateEndpointConnectionProperties_STATUS instead
-type PrivateEndpointConnectionProperties_STATUS_ARM struct {
-	PrivateEndpoint                   *PrivateEndpoint_STATUS_ARM                                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM                 `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-}
-
-// Deprecated version of PrivateEndpoint_STATUS. Use v1beta20210101.PrivateEndpoint_STATUS instead
-type PrivateEndpoint_STATUS_ARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of PrivateLinkServiceConnectionState_STATUS. Use v1beta20210101.PrivateLinkServiceConnectionState_STATUS instead
-type PrivateLinkServiceConnectionState_STATUS_ARM struct {
-	ActionRequired *string                                    `json:"actionRequired,omitempty"`
-	Description    *string                                    `json:"description,omitempty"`
-	Status         *PrivateLinkServiceConnectionStatus_STATUS `json:"status,omitempty"`
 }

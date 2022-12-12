@@ -31,6 +31,12 @@ type Identity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// Deprecated version of Sku_STATUS. Use v1beta20210401.Sku_STATUS instead
+type Sku_STATUS_ARM struct {
+	Name *SkuName_STATUS `json:"name,omitempty"`
+	Tier *Tier_STATUS    `json:"tier,omitempty"`
+}
+
 // Deprecated version of StorageAccount_Kind_STATUS. Use v1beta20210401.StorageAccount_Kind_STATUS instead
 type StorageAccount_Kind_STATUS string
 
@@ -44,36 +50,36 @@ const (
 
 // Deprecated version of StorageAccountProperties_STATUS. Use v1beta20210401.StorageAccountProperties_STATUS instead
 type StorageAccountProperties_STATUS_ARM struct {
-	AccessTier                            *StorageAccountProperties_AccessTier_STATUS                `json:"accessTier,omitempty"`
-	AllowBlobPublicAccess                 *bool                                                      `json:"allowBlobPublicAccess,omitempty"`
-	AllowCrossTenantReplication           *bool                                                      `json:"allowCrossTenantReplication,omitempty"`
-	AllowSharedKeyAccess                  *bool                                                      `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS_ARM          `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-	BlobRestoreStatus                     *BlobRestoreStatus_STATUS_ARM                              `json:"blobRestoreStatus,omitempty"`
-	CreationTime                          *string                                                    `json:"creationTime,omitempty"`
-	CustomDomain                          *CustomDomain_STATUS_ARM                                   `json:"customDomain,omitempty"`
-	Encryption                            *Encryption_STATUS_ARM                                     `json:"encryption,omitempty"`
-	FailoverInProgress                    *bool                                                      `json:"failoverInProgress,omitempty"`
-	GeoReplicationStats                   *GeoReplicationStats_STATUS_ARM                            `json:"geoReplicationStats,omitempty"`
-	IsHnsEnabled                          *bool                                                      `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled                        *bool                                                      `json:"isNfsV3Enabled,omitempty"`
-	KeyCreationTime                       *KeyCreationTime_STATUS_ARM                                `json:"keyCreationTime,omitempty"`
-	KeyPolicy                             *KeyPolicy_STATUS_ARM                                      `json:"keyPolicy,omitempty"`
-	LargeFileSharesState                  *StorageAccountProperties_LargeFileSharesState_STATUS      `json:"largeFileSharesState,omitempty"`
-	LastGeoFailoverTime                   *string                                                    `json:"lastGeoFailoverTime,omitempty"`
-	MinimumTlsVersion                     *StorageAccountProperties_MinimumTlsVersion_STATUS         `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls                           *NetworkRuleSet_STATUS_ARM                                 `json:"networkAcls,omitempty"`
-	PrimaryEndpoints                      *Endpoints_STATUS_ARM                                      `json:"primaryEndpoints,omitempty"`
-	PrimaryLocation                       *string                                                    `json:"primaryLocation,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState                     *StorageAccountProperties_ProvisioningState_STATUS         `json:"provisioningState,omitempty"`
-	RoutingPreference                     *RoutingPreference_STATUS_ARM                              `json:"routingPreference,omitempty"`
-	SasPolicy                             *SasPolicy_STATUS_ARM                                      `json:"sasPolicy,omitempty"`
-	SecondaryEndpoints                    *Endpoints_STATUS_ARM                                      `json:"secondaryEndpoints,omitempty"`
-	SecondaryLocation                     *string                                                    `json:"secondaryLocation,omitempty"`
-	StatusOfPrimary                       *StorageAccountProperties_StatusOfPrimary_STATUS           `json:"statusOfPrimary,omitempty"`
-	StatusOfSecondary                     *StorageAccountProperties_StatusOfSecondary_STATUS         `json:"statusOfSecondary,omitempty"`
-	SupportsHttpsTrafficOnly              *bool                                                      `json:"supportsHttpsTrafficOnly,omitempty"`
+	AccessTier                            *StorageAccountProperties_AccessTier_STATUS           `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                                 `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                                 `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                                 `json:"allowSharedKeyAccess,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS_ARM     `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	BlobRestoreStatus                     *BlobRestoreStatus_STATUS_ARM                         `json:"blobRestoreStatus,omitempty"`
+	CreationTime                          *string                                               `json:"creationTime,omitempty"`
+	CustomDomain                          *CustomDomain_STATUS_ARM                              `json:"customDomain,omitempty"`
+	Encryption                            *Encryption_STATUS_ARM                                `json:"encryption,omitempty"`
+	FailoverInProgress                    *bool                                                 `json:"failoverInProgress,omitempty"`
+	GeoReplicationStats                   *GeoReplicationStats_STATUS_ARM                       `json:"geoReplicationStats,omitempty"`
+	IsHnsEnabled                          *bool                                                 `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled                        *bool                                                 `json:"isNfsV3Enabled,omitempty"`
+	KeyCreationTime                       *KeyCreationTime_STATUS_ARM                           `json:"keyCreationTime,omitempty"`
+	KeyPolicy                             *KeyPolicy_STATUS_ARM                                 `json:"keyPolicy,omitempty"`
+	LargeFileSharesState                  *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LastGeoFailoverTime                   *string                                               `json:"lastGeoFailoverTime,omitempty"`
+	MinimumTlsVersion                     *StorageAccountProperties_MinimumTlsVersion_STATUS    `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls                           *NetworkRuleSet_STATUS_ARM                            `json:"networkAcls,omitempty"`
+	PrimaryEndpoints                      *Endpoints_STATUS_ARM                                 `json:"primaryEndpoints,omitempty"`
+	PrimaryLocation                       *string                                               `json:"primaryLocation,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS_ARM                `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                     *StorageAccountProperties_ProvisioningState_STATUS    `json:"provisioningState,omitempty"`
+	RoutingPreference                     *RoutingPreference_STATUS_ARM                         `json:"routingPreference,omitempty"`
+	SasPolicy                             *SasPolicy_STATUS_ARM                                 `json:"sasPolicy,omitempty"`
+	SecondaryEndpoints                    *Endpoints_STATUS_ARM                                 `json:"secondaryEndpoints,omitempty"`
+	SecondaryLocation                     *string                                               `json:"secondaryLocation,omitempty"`
+	StatusOfPrimary                       *StorageAccountProperties_StatusOfPrimary_STATUS      `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary                     *StorageAccountProperties_StatusOfSecondary_STATUS    `json:"statusOfSecondary,omitempty"`
+	SupportsHttpsTrafficOnly              *bool                                                 `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication_STATUS. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_STATUS instead
@@ -160,8 +166,8 @@ type NetworkRuleSet_STATUS_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM      `json:"virtualNetworkRules,omitempty"`
 }
 
-// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210401.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -177,6 +183,28 @@ type SasPolicy_STATUS_ARM struct {
 	ExpirationAction    *SasPolicy_ExpirationAction_STATUS `json:"expirationAction,omitempty"`
 	SasExpirationPeriod *string                            `json:"sasExpirationPeriod,omitempty"`
 }
+
+// Deprecated version of SkuName_STATUS. Use v1beta20210401.SkuName_STATUS instead
+type SkuName_STATUS string
+
+const (
+	SkuName_STATUS_Premium_LRS     = SkuName_STATUS("Premium_LRS")
+	SkuName_STATUS_Premium_ZRS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_STATUS_Standard_GRS    = SkuName_STATUS("Standard_GRS")
+	SkuName_STATUS_Standard_GZRS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_STATUS_Standard_LRS    = SkuName_STATUS("Standard_LRS")
+	SkuName_STATUS_Standard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_STATUS_Standard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_STATUS_Standard_ZRS    = SkuName_STATUS("Standard_ZRS")
+)
+
+// Deprecated version of Tier_STATUS. Use v1beta20210401.Tier_STATUS instead
+type Tier_STATUS string
+
+const (
+	Tier_STATUS_Premium  = Tier_STATUS("Premium")
+	Tier_STATUS_Standard = Tier_STATUS("Standard")
+)
 
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20210401.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS_ARM struct {

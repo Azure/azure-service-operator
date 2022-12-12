@@ -18,17 +18,17 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
-// AddCrossResourceReferencesStageID is the unique identifier for this pipeline stage
-const AddCrossResourceReferencesStageID = "addCrossResourceReferences"
+// TransformCrossResourceReferencesStageID is the unique identifier for this pipeline stage
+const TransformCrossResourceReferencesStageID = "transformCrossResourceReferences"
 
 var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID|resourceId)")
 
-// AddCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
-func AddCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
-		AddCrossResourceReferencesStageID,
+// TransformCrossResourceReferences replaces cross resource references with genruntime.ResourceReference.
+func TransformCrossResourceReferences(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) *Stage {
+	return NewStage(
+		TransformCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
-		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 			typesWithARMIDs := make(astmodel.TypeDefinitionSet)
 
 			var crossResourceReferenceErrs []error
@@ -85,7 +85,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			}
 
 			visitor := MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
-			for _, def := range definitions {
+			for _, def := range state.Definitions() {
 				// Skip Status types
 				// TODO: we need flags
 				if def.Name().IsStatus() {
@@ -97,6 +97,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				if err != nil {
 					return nil, errors.Wrapf(err, "visiting %q", def.Name())
 				}
+
 				typesWithARMIDs.Add(def.WithType(t))
 
 				// TODO: Remove types that have only a single field ID and pull things up a level? Will need to wait for George's
@@ -108,7 +109,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				return nil, err
 			}
 
-			result, err := stripRemainingARMIDPrimitiveTypes(typesWithARMIDs)
+			updatedDefs, err := stripARMIDPrimitiveTypes(typesWithARMIDs)
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")
 			}
@@ -122,7 +123,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 					"Found unused $armReference configurations; these need to be fixed or removed.")
 			}
 
-			return result, nil
+			return state.WithDefinitions(updatedDefs), nil
 		})
 }
 
@@ -226,7 +227,7 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
-		idFactory.CreateIdentifier(referencePropertyName, astmodel.NotExported),
+		idFactory.CreateStringIdentifier(referencePropertyName, astmodel.NotExported),
 		newPropType)
 
 	newProp = newProp.WithDescription(existing.Description())
@@ -239,7 +240,7 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	return newProp
 }
 
-func stripRemainingARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+func stripARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	// Any astmodel.ARMReference's which have escaped need to be turned into
 	// strings
 	armIDStrippingVisitor := astmodel.TypeVisitorBuilder{

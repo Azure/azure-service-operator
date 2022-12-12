@@ -334,15 +334,21 @@ type TopicList struct {
 type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string  `json:"azureName,omitempty"`
-	Location  *string `json:"location,omitempty"`
+	AzureName          string                       `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule              `json:"inboundIpRules,omitempty"`
+	InputSchema        *TopicProperties_InputSchema `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping          `json:"inputSchemaMapping,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Tags  map[string]string                  `json:"tags,omitempty"`
+	Owner               *genruntime.KnownResourceReference   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Topic_Spec{}
@@ -362,6 +368,37 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if topic.InboundIpRules != nil ||
+		topic.InputSchema != nil ||
+		topic.InputSchemaMapping != nil ||
+		topic.PublicNetworkAccess != nil {
+		result.Properties = &TopicProperties_ARM{}
+	}
+	for _, item := range topic.InboundIpRules {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *item_ARM.(*InboundIpRule_ARM))
+	}
+	if topic.InputSchema != nil {
+		inputSchema := *topic.InputSchema
+		result.Properties.InputSchema = &inputSchema
+	}
+	if topic.InputSchemaMapping != nil {
+		inputSchemaMapping_ARM, err := (*topic.InputSchemaMapping).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		inputSchemaMapping := *inputSchemaMapping_ARM.(*InputSchemaMapping_ARM)
+		result.Properties.InputSchemaMapping = &inputSchemaMapping
+	}
+	if topic.PublicNetworkAccess != nil {
+		publicNetworkAccess := *topic.PublicNetworkAccess
+		result.Properties.PublicNetworkAccess = &publicNetworkAccess
+	}
 
 	// Set property ‘Tags’:
 	if topic.Tags != nil {
@@ -388,6 +425,42 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// Set property ‘AzureName’:
 	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
+	// Set property ‘InboundIpRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.InboundIpRules {
+			var item1 InboundIpRule
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			topic.InboundIpRules = append(topic.InboundIpRules, item1)
+		}
+	}
+
+	// Set property ‘InputSchema’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchema != nil {
+			inputSchema := *typedInput.Properties.InputSchema
+			topic.InputSchema = &inputSchema
+		}
+	}
+
+	// Set property ‘InputSchemaMapping’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.InputSchemaMapping != nil {
+			var inputSchemaMapping1 InputSchemaMapping
+			err := inputSchemaMapping1.PopulateFromARM(owner, *typedInput.Properties.InputSchemaMapping)
+			if err != nil {
+				return err
+			}
+			inputSchemaMapping := inputSchemaMapping1
+			topic.InputSchemaMapping = &inputSchemaMapping
+		}
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -396,6 +469,15 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘Owner’:
 	topic.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘PublicNetworkAccess’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicNetworkAccess != nil {
+			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
+			topic.PublicNetworkAccess = &publicNetworkAccess
+		}
+	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -465,6 +547,44 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *alpha20200601s
 	// AzureName
 	topic.AzureName = source.AzureName
 
+	// InboundIpRules
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule InboundIpRule
+			err := inboundIpRule.AssignProperties_From_InboundIpRule(&inboundIpRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_InboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		topic.InboundIpRules = inboundIpRuleList
+	} else {
+		topic.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if source.InputSchema != nil {
+		inputSchema := TopicProperties_InputSchema(*source.InputSchema)
+		topic.InputSchema = &inputSchema
+	} else {
+		topic.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if source.InputSchemaMapping != nil {
+		var inputSchemaMapping InputSchemaMapping
+		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		topic.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		topic.InputSchemaMapping = nil
+	}
+
 	// Location
 	topic.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -474,6 +594,14 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *alpha20200601s
 		topic.Owner = &owner
 	} else {
 		topic.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := TopicProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		topic.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		topic.PublicNetworkAccess = nil
 	}
 
 	// Tags
@@ -491,6 +619,44 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *alpha202006
 	// AzureName
 	destination.AzureName = topic.AzureName
 
+	// InboundIpRules
+	if topic.InboundIpRules != nil {
+		inboundIpRuleList := make([]alpha20200601s.InboundIpRule, len(topic.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range topic.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule alpha20200601s.InboundIpRule
+			err := inboundIpRuleItem.AssignProperties_To_InboundIpRule(&inboundIpRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_InboundIpRule() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		destination.InboundIpRules = inboundIpRuleList
+	} else {
+		destination.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if topic.InputSchema != nil {
+		inputSchema := string(*topic.InputSchema)
+		destination.InputSchema = &inputSchema
+	} else {
+		destination.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if topic.InputSchemaMapping != nil {
+		var inputSchemaMapping alpha20200601s.InputSchemaMapping
+		err := topic.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
+		}
+		destination.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		destination.InputSchemaMapping = nil
+	}
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(topic.Location)
 
@@ -503,6 +669,14 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *alpha202006
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
+	}
+
+	// PublicNetworkAccess
+	if topic.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*topic.PublicNetworkAccess)
+		destination.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		destination.PublicNetworkAccess = nil
 	}
 
 	// Tags
@@ -1042,6 +1216,16 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
+// Deprecated version of TopicProperties_InputSchema. Use v1beta20200601.TopicProperties_InputSchema instead
+// +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
+type TopicProperties_InputSchema string
+
+const (
+	TopicProperties_InputSchema_CloudEventSchemaV1_0 = TopicProperties_InputSchema("CloudEventSchemaV1_0")
+	TopicProperties_InputSchema_CustomEventSchema    = TopicProperties_InputSchema("CustomEventSchema")
+	TopicProperties_InputSchema_EventGridSchema      = TopicProperties_InputSchema("EventGridSchema")
+)
+
 // Deprecated version of TopicProperties_InputSchema_STATUS. Use v1beta20200601.TopicProperties_InputSchema_STATUS instead
 type TopicProperties_InputSchema_STATUS string
 
@@ -1062,6 +1246,15 @@ const (
 	TopicProperties_ProvisioningState_STATUS_Failed    = TopicProperties_ProvisioningState_STATUS("Failed")
 	TopicProperties_ProvisioningState_STATUS_Succeeded = TopicProperties_ProvisioningState_STATUS("Succeeded")
 	TopicProperties_ProvisioningState_STATUS_Updating  = TopicProperties_ProvisioningState_STATUS("Updating")
+)
+
+// Deprecated version of TopicProperties_PublicNetworkAccess. Use v1beta20200601.TopicProperties_PublicNetworkAccess instead
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type TopicProperties_PublicNetworkAccess string
+
+const (
+	TopicProperties_PublicNetworkAccess_Disabled = TopicProperties_PublicNetworkAccess("Disabled")
+	TopicProperties_PublicNetworkAccess_Enabled  = TopicProperties_PublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of TopicProperties_PublicNetworkAccess_STATUS. Use

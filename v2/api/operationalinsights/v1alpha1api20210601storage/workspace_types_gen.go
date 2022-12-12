@@ -9,7 +9,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -970,7 +969,6 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STA
 // Storage version of v1alpha1api20210601.WorkspaceFeatures
 // Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeatures struct {
-	AdditionalProperties                        map[string]v1.JSON            `json:"additionalProperties,omitempty"`
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool                         `json:"enableDataExport,omitempty"`
@@ -983,19 +981,6 @@ type WorkspaceFeatures struct {
 func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(source *v20210601s.WorkspaceFeatures) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		features.AdditionalProperties = additionalPropertyMap
-	} else {
-		features.AdditionalProperties = nil
-	}
 
 	// ClusterResourceReference
 	if source.ClusterResourceReference != nil {
@@ -1052,19 +1037,6 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *v20210601s.WorkspaceFeatures) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
-
-	// AdditionalProperties
-	if features.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(features.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range features.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
 
 	// ClusterResourceReference
 	if features.ClusterResourceReference != nil {

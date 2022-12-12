@@ -6,10 +6,9 @@ package v1beta20220131preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM struct {
-	// Name: The name of the federated identity credential resource.
 	Name string `json:"name,omitempty"`
 
-	// Properties: The properties associated with a federated identity credential.
+	// Properties: The properties associated with the federated identity credential.
 	Properties *FederatedIdentityCredentialProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -30,7 +29,6 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) G
 	return "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-01-31-preview/Microsoft.ManagedIdentity.json#/definitions/FederatedIdentityCredentialProperties
 type FederatedIdentityCredentialProperties_ARM struct {
 	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`

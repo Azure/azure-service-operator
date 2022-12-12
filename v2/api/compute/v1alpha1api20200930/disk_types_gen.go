@@ -344,21 +344,23 @@ type Disk_Spec struct {
 	BurstingEnabled *bool  `json:"burstingEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreationData                 *CreationData                       `json:"creationData,omitempty"`
-	DiskAccessReference          *genruntime.ResourceReference       `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskIOPSReadOnly             *int                                `json:"diskIOPSReadOnly,omitempty"`
-	DiskIOPSReadWrite            *int                                `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadOnly             *int                                `json:"diskMBpsReadOnly,omitempty"`
-	DiskMBpsReadWrite            *int                                `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeGB                   *int                                `json:"diskSizeGB,omitempty"`
-	Encryption                   *Encryption                         `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection       `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation                   `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *DiskProperties_HyperVGeneration    `json:"hyperVGeneration,omitempty"`
-	Location                     *string                             `json:"location,omitempty"`
-	MaxShares                    *int                                `json:"maxShares,omitempty"`
-	NetworkAccessPolicy          *DiskProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskProperties_OsType              `json:"osType,omitempty"`
+	CreationData                 *CreationData                    `json:"creationData,omitempty"`
+	DiskAccessReference          *genruntime.ResourceReference    `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	DiskIOPSReadOnly             *int                             `json:"diskIOPSReadOnly,omitempty"`
+	DiskIOPSReadWrite            *int                             `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadOnly             *int                             `json:"diskMBpsReadOnly,omitempty"`
+	DiskMBpsReadWrite            *int                             `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeGB                   *int                             `json:"diskSizeGB,omitempty"`
+	Encryption                   *Encryption                      `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection    `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation                `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location            *string                `json:"location,omitempty"`
+	MaxShares           *int                   `json:"maxShares,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy   `json:"networkAccessPolicy,omitempty"`
+	OsType              *DiskProperties_OsType `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -900,7 +902,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *alpha20200930s.Di
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := DiskProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
 		disk.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		disk.NetworkAccessPolicy = nil
@@ -2466,16 +2468,6 @@ const (
 	DiskProperties_HyperVGeneration_STATUS_V2 = DiskProperties_HyperVGeneration_STATUS("V2")
 )
 
-// Deprecated version of DiskProperties_NetworkAccessPolicy. Use v1beta20200930.DiskProperties_NetworkAccessPolicy instead
-// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
-type DiskProperties_NetworkAccessPolicy string
-
-const (
-	DiskProperties_NetworkAccessPolicy_AllowAll     = DiskProperties_NetworkAccessPolicy("AllowAll")
-	DiskProperties_NetworkAccessPolicy_AllowPrivate = DiskProperties_NetworkAccessPolicy("AllowPrivate")
-	DiskProperties_NetworkAccessPolicy_DenyAll      = DiskProperties_NetworkAccessPolicy("DenyAll")
-)
-
 // Deprecated version of DiskProperties_OsType. Use v1beta20200930.DiskProperties_OsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskProperties_OsType string
@@ -2672,7 +2664,7 @@ const (
 // Deprecated version of Encryption. Use v1beta20200930.Encryption instead
 type Encryption struct {
 	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
-	Type                       *Encryption_Type              `json:"type,omitempty"`
+	Type                       *EncryptionType               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -2739,7 +2731,7 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *alpha2020
 
 	// Type
 	if source.Type != nil {
-		typeVar := Encryption_Type(*source.Type)
+		typeVar := EncryptionType(*source.Type)
 		encryption.Type = &typeVar
 	} else {
 		encryption.Type = nil
@@ -3151,8 +3143,8 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 
 // Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
 type ExtendedLocation struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -3214,7 +3206,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -3331,6 +3323,16 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	// No error
 	return nil
 }
+
+// Deprecated version of NetworkAccessPolicy. Use v1beta20200930.NetworkAccessPolicy instead
+// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
+type NetworkAccessPolicy string
+
+const (
+	NetworkAccessPolicy_AllowAll     = NetworkAccessPolicy("AllowAll")
+	NetworkAccessPolicy_AllowPrivate = NetworkAccessPolicy("AllowPrivate")
+	NetworkAccessPolicy_DenyAll      = NetworkAccessPolicy("DenyAll")
+)
 
 // Deprecated version of NetworkAccessPolicy_STATUS. Use v1beta20200930.NetworkAccessPolicy_STATUS instead
 type NetworkAccessPolicy_STATUS string
@@ -3658,16 +3660,6 @@ const (
 	CreationData_CreateOption_STATUS_Upload    = CreationData_CreateOption_STATUS("Upload")
 )
 
-// Deprecated version of Encryption_Type. Use v1beta20200930.Encryption_Type instead
-// +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
-type Encryption_Type string
-
-const (
-	Encryption_Type_EncryptionAtRestWithCustomerKey             = Encryption_Type("EncryptionAtRestWithCustomerKey")
-	Encryption_Type_EncryptionAtRestWithPlatformAndCustomerKeys = Encryption_Type("EncryptionAtRestWithPlatformAndCustomerKeys")
-	Encryption_Type_EncryptionAtRestWithPlatformKey             = Encryption_Type("EncryptionAtRestWithPlatformKey")
-)
-
 // Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead
 type EncryptionSettingsElement struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference `json:"diskEncryptionKey,omitempty"`
@@ -3930,6 +3922,16 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 	// No error
 	return nil
 }
+
+// Deprecated version of EncryptionType. Use v1beta20200930.EncryptionType instead
+// +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
+type EncryptionType string
+
+const (
+	EncryptionType_EncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
+	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
+)
 
 // Deprecated version of EncryptionType_STATUS. Use v1beta20200930.EncryptionType_STATUS instead
 type EncryptionType_STATUS string

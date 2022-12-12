@@ -100,7 +100,7 @@ func nestType(
 
 	nestedProperty := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(nestedPropertyName, astmodel.Exported),
-		idFactory.CreateIdentifier(nestedPropertyName, astmodel.NotExported),
+		idFactory.CreateStringIdentifier(nestedPropertyName, astmodel.NotExported),
 		nestedDef.Name())
 
 	// Change existing object type to have a single property pointing to the above nested type

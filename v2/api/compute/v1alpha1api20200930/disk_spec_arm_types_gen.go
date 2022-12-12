@@ -35,22 +35,22 @@ func (disk *Disk_Spec_ARM) GetType() string {
 
 // Deprecated version of DiskProperties. Use v1beta20200930.DiskProperties instead
 type DiskProperties_ARM struct {
-	BurstingEnabled              *bool                               `json:"burstingEnabled,omitempty"`
-	CreationData                 *CreationData_ARM                   `json:"creationData,omitempty"`
-	DiskAccessId                 *string                             `json:"diskAccessId,omitempty"`
-	DiskIOPSReadOnly             *int                                `json:"diskIOPSReadOnly,omitempty"`
-	DiskIOPSReadWrite            *int                                `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadOnly             *int                                `json:"diskMBpsReadOnly,omitempty"`
-	DiskMBpsReadWrite            *int                                `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeGB                   *int                                `json:"diskSizeGB,omitempty"`
-	Encryption                   *Encryption_ARM                     `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM   `json:"encryptionSettingsCollection,omitempty"`
-	HyperVGeneration             *DiskProperties_HyperVGeneration    `json:"hyperVGeneration,omitempty"`
-	MaxShares                    *int                                `json:"maxShares,omitempty"`
-	NetworkAccessPolicy          *DiskProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
-	OsType                       *DiskProperties_OsType              `json:"osType,omitempty"`
-	PurchasePlan                 *PurchasePlan_ARM                   `json:"purchasePlan,omitempty"`
-	Tier                         *string                             `json:"tier,omitempty"`
+	BurstingEnabled              *bool                             `json:"burstingEnabled,omitempty"`
+	CreationData                 *CreationData_ARM                 `json:"creationData,omitempty"`
+	DiskAccessId                 *string                           `json:"diskAccessId,omitempty"`
+	DiskIOPSReadOnly             *int                              `json:"diskIOPSReadOnly,omitempty"`
+	DiskIOPSReadWrite            *int                              `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadOnly             *int                              `json:"diskMBpsReadOnly,omitempty"`
+	DiskMBpsReadWrite            *int                              `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeGB                   *int                              `json:"diskSizeGB,omitempty"`
+	Encryption                   *Encryption_ARM                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
+	HyperVGeneration             *DiskProperties_HyperVGeneration  `json:"hyperVGeneration,omitempty"`
+	MaxShares                    *int                              `json:"maxShares,omitempty"`
+	NetworkAccessPolicy          *NetworkAccessPolicy              `json:"networkAccessPolicy,omitempty"`
+	OsType                       *DiskProperties_OsType            `json:"osType,omitempty"`
+	PurchasePlan                 *PurchasePlan_ARM                 `json:"purchasePlan,omitempty"`
+	Tier                         *string                           `json:"tier,omitempty"`
 }
 
 // Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
@@ -60,8 +60,8 @@ type DiskSku_ARM struct {
 
 // Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
 type ExtendedLocation_ARM struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 // Deprecated version of CreationData. Use v1beta20200930.CreationData instead
@@ -89,8 +89,8 @@ const (
 
 // Deprecated version of Encryption. Use v1beta20200930.Encryption instead
 type Encryption_ARM struct {
-	DiskEncryptionSetId *string          `json:"diskEncryptionSetId,omitempty"`
-	Type                *Encryption_Type `json:"type,omitempty"`
+	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
+	Type                *EncryptionType `json:"type,omitempty"`
 }
 
 // Deprecated version of EncryptionSettingsCollection. Use v1beta20200930.EncryptionSettingsCollection instead
@@ -100,11 +100,11 @@ type EncryptionSettingsCollection_ARM struct {
 	EncryptionSettingsVersion *string                         `json:"encryptionSettingsVersion,omitempty"`
 }
 
-// Deprecated version of ExtendedLocation_Type. Use v1beta20200930.ExtendedLocation_Type instead
+// Deprecated version of ExtendedLocationType. Use v1beta20200930.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
+type ExtendedLocationType string
 
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
 type PurchasePlan_ARM struct {

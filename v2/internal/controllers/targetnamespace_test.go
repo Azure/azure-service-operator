@@ -134,8 +134,7 @@ func checkNeverGetsFinalizer(tc *testcommon.KubePerTestContext, original metav1.
 	)
 }
 
-// hasFinalizer accepts a metav1 object and returns true if the the
-// object has the provided finalizer.
+// hasFinalizer accepts a metav1 object and returns true if the object has the provided finalizer.
 func hasFinalizer(o metav1.Object, finalizer string) bool {
 	f := o.GetFinalizers()
 	for _, e := range f {

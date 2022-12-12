@@ -18,6 +18,7 @@ import (
 
 type resourceRemovalVisitorContext struct {
 	resource            astmodel.TypeName
+	name                astmodel.TypeName
 	depth               int
 	modifiedDefinitions astmodel.TypeDefinitionSet
 }
@@ -30,54 +31,57 @@ func (e resourceRemovalVisitorContext) WithMoreDepth() resourceRemovalVisitorCon
 	return e
 }
 
-// EmbeddedResourceRemover uses a variety of heuristics to remove resources that are embedded inside other resources.
-// There are a number of different kinds of embeddings:
-//  1. A "Properties" embedding. When we process the Azure JSON schema/Swagger we manufacture a "Spec"
-//     type that doesn't exist in the JSON schema/Swagger. In the JSON schema the resource itself must comply with ARM
-//     resource requirements, meaning that all of the RP specific properties are stored in the "Properties"
-//     property which for the sake of example we will say has type "R1Properties".
-//     Other resources which have a property somewhere in their type hierarchy with that same "R1Properties"
-//     type are actually embedding the R1 resource entirely inside themselves. Since the R1 resource is its own
-//     resource it doesn't make sense to have it embedded inside another resource in Kubernetes. These embeddings
-//     should really just be cross resource references. This pipeline finds such embeddings and removes them. A concrete
-//     example of one such embedding is
-//     v20181001 Microsoft.Networking Connection.Spec.Properties.LocalNetworkGateway2.Properties.
-//     The LocalNetworkGateway2 property is of type "LocalNetworkGateway" which is itself a resource.
-//     The ideal shape of Connection.Spec.Properties.LocalNetworkGate2 would just be a reference to a
-//     LocalNetworkGateway resource.
-//  2. A subresource embedding. For the same reasons above, embedded subresources don't make sense in Kubernetes.
-//     In the case of embedded subresources, the ideal shape would be a complete removal of the reference. We forbid
+func (e resourceRemovalVisitorContext) WithName(name astmodel.TypeName) resourceRemovalVisitorContext {
+	e.name = name
+	return e
+}
+
+// EmbeddedResourceRemover uses the "x-ms-azure-resource" extension to detect resources that are embedded
+// inside other resources.
+// There are two different kinds of embeddings:
+//  1. Peer resource embedding: This embedding allows users to create the peer resource inline rather than
+//     use an ARM ID reference. An example of this embedding can be seen at
+//     https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2020-11-01/publicIpAddress.json#L453
+//     where PublicIPAddress has a natGateway property which refers to "./natGateway.json#/definitions/NatGateway".
+//     This results in the ability to define a NatGateway inline while creating a PublicIPAddress. This is possibly
+//     useful in ARM templates but for our purposes would be better served with just an ID string representing the
+//     NatGateway.
+//  2. A subresource embedding. For the same reasons above, embedded sub-resources don't make sense in Kubernetes.
+//     In the case of embedded sub-resources, the ideal shape would be a complete removal of the reference. We forbid
 //     parent resources directly referencing child resources as it complicates the Watches scenario for each resource
 //     reconciler. It's also not a common pattern in Kubernetes - usually you can identify children for a
 //     given parent via a label. An example of this type of embedding is
-//     v20180601 Microsoft.Networking RouteTable.Spec.Properties.Routes. The Routes property is of type RouteTableRoutes
-//     which is a child resource of RouteTable.
-//
-// Note that even though the above examples do not include Status definitions, the same rules apply to Status definitions, with
-// the only difference being that for Status definitions the resource reference in Swagger (the source of the Status definitions)
-// is to the Status type (as opposed to the "Properties" type for Spec).
+//     https://github.com/Azure/azure-rest-api-specs/blob/main/specification/network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json#L668
+//     The Routes property is of type RouteTableRoutes  which is a child resource of RouteTable.
 type EmbeddedResourceRemover struct {
-	definitions                  astmodel.TypeDefinitionSet
-	resourceToSubresourceMap     map[astmodel.TypeName]astmodel.TypeNameSet
-	resourcePropertiesTypes      astmodel.TypeNameSet
-	resourceStatusTypes          astmodel.TypeNameSet
-	typeSuffix                   string
-	typeFlag                     astmodel.TypeFlag
-	misbehavingEmbeddedResources astmodel.TypeNameSet
-	renames                      map[astmodel.TypeName]embeddedResourceTypeName // A set of all the type renames made, indexed by the new name
+	definitions              astmodel.TypeDefinitionSet
+	resourceToSubresourceMap map[resourceKey]astmodel.TypeNameSet
+	typeSuffix               string
+	typeFlag                 astmodel.TypeFlag
+
+	// resourcesWhichOwnSubresourceLifecycle is a collection of resources which own 1 or more subresource lifecycles.
+	// Examples of this include VirtualNetwork (owns Subnet) and RouteTable (owns Route). Ownership in this case means that
+	// the property subnets/routes on the parent will delete subresources if that collection doesn't include all existing
+	// subnets/routes.
+	// This is a map of resource name to details about the owned resource
+	resourcesWhichOwnSubresourceLifecycle map[astmodel.TypeName][]misbehavingResourceDetails
+
+	// resourcesEmbeddedInParent is a collection of subresources whose IsResource() is conditional based on the context it's used in.
+	// In some places, it is a resource and should be pruned. In other places, it must not be pruned. This usually boils down
+	// to pseudo-resources in networking that while they look like a resource can only be created as properties on another
+	// resource and so must NOT be pruned from that context as otherwise they cannot be created anywhere.
+	// This map is from subresource type name to resource type name.
+	resourcesEmbeddedInParent map[astmodel.TypeName]astmodel.TypeName
+	renames                   map[astmodel.TypeName]embeddedResourceTypeName // A set of all the type renames made, indexed by the new name
 }
 
 // MakeEmbeddedResourceRemover creates an EmbeddedResourceRemover for the specified astmodel.TypeDefinitionSet collection.
 func MakeEmbeddedResourceRemover(configuration *config.Configuration, definitions astmodel.TypeDefinitionSet) (EmbeddedResourceRemover, error) {
-	resourceStatusTypeNames := findAllResourceStatusTypes(definitions)
-	resourceToSubresourceMap, err := findSubResourcePropertiesTypeNames(definitions)
-	if err != nil {
-		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find subresource \"Properties\" type names")
-	}
+	resourceToSubresourceMap := findResourceSubResources(definitions)
 
-	resourcePropertiesTypes, err := findAllResourcePropertiesTypes(definitions)
+	resourcesEmbeddedInParent, err := findResourcesEmbeddedInParent(configuration, definitions)
 	if err != nil {
-		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find resource \"Properties\" type names")
+		return EmbeddedResourceRemover{}, errors.Wrap(err, "couldn't find all resources embedded in parent")
 	}
 
 	misbehavingResources, err := findMisbehavingResources(configuration, definitions)
@@ -86,14 +90,13 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 	}
 
 	remover := EmbeddedResourceRemover{
-		definitions:                  definitions,
-		misbehavingEmbeddedResources: misbehavingResources,
-		resourceToSubresourceMap:     resourceToSubresourceMap,
-		resourcePropertiesTypes:      resourcePropertiesTypes,
-		resourceStatusTypes:          resourceStatusTypeNames,
-		typeSuffix:                   "SubResourceEmbedded",
-		typeFlag:                     astmodel.TypeFlag("embeddedSubResource"), // TODO: Instead of flag we could just use a map here if we wanted
-		renames:                      make(map[astmodel.TypeName]embeddedResourceTypeName),
+		definitions:                           definitions,
+		resourcesWhichOwnSubresourceLifecycle: misbehavingResources,
+		resourcesEmbeddedInParent:             resourcesEmbeddedInParent,
+		resourceToSubresourceMap:              resourceToSubresourceMap,
+		typeSuffix:                            "SubResourceEmbedded",
+		typeFlag:                              astmodel.TypeFlag("embeddedSubResource"),
+		renames:                               make(map[astmodel.TypeName]embeddedResourceTypeName),
 	}
 
 	return remover, nil
@@ -107,23 +110,6 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinit
 
 	visitor := e.makeEmbeddedResourceRemovalTypeVisitor()
 	for _, def := range astmodel.FindResourceDefinitions(e.definitions) {
-
-		// If this resource has any properties that are flagged as misbehaving embedded resources, we have to skip
-		// validation
-		if e.misbehavingEmbeddedResources.Contains(def.Name()) {
-			tempWalker := astmodel.NewTypeWalker(e.definitions, astmodel.TypeVisitorBuilder{}.Build())
-			updatedTypes, err := tempWalker.Walk(def)
-			if err != nil {
-				return nil, err
-			}
-
-			err = result.AddTypesAllowDuplicates(updatedTypes)
-			if err != nil {
-				return nil, err
-			}
-			continue
-		}
-
 		typeWalker := e.newResourceRemovalTypeWalker(visitor, def)
 
 		updatedTypes, err := typeWalker.Walk(def)
@@ -157,37 +143,49 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			typedCtx := ctx.(resourceRemovalVisitorContext)
 
-			if typedCtx.depth <= 2 {
-				// Avoid removing top level "Properties", which we never want to do. This is needed because
-				// there are some resources (such as Microsoft.Web v20160801 Sites) where the resource
-				// and some child resources reuse the same "Properties" type. This causes
-				// the logic below to think that a resource is its own subresource. Without this
-				// check the entire resource would be removed, leaving nothing.
+			parent := e.resourcesEmbeddedInParent[typedCtx.name]
+			isResourceEmbeddedInParent := astmodel.TypeEquals(parent, typedCtx.resource)
+			if isResourceEmbeddedInParent {
+				// Remove the ID field if there is one, and it's a spec type.
+				// The expectation is that these resources must be created through
+				// their parent, so you won't ever use the ID field
+				if !typedCtx.name.RepresentsStatusType() {
+					it = it.WithoutSpecificProperties("Id")
+				}
 				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 			}
 
-			// TODO: This is confusing...?
-			// Before visiting, check if any properties are just referring to one of our sub-resources and remove them
-			subResources := e.resourceToSubresourceMap[typedCtx.resource]
-			it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-				propTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
-				if !ok {
-					return // continue
+			// If this resource has any properties that are flagged as misbehaving embedded resources, we have to skip
+			// pruning that property
+			if detailsCollection, ok := e.resourcesWhichOwnSubresourceLifecycle[typedCtx.resource]; ok {
+				for _, details := range detailsCollection {
+					if details.propertyType == typedCtx.name {
+						return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
+					}
 				}
+			}
 
-				// TODO: This is currently no different than the below, but it likely will evolve to be different over time
-				if subResources.Contains(propTypeName) {
-					klog.V(5).Infof("Removing resource %q reference to subresource %q on property %q", typedCtx.resource, propTypeName, prop.PropertyName())
-					it = removeResourceLikeProperties(it)
-					return // continue
+			if typedCtx.depth <= 1 || !it.IsResource() {
+				// Avoid removing top level Spec
+				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
+			}
+
+			if subResources, ok := e.resourceToSubresourceMap[getResourceKey(typedCtx.resource)]; ok {
+				isSubresource := it.IsResource() && it.Resources() != nil && subResources.ContainsAny(it.Resources())
+				if subResources.Contains(typedCtx.name) || isSubresource {
+					it = astmodel.EmptyObjectType // Remove this object
+					return it, nil
 				}
+			}
 
-				if e.resourcePropertiesTypes.Contains(propTypeName) {
-					klog.V(5).Infof("Removing reference to resource %q on property %q", propTypeName, prop.PropertyName())
-					it = removeResourceLikeProperties(it)
+			var keep []*astmodel.PropertyDefinition
+			it.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
+				if def.HasName("Id") {
+					keep = append(keep, def)
 				}
 			})
 
+			it = it.WithoutProperties().WithProperties(keep...)
 			return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 		},
 	}.Build()
@@ -250,12 +248,14 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 	}
 
 	typeWalker.ShouldRemoveCycle = func(def astmodel.TypeDefinition, ctx interface{}) (bool, error) {
-		// If we're about to walk a cycle that is to a known resource type, just skip it entirely
-		if e.resourcePropertiesTypes.Contains(def.Name()) || e.resourceStatusTypes.Contains(def.Name()) {
+		ot, ok := astmodel.AsObjectType(def.Type())
+		if !ok {
+			return false, nil
+		}
+		if ot.IsResource() {
 			return true, nil
 		}
 
-		// TODO: Should this be replaced with a hardcoded list of resources (since most offending resources are in networking?)
 		// This is here because some microsoft.networking resources are resources (in the sense that they have ARM IDs)
 		// but can only be created as children of another resource. The resources in question don't have
 		// their own PUT and so are not actually classified as a top level resource by the JSON schema. We don't want to
@@ -279,21 +279,17 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 			return resourceRemovalVisitorContext{resource: def.Name(), depth: 0, modifiedDefinitions: make(astmodel.TypeDefinitionSet)}, nil
 		}
 		typedCtx := ctx.(resourceRemovalVisitorContext)
-		return typedCtx.WithMoreDepth(), nil
+		return typedCtx.WithMoreDepth().WithName(it), nil
 	}
 
 	return typeWalker
 }
 
-// findSubResourcePropertiesTypeNames finds the "Properties" type of each subresource and returns a map of
-// parent resource to subresource "Properties" type names.
-func findSubResourcePropertiesTypeNames(definitions astmodel.TypeDefinitionSet) (map[astmodel.TypeName]astmodel.TypeNameSet, error) {
-	var errs []error
-	result := make(map[astmodel.TypeName]astmodel.TypeNameSet)
+func findResourceSubResources(definitions astmodel.TypeDefinitionSet) map[resourceKey]astmodel.TypeNameSet {
+	result := make(map[resourceKey]astmodel.TypeNameSet)
 
-	// Identify sub-resources and their "properties", associate them with parent resource
-	// Look through parent resource for subresource properties
-	for _, def := range astmodel.FindResourceDefinitions(definitions) {
+	resources := astmodel.FindResourceDefinitions(definitions)
+	for _, def := range resources {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here
@@ -305,151 +301,14 @@ func findSubResourcePropertiesTypeNames(definitions astmodel.TypeDefinitionSet) 
 		}
 
 		owner := *resource.Owner()
-		specPropertiesTypeName, statusPropertiesTypeName, err := tryResolveSpecStatusTypes(definitions, resource)
-		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "couldn't extract spec/status properties from %q", def.Name()))
-			continue
+		ownerKey := getResourceKey(owner)
+		if result[ownerKey] == nil {
+			result[ownerKey] = astmodel.NewTypeNameSet()
 		}
-
-		if specPropertiesTypeName != nil {
-			if result[owner] == nil {
-				result[owner] = astmodel.NewTypeNameSet(*specPropertiesTypeName)
-			} else {
-				result[owner].Add(*specPropertiesTypeName)
-			}
-		}
-
-		if statusPropertiesTypeName != nil {
-			if result[owner] == nil {
-				result[owner] = astmodel.NewTypeNameSet(*statusPropertiesTypeName)
-			} else {
-				result[owner].Add(*statusPropertiesTypeName)
-			}
-		}
-	}
-
-	err := kerrors.NewAggregate(errs)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-// TODO: Move this to resourceType?
-func tryResolveSpecStatusTypes(definitions astmodel.TypeDefinitionSet, resource *astmodel.ResourceType) (*astmodel.TypeName, *astmodel.TypeName, error) {
-	specName, ok := astmodel.AsTypeName(resource.SpecType())
-	if !ok {
-		return nil, nil, errors.Errorf("resource spec was not a TypeName")
-	}
-
-	specPropertiesTypeName, err := extractPropertiesType(definitions, specName)
-	if err != nil {
-		return nil, nil, errors.Wrap(err, "couldn't extract spec properties")
-	}
-
-	var statusPropertiesTypeName *astmodel.TypeName
-	statusName, ok := astmodel.AsTypeName(resource.StatusType())
-	if ok {
-		statusPropertiesTypeName, err = extractPropertiesType(definitions, statusName)
-		if err != nil {
-			return nil, nil, errors.Wrap(err, "couldn't extract status properties")
-		}
-	}
-
-	return specPropertiesTypeName, statusPropertiesTypeName, nil
-}
-
-// findAllResourcePropertiesTypes finds the "Properties" type for each resource. The result is a astmodel.TypeNameSet containing
-// each resources "Properties" type.
-func findAllResourcePropertiesTypes(definitions astmodel.TypeDefinitionSet) (astmodel.TypeNameSet, error) {
-	var errs []error
-	result := astmodel.NewTypeNameSet()
-
-	// Identify sub-resources and their "properties", associate them with parent resource
-	// Look through parent resource for subresource properties
-	for _, def := range astmodel.FindResourceDefinitions(definitions) {
-		resource, ok := astmodel.AsResourceType(def.Type())
-		if !ok {
-			// Shouldn't be possible to get here
-			panic(fmt.Sprintf("resource was somehow not a resource: %q", def.Name()))
-		}
-
-		specPropertiesTypeName, statusPropertiesTypeName, err := tryResolveSpecStatusTypes(definitions, resource)
-		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "couldn't extract spec/status properties from %q", def.Name()))
-			continue
-		}
-
-		if specPropertiesTypeName != nil {
-			result.Add(*specPropertiesTypeName)
-		}
-
-		if statusPropertiesTypeName != nil {
-			result.Add(*statusPropertiesTypeName)
-		}
-	}
-
-	err := kerrors.NewAggregate(errs)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-// findAllResourceStatusTypes finds the astmodel.TypeName's of each resources Status type. If the resource does not have a Status type then
-// that TypeName is not included in the resulting astmodel.TypeNameSet (obviously).
-func findAllResourceStatusTypes(definitions astmodel.TypeDefinitionSet) astmodel.TypeNameSet {
-	resources := definitions.Where(func(def astmodel.TypeDefinition) bool {
-		_, ok := astmodel.AsResourceType(def.Type())
-		return ok
-	})
-
-	result := astmodel.NewTypeNameSet()
-
-	// Identify sub-resources and their "properties", associate them with parent resource
-	// Look through parent resource for subresource properties
-	for _, def := range resources {
-		resource, ok := astmodel.AsResourceType(def.Type())
-		if !ok {
-			// Shouldn't be possible to get here
-			panic(fmt.Sprintf("resource was somehow not a resource: %q", def.Name()))
-		}
-
-		statusName, ok := astmodel.AsTypeName(resource.StatusType())
-		if !ok {
-			continue
-		}
-
-		result.Add(statusName)
+		result[ownerKey].Add(def.Name())
 	}
 
 	return result
-}
-
-func extractPropertiesType(definitions astmodel.TypeDefinitionSet, typeName astmodel.TypeName) (*astmodel.TypeName, error) {
-	resolved, err := definitions.GetDefinition(typeName)
-	if err != nil {
-		return nil, err
-	}
-
-	ot, ok := astmodel.AsObjectType(resolved.Type())
-	if !ok {
-		return nil, errors.Errorf("couldn't find object type %q", typeName)
-	}
-
-	propertiesProp, ok := ot.Property("Properties")
-	if !ok {
-		return nil, nil
-	}
-
-	propertiesTypeName, ok := astmodel.AsTypeName(propertiesProp.PropertyType())
-	if !ok {
-		return nil, nil
-	}
-
-	return &propertiesTypeName, nil
 }
 
 // requiredResourceProperties are properties that must be on a type for it to be considered a resource
@@ -457,18 +316,6 @@ func requiredResourceProperties() []string {
 	return []string{
 		"Name",
 		"Properties",
-	}
-}
-
-// optionalResourceProperties are properties which may or may not be on a resource. Technically all resources
-// should have all of these properties, but because we drop the top-level AllOf that joins resource definitions with
-// ResourceBase when parsing schemas sometimes they aren't defined.
-func optionalResourceProperties() []string {
-	return []string{
-		"Type",
-		"Etag",
-		"Location",
-		"Tags",
 	}
 }
 
@@ -491,20 +338,67 @@ func isObjectResourceLookalike(o *astmodel.ObjectType) bool {
 	return hasRequiredProperties
 }
 
-// removeResourceLikeProperties examines an astmodel.ObjectType and determines if it looks like an Azure resource.
-// An object is "like" a resource if it has "name" and "properties" properties.
-func removeResourceLikeProperties(o *astmodel.ObjectType) *astmodel.ObjectType {
-	if !isObjectResourceLookalike(o) {
-		// Doesn't match the shape we're looking for -- no change
-		return o
+func findResourcesEmbeddedInParent(configuration *config.Configuration, defs astmodel.TypeDefinitionSet) (map[astmodel.TypeName]astmodel.TypeName, error) {
+	result := make(map[astmodel.TypeName]astmodel.TypeName)
+
+	var errs []error
+	for name, def := range defs {
+		objectType, ok := def.Type().(*astmodel.ObjectType)
+		if !ok {
+			continue
+		}
+
+		parentResource, err := configuration.ObjectModelConfiguration.LookupResourceEmbeddedInParent(name)
+		if err != nil {
+			if config.IsNotConfiguredError(err) {
+				// $isResource is not configured, skip this object
+				continue
+			}
+
+			// If something else went wrong, keep details
+			errs = append(errs, err)
+			continue
+		}
+
+		// Perform some validation that this annotation makes sense before we accept it
+		if !objectType.IsResource() {
+			errs = append(errs, errors.Errorf("%s is not labelled as a resource, so cannot be a resource embedded in a parent", name))
+			continue
+		}
+		parentTypeName := name.WithName(parentResource)
+		if !defs.Contains(parentTypeName) {
+			errs = append(errs, errors.Errorf("cannot find %s parent %s", name, parentTypeName))
+			continue
+		}
+
+		result[name] = parentTypeName
 	}
 
-	result := o
-	required := requiredResourceProperties()
-	optional := optionalResourceProperties()
-
-	for _, propName := range append(required, optional...) {
-		result = result.WithoutProperty(astmodel.PropertyName(propName))
+	var err error
+	err = kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, err
 	}
-	return result
+
+	// Ensure that all the $isResource properties were used
+	err = configuration.ObjectModelConfiguration.VerifyResourceEmbeddedInParentConsumed()
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+type resourceKey struct {
+	name  string
+	group string
+}
+
+func getResourceKey(name astmodel.TypeName) resourceKey {
+	group, _ := name.PackageReference.GroupVersion()
+
+	return resourceKey{
+		group: group,
+		name:  name.Name(),
+	}
 }

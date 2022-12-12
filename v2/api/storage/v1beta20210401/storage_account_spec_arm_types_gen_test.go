@@ -162,7 +162,7 @@ func ExtendedLocation_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocation_Type_EdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_Identity_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -287,15 +287,15 @@ func Sku_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_ARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_Premium_LRS,
-		Sku_Name_Premium_ZRS,
-		Sku_Name_Standard_GRS,
-		Sku_Name_Standard_GZRS,
-		Sku_Name_Standard_LRS,
-		Sku_Name_Standard_RAGRS,
-		Sku_Name_Standard_RAGZRS,
-		Sku_Name_Standard_ZRS))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Premium, Sku_Tier_Standard))
+		SkuName_Premium_LRS,
+		SkuName_Premium_ZRS,
+		SkuName_Standard_GRS,
+		SkuName_Standard_GZRS,
+		SkuName_Standard_LRS,
+		SkuName_Standard_RAGRS,
+		SkuName_Standard_RAGZRS,
+		SkuName_Standard_ZRS))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_Premium, Tier_Standard))
 }
 
 func Test_StorageAccountPropertiesCreateParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

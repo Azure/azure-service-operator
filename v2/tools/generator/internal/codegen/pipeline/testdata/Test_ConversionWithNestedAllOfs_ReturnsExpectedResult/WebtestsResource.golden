@@ -1,0 +1,4 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── WebtestsResource: Object (2 properties)
+    ├── Location: *string
+    └── Tags: *interface{}

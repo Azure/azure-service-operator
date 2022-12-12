@@ -6,17 +6,10 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Eventhubs_AuthorizationRule_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The authorization rule name.
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to create or update AuthorizationRule
-	Properties *AuthorizationRuleProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Properties *Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_AuthorizationRule_Spec_ARM{}
@@ -34,4 +27,9 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
+}
+
+type Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM struct {
+	// Rights: The rights associated with the rule.
+	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec `json:"rights,omitempty"`
 }

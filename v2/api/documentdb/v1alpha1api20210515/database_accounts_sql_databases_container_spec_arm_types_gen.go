@@ -124,8 +124,8 @@ const (
 
 // Deprecated version of SpatialSpec. Use v1beta20210515.SpatialSpec instead
 type SpatialSpec_ARM struct {
-	Path  *string             `json:"path,omitempty"`
-	Types []SpatialSpec_Types `json:"types,omitempty"`
+	Path  *string       `json:"path,omitempty"`
+	Types []SpatialType `json:"types,omitempty"`
 }
 
 // Deprecated version of UniqueKey. Use v1beta20210515.UniqueKey instead
@@ -149,15 +149,15 @@ type Indexes_ARM struct {
 	Precision *int              `json:"precision,omitempty"`
 }
 
-// Deprecated version of SpatialSpec_Types. Use v1beta20210515.SpatialSpec_Types instead
+// Deprecated version of SpatialType. Use v1beta20210515.SpatialType instead
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Point","Polygon"}
-type SpatialSpec_Types string
+type SpatialType string
 
 const (
-	SpatialSpec_Types_LineString   = SpatialSpec_Types("LineString")
-	SpatialSpec_Types_MultiPolygon = SpatialSpec_Types("MultiPolygon")
-	SpatialSpec_Types_Point        = SpatialSpec_Types("Point")
-	SpatialSpec_Types_Polygon      = SpatialSpec_Types("Polygon")
+	SpatialType_LineString   = SpatialType("LineString")
+	SpatialType_MultiPolygon = SpatialType("MultiPolygon")
+	SpatialType_Point        = SpatialType("Point")
+	SpatialType_Polygon      = SpatialType("Polygon")
 )
 
 // Deprecated version of Indexes_DataType. Use v1beta20210515.Indexes_DataType instead

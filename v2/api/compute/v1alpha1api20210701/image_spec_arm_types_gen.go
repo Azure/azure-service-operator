@@ -33,22 +33,22 @@ func (image *Image_Spec_ARM) GetType() string {
 
 // Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocation_ARM struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 // Deprecated version of ImageProperties. Use v1beta20210701.ImageProperties instead
 type ImageProperties_ARM struct {
-	HyperVGeneration     *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-	SourceVirtualMachine *SubResource_ARM                  `json:"sourceVirtualMachine,omitempty"`
-	StorageProfile       *ImageStorageProfile_ARM          `json:"storageProfile,omitempty"`
+	HyperVGeneration     *HyperVGenerationType    `json:"hyperVGeneration,omitempty"`
+	SourceVirtualMachine *SubResource_ARM         `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_ARM `json:"storageProfile,omitempty"`
 }
 
-// Deprecated version of ExtendedLocation_Type. Use v1beta20210701.ExtendedLocation_Type instead
+// Deprecated version of ExtendedLocationType. Use v1beta20210701.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
+type ExtendedLocationType string
 
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
 type ImageStorageProfile_ARM struct {
@@ -64,30 +64,25 @@ type SubResource_ARM struct {
 
 // Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk_ARM struct {
-	BlobUri            *string                           `json:"blobUri,omitempty"`
-	Caching            *ImageDataDisk_Caching            `json:"caching,omitempty"`
-	DiskEncryptionSet  *DiskEncryptionSetParameters_ARM  `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                              `json:"diskSizeGB,omitempty"`
-	Lun                *int                              `json:"lun,omitempty"`
-	ManagedDisk        *SubResource_ARM                  `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource_ARM                  `json:"snapshot,omitempty"`
-	StorageAccountType *ImageDataDisk_StorageAccountType `json:"storageAccountType,omitempty"`
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *ImageDataDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM       `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	Lun                *int                   `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_ARM       `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_ARM       `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType    `json:"storageAccountType,omitempty"`
 }
 
 // Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk_ARM struct {
-	BlobUri            *string                          `json:"blobUri,omitempty"`
-	Caching            *ImageOSDisk_Caching             `json:"caching,omitempty"`
-	DiskEncryptionSet  *DiskEncryptionSetParameters_ARM `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                             `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_ARM                 `json:"managedDisk,omitempty"`
-	OsState            *ImageOSDisk_OsState             `json:"osState,omitempty"`
-	OsType             *ImageOSDisk_OsType              `json:"osType,omitempty"`
-	Snapshot           *SubResource_ARM                 `json:"snapshot,omitempty"`
-	StorageAccountType *ImageOSDisk_StorageAccountType  `json:"storageAccountType,omitempty"`
-}
-
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters_ARM struct {
-	Id *string `json:"id,omitempty"`
+	BlobUri            *string              `json:"blobUri,omitempty"`
+	Caching            *ImageOSDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM     `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                 `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_ARM     `json:"managedDisk,omitempty"`
+	OsState            *ImageOSDisk_OsState `json:"osState,omitempty"`
+	OsType             *ImageOSDisk_OsType  `json:"osType,omitempty"`
+	Snapshot           *SubResource_ARM     `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType  `json:"storageAccountType,omitempty"`
 }

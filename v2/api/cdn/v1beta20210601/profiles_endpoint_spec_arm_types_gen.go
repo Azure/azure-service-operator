@@ -9,16 +9,12 @@ import (
 )
 
 type Profiles_Endpoint_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	// Location: Resource location.
+	Location   *string                 `json:"location,omitempty"`
+	Name       string                  `json:"name,omitempty"`
+	Properties *EndpointProperties_ARM `json:"properties,omitempty"`
 
-	// Name: Name of the endpoint under the profile which is unique globally.
-	Name string `json:"name,omitempty"`
-
-	// Properties: The JSON object that contains the properties required to create an endpoint.
-	Properties *Profiles_Endpoint_Properties_Spec_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -39,15 +35,15 @@ func (endpoint *Profiles_Endpoint_Spec_ARM) GetType() string {
 	return "Microsoft.Cdn/profiles/endpoints"
 }
 
-type Profiles_Endpoint_Properties_Spec_ARM struct {
+type EndpointProperties_ARM struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
-	// DefaultOriginGroup: Reference to another resource.
+	// DefaultOriginGroup: A reference to the origin group.
 	DefaultOriginGroup *ResourceReference_ARM `json:"defaultOriginGroup,omitempty"`
 
 	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointPropertiesUpdateParametersDeliveryPolicy_ARM `json:"deliveryPolicy,omitempty"`
+	DeliveryPolicy *EndpointProperties_DeliveryPolicy_ARM `json:"deliveryPolicy,omitempty"`
 
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
@@ -68,10 +64,10 @@ type Profiles_Endpoint_Properties_Spec_ARM struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *Profiles_Endpoint_Properties_OptimizationType_Spec `json:"optimizationType,omitempty"`
+	OptimizationType *OptimizationType `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []Profiles_Endpoint_Properties_OriginGroups_Spec_ARM `json:"originGroups,omitempty"`
+	OriginGroups []DeepCreatedOriginGroup_ARM `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -84,7 +80,7 @@ type Profiles_Endpoint_Properties_Spec_ARM struct {
 	OriginPath *string `json:"originPath,omitempty"`
 
 	// Origins: The source of the content being delivered via CDN.
-	Origins []Profiles_Endpoint_Properties_Origins_Spec_ARM `json:"origins,omitempty"`
+	Origins []DeepCreatedOrigin_ARM `json:"origins,omitempty"`
 
 	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
 	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
@@ -94,17 +90,28 @@ type Profiles_Endpoint_Properties_Spec_ARM struct {
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *Profiles_Endpoint_Properties_QueryStringCachingBehavior_Spec `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKey_ARM `json:"urlSigningKeys,omitempty"`
 
 	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
-	WebApplicationFirewallPolicyLink *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink_ARM `json:"webApplicationFirewallPolicyLink,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_ARM `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/EndpointPropertiesUpdateParametersDeliveryPolicy
-type EndpointPropertiesUpdateParametersDeliveryPolicy_ARM struct {
+type DeepCreatedOrigin_ARM struct {
+	// Name: Origin name which must be unique within the endpoint.
+	Name       *string                          `json:"name,omitempty"`
+	Properties *DeepCreatedOriginProperties_ARM `json:"properties,omitempty"`
+}
+
+type DeepCreatedOriginGroup_ARM struct {
+	// Name: Origin group name which must be unique within the endpoint.
+	Name       *string                               `json:"name,omitempty"`
+	Properties *DeepCreatedOriginGroupProperties_ARM `json:"properties,omitempty"`
+}
+
+type EndpointProperties_DeliveryPolicy_ARM struct {
 	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
 
@@ -112,12 +119,10 @@ type EndpointPropertiesUpdateParametersDeliveryPolicy_ARM struct {
 	Rules []DeliveryRule_ARM `json:"rules,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-type EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink_ARM struct {
+type EndpointProperties_WebApplicationFirewallPolicyLink_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/GeoFilter
 type GeoFilter_ARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
 	Action *GeoFilter_Action `json:"action,omitempty"`
@@ -129,47 +134,28 @@ type GeoFilter_ARM struct {
 	RelativePath *string `json:"relativePath,omitempty"`
 }
 
-type Profiles_Endpoint_Properties_OriginGroups_Spec_ARM struct {
-	// Name: Origin group name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the origin group created on the CDN endpoint.
-	Properties *DeepCreatedOriginGroupProperties_ARM `json:"properties,omitempty"`
-}
-
-type Profiles_Endpoint_Properties_Origins_Spec_ARM struct {
-	// Name: Origin name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the origin created on the CDN endpoint.
-	Properties *DeepCreatedOriginProperties_ARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResourceReference
 type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningKey
 type UrlSigningKey_ARM struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
 	KeyId *string `json:"keyId,omitempty"`
 
-	// KeySourceParameters: Describes the parameters for using a user's KeyVault for URL Signing Key.
+	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
 	KeySourceParameters *KeyVaultSigningKeyParameters_ARM `json:"keySourceParameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeepCreatedOriginGroupProperties
 type DeepCreatedOriginGroupProperties_ARM struct {
-	// HealthProbeSettings: The JSON object that contains the properties to send health probes to origin.
+	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
 	HealthProbeSettings *HealthProbeParameters_ARM `json:"healthProbeSettings,omitempty"`
 
 	// Origins: The source of the content being delivered via CDN within given origin group.
 	Origins []ResourceReference_ARM `json:"origins,omitempty"`
 
 	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
-	// real requests/responses.
+	// real requests/responses.This property is currently not supported.
 	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_ARM `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
 
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
@@ -178,7 +164,6 @@ type DeepCreatedOriginGroupProperties_ARM struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeepCreatedOriginProperties
 type DeepCreatedOriginProperties_ARM struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -215,10 +200,9 @@ type DeepCreatedOriginProperties_ARM struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRule
 type DeliveryRule_ARM struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction1_ARM `json:"actions,omitempty"`
+	Actions []DeliveryRuleAction_ARM `json:"actions,omitempty"`
 
 	// Conditions: A list of conditions that must be matched for the actions to be executed
 	Conditions []DeliveryRuleCondition_ARM `json:"conditions,omitempty"`
@@ -232,7 +216,6 @@ type DeliveryRule_ARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/KeyVaultSigningKeyParameters
 type KeyVaultSigningKeyParameters_ARM struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
@@ -251,70 +234,69 @@ type KeyVaultSigningKeyParameters_ARM struct {
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleAction1
-type DeliveryRuleAction1_ARM struct {
-	// DeliveryRuleCacheExpiration: Mutually exclusive with all other properties
-	DeliveryRuleCacheExpiration *DeliveryRuleCacheExpirationAction_ARM `json:"deliveryRuleCacheExpirationAction,omitempty"`
+type DeliveryRuleAction_ARM struct {
+	// CacheExpiration: Mutually exclusive with all other properties
+	CacheExpiration *DeliveryRuleCacheExpirationAction_ARM `json:"cacheExpiration,omitempty"`
 
-	// DeliveryRuleCacheKeyQueryString: Mutually exclusive with all other properties
-	DeliveryRuleCacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_ARM `json:"deliveryRuleCacheKeyQueryStringAction,omitempty"`
+	// CacheKeyQueryString: Mutually exclusive with all other properties
+	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_ARM `json:"cacheKeyQueryString,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderAction_ARM `json:"deliveryRuleRequestHeaderAction,omitempty"`
+	// ModifyRequestHeader: Mutually exclusive with all other properties
+	ModifyRequestHeader *DeliveryRuleRequestHeaderAction_ARM `json:"modifyRequestHeader,omitempty"`
 
-	// DeliveryRuleResponseHeader: Mutually exclusive with all other properties
-	DeliveryRuleResponseHeader *DeliveryRuleResponseHeaderAction_ARM `json:"deliveryRuleResponseHeaderAction,omitempty"`
-
-	// DeliveryRuleRouteConfigurationOverride: Mutually exclusive with all other properties
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_ARM `json:"deliveryRuleRouteConfigurationOverrideAction,omitempty"`
+	// ModifyResponseHeader: Mutually exclusive with all other properties
+	ModifyResponseHeader *DeliveryRuleResponseHeaderAction_ARM `json:"modifyResponseHeader,omitempty"`
 
 	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction_ARM `json:"originGroupOverrideAction,omitempty"`
+	OriginGroupOverride *OriginGroupOverrideAction_ARM `json:"originGroupOverride,omitempty"`
+
+	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_ARM `json:"routeConfigurationOverride,omitempty"`
 
 	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction_ARM `json:"urlRedirectAction,omitempty"`
+	UrlRedirect *UrlRedirectAction_ARM `json:"urlRedirect,omitempty"`
 
 	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction_ARM `json:"urlRewriteAction,omitempty"`
+	UrlRewrite *UrlRewriteAction_ARM `json:"urlRewrite,omitempty"`
 
 	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction_ARM `json:"urlSigningAction,omitempty"`
+	UrlSigning *UrlSigningAction_ARM `json:"urlSigning,omitempty"`
 }
 
-// MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleAction1_ARM represents a discriminated union (JSON OneOf)
-func (action1 DeliveryRuleAction1_ARM) MarshalJSON() ([]byte, error) {
-	if action1.DeliveryRuleCacheExpiration != nil {
-		return json.Marshal(action1.DeliveryRuleCacheExpiration)
+// MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleAction_ARM represents a discriminated union (JSON OneOf)
+func (action DeliveryRuleAction_ARM) MarshalJSON() ([]byte, error) {
+	if action.CacheExpiration != nil {
+		return json.Marshal(action.CacheExpiration)
 	}
-	if action1.DeliveryRuleCacheKeyQueryString != nil {
-		return json.Marshal(action1.DeliveryRuleCacheKeyQueryString)
+	if action.CacheKeyQueryString != nil {
+		return json.Marshal(action.CacheKeyQueryString)
 	}
-	if action1.DeliveryRuleRequestHeader != nil {
-		return json.Marshal(action1.DeliveryRuleRequestHeader)
+	if action.ModifyRequestHeader != nil {
+		return json.Marshal(action.ModifyRequestHeader)
 	}
-	if action1.DeliveryRuleResponseHeader != nil {
-		return json.Marshal(action1.DeliveryRuleResponseHeader)
+	if action.ModifyResponseHeader != nil {
+		return json.Marshal(action.ModifyResponseHeader)
 	}
-	if action1.DeliveryRuleRouteConfigurationOverride != nil {
-		return json.Marshal(action1.DeliveryRuleRouteConfigurationOverride)
+	if action.OriginGroupOverride != nil {
+		return json.Marshal(action.OriginGroupOverride)
 	}
-	if action1.OriginGroupOverride != nil {
-		return json.Marshal(action1.OriginGroupOverride)
+	if action.RouteConfigurationOverride != nil {
+		return json.Marshal(action.RouteConfigurationOverride)
 	}
-	if action1.UrlRedirect != nil {
-		return json.Marshal(action1.UrlRedirect)
+	if action.UrlRedirect != nil {
+		return json.Marshal(action.UrlRedirect)
 	}
-	if action1.UrlRewrite != nil {
-		return json.Marshal(action1.UrlRewrite)
+	if action.UrlRewrite != nil {
+		return json.Marshal(action.UrlRewrite)
 	}
-	if action1.UrlSigning != nil {
-		return json.Marshal(action1.UrlSigning)
+	if action.UrlSigning != nil {
+		return json.Marshal(action.UrlSigning)
 	}
 	return nil, nil
 }
 
-// UnmarshalJSON unmarshals the DeliveryRuleAction1_ARM
-func (action1 *DeliveryRuleAction1_ARM) UnmarshalJSON(data []byte) error {
+// UnmarshalJSON unmarshals the DeliveryRuleAction_ARM
+func (action *DeliveryRuleAction_ARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -322,164 +304,163 @@ func (action1 *DeliveryRuleAction1_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["name"]
 	if discriminator == "CacheExpiration" {
-		action1.DeliveryRuleCacheExpiration = &DeliveryRuleCacheExpirationAction_ARM{}
-		return json.Unmarshal(data, action1.DeliveryRuleCacheExpiration)
+		action.CacheExpiration = &DeliveryRuleCacheExpirationAction_ARM{}
+		return json.Unmarshal(data, action.CacheExpiration)
 	}
 	if discriminator == "CacheKeyQueryString" {
-		action1.DeliveryRuleCacheKeyQueryString = &DeliveryRuleCacheKeyQueryStringAction_ARM{}
-		return json.Unmarshal(data, action1.DeliveryRuleCacheKeyQueryString)
+		action.CacheKeyQueryString = &DeliveryRuleCacheKeyQueryStringAction_ARM{}
+		return json.Unmarshal(data, action.CacheKeyQueryString)
 	}
 	if discriminator == "ModifyRequestHeader" {
-		action1.DeliveryRuleRequestHeader = &DeliveryRuleRequestHeaderAction_ARM{}
-		return json.Unmarshal(data, action1.DeliveryRuleRequestHeader)
+		action.ModifyRequestHeader = &DeliveryRuleRequestHeaderAction_ARM{}
+		return json.Unmarshal(data, action.ModifyRequestHeader)
 	}
 	if discriminator == "ModifyResponseHeader" {
-		action1.DeliveryRuleResponseHeader = &DeliveryRuleResponseHeaderAction_ARM{}
-		return json.Unmarshal(data, action1.DeliveryRuleResponseHeader)
+		action.ModifyResponseHeader = &DeliveryRuleResponseHeaderAction_ARM{}
+		return json.Unmarshal(data, action.ModifyResponseHeader)
 	}
 	if discriminator == "OriginGroupOverride" {
-		action1.OriginGroupOverride = &OriginGroupOverrideAction_ARM{}
-		return json.Unmarshal(data, action1.OriginGroupOverride)
+		action.OriginGroupOverride = &OriginGroupOverrideAction_ARM{}
+		return json.Unmarshal(data, action.OriginGroupOverride)
 	}
 	if discriminator == "RouteConfigurationOverride" {
-		action1.DeliveryRuleRouteConfigurationOverride = &DeliveryRuleRouteConfigurationOverrideAction_ARM{}
-		return json.Unmarshal(data, action1.DeliveryRuleRouteConfigurationOverride)
+		action.RouteConfigurationOverride = &DeliveryRuleRouteConfigurationOverrideAction_ARM{}
+		return json.Unmarshal(data, action.RouteConfigurationOverride)
 	}
 	if discriminator == "UrlRedirect" {
-		action1.UrlRedirect = &UrlRedirectAction_ARM{}
-		return json.Unmarshal(data, action1.UrlRedirect)
+		action.UrlRedirect = &UrlRedirectAction_ARM{}
+		return json.Unmarshal(data, action.UrlRedirect)
 	}
 	if discriminator == "UrlRewrite" {
-		action1.UrlRewrite = &UrlRewriteAction_ARM{}
-		return json.Unmarshal(data, action1.UrlRewrite)
+		action.UrlRewrite = &UrlRewriteAction_ARM{}
+		return json.Unmarshal(data, action.UrlRewrite)
 	}
 	if discriminator == "UrlSigning" {
-		action1.UrlSigning = &UrlSigningAction_ARM{}
-		return json.Unmarshal(data, action1.UrlSigning)
+		action.UrlSigning = &UrlSigningAction_ARM{}
+		return json.Unmarshal(data, action.UrlSigning)
 	}
 
 	// No error
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCondition
 type DeliveryRuleCondition_ARM struct {
-	// DeliveryRuleClientPort: Mutually exclusive with all other properties
-	DeliveryRuleClientPort *DeliveryRuleClientPortCondition_ARM `json:"deliveryRuleClientPortCondition,omitempty"`
+	// ClientPort: Mutually exclusive with all other properties
+	ClientPort *DeliveryRuleClientPortCondition_ARM `json:"clientPort,omitempty"`
 
-	// DeliveryRuleCookies: Mutually exclusive with all other properties
-	DeliveryRuleCookies *DeliveryRuleCookiesCondition_ARM `json:"deliveryRuleCookiesCondition,omitempty"`
+	// Cookies: Mutually exclusive with all other properties
+	Cookies *DeliveryRuleCookiesCondition_ARM `json:"cookies,omitempty"`
 
-	// DeliveryRuleHostName: Mutually exclusive with all other properties
-	DeliveryRuleHostName *DeliveryRuleHostNameCondition_ARM `json:"deliveryRuleHostNameCondition,omitempty"`
+	// HostName: Mutually exclusive with all other properties
+	HostName *DeliveryRuleHostNameCondition_ARM `json:"hostName,omitempty"`
 
-	// DeliveryRuleHttpVersion: Mutually exclusive with all other properties
-	DeliveryRuleHttpVersion *DeliveryRuleHttpVersionCondition_ARM `json:"deliveryRuleHttpVersionCondition,omitempty"`
+	// HttpVersion: Mutually exclusive with all other properties
+	HttpVersion *DeliveryRuleHttpVersionCondition_ARM `json:"httpVersion,omitempty"`
 
-	// DeliveryRuleIsDevice: Mutually exclusive with all other properties
-	DeliveryRuleIsDevice *DeliveryRuleIsDeviceCondition_ARM `json:"deliveryRuleIsDeviceCondition,omitempty"`
+	// IsDevice: Mutually exclusive with all other properties
+	IsDevice *DeliveryRuleIsDeviceCondition_ARM `json:"isDevice,omitempty"`
 
-	// DeliveryRulePostArgs: Mutually exclusive with all other properties
-	DeliveryRulePostArgs *DeliveryRulePostArgsCondition_ARM `json:"deliveryRulePostArgsCondition,omitempty"`
+	// PostArgs: Mutually exclusive with all other properties
+	PostArgs *DeliveryRulePostArgsCondition_ARM `json:"postArgs,omitempty"`
 
-	// DeliveryRuleQueryString: Mutually exclusive with all other properties
-	DeliveryRuleQueryString *DeliveryRuleQueryStringCondition_ARM `json:"deliveryRuleQueryStringCondition,omitempty"`
+	// QueryString: Mutually exclusive with all other properties
+	QueryString *DeliveryRuleQueryStringCondition_ARM `json:"queryString,omitempty"`
 
-	// DeliveryRuleRemoteAddress: Mutually exclusive with all other properties
-	DeliveryRuleRemoteAddress *DeliveryRuleRemoteAddressCondition_ARM `json:"deliveryRuleRemoteAddressCondition,omitempty"`
+	// RemoteAddress: Mutually exclusive with all other properties
+	RemoteAddress *DeliveryRuleRemoteAddressCondition_ARM `json:"remoteAddress,omitempty"`
 
-	// DeliveryRuleRequestBody: Mutually exclusive with all other properties
-	DeliveryRuleRequestBody *DeliveryRuleRequestBodyCondition_ARM `json:"deliveryRuleRequestBodyCondition,omitempty"`
+	// RequestBody: Mutually exclusive with all other properties
+	RequestBody *DeliveryRuleRequestBodyCondition_ARM `json:"requestBody,omitempty"`
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderCondition_ARM `json:"deliveryRuleRequestHeaderCondition,omitempty"`
+	// RequestHeader: Mutually exclusive with all other properties
+	RequestHeader *DeliveryRuleRequestHeaderCondition_ARM `json:"requestHeader,omitempty"`
 
-	// DeliveryRuleRequestMethod: Mutually exclusive with all other properties
-	DeliveryRuleRequestMethod *DeliveryRuleRequestMethodCondition_ARM `json:"deliveryRuleRequestMethodCondition,omitempty"`
+	// RequestMethod: Mutually exclusive with all other properties
+	RequestMethod *DeliveryRuleRequestMethodCondition_ARM `json:"requestMethod,omitempty"`
 
-	// DeliveryRuleRequestScheme: Mutually exclusive with all other properties
-	DeliveryRuleRequestScheme *DeliveryRuleRequestSchemeCondition_ARM `json:"deliveryRuleRequestSchemeCondition,omitempty"`
+	// RequestScheme: Mutually exclusive with all other properties
+	RequestScheme *DeliveryRuleRequestSchemeCondition_ARM `json:"requestScheme,omitempty"`
 
-	// DeliveryRuleRequestUri: Mutually exclusive with all other properties
-	DeliveryRuleRequestUri *DeliveryRuleRequestUriCondition_ARM `json:"deliveryRuleRequestUriCondition,omitempty"`
+	// RequestUri: Mutually exclusive with all other properties
+	RequestUri *DeliveryRuleRequestUriCondition_ARM `json:"requestUri,omitempty"`
 
-	// DeliveryRuleServerPort: Mutually exclusive with all other properties
-	DeliveryRuleServerPort *DeliveryRuleServerPortCondition_ARM `json:"deliveryRuleServerPortCondition,omitempty"`
+	// ServerPort: Mutually exclusive with all other properties
+	ServerPort *DeliveryRuleServerPortCondition_ARM `json:"serverPort,omitempty"`
 
-	// DeliveryRuleSocketAddr: Mutually exclusive with all other properties
-	DeliveryRuleSocketAddr *DeliveryRuleSocketAddrCondition_ARM `json:"deliveryRuleSocketAddrCondition,omitempty"`
+	// SocketAddr: Mutually exclusive with all other properties
+	SocketAddr *DeliveryRuleSocketAddrCondition_ARM `json:"socketAddr,omitempty"`
 
-	// DeliveryRuleSslProtocol: Mutually exclusive with all other properties
-	DeliveryRuleSslProtocol *DeliveryRuleSslProtocolCondition_ARM `json:"deliveryRuleSslProtocolCondition,omitempty"`
+	// SslProtocol: Mutually exclusive with all other properties
+	SslProtocol *DeliveryRuleSslProtocolCondition_ARM `json:"sslProtocol,omitempty"`
 
-	// DeliveryRuleUrlFileExtension: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition_ARM `json:"deliveryRuleUrlFileExtensionCondition,omitempty"`
+	// UrlFileExtension: Mutually exclusive with all other properties
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_ARM `json:"urlFileExtension,omitempty"`
 
-	// DeliveryRuleUrlFileName: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileName *DeliveryRuleUrlFileNameCondition_ARM `json:"deliveryRuleUrlFileNameCondition,omitempty"`
+	// UrlFileName: Mutually exclusive with all other properties
+	UrlFileName *DeliveryRuleUrlFileNameCondition_ARM `json:"urlFileName,omitempty"`
 
-	// DeliveryRuleUrlPath: Mutually exclusive with all other properties
-	DeliveryRuleUrlPath *DeliveryRuleUrlPathCondition_ARM `json:"deliveryRuleUrlPathCondition,omitempty"`
+	// UrlPath: Mutually exclusive with all other properties
+	UrlPath *DeliveryRuleUrlPathCondition_ARM `json:"urlPath,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleCondition_ARM represents a discriminated union (JSON OneOf)
 func (condition DeliveryRuleCondition_ARM) MarshalJSON() ([]byte, error) {
-	if condition.DeliveryRuleClientPort != nil {
-		return json.Marshal(condition.DeliveryRuleClientPort)
+	if condition.ClientPort != nil {
+		return json.Marshal(condition.ClientPort)
 	}
-	if condition.DeliveryRuleCookies != nil {
-		return json.Marshal(condition.DeliveryRuleCookies)
+	if condition.Cookies != nil {
+		return json.Marshal(condition.Cookies)
 	}
-	if condition.DeliveryRuleHostName != nil {
-		return json.Marshal(condition.DeliveryRuleHostName)
+	if condition.HostName != nil {
+		return json.Marshal(condition.HostName)
 	}
-	if condition.DeliveryRuleHttpVersion != nil {
-		return json.Marshal(condition.DeliveryRuleHttpVersion)
+	if condition.HttpVersion != nil {
+		return json.Marshal(condition.HttpVersion)
 	}
-	if condition.DeliveryRuleIsDevice != nil {
-		return json.Marshal(condition.DeliveryRuleIsDevice)
+	if condition.IsDevice != nil {
+		return json.Marshal(condition.IsDevice)
 	}
-	if condition.DeliveryRulePostArgs != nil {
-		return json.Marshal(condition.DeliveryRulePostArgs)
+	if condition.PostArgs != nil {
+		return json.Marshal(condition.PostArgs)
 	}
-	if condition.DeliveryRuleQueryString != nil {
-		return json.Marshal(condition.DeliveryRuleQueryString)
+	if condition.QueryString != nil {
+		return json.Marshal(condition.QueryString)
 	}
-	if condition.DeliveryRuleRemoteAddress != nil {
-		return json.Marshal(condition.DeliveryRuleRemoteAddress)
+	if condition.RemoteAddress != nil {
+		return json.Marshal(condition.RemoteAddress)
 	}
-	if condition.DeliveryRuleRequestBody != nil {
-		return json.Marshal(condition.DeliveryRuleRequestBody)
+	if condition.RequestBody != nil {
+		return json.Marshal(condition.RequestBody)
 	}
-	if condition.DeliveryRuleRequestHeader != nil {
-		return json.Marshal(condition.DeliveryRuleRequestHeader)
+	if condition.RequestHeader != nil {
+		return json.Marshal(condition.RequestHeader)
 	}
-	if condition.DeliveryRuleRequestMethod != nil {
-		return json.Marshal(condition.DeliveryRuleRequestMethod)
+	if condition.RequestMethod != nil {
+		return json.Marshal(condition.RequestMethod)
 	}
-	if condition.DeliveryRuleRequestScheme != nil {
-		return json.Marshal(condition.DeliveryRuleRequestScheme)
+	if condition.RequestScheme != nil {
+		return json.Marshal(condition.RequestScheme)
 	}
-	if condition.DeliveryRuleRequestUri != nil {
-		return json.Marshal(condition.DeliveryRuleRequestUri)
+	if condition.RequestUri != nil {
+		return json.Marshal(condition.RequestUri)
 	}
-	if condition.DeliveryRuleServerPort != nil {
-		return json.Marshal(condition.DeliveryRuleServerPort)
+	if condition.ServerPort != nil {
+		return json.Marshal(condition.ServerPort)
 	}
-	if condition.DeliveryRuleSocketAddr != nil {
-		return json.Marshal(condition.DeliveryRuleSocketAddr)
+	if condition.SocketAddr != nil {
+		return json.Marshal(condition.SocketAddr)
 	}
-	if condition.DeliveryRuleSslProtocol != nil {
-		return json.Marshal(condition.DeliveryRuleSslProtocol)
+	if condition.SslProtocol != nil {
+		return json.Marshal(condition.SslProtocol)
 	}
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		return json.Marshal(condition.DeliveryRuleUrlFileExtension)
+	if condition.UrlFileExtension != nil {
+		return json.Marshal(condition.UrlFileExtension)
 	}
-	if condition.DeliveryRuleUrlFileName != nil {
-		return json.Marshal(condition.DeliveryRuleUrlFileName)
+	if condition.UrlFileName != nil {
+		return json.Marshal(condition.UrlFileName)
 	}
-	if condition.DeliveryRuleUrlPath != nil {
-		return json.Marshal(condition.DeliveryRuleUrlPath)
+	if condition.UrlPath != nil {
+		return json.Marshal(condition.UrlPath)
 	}
 	return nil, nil
 }
@@ -493,87 +474,86 @@ func (condition *DeliveryRuleCondition_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["name"]
 	if discriminator == "ClientPort" {
-		condition.DeliveryRuleClientPort = &DeliveryRuleClientPortCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleClientPort)
+		condition.ClientPort = &DeliveryRuleClientPortCondition_ARM{}
+		return json.Unmarshal(data, condition.ClientPort)
 	}
 	if discriminator == "Cookies" {
-		condition.DeliveryRuleCookies = &DeliveryRuleCookiesCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleCookies)
+		condition.Cookies = &DeliveryRuleCookiesCondition_ARM{}
+		return json.Unmarshal(data, condition.Cookies)
 	}
 	if discriminator == "HostName" {
-		condition.DeliveryRuleHostName = &DeliveryRuleHostNameCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleHostName)
+		condition.HostName = &DeliveryRuleHostNameCondition_ARM{}
+		return json.Unmarshal(data, condition.HostName)
 	}
 	if discriminator == "HttpVersion" {
-		condition.DeliveryRuleHttpVersion = &DeliveryRuleHttpVersionCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleHttpVersion)
+		condition.HttpVersion = &DeliveryRuleHttpVersionCondition_ARM{}
+		return json.Unmarshal(data, condition.HttpVersion)
 	}
 	if discriminator == "IsDevice" {
-		condition.DeliveryRuleIsDevice = &DeliveryRuleIsDeviceCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleIsDevice)
+		condition.IsDevice = &DeliveryRuleIsDeviceCondition_ARM{}
+		return json.Unmarshal(data, condition.IsDevice)
 	}
 	if discriminator == "PostArgs" {
-		condition.DeliveryRulePostArgs = &DeliveryRulePostArgsCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRulePostArgs)
+		condition.PostArgs = &DeliveryRulePostArgsCondition_ARM{}
+		return json.Unmarshal(data, condition.PostArgs)
 	}
 	if discriminator == "QueryString" {
-		condition.DeliveryRuleQueryString = &DeliveryRuleQueryStringCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleQueryString)
+		condition.QueryString = &DeliveryRuleQueryStringCondition_ARM{}
+		return json.Unmarshal(data, condition.QueryString)
 	}
 	if discriminator == "RemoteAddress" {
-		condition.DeliveryRuleRemoteAddress = &DeliveryRuleRemoteAddressCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRemoteAddress)
+		condition.RemoteAddress = &DeliveryRuleRemoteAddressCondition_ARM{}
+		return json.Unmarshal(data, condition.RemoteAddress)
 	}
 	if discriminator == "RequestBody" {
-		condition.DeliveryRuleRequestBody = &DeliveryRuleRequestBodyCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestBody)
+		condition.RequestBody = &DeliveryRuleRequestBodyCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestBody)
 	}
 	if discriminator == "RequestHeader" {
-		condition.DeliveryRuleRequestHeader = &DeliveryRuleRequestHeaderCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestHeader)
+		condition.RequestHeader = &DeliveryRuleRequestHeaderCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestHeader)
 	}
 	if discriminator == "RequestMethod" {
-		condition.DeliveryRuleRequestMethod = &DeliveryRuleRequestMethodCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestMethod)
+		condition.RequestMethod = &DeliveryRuleRequestMethodCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestMethod)
 	}
 	if discriminator == "RequestScheme" {
-		condition.DeliveryRuleRequestScheme = &DeliveryRuleRequestSchemeCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestScheme)
+		condition.RequestScheme = &DeliveryRuleRequestSchemeCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestScheme)
 	}
 	if discriminator == "RequestUri" {
-		condition.DeliveryRuleRequestUri = &DeliveryRuleRequestUriCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleRequestUri)
+		condition.RequestUri = &DeliveryRuleRequestUriCondition_ARM{}
+		return json.Unmarshal(data, condition.RequestUri)
 	}
 	if discriminator == "ServerPort" {
-		condition.DeliveryRuleServerPort = &DeliveryRuleServerPortCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleServerPort)
+		condition.ServerPort = &DeliveryRuleServerPortCondition_ARM{}
+		return json.Unmarshal(data, condition.ServerPort)
 	}
 	if discriminator == "SocketAddr" {
-		condition.DeliveryRuleSocketAddr = &DeliveryRuleSocketAddrCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleSocketAddr)
+		condition.SocketAddr = &DeliveryRuleSocketAddrCondition_ARM{}
+		return json.Unmarshal(data, condition.SocketAddr)
 	}
 	if discriminator == "SslProtocol" {
-		condition.DeliveryRuleSslProtocol = &DeliveryRuleSslProtocolCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleSslProtocol)
+		condition.SslProtocol = &DeliveryRuleSslProtocolCondition_ARM{}
+		return json.Unmarshal(data, condition.SslProtocol)
 	}
 	if discriminator == "UrlFileExtension" {
-		condition.DeliveryRuleUrlFileExtension = &DeliveryRuleUrlFileExtensionCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleUrlFileExtension)
+		condition.UrlFileExtension = &DeliveryRuleUrlFileExtensionCondition_ARM{}
+		return json.Unmarshal(data, condition.UrlFileExtension)
 	}
 	if discriminator == "UrlFileName" {
-		condition.DeliveryRuleUrlFileName = &DeliveryRuleUrlFileNameCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleUrlFileName)
+		condition.UrlFileName = &DeliveryRuleUrlFileNameCondition_ARM{}
+		return json.Unmarshal(data, condition.UrlFileName)
 	}
 	if discriminator == "UrlPath" {
-		condition.DeliveryRuleUrlPath = &DeliveryRuleUrlPathCondition_ARM{}
-		return json.Unmarshal(data, condition.DeliveryRuleUrlPath)
+		condition.UrlPath = &DeliveryRuleUrlPathCondition_ARM{}
+		return json.Unmarshal(data, condition.UrlPath)
 	}
 
 	// No error
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HealthProbeParameters
 type HealthProbeParameters_ARM struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
@@ -588,213 +568,210 @@ type HealthProbeParameters_ARM struct {
 	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResponseBasedOriginErrorDetectionParameters
 type ResponseBasedOriginErrorDetectionParameters_ARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
 	HttpErrorRanges []HttpErrorRangeParameters_ARM `json:"httpErrorRanges,omitempty"`
 
-	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed
-	// unhealthy.
+	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
 	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction
 type DeliveryRuleCacheExpirationAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name DeliveryRuleCacheExpirationAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the cache expiration action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *CacheExpirationActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheKeyQueryStringAction
 type DeliveryRuleCacheKeyQueryStringAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name DeliveryRuleCacheKeyQueryStringAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the cache-key query string action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *CacheKeyQueryStringActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleClientPortCondition
 type DeliveryRuleClientPortCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleClientPortCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for ClientPort match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *ClientPortMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCookiesCondition
 type DeliveryRuleCookiesCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleCookiesCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for Cookies match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *CookiesMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHostNameCondition
 type DeliveryRuleHostNameCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleHostNameCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for HostName match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *HostNameMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHttpVersionCondition
 type DeliveryRuleHttpVersionCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleHttpVersionCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for HttpVersion match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *HttpVersionMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleIsDeviceCondition
 type DeliveryRuleIsDeviceCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleIsDeviceCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for IsDevice match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *IsDeviceMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRulePostArgsCondition
 type DeliveryRulePostArgsCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRulePostArgsCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for PostArgs match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *PostArgsMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleQueryStringCondition
 type DeliveryRuleQueryStringCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleQueryStringCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for QueryString match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *QueryStringMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRemoteAddressCondition
 type DeliveryRuleRemoteAddressCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleRemoteAddressCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for RemoteAddress match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *RemoteAddressMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestBodyCondition
 type DeliveryRuleRequestBodyCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleRequestBodyCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for RequestBody match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestBodyMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderAction
 type DeliveryRuleRequestHeaderAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name DeliveryRuleRequestHeaderAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the request header action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderCondition
 type DeliveryRuleRequestHeaderCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleRequestHeaderCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for RequestHeader match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestHeaderMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestMethodCondition
 type DeliveryRuleRequestMethodCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleRequestMethodCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for RequestMethod match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestMethodMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestSchemeCondition
 type DeliveryRuleRequestSchemeCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleRequestSchemeCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for RequestScheme match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestSchemeMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestUriCondition
 type DeliveryRuleRequestUriCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleRequestUriCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for RequestUri match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestUriMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleResponseHeaderAction
 type DeliveryRuleResponseHeaderAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name DeliveryRuleResponseHeaderAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the request header action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRouteConfigurationOverrideAction
 type DeliveryRuleRouteConfigurationOverrideAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name DeliveryRuleRouteConfigurationOverrideAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the route configuration override action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *RouteConfigurationOverrideActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleServerPortCondition
 type DeliveryRuleServerPortCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleServerPortCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for ServerPort match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *ServerPortMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSocketAddrCondition
 type DeliveryRuleSocketAddrCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleSocketAddrCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for SocketAddress match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *SocketAddrMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSslProtocolCondition
 type DeliveryRuleSslProtocolCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleSslProtocolCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for SslProtocol match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *SslProtocolMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileExtensionCondition
 type DeliveryRuleUrlFileExtensionCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleUrlFileExtensionCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for UrlFileExtension match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileExtensionMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileNameCondition
 type DeliveryRuleUrlFileNameCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleUrlFileNameCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for UrlFilename match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileNameMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlPathCondition
 type DeliveryRuleUrlPathCondition_ARM struct {
+	// Name: The name of the condition for the delivery rule.
 	Name DeliveryRuleUrlPathCondition_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for UrlPath match conditions
+	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlPathMatchConditionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
 type HttpErrorRangeParameters_ARM struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
@@ -803,41 +780,40 @@ type HttpErrorRangeParameters_ARM struct {
 	End *int `json:"end,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideAction
 type OriginGroupOverrideAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name OriginGroupOverrideAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the origin group override action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *OriginGroupOverrideActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectAction
 type UrlRedirectAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name UrlRedirectAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the url redirect action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRedirectActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteAction
 type UrlRewriteAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name UrlRewriteAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the url rewrite action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRewriteActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningAction
 type UrlSigningAction_ARM struct {
+	// Name: The name of the action for the delivery rule.
 	Name UrlSigningAction_Name `json:"name,omitempty"`
 
-	// Parameters: Defines the parameters for the Url Signing action.
+	// Parameters: Defines the parameters for the action.
 	Parameters *UrlSigningActionParameters_ARM `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheExpirationActionParameters
 type CacheExpirationActionParameters_ARM struct {
-	// CacheBehavior: Caching behavior for the requests.
+	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior `json:"cacheBehavior,omitempty"`
 
 	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
@@ -848,17 +824,15 @@ type CacheExpirationActionParameters_ARM struct {
 	TypeName  *CacheExpirationActionParameters_TypeName  `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheKeyQueryStringActionParameters
 type CacheKeyQueryStringActionParameters_ARM struct {
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
 
-	// QueryStringBehavior: Caching behavior for the requests.
+	// QueryStringBehavior: Caching behavior for the requests
 	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior `json:"queryStringBehavior,omitempty"`
 	TypeName            *CacheKeyQueryStringActionParameters_TypeName            `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ClientPortMatchConditionParameters
 type ClientPortMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -866,15 +840,14 @@ type ClientPortMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *ClientPortMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []ClientPortMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *ClientPortMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
+	TypeName   *ClientPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CookiesMatchConditionParameters
 type CookiesMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -882,20 +855,19 @@ type CookiesMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *CookiesMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Selector: Name of Cookies to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []CookiesMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *CookiesMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                               `json:"transforms,omitempty"`
+	TypeName   *CookiesMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HeaderActionParameters
 type HeaderActionParameters_ARM struct {
-	// HeaderAction: Action to perform.
+	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction `json:"headerAction,omitempty"`
 
 	// HeaderName: Name of the header to modify
@@ -906,7 +878,6 @@ type HeaderActionParameters_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HostNameMatchConditionParameters
 type HostNameMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -914,15 +885,14 @@ type HostNameMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *HostNameMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []HostNameMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *HostNameMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                `json:"transforms,omitempty"`
+	TypeName   *HostNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpVersionMatchConditionParameters
 type HttpVersionMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -934,11 +904,10 @@ type HttpVersionMatchConditionParameters_ARM struct {
 	Operator *HttpVersionMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []HttpVersionMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *HttpVersionMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
+	TypeName   *HttpVersionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/IsDeviceMatchConditionParameters
 type IsDeviceMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -950,18 +919,16 @@ type IsDeviceMatchConditionParameters_ARM struct {
 	Operator *IsDeviceMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []IsDeviceMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *IsDeviceMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                `json:"transforms,omitempty"`
+	TypeName   *IsDeviceMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideActionParameters
 type OriginGroupOverrideActionParameters_ARM struct {
-	// OriginGroup: Reference to another resource.
+	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference_ARM                        `json:"originGroup,omitempty"`
 	TypeName    *OriginGroupOverrideActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/PostArgsMatchConditionParameters
 type PostArgsMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -969,18 +936,17 @@ type PostArgsMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *PostArgsMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Selector: Name of PostArg to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []PostArgsMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *PostArgsMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                `json:"transforms,omitempty"`
+	TypeName   *PostArgsMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/QueryStringMatchConditionParameters
 type QueryStringMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -988,15 +954,14 @@ type QueryStringMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *QueryStringMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []QueryStringMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *QueryStringMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
+	TypeName   *QueryStringMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RemoteAddressMatchConditionParameters
 type RemoteAddressMatchConditionParameters_ARM struct {
 	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
 	// them match the variable with the given operator this match condition is considered a match.
@@ -1005,15 +970,14 @@ type RemoteAddressMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *RemoteAddressMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RemoteAddressMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *RemoteAddressMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
+	TypeName   *RemoteAddressMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestBodyMatchConditionParameters
 type RequestBodyMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1021,15 +985,14 @@ type RequestBodyMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *RequestBodyMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestBodyMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *RequestBodyMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
+	TypeName   *RequestBodyMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestHeaderMatchConditionParameters
 type RequestHeaderMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1037,18 +1000,17 @@ type RequestHeaderMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *RequestHeaderMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Selector: Name of Header to be matched
 	Selector *string `json:"selector,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestHeaderMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *RequestHeaderMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
+	TypeName   *RequestHeaderMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestMethodMatchConditionParameters
 type RequestMethodMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -1060,11 +1022,10 @@ type RequestMethodMatchConditionParameters_ARM struct {
 	Operator *RequestMethodMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestMethodMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *RequestMethodMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
+	TypeName   *RequestMethodMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestSchemeMatchConditionParameters
 type RequestSchemeMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -1076,11 +1037,10 @@ type RequestSchemeMatchConditionParameters_ARM struct {
 	Operator *RequestSchemeMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestSchemeMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *RequestSchemeMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
+	TypeName   *RequestSchemeMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestUriMatchConditionParameters
 type RequestUriMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1088,26 +1048,25 @@ type RequestUriMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *RequestUriMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []RequestUriMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *RequestUriMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
+	TypeName   *RequestUriMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RouteConfigurationOverrideActionParameters
 type RouteConfigurationOverrideActionParameters_ARM struct {
-	// CacheConfiguration: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration
-	// object.
+	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
+	// cacheConfiguration object.
 	CacheConfiguration *CacheConfiguration_ARM `json:"cacheConfiguration,omitempty"`
 
-	// OriginGroupOverride: Defines the parameters for the origin group override configuration.
+	// OriginGroupOverride: A reference to the origin group override configuration. Leave empty to use the default origin group
+	// on route.
 	OriginGroupOverride *OriginGroupOverride_ARM                             `json:"originGroupOverride,omitempty"`
 	TypeName            *RouteConfigurationOverrideActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ServerPortMatchConditionParameters
 type ServerPortMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1115,15 +1074,14 @@ type ServerPortMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *ServerPortMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []ServerPortMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *ServerPortMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
+	TypeName   *ServerPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SocketAddrMatchConditionParameters
 type SocketAddrMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1131,18 +1089,17 @@ type SocketAddrMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *SocketAddrMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []SocketAddrMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *SocketAddrMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
+	TypeName   *SocketAddrMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SslProtocolMatchConditionParameters
 type SslProtocolMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocolMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	MatchValues []SslProtocol `json:"matchValues,omitempty"`
 
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
@@ -1151,11 +1108,10 @@ type SslProtocolMatchConditionParameters_ARM struct {
 	Operator *SslProtocolMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []SslProtocolMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *SslProtocolMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
+	TypeName   *SslProtocolMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlFileExtensionMatchConditionParameters
 type UrlFileExtensionMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1163,15 +1119,14 @@ type UrlFileExtensionMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *UrlFileExtensionMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []UrlFileExtensionMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                        `json:"transforms,omitempty"`
+	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlFileNameMatchConditionParameters
 type UrlFileNameMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1179,15 +1134,14 @@ type UrlFileNameMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *UrlFileNameMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []UrlFileNameMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *UrlFileNameMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
+	TypeName   *UrlFileNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlPathMatchConditionParameters
 type UrlPathMatchConditionParameters_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1195,15 +1149,14 @@ type UrlPathMatchConditionParameters_ARM struct {
 	// NegateCondition: Describes if this is negate condition or not
 	NegateCondition *bool `json:"negateCondition,omitempty"`
 
-	// Operator: Describes operator to be matched.
+	// Operator: Describes operator to be matched
 	Operator *UrlPathMatchConditionParameters_Operator `json:"operator,omitempty"`
 
 	// Transforms: List of transforms
-	Transforms []UrlPathMatchConditionParameters_Transforms `json:"transforms,omitempty"`
-	TypeName   *UrlPathMatchConditionParameters_TypeName    `json:"typeName,omitempty"`
+	Transforms []Transform                               `json:"transforms,omitempty"`
+	TypeName   *UrlPathMatchConditionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectActionParameters
 type UrlRedirectActionParameters_ARM struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
 	// the #.
@@ -1221,7 +1174,7 @@ type UrlRedirectActionParameters_ARM struct {
 	// ? and & will be added automatically so do not include them.
 	CustomQueryString *string `json:"customQueryString,omitempty"`
 
-	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest.
+	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest
 	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol `json:"destinationProtocol,omitempty"`
 
 	// RedirectType: The redirect type the rule will use when redirecting traffic.
@@ -1229,7 +1182,6 @@ type UrlRedirectActionParameters_ARM struct {
 	TypeName     *UrlRedirectActionParameters_TypeName     `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteActionParameters
 type UrlRewriteActionParameters_ARM struct {
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
 	Destination *string `json:"destination,omitempty"`
@@ -1243,9 +1195,8 @@ type UrlRewriteActionParameters_ARM struct {
 	TypeName      *UrlRewriteActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningActionParameters
 type UrlSigningActionParameters_ARM struct {
-	// Algorithm: Algorithm to use for URL signing.
+	// Algorithm: Algorithm to use for URL signing
 	Algorithm *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
 
 	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
@@ -1253,9 +1204,8 @@ type UrlSigningActionParameters_ARM struct {
 	TypeName              *UrlSigningActionParameters_TypeName `json:"typeName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheConfiguration
 type CacheConfiguration_ARM struct {
-	// CacheBehavior: Caching behavior for the requests.
+	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheConfiguration_CacheBehavior `json:"cacheBehavior,omitempty"`
 
 	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
@@ -1275,18 +1225,16 @@ type CacheConfiguration_ARM struct {
 	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverride
 type OriginGroupOverride_ARM struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
 
-	// OriginGroup: Reference to another resource.
+	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup on route.
 	OriginGroup *ResourceReference_ARM `json:"originGroup,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningParamIdentifier
 type UrlSigningParamIdentifier_ARM struct {
-	// ParamIndicator: Indicates the purpose of the parameter.
+	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator `json:"paramIndicator,omitempty"`
 
 	// ParamName: Parameter name

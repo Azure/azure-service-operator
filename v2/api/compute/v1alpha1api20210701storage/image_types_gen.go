@@ -1162,15 +1162,15 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 // Storage version of v1alpha1api20210701.ImageDataDisk
 // Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk struct {
-	BlobUri            *string                      `json:"blobUri,omitempty"`
-	Caching            *string                      `json:"caching,omitempty"`
-	DiskEncryptionSet  *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                         `json:"diskSizeGB,omitempty"`
-	Lun                *int                         `json:"lun,omitempty"`
-	ManagedDisk        *SubResource                 `json:"managedDisk,omitempty"`
-	PropertyBag        genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Snapshot           *SubResource                 `json:"snapshot,omitempty"`
-	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *string                `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	Lun                *int                   `json:"lun,omitempty"`
+	ManagedDisk        *SubResource           `json:"managedDisk,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Snapshot           *SubResource           `json:"snapshot,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // AssignProperties_From_ImageDataDisk populates our ImageDataDisk from the provided source ImageDataDisk
@@ -1186,15 +1186,15 @@ func (disk *ImageDataDisk) AssignProperties_From_ImageDataDisk(source *v20210701
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
-		err := diskEncryptionSetParametersStash.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var subResourceStash v20201201s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err = diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var diskEncryptionSet SubResource
+		err = diskEncryptionSet.AssignProperties_From_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -1268,15 +1268,15 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *v20210
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
-		err := disk.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var subResourceStash v20201201s.SubResource
+		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v20210701s.DiskEncryptionSetParameters
-		err = diskEncryptionSetParametersStash.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet v20210701s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -1518,16 +1518,16 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 // Storage version of v1alpha1api20210701.ImageOSDisk
 // Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk struct {
-	BlobUri            *string                      `json:"blobUri,omitempty"`
-	Caching            *string                      `json:"caching,omitempty"`
-	DiskEncryptionSet  *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                         `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource                 `json:"managedDisk,omitempty"`
-	OsState            *string                      `json:"osState,omitempty"`
-	OsType             *string                      `json:"osType,omitempty"`
-	PropertyBag        genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Snapshot           *SubResource                 `json:"snapshot,omitempty"`
-	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *string                `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource           `json:"managedDisk,omitempty"`
+	OsState            *string                `json:"osState,omitempty"`
+	OsType             *string                `json:"osType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Snapshot           *SubResource           `json:"snapshot,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // AssignProperties_From_ImageOSDisk populates our ImageOSDisk from the provided source ImageOSDisk
@@ -1543,15 +1543,15 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *v20210701s.Im
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
-		err := diskEncryptionSetParametersStash.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var subResourceStash v20201201s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err = diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var diskEncryptionSet SubResource
+		err = diskEncryptionSet.AssignProperties_From_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -1628,15 +1628,15 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *v20210701s
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v20201201s.DiskEncryptionSetParameters
-		err := disk.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var subResourceStash v20201201s.SubResource
+		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v20210701s.DiskEncryptionSetParameters
-		err = diskEncryptionSetParametersStash.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet v20210701s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -1873,61 +1873,6 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 
 	// StorageAccountType
 	destination.StorageAccountType = genruntime.ClonePointerToString(disk.StorageAccountType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210701.DiskEncryptionSetParameters
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters struct {
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// AssignProperties_From_DiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_From_DiskEncryptionSetParameters(source *v20201201s.DiskEncryptionSetParameters) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
-	} else {
-		parameters.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_DiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_To_DiskEncryptionSetParameters(destination *v20201201s.DiskEncryptionSetParameters) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
-
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

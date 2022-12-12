@@ -48,7 +48,8 @@ type Type interface {
 }
 
 type EqualityOverrides struct {
-	TypeName func(left TypeName, right TypeName) bool
+	TypeName   func(left TypeName, right TypeName) bool
+	ObjectType func(left *ObjectType, right *ObjectType) bool
 }
 
 // IgnoringErrors returns the type stripped of any ErroredType wrapper
@@ -89,7 +90,7 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 func DebugDescription(t Type, pkgs ...PackageReference) string {
 	var currentPackage PackageReference
 	if len(pkgs) > 0 {
-		// If we're passed a package, use that as the current packge
+		// If we're passed a package, use that as the current package
 		currentPackage = pkgs[0]
 	} else if tn, ok := AsTypeName(t); ok {
 		// Otherwise, If we're given a TypeName, use it's package as "current" to simplify what we write

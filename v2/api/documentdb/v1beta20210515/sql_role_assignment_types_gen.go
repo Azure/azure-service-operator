@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlRoleAssignments
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/rbac.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}
 type SqlRoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlRoleAssignment_Spec `json:"spec,omitempty"`
-	Status            SqlRoleAssignmentGetResults_STATUS      `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlRoleAssignment_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlRoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlRoleAssignment{}
@@ -123,7 +125,7 @@ func (assignment *SqlRoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlRoleAssignmentGetResults_STATUS{}
+	return &DatabaseAccounts_SqlRoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *SqlRoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlRoleAssignmentGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlRoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlRoleAssignmentGetResults_STATUS
+	var st DatabaseAccounts_SqlRoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -276,10 +278,10 @@ func (assignment *SqlRoleAssignment) AssignProperties_From_SqlRoleAssignment(sou
 	assignment.Spec = spec
 
 	// Status
-	var status SqlRoleAssignmentGetResults_STATUS
-	err = status.AssignProperties_From_SqlRoleAssignmentGetResults_STATUS(&source.Status)
+	var status DatabaseAccounts_SqlRoleAssignment_STATUS
+	err = status.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlRoleAssignmentGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS() to populate field Status")
 	}
 	assignment.Status = status
 
@@ -302,10 +304,10 @@ func (assignment *SqlRoleAssignment) AssignProperties_To_SqlRoleAssignment(desti
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlRoleAssignmentGetResults_STATUS
-	err = assignment.Status.AssignProperties_To_SqlRoleAssignmentGetResults_STATUS(&status)
+	var status v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS
+	err = assignment.Status.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlRoleAssignmentGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -323,7 +325,9 @@ func (assignment *SqlRoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlRoleAssignments
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/rbac.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}
 type SqlRoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -592,7 +596,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) SetAzureName(azureNam
 	assignment.AzureName = azureName
 }
 
-type SqlRoleAssignmentGetResults_STATUS struct {
+type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -616,25 +620,25 @@ type SqlRoleAssignmentGetResults_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlRoleAssignmentGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlRoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our SqlRoleAssignmentGetResults_STATUS from the provided source
-func (results *SqlRoleAssignmentGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlRoleAssignmentGetResults_STATUS)
+// ConvertStatusFrom populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignProperties_From_SqlRoleAssignmentGetResults_STATUS(src)
+		return assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.SqlRoleAssignmentGetResults_STATUS{}
+	src = &v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignProperties_From_SqlRoleAssignmentGetResults_STATUS(src)
+	err = assignment.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -642,17 +646,17 @@ func (results *SqlRoleAssignmentGetResults_STATUS) ConvertStatusFrom(source genr
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlRoleAssignmentGetResults_STATUS
-func (results *SqlRoleAssignmentGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlRoleAssignmentGetResults_STATUS)
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_STATUS
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignProperties_To_SqlRoleAssignmentGetResults_STATUS(dst)
+		return assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.SqlRoleAssignmentGetResults_STATUS{}
-	err := results.AssignProperties_To_SqlRoleAssignmentGetResults_STATUS(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS{}
+	err := assignment.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -666,18 +670,18 @@ func (results *SqlRoleAssignmentGetResults_STATUS) ConvertStatusTo(destination g
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlRoleAssignmentGetResults_STATUS{}
+var _ genruntime.FromARMConverter = &DatabaseAccounts_SqlRoleAssignment_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *SqlRoleAssignmentGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlRoleAssignmentGetResults_STATUS_ARM{}
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_SqlRoleAssignment_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *SqlRoleAssignmentGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlRoleAssignmentGetResults_STATUS_ARM)
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_SqlRoleAssignment_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlRoleAssignmentGetResults_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlRoleAssignment_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -685,13 +689,13 @@ func (results *SqlRoleAssignmentGetResults_STATUS) PopulateFromARM(owner genrunt
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		assignment.Id = &id
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		assignment.Name = &name
 	}
 
 	// Set property ‘PrincipalId’:
@@ -699,7 +703,7 @@ func (results *SqlRoleAssignmentGetResults_STATUS) PopulateFromARM(owner genrunt
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalId != nil {
 			principalId := *typedInput.Properties.PrincipalId
-			results.PrincipalId = &principalId
+			assignment.PrincipalId = &principalId
 		}
 	}
 
@@ -708,7 +712,7 @@ func (results *SqlRoleAssignmentGetResults_STATUS) PopulateFromARM(owner genrunt
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RoleDefinitionId != nil {
 			roleDefinitionId := *typedInput.Properties.RoleDefinitionId
-			results.RoleDefinitionId = &roleDefinitionId
+			assignment.RoleDefinitionId = &roleDefinitionId
 		}
 	}
 
@@ -717,73 +721,73 @@ func (results *SqlRoleAssignmentGetResults_STATUS) PopulateFromARM(owner genrunt
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Scope != nil {
 			scope := *typedInput.Properties.Scope
-			results.Scope = &scope
+			assignment.Scope = &scope
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		assignment.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_SqlRoleAssignmentGetResults_STATUS populates our SqlRoleAssignmentGetResults_STATUS from the provided source SqlRoleAssignmentGetResults_STATUS
-func (results *SqlRoleAssignmentGetResults_STATUS) AssignProperties_From_SqlRoleAssignmentGetResults_STATUS(source *v20210515s.SqlRoleAssignmentGetResults_STATUS) error {
+// AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source DatabaseAccounts_SqlRoleAssignment_STATUS
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(source *v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	assignment.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	assignment.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	assignment.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrincipalId
-	results.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// RoleDefinitionId
-	results.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
+	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
 
 	// Scope
-	results.Scope = genruntime.ClonePointerToString(source.Scope)
+	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	assignment.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SqlRoleAssignmentGetResults_STATUS populates the provided destination SqlRoleAssignmentGetResults_STATUS from our SqlRoleAssignmentGetResults_STATUS
-func (results *SqlRoleAssignmentGetResults_STATUS) AssignProperties_To_SqlRoleAssignmentGetResults_STATUS(destination *v20210515s.SqlRoleAssignmentGetResults_STATUS) error {
+// AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS populates the provided destination DatabaseAccounts_SqlRoleAssignment_STATUS from our DatabaseAccounts_SqlRoleAssignment_STATUS
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(destination *v20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(assignment.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(assignment.Id)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(assignment.Name)
 
 	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(results.PrincipalId)
+	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
 
 	// RoleDefinitionId
-	destination.RoleDefinitionId = genruntime.ClonePointerToString(results.RoleDefinitionId)
+	destination.RoleDefinitionId = genruntime.ClonePointerToString(assignment.RoleDefinitionId)
 
 	// Scope
-	destination.Scope = genruntime.ClonePointerToString(results.Scope)
+	destination.Scope = genruntime.ClonePointerToString(assignment.Scope)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(assignment.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

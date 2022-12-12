@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
+func TestGolden_InjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -37,7 +37,7 @@ func TestInjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
 }
 
-func TestInjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
+func TestGolden_InjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_DoesNotInjectIntoSpec(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

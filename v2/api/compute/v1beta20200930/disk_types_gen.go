@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +312,9 @@ func (disk *Disk) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type DiskList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -332,7 +336,7 @@ type Disk_Spec struct {
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreationData: Data used when creating a disk.
+	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData `json:"creationData,omitempty"`
 
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
@@ -359,25 +363,27 @@ type Disk_Spec struct {
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// Encryption: Encryption at rest settings for disk or snapshot
+	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption `json:"encryption,omitempty"`
 
-	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	// EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
+	// encryption settings per disk or snapshot.
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
-	// ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
-	MaxShares           *int                                `json:"maxShares,omitempty"`
-	NetworkAccessPolicy *DiskProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	MaxShares           *int                 `json:"maxShares,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
 	OsType *DiskProperties_OsType `json:"osType,omitempty"`
@@ -388,13 +394,12 @@ type Disk_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
+	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
+	Sku          *DiskSku      `json:"sku,omitempty"`
 
-	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
-	Sku *DiskSku `json:"sku,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
@@ -933,7 +938,7 @@ func (disk *Disk_Spec) AssignProperties_From_Disk_Spec(source *v20200930s.Disk_S
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := DiskProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
 		disk.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		disk.NetworkAccessPolicy = nil
@@ -2053,16 +2058,16 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20200930s
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
 type CreationData struct {
 	// +kubebuilder:validation:Required
 	// CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption *CreationData_CreateOption `json:"createOption,omitempty"`
 
-	// GalleryImageReference: The source image used for creating the disk.
+	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
+	// the shared galley image version from which to create a disk.
 	GalleryImageReference *ImageDiskReference `json:"galleryImageReference,omitempty"`
 
-	// ImageReference: The source image used for creating the disk.
+	// ImageReference: Disk source information.
 	ImageReference *ImageDiskReference `json:"imageReference,omitempty"`
 
 	// LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
@@ -2605,15 +2610,6 @@ const (
 	DiskProperties_HyperVGeneration_STATUS_V2 = DiskProperties_HyperVGeneration_STATUS("V2")
 )
 
-// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
-type DiskProperties_NetworkAccessPolicy string
-
-const (
-	DiskProperties_NetworkAccessPolicy_AllowAll     = DiskProperties_NetworkAccessPolicy("AllowAll")
-	DiskProperties_NetworkAccessPolicy_AllowPrivate = DiskProperties_NetworkAccessPolicy("AllowPrivate")
-	DiskProperties_NetworkAccessPolicy_DenyAll      = DiskProperties_NetworkAccessPolicy("DenyAll")
-)
-
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskProperties_OsType string
 
@@ -2629,7 +2625,6 @@ const (
 	DiskProperties_OsType_STATUS_Windows = DiskProperties_OsType_STATUS("Windows")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku
 type DiskSku struct {
 	// Name: The sku name.
 	Name *DiskSku_Name `json:"name,omitempty"`
@@ -2807,11 +2802,10 @@ const (
 	DiskState_STATUS_Unattached    = DiskState_STATUS("Unattached")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type Encryption struct {
 	// DiskEncryptionSetReference: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
-	Type                       *Encryption_Type              `json:"type,omitempty"`
+	Type                       *EncryptionType               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -2878,7 +2872,7 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20200930
 
 	// Type
 	if source.Type != nil {
-		typeVar := Encryption_Type(*source.Type)
+		typeVar := EncryptionType(*source.Type)
 		encryption.Type = &typeVar
 	} else {
 		encryption.Type = nil
@@ -3001,7 +2995,6 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection
 type EncryptionSettingsCollection struct {
 	// +kubebuilder:validation:Required
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
@@ -3303,13 +3296,12 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -3371,7 +3363,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -3491,6 +3483,15 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
+type NetworkAccessPolicy string
+
+const (
+	NetworkAccessPolicy_AllowAll     = NetworkAccessPolicy("AllowAll")
+	NetworkAccessPolicy_AllowPrivate = NetworkAccessPolicy("AllowPrivate")
+	NetworkAccessPolicy_DenyAll      = NetworkAccessPolicy("DenyAll")
+)
+
 type NetworkAccessPolicy_STATUS string
 
 const (
@@ -3499,7 +3500,6 @@ const (
 	NetworkAccessPolicy_STATUS_DenyAll      = NetworkAccessPolicy_STATUS("DenyAll")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan
 type PurchasePlan struct {
 	// +kubebuilder:validation:Required
 	// Name: The plan ID.
@@ -3827,22 +3827,12 @@ const (
 	CreationData_CreateOption_STATUS_Upload    = CreationData_CreateOption_STATUS("Upload")
 )
 
-// +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
-type Encryption_Type string
-
-const (
-	Encryption_Type_EncryptionAtRestWithCustomerKey             = Encryption_Type("EncryptionAtRestWithCustomerKey")
-	Encryption_Type_EncryptionAtRestWithPlatformAndCustomerKeys = Encryption_Type("EncryptionAtRestWithPlatformAndCustomerKeys")
-	Encryption_Type_EncryptionAtRestWithPlatformKey             = Encryption_Type("EncryptionAtRestWithPlatformKey")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement
 type EncryptionSettingsElement struct {
-	// DiskEncryptionKey: Key Vault Secret Url and vault id of the encryption key
+	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference `json:"diskEncryptionKey,omitempty"`
 
-	// KeyEncryptionKey: Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the
-	// encryptionKey
+	// KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
+	// provided is used to unwrap the disk encryption key.
 	KeyEncryptionKey *KeyVaultAndKeyReference `json:"keyEncryptionKey,omitempty"`
 }
 
@@ -4106,6 +4096,15 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
+type EncryptionType string
+
+const (
+	EncryptionType_EncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
+	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
+)
+
 type EncryptionType_STATUS string
 
 const (
@@ -4114,7 +4113,6 @@ const (
 	EncryptionType_STATUS_EncryptionAtRestWithPlatformKey             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference
 type ImageDiskReference struct {
 	// Lun: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the
 	// image to use. For OS disks, this field is null.
@@ -4295,15 +4293,13 @@ func (reference *ImageDiskReference_STATUS) AssignProperties_To_ImageDiskReferen
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference
 type KeyVaultAndKeyReference struct {
 	// +kubebuilder:validation:Required
 	// KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+	// SourceVault: Resource id of the KeyVault containing the key or secret
 	SourceVault *SourceVault `json:"sourceVault,omitempty"`
 }
 
@@ -4516,15 +4512,13 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_To_KeyVaultAnd
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference
 type KeyVaultAndSecretReference struct {
 	// +kubebuilder:validation:Required
 	// SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+	// SourceVault: Resource id of the KeyVault containing the key or secret
 	SourceVault *SourceVault `json:"sourceVault,omitempty"`
 }
 
@@ -4737,7 +4731,6 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_To_KeyVault
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault
 type SourceVault struct {
 	// Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`

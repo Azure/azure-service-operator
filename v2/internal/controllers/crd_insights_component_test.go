@@ -73,8 +73,13 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
 	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.String(component.Status.Id))
 
+	horribleTags := map[string]string{
+		horribleHiddenLink: "Resource",
+	}
+
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
+
 	kind := insightswebtest.WebTestProperties_Kind_Standard
 	webtest := &insightswebtest.Webtest{
 		ObjectMeta: om,
@@ -82,23 +87,21 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			Location:           tc.AzureRegion,
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
-			Tags: map[string]string{
-				horribleHiddenLink: "Resource",
-			},
-			Name:      to.StringPtr("mywebtest"),
-			Enabled:   to.BoolPtr(true),
-			Frequency: to.IntPtr(300),
-			Kind:      &kind,
+			Tags:               horribleTags,
+			Name:               to.StringPtr("mywebtest"),
+			Enabled:            to.BoolPtr(true),
+			Frequency:          to.IntPtr(300),
+			Kind:               &kind,
 			Locations: []insightswebtest.WebTestGeolocation{
 				{
 					Id: to.StringPtr("us-ca-sjc-azr"), // This is US west...
 				},
 			},
-			Request: &insightswebtest.WebTestPropertiesRequest{
+			Request: &insightswebtest.WebTestProperties_Request{
 				HttpVerb:   to.StringPtr("GET"),
 				RequestUrl: to.StringPtr("https://github.com/Azure/azure-service-operator"),
 			},
-			ValidationRules: &insightswebtest.WebTestPropertiesValidationRules{
+			ValidationRules: &insightswebtest.WebTestProperties_ValidationRules{
 				ExpectedHttpStatusCode:        to.IntPtr(200),
 				SSLCheck:                      to.BoolPtr(true),
 				SSLCertRemainingLifetimeCheck: to.IntPtr(7),

@@ -6,14 +6,7 @@ package v1beta20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Domains_Topic_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the domain topic.
 	Name string `json:"name,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Domains_Topic_Spec_ARM{}

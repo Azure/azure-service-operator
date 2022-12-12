@@ -63,3 +63,11 @@ type DhcpOptions_STATUS_ARM struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
+
+type VirtualNetworkBgpCommunities_STATUS_ARM struct {
+	// RegionalCommunity: The BGP community associated with the region of the virtual network.
+	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
+
+	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
+	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
+}

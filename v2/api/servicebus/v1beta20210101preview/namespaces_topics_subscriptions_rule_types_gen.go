@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions_rules
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
 type NamespacesTopicsSubscriptionsRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscriptions_Rule_Spec `json:"spec,omitempty"`
-	Status            Rule_STATUS                               `json:"status,omitempty"`
+	Spec              Namespaces_Topics_Subscriptions_Rule_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topics_Subscriptions_Rule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscriptionsRule{}
@@ -123,7 +125,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesTopicsSubscriptionsRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Rule_STATUS{}
+	return &Namespaces_Topics_Subscriptions_Rule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (rule *NamespacesTopicsSubscriptionsRule) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (rule *NamespacesTopicsSubscriptionsRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Rule_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topics_Subscriptions_Rule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Rule_STATUS
+	var st Namespaces_Topics_Subscriptions_Rule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +265,10 @@ func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_From_NamespacesT
 	rule.Spec = spec
 
 	// Status
-	var status Rule_STATUS
-	err = status.AssignProperties_From_Rule_STATUS(&source.Status)
+	var status Namespaces_Topics_Subscriptions_Rule_STATUS
+	err = status.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Rule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -289,10 +291,10 @@ func (rule *NamespacesTopicsSubscriptionsRule) AssignProperties_To_NamespacesTop
 	destination.Spec = spec
 
 	// Status
-	var status v20210101ps.Rule_STATUS
-	err = rule.Status.AssignProperties_To_Rule_STATUS(&status)
+	var status v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
+	err = rule.Status.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Rule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,7 +312,9 @@ func (rule *NamespacesTopicsSubscriptionsRule) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions_rules
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
 type NamespacesTopicsSubscriptionsRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -328,14 +332,11 @@ type Namespaces_Topics_Subscriptions_Rule_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// CorrelationFilter: Represents the correlation filter expression.
+	// CorrelationFilter: Properties of correlationFilter
 	CorrelationFilter *CorrelationFilter `json:"correlationFilter,omitempty"`
 
 	// FilterType: Filter type that is evaluated against a BrokeredMessage.
-	FilterType *Ruleproperties_FilterType `json:"filterType,omitempty"`
-
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	FilterType *FilterType `json:"filterType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -343,12 +344,8 @@ type Namespaces_Topics_Subscriptions_Rule_Spec struct {
 	// reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
 	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopicsSubscription"`
 
-	// SqlFilter: Represents a filter which is a composition of an expression and an action that is executed in the pub/sub
-	// pipeline.
+	// SqlFilter: Properties of sqlFilter
 	SqlFilter *SqlFilter `json:"sqlFilter,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Topics_Subscriptions_Rule_Spec{}
@@ -359,12 +356,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertToARM(resolved gen
 		return nil, nil
 	}
 	result := &Namespaces_Topics_Subscriptions_Rule_Spec_ARM{}
-
-	// Set property ‘Location’:
-	if rule.Location != nil {
-		location := *rule.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -403,14 +394,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) ConvertToARM(resolved gen
 		}
 		sqlFilter := *sqlFilter_ARM.(*SqlFilter_ARM)
 		result.Properties.SqlFilter = &sqlFilter
-	}
-
-	// Set property ‘Tags’:
-	if rule.Tags != nil {
-		result.Tags = make(map[string]string, len(rule.Tags))
-		for key, value := range rule.Tags {
-			result.Tags[key] = value
-		}
 	}
 	return result, nil
 }
@@ -467,12 +450,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 		}
 	}
 
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		rule.Location = &location
-	}
-
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
@@ -487,14 +464,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) PopulateFromARM(owner gen
 			}
 			sqlFilter := sqlFilter1
 			rule.SqlFilter = &sqlFilter
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		rule.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			rule.Tags[key] = value
 		}
 	}
 
@@ -584,14 +553,11 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Nam
 
 	// FilterType
 	if source.FilterType != nil {
-		filterType := Ruleproperties_FilterType(*source.FilterType)
+		filterType := FilterType(*source.FilterType)
 		rule.FilterType = &filterType
 	} else {
 		rule.FilterType = nil
 	}
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
@@ -612,9 +578,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_From_Nam
 	} else {
 		rule.SqlFilter = nil
 	}
-
-	// Tags
-	rule.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -660,9 +623,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 		destination.FilterType = nil
 	}
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
-
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
 
@@ -686,9 +646,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 		destination.SqlFilter = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rule.Tags)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -710,7 +667,7 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) SetAzureName(azureName st
 	rule.AzureName = azureName
 }
 
-type Rule_STATUS struct {
+type Namespaces_Topics_Subscriptions_Rule_STATUS struct {
 	// Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
 	// filter expression.
 	Action *Action_STATUS `json:"action,omitempty"`
@@ -740,25 +697,25 @@ type Rule_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Rule_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscriptions_Rule_STATUS{}
 
-// ConvertStatusFrom populates our Rule_STATUS from the provided source
-func (rule *Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210101ps.Rule_STATUS)
+// ConvertStatusFrom populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
 	if ok {
 		// Populate our instance from source
-		return rule.AssignProperties_From_Rule_STATUS(src)
+		return rule.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.Rule_STATUS{}
+	src = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = rule.AssignProperties_From_Rule_STATUS(src)
+	err = rule.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -766,17 +723,17 @@ func (rule *Rule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Rule_STATUS
-func (rule *Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210101ps.Rule_STATUS)
+// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscriptions_Rule_STATUS
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return rule.AssignProperties_To_Rule_STATUS(dst)
+		return rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.Rule_STATUS{}
-	err := rule.AssignProperties_To_Rule_STATUS(dst)
+	dst = &v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS{}
+	err := rule.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -790,18 +747,18 @@ func (rule *Rule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Rule_STATUS{}
+var _ genruntime.FromARMConverter = &Namespaces_Topics_Subscriptions_Rule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *Rule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Rule_STATUS_ARM{}
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Topics_Subscriptions_Rule_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *Rule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Rule_STATUS_ARM)
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Topics_Subscriptions_Rule_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Rule_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscriptions_Rule_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -890,8 +847,8 @@ func (rule *Rule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	return nil
 }
 
-// AssignProperties_From_Rule_STATUS populates our Rule_STATUS from the provided source Rule_STATUS
-func (rule *Rule_STATUS) AssignProperties_From_Rule_STATUS(source *v20210101ps.Rule_STATUS) error {
+// AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS populates our Namespaces_Topics_Subscriptions_Rule_STATUS from the provided source Namespaces_Topics_Subscriptions_Rule_STATUS
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
 
 	// Action
 	if source.Action != nil {
@@ -965,8 +922,8 @@ func (rule *Rule_STATUS) AssignProperties_From_Rule_STATUS(source *v20210101ps.R
 	return nil
 }
 
-// AssignProperties_To_Rule_STATUS populates the provided destination Rule_STATUS from our Rule_STATUS
-func (rule *Rule_STATUS) AssignProperties_To_Rule_STATUS(destination *v20210101ps.Rule_STATUS) error {
+// AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS populates the provided destination Namespaces_Topics_Subscriptions_Rule_STATUS from our Namespaces_Topics_Subscriptions_Rule_STATUS
+func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(destination *v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1049,7 +1006,6 @@ func (rule *Rule_STATUS) AssignProperties_To_Rule_STATUS(destination *v20210101p
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Action
 type Action struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.
@@ -1275,7 +1231,6 @@ func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v202
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/CorrelationFilter
 type CorrelationFilter struct {
 	// ContentType: Content type of the message.
 	ContentType *string `json:"contentType,omitempty"`
@@ -1757,6 +1712,14 @@ func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_ST
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"CorrelationFilter","SqlFilter"}
+type FilterType string
+
+const (
+	FilterType_CorrelationFilter = FilterType("CorrelationFilter")
+	FilterType_SqlFilter         = FilterType("SqlFilter")
+)
+
 type FilterType_STATUS string
 
 const (
@@ -1764,15 +1727,6 @@ const (
 	FilterType_STATUS_SqlFilter         = FilterType_STATUS("SqlFilter")
 )
 
-// +kubebuilder:validation:Enum={"CorrelationFilter","SqlFilter"}
-type Ruleproperties_FilterType string
-
-const (
-	Ruleproperties_FilterType_CorrelationFilter = Ruleproperties_FilterType("CorrelationFilter")
-	Ruleproperties_FilterType_SqlFilter         = Ruleproperties_FilterType("SqlFilter")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SqlFilter
 type SqlFilter struct {
 	// +kubebuilder:validation:Maximum=20
 	// +kubebuilder:validation:Minimum=20

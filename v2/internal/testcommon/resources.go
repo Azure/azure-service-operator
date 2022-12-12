@@ -7,7 +7,7 @@ package testcommon
 
 import (
 	"github.com/Azure/go-autorest/autorest/to"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

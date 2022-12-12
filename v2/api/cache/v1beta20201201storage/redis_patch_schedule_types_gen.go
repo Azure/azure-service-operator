@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201201.RedisPatchSchedule
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
+// Generator information:
+// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_PatchSchedule_Spec  `json:"spec,omitempty"`
-	Status            RedisPatchSchedule_STATUS `json:"status,omitempty"`
+	Spec              Redis_PatchSchedule_Spec   `json:"spec,omitempty"`
+	Status            Redis_PatchSchedule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisPatchSchedule{}
@@ -76,7 +78,7 @@ func (schedule *RedisPatchSchedule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (schedule *RedisPatchSchedule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisPatchSchedule_STATUS{}
+	return &Redis_PatchSchedule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (schedule *RedisPatchSchedule) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (schedule *RedisPatchSchedule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisPatchSchedule_STATUS); ok {
+	if st, ok := status.(*Redis_PatchSchedule_STATUS); ok {
 		schedule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisPatchSchedule_STATUS
+	var st Redis_PatchSchedule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201201.RedisPatchSchedule
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_patchSchedules
+// Generator information:
+// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -131,8 +135,7 @@ type RedisPatchScheduleList struct {
 
 // Storage version of v1beta20201201.Redis_PatchSchedule_Spec
 type Redis_PatchSchedule_Spec struct {
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -141,7 +144,6 @@ type Redis_PatchSchedule_Spec struct {
 	Owner           *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
-	Tags            map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Redis_PatchSchedule_Spec{}
@@ -164,8 +166,8 @@ func (schedule *Redis_PatchSchedule_Spec) ConvertSpecTo(destination genruntime.C
 	return destination.ConvertSpecFrom(schedule)
 }
 
-// Storage version of v1beta20201201.RedisPatchSchedule_STATUS
-type RedisPatchSchedule_STATUS struct {
+// Storage version of v1beta20201201.Redis_PatchSchedule_STATUS
+type Redis_PatchSchedule_STATUS struct {
 	Conditions      []conditions.Condition `json:"conditions,omitempty"`
 	Id              *string                `json:"id,omitempty"`
 	Location        *string                `json:"location,omitempty"`
@@ -175,10 +177,10 @@ type RedisPatchSchedule_STATUS struct {
 	Type            *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisPatchSchedule_STATUS{}
+var _ genruntime.ConvertibleStatus = &Redis_PatchSchedule_STATUS{}
 
-// ConvertStatusFrom populates our RedisPatchSchedule_STATUS from the provided source
-func (schedule *RedisPatchSchedule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Redis_PatchSchedule_STATUS from the provided source
+func (schedule *Redis_PatchSchedule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == schedule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -186,8 +188,8 @@ func (schedule *RedisPatchSchedule_STATUS) ConvertStatusFrom(source genruntime.C
 	return source.ConvertStatusTo(schedule)
 }
 
-// ConvertStatusTo populates the provided destination from our RedisPatchSchedule_STATUS
-func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Redis_PatchSchedule_STATUS
+func (schedule *Redis_PatchSchedule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == schedule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -196,7 +198,6 @@ func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntim
 }
 
 // Storage version of v1beta20201201.ScheduleEntry
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
 type ScheduleEntry struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`

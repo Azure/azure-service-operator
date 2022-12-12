@@ -82,10 +82,11 @@ func NewCodeGeneratorFromConfig(
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []*pipeline.Stage {
 	return []*pipeline.Stage{
-		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
+		// Import Swagger data:
+		pipeline.LoadTypes(idFactory, configuration),
 
-		// Import status info from Swagger:
-		pipeline.AddStatusFromSwagger(idFactory, configuration),
+		// Assemble actual one-of types from roots and leaves
+		pipeline.AssembleOneOfTypes(idFactory),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
@@ -94,16 +95,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// get named with names like Resource_Spec_Spec_Spec:
 		pipeline.FlattenResources(),
 
-		// Copy additional swagger-derived information from status into spec
-		pipeline.AugmentSpecWithStatus(),
-
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
-
-		// De-pluralize resource types
-		pipeline.ImproveResourcePluralization(idFactory),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		pipeline.NameTypesForCRD(idFactory),
@@ -113,7 +108,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration),
 
-		pipeline.RemoveResourceScope(),
+		pipeline.ApplyIsResourceOverrides(configuration),
+		pipeline.FixIDFields(),
+
+		pipeline.AddAPIVersionEnums(),
+		pipeline.RemoveTypeAliases(),
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
@@ -139,18 +138,14 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
 
-		// TODO: These should be removed if/when we move to Swagger as the single source of truth
-		pipeline.RemoveTypeProperty(),
-		pipeline.RemoveAPIVersionProperty(),
-		pipeline.AddAPIVersionEnums(),
-
 		pipeline.VerifyNoErroredTypes(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		pipeline.ReplaceAnyTypeWithJSON(),
 
-		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
@@ -253,7 +248,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 		newState, err := stage.Run(ctx, state)
 		if err != nil {
-			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
+			return errors.Wrapf(err, "failed during pipeline stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
 		}
 
 		// Fail fast if something goes awry

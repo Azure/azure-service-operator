@@ -34,17 +34,17 @@ func (snapshot *Snapshot_Spec_ARM) GetType() string {
 
 // Deprecated version of SnapshotProperties. Use v1beta20200930.SnapshotProperties instead
 type SnapshotProperties_ARM struct {
-	CreationData                 *CreationData_ARM                       `json:"creationData,omitempty"`
-	DiskAccessId                 *string                                 `json:"diskAccessId,omitempty"`
-	DiskSizeGB                   *int                                    `json:"diskSizeGB,omitempty"`
-	DiskState                    *SnapshotProperties_DiskState           `json:"diskState,omitempty"`
-	Encryption                   *Encryption_ARM                         `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM       `json:"encryptionSettingsCollection,omitempty"`
-	HyperVGeneration             *SnapshotProperties_HyperVGeneration    `json:"hyperVGeneration,omitempty"`
-	Incremental                  *bool                                   `json:"incremental,omitempty"`
-	NetworkAccessPolicy          *SnapshotProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
-	OsType                       *SnapshotProperties_OsType              `json:"osType,omitempty"`
-	PurchasePlan                 *PurchasePlan_ARM                       `json:"purchasePlan,omitempty"`
+	CreationData                 *CreationData_ARM                    `json:"creationData,omitempty"`
+	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
+	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
+	DiskState                    *DiskState                           `json:"diskState,omitempty"`
+	Encryption                   *Encryption_ARM                      `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM    `json:"encryptionSettingsCollection,omitempty"`
+	HyperVGeneration             *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                                `json:"incremental,omitempty"`
+	NetworkAccessPolicy          *NetworkAccessPolicy                 `json:"networkAccessPolicy,omitempty"`
+	OsType                       *SnapshotProperties_OsType           `json:"osType,omitempty"`
+	PurchasePlan                 *PurchasePlan_ARM                    `json:"purchasePlan,omitempty"`
 }
 
 // Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead

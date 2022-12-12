@@ -337,18 +337,20 @@ type Snapshot_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreationData                 *CreationData                           `json:"creationData,omitempty"`
-	DiskAccessReference          *genruntime.ResourceReference           `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskSizeGB                   *int                                    `json:"diskSizeGB,omitempty"`
-	DiskState                    *SnapshotProperties_DiskState           `json:"diskState,omitempty"`
-	Encryption                   *Encryption                             `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection           `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation                       `json:"extendedLocation,omitempty"`
-	HyperVGeneration             *SnapshotProperties_HyperVGeneration    `json:"hyperVGeneration,omitempty"`
-	Incremental                  *bool                                   `json:"incremental,omitempty"`
-	Location                     *string                                 `json:"location,omitempty"`
-	NetworkAccessPolicy          *SnapshotProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
-	OsType                       *SnapshotProperties_OsType              `json:"osType,omitempty"`
+	CreationData                 *CreationData                        `json:"creationData,omitempty"`
+	DiskAccessReference          *genruntime.ResourceReference        `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
+	DiskState                    *DiskState                           `json:"diskState,omitempty"`
+	Encryption                   *Encryption                          `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection        `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation                    `json:"extendedLocation,omitempty"`
+	HyperVGeneration             *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                                `json:"incremental,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location            *string                    `json:"location,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy       `json:"networkAccessPolicy,omitempty"`
+	OsType              *SnapshotProperties_OsType `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -738,7 +740,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *alpha
 
 	// DiskState
 	if source.DiskState != nil {
-		diskState := SnapshotProperties_DiskState(*source.DiskState)
+		diskState := DiskState(*source.DiskState)
 		snapshot.DiskState = &diskState
 	} else {
 		snapshot.DiskState = nil
@@ -801,7 +803,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *alpha
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := SnapshotProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
 		snapshot.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		snapshot.NetworkAccessPolicy = nil
@@ -1660,17 +1662,17 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 	return nil
 }
 
-// Deprecated version of SnapshotProperties_DiskState. Use v1beta20200930.SnapshotProperties_DiskState instead
+// Deprecated version of DiskState. Use v1beta20200930.DiskState instead
 // +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
-type SnapshotProperties_DiskState string
+type DiskState string
 
 const (
-	SnapshotProperties_DiskState_ActiveSAS     = SnapshotProperties_DiskState("ActiveSAS")
-	SnapshotProperties_DiskState_ActiveUpload  = SnapshotProperties_DiskState("ActiveUpload")
-	SnapshotProperties_DiskState_Attached      = SnapshotProperties_DiskState("Attached")
-	SnapshotProperties_DiskState_ReadyToUpload = SnapshotProperties_DiskState("ReadyToUpload")
-	SnapshotProperties_DiskState_Reserved      = SnapshotProperties_DiskState("Reserved")
-	SnapshotProperties_DiskState_Unattached    = SnapshotProperties_DiskState("Unattached")
+	DiskState_ActiveSAS     = DiskState("ActiveSAS")
+	DiskState_ActiveUpload  = DiskState("ActiveUpload")
+	DiskState_Attached      = DiskState("Attached")
+	DiskState_ReadyToUpload = DiskState("ReadyToUpload")
+	DiskState_Reserved      = DiskState("Reserved")
+	DiskState_Unattached    = DiskState("Unattached")
 )
 
 // Deprecated version of SnapshotProperties_HyperVGeneration. Use v1beta20200930.SnapshotProperties_HyperVGeneration instead
@@ -1689,17 +1691,6 @@ type SnapshotProperties_HyperVGeneration_STATUS string
 const (
 	SnapshotProperties_HyperVGeneration_STATUS_V1 = SnapshotProperties_HyperVGeneration_STATUS("V1")
 	SnapshotProperties_HyperVGeneration_STATUS_V2 = SnapshotProperties_HyperVGeneration_STATUS("V2")
-)
-
-// Deprecated version of SnapshotProperties_NetworkAccessPolicy. Use v1beta20200930.SnapshotProperties_NetworkAccessPolicy
-// instead
-// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
-type SnapshotProperties_NetworkAccessPolicy string
-
-const (
-	SnapshotProperties_NetworkAccessPolicy_AllowAll     = SnapshotProperties_NetworkAccessPolicy("AllowAll")
-	SnapshotProperties_NetworkAccessPolicy_AllowPrivate = SnapshotProperties_NetworkAccessPolicy("AllowPrivate")
-	SnapshotProperties_NetworkAccessPolicy_DenyAll      = SnapshotProperties_NetworkAccessPolicy("DenyAll")
 )
 
 // Deprecated version of SnapshotProperties_OsType. Use v1beta20200930.SnapshotProperties_OsType instead

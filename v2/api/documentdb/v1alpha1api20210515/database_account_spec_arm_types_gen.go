@@ -47,29 +47,29 @@ const (
 
 // Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead
 type DatabaseAccountCreateUpdateProperties_ARM struct {
-	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_ARM                             `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                      *ApiProperties_ARM                                              `json:"apiProperties,omitempty"`
-	BackupPolicy                       *BackupPolicy_ARM                                               `json:"backupPolicy,omitempty"`
-	Capabilities                       []Capability_ARM                                                `json:"capabilities,omitempty"`
-	ConnectorOffer                     *DatabaseAccountCreateUpdateProperties_ConnectorOffer           `json:"connectorOffer,omitempty"`
-	ConsistencyPolicy                  *ConsistencyPolicy_ARM                                          `json:"consistencyPolicy,omitempty"`
-	Cors                               []CorsPolicy_ARM                                                `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType `json:"databaseAccountOfferType,omitempty"`
-	DefaultIdentity                    *string                                                         `json:"defaultIdentity,omitempty"`
-	DisableKeyBasedMetadataWriteAccess *bool                                                           `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-	EnableAnalyticalStorage            *bool                                                           `json:"enableAnalyticalStorage,omitempty"`
-	EnableAutomaticFailover            *bool                                                           `json:"enableAutomaticFailover,omitempty"`
-	EnableCassandraConnector           *bool                                                           `json:"enableCassandraConnector,omitempty"`
-	EnableFreeTier                     *bool                                                           `json:"enableFreeTier,omitempty"`
-	EnableMultipleWriteLocations       *bool                                                           `json:"enableMultipleWriteLocations,omitempty"`
-	IpRules                            []IpAddressOrRange_ARM                                          `json:"ipRules,omitempty"`
-	IsVirtualNetworkFilterEnabled      *bool                                                           `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	KeyVaultKeyUri                     *string                                                         `json:"keyVaultKeyUri,omitempty"`
-	Locations                          []Location_ARM                                                  `json:"locations,omitempty"`
-	NetworkAclBypass                   *DatabaseAccountCreateUpdateProperties_NetworkAclBypass         `json:"networkAclBypass,omitempty"`
-	NetworkAclBypassResourceIds        []string                                                        `json:"networkAclBypassResourceIds,omitempty"`
-	PublicNetworkAccess                *DatabaseAccountCreateUpdateProperties_PublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
-	VirtualNetworkRules                []VirtualNetworkRule_ARM                                        `json:"virtualNetworkRules,omitempty"`
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_ARM `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiProperties_ARM                  `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicy_ARM                   `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability_ARM                    `json:"capabilities,omitempty"`
+	ConnectorOffer                     *ConnectorOffer                     `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_ARM              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_ARM                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *DatabaseAccountOfferType           `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                             `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                               `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                               `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                               `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                               `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                               `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                               `json:"enableMultipleWriteLocations,omitempty"`
+	IpRules                            []IpAddressOrRange_ARM              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                               `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                             `json:"keyVaultKeyUri,omitempty"`
+	Locations                          []Location_ARM                      `json:"locations,omitempty"`
+	NetworkAclBypass                   *NetworkAclBypass                   `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                            `json:"networkAclBypassResourceIds,omitempty"`
+	PublicNetworkAccess                *PublicNetworkAccess                `json:"publicNetworkAccess,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_ARM            `json:"virtualNetworkRules,omitempty"`
 }
 
 // Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
@@ -79,7 +79,7 @@ type ManagedServiceIdentity_ARM struct {
 
 // Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
 type AnalyticalStorageConfiguration_ARM struct {
-	SchemaType *AnalyticalStorageConfiguration_SchemaType `json:"schemaType,omitempty"`
+	SchemaType *AnalyticalStorageSchemaType `json:"schemaType,omitempty"`
 }
 
 // Deprecated version of ApiProperties. Use v1beta20210515.ApiProperties instead
@@ -89,8 +89,8 @@ type ApiProperties_ARM struct {
 
 // Deprecated version of BackupPolicy. Use v1beta20210515.BackupPolicy instead
 type BackupPolicy_ARM struct {
-	Continuous *ContinuousModeBackupPolicy_ARM `json:"continuousModeBackupPolicy,omitempty"`
-	Periodic   *PeriodicModeBackupPolicy_ARM   `json:"periodicModeBackupPolicy,omitempty"`
+	Continuous *ContinuousModeBackupPolicy_ARM `json:"continuous,omitempty"`
+	Periodic   *PeriodicModeBackupPolicy_ARM   `json:"periodic,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicy_ARM represents a discriminated union (JSON OneOf)

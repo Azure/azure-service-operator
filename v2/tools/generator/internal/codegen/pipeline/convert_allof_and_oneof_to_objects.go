@@ -18,9 +18,9 @@ import (
 )
 
 // This is needed when we are processing a Resource that happens to be nested inside
-// other types and we are going to extract the type of the Resource to merge it
+// other types, and we are going to extract the type of the Resource to merge it
 // with other types (e.g. when processing oneOf/allOf). In these cases we need to
-// know if we are in a spec or status context so we can pick out the correct "side"
+// know if we are in a spec or status context, so we can pick out the correct "side"
 // of the resource.
 type resourceFieldSelector string
 
@@ -31,76 +31,16 @@ var (
 
 // ConvertAllOfAndOneOfToObjects reduces the AllOfType and OneOfType to ObjectType
 func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage {
-	return NewLegacyStage(
+	return NewStage(
 		"allof-anyof-objects",
 		"Convert allOf and oneOf to object types",
-		func(ctx context.Context, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			builder := astmodel.TypeVisitorBuilder{}
+		func(ctx context.Context, state *State) (*State, error) {
 
-			// the context here is whether we are selecting spec or status fields
-			builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
-				synth := synthesizer{
-					specOrStatus: ctx.(resourceFieldSelector),
-					defs:         defs,
-					idFactory:    idFactory,
-				}
+			baseSynthesizer := newSynthesizer(state.Definitions(), idFactory)
 
-				object, err := synth.allOfObject(it)
-				if err != nil {
-					return nil, err
-				}
-
-				// we might end up with something that requires re-visiting
-				// e.g. AllOf can turn into a OneOf that we then need to visit
-				return this.Visit(object, ctx)
-			}
-
-			builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
-				synth := synthesizer{
-					specOrStatus: ctx.(resourceFieldSelector),
-					defs:         defs,
-					idFactory:    idFactory,
-				}
-
-				// we want to preserve names of the inner types
-				// even if they are converted to other (unnamed types)
-				propNames, err := synth.getOneOfPropNames(it)
-				if err != nil {
-					return nil, err
-				}
-
-				// process children first so that allOfs are resolved
-				result, err := astmodel.IdentityVisitOfOneOfType(this, it, ctx)
-				if err != nil {
-					return nil, err
-				}
-
-				if resultOneOf, ok := result.(*astmodel.OneOfType); ok {
-					result = synth.oneOfObject(resultOneOf, propNames)
-				}
-
-				// we might end up with something that requires re-visiting
-				return this.Visit(result, ctx)
-			}
-
-			builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
-				spec, err := this.Visit(it.SpecType(), chooseSpec)
-				if err != nil {
-					return nil, errors.Wrapf(err, "unable to visit resource spec type")
-				}
-
-				status, err := this.Visit(it.StatusType(), chooseStatus)
-				if err != nil {
-					return nil, errors.Wrapf(err, "unable to visit resource status type")
-				}
-
-				return it.WithSpec(spec).WithStatus(status), nil
-			}
-
-			visitor := builder.Build()
-			result := make(astmodel.TypeDefinitionSet)
-
-			for _, def := range defs {
+			newDefs := make(astmodel.TypeDefinitionSet)
+			visitor := createVisitorForSynthesizer(baseSynthesizer)
+			for _, def := range state.Definitions() {
 				resourceUpdater := chooseSpec
 				// TODO: we need flags
 				if def.Name().IsStatus() {
@@ -109,20 +49,97 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 
 				transformed, err := visitor.VisitDefinition(def, resourceUpdater)
 				if err != nil {
-					return nil, errors.Wrapf(err, "error processing type %s", def.Name())
+					return nil, errors.Wrapf(err, "processing type %s", def.Name())
 				}
 
-				result.Add(transformed)
+				newDefs.Add(transformed)
 			}
 
-			return result, nil
+			finalDefs := newDefs.OverlayWith(baseSynthesizer.updatedDefs)
+			return state.WithDefinitions(finalDefs), nil
 		})
 }
 
+func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor {
+	builder := astmodel.TypeVisitorBuilder{}
+
+	// the context here is whether we are selecting spec or status fields
+	builder.VisitAllOfType = func(this *astmodel.TypeVisitor, it *astmodel.AllOfType, ctx interface{}) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+
+		object, err := synth.allOfObject(it)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating object for allOf")
+		}
+
+		// we might end up with something that requires re-visiting
+		// e.g. AllOf can turn into a OneOf that we then need to visit
+		return this.Visit(object, ctx)
+	}
+
+	builder.VisitOneOfType = func(this *astmodel.TypeVisitor, it *astmodel.OneOfType, ctx interface{}) (astmodel.Type, error) {
+		synth := baseSynthesizer.forField(ctx.(resourceFieldSelector))
+
+		t, err := synth.oneOfToObject(it)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating object for oneOf")
+		}
+
+		// we might end up with something that requires re-visiting
+		return this.Visit(t, ctx)
+	}
+
+	builder.VisitResourceType = func(this *astmodel.TypeVisitor, it *astmodel.ResourceType, ctx interface{}) (astmodel.Type, error) {
+		spec, err := this.Visit(it.SpecType(), chooseSpec)
+		if err != nil {
+			return nil, errors.Wrapf(err, "visiting resource spec type")
+		}
+
+		status, err := this.Visit(it.StatusType(), chooseStatus)
+		if err != nil {
+			return nil, errors.Wrapf(err, "visiting resource status type")
+		}
+
+		return it.WithSpec(spec).WithStatus(status), nil
+	}
+
+	builder.VisitErroredType = func(_ *astmodel.TypeVisitor, it *astmodel.ErroredType, ctx interface{}) (astmodel.Type, error) {
+		// Nothing we can do to resolve errors, so just return the type as-is
+		return it, nil
+	}
+
+	visitor := builder.Build()
+	return visitor
+}
+
 type synthesizer struct {
-	specOrStatus resourceFieldSelector
-	idFactory    astmodel.IdentifierFactory
-	defs         astmodel.TypeDefinitionSet
+	specOrStatus    resourceFieldSelector
+	idFactory       astmodel.IdentifierFactory
+	defs            astmodel.TypeDefinitionSet
+	referenceCounts map[astmodel.TypeName]int
+	activeNames     astmodel.TypeNameSet
+	updatedDefs     astmodel.TypeDefinitionSet
+}
+
+// newSynthesizer returns a partially configured synthesizer which lacks a field selector
+func newSynthesizer(
+	defs astmodel.TypeDefinitionSet,
+	idFactory astmodel.IdentifierFactory,
+) synthesizer {
+	return synthesizer{
+		defs:            defs,
+		idFactory:       idFactory,
+		referenceCounts: countTypeReferences(defs),
+		activeNames:     make(astmodel.TypeNameSet),
+		updatedDefs:     make(astmodel.TypeDefinitionSet),
+	}
+}
+
+// forField returns a synthesizer that will use the given field selector
+func (s synthesizer) forField(specOrStatus resourceFieldSelector) synthesizer {
+	result := s
+	result.specOrStatus = specOrStatus
+	return result
 }
 
 type propertyNames struct {
@@ -187,6 +204,8 @@ func simplifyPropNames(names []propertyNames) []propertyNames {
 	for ix := range names {
 		it := names[ix]
 		newName := strings.TrimSuffix(string(it.golang), trim)
+		newName = strings.Trim(newName, "_")
+
 		if newName == "" {
 			return names // trimming common suffix would result in one name being empty, so trim nothing
 		}
@@ -233,34 +252,74 @@ func commonUppercasedSuffix(x, y string) string {
 func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames, error) {
 	switch concreteType := t.(type) {
 	case astmodel.TypeName:
+
+		if def, ok := s.defs[concreteType]; ok {
+			// TypeName represents one of our definitions; if we can get a good name from the content
+			// (say, from a OneOf discriminator), we should use that
+			names, err := s.getOneOfName(def.Type(), propIndex)
+			if err == nil && names.isGoodName {
+				return names, nil
+			}
+		}
+
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(concreteType.Name(), astmodel.NotExported),
-			isGoodName: true, // a typename name is good (everything else is not)
+			json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
+			isGoodName: true, // a typename name is good (little else is)
 		}, nil
+
+	case *astmodel.OneOfType:
+		// If we have a discriminator value, use that as a name
+		if concreteType.HasDiscriminatorValue() {
+			return propertyNames{
+				golang:     s.idFactory.CreatePropertyName(concreteType.DiscriminatorValue(), astmodel.Exported),
+				json:       s.idFactory.CreateStringIdentifier(concreteType.DiscriminatorValue(), astmodel.NotExported),
+				isGoodName: true, // a discriminator value is good (little else is)
+			}, nil
+		}
+
+		// If we have a name, use that
+		if concreteType.Name() != "" {
+			return propertyNames{
+				golang:     s.idFactory.CreatePropertyName(concreteType.Name(), astmodel.Exported),
+				json:       s.idFactory.CreateStringIdentifier(concreteType.Name(), astmodel.NotExported),
+				isGoodName: true, // a oneOf name is good (little else is)
+			}, nil
+		}
+
+		// Otherwise, if we only have one nested type, use that
+		if only, ok := concreteType.Types().Single(); ok {
+			return s.getOneOfName(only, propIndex)
+		}
+
+		// Otherwise return an error
+		return propertyNames{}, errors.Errorf("expected nested oneOf member to have discriminator value, type: %T", t)
+
 	case *astmodel.EnumType:
 		// JSON name is unimportant here because we will implement the JSON marshaller anyway,
 		// but we still need it for controller-gen
 		name := fmt.Sprintf("enum%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
 	case *astmodel.ObjectType:
 		name := fmt.Sprintf("object%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
 	case *astmodel.MapType:
 		name := fmt.Sprintf("map%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
@@ -279,14 +338,15 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 		name := fmt.Sprintf("%s%d", primitiveTypeName, propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+
 	case *astmodel.ResourceType:
 		name := fmt.Sprintf("resource%d", propIndex)
 		return propertyNames{
 			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
-			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			json:       s.idFactory.CreateStringIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
 
@@ -315,18 +375,46 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 
 		return propertyNames{}, errors.New("unable to produce name for AllOf")
 
+	case astmodel.MetaType:
+		// Try unwrapping the meta type and basing the name on what's inside
+		return s.getOneOfName(concreteType.Unwrap(), propIndex)
+
+	case *astmodel.OptionalType:
+		return s.getOneOfName(concreteType.Element(), propIndex)
+
 	default:
 		return propertyNames{}, errors.Errorf("unexpected oneOf member, type: %T", t)
 	}
 }
 
-func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []propertyNames) astmodel.Type {
-	// If there's more than one option, synthesize a type.
-	// Note that this is required because Kubernetes CRDs do not support OneOf the same way
-	// OpenAPI does, see https://github.com/Azure/azure-service-operator/issues/1515
-	var properties []*astmodel.PropertyDefinition
+func (s synthesizer) oneOfToObject(
+	oneOf *astmodel.OneOfType,
+) (astmodel.Type, error) {
+
+	if oneOf.HasDiscriminatorValue() {
+		propertyObjects := oneOf.PropertyObjects()
+		types := make([]astmodel.Type, 0, len(propertyObjects))
+		for _, po := range propertyObjects {
+			types = append(types, po)
+		}
+
+		allOf := astmodel.NewAllOfType(types...)
+		result, err := s.allOfObject(allOf)
+
+		return result, err
+	}
+
+	// Otherwise we have a root to assemble; we need to create a new object type to hold the oneOf
+	// with properties for each of the leaves
+
+	// Preserve names of the inner types
+	propNames, err := s.getOneOfPropNames(oneOf)
+	if err != nil {
+		return nil, err
+	}
 
 	propertyDescription := "Mutually exclusive with all other properties"
+	var properties []*astmodel.PropertyDefinition
 	oneOf.Types().ForEach(func(t astmodel.Type, ix int) {
 		names := propNames[ix]
 		prop := astmodel.NewPropertyDefinition(names.golang, names.json, t)
@@ -340,7 +428,7 @@ func (s synthesizer) oneOfObject(oneOf *astmodel.OneOfType, propNames []property
 	// We need this information later so save it as a flag
 	result := astmodel.OneOfFlag.ApplyTo(objectType)
 
-	return result
+	return result, nil
 }
 
 func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
@@ -360,6 +448,8 @@ func init() {
 	i.AddUnordered(synthesizer.handleAllOfType)
 	i.AddUnordered(synthesizer.handleTypeName)
 	i.AddUnordered(synthesizer.handleOneOf)
+	i.AddUnordered(synthesizer.handleARMIDAndString)
+	i.AddUnordered(synthesizer.handleFlaggedType)
 
 	i.Add(synthesizer.handleOptionalOptional)
 	i.AddUnordered(synthesizer.handleOptional)
@@ -502,35 +592,40 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 	})
 
 	rightProperties.ForEach(func(p *astmodel.PropertyDefinition) {
-		if existingProp, ok := mergedProps[p.PropertyName()]; ok {
-			newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
-			if err != nil {
-				klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
-				return // continue
-				// return nil, err
-			}
-
-			// TODO: need to handle merging requiredness and tags and...
-			newProp := existingProp.WithType(newType)
-			if len(p.Description()) > len(newProp.Description()) {
-				// When we merge properties, both of them may have comments, and we need to deterministically choose one
-				// of them to include on the final property. Our simple heuristic is to choose the longer comment, as
-				// that's likely to be more specific.
-				// TODO: Is there a better heuristic? See https://github.com/Azure/azure-service-operator/issues/1768
-				newProp = newProp.WithDescription(p.Description())
-			}
-
-			mergedProps[p.PropertyName()] = newProp
-		} else {
+		existingProp, ok := mergedProps[p.PropertyName()]
+		if !ok {
+			// Property doesn't already exist, so just add it
 			mergedProps[p.PropertyName()] = p
+			return // continue
 		}
+
+		newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
+		if err != nil {
+			klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
+			return // continue
+		}
+
+		// TODO: need to handle merging requiredness and tags and...
+		newProp := existingProp.WithType(newType)
+		if len(p.Description()) > len(newProp.Description()) {
+			// When we merge properties, both of them may have comments, and we need to deterministically choose one
+			// of them to include on the final property. Our simple heuristic is to choose the longer comment, as
+			// that's likely to be more specific.
+			// TODO: Is there a better heuristic? See https://github.com/Azure/azure-service-operator/issues/1768
+			newProp = newProp.WithDescription(p.Description())
+		}
+
+		mergedProps[p.PropertyName()] = newProp
 	})
 
 	// flatten
 	properties := maps.Values(mergedProps)
 
 	// TODO: need to handle merging other bits of objects
-	return leftObj.WithProperties(properties...), nil
+	isResource := leftObj.IsResource() || rightObj.IsResource()
+
+	resources := astmodel.SetUnion(leftObj.Resources(), rightObj.Resources())
+	return leftObj.WithProperties(properties...).WithIsResource(isResource).WithResources(resources), nil
 }
 
 func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astmodel.EnumType) (astmodel.Type, error) {
@@ -538,9 +633,9 @@ func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astm
 		return nil, errors.Errorf("cannot merge enums with differing base types")
 	}
 
-	var inBoth []astmodel.EnumValue
-
-	for _, option := range leftEnum.Options() {
+	leftOptions := leftEnum.Options()
+	inBoth := make([]astmodel.EnumValue, 0, len(leftOptions))
+	for _, option := range leftOptions {
 		for _, otherOption := range rightEnum.Options() {
 			if option == otherOption {
 				inBoth = append(inBoth, option)
@@ -579,58 +674,125 @@ func (s synthesizer) handleAllOfType(leftAllOf *astmodel.AllOfType, right astmod
 
 // if combining a type with a oneOf that contains that type, the result is that type
 func (s synthesizer) handleOneOf(leftOneOf *astmodel.OneOfType, right astmodel.Type) (astmodel.Type, error) {
-	// if there is an equal case, use that:
-	{
-		var result astmodel.Type
-		leftOneOf.Types().ForEach(func(lType astmodel.Type, _ int) {
-			if astmodel.TypeEquals(lType, right) {
-				result = lType
-			}
-		})
-
-		if result != nil {
-			return result, nil
-		}
+	// if there is an equal case, use that
+	if leftOneOf.Types().Contains(right, astmodel.EqualityOverrides{}) {
+		return right, nil
 	}
 
 	// otherwise intersect with each type:
-	var newTypes []astmodel.Type
+	newTypes := astmodel.MakeTypeSet()
 	err := leftOneOf.Types().ForEachError(func(lType astmodel.Type, _ int) error {
 		newType, err := s.intersectTypes(lType, right)
 		if err != nil {
 			return err
 		}
 
-		newTypes = append(newTypes, newType)
+		newTypes.Add(newType)
 		return nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "intersecting oneOf with %s", astmodel.DebugDescription(right))
 	}
 
-	return astmodel.BuildOneOfType(newTypes...), nil
+	if only, ok := newTypes.Single(); ok {
+		return only, nil
+	}
+
+	// Still have a OneOf, need to reprocess it
+	oneOf := leftOneOf.WithTypes(newTypes.AsSlice())
+	return s.oneOfToObject(oneOf)
 }
 
 func (s synthesizer) handleTypeName(leftName astmodel.TypeName, right astmodel.Type) (astmodel.Type, error) {
-	if found, ok := s.defs[leftName]; !ok {
+	found, ok := s.defs[leftName]
+	if !ok {
 		return nil, errors.Errorf("couldn't find type %s", leftName)
-	} else {
-		result, err := s.intersectTypes(found.Type(), right)
-		if err != nil {
-			return nil, err
-		}
+	}
 
-		// TODO: can we somehow process these pointed-to types first,
-		// so that their innards are resolved already and we can retain
-		// the names?
+	if s.activeNames.Contains(leftName) {
+		// Avoid recursion, just keep the existing TypeName
+		return leftName, nil
+	}
 
-		if astmodel.TypeEquals(result, found.Type()) {
-			// if we got back the same thing we are referencing, preserve the reference
-			return leftName, nil
-		}
+	// Track which TypeNames we're processing, so we can detect recursion
+	s.activeNames.Add(leftName)
+	defer func() { s.activeNames.Remove(leftName) }()
 
+	result, err := s.intersectTypes(found.Type(), right)
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"intersecting %s with %s", leftName, astmodel.DebugDescription(right))
+	}
+
+	// TODO: can we somehow process these pointed-to types first,
+	// so that their innards are resolved already and we can retain
+	// the names?
+
+	// If no change to the type, keep the typename
+	if astmodel.TypeEquals(result, found.Type()) ||
+		astmodel.TypeEquals(result, leftName) {
+		// if we got back the same thing we already have, preserve the reference
+		return leftName, nil
+	}
+
+	//
+	// if this is the only reference to a type we've merged, we can safely redefine it
+	// preserving the name of the type instead of ending up with an anonymous type that
+	// needs a name synthesized for it later on.
+	//
+	// If there are multiple references to a type we can't do this because we might end
+	// up with a different final shape each time.
+	//
+	var refs int
+	if refs, ok = s.referenceCounts[leftName]; !ok || refs != 1 {
 		return result, nil
 	}
+
+	// Check to see if we've already redefined this type even though there is only one references
+	//// (this can happen with nesting of typenames and allOfs because we process things interatively pair-by-pair).
+	// If we have, we need to merge our new changes with the changes already made.
+	redefined, ok := s.updatedDefs[leftName]
+	for ok {
+		// Grab the existing redefinition and merge it with our current result
+		merged, err := s.intersectTypes(result, redefined.Type())
+		if err != nil {
+			return nil, errors.Wrapf(err, "merging %s with %s", result, redefined.Type())
+		}
+
+		// We use the intermediate variable 'merged' to allow inspection/comparison while debugging.
+		// ProTip: keep this!
+		result = merged
+
+		//
+		// Here's where it gets hairy.
+		//
+		// The s.intersectTypes() call above may have redefined the definition we're currently processing as a side
+		// effect, due to the recursive way it processes merging `result` and `redefined.Type()`.
+		//
+		// If that's the case, and if the (new) definition is different, we have a problem.
+		// If we blindly use `result`, we are throwing away that redefinition.
+		// If we throw away `result`, we are throwing away the work we just did.
+		//
+		// To avoid throwing away work, we check to see if the definitions underlying type was changed, and if so we
+		// need to merge again by looping.
+		// Each time we loop, we eliminate one reason to loop, so I think this is guaranteed to terminate.
+		//
+
+		check := s.updatedDefs[leftName]
+		if astmodel.TypeEquals(check.Type(), redefined.Type()) {
+			// No change to the underlying type, we're done
+			break
+		}
+
+		// We need to loop, merging in new changes
+		redefined = check
+	}
+
+	// Overwrite the existing definition with the new one
+	s.updatedDefs[leftName] = found.WithType(result)
+
+	return leftName, nil
 }
 
 // any type always disappears when intersected with another type
@@ -651,7 +813,7 @@ func (synthesizer) handleEqualTypes(left astmodel.Type, right astmodel.Type) (as
 	return nil, nil
 }
 
-// a validated and non-validated version of the same type become the valiated version
+// a validated and non-validated version of the same type become the validated version
 func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedType, right astmodel.Type) (astmodel.Type, error) {
 	if astmodel.TypeEquals(validated.ElementType(), right) {
 		return validated, nil
@@ -660,6 +822,15 @@ func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedT
 	// validated(optional(T)) combined with a non-optional T becomes validated(T)
 	if astmodel.TypeEquals(validated.ElementType(), astmodel.NewOptionalType(right)) {
 		return validated.WithElement(right), nil
+	}
+
+	return nil, nil
+}
+
+// An ARM ID and a string become the ARM ID
+func (synthesizer) handleARMIDAndString(left astmodel.Type, right astmodel.Type) (astmodel.Type, error) {
+	if astmodel.TypeEquals(left, astmodel.ARMIDType) && astmodel.TypeEquals(right, astmodel.StringType) {
+		return astmodel.ARMIDType, nil
 	}
 
 	return nil, nil
@@ -686,16 +857,78 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 }
 
 // makes an ObjectType for an AllOf type
+// We're all about synthesizing a new type, so we resolve TypeNames here
 func (s synthesizer) allOfObject(allOf *astmodel.AllOfType) (astmodel.Type, error) {
-	var intersection astmodel.Type = astmodel.AnyType
-	err := allOf.Types().ForEachError(func(t astmodel.Type, _ int) error {
-		var err error
-		intersection, err = s.intersectTypes(intersection, t)
-		return err
+	types := allOf.Types()
+	toMerge := make([]astmodel.Type, types.Len())
+	types.ForEach(func(t astmodel.Type, i int) {
+		toMerge[i] = t
 	})
+
+	return s.allOfSlice(toMerge)
+}
+
+func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
+	toMerge := make([]astmodel.Type, len(types))
+	foundName := false
+	for i, t := range types {
+		// if we find a type name, resolve it to the underlying type
+		if tn, ok := astmodel.AsTypeName(t); ok {
+			if def, ok := s.defs[tn]; ok {
+				toMerge[i] = def.Type()
+				foundName = true
+				continue
+			}
+		}
+
+		toMerge[i] = t
+	}
+
+	if foundName {
+		// Found a type name, recursive call in case there are more
+		return s.allOfSlice(toMerge)
+	}
+
+	var result astmodel.Type = astmodel.AnyType
+	for _, t := range toMerge {
+		var err error
+		result, err = s.intersectTypes(result, t)
+		if err != nil {
+			return nil, errors.Wrapf(err, "merging %s with %s", result, t)
+		}
+	}
+
+	return result, nil
+}
+
+func (s synthesizer) handleFlaggedType(left *astmodel.FlaggedType, right astmodel.Type) (astmodel.Type, error) {
+	// Intersect the content and retain the flags
+	internal, err := s.intersectTypes(left.Element(), right)
 	if err != nil {
 		return nil, err
 	}
 
-	return intersection, nil
+	return left.WithElement(internal), nil
+}
+
+func countTypeReferences(defs astmodel.TypeDefinitionSet) map[astmodel.TypeName]int {
+	referenceCounts := make(map[astmodel.TypeName]int)
+
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitTypeName: func(tn astmodel.TypeName) astmodel.Type {
+			referenceCounts[tn]++
+			return tn
+		},
+	}.Build()
+
+	for _, def := range defs {
+		// We visit the type, not the definition, so we don't count the definition of each type as a reference
+		_, err := visitor.Visit(def.Type(), nil)
+		if err != nil {
+			// Never expected to error
+			panic(err)
+		}
+	}
+
+	return referenceCounts
 }

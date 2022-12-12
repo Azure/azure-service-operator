@@ -704,7 +704,7 @@ func AddIndependentPropertyGeneratorsForImageDataDisk(gens map[string]gopter.Gen
 
 // AddRelatedPropertyGeneratorsForImageDataDisk is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForImageDataDisk(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParametersGenerator())
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResourceGenerator())
 	gens["ManagedDisk"] = gen.PtrOf(SubResourceGenerator())
 	gens["Snapshot"] = gen.PtrOf(SubResourceGenerator())
 }
@@ -866,7 +866,7 @@ func AddIndependentPropertyGeneratorsForImageOSDisk(gens map[string]gopter.Gen) 
 
 // AddRelatedPropertyGeneratorsForImageOSDisk is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForImageOSDisk(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParametersGenerator())
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResourceGenerator())
 	gens["ManagedDisk"] = gen.PtrOf(SubResourceGenerator())
 	gens["Snapshot"] = gen.PtrOf(SubResourceGenerator())
 }
@@ -950,59 +950,4 @@ func AddRelatedPropertyGeneratorsForImageOSDisk_STATUS(gens map[string]gopter.Ge
 	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["ManagedDisk"] = gen.PtrOf(SubResource_STATUSGenerator())
 	gens["Snapshot"] = gen.PtrOf(SubResource_STATUSGenerator())
-}
-
-func Test_DiskEncryptionSetParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of DiskEncryptionSetParameters via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDiskEncryptionSetParameters, DiskEncryptionSetParametersGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDiskEncryptionSetParameters runs a test to see if a specific instance of DiskEncryptionSetParameters round trips to JSON and back losslessly
-func RunJSONSerializationTestForDiskEncryptionSetParameters(subject DiskEncryptionSetParameters) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual DiskEncryptionSetParameters
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of DiskEncryptionSetParameters instances for property testing - lazily instantiated by
-// DiskEncryptionSetParametersGenerator()
-var diskEncryptionSetParametersGenerator gopter.Gen
-
-// DiskEncryptionSetParametersGenerator returns a generator of DiskEncryptionSetParameters instances for property testing.
-func DiskEncryptionSetParametersGenerator() gopter.Gen {
-	if diskEncryptionSetParametersGenerator != nil {
-		return diskEncryptionSetParametersGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	diskEncryptionSetParametersGenerator = gen.Struct(reflect.TypeOf(DiskEncryptionSetParameters{}), generators)
-
-	return diskEncryptionSetParametersGenerator
 }

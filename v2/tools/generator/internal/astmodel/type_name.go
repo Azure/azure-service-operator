@@ -21,6 +21,14 @@ type TypeName struct {
 	name             string
 }
 
+// TODO: this is done to easily rename status types without conflicts,
+// we intend to fix this in a different way in the future
+var StatusNameSuffix = "_STATUS"
+
+func (tn TypeName) RepresentsStatusType() bool {
+	return strings.Contains(tn.name, StatusNameSuffix)
+}
+
 var EmptyTypeName TypeName = TypeName{}
 
 func SortTypeName(left, right TypeName) bool {
@@ -162,19 +170,24 @@ var typeNameSingularToPluralOverrides map[string]string
 
 // Singular returns a TypeName with the name singularized.
 func (typeName TypeName) Singular(idFactory IdentifierFactory) TypeName {
+	name := Singularize(typeName.Name(), idFactory)
+
+	return typeName.WithName(name)
+}
+
+func Singularize(name string, idFactory IdentifierFactory) string {
 	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
-	name := typeName.name
 	for plural, single := range typeNamePluralToSingularOverrides {
 		if strings.HasSuffix(name, plural) {
-			n := name[0:len(name)-len(plural)] + single
-			return MakeTypeName(typeName.PackageReference, n)
+			return name[0:len(name)-len(plural)] + single
 		}
 	}
 
+	singular := flect.Singularize(name)
+
 	// Flect isn't consistent about what case it returns. If it's just removing an 's', it will maintain
 	// case, but if it's performing a more complicated transformation the result will be all lower case.
-	singular := idFactory.CreateIdentifier(flect.Singularize(typeName.name), Exported)
-	return MakeTypeName(typeName.PackageReference, singular)
+	return idFactory.CreateIdentifier(singular, Exported)
 }
 
 // Plural returns a TypeName with the name pluralized.

@@ -6,17 +6,11 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworks_VirtualNetworkPeering_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network peering.
 	Properties *VirtualNetworkPeeringPropertiesFormat_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworks_VirtualNetworkPeering_Spec_ARM{}
@@ -36,7 +30,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetType() string 
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkPeeringPropertiesFormat
 type VirtualNetworkPeeringPropertiesFormat_ARM struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
 	// allowed/disallowed in remote virtual network.
@@ -48,6 +41,9 @@ type VirtualNetworkPeeringPropertiesFormat_ARM struct {
 	// AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
 	// virtual network space.
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
+
+	// DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.
+	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`

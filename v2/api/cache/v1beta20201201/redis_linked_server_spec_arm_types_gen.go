@@ -6,17 +6,10 @@ package v1beta20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Redis_LinkedServer_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the linked server that is being added to the Redis cache.
 	Name string `json:"name,omitempty"`
 
-	// Properties: Create properties for a linked server
+	// Properties: Properties required to create a linked server.
 	Properties *RedisLinkedServerCreateProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Redis_LinkedServer_Spec_ARM{}
@@ -36,7 +29,6 @@ func (server *Redis_LinkedServer_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/RedisLinkedServerCreateProperties
 type RedisLinkedServerCreateProperties_ARM struct {
 	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 

@@ -121,7 +121,12 @@ func AddKubernetesResourceInterfaceImpls(
 
 // note that this can, as a side-effect, update the resource type
 // it is a bit ugly!
-func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.ObjectType, t astmodel.Type, definitions astmodel.TypeDefinitionSet) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
+func getAzureNameFunctionsForType(
+	r **astmodel.ResourceType,
+	spec *astmodel.ObjectType,
+	t astmodel.Type,
+	definitions astmodel.TypeDefinitionSet) (functions.ObjectFunctionHandler, functions.ObjectFunctionHandler, error) {
+
 	if opt, ok := astmodel.AsOptionalType(t); ok {
 		t = opt.BaseType()
 	}
