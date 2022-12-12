@@ -41,7 +41,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
-	disabled := mysql.Backup_GeoRedundantBackup_Disabled
+	disabled := mysql.EnableStatusEnum_Disabled
 	flexibleServer.Spec.Backup = &mysql.Backup{
 		BackupRetentionDays: to.IntPtr(5),
 		GeoRedundantBackup:  &disabled,
@@ -78,7 +78,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
 	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
 	location := "westcentralus"
-	version := mysql.ServerProperties_Version_8021
+	version := mysql.ServerVersion_8021
 	tier := mysql.Sku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{

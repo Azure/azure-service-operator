@@ -78,7 +78,7 @@ type RegistryProperties_STATUS_ARM struct {
 	Policies *Policies_STATUS_ARM `json:"policies,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections for a container registry.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
 	ProvisioningState *RegistryProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -160,12 +160,9 @@ type Policies_STATUS_ARM struct {
 	TrustPolicy *TrustPolicy_STATUS_ARM `json:"trustPolicy,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 type Sku_Name_STATUS string

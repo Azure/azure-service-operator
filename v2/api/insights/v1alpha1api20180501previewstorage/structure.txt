@@ -77,7 +77,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previ
         │   └── RequestUrl: *string
         ├── RetryEnabled: *bool
         ├── SyntheticMonitorId: *string
-        ├── Tags: *v1.JSON
+        ├── Tags: map[string]string
         ├── Timeout: *int
         ├── Type: *string
         └── ValidationRules: *Object (6 properties)

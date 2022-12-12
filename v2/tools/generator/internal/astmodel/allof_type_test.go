@@ -46,10 +46,11 @@ func TestAllOfOneOfBecomesOneOfAllOf(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	oneOf := BuildOneOfType(StringType, FloatType)
+	oneOf := NewOneOfType("TestOneOf", StringType, FloatType)
 	result := BuildAllOfType(BoolType, IntType, oneOf)
 
-	expected := BuildOneOfType(
+	expected := NewOneOfType(
+		"TestOneOf",
 		BuildAllOfType(BoolType, IntType, StringType),
 		BuildAllOfType(BoolType, IntType, FloatType),
 	)

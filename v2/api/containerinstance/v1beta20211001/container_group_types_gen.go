@@ -25,7 +25,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/resourceDefinitions/containerGroups
+// Generator information:
+// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
 type ContainerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -311,7 +313,9 @@ func (group *ContainerGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/resourceDefinitions/containerGroups
+// Generator information:
+// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
 type ContainerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -330,30 +334,30 @@ type ContainerGroup_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Containers: The containers within the container group.
-	Containers []ContainerGroup_Properties_Containers_Spec `json:"containers,omitempty"`
+	Containers []Container `json:"containers,omitempty"`
 
-	// Diagnostics: Container group diagnostic information.
-	Diagnostics *ContainerGroup_Properties_Diagnostics_Spec `json:"diagnostics,omitempty"`
+	// Diagnostics: The diagnostic information for a container group.
+	Diagnostics *ContainerGroupDiagnostics `json:"diagnostics,omitempty"`
 
-	// DnsConfig: DNS configuration for the container group.
+	// DnsConfig: The DNS config information for a container group.
 	DnsConfig *DnsConfiguration `json:"dnsConfig,omitempty"`
 
-	// EncryptionProperties: The container group encryption properties.
+	// EncryptionProperties: The encryption properties for a container group.
 	EncryptionProperties *EncryptionProperties `json:"encryptionProperties,omitempty"`
 
-	// Identity: Identity for the container group.
+	// Identity: The identity of the container group, if configured.
 	Identity *ContainerGroupIdentity `json:"identity,omitempty"`
 
 	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ContainerGroup_Properties_ImageRegistryCredentials_Spec `json:"imageRegistryCredentials,omitempty"`
+	ImageRegistryCredentials []ImageRegistryCredential `json:"imageRegistryCredentials,omitempty"`
 
 	// InitContainers: The init containers for a container group.
-	InitContainers []ContainerGroup_Properties_InitContainers_Spec `json:"initContainers,omitempty"`
+	InitContainers []InitContainerDefinition `json:"initContainers,omitempty"`
 
-	// IpAddress: IP address for the container group.
+	// IpAddress: The IP address type of the container group.
 	IpAddress *IpAddress `json:"ipAddress,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: The resource location.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -370,16 +374,15 @@ type ContainerGroup_Spec struct {
 	// - `Always` Always restart
 	// - `OnFailure` Restart on failure
 	// - `Never` Never restart
-	// .
 	RestartPolicy *ContainerGroup_Properties_RestartPolicy_Spec `json:"restartPolicy,omitempty"`
 
 	// Sku: The SKU for a container group.
-	Sku *ContainerGroup_Properties_Sku_Spec `json:"sku,omitempty"`
+	Sku *ContainerGroupSku `json:"sku,omitempty"`
 
 	// SubnetIds: The subnet resource IDs for a container group.
 	SubnetIds []ContainerGroupSubnetId `json:"subnetIds,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: The resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Volumes: The list of volumes that can be mounted by containers in this container group.
@@ -437,14 +440,14 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Containers = append(result.Properties.Containers, *item_ARM.(*ContainerGroup_Properties_Containers_Spec_ARM))
+		result.Properties.Containers = append(result.Properties.Containers, *item_ARM.(*Container_ARM))
 	}
 	if group.Diagnostics != nil {
 		diagnostics_ARM, err := (*group.Diagnostics).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		diagnostics := *diagnostics_ARM.(*ContainerGroup_Properties_Diagnostics_Spec_ARM)
+		diagnostics := *diagnostics_ARM.(*ContainerGroupDiagnostics_ARM)
 		result.Properties.Diagnostics = &diagnostics
 	}
 	if group.DnsConfig != nil {
@@ -468,14 +471,14 @@ func (group *ContainerGroup_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ImageRegistryCredentials = append(result.Properties.ImageRegistryCredentials, *item_ARM.(*ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM))
+		result.Properties.ImageRegistryCredentials = append(result.Properties.ImageRegistryCredentials, *item_ARM.(*ImageRegistryCredential_ARM))
 	}
 	for _, item := range group.InitContainers {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InitContainers = append(result.Properties.InitContainers, *item_ARM.(*ContainerGroup_Properties_InitContainers_Spec_ARM))
+		result.Properties.InitContainers = append(result.Properties.InitContainers, *item_ARM.(*InitContainerDefinition_ARM))
 	}
 	if group.IpAddress != nil {
 		ipAddress_ARM, err := (*group.IpAddress).ConvertToARM(resolved)
@@ -546,7 +549,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Containers {
-			var item1 ContainerGroup_Properties_Containers_Spec
+			var item1 Container
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -559,7 +562,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Diagnostics != nil {
-			var diagnostics1 ContainerGroup_Properties_Diagnostics_Spec
+			var diagnostics1 ContainerGroupDiagnostics
 			err := diagnostics1.PopulateFromARM(owner, *typedInput.Properties.Diagnostics)
 			if err != nil {
 				return err
@@ -612,7 +615,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ImageRegistryCredentials {
-			var item1 ContainerGroup_Properties_ImageRegistryCredentials_Spec
+			var item1 ImageRegistryCredential
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -625,7 +628,7 @@ func (group *ContainerGroup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InitContainers {
-			var item1 ContainerGroup_Properties_InitContainers_Spec
+			var item1 InitContainerDefinition
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -785,14 +788,14 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// Containers
 	if source.Containers != nil {
-		containerList := make([]ContainerGroup_Properties_Containers_Spec, len(source.Containers))
+		containerList := make([]Container, len(source.Containers))
 		for containerIndex, containerItem := range source.Containers {
 			// Shadow the loop variable to avoid aliasing
 			containerItem := containerItem
-			var container ContainerGroup_Properties_Containers_Spec
-			err := container.AssignProperties_From_ContainerGroup_Properties_Containers_Spec(&containerItem)
+			var container Container
+			err := container.AssignProperties_From_Container(&containerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_Containers_Spec() to populate field Containers")
+				return errors.Wrap(err, "calling AssignProperties_From_Container() to populate field Containers")
 			}
 			containerList[containerIndex] = container
 		}
@@ -803,10 +806,10 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// Diagnostics
 	if source.Diagnostics != nil {
-		var diagnostic ContainerGroup_Properties_Diagnostics_Spec
-		err := diagnostic.AssignProperties_From_ContainerGroup_Properties_Diagnostics_Spec(source.Diagnostics)
+		var diagnostic ContainerGroupDiagnostics
+		err := diagnostic.AssignProperties_From_ContainerGroupDiagnostics(source.Diagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_Diagnostics_Spec() to populate field Diagnostics")
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupDiagnostics() to populate field Diagnostics")
 		}
 		group.Diagnostics = &diagnostic
 	} else {
@@ -851,14 +854,14 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// ImageRegistryCredentials
 	if source.ImageRegistryCredentials != nil {
-		imageRegistryCredentialList := make([]ContainerGroup_Properties_ImageRegistryCredentials_Spec, len(source.ImageRegistryCredentials))
+		imageRegistryCredentialList := make([]ImageRegistryCredential, len(source.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
-			var imageRegistryCredential ContainerGroup_Properties_ImageRegistryCredentials_Spec
-			err := imageRegistryCredential.AssignProperties_From_ContainerGroup_Properties_ImageRegistryCredentials_Spec(&imageRegistryCredentialItem)
+			var imageRegistryCredential ImageRegistryCredential
+			err := imageRegistryCredential.AssignProperties_From_ImageRegistryCredential(&imageRegistryCredentialItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_ImageRegistryCredentials_Spec() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignProperties_From_ImageRegistryCredential() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -869,14 +872,14 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// InitContainers
 	if source.InitContainers != nil {
-		initContainerList := make([]ContainerGroup_Properties_InitContainers_Spec, len(source.InitContainers))
+		initContainerList := make([]InitContainerDefinition, len(source.InitContainers))
 		for initContainerIndex, initContainerItem := range source.InitContainers {
 			// Shadow the loop variable to avoid aliasing
 			initContainerItem := initContainerItem
-			var initContainer ContainerGroup_Properties_InitContainers_Spec
-			err := initContainer.AssignProperties_From_ContainerGroup_Properties_InitContainers_Spec(&initContainerItem)
+			var initContainer InitContainerDefinition
+			err := initContainer.AssignProperties_From_InitContainerDefinition(&initContainerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_InitContainers_Spec() to populate field InitContainers")
+				return errors.Wrap(err, "calling AssignProperties_From_InitContainerDefinition() to populate field InitContainers")
 			}
 			initContainerList[initContainerIndex] = initContainer
 		}
@@ -926,7 +929,7 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// Sku
 	if source.Sku != nil {
-		sku := ContainerGroup_Properties_Sku_Spec(*source.Sku)
+		sku := ContainerGroupSku(*source.Sku)
 		group.Sku = &sku
 	} else {
 		group.Sku = nil
@@ -988,14 +991,14 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 
 	// Containers
 	if group.Containers != nil {
-		containerList := make([]v20211001s.ContainerGroup_Properties_Containers_Spec, len(group.Containers))
+		containerList := make([]v20211001s.Container, len(group.Containers))
 		for containerIndex, containerItem := range group.Containers {
 			// Shadow the loop variable to avoid aliasing
 			containerItem := containerItem
-			var container v20211001s.ContainerGroup_Properties_Containers_Spec
-			err := containerItem.AssignProperties_To_ContainerGroup_Properties_Containers_Spec(&container)
+			var container v20211001s.Container
+			err := containerItem.AssignProperties_To_Container(&container)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_Containers_Spec() to populate field Containers")
+				return errors.Wrap(err, "calling AssignProperties_To_Container() to populate field Containers")
 			}
 			containerList[containerIndex] = container
 		}
@@ -1006,10 +1009,10 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 
 	// Diagnostics
 	if group.Diagnostics != nil {
-		var diagnostic v20211001s.ContainerGroup_Properties_Diagnostics_Spec
-		err := group.Diagnostics.AssignProperties_To_ContainerGroup_Properties_Diagnostics_Spec(&diagnostic)
+		var diagnostic v20211001s.ContainerGroupDiagnostics
+		err := group.Diagnostics.AssignProperties_To_ContainerGroupDiagnostics(&diagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_Diagnostics_Spec() to populate field Diagnostics")
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupDiagnostics() to populate field Diagnostics")
 		}
 		destination.Diagnostics = &diagnostic
 	} else {
@@ -1054,14 +1057,14 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 
 	// ImageRegistryCredentials
 	if group.ImageRegistryCredentials != nil {
-		imageRegistryCredentialList := make([]v20211001s.ContainerGroup_Properties_ImageRegistryCredentials_Spec, len(group.ImageRegistryCredentials))
+		imageRegistryCredentialList := make([]v20211001s.ImageRegistryCredential, len(group.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range group.ImageRegistryCredentials {
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
-			var imageRegistryCredential v20211001s.ContainerGroup_Properties_ImageRegistryCredentials_Spec
-			err := imageRegistryCredentialItem.AssignProperties_To_ContainerGroup_Properties_ImageRegistryCredentials_Spec(&imageRegistryCredential)
+			var imageRegistryCredential v20211001s.ImageRegistryCredential
+			err := imageRegistryCredentialItem.AssignProperties_To_ImageRegistryCredential(&imageRegistryCredential)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_ImageRegistryCredentials_Spec() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignProperties_To_ImageRegistryCredential() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -1072,14 +1075,14 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 
 	// InitContainers
 	if group.InitContainers != nil {
-		initContainerList := make([]v20211001s.ContainerGroup_Properties_InitContainers_Spec, len(group.InitContainers))
+		initContainerList := make([]v20211001s.InitContainerDefinition, len(group.InitContainers))
 		for initContainerIndex, initContainerItem := range group.InitContainers {
 			// Shadow the loop variable to avoid aliasing
 			initContainerItem := initContainerItem
-			var initContainer v20211001s.ContainerGroup_Properties_InitContainers_Spec
-			err := initContainerItem.AssignProperties_To_ContainerGroup_Properties_InitContainers_Spec(&initContainer)
+			var initContainer v20211001s.InitContainerDefinition
+			err := initContainerItem.AssignProperties_To_InitContainerDefinition(&initContainer)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_InitContainers_Spec() to populate field InitContainers")
+				return errors.Wrap(err, "calling AssignProperties_To_InitContainerDefinition() to populate field InitContainers")
 			}
 			initContainerList[initContainerIndex] = initContainer
 		}
@@ -2002,6 +2005,460 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	return nil
 }
 
+type Container struct {
+	// Command: The commands to execute within the container instance in exec form.
+	Command []string `json:"command,omitempty"`
+
+	// EnvironmentVariables: The environment variables to set in the container instance.
+	EnvironmentVariables []EnvironmentVariable `json:"environmentVariables,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Image: The name of the image used to create the container instance.
+	Image *string `json:"image,omitempty"`
+
+	// LivenessProbe: The liveness probe.
+	LivenessProbe *ContainerProbe `json:"livenessProbe,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Name: The user-provided name of the container instance.
+	Name *string `json:"name,omitempty"`
+
+	// Ports: The exposed ports on the container instance.
+	Ports []ContainerPort `json:"ports,omitempty"`
+
+	// ReadinessProbe: The readiness probe.
+	ReadinessProbe *ContainerProbe `json:"readinessProbe,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Resources: The resource requirements of the container instance.
+	Resources *ResourceRequirements `json:"resources,omitempty"`
+
+	// VolumeMounts: The volume mounts available to the container instance.
+	VolumeMounts []VolumeMount `json:"volumeMounts,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Container{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (container *Container) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if container == nil {
+		return nil, nil
+	}
+	result := &Container_ARM{}
+
+	// Set property ‘Name’:
+	if container.Name != nil {
+		name := *container.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if container.Command != nil ||
+		container.EnvironmentVariables != nil ||
+		container.Image != nil ||
+		container.LivenessProbe != nil ||
+		container.Ports != nil ||
+		container.ReadinessProbe != nil ||
+		container.Resources != nil ||
+		container.VolumeMounts != nil {
+		result.Properties = &ContainerProperties_ARM{}
+	}
+	for _, item := range container.Command {
+		result.Properties.Command = append(result.Properties.Command, item)
+	}
+	for _, item := range container.EnvironmentVariables {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.EnvironmentVariables = append(result.Properties.EnvironmentVariables, *item_ARM.(*EnvironmentVariable_ARM))
+	}
+	if container.Image != nil {
+		image := *container.Image
+		result.Properties.Image = &image
+	}
+	if container.LivenessProbe != nil {
+		livenessProbe_ARM, err := (*container.LivenessProbe).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		livenessProbe := *livenessProbe_ARM.(*ContainerProbe_ARM)
+		result.Properties.LivenessProbe = &livenessProbe
+	}
+	for _, item := range container.Ports {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.Ports = append(result.Properties.Ports, *item_ARM.(*ContainerPort_ARM))
+	}
+	if container.ReadinessProbe != nil {
+		readinessProbe_ARM, err := (*container.ReadinessProbe).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		readinessProbe := *readinessProbe_ARM.(*ContainerProbe_ARM)
+		result.Properties.ReadinessProbe = &readinessProbe
+	}
+	if container.Resources != nil {
+		resources_ARM, err := (*container.Resources).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		resources := *resources_ARM.(*ResourceRequirements_ARM)
+		result.Properties.Resources = &resources
+	}
+	for _, item := range container.VolumeMounts {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.VolumeMounts = append(result.Properties.VolumeMounts, *item_ARM.(*VolumeMount_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (container *Container) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Container_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (container *Container) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Container_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Container_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Command’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Command {
+			container.Command = append(container.Command, item)
+		}
+	}
+
+	// Set property ‘EnvironmentVariables’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.EnvironmentVariables {
+			var item1 EnvironmentVariable
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			container.EnvironmentVariables = append(container.EnvironmentVariables, item1)
+		}
+	}
+
+	// Set property ‘Image’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Image != nil {
+			image := *typedInput.Properties.Image
+			container.Image = &image
+		}
+	}
+
+	// Set property ‘LivenessProbe’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LivenessProbe != nil {
+			var livenessProbe1 ContainerProbe
+			err := livenessProbe1.PopulateFromARM(owner, *typedInput.Properties.LivenessProbe)
+			if err != nil {
+				return err
+			}
+			livenessProbe := livenessProbe1
+			container.LivenessProbe = &livenessProbe
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		container.Name = &name
+	}
+
+	// Set property ‘Ports’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Ports {
+			var item1 ContainerPort
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			container.Ports = append(container.Ports, item1)
+		}
+	}
+
+	// Set property ‘ReadinessProbe’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ReadinessProbe != nil {
+			var readinessProbe1 ContainerProbe
+			err := readinessProbe1.PopulateFromARM(owner, *typedInput.Properties.ReadinessProbe)
+			if err != nil {
+				return err
+			}
+			readinessProbe := readinessProbe1
+			container.ReadinessProbe = &readinessProbe
+		}
+	}
+
+	// Set property ‘Resources’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resources != nil {
+			var resources1 ResourceRequirements
+			err := resources1.PopulateFromARM(owner, *typedInput.Properties.Resources)
+			if err != nil {
+				return err
+			}
+			resources := resources1
+			container.Resources = &resources
+		}
+	}
+
+	// Set property ‘VolumeMounts’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.VolumeMounts {
+			var item1 VolumeMount
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			container.VolumeMounts = append(container.VolumeMounts, item1)
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Container populates our Container from the provided source Container
+func (container *Container) AssignProperties_From_Container(source *v20211001s.Container) error {
+
+	// Command
+	container.Command = genruntime.CloneSliceOfString(source.Command)
+
+	// EnvironmentVariables
+	if source.EnvironmentVariables != nil {
+		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
+		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
+			// Shadow the loop variable to avoid aliasing
+			environmentVariableItem := environmentVariableItem
+			var environmentVariable EnvironmentVariable
+			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_EnvironmentVariable() to populate field EnvironmentVariables")
+			}
+			environmentVariableList[environmentVariableIndex] = environmentVariable
+		}
+		container.EnvironmentVariables = environmentVariableList
+	} else {
+		container.EnvironmentVariables = nil
+	}
+
+	// Image
+	container.Image = genruntime.ClonePointerToString(source.Image)
+
+	// LivenessProbe
+	if source.LivenessProbe != nil {
+		var livenessProbe ContainerProbe
+		err := livenessProbe.AssignProperties_From_ContainerProbe(source.LivenessProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe() to populate field LivenessProbe")
+		}
+		container.LivenessProbe = &livenessProbe
+	} else {
+		container.LivenessProbe = nil
+	}
+
+	// Name
+	container.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Ports
+	if source.Ports != nil {
+		portList := make([]ContainerPort, len(source.Ports))
+		for portIndex, portItem := range source.Ports {
+			// Shadow the loop variable to avoid aliasing
+			portItem := portItem
+			var port ContainerPort
+			err := port.AssignProperties_From_ContainerPort(&portItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ContainerPort() to populate field Ports")
+			}
+			portList[portIndex] = port
+		}
+		container.Ports = portList
+	} else {
+		container.Ports = nil
+	}
+
+	// ReadinessProbe
+	if source.ReadinessProbe != nil {
+		var readinessProbe ContainerProbe
+		err := readinessProbe.AssignProperties_From_ContainerProbe(source.ReadinessProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe() to populate field ReadinessProbe")
+		}
+		container.ReadinessProbe = &readinessProbe
+	} else {
+		container.ReadinessProbe = nil
+	}
+
+	// Resources
+	if source.Resources != nil {
+		var resource ResourceRequirements
+		err := resource.AssignProperties_From_ResourceRequirements(source.Resources)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceRequirements() to populate field Resources")
+		}
+		container.Resources = &resource
+	} else {
+		container.Resources = nil
+	}
+
+	// VolumeMounts
+	if source.VolumeMounts != nil {
+		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
+		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
+			// Shadow the loop variable to avoid aliasing
+			volumeMountItem := volumeMountItem
+			var volumeMount VolumeMount
+			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount() to populate field VolumeMounts")
+			}
+			volumeMountList[volumeMountIndex] = volumeMount
+		}
+		container.VolumeMounts = volumeMountList
+	} else {
+		container.VolumeMounts = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Container populates the provided destination Container from our Container
+func (container *Container) AssignProperties_To_Container(destination *v20211001s.Container) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Command
+	destination.Command = genruntime.CloneSliceOfString(container.Command)
+
+	// EnvironmentVariables
+	if container.EnvironmentVariables != nil {
+		environmentVariableList := make([]v20211001s.EnvironmentVariable, len(container.EnvironmentVariables))
+		for environmentVariableIndex, environmentVariableItem := range container.EnvironmentVariables {
+			// Shadow the loop variable to avoid aliasing
+			environmentVariableItem := environmentVariableItem
+			var environmentVariable v20211001s.EnvironmentVariable
+			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable(&environmentVariable)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_EnvironmentVariable() to populate field EnvironmentVariables")
+			}
+			environmentVariableList[environmentVariableIndex] = environmentVariable
+		}
+		destination.EnvironmentVariables = environmentVariableList
+	} else {
+		destination.EnvironmentVariables = nil
+	}
+
+	// Image
+	destination.Image = genruntime.ClonePointerToString(container.Image)
+
+	// LivenessProbe
+	if container.LivenessProbe != nil {
+		var livenessProbe v20211001s.ContainerProbe
+		err := container.LivenessProbe.AssignProperties_To_ContainerProbe(&livenessProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe() to populate field LivenessProbe")
+		}
+		destination.LivenessProbe = &livenessProbe
+	} else {
+		destination.LivenessProbe = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(container.Name)
+
+	// Ports
+	if container.Ports != nil {
+		portList := make([]v20211001s.ContainerPort, len(container.Ports))
+		for portIndex, portItem := range container.Ports {
+			// Shadow the loop variable to avoid aliasing
+			portItem := portItem
+			var port v20211001s.ContainerPort
+			err := portItem.AssignProperties_To_ContainerPort(&port)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ContainerPort() to populate field Ports")
+			}
+			portList[portIndex] = port
+		}
+		destination.Ports = portList
+	} else {
+		destination.Ports = nil
+	}
+
+	// ReadinessProbe
+	if container.ReadinessProbe != nil {
+		var readinessProbe v20211001s.ContainerProbe
+		err := container.ReadinessProbe.AssignProperties_To_ContainerProbe(&readinessProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe() to populate field ReadinessProbe")
+		}
+		destination.ReadinessProbe = &readinessProbe
+	} else {
+		destination.ReadinessProbe = nil
+	}
+
+	// Resources
+	if container.Resources != nil {
+		var resource v20211001s.ResourceRequirements
+		err := container.Resources.AssignProperties_To_ResourceRequirements(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceRequirements() to populate field Resources")
+		}
+		destination.Resources = &resource
+	} else {
+		destination.Resources = nil
+	}
+
+	// VolumeMounts
+	if container.VolumeMounts != nil {
+		volumeMountList := make([]v20211001s.VolumeMount, len(container.VolumeMounts))
+		for volumeMountIndex, volumeMountItem := range container.VolumeMounts {
+			// Shadow the loop variable to avoid aliasing
+			volumeMountItem := volumeMountItem
+			var volumeMount v20211001s.VolumeMount
+			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount() to populate field VolumeMounts")
+			}
+			volumeMountList[volumeMountIndex] = volumeMount
+		}
+		destination.VolumeMounts = volumeMountList
+	} else {
+		destination.VolumeMounts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type Container_STATUS struct {
 	// Command: The commands to execute within the container instance in exec form.
 	Command []string `json:"command,omitempty"`
@@ -2415,970 +2872,6 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	return nil
 }
 
-type ContainerGroup_Properties_Containers_Spec struct {
-	// Command: The commands to execute within the container instance in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the container instance.
-	EnvironmentVariables []ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec `json:"environmentVariables,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Image: The name of the image used to create the container instance.
-	Image *string `json:"image,omitempty"`
-
-	// LivenessProbe: The container probe, for liveness or readiness
-	LivenessProbe *ContainerProbe `json:"livenessProbe,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: The user-provided name of the container instance.
-	Name *string `json:"name,omitempty"`
-
-	// Ports: The exposed ports on the container instance.
-	Ports []ContainerPort `json:"ports,omitempty"`
-
-	// ReadinessProbe: The container probe, for liveness or readiness
-	ReadinessProbe *ContainerProbe `json:"readinessProbe,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Resources: The resource requirements.
-	Resources *ResourceRequirements `json:"resources,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the container instance.
-	VolumeMounts []VolumeMount `json:"volumeMounts,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_Containers_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containers *ContainerGroup_Properties_Containers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if containers == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_Containers_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if containers.Name != nil {
-		name := *containers.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if containers.Command != nil ||
-		containers.EnvironmentVariables != nil ||
-		containers.Image != nil ||
-		containers.LivenessProbe != nil ||
-		containers.Ports != nil ||
-		containers.ReadinessProbe != nil ||
-		containers.Resources != nil ||
-		containers.VolumeMounts != nil {
-		result.Properties = &ContainerGroup_Properties_Containers_Properties_Spec_ARM{}
-	}
-	for _, item := range containers.Command {
-		result.Properties.Command = append(result.Properties.Command, item)
-	}
-	for _, item := range containers.EnvironmentVariables {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.EnvironmentVariables = append(result.Properties.EnvironmentVariables, *item_ARM.(*ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM))
-	}
-	if containers.Image != nil {
-		image := *containers.Image
-		result.Properties.Image = &image
-	}
-	if containers.LivenessProbe != nil {
-		livenessProbe_ARM, err := (*containers.LivenessProbe).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		livenessProbe := *livenessProbe_ARM.(*ContainerProbe_ARM)
-		result.Properties.LivenessProbe = &livenessProbe
-	}
-	for _, item := range containers.Ports {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.Ports = append(result.Properties.Ports, *item_ARM.(*ContainerPort_ARM))
-	}
-	if containers.ReadinessProbe != nil {
-		readinessProbe_ARM, err := (*containers.ReadinessProbe).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		readinessProbe := *readinessProbe_ARM.(*ContainerProbe_ARM)
-		result.Properties.ReadinessProbe = &readinessProbe
-	}
-	if containers.Resources != nil {
-		resources_ARM, err := (*containers.Resources).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		resources := *resources_ARM.(*ResourceRequirements_ARM)
-		result.Properties.Resources = &resources
-	}
-	for _, item := range containers.VolumeMounts {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.VolumeMounts = append(result.Properties.VolumeMounts, *item_ARM.(*VolumeMount_ARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containers *ContainerGroup_Properties_Containers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_Containers_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (containers *ContainerGroup_Properties_Containers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_Containers_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_Containers_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Command’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Command {
-			containers.Command = append(containers.Command, item)
-		}
-	}
-
-	// Set property ‘EnvironmentVariables’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.EnvironmentVariables {
-			var item1 ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			containers.EnvironmentVariables = append(containers.EnvironmentVariables, item1)
-		}
-	}
-
-	// Set property ‘Image’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Image != nil {
-			image := *typedInput.Properties.Image
-			containers.Image = &image
-		}
-	}
-
-	// Set property ‘LivenessProbe’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LivenessProbe != nil {
-			var livenessProbe1 ContainerProbe
-			err := livenessProbe1.PopulateFromARM(owner, *typedInput.Properties.LivenessProbe)
-			if err != nil {
-				return err
-			}
-			livenessProbe := livenessProbe1
-			containers.LivenessProbe = &livenessProbe
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		containers.Name = &name
-	}
-
-	// Set property ‘Ports’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Ports {
-			var item1 ContainerPort
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			containers.Ports = append(containers.Ports, item1)
-		}
-	}
-
-	// Set property ‘ReadinessProbe’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ReadinessProbe != nil {
-			var readinessProbe1 ContainerProbe
-			err := readinessProbe1.PopulateFromARM(owner, *typedInput.Properties.ReadinessProbe)
-			if err != nil {
-				return err
-			}
-			readinessProbe := readinessProbe1
-			containers.ReadinessProbe = &readinessProbe
-		}
-	}
-
-	// Set property ‘Resources’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Resources != nil {
-			var resources1 ResourceRequirements
-			err := resources1.PopulateFromARM(owner, *typedInput.Properties.Resources)
-			if err != nil {
-				return err
-			}
-			resources := resources1
-			containers.Resources = &resources
-		}
-	}
-
-	// Set property ‘VolumeMounts’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.VolumeMounts {
-			var item1 VolumeMount
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			containers.VolumeMounts = append(containers.VolumeMounts, item1)
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_Containers_Spec populates our ContainerGroup_Properties_Containers_Spec from the provided source ContainerGroup_Properties_Containers_Spec
-func (containers *ContainerGroup_Properties_Containers_Spec) AssignProperties_From_ContainerGroup_Properties_Containers_Spec(source *v20211001s.ContainerGroup_Properties_Containers_Spec) error {
-
-	// Command
-	containers.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// EnvironmentVariables
-	if source.EnvironmentVariables != nil {
-		environmentVariableList := make([]ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec, len(source.EnvironmentVariables))
-		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
-			var environmentVariable ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec
-			err := environmentVariable.AssignProperties_From_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec(&environmentVariableItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec() to populate field EnvironmentVariables")
-			}
-			environmentVariableList[environmentVariableIndex] = environmentVariable
-		}
-		containers.EnvironmentVariables = environmentVariableList
-	} else {
-		containers.EnvironmentVariables = nil
-	}
-
-	// Image
-	containers.Image = genruntime.ClonePointerToString(source.Image)
-
-	// LivenessProbe
-	if source.LivenessProbe != nil {
-		var livenessProbe ContainerProbe
-		err := livenessProbe.AssignProperties_From_ContainerProbe(source.LivenessProbe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe() to populate field LivenessProbe")
-		}
-		containers.LivenessProbe = &livenessProbe
-	} else {
-		containers.LivenessProbe = nil
-	}
-
-	// Name
-	containers.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Ports
-	if source.Ports != nil {
-		portList := make([]ContainerPort, len(source.Ports))
-		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
-			var port ContainerPort
-			err := port.AssignProperties_From_ContainerPort(&portItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ContainerPort() to populate field Ports")
-			}
-			portList[portIndex] = port
-		}
-		containers.Ports = portList
-	} else {
-		containers.Ports = nil
-	}
-
-	// ReadinessProbe
-	if source.ReadinessProbe != nil {
-		var readinessProbe ContainerProbe
-		err := readinessProbe.AssignProperties_From_ContainerProbe(source.ReadinessProbe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ContainerProbe() to populate field ReadinessProbe")
-		}
-		containers.ReadinessProbe = &readinessProbe
-	} else {
-		containers.ReadinessProbe = nil
-	}
-
-	// Resources
-	if source.Resources != nil {
-		var resource ResourceRequirements
-		err := resource.AssignProperties_From_ResourceRequirements(source.Resources)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ResourceRequirements() to populate field Resources")
-		}
-		containers.Resources = &resource
-	} else {
-		containers.Resources = nil
-	}
-
-	// VolumeMounts
-	if source.VolumeMounts != nil {
-		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount VolumeMount
-			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		containers.VolumeMounts = volumeMountList
-	} else {
-		containers.VolumeMounts = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_Containers_Spec populates the provided destination ContainerGroup_Properties_Containers_Spec from our ContainerGroup_Properties_Containers_Spec
-func (containers *ContainerGroup_Properties_Containers_Spec) AssignProperties_To_ContainerGroup_Properties_Containers_Spec(destination *v20211001s.ContainerGroup_Properties_Containers_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Command
-	destination.Command = genruntime.CloneSliceOfString(containers.Command)
-
-	// EnvironmentVariables
-	if containers.EnvironmentVariables != nil {
-		environmentVariableList := make([]v20211001s.ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec, len(containers.EnvironmentVariables))
-		for environmentVariableIndex, environmentVariableItem := range containers.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
-			var environmentVariable v20211001s.ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec
-			err := environmentVariableItem.AssignProperties_To_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec(&environmentVariable)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec() to populate field EnvironmentVariables")
-			}
-			environmentVariableList[environmentVariableIndex] = environmentVariable
-		}
-		destination.EnvironmentVariables = environmentVariableList
-	} else {
-		destination.EnvironmentVariables = nil
-	}
-
-	// Image
-	destination.Image = genruntime.ClonePointerToString(containers.Image)
-
-	// LivenessProbe
-	if containers.LivenessProbe != nil {
-		var livenessProbe v20211001s.ContainerProbe
-		err := containers.LivenessProbe.AssignProperties_To_ContainerProbe(&livenessProbe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe() to populate field LivenessProbe")
-		}
-		destination.LivenessProbe = &livenessProbe
-	} else {
-		destination.LivenessProbe = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(containers.Name)
-
-	// Ports
-	if containers.Ports != nil {
-		portList := make([]v20211001s.ContainerPort, len(containers.Ports))
-		for portIndex, portItem := range containers.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
-			var port v20211001s.ContainerPort
-			err := portItem.AssignProperties_To_ContainerPort(&port)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ContainerPort() to populate field Ports")
-			}
-			portList[portIndex] = port
-		}
-		destination.Ports = portList
-	} else {
-		destination.Ports = nil
-	}
-
-	// ReadinessProbe
-	if containers.ReadinessProbe != nil {
-		var readinessProbe v20211001s.ContainerProbe
-		err := containers.ReadinessProbe.AssignProperties_To_ContainerProbe(&readinessProbe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ContainerProbe() to populate field ReadinessProbe")
-		}
-		destination.ReadinessProbe = &readinessProbe
-	} else {
-		destination.ReadinessProbe = nil
-	}
-
-	// Resources
-	if containers.Resources != nil {
-		var resource v20211001s.ResourceRequirements
-		err := containers.Resources.AssignProperties_To_ResourceRequirements(&resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ResourceRequirements() to populate field Resources")
-		}
-		destination.Resources = &resource
-	} else {
-		destination.Resources = nil
-	}
-
-	// VolumeMounts
-	if containers.VolumeMounts != nil {
-		volumeMountList := make([]v20211001s.VolumeMount, len(containers.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range containers.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount v20211001s.VolumeMount
-			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		destination.VolumeMounts = volumeMountList
-	} else {
-		destination.VolumeMounts = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ContainerGroup_Properties_Diagnostics_Spec struct {
-	// LogAnalytics: Container group log analytics information.
-	LogAnalytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec `json:"logAnalytics,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_Diagnostics_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (diagnostics *ContainerGroup_Properties_Diagnostics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if diagnostics == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_Diagnostics_Spec_ARM{}
-
-	// Set property ‘LogAnalytics’:
-	if diagnostics.LogAnalytics != nil {
-		logAnalytics_ARM, err := (*diagnostics.LogAnalytics).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		logAnalytics := *logAnalytics_ARM.(*ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM)
-		result.LogAnalytics = &logAnalytics
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diagnostics *ContainerGroup_Properties_Diagnostics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_Diagnostics_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (diagnostics *ContainerGroup_Properties_Diagnostics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_Diagnostics_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_Diagnostics_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘LogAnalytics’:
-	if typedInput.LogAnalytics != nil {
-		var logAnalytics1 ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec
-		err := logAnalytics1.PopulateFromARM(owner, *typedInput.LogAnalytics)
-		if err != nil {
-			return err
-		}
-		logAnalytics := logAnalytics1
-		diagnostics.LogAnalytics = &logAnalytics
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_Diagnostics_Spec populates our ContainerGroup_Properties_Diagnostics_Spec from the provided source ContainerGroup_Properties_Diagnostics_Spec
-func (diagnostics *ContainerGroup_Properties_Diagnostics_Spec) AssignProperties_From_ContainerGroup_Properties_Diagnostics_Spec(source *v20211001s.ContainerGroup_Properties_Diagnostics_Spec) error {
-
-	// LogAnalytics
-	if source.LogAnalytics != nil {
-		var logAnalytic ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec
-		err := logAnalytic.AssignProperties_From_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec(source.LogAnalytics)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec() to populate field LogAnalytics")
-		}
-		diagnostics.LogAnalytics = &logAnalytic
-	} else {
-		diagnostics.LogAnalytics = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_Diagnostics_Spec populates the provided destination ContainerGroup_Properties_Diagnostics_Spec from our ContainerGroup_Properties_Diagnostics_Spec
-func (diagnostics *ContainerGroup_Properties_Diagnostics_Spec) AssignProperties_To_ContainerGroup_Properties_Diagnostics_Spec(destination *v20211001s.ContainerGroup_Properties_Diagnostics_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// LogAnalytics
-	if diagnostics.LogAnalytics != nil {
-		var logAnalytic v20211001s.ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec
-		err := diagnostics.LogAnalytics.AssignProperties_To_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec(&logAnalytic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec() to populate field LogAnalytics")
-		}
-		destination.LogAnalytics = &logAnalytic
-	} else {
-		destination.LogAnalytics = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ContainerGroup_Properties_ImageRegistryCredentials_Spec struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
-	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Password: The password for the private registry.
-	Password *genruntime.SecretReference `json:"password,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// Username: The username for the private registry.
-	Username *string `json:"username,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_ImageRegistryCredentials_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (credentials *ContainerGroup_Properties_ImageRegistryCredentials_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if credentials == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM{}
-
-	// Set property ‘Identity’:
-	if credentials.Identity != nil {
-		identity := *credentials.Identity
-		result.Identity = &identity
-	}
-
-	// Set property ‘IdentityUrl’:
-	if credentials.IdentityUrl != nil {
-		identityUrl := *credentials.IdentityUrl
-		result.IdentityUrl = &identityUrl
-	}
-
-	// Set property ‘Password’:
-	if credentials.Password != nil {
-		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*credentials.Password)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
-		}
-		password := passwordSecret
-		result.Password = &password
-	}
-
-	// Set property ‘Server’:
-	if credentials.Server != nil {
-		server := *credentials.Server
-		result.Server = &server
-	}
-
-	// Set property ‘Username’:
-	if credentials.Username != nil {
-		username := *credentials.Username
-		result.Username = &username
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (credentials *ContainerGroup_Properties_ImageRegistryCredentials_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (credentials *ContainerGroup_Properties_ImageRegistryCredentials_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_ImageRegistryCredentials_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		identity := *typedInput.Identity
-		credentials.Identity = &identity
-	}
-
-	// Set property ‘IdentityUrl’:
-	if typedInput.IdentityUrl != nil {
-		identityUrl := *typedInput.IdentityUrl
-		credentials.IdentityUrl = &identityUrl
-	}
-
-	// no assignment for property ‘Password’
-
-	// Set property ‘Server’:
-	if typedInput.Server != nil {
-		server := *typedInput.Server
-		credentials.Server = &server
-	}
-
-	// Set property ‘Username’:
-	if typedInput.Username != nil {
-		username := *typedInput.Username
-		credentials.Username = &username
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_ImageRegistryCredentials_Spec populates our ContainerGroup_Properties_ImageRegistryCredentials_Spec from the provided source ContainerGroup_Properties_ImageRegistryCredentials_Spec
-func (credentials *ContainerGroup_Properties_ImageRegistryCredentials_Spec) AssignProperties_From_ContainerGroup_Properties_ImageRegistryCredentials_Spec(source *v20211001s.ContainerGroup_Properties_ImageRegistryCredentials_Spec) error {
-
-	// Identity
-	credentials.Identity = genruntime.ClonePointerToString(source.Identity)
-
-	// IdentityUrl
-	credentials.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
-
-	// Password
-	if source.Password != nil {
-		password := source.Password.Copy()
-		credentials.Password = &password
-	} else {
-		credentials.Password = nil
-	}
-
-	// Server
-	credentials.Server = genruntime.ClonePointerToString(source.Server)
-
-	// Username
-	credentials.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_ImageRegistryCredentials_Spec populates the provided destination ContainerGroup_Properties_ImageRegistryCredentials_Spec from our ContainerGroup_Properties_ImageRegistryCredentials_Spec
-func (credentials *ContainerGroup_Properties_ImageRegistryCredentials_Spec) AssignProperties_To_ContainerGroup_Properties_ImageRegistryCredentials_Spec(destination *v20211001s.ContainerGroup_Properties_ImageRegistryCredentials_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Identity
-	destination.Identity = genruntime.ClonePointerToString(credentials.Identity)
-
-	// IdentityUrl
-	destination.IdentityUrl = genruntime.ClonePointerToString(credentials.IdentityUrl)
-
-	// Password
-	if credentials.Password != nil {
-		password := credentials.Password.Copy()
-		destination.Password = &password
-	} else {
-		destination.Password = nil
-	}
-
-	// Server
-	destination.Server = genruntime.ClonePointerToString(credentials.Server)
-
-	// Username
-	destination.Username = genruntime.ClonePointerToString(credentials.Username)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ContainerGroup_Properties_InitContainers_Spec struct {
-	// Command: The command to execute within the init container in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the init container.
-	EnvironmentVariables []ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec `json:"environmentVariables,omitempty"`
-
-	// Image: The image of the init container.
-	Image *string `json:"image,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: The name for the init container.
-	Name *string `json:"name,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the init container.
-	VolumeMounts []VolumeMount `json:"volumeMounts,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_InitContainers_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containers *ContainerGroup_Properties_InitContainers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if containers == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_InitContainers_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if containers.Name != nil {
-		name := *containers.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if containers.Command != nil ||
-		containers.EnvironmentVariables != nil ||
-		containers.Image != nil ||
-		containers.VolumeMounts != nil {
-		result.Properties = &ContainerGroup_Properties_InitContainers_Properties_Spec_ARM{}
-	}
-	for _, item := range containers.Command {
-		result.Properties.Command = append(result.Properties.Command, item)
-	}
-	for _, item := range containers.EnvironmentVariables {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.EnvironmentVariables = append(result.Properties.EnvironmentVariables, *item_ARM.(*ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM))
-	}
-	if containers.Image != nil {
-		image := *containers.Image
-		result.Properties.Image = &image
-	}
-	for _, item := range containers.VolumeMounts {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.VolumeMounts = append(result.Properties.VolumeMounts, *item_ARM.(*VolumeMount_ARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containers *ContainerGroup_Properties_InitContainers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_InitContainers_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (containers *ContainerGroup_Properties_InitContainers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_InitContainers_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_InitContainers_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Command’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Command {
-			containers.Command = append(containers.Command, item)
-		}
-	}
-
-	// Set property ‘EnvironmentVariables’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.EnvironmentVariables {
-			var item1 ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			containers.EnvironmentVariables = append(containers.EnvironmentVariables, item1)
-		}
-	}
-
-	// Set property ‘Image’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Image != nil {
-			image := *typedInput.Properties.Image
-			containers.Image = &image
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		containers.Name = &name
-	}
-
-	// Set property ‘VolumeMounts’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.VolumeMounts {
-			var item1 VolumeMount
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			containers.VolumeMounts = append(containers.VolumeMounts, item1)
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_InitContainers_Spec populates our ContainerGroup_Properties_InitContainers_Spec from the provided source ContainerGroup_Properties_InitContainers_Spec
-func (containers *ContainerGroup_Properties_InitContainers_Spec) AssignProperties_From_ContainerGroup_Properties_InitContainers_Spec(source *v20211001s.ContainerGroup_Properties_InitContainers_Spec) error {
-
-	// Command
-	containers.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// EnvironmentVariables
-	if source.EnvironmentVariables != nil {
-		environmentVariableList := make([]ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec, len(source.EnvironmentVariables))
-		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
-			var environmentVariable ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec
-			err := environmentVariable.AssignProperties_From_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec(&environmentVariableItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec() to populate field EnvironmentVariables")
-			}
-			environmentVariableList[environmentVariableIndex] = environmentVariable
-		}
-		containers.EnvironmentVariables = environmentVariableList
-	} else {
-		containers.EnvironmentVariables = nil
-	}
-
-	// Image
-	containers.Image = genruntime.ClonePointerToString(source.Image)
-
-	// Name
-	containers.Name = genruntime.ClonePointerToString(source.Name)
-
-	// VolumeMounts
-	if source.VolumeMounts != nil {
-		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount VolumeMount
-			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		containers.VolumeMounts = volumeMountList
-	} else {
-		containers.VolumeMounts = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_InitContainers_Spec populates the provided destination ContainerGroup_Properties_InitContainers_Spec from our ContainerGroup_Properties_InitContainers_Spec
-func (containers *ContainerGroup_Properties_InitContainers_Spec) AssignProperties_To_ContainerGroup_Properties_InitContainers_Spec(destination *v20211001s.ContainerGroup_Properties_InitContainers_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Command
-	destination.Command = genruntime.CloneSliceOfString(containers.Command)
-
-	// EnvironmentVariables
-	if containers.EnvironmentVariables != nil {
-		environmentVariableList := make([]v20211001s.ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec, len(containers.EnvironmentVariables))
-		for environmentVariableIndex, environmentVariableItem := range containers.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
-			var environmentVariable v20211001s.ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec
-			err := environmentVariableItem.AssignProperties_To_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec(&environmentVariable)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec() to populate field EnvironmentVariables")
-			}
-			environmentVariableList[environmentVariableIndex] = environmentVariable
-		}
-		destination.EnvironmentVariables = environmentVariableList
-	} else {
-		destination.EnvironmentVariables = nil
-	}
-
-	// Image
-	destination.Image = genruntime.ClonePointerToString(containers.Image)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(containers.Name)
-
-	// VolumeMounts
-	if containers.VolumeMounts != nil {
-		volumeMountList := make([]v20211001s.VolumeMount, len(containers.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range containers.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount v20211001s.VolumeMount
-			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		destination.VolumeMounts = volumeMountList
-	} else {
-		destination.VolumeMounts = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ContainerGroup_Properties_InstanceView_STATUS struct {
 	// Events: The events of this container group.
 	Events []Event_STATUS `json:"events,omitempty"`
@@ -3518,13 +3011,105 @@ const (
 	ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure = ContainerGroup_Properties_RestartPolicy_STATUS("OnFailure")
 )
 
-// +kubebuilder:validation:Enum={"Dedicated","Standard"}
-type ContainerGroup_Properties_Sku_Spec string
+type ContainerGroupDiagnostics struct {
+	// LogAnalytics: Container group log analytics information.
+	LogAnalytics *LogAnalytics `json:"logAnalytics,omitempty"`
+}
 
-const (
-	ContainerGroup_Properties_Sku_Spec_Dedicated = ContainerGroup_Properties_Sku_Spec("Dedicated")
-	ContainerGroup_Properties_Sku_Spec_Standard  = ContainerGroup_Properties_Sku_Spec("Standard")
-)
+var _ genruntime.ARMTransformer = &ContainerGroupDiagnostics{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (diagnostics *ContainerGroupDiagnostics) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if diagnostics == nil {
+		return nil, nil
+	}
+	result := &ContainerGroupDiagnostics_ARM{}
+
+	// Set property ‘LogAnalytics’:
+	if diagnostics.LogAnalytics != nil {
+		logAnalytics_ARM, err := (*diagnostics.LogAnalytics).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		logAnalytics := *logAnalytics_ARM.(*LogAnalytics_ARM)
+		result.LogAnalytics = &logAnalytics
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diagnostics *ContainerGroupDiagnostics) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerGroupDiagnostics_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (diagnostics *ContainerGroupDiagnostics) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ContainerGroupDiagnostics_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupDiagnostics_ARM, got %T", armInput)
+	}
+
+	// Set property ‘LogAnalytics’:
+	if typedInput.LogAnalytics != nil {
+		var logAnalytics1 LogAnalytics
+		err := logAnalytics1.PopulateFromARM(owner, *typedInput.LogAnalytics)
+		if err != nil {
+			return err
+		}
+		logAnalytics := logAnalytics1
+		diagnostics.LogAnalytics = &logAnalytics
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ContainerGroupDiagnostics populates our ContainerGroupDiagnostics from the provided source ContainerGroupDiagnostics
+func (diagnostics *ContainerGroupDiagnostics) AssignProperties_From_ContainerGroupDiagnostics(source *v20211001s.ContainerGroupDiagnostics) error {
+
+	// LogAnalytics
+	if source.LogAnalytics != nil {
+		var logAnalytic LogAnalytics
+		err := logAnalytic.AssignProperties_From_LogAnalytics(source.LogAnalytics)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LogAnalytics() to populate field LogAnalytics")
+		}
+		diagnostics.LogAnalytics = &logAnalytic
+	} else {
+		diagnostics.LogAnalytics = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ContainerGroupDiagnostics populates the provided destination ContainerGroupDiagnostics from our ContainerGroupDiagnostics
+func (diagnostics *ContainerGroupDiagnostics) AssignProperties_To_ContainerGroupDiagnostics(destination *v20211001s.ContainerGroupDiagnostics) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// LogAnalytics
+	if diagnostics.LogAnalytics != nil {
+		var logAnalytic v20211001s.LogAnalytics
+		err := diagnostics.LogAnalytics.AssignProperties_To_LogAnalytics(&logAnalytic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LogAnalytics() to populate field LogAnalytics")
+		}
+		destination.LogAnalytics = &logAnalytic
+	} else {
+		destination.LogAnalytics = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type ContainerGroupDiagnostics_STATUS struct {
 	// LogAnalytics: Container group log analytics information.
@@ -3607,7 +3192,6 @@ func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignProperties_To_Contain
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupIdentity
 type ContainerGroupIdentity struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
@@ -3847,6 +3431,14 @@ func (identity *ContainerGroupIdentity_STATUS) AssignProperties_To_ContainerGrou
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Dedicated","Standard"}
+type ContainerGroupSku string
+
+const (
+	ContainerGroupSku_Dedicated = ContainerGroupSku("Dedicated")
+	ContainerGroupSku_Standard  = ContainerGroupSku("Standard")
+)
+
 type ContainerGroupSku_STATUS string
 
 const (
@@ -3854,7 +3446,6 @@ const (
 	ContainerGroupSku_STATUS_Standard  = ContainerGroupSku_STATUS("Standard")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
 type ContainerGroupSubnetId struct {
 	// Name: Friendly name for the subnet.
 	Name *string `json:"name,omitempty"`
@@ -4033,7 +3624,6 @@ func (subnetId *ContainerGroupSubnetId_STATUS) AssignProperties_To_ContainerGrou
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/DnsConfiguration
 type DnsConfiguration struct {
 	// +kubebuilder:validation:Required
 	// NameServers: The DNS servers for the container group.
@@ -4235,7 +3825,6 @@ func (configuration *DnsConfiguration_STATUS) AssignProperties_To_DnsConfigurati
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/EncryptionProperties
 type EncryptionProperties struct {
 	// +kubebuilder:validation:Required
 	// KeyName: The encryption key name.
@@ -4442,6 +4031,174 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
+type ImageRegistryCredential struct {
+	// Identity: The identity for the private registry.
+	Identity *string `json:"identity,omitempty"`
+
+	// IdentityUrl: The identity URL for the private registry.
+	IdentityUrl *string `json:"identityUrl,omitempty"`
+
+	// Password: The password for the private registry.
+	Password *genruntime.SecretReference `json:"password,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Server: The Docker image registry server without a protocol such as "http" and "https".
+	Server *string `json:"server,omitempty"`
+
+	// Username: The username for the private registry.
+	Username *string `json:"username,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ImageRegistryCredential{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (credential *ImageRegistryCredential) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if credential == nil {
+		return nil, nil
+	}
+	result := &ImageRegistryCredential_ARM{}
+
+	// Set property ‘Identity’:
+	if credential.Identity != nil {
+		identity := *credential.Identity
+		result.Identity = &identity
+	}
+
+	// Set property ‘IdentityUrl’:
+	if credential.IdentityUrl != nil {
+		identityUrl := *credential.IdentityUrl
+		result.IdentityUrl = &identityUrl
+	}
+
+	// Set property ‘Password’:
+	if credential.Password != nil {
+		passwordSecret, err := resolved.ResolvedSecrets.Lookup(*credential.Password)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Password")
+		}
+		password := passwordSecret
+		result.Password = &password
+	}
+
+	// Set property ‘Server’:
+	if credential.Server != nil {
+		server := *credential.Server
+		result.Server = &server
+	}
+
+	// Set property ‘Username’:
+	if credential.Username != nil {
+		username := *credential.Username
+		result.Username = &username
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (credential *ImageRegistryCredential) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImageRegistryCredential_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (credential *ImageRegistryCredential) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImageRegistryCredential_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageRegistryCredential_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		identity := *typedInput.Identity
+		credential.Identity = &identity
+	}
+
+	// Set property ‘IdentityUrl’:
+	if typedInput.IdentityUrl != nil {
+		identityUrl := *typedInput.IdentityUrl
+		credential.IdentityUrl = &identityUrl
+	}
+
+	// no assignment for property ‘Password’
+
+	// Set property ‘Server’:
+	if typedInput.Server != nil {
+		server := *typedInput.Server
+		credential.Server = &server
+	}
+
+	// Set property ‘Username’:
+	if typedInput.Username != nil {
+		username := *typedInput.Username
+		credential.Username = &username
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ImageRegistryCredential populates our ImageRegistryCredential from the provided source ImageRegistryCredential
+func (credential *ImageRegistryCredential) AssignProperties_From_ImageRegistryCredential(source *v20211001s.ImageRegistryCredential) error {
+
+	// Identity
+	credential.Identity = genruntime.ClonePointerToString(source.Identity)
+
+	// IdentityUrl
+	credential.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
+
+	// Password
+	if source.Password != nil {
+		password := source.Password.Copy()
+		credential.Password = &password
+	} else {
+		credential.Password = nil
+	}
+
+	// Server
+	credential.Server = genruntime.ClonePointerToString(source.Server)
+
+	// Username
+	credential.Username = genruntime.ClonePointerToString(source.Username)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ImageRegistryCredential populates the provided destination ImageRegistryCredential from our ImageRegistryCredential
+func (credential *ImageRegistryCredential) AssignProperties_To_ImageRegistryCredential(destination *v20211001s.ImageRegistryCredential) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Identity
+	destination.Identity = genruntime.ClonePointerToString(credential.Identity)
+
+	// IdentityUrl
+	destination.IdentityUrl = genruntime.ClonePointerToString(credential.IdentityUrl)
+
+	// Password
+	if credential.Password != nil {
+		password := credential.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
+
+	// Server
+	destination.Server = genruntime.ClonePointerToString(credential.Server)
+
+	// Username
+	destination.Username = genruntime.ClonePointerToString(credential.Username)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ImageRegistryCredential_STATUS struct {
 	// Identity: The identity for the private registry.
 	Identity *string `json:"identity,omitempty"`
@@ -4533,6 +4290,248 @@ func (credential *ImageRegistryCredential_STATUS) AssignProperties_To_ImageRegis
 
 	// Username
 	destination.Username = genruntime.ClonePointerToString(credential.Username)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type InitContainerDefinition struct {
+	// Command: The command to execute within the init container in exec form.
+	Command []string `json:"command,omitempty"`
+
+	// EnvironmentVariables: The environment variables to set in the init container.
+	EnvironmentVariables []EnvironmentVariable `json:"environmentVariables,omitempty"`
+
+	// Image: The image of the init container.
+	Image *string `json:"image,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Name: The name for the init container.
+	Name *string `json:"name,omitempty"`
+
+	// VolumeMounts: The volume mounts available to the init container.
+	VolumeMounts []VolumeMount `json:"volumeMounts,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &InitContainerDefinition{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (definition *InitContainerDefinition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if definition == nil {
+		return nil, nil
+	}
+	result := &InitContainerDefinition_ARM{}
+
+	// Set property ‘Name’:
+	if definition.Name != nil {
+		name := *definition.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if definition.Command != nil ||
+		definition.EnvironmentVariables != nil ||
+		definition.Image != nil ||
+		definition.VolumeMounts != nil {
+		result.Properties = &InitContainerPropertiesDefinition_ARM{}
+	}
+	for _, item := range definition.Command {
+		result.Properties.Command = append(result.Properties.Command, item)
+	}
+	for _, item := range definition.EnvironmentVariables {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.EnvironmentVariables = append(result.Properties.EnvironmentVariables, *item_ARM.(*EnvironmentVariable_ARM))
+	}
+	if definition.Image != nil {
+		image := *definition.Image
+		result.Properties.Image = &image
+	}
+	for _, item := range definition.VolumeMounts {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.VolumeMounts = append(result.Properties.VolumeMounts, *item_ARM.(*VolumeMount_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (definition *InitContainerDefinition) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &InitContainerDefinition_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (definition *InitContainerDefinition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(InitContainerDefinition_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InitContainerDefinition_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Command’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Command {
+			definition.Command = append(definition.Command, item)
+		}
+	}
+
+	// Set property ‘EnvironmentVariables’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.EnvironmentVariables {
+			var item1 EnvironmentVariable
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			definition.EnvironmentVariables = append(definition.EnvironmentVariables, item1)
+		}
+	}
+
+	// Set property ‘Image’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Image != nil {
+			image := *typedInput.Properties.Image
+			definition.Image = &image
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		definition.Name = &name
+	}
+
+	// Set property ‘VolumeMounts’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.VolumeMounts {
+			var item1 VolumeMount
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			definition.VolumeMounts = append(definition.VolumeMounts, item1)
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_InitContainerDefinition populates our InitContainerDefinition from the provided source InitContainerDefinition
+func (definition *InitContainerDefinition) AssignProperties_From_InitContainerDefinition(source *v20211001s.InitContainerDefinition) error {
+
+	// Command
+	definition.Command = genruntime.CloneSliceOfString(source.Command)
+
+	// EnvironmentVariables
+	if source.EnvironmentVariables != nil {
+		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
+		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
+			// Shadow the loop variable to avoid aliasing
+			environmentVariableItem := environmentVariableItem
+			var environmentVariable EnvironmentVariable
+			err := environmentVariable.AssignProperties_From_EnvironmentVariable(&environmentVariableItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_EnvironmentVariable() to populate field EnvironmentVariables")
+			}
+			environmentVariableList[environmentVariableIndex] = environmentVariable
+		}
+		definition.EnvironmentVariables = environmentVariableList
+	} else {
+		definition.EnvironmentVariables = nil
+	}
+
+	// Image
+	definition.Image = genruntime.ClonePointerToString(source.Image)
+
+	// Name
+	definition.Name = genruntime.ClonePointerToString(source.Name)
+
+	// VolumeMounts
+	if source.VolumeMounts != nil {
+		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
+		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
+			// Shadow the loop variable to avoid aliasing
+			volumeMountItem := volumeMountItem
+			var volumeMount VolumeMount
+			err := volumeMount.AssignProperties_From_VolumeMount(&volumeMountItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VolumeMount() to populate field VolumeMounts")
+			}
+			volumeMountList[volumeMountIndex] = volumeMount
+		}
+		definition.VolumeMounts = volumeMountList
+	} else {
+		definition.VolumeMounts = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InitContainerDefinition populates the provided destination InitContainerDefinition from our InitContainerDefinition
+func (definition *InitContainerDefinition) AssignProperties_To_InitContainerDefinition(destination *v20211001s.InitContainerDefinition) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Command
+	destination.Command = genruntime.CloneSliceOfString(definition.Command)
+
+	// EnvironmentVariables
+	if definition.EnvironmentVariables != nil {
+		environmentVariableList := make([]v20211001s.EnvironmentVariable, len(definition.EnvironmentVariables))
+		for environmentVariableIndex, environmentVariableItem := range definition.EnvironmentVariables {
+			// Shadow the loop variable to avoid aliasing
+			environmentVariableItem := environmentVariableItem
+			var environmentVariable v20211001s.EnvironmentVariable
+			err := environmentVariableItem.AssignProperties_To_EnvironmentVariable(&environmentVariable)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_EnvironmentVariable() to populate field EnvironmentVariables")
+			}
+			environmentVariableList[environmentVariableIndex] = environmentVariable
+		}
+		destination.EnvironmentVariables = environmentVariableList
+	} else {
+		destination.EnvironmentVariables = nil
+	}
+
+	// Image
+	destination.Image = genruntime.ClonePointerToString(definition.Image)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(definition.Name)
+
+	// VolumeMounts
+	if definition.VolumeMounts != nil {
+		volumeMountList := make([]v20211001s.VolumeMount, len(definition.VolumeMounts))
+		for volumeMountIndex, volumeMountItem := range definition.VolumeMounts {
+			// Shadow the loop variable to avoid aliasing
+			volumeMountItem := volumeMountItem
+			var volumeMount v20211001s.VolumeMount
+			err := volumeMountItem.AssignProperties_To_VolumeMount(&volumeMount)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VolumeMount() to populate field VolumeMounts")
+			}
+			volumeMountList[volumeMountIndex] = volumeMount
+		}
+		destination.VolumeMounts = volumeMountList
+	} else {
+		destination.VolumeMounts = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4783,7 +4782,6 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_To_InitContai
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/IpAddress
 type IpAddress struct {
 	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
 	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
@@ -5199,15 +5197,14 @@ func (address *IpAddress_STATUS) AssignProperties_To_IpAddress_STATUS(destinatio
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/Volume
 type Volume struct {
-	// AzureFile: The properties of the Azure File volume. Azure File shares are mounted as volumes.
+	// AzureFile: The Azure File volume.
 	AzureFile *AzureFileVolume `json:"azureFile,omitempty"`
 
 	// EmptyDir: The empty directory volume.
 	EmptyDir map[string]v1.JSON `json:"emptyDir,omitempty"`
 
-	// GitRepo: Represents a volume that is populated with the contents of a git repository
+	// GitRepo: The git repo volume.
 	GitRepo *GitRepoVolume `json:"gitRepo,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -5628,7 +5625,6 @@ func (volume *Volume_STATUS) AssignProperties_To_Volume_STATUS(destination *v202
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/AzureFileVolume
 type AzureFileVolume struct {
 	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
 	ReadOnly *bool `json:"readOnly,omitempty"`
@@ -5890,444 +5886,6 @@ func (volume *AzureFileVolume_STATUS) AssignProperties_To_AzureFileVolume_STATUS
 	return nil
 }
 
-type ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec struct {
-	// +kubebuilder:validation:Required
-	// Name: The name of the environment variable.
-	Name *string `json:"name,omitempty"`
-
-	// SecureValue: The value of the secure environment variable.
-	SecureValue *genruntime.SecretReference `json:"secureValue,omitempty"`
-
-	// Value: The value of the environment variable.
-	Value *string `json:"value,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (variables *ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if variables == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if variables.Name != nil {
-		name := *variables.Name
-		result.Name = &name
-	}
-
-	// Set property ‘SecureValue’:
-	if variables.SecureValue != nil {
-		secureValueSecret, err := resolved.ResolvedSecrets.Lookup(*variables.SecureValue)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SecureValue")
-		}
-		secureValue := secureValueSecret
-		result.SecureValue = &secureValue
-	}
-
-	// Set property ‘Value’:
-	if variables.Value != nil {
-		value := *variables.Value
-		result.Value = &value
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (variables *ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (variables *ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		variables.Name = &name
-	}
-
-	// no assignment for property ‘SecureValue’
-
-	// Set property ‘Value’:
-	if typedInput.Value != nil {
-		value := *typedInput.Value
-		variables.Value = &value
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec populates our ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec from the provided source ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec
-func (variables *ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) AssignProperties_From_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec(source *v20211001s.ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) error {
-
-	// Name
-	variables.Name = genruntime.ClonePointerToString(source.Name)
-
-	// SecureValue
-	if source.SecureValue != nil {
-		secureValue := source.SecureValue.Copy()
-		variables.SecureValue = &secureValue
-	} else {
-		variables.SecureValue = nil
-	}
-
-	// Value
-	variables.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec populates the provided destination ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec from our ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec
-func (variables *ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) AssignProperties_To_ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec(destination *v20211001s.ContainerGroup_Properties_Containers_Properties_EnvironmentVariables_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(variables.Name)
-
-	// SecureValue
-	if variables.SecureValue != nil {
-		secureValue := variables.SecureValue.Copy()
-		destination.SecureValue = &secureValue
-	} else {
-		destination.SecureValue = nil
-	}
-
-	// Value
-	destination.Value = genruntime.ClonePointerToString(variables.Value)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec struct {
-	// LogType: The log type to be used.
-	LogType *ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec `json:"logType,omitempty"`
-
-	// Metadata: Metadata for log analytics.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// WorkspaceId: The workspace id for log analytics
-	WorkspaceId *string `json:"workspaceId,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// WorkspaceKey: The workspace key for log analytics
-	WorkspaceKey genruntime.SecretReference `json:"workspaceKey,omitempty"`
-
-	// WorkspaceResourceReference: The workspace resource id for log analytics
-	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (analytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if analytics == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM{}
-
-	// Set property ‘LogType’:
-	if analytics.LogType != nil {
-		logType := *analytics.LogType
-		result.LogType = &logType
-	}
-
-	// Set property ‘Metadata’:
-	if analytics.Metadata != nil {
-		result.Metadata = make(map[string]string, len(analytics.Metadata))
-		for key, value := range analytics.Metadata {
-			result.Metadata[key] = value
-		}
-	}
-
-	// Set property ‘WorkspaceId’:
-	if analytics.WorkspaceId != nil {
-		workspaceId := *analytics.WorkspaceId
-		result.WorkspaceId = &workspaceId
-	}
-
-	// Set property ‘WorkspaceKey’:
-	workspaceKeySecret, err := resolved.ResolvedSecrets.Lookup(analytics.WorkspaceKey)
-	if err != nil {
-		return nil, errors.Wrap(err, "looking up secret for property WorkspaceKey")
-	}
-	result.WorkspaceKey = workspaceKeySecret
-
-	// Set property ‘WorkspaceResourceId’:
-	if analytics.WorkspaceResourceReference != nil {
-		workspaceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*analytics.WorkspaceResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		workspaceResourceReference := workspaceResourceReferenceARMID
-		result.WorkspaceResourceId = &workspaceResourceReference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (analytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (analytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘LogType’:
-	if typedInput.LogType != nil {
-		logType := *typedInput.LogType
-		analytics.LogType = &logType
-	}
-
-	// Set property ‘Metadata’:
-	if typedInput.Metadata != nil {
-		analytics.Metadata = make(map[string]string, len(typedInput.Metadata))
-		for key, value := range typedInput.Metadata {
-			analytics.Metadata[key] = value
-		}
-	}
-
-	// Set property ‘WorkspaceId’:
-	if typedInput.WorkspaceId != nil {
-		workspaceId := *typedInput.WorkspaceId
-		analytics.WorkspaceId = &workspaceId
-	}
-
-	// no assignment for property ‘WorkspaceKey’
-
-	// no assignment for property ‘WorkspaceResourceReference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec populates our ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec from the provided source ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec
-func (analytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) AssignProperties_From_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec(source *v20211001s.ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) error {
-
-	// LogType
-	if source.LogType != nil {
-		logType := ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec(*source.LogType)
-		analytics.LogType = &logType
-	} else {
-		analytics.LogType = nil
-	}
-
-	// Metadata
-	analytics.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// WorkspaceId
-	analytics.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
-
-	// WorkspaceKey
-	if source.WorkspaceKey != nil {
-		analytics.WorkspaceKey = source.WorkspaceKey.Copy()
-	} else {
-		analytics.WorkspaceKey = genruntime.SecretReference{}
-	}
-
-	// WorkspaceResourceReference
-	if source.WorkspaceResourceReference != nil {
-		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
-		analytics.WorkspaceResourceReference = &workspaceResourceReference
-	} else {
-		analytics.WorkspaceResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec populates the provided destination ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec from our ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec
-func (analytics *ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) AssignProperties_To_ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec(destination *v20211001s.ContainerGroup_Properties_Diagnostics_LogAnalytics_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// LogType
-	if analytics.LogType != nil {
-		logType := string(*analytics.LogType)
-		destination.LogType = &logType
-	} else {
-		destination.LogType = nil
-	}
-
-	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(analytics.Metadata)
-
-	// WorkspaceId
-	destination.WorkspaceId = genruntime.ClonePointerToString(analytics.WorkspaceId)
-
-	// WorkspaceKey
-	workspaceKey := analytics.WorkspaceKey.Copy()
-	destination.WorkspaceKey = &workspaceKey
-
-	// WorkspaceResourceReference
-	if analytics.WorkspaceResourceReference != nil {
-		workspaceResourceReference := analytics.WorkspaceResourceReference.Copy()
-		destination.WorkspaceResourceReference = &workspaceResourceReference
-	} else {
-		destination.WorkspaceResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec struct {
-	// +kubebuilder:validation:Required
-	// Name: The name of the environment variable.
-	Name *string `json:"name,omitempty"`
-
-	// SecureValue: The value of the secure environment variable.
-	SecureValue *genruntime.SecretReference `json:"secureValue,omitempty"`
-
-	// Value: The value of the environment variable.
-	Value *string `json:"value,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (variables *ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if variables == nil {
-		return nil, nil
-	}
-	result := &ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if variables.Name != nil {
-		name := *variables.Name
-		result.Name = &name
-	}
-
-	// Set property ‘SecureValue’:
-	if variables.SecureValue != nil {
-		secureValueSecret, err := resolved.ResolvedSecrets.Lookup(*variables.SecureValue)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property SecureValue")
-		}
-		secureValue := secureValueSecret
-		result.SecureValue = &secureValue
-	}
-
-	// Set property ‘Value’:
-	if variables.Value != nil {
-		value := *variables.Value
-		result.Value = &value
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (variables *ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (variables *ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		variables.Name = &name
-	}
-
-	// no assignment for property ‘SecureValue’
-
-	// Set property ‘Value’:
-	if typedInput.Value != nil {
-		value := *typedInput.Value
-		variables.Value = &value
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec populates our ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec from the provided source ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec
-func (variables *ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) AssignProperties_From_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec(source *v20211001s.ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) error {
-
-	// Name
-	variables.Name = genruntime.ClonePointerToString(source.Name)
-
-	// SecureValue
-	if source.SecureValue != nil {
-		secureValue := source.SecureValue.Copy()
-		variables.SecureValue = &secureValue
-	} else {
-		variables.SecureValue = nil
-	}
-
-	// Value
-	variables.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec populates the provided destination ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec from our ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec
-func (variables *ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) AssignProperties_To_ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec(destination *v20211001s.ContainerGroup_Properties_InitContainers_Properties_EnvironmentVariables_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(variables.Name)
-
-	// SecureValue
-	if variables.SecureValue != nil {
-		secureValue := variables.SecureValue.Copy()
-		destination.SecureValue = &secureValue
-	} else {
-		destination.SecureValue = nil
-	}
-
-	// Value
-	destination.Value = genruntime.ClonePointerToString(variables.Value)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerPort
 type ContainerPort struct {
 	// +kubebuilder:validation:Required
 	// Port: The port number exposed within the container group.
@@ -6516,15 +6074,14 @@ func (port *ContainerPort_STATUS) AssignProperties_To_ContainerPort_STATUS(desti
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerProbe
 type ContainerProbe struct {
-	// Exec: The container execution command, for liveness or readiness probe
+	// Exec: The execution command to probe
 	Exec *ContainerExec `json:"exec,omitempty"`
 
 	// FailureThreshold: The failure threshold.
 	FailureThreshold *int `json:"failureThreshold,omitempty"`
 
-	// HttpGet: The container Http Get settings, for liveness or readiness probe
+	// HttpGet: The Http Get settings to probe
 	HttpGet *ContainerHttpGet `json:"httpGet,omitempty"`
 
 	// InitialDelaySeconds: The initial delay seconds.
@@ -7147,6 +6704,132 @@ func (view *ContainerProperties_InstanceView_STATUS) AssignProperties_To_Contain
 	return nil
 }
 
+type EnvironmentVariable struct {
+	// +kubebuilder:validation:Required
+	// Name: The name of the environment variable.
+	Name *string `json:"name,omitempty"`
+
+	// SecureValue: The value of the secure environment variable.
+	SecureValue *genruntime.SecretReference `json:"secureValue,omitempty"`
+
+	// Value: The value of the environment variable.
+	Value *string `json:"value,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &EnvironmentVariable{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (variable *EnvironmentVariable) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if variable == nil {
+		return nil, nil
+	}
+	result := &EnvironmentVariable_ARM{}
+
+	// Set property ‘Name’:
+	if variable.Name != nil {
+		name := *variable.Name
+		result.Name = &name
+	}
+
+	// Set property ‘SecureValue’:
+	if variable.SecureValue != nil {
+		secureValueSecret, err := resolved.ResolvedSecrets.Lookup(*variable.SecureValue)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property SecureValue")
+		}
+		secureValue := secureValueSecret
+		result.SecureValue = &secureValue
+	}
+
+	// Set property ‘Value’:
+	if variable.Value != nil {
+		value := *variable.Value
+		result.Value = &value
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (variable *EnvironmentVariable) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EnvironmentVariable_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (variable *EnvironmentVariable) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EnvironmentVariable_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EnvironmentVariable_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		variable.Name = &name
+	}
+
+	// no assignment for property ‘SecureValue’
+
+	// Set property ‘Value’:
+	if typedInput.Value != nil {
+		value := *typedInput.Value
+		variable.Value = &value
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_EnvironmentVariable populates our EnvironmentVariable from the provided source EnvironmentVariable
+func (variable *EnvironmentVariable) AssignProperties_From_EnvironmentVariable(source *v20211001s.EnvironmentVariable) error {
+
+	// Name
+	variable.Name = genruntime.ClonePointerToString(source.Name)
+
+	// SecureValue
+	if source.SecureValue != nil {
+		secureValue := source.SecureValue.Copy()
+		variable.SecureValue = &secureValue
+	} else {
+		variable.SecureValue = nil
+	}
+
+	// Value
+	variable.Value = genruntime.ClonePointerToString(source.Value)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EnvironmentVariable populates the provided destination EnvironmentVariable from our EnvironmentVariable
+func (variable *EnvironmentVariable) AssignProperties_To_EnvironmentVariable(destination *v20211001s.EnvironmentVariable) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(variable.Name)
+
+	// SecureValue
+	if variable.SecureValue != nil {
+		secureValue := variable.SecureValue.Copy()
+		destination.SecureValue = &secureValue
+	} else {
+		destination.SecureValue = nil
+	}
+
+	// Value
+	destination.Value = genruntime.ClonePointerToString(variable.Value)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type EnvironmentVariable_STATUS struct {
 	// Name: The name of the environment variable.
 	Name *string `json:"name,omitempty"`
@@ -7353,7 +7036,6 @@ func (event *Event_STATUS) AssignProperties_To_Event_STATUS(destination *v202110
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/GitRepoVolume
 type GitRepoVolume struct {
 	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
 	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
@@ -7781,6 +7463,191 @@ const (
 	IpAddress_Type_STATUS_Public  = IpAddress_Type_STATUS("Public")
 )
 
+type LogAnalytics struct {
+	// LogType: The log type to be used.
+	LogType *LogAnalytics_LogType `json:"logType,omitempty"`
+
+	// Metadata: Metadata for log analytics.
+	Metadata map[string]string `json:"metadata,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// WorkspaceId: The workspace id for log analytics
+	WorkspaceId *string `json:"workspaceId,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// WorkspaceKey: The workspace key for log analytics
+	WorkspaceKey genruntime.SecretReference `json:"workspaceKey,omitempty"`
+
+	// WorkspaceResourceReference: The workspace resource id for log analytics
+	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &LogAnalytics{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (analytics *LogAnalytics) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if analytics == nil {
+		return nil, nil
+	}
+	result := &LogAnalytics_ARM{}
+
+	// Set property ‘LogType’:
+	if analytics.LogType != nil {
+		logType := *analytics.LogType
+		result.LogType = &logType
+	}
+
+	// Set property ‘Metadata’:
+	if analytics.Metadata != nil {
+		result.Metadata = make(map[string]string, len(analytics.Metadata))
+		for key, value := range analytics.Metadata {
+			result.Metadata[key] = value
+		}
+	}
+
+	// Set property ‘WorkspaceId’:
+	if analytics.WorkspaceId != nil {
+		workspaceId := *analytics.WorkspaceId
+		result.WorkspaceId = &workspaceId
+	}
+
+	// Set property ‘WorkspaceKey’:
+	workspaceKeySecret, err := resolved.ResolvedSecrets.Lookup(analytics.WorkspaceKey)
+	if err != nil {
+		return nil, errors.Wrap(err, "looking up secret for property WorkspaceKey")
+	}
+	result.WorkspaceKey = workspaceKeySecret
+
+	// Set property ‘WorkspaceResourceId’:
+	if analytics.WorkspaceResourceReference != nil {
+		workspaceResourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*analytics.WorkspaceResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		workspaceResourceReference := workspaceResourceReferenceARMID
+		result.WorkspaceResourceId = &workspaceResourceReference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (analytics *LogAnalytics) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LogAnalytics_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (analytics *LogAnalytics) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(LogAnalytics_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LogAnalytics_ARM, got %T", armInput)
+	}
+
+	// Set property ‘LogType’:
+	if typedInput.LogType != nil {
+		logType := *typedInput.LogType
+		analytics.LogType = &logType
+	}
+
+	// Set property ‘Metadata’:
+	if typedInput.Metadata != nil {
+		analytics.Metadata = make(map[string]string, len(typedInput.Metadata))
+		for key, value := range typedInput.Metadata {
+			analytics.Metadata[key] = value
+		}
+	}
+
+	// Set property ‘WorkspaceId’:
+	if typedInput.WorkspaceId != nil {
+		workspaceId := *typedInput.WorkspaceId
+		analytics.WorkspaceId = &workspaceId
+	}
+
+	// no assignment for property ‘WorkspaceKey’
+
+	// no assignment for property ‘WorkspaceResourceReference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_LogAnalytics populates our LogAnalytics from the provided source LogAnalytics
+func (analytics *LogAnalytics) AssignProperties_From_LogAnalytics(source *v20211001s.LogAnalytics) error {
+
+	// LogType
+	if source.LogType != nil {
+		logType := LogAnalytics_LogType(*source.LogType)
+		analytics.LogType = &logType
+	} else {
+		analytics.LogType = nil
+	}
+
+	// Metadata
+	analytics.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+
+	// WorkspaceId
+	analytics.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
+
+	// WorkspaceKey
+	if source.WorkspaceKey != nil {
+		analytics.WorkspaceKey = source.WorkspaceKey.Copy()
+	} else {
+		analytics.WorkspaceKey = genruntime.SecretReference{}
+	}
+
+	// WorkspaceResourceReference
+	if source.WorkspaceResourceReference != nil {
+		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
+		analytics.WorkspaceResourceReference = &workspaceResourceReference
+	} else {
+		analytics.WorkspaceResourceReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_LogAnalytics populates the provided destination LogAnalytics from our LogAnalytics
+func (analytics *LogAnalytics) AssignProperties_To_LogAnalytics(destination *v20211001s.LogAnalytics) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// LogType
+	if analytics.LogType != nil {
+		logType := string(*analytics.LogType)
+		destination.LogType = &logType
+	} else {
+		destination.LogType = nil
+	}
+
+	// Metadata
+	destination.Metadata = genruntime.CloneMapOfStringToString(analytics.Metadata)
+
+	// WorkspaceId
+	destination.WorkspaceId = genruntime.ClonePointerToString(analytics.WorkspaceId)
+
+	// WorkspaceKey
+	workspaceKey := analytics.WorkspaceKey.Copy()
+	destination.WorkspaceKey = &workspaceKey
+
+	// WorkspaceResourceReference
+	if analytics.WorkspaceResourceReference != nil {
+		workspaceResourceReference := analytics.WorkspaceResourceReference.Copy()
+		destination.WorkspaceResourceReference = &workspaceResourceReference
+	} else {
+		destination.WorkspaceResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type LogAnalytics_STATUS struct {
 	// LogType: The log type to be used.
 	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
@@ -7881,7 +7748,6 @@ func (analytics *LogAnalytics_STATUS) AssignProperties_To_LogAnalytics_STATUS(de
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/Port
 type Port struct {
 	// +kubebuilder:validation:Required
 	// Port: The port number.
@@ -8070,13 +7936,12 @@ func (port *Port_STATUS) AssignProperties_To_Port_STATUS(destination *v20211001s
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceRequirements
 type ResourceRequirements struct {
-	// Limits: The resource limits.
+	// Limits: The resource limits of this container instance.
 	Limits *ResourceLimits `json:"limits,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Requests: The resource requests.
+	// Requests: The resource requests of this container instance.
 	Requests *ResourceRequests `json:"requests,omitempty"`
 }
 
@@ -8412,7 +8277,6 @@ func (identities *UserAssignedIdentities_STATUS) AssignProperties_To_UserAssigne
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/VolumeMount
 type VolumeMount struct {
 	// +kubebuilder:validation:Required
 	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
@@ -8638,7 +8502,6 @@ func (mount *VolumeMount_STATUS) AssignProperties_To_VolumeMount_STATUS(destinat
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerExec
 type ContainerExec struct {
 	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
@@ -8767,15 +8630,6 @@ func (exec *ContainerExec_STATUS) AssignProperties_To_ContainerExec_STATUS(desti
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"ContainerInsights","ContainerInstanceLogs"}
-type ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec string
-
-const (
-	ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec_ContainerInsights     = ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec("ContainerInsights")
-	ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec_ContainerInstanceLogs = ContainerGroup_Properties_Diagnostics_LogAnalytics_LogType_Spec("ContainerInstanceLogs")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerHttpGet
 type ContainerHttpGet struct {
 	// HttpHeaders: The HTTP headers.
 	HttpHeaders []HttpHeader `json:"httpHeaders,omitempty"`
@@ -9240,6 +9094,14 @@ func (state *ContainerState_STATUS) AssignProperties_To_ContainerState_STATUS(de
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"ContainerInsights","ContainerInstanceLogs"}
+type LogAnalytics_LogType string
+
+const (
+	LogAnalytics_LogType_ContainerInsights     = LogAnalytics_LogType("ContainerInsights")
+	LogAnalytics_LogType_ContainerInstanceLogs = LogAnalytics_LogType("ContainerInstanceLogs")
+)
+
 type LogAnalytics_LogType_STATUS string
 
 const (
@@ -9262,12 +9124,11 @@ const (
 	Port_Protocol_STATUS_UDP = Port_Protocol_STATUS("UDP")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceLimits
 type ResourceLimits struct {
 	// Cpu: The CPU limit of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
 
-	// Gpu: The GPU resource.
+	// Gpu: The GPU limit of this container instance.
 	Gpu *GpuResource `json:"gpu,omitempty"`
 
 	// MemoryInGB: The memory limit in GB of this container instance.
@@ -9556,13 +9417,12 @@ func (limits *ResourceLimits_STATUS) AssignProperties_To_ResourceLimits_STATUS(d
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ResourceRequests
 type ResourceRequests struct {
 	// +kubebuilder:validation:Required
 	// Cpu: The CPU request of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
 
-	// Gpu: The GPU resource.
+	// Gpu: The GPU request of this container instance.
 	Gpu *GpuResource `json:"gpu,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -9867,7 +9727,6 @@ const (
 	ContainerHttpGet_Scheme_STATUS_Https = ContainerHttpGet_Scheme_STATUS("https")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/GpuResource
 type GpuResource struct {
 	// +kubebuilder:validation:Required
 	// Count: The count of the GPU resource.
@@ -10057,7 +9916,6 @@ func (resource *GpuResource_STATUS) AssignProperties_To_GpuResource_STATUS(desti
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/HttpHeader
 type HttpHeader struct {
 	// Name: The header name.
 	Name *string `json:"name,omitempty"`

@@ -43,7 +43,6 @@ func AddSecrets(config *config.Configuration) *Stage {
 			return state.WithDefinitions(result), nil
 		})
 
-	stage.RequiresPrerequisiteStages(AugmentSpecWithStatusStageID)
 	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
 
 	return stage

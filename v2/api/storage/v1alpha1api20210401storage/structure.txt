@@ -314,7 +314,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Type: *string
 ├── StorageAccountsBlobService: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401.StorageAccount
-│   ├── Spec: Object (14 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AutomaticSnapshotPolicyEnabled: *bool
 │   │   ├── ChangeFeed: *Object (3 properties)
 │   │   │   ├── Enabled: *bool
@@ -345,15 +345,13 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TrackingGranularityInDays: *int
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── RestorePolicy: *Object (3 properties)
-│   │   │   ├── Days: *int
-│   │   │   ├── Enabled: *bool
-│   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── RestorePolicy: *Object (3 properties)
+│   │       ├── Days: *int
+│   │       ├── Enabled: *bool
+│   │       └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (15 properties)
 │       ├── AutomaticSnapshotPolicyEnabled: *bool
 │       ├── ChangeFeed: *Object (3 properties)
@@ -402,7 +400,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Type: *string
 ├── StorageAccountsBlobServicesContainer: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401.StorageAccountsBlobService
-│   ├── Spec: Object (11 properties)
+│   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: Validated<string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 63
 │   │   │   └── Rule 1: MinLength: 3
@@ -411,13 +409,11 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   ├── ImmutableStorageWithVersioning: *Object (2 properties)
 │   │   │   ├── Enabled: *bool
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Location: *string
 │   │   ├── Metadata: map[string]string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── PublicAccess: *string
-│   │   └── Tags: map[string]string
+│   │   └── PublicAccess: *string
 │   └── Status: Object (23 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── DefaultEncryptionScope: *string
@@ -470,7 +466,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Version: *string
 ├── StorageAccountsManagementPolicy: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401.StorageAccount
-│   ├── Spec: Object (5 properties)
+│   ├── Spec: Object (4 properties)
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Policy: *Object (2 properties)
@@ -530,8 +526,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   │       ├── Name: *string
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       └── Type: *string
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -598,7 +593,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Type: *string
 ├── StorageAccountsQueueService: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401.StorageAccount
-│   ├── Spec: Object (6 properties)
+│   ├── Spec: Object (4 properties)
 │   │   ├── Cors: *Object (2 properties)
 │   │   │   ├── CorsRules: Object (6 properties)[]
 │   │   │   │   ├── AllowedHeaders: string[]
@@ -608,11 +603,9 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │   │   │   │   ├── MaxAgeInSeconds: *int
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (6 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Cors: *Object (2 properties)
@@ -630,16 +623,14 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storag
 │       └── Type: *string
 └── StorageAccountsQueueServicesQueue: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401.StorageAccountsQueueService
-    ├── Spec: Object (7 properties)
+    ├── Spec: Object (5 properties)
     │   ├── AzureName: Validated<string> (2 rules)
     │   │   ├── Rule 0: MaxLength: 63
     │   │   └── Rule 1: MinLength: 3
-    │   ├── Location: *string
     │   ├── Metadata: map[string]string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: map[string]string
+    │   └── PropertyBag: genruntime.PropertyBag
     └── Status: Object (7 properties)
         ├── ApproximateMessageCount: *int
         ├── Conditions: conditions.Condition[]

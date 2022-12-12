@@ -167,7 +167,7 @@ func AddIndependentPropertyGeneratorsForDomainProperties_ARM(gens map[string]gop
 // AddRelatedPropertyGeneratorsForDomainProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomainProperties_ARM(gens map[string]gopter.Gen) {
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRule_ARMGenerator())
-	gens["InputSchemaMapping"] = gen.PtrOf(JsonInputSchemaMapping_ARMGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMapping_ARMGenerator())
 }
 
 func Test_InboundIpRule_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -229,6 +229,75 @@ func InboundIpRule_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForInboundIpRule_ARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_InputSchemaMapping_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InputSchemaMapping_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInputSchemaMapping_ARM, InputSchemaMapping_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInputSchemaMapping_ARM runs a test to see if a specific instance of InputSchemaMapping_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInputSchemaMapping_ARM(subject InputSchemaMapping_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InputSchemaMapping_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InputSchemaMapping_ARM instances for property testing - lazily instantiated by
+// InputSchemaMapping_ARMGenerator()
+var inputSchemaMapping_ARMGenerator gopter.Gen
+
+// InputSchemaMapping_ARMGenerator returns a generator of InputSchemaMapping_ARM instances for property testing.
+func InputSchemaMapping_ARMGenerator() gopter.Gen {
+	if inputSchemaMapping_ARMGenerator != nil {
+		return inputSchemaMapping_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForInputSchemaMapping_ARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(InputSchemaMapping_ARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	inputSchemaMapping_ARMGenerator = gen.OneGenOf(gens...)
+
+	return inputSchemaMapping_ARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForInputSchemaMapping_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInputSchemaMapping_ARM(gens map[string]gopter.Gen) {
+	gens["Json"] = JsonInputSchemaMapping_ARMGenerator().Map(func(it JsonInputSchemaMapping_ARM) *JsonInputSchemaMapping_ARM {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_JsonInputSchemaMapping_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -298,7 +367,7 @@ func JsonInputSchemaMapping_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForJsonInputSchemaMapping_ARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_Json))
+	gens["InputSchemaMappingType"] = gen.OneConstOf(JsonInputSchemaMapping_InputSchemaMappingType_Json)
 }
 
 // AddRelatedPropertyGeneratorsForJsonInputSchemaMapping_ARM is a factory method for creating gopter generators

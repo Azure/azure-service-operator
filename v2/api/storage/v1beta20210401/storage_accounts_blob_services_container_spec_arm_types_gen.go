@@ -6,19 +6,10 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_BlobServices_Container_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the blob container within the specified storage account. Blob container names must be between 3 and 63
-	// characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately
-	// preceded and followed by a letter or number.
 	Name string `json:"name,omitempty"`
 
-	// Properties: The properties of a container.
+	// Properties: Properties of the blob container.
 	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_Spec_ARM{}
@@ -38,7 +29,6 @@ func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() stri
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ContainerProperties
 type ContainerProperties_ARM struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
@@ -46,7 +36,8 @@ type ContainerProperties_ARM struct {
 	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
 	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
-	// ImmutableStorageWithVersioning: Object level immutability properties of the container.
+	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
+	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
@@ -56,7 +47,6 @@ type ContainerProperties_ARM struct {
 	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning
 type ImmutableStorageWithVersioning_ARM struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`

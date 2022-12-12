@@ -272,7 +272,7 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 	armPropName := values[0]
 	newProp := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
-		c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
+		c.idFactory.CreateStringIdentifier(armPropName, astmodel.NotExported),
 		newPropType).MakeTypeOptional()
 
 	return newProp, nil

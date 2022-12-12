@@ -30,8 +30,8 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	vNext := test.MakeLocalPackageReference("verification", "vNext")
 
 	// Custom TypeDefinitionSet
-	alpha := astmodel.EnumValue{Identifier: "Alpha", Value: "alpha"}
-	beta := astmodel.EnumValue{Identifier: "Beta", Value: "beta"}
+	alpha := astmodel.MakeEnumValue("Alpha", "alpha")
+	beta := astmodel.MakeEnumValue("Beta", "beta")
 
 	enumType := astmodel.NewEnumType(astmodel.StringType, alpha, beta)
 	currentEnum := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Bucket"), enumType)

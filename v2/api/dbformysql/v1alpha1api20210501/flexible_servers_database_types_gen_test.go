@@ -163,127 +163,7 @@ func FlexibleServersDatabaseGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForFlexibleServersDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = FlexibleServers_Database_SpecGenerator()
-	gens["Status"] = Database_STATUSGenerator()
-}
-
-func Test_Database_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Database_STATUS to Database_STATUS via AssignProperties_To_Database_STATUS & AssignProperties_From_Database_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabase_STATUS, Database_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDatabase_STATUS tests if a specific instance of Database_STATUS can be assigned to v1alpha1api20210501storage and back losslessly
-func RunPropertyAssignmentTestForDatabase_STATUS(subject Database_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210501s.Database_STATUS
-	err := copied.AssignProperties_To_Database_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Database_STATUS
-	err = actual.AssignProperties_From_Database_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Database_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabase_STATUS, Database_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForDatabase_STATUS runs a test to see if a specific instance of Database_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabase_STATUS(subject Database_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Database_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Database_STATUS instances for property testing - lazily instantiated by Database_STATUSGenerator()
-var database_STATUSGenerator gopter.Gen
-
-// Database_STATUSGenerator returns a generator of Database_STATUS instances for property testing.
-// We first initialize database_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Database_STATUSGenerator() gopter.Gen {
-	if database_STATUSGenerator != nil {
-		return database_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabase_STATUS(generators)
-	database_STATUSGenerator = gen.Struct(reflect.TypeOf(Database_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabase_STATUS(generators)
-	AddRelatedPropertyGeneratorsForDatabase_STATUS(generators)
-	database_STATUSGenerator = gen.Struct(reflect.TypeOf(Database_STATUS{}), generators)
-
-	return database_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForDatabase_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["Charset"] = gen.PtrOf(gen.AlphaString())
-	gens["Collation"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForDatabase_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabase_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+	gens["Status"] = FlexibleServers_Database_STATUSGenerator()
 }
 
 func Test_FlexibleServers_Database_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -389,6 +269,125 @@ func AddIndependentPropertyGeneratorsForFlexibleServers_Database_Spec(gens map[s
 	gens["AzureName"] = gen.AlphaString()
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_FlexibleServers_Database_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServers_Database_STATUS to FlexibleServers_Database_STATUS via AssignProperties_To_FlexibleServers_Database_STATUS & AssignProperties_From_FlexibleServers_Database_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServers_Database_STATUS, FlexibleServers_Database_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServers_Database_STATUS tests if a specific instance of FlexibleServers_Database_STATUS can be assigned to v1alpha1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServers_Database_STATUS(subject FlexibleServers_Database_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210501s.FlexibleServers_Database_STATUS
+	err := copied.AssignProperties_To_FlexibleServers_Database_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServers_Database_STATUS
+	err = actual.AssignProperties_From_FlexibleServers_Database_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServers_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServers_Database_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServers_Database_STATUS, FlexibleServers_Database_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServers_Database_STATUS runs a test to see if a specific instance of FlexibleServers_Database_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServers_Database_STATUS(subject FlexibleServers_Database_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServers_Database_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServers_Database_STATUS instances for property testing - lazily instantiated by
+// FlexibleServers_Database_STATUSGenerator()
+var flexibleServers_Database_STATUSGenerator gopter.Gen
+
+// FlexibleServers_Database_STATUSGenerator returns a generator of FlexibleServers_Database_STATUS instances for property testing.
+// We first initialize flexibleServers_Database_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func FlexibleServers_Database_STATUSGenerator() gopter.Gen {
+	if flexibleServers_Database_STATUSGenerator != nil {
+		return flexibleServers_Database_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServers_Database_STATUS(generators)
+	flexibleServers_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Database_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForFlexibleServers_Database_STATUS(generators)
+	AddRelatedPropertyGeneratorsForFlexibleServers_Database_STATUS(generators)
+	flexibleServers_Database_STATUSGenerator = gen.Struct(reflect.TypeOf(FlexibleServers_Database_STATUS{}), generators)
+
+	return flexibleServers_Database_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForFlexibleServers_Database_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForFlexibleServers_Database_STATUS(gens map[string]gopter.Gen) {
+	gens["Charset"] = gen.PtrOf(gen.AlphaString())
+	gens["Collation"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForFlexibleServers_Database_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServers_Database_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

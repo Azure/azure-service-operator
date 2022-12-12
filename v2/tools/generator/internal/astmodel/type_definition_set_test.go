@@ -387,8 +387,8 @@ func createTestTypes(defs ...TypeDefinition) TypeDefinitionSet {
 func createTestResource(
 	name string,
 	spec TypeDefinition,
-	status TypeDefinition) TypeDefinition {
-
+	status TypeDefinition,
+) TypeDefinition {
 	resourceType := NewResourceType(spec.Name(), status.Name())
 	return MakeTypeDefinition(MakeTypeName(pkg, name), resourceType)
 }

@@ -163,128 +163,7 @@ func NamespacesAuthorizationRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_AuthorizationRule_SpecGenerator()
-	gens["Status"] = AuthorizationRule_STATUSGenerator()
-}
-
-func Test_AuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AuthorizationRule_STATUS to AuthorizationRule_STATUS via AssignProperties_To_AuthorizationRule_STATUS & AssignProperties_From_AuthorizationRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAuthorizationRule_STATUS, AuthorizationRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAuthorizationRule_STATUS tests if a specific instance of AuthorizationRule_STATUS can be assigned to v1alpha1api20211101storage and back losslessly
-func RunPropertyAssignmentTestForAuthorizationRule_STATUS(subject AuthorizationRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20211101s.AuthorizationRule_STATUS
-	err := copied.AssignProperties_To_AuthorizationRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AuthorizationRule_STATUS
-	err = actual.AssignProperties_From_AuthorizationRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AuthorizationRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationRule_STATUS, AuthorizationRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAuthorizationRule_STATUS runs a test to see if a specific instance of AuthorizationRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationRule_STATUS(subject AuthorizationRule_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AuthorizationRule_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AuthorizationRule_STATUS instances for property testing - lazily instantiated by
-// AuthorizationRule_STATUSGenerator()
-var authorizationRule_STATUSGenerator gopter.Gen
-
-// AuthorizationRule_STATUSGenerator returns a generator of AuthorizationRule_STATUS instances for property testing.
-// We first initialize authorizationRule_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AuthorizationRule_STATUSGenerator() gopter.Gen {
-	if authorizationRule_STATUSGenerator != nil {
-		return authorizationRule_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(generators)
-	authorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAuthorizationRule_STATUS(generators)
-	authorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUS{}), generators)
-
-	return authorizationRule_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRule_Properties_Rights_STATUS_Listen, AuthorizationRule_Properties_Rights_STATUS_Manage, AuthorizationRule_Properties_Rights_STATUS_Send))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+	gens["Status"] = Namespaces_AuthorizationRule_STATUSGenerator()
 }
 
 func Test_Namespaces_AuthorizationRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -388,7 +267,126 @@ func Namespaces_AuthorizationRule_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen, Namespaces_AuthorizationRule_Properties_Rights_Spec_Manage, Namespaces_AuthorizationRule_Properties_Rights_Spec_Send))
+}
+
+func Test_Namespaces_AuthorizationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_AuthorizationRule_STATUS to Namespaces_AuthorizationRule_STATUS via AssignProperties_To_Namespaces_AuthorizationRule_STATUS & AssignProperties_From_Namespaces_AuthorizationRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS, Namespaces_AuthorizationRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS tests if a specific instance of Namespaces_AuthorizationRule_STATUS can be assigned to v1alpha1api20211101storage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_AuthorizationRule_STATUS(subject Namespaces_AuthorizationRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20211101s.Namespaces_AuthorizationRule_STATUS
+	err := copied.AssignProperties_To_Namespaces_AuthorizationRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_AuthorizationRule_STATUS
+	err = actual.AssignProperties_From_Namespaces_AuthorizationRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Namespaces_AuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Namespaces_AuthorizationRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS, Namespaces_AuthorizationRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS runs a test to see if a specific instance of Namespaces_AuthorizationRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_AuthorizationRule_STATUS(subject Namespaces_AuthorizationRule_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Namespaces_AuthorizationRule_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Namespaces_AuthorizationRule_STATUS instances for property testing - lazily instantiated by
+// Namespaces_AuthorizationRule_STATUSGenerator()
+var namespaces_AuthorizationRule_STATUSGenerator gopter.Gen
+
+// Namespaces_AuthorizationRule_STATUSGenerator returns a generator of Namespaces_AuthorizationRule_STATUS instances for property testing.
+// We first initialize namespaces_AuthorizationRule_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func Namespaces_AuthorizationRule_STATUSGenerator() gopter.Gen {
+	if namespaces_AuthorizationRule_STATUSGenerator != nil {
+		return namespaces_AuthorizationRule_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(generators)
+	namespaces_AuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_AuthorizationRule_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(generators)
+	namespaces_AuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_AuthorizationRule_STATUS{}), generators)
+
+	return namespaces_AuthorizationRule_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(AuthorizationRuleProperties_Rights_Listen, AuthorizationRuleProperties_Rights_Manage, AuthorizationRuleProperties_Rights_Send))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(Namespaces_AuthorizationRule_Properties_Rights_STATUS_Listen, Namespaces_AuthorizationRule_Properties_Rights_STATUS_Manage, Namespaces_AuthorizationRule_Properties_Rights_STATUS_Send))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_AuthorizationRule_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

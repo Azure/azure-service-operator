@@ -8,7 +8,7 @@ spec:
   owner:
     name: aso-sample-rg
   properties:
-    serverPropertiesForDefaultCreate:
+    default:
       administratorLogin: hellouser
       administratorLoginPassword:
         # This is a reference to a k8s secret

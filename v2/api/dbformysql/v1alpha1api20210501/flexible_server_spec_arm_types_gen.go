@@ -39,20 +39,20 @@ type Identity_ARM struct {
 
 // Deprecated version of ServerProperties. Use v1beta20210501.ServerProperties instead
 type ServerProperties_ARM struct {
-	AdministratorLogin         *string                           `json:"administratorLogin,omitempty"`
-	AdministratorLoginPassword *string                           `json:"administratorLoginPassword,omitempty"`
-	AvailabilityZone           *string                           `json:"availabilityZone,omitempty"`
-	Backup                     *Backup_ARM                       `json:"backup,omitempty"`
-	CreateMode                 *ServerProperties_CreateMode      `json:"createMode,omitempty"`
-	DataEncryption             *DataEncryption_ARM               `json:"dataEncryption,omitempty"`
-	HighAvailability           *HighAvailability_ARM             `json:"highAvailability,omitempty"`
-	MaintenanceWindow          *MaintenanceWindow_ARM            `json:"maintenanceWindow,omitempty"`
-	Network                    *Network_ARM                      `json:"network,omitempty"`
-	ReplicationRole            *ServerProperties_ReplicationRole `json:"replicationRole,omitempty"`
-	RestorePointInTime         *string                           `json:"restorePointInTime,omitempty"`
-	SourceServerResourceId     *string                           `json:"sourceServerResourceId,omitempty"`
-	Storage                    *Storage_ARM                      `json:"storage,omitempty"`
-	Version                    *ServerProperties_Version         `json:"version,omitempty"`
+	AdministratorLogin         *string                      `json:"administratorLogin,omitempty"`
+	AdministratorLoginPassword *string                      `json:"administratorLoginPassword,omitempty"`
+	AvailabilityZone           *string                      `json:"availabilityZone,omitempty"`
+	Backup                     *Backup_ARM                  `json:"backup,omitempty"`
+	CreateMode                 *ServerProperties_CreateMode `json:"createMode,omitempty"`
+	DataEncryption             *DataEncryption_ARM          `json:"dataEncryption,omitempty"`
+	HighAvailability           *HighAvailability_ARM        `json:"highAvailability,omitempty"`
+	MaintenanceWindow          *MaintenanceWindow_ARM       `json:"maintenanceWindow,omitempty"`
+	Network                    *Network_ARM                 `json:"network,omitempty"`
+	ReplicationRole            *ReplicationRole             `json:"replicationRole,omitempty"`
+	RestorePointInTime         *string                      `json:"restorePointInTime,omitempty"`
+	SourceServerResourceId     *string                      `json:"sourceServerResourceId,omitempty"`
+	Storage                    *Storage_ARM                 `json:"storage,omitempty"`
+	Version                    *ServerVersion               `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210501.Sku instead
@@ -63,8 +63,8 @@ type Sku_ARM struct {
 
 // Deprecated version of Backup. Use v1beta20210501.Backup instead
 type Backup_ARM struct {
-	BackupRetentionDays *int                       `json:"backupRetentionDays,omitempty"`
-	GeoRedundantBackup  *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int              `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *EnableStatusEnum `json:"geoRedundantBackup,omitempty"`
 }
 
 // Deprecated version of DataEncryption. Use v1beta20210501.DataEncryption instead
@@ -114,7 +114,7 @@ const (
 
 // Deprecated version of Storage. Use v1beta20210501.Storage instead
 type Storage_ARM struct {
-	AutoGrow      *Storage_AutoGrow `json:"autoGrow,omitempty"`
+	AutoGrow      *EnableStatusEnum `json:"autoGrow,omitempty"`
 	Iops          *int              `json:"iops,omitempty"`
 	StorageSizeGB *int              `json:"storageSizeGB,omitempty"`
 }

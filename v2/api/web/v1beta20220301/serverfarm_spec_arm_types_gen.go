@@ -6,25 +6,20 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Serverfarm_Spec_ARM struct {
-	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource Location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the App Service plan.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: AppServicePlan resource specific properties
-	Properties *AppServicePlanProperties_ARM `json:"properties,omitempty"`
+	Properties *Serverfarm_Properties_Spec_ARM `json:"properties,omitempty"`
+	Sku        *SkuDescription_ARM             `json:"sku,omitempty"`
 
-	// Sku: Description of a SKU for a scalable resource.
-	Sku *SkuDescription_ARM `json:"sku,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -45,8 +40,12 @@ func (serverfarm *Serverfarm_Spec_ARM) GetType() string {
 	return "Microsoft.Web/serverfarms"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AppServicePlanProperties
-type AppServicePlanProperties_ARM struct {
+type ExtendedLocation_ARM struct {
+	// Name: Name of extended location.
+	Name *string `json:"name,omitempty"`
+}
+
+type Serverfarm_Properties_Spec_ARM struct {
 	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
 	// ElasticPremium sku
 	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
@@ -54,7 +53,7 @@ type AppServicePlanProperties_ARM struct {
 	// FreeOfferExpirationTime: The time when the server farm free offer expires.
 	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
 
-	// HostingEnvironmentProfile: Specification for an App Service Environment to use for this resource.
+	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
 	HostingEnvironmentProfile *HostingEnvironmentProfile_ARM `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
@@ -66,7 +65,7 @@ type AppServicePlanProperties_ARM struct {
 	// IsXenon: Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
 	IsXenon *bool `json:"isXenon,omitempty"`
 
-	// KubeEnvironmentProfile: Specification for a Kubernetes Environment to use for this resource.
+	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
 	KubeEnvironmentProfile *KubeEnvironmentProfile_ARM `json:"kubeEnvironmentProfile,omitempty"`
 
 	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
@@ -96,13 +95,6 @@ type AppServicePlanProperties_ARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ExtendedLocation
-type ExtendedLocation_ARM struct {
-	// Name: Name of extended location.
-	Name *string `json:"name,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SkuDescription
 type SkuDescription_ARM struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability_ARM `json:"capabilities,omitempty"`
@@ -122,14 +114,13 @@ type SkuDescription_ARM struct {
 	// Size: Size specifier of the resource SKU.
 	Size *string `json:"size,omitempty"`
 
-	// SkuCapacity: Description of the App Service plan scale options.
+	// SkuCapacity: Min, max, and default scale values of the SKU.
 	SkuCapacity *SkuCapacity_ARM `json:"skuCapacity,omitempty"`
 
 	// Tier: Service tier of the resource SKU.
 	Tier *string `json:"tier,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/Capability
 type Capability_ARM struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -141,17 +132,14 @@ type Capability_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HostingEnvironmentProfile
 type HostingEnvironmentProfile_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/KubeEnvironmentProfile
 type KubeEnvironmentProfile_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SkuCapacity
 type SkuCapacity_ARM struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`

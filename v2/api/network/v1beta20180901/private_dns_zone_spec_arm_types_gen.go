@@ -6,16 +6,14 @@ package v1beta20180901
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type PrivateDnsZone_Spec_ARM struct {
-	// Etag: The ETag of the Private DNS zone.
+	// Etag: The ETag of the zone.
 	Etag *string `json:"etag,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: The Azure Region where the resource lives
 	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 

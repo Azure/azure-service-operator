@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of RoleAssignment_Spec. Use v1beta20200801preview.RoleAssignment_Spec instead
 type RoleAssignment_Spec_ARM struct {
-	Location   *string                       `json:"location,omitempty"`
 	Name       string                        `json:"name,omitempty"`
 	Properties *RoleAssignmentProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string             `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RoleAssignment_Spec_ARM{}

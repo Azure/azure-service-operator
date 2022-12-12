@@ -35,7 +35,7 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 		Spec: containerinstance.ContainerGroup_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Containers: []containerinstance.ContainerGroup_Properties_Containers_Spec{
+			Containers: []containerinstance.Container{
 				{
 					Name:  &name,
 					Image: to.StringPtr("mcr.microsoft.com/azuredocs/aci-helloworld"),

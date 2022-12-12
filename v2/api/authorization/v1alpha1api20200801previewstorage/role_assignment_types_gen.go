@@ -214,7 +214,6 @@ type RoleAssignment_Spec struct {
 	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string `json:"description,omitempty"`
-	Location                           *string `json:"location,omitempty"`
 	OriginalVersion                    string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -229,7 +228,6 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-	Tags                    map[string]string             `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RoleAssignment_Spec{}
@@ -302,9 +300,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
-	// Location
-	assignment.Location = genruntime.ClonePointerToString(source.Location)
-
 	// OriginalVersion
 	assignment.OriginalVersion = source.OriginalVersion
 
@@ -338,9 +333,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 		assignment.RoleDefinitionReference = nil
 	}
 
-	// Tags
-	assignment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		assignment.PropertyBag = propertyBag
@@ -371,9 +363,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(assignment.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion
@@ -407,9 +396,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	} else {
 		destination.RoleDefinitionReference = nil
 	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(assignment.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -132,15 +132,13 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage
 │       └── Version: *string
 ├── FlexibleServersDatabase: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501.FlexibleServer
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (8 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
@@ -159,15 +157,13 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage
 │       └── Type: *string
 └── FlexibleServersFirewallRule: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501.FlexibleServer
-    ├── Spec: Object (8 properties)
+    ├── Spec: Object (6 properties)
     │   ├── AzureName: string
     │   ├── EndIpAddress: *string
-    │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── StartIpAddress: *string
-    │   └── Tags: map[string]string
+    │   └── StartIpAddress: *string
     └── Status: Object (8 properties)
         ├── Conditions: conditions.Condition[]
         ├── EndIpAddress: *string

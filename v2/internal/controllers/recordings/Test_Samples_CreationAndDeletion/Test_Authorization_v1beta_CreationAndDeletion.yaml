@@ -166,7 +166,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86","properties":{"principalId":"41619917-f554-424c-a284-d0d39d7183e3","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86","properties":{"principalId":"41619917-f554-424c-a284-d0d39d7183e3","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -207,7 +207,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86","properties":{"principalId":"41619917-f554-424c-a284-d0d39d7183e3","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"fee8b6b1-fe6e-481d-8330-0e950e4e6b86","properties":{"principalId":"41619917-f554-424c-a284-d0d39d7183e3","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:

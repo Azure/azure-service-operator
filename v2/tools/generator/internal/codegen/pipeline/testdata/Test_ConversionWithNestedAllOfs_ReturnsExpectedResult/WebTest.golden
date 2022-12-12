@@ -1,0 +1,8 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── WebTest: Object (4 properties)
+    ├── Kind: *Enum (2 values)
+    │   ├── multistep
+    │   └── ping
+    ├── Location: *string
+    ├── Properties: WebTestProperties
+    └── Tags: *interface{}

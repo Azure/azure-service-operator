@@ -6,25 +6,23 @@ package v1beta20220501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ConfigurationStore_Spec_ARM struct {
-	// Identity: An identity that can be associated with a resource.
+	// Identity: The managed identity information, if configured.
 	Identity *ResourceIdentity_ARM `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the configuration store.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration store.
 	Properties *ConfigurationStoreProperties_ARM `json:"properties,omitempty"`
 
-	// Sku: Describes a configuration store SKU.
+	// Sku: The sku of the configuration store.
 	Sku *Sku_ARM `json:"sku,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Resource system metadata.
 	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -45,7 +43,6 @@ func (store *ConfigurationStore_Spec_ARM) GetType() string {
 	return "Microsoft.AppConfiguration/configurationStores"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/ConfigurationStoreProperties
 type ConfigurationStoreProperties_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
 	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
@@ -56,7 +53,7 @@ type ConfigurationStoreProperties_ARM struct {
 	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
 	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
 
-	// Encryption: The encryption settings for a configuration store.
+	// Encryption: The encryption settings of the configuration store.
 	Encryption *EncryptionProperties_ARM `json:"encryption,omitempty"`
 
 	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
@@ -68,20 +65,17 @@ type ConfigurationStoreProperties_ARM struct {
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/ResourceIdentity
 type ResourceIdentity_ARM struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/Sku
 type Sku_ARM struct {
 	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/SystemData
 type SystemData_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -102,9 +96,8 @@ type SystemData_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/EncryptionProperties
 type EncryptionProperties_ARM struct {
-	// KeyVaultProperties: Settings concerning key vault encryption for a configuration store.
+	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 }
 
@@ -138,7 +131,6 @@ const (
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/KeyVaultProperties
 type KeyVaultProperties_ARM struct {
 	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`

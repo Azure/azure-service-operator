@@ -49,6 +49,35 @@ type Sku_STATUS_ARM struct {
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
+type SystemData_STATUS_ARM struct {
+	// CreatedAt: The timestamp of resource creation (UTC)
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: An identifier for the identity that created the resource
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource
+	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: An identifier for the identity that last modified the resource
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource
+	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+type IdentityType_STATUS string
+
+const (
+	IdentityType_STATUS_Application     = IdentityType_STATUS("application")
+	IdentityType_STATUS_Key             = IdentityType_STATUS("key")
+	IdentityType_STATUS_ManagedIdentity = IdentityType_STATUS("managedIdentity")
+	IdentityType_STATUS_User            = IdentityType_STATUS("user")
+)
+
 type Sku_Name_STATUS string
 
 const (

@@ -213,3 +213,15 @@ func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, currentPac
 
 	builder.WriteString("]")
 }
+
+func AsErroredType(t Type) (*ErroredType, bool) {
+	if et, ok := t.(*ErroredType); ok {
+		return et, true
+	}
+
+	if wrapper, ok := t.(MetaType); ok {
+		return AsErroredType(wrapper.Unwrap())
+	}
+
+	return nil, false
+}

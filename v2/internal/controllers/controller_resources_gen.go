@@ -246,14 +246,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(dbformariadb_v20180601s.Server),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword",
+				Key:  ".spec.properties.default.administratorLoginPassword",
 				Func: indexDbformariadbServerAdministratorLoginPassword,
 			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.default.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
 			},
 		},
 	})
@@ -321,7 +321,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.EventSubscription)})
+	result = append(result, &registration.StorageType{
+		Obj: new(eventgrid_v20200601s.EventSubscription),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.destination.webHook.endpointUrl",
+				Func: indexEventgridEventSubscriptionEndpointUrl,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.destination.webHook.endpointUrl"}, &eventgrid_v20200601s.EventSubscriptionList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Topic)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20211101s.NamespacesAuthorizationRule)})
@@ -370,6 +384,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
 			},
 			{
+				Key:  ".spec.properties.kubernetes.properties.relayConnectionString",
+				Func: indexMachinelearningservicesWorkspacesComputeRelayConnectionString,
+			},
+			{
+				Key:  ".spec.properties.kubernetes.properties.serviceBusConnectionString",
+				Func: indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString,
+			},
+			{
 				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
 				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
 			},
@@ -377,7 +399,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.kubernetes.properties.relayConnectionString", ".spec.properties.kubernetes.properties.serviceBusConnectionString", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
 			},
 		},
 	})
@@ -1141,7 +1163,7 @@ func indexContainerinstanceContainerGroupWorkspaceKey(rawObj client.Object) []st
 	return obj.Spec.Diagnostics.LogAnalytics.WorkspaceKey.Index()
 }
 
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
+// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.default.administratorLoginPassword
 func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
 	if !ok {
@@ -1150,13 +1172,13 @@ func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []s
 	if obj.Spec.Properties == nil {
 		return nil
 	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
+	if obj.Spec.Properties.Default == nil {
 		return nil
 	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
+	if obj.Spec.Properties.Default.AdministratorLoginPassword == nil {
 		return nil
 	}
-	return obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Index()
+	return obj.Spec.Properties.Default.AdministratorLoginPassword.Index()
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword
@@ -1193,6 +1215,24 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 		return nil
 	}
 	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20200601s.EventSubscription .spec.destination.webHook.endpointUrl
+func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20200601s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook.EndpointUrl == nil {
+		return nil
+	}
+	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
 }
 
 // indexKeyvaultVaultApplicationIdFromConfig an index function for keyvault_v20210401ps.Vault .spec.properties.accessPolicies.applicationIdFromConfig
@@ -1322,6 +1362,48 @@ func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj clien
 		return nil
 	}
 	return obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeRelayConnectionString an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.kubernetes.properties.relayConnectionString
+func indexMachinelearningservicesWorkspacesComputeRelayConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes.Properties.RelayConnectionString == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Kubernetes.Properties.RelayConnectionString.Index()
+}
+
+// indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.kubernetes.properties.serviceBusConnectionString
+func indexMachinelearningservicesWorkspacesComputeServiceBusConnectionString(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.Kubernetes.Properties.ServiceBusConnectionString == nil {
+		return nil
+	}
+	return obj.Spec.Properties.Kubernetes.Properties.ServiceBusConnectionString.Index()
 }
 
 // indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password

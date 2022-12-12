@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
+// Generator information:
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/stable/2021-05-01/managedClusters.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}
 type ManagedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -330,7 +331,9 @@ func (cluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
+// Generator information:
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/stable/2021-05-01/managedClusters.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}
 type ManagedClusterList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -343,7 +346,7 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-05-01")
 
 type ManagedCluster_Spec struct {
-	// AadProfile: For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
+	// AadProfile: The Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
@@ -352,13 +355,13 @@ type ManagedCluster_Spec struct {
 	// AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile `json:"agentPoolProfiles,omitempty"`
 
-	// ApiServerAccessProfile: Access profile for managed cluster API server.
+	// ApiServerAccessProfile: The access profile for managed cluster API server.
 	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile `json:"apiServerAccessProfile,omitempty"`
 
 	// AutoScalerProfile: Parameters to be applied to the cluster-autoscaler when enabled
-	AutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
+	AutoScalerProfile *ManagedClusterProperties_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
 
-	// AutoUpgradeProfile: Auto upgrade profile for a managed cluster.
+	// AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfile `json:"autoUpgradeProfile,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=63
@@ -387,20 +390,20 @@ type ManagedCluster_Spec struct {
 	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
 	EnableRBAC *bool `json:"enableRBAC,omitempty"`
 
-	// ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
 
-	// HttpProxyConfig: Cluster HTTP proxy configuration.
+	// HttpProxyConfig: Configurations for provisioning the cluster with HTTP proxy servers.
 	HttpProxyConfig *ManagedClusterHTTPProxyConfig `json:"httpProxyConfig,omitempty"`
 
-	// Identity: Identity for the managed cluster.
+	// Identity: The identity of the managed cluster, if configured.
 	Identity *ManagedClusterIdentity `json:"identity,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]UserAssignedIdentity `json:"identityProfile,omitempty"`
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -408,13 +411,14 @@ type ManagedCluster_Spec struct {
 	// cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details.
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
 
-	// LinuxProfile: Profile for Linux VMs in the container service cluster.
+	// LinuxProfile: The profile for Linux VMs in the Managed Cluster.
 	LinuxProfile *ContainerServiceLinuxProfile `json:"linuxProfile,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
-	// NetworkProfile: Profile of network configuration.
+	// NetworkProfile: The network configuration profile.
 	NetworkProfile *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
 
 	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
@@ -431,7 +435,7 @@ type ManagedCluster_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PodIdentityProfile: See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more
-	// details on pod identity integration.
+	// details on AAD pod identity integration.
 	PodIdentityProfile *ManagedClusterPodIdentityProfile `json:"podIdentityProfile,omitempty"`
 
 	// PrivateLinkResources: Private link resources associated with the cluster.
@@ -441,13 +445,13 @@ type ManagedCluster_Spec struct {
 	// APIs.
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 
-	// Sku: The SKU of a Managed Cluster.
+	// Sku: The managed cluster SKU.
 	Sku *ManagedClusterSKU `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// WindowsProfile: Profile for Windows VMs in the managed cluster.
+	// WindowsProfile: The profile for Windows VMs in the Managed Cluster.
 	WindowsProfile *ManagedClusterWindowsProfile `json:"windowsProfile,omitempty"`
 }
 
@@ -552,7 +556,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		autoScalerProfile := *autoScalerProfile_ARM.(*ManagedClusterPropertiesAutoScalerProfile_ARM)
+		autoScalerProfile := *autoScalerProfile_ARM.(*ManagedClusterProperties_AutoScalerProfile_ARM)
 		result.Properties.AutoScalerProfile = &autoScalerProfile
 	}
 	if cluster.AutoUpgradeProfile != nil {
@@ -600,13 +604,13 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		result.Properties.HttpProxyConfig = &httpProxyConfig
 	}
 	if cluster.IdentityProfile != nil {
-		result.Properties.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM, len(cluster.IdentityProfile))
+		result.Properties.IdentityProfile = make(map[string]UserAssignedIdentity_ARM, len(cluster.IdentityProfile))
 		for key, value := range cluster.IdentityProfile {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.Properties.IdentityProfile[key] = *value_ARM.(*Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM)
+			result.Properties.IdentityProfile[key] = *value_ARM.(*UserAssignedIdentity_ARM)
 		}
 	}
 	if cluster.KubernetesVersion != nil {
@@ -758,7 +762,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoScalerProfile != nil {
-			var autoScalerProfile1 ManagedClusterPropertiesAutoScalerProfile
+			var autoScalerProfile1 ManagedClusterProperties_AutoScalerProfile
 			err := autoScalerProfile1.PopulateFromARM(owner, *typedInput.Properties.AutoScalerProfile)
 			if err != nil {
 				return err
@@ -872,9 +876,9 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
-			cluster.IdentityProfile = make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(typedInput.Properties.IdentityProfile))
+			cluster.IdentityProfile = make(map[string]UserAssignedIdentity, len(typedInput.Properties.IdentityProfile))
 			for key, value := range typedInput.Properties.IdentityProfile {
-				var value1 Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+				var value1 UserAssignedIdentity
 				err := value1.PopulateFromARM(owner, value)
 				if err != nil {
 					return err
@@ -1134,10 +1138,10 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// AutoScalerProfile
 	if source.AutoScalerProfile != nil {
-		var autoScalerProfile ManagedClusterPropertiesAutoScalerProfile
-		err := autoScalerProfile.AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile(source.AutoScalerProfile)
+		var autoScalerProfile ManagedClusterProperties_AutoScalerProfile
+		err := autoScalerProfile.AssignProperties_From_ManagedClusterProperties_AutoScalerProfile(source.AutoScalerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterProperties_AutoScalerProfile() to populate field AutoScalerProfile")
 		}
 		cluster.AutoScalerProfile = &autoScalerProfile
 	} else {
@@ -1235,14 +1239,14 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// IdentityProfile
 	if source.IdentityProfile != nil {
-		identityProfileMap := make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(source.IdentityProfile))
+		identityProfileMap := make(map[string]UserAssignedIdentity, len(source.IdentityProfile))
 		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-			err := identityProfile.AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfileValue)
+			var identityProfile UserAssignedIdentity
+			err := identityProfile.AssignProperties_From_UserAssignedIdentity(&identityProfileValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity() to populate field IdentityProfile")
 			}
 			identityProfileMap[identityProfileKey] = identityProfile
 		}
@@ -1444,10 +1448,10 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// AutoScalerProfile
 	if cluster.AutoScalerProfile != nil {
-		var autoScalerProfile v20210501s.ManagedClusterPropertiesAutoScalerProfile
-		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile(&autoScalerProfile)
+		var autoScalerProfile v20210501s.ManagedClusterProperties_AutoScalerProfile
+		err := cluster.AutoScalerProfile.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(&autoScalerProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile() to populate field AutoScalerProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterProperties_AutoScalerProfile() to populate field AutoScalerProfile")
 		}
 		destination.AutoScalerProfile = &autoScalerProfile
 	} else {
@@ -1545,14 +1549,14 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
-		identityProfileMap := make(map[string]v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(cluster.IdentityProfile))
+		identityProfileMap := make(map[string]v20210501s.UserAssignedIdentity, len(cluster.IdentityProfile))
 		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
 			// Shadow the loop variable to avoid aliasing
 			identityProfileValue := identityProfileValue
-			var identityProfile v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-			err := identityProfileValue.AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
+			var identityProfile v20210501s.UserAssignedIdentity
+			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity(&identityProfile)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties() to populate field IdentityProfile")
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity() to populate field IdentityProfile")
 			}
 			identityProfileMap[identityProfileKey] = identityProfile
 		}
@@ -1710,7 +1714,7 @@ type ManagedCluster_STATUS struct {
 	AadProfile *ManagedClusterAADProfile_STATUS `json:"aadProfile,omitempty"`
 
 	// AddonProfiles: The profile of managed cluster add-on.
-	AddonProfiles *v1.JSON `json:"addonProfiles,omitempty"`
+	AddonProfiles map[string]ManagedClusterAddonProfile_STATUS `json:"addonProfiles,omitempty"`
 
 	// AgentPoolProfiles: The agent pool properties.
 	AgentPoolProfiles []ManagedClusterAgentPoolProfile_STATUS `json:"agentPoolProfiles,omitempty"`
@@ -1770,7 +1774,7 @@ type ManagedCluster_STATUS struct {
 	Identity *ManagedClusterIdentity_STATUS `json:"identity,omitempty"`
 
 	// IdentityProfile: Identities associated with the cluster.
-	IdentityProfile *v1.JSON `json:"identityProfile,omitempty"`
+	IdentityProfile map[string]UserAssignedIdentity_STATUS `json:"identityProfile,omitempty"`
 
 	// KubernetesVersion: When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades
 	// must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x ->
@@ -1911,8 +1915,15 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AddonProfiles != nil {
-			addonProfiles := *(*typedInput.Properties.AddonProfiles).DeepCopy()
-			cluster.AddonProfiles = &addonProfiles
+			cluster.AddonProfiles = make(map[string]ManagedClusterAddonProfile_STATUS, len(typedInput.Properties.AddonProfiles))
+			for key, value := range typedInput.Properties.AddonProfiles {
+				var value1 ManagedClusterAddonProfile_STATUS
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.AddonProfiles[key] = value1
+			}
 		}
 	}
 
@@ -2091,8 +2102,15 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IdentityProfile != nil {
-			identityProfile := *(*typedInput.Properties.IdentityProfile).DeepCopy()
-			cluster.IdentityProfile = &identityProfile
+			cluster.IdentityProfile = make(map[string]UserAssignedIdentity_STATUS, len(typedInput.Properties.IdentityProfile))
+			for key, value := range typedInput.Properties.IdentityProfile {
+				var value1 UserAssignedIdentity_STATUS
+				err := value1.PopulateFromARM(owner, value)
+				if err != nil {
+					return err
+				}
+				cluster.IdentityProfile[key] = value1
+			}
 		}
 	}
 
@@ -2296,8 +2314,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// AddonProfiles
 	if source.AddonProfiles != nil {
-		addonProfile := *source.AddonProfiles.DeepCopy()
-		cluster.AddonProfiles = &addonProfile
+		addonProfileMap := make(map[string]ManagedClusterAddonProfile_STATUS, len(source.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile ManagedClusterAddonProfile_STATUS
+			err := addonProfile.AssignProperties_From_ManagedClusterAddonProfile_STATUS(&addonProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterAddonProfile_STATUS() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		cluster.AddonProfiles = addonProfileMap
 	} else {
 		cluster.AddonProfiles = nil
 	}
@@ -2439,8 +2467,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// IdentityProfile
 	if source.IdentityProfile != nil {
-		identityProfile := *source.IdentityProfile.DeepCopy()
-		cluster.IdentityProfile = &identityProfile
+		identityProfileMap := make(map[string]UserAssignedIdentity_STATUS, len(source.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile UserAssignedIdentity_STATUS
+			err := identityProfile.AssignProperties_From_UserAssignedIdentity_STATUS(&identityProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		cluster.IdentityProfile = identityProfileMap
 	} else {
 		cluster.IdentityProfile = nil
 	}
@@ -2597,8 +2635,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// AddonProfiles
 	if cluster.AddonProfiles != nil {
-		addonProfile := *cluster.AddonProfiles.DeepCopy()
-		destination.AddonProfiles = &addonProfile
+		addonProfileMap := make(map[string]v20210501s.ManagedClusterAddonProfile_STATUS, len(cluster.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range cluster.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile v20210501s.ManagedClusterAddonProfile_STATUS
+			err := addonProfileValue.AssignProperties_To_ManagedClusterAddonProfile_STATUS(&addonProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterAddonProfile_STATUS() to populate field AddonProfiles")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
+		}
+		destination.AddonProfiles = addonProfileMap
 	} else {
 		destination.AddonProfiles = nil
 	}
@@ -2740,8 +2788,18 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// IdentityProfile
 	if cluster.IdentityProfile != nil {
-		identityProfile := *cluster.IdentityProfile.DeepCopy()
-		destination.IdentityProfile = &identityProfile
+		identityProfileMap := make(map[string]v20210501s.UserAssignedIdentity_STATUS, len(cluster.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range cluster.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile v20210501s.UserAssignedIdentity_STATUS
+			err := identityProfileValue.AssignProperties_To_UserAssignedIdentity_STATUS(&identityProfile)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field IdentityProfile")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
+		}
+		destination.IdentityProfile = identityProfileMap
 	} else {
 		destination.IdentityProfile = nil
 	}
@@ -2886,133 +2944,6 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
-	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties == nil {
-		return nil, nil
-	}
-	result := &Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM{}
-
-	// Set property ‘ClientId’:
-	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId != nil {
-		clientId := *etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId
-		result.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId != nil {
-		objectId := *etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId
-		result.ObjectId = &objectId
-	}
-
-	// Set property ‘ResourceId’:
-	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		resourceReference := resourceReferenceARMID
-		result.ResourceId = &resourceReference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if typedInput.ObjectId != nil {
-		objectId := *typedInput.ObjectId
-		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = &objectId
-	}
-
-	// no assignment for property ‘ResourceReference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from the provided source Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignProperties_From_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(source *v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
-
-	// ClientId
-	etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ObjectId
-	etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference = &resourceReference
-	} else {
-		etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties populates the provided destination Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties from our Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-func (etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignProperties_To_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(destination *v20210501s.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId)
-
-	// ObjectId
-	destination.ObjectId = genruntime.ClonePointerToString(etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId)
-
-	// ResourceReference
-	if etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
-		resourceReference := etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
 type ContainerServiceLinuxProfile struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[A-Za-z][-A-Za-z0-9_]*$"
@@ -3020,7 +2951,7 @@ type ContainerServiceLinuxProfile struct {
 	AdminUsername *string `json:"adminUsername,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Ssh: SSH configuration for Linux-based VMs running on Azure.
+	// Ssh: The SSH configuration for Linux-based VMs running on Azure.
 	Ssh *ContainerServiceSshConfiguration `json:"ssh,omitempty"`
 }
 
@@ -3243,7 +3174,6 @@ func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_To_Containe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceNetworkProfile
 type ContainerServiceNetworkProfile struct {
 	// +kubebuilder:validation:Pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
@@ -3255,7 +3185,7 @@ type ContainerServiceNetworkProfile struct {
 	// ranges or the Kubernetes service address range.
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
-	// LoadBalancerProfile: Profile of the managed cluster load balancer.
+	// LoadBalancerProfile: Profile of the cluster load balancer.
 	LoadBalancerProfile *ManagedClusterLoadBalancerProfile `json:"loadBalancerProfile,omitempty"`
 
 	// LoadBalancerSku: The default is 'standard'. See [Azure Load Balancer
@@ -3905,13 +3835,12 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_Contai
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -3973,7 +3902,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -4093,7 +4022,6 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAADProfile
 type ManagedClusterAADProfile struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
@@ -4480,7 +4408,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
 type ManagedClusterAddonProfile struct {
 	// Config: Key-value pairs for configuring an add-on.
 	Config map[string]string `json:"config,omitempty"`
@@ -4590,7 +4517,129 @@ func (profile *ManagedClusterAddonProfile) AssignProperties_To_ManagedClusterAdd
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfile
+type ManagedClusterAddonProfile_STATUS struct {
+	// Config: Key-value pairs for configuring an add-on.
+	Config map[string]string `json:"config,omitempty"`
+
+	// Enabled: Whether the add-on is enabled or not.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// Identity: Information of user assigned identity used by this add-on.
+	Identity *UserAssignedIdentity_STATUS `json:"identity,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ManagedClusterAddonProfile_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *ManagedClusterAddonProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterAddonProfile_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *ManagedClusterAddonProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterAddonProfile_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterAddonProfile_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Config’:
+	if typedInput.Config != nil {
+		profile.Config = make(map[string]string, len(typedInput.Config))
+		for key, value := range typedInput.Config {
+			profile.Config[key] = value
+		}
+	}
+
+	// Set property ‘Enabled’:
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		profile.Enabled = &enabled
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 UserAssignedIdentity_STATUS
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		profile.Identity = &identity
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterAddonProfile_STATUS populates our ManagedClusterAddonProfile_STATUS from the provided source ManagedClusterAddonProfile_STATUS
+func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedClusterAddonProfile_STATUS(source *v20210501s.ManagedClusterAddonProfile_STATUS) error {
+
+	// Config
+	profile.Config = genruntime.CloneMapOfStringToString(source.Config)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		profile.Enabled = &enabled
+	} else {
+		profile.Enabled = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity UserAssignedIdentity_STATUS
+		err := identity.AssignProperties_From_UserAssignedIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Identity")
+		}
+		profile.Identity = &identity
+	} else {
+		profile.Identity = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterAddonProfile_STATUS populates the provided destination ManagedClusterAddonProfile_STATUS from our ManagedClusterAddonProfile_STATUS
+func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClusterAddonProfile_STATUS(destination *v20210501s.ManagedClusterAddonProfile_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Config
+	destination.Config = genruntime.CloneMapOfStringToString(profile.Config)
+
+	// Enabled
+	if profile.Enabled != nil {
+		enabled := *profile.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Identity
+	if profile.Identity != nil {
+		var identity v20210501s.UserAssignedIdentity_STATUS
+		err := profile.Identity.AssignProperties_To_UserAssignedIdentity_STATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ManagedClusterAgentPoolProfile struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
@@ -4623,15 +4672,13 @@ type ManagedClusterAgentPoolProfile struct {
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	// GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
-	GpuInstanceProfile *ManagedClusterAgentPoolProfile_GpuInstanceProfile `json:"gpuInstanceProfile,omitempty"`
+	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
-	// KubeletConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
-	// more details.
-	KubeletConfig   *KubeletConfig                                  `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *ManagedClusterAgentPoolProfile_KubeletDiskType `json:"kubeletDiskType,omitempty"`
+	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
+	KubeletConfig   *KubeletConfig   `json:"kubeletConfig,omitempty"`
+	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
 
-	// LinuxOSConfig: See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for
-	// more details.
+	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig `json:"linuxOSConfig,omitempty"`
 
 	// MaxCount: The maximum number of nodes for auto-scaling
@@ -4641,10 +4688,9 @@ type ManagedClusterAgentPoolProfile struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int                                 `json:"minCount,omitempty"`
-	Mode     *ManagedClusterAgentPoolProfile_Mode `json:"mode,omitempty"`
+	MinCount *int           `json:"minCount,omitempty"`
+	Mode     *AgentPoolMode `json:"mode,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[a-z][a-z0-9]{0,11}$"
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
@@ -4664,16 +4710,11 @@ type ManagedClusterAgentPoolProfile struct {
 	// be within two minor versions of the control plane version. The node pool version cannot be greater than the control
 	// plane version. For more information see [upgrading a node
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
-	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
-
-	// +kubebuilder:validation:Maximum=2048
-	// +kubebuilder:validation:Minimum=0
-	// OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you
-	// specify 0, it will apply the default osDisk size according to the vmSize specified.
-	OsDiskSizeGB *int                                       `json:"osDiskSizeGB,omitempty"`
-	OsDiskType   *ManagedClusterAgentPoolProfile_OsDiskType `json:"osDiskType,omitempty"`
-	OsSKU        *ManagedClusterAgentPoolProfile_OsSKU      `json:"osSKU,omitempty"`
-	OsType       *ManagedClusterAgentPoolProfile_OsType     `json:"osType,omitempty"`
+	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *OSDiskType             `json:"osDiskType,omitempty"`
+	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
+	OsType              *OSType                 `json:"osType,omitempty"`
 
 	// PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
 	// details). This is of the form:
@@ -4681,14 +4722,14 @@ type ManagedClusterAgentPoolProfile struct {
 	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
-	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID *ProximityPlacementGroupID `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
-	ScaleSetEvictionPolicy *ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
 
 	// ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
-	ScaleSetPriority *ManagedClusterAgentPoolProfile_ScaleSetPriority `json:"scaleSetPriority,omitempty"`
+	ScaleSetPriority *ScaleSetPriority `json:"scaleSetPriority,omitempty"`
 
 	// SpotMaxPrice: Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any
 	// on-demand price. For more details on spot pricing, see [spot VMs
@@ -4696,10 +4737,10 @@ type ManagedClusterAgentPoolProfile struct {
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
-	Tags map[string]string                    `json:"tags,omitempty"`
-	Type *ManagedClusterAgentPoolProfile_Type `json:"type,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
+	Type *AgentPoolType    `json:"type,omitempty"`
 
-	// UpgradeSettings: Settings for upgrading an agentpool
+	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings `json:"upgradeSettings,omitempty"`
 
 	// VmSize: VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods
@@ -5230,7 +5271,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// GpuInstanceProfile
 	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := ManagedClusterAgentPoolProfile_GpuInstanceProfile(*source.GpuInstanceProfile)
+		gpuInstanceProfile := GPUInstanceProfile(*source.GpuInstanceProfile)
 		profile.GpuInstanceProfile = &gpuInstanceProfile
 	} else {
 		profile.GpuInstanceProfile = nil
@@ -5250,7 +5291,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// KubeletDiskType
 	if source.KubeletDiskType != nil {
-		kubeletDiskType := ManagedClusterAgentPoolProfile_KubeletDiskType(*source.KubeletDiskType)
+		kubeletDiskType := KubeletDiskType(*source.KubeletDiskType)
 		profile.KubeletDiskType = &kubeletDiskType
 	} else {
 		profile.KubeletDiskType = nil
@@ -5279,7 +5320,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// Mode
 	if source.Mode != nil {
-		mode := ManagedClusterAgentPoolProfile_Mode(*source.Mode)
+		mode := AgentPoolMode(*source.Mode)
 		profile.Mode = &mode
 	} else {
 		profile.Mode = nil
@@ -5312,7 +5353,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// OsDiskSizeGB
 	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := *source.OsDiskSizeGB
+		osDiskSizeGB := ContainerServiceOSDisk(*source.OsDiskSizeGB)
 		profile.OsDiskSizeGB = &osDiskSizeGB
 	} else {
 		profile.OsDiskSizeGB = nil
@@ -5320,7 +5361,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// OsDiskType
 	if source.OsDiskType != nil {
-		osDiskType := ManagedClusterAgentPoolProfile_OsDiskType(*source.OsDiskType)
+		osDiskType := OSDiskType(*source.OsDiskType)
 		profile.OsDiskType = &osDiskType
 	} else {
 		profile.OsDiskType = nil
@@ -5328,7 +5369,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// OsSKU
 	if source.OsSKU != nil {
-		osSKU := ManagedClusterAgentPoolProfile_OsSKU(*source.OsSKU)
+		osSKU := OSSKU(*source.OsSKU)
 		profile.OsSKU = &osSKU
 	} else {
 		profile.OsSKU = nil
@@ -5336,7 +5377,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// OsType
 	if source.OsType != nil {
-		osType := ManagedClusterAgentPoolProfile_OsType(*source.OsType)
+		osType := OSType(*source.OsType)
 		profile.OsType = &osType
 	} else {
 		profile.OsType = nil
@@ -5352,7 +5393,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// ProximityPlacementGroupID
 	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
+		proximityPlacementGroupID := ProximityPlacementGroupID(*source.ProximityPlacementGroupID)
 		profile.ProximityPlacementGroupID = &proximityPlacementGroupID
 	} else {
 		profile.ProximityPlacementGroupID = nil
@@ -5360,7 +5401,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
+		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
 		profile.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
 	} else {
 		profile.ScaleSetEvictionPolicy = nil
@@ -5368,7 +5409,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// ScaleSetPriority
 	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ManagedClusterAgentPoolProfile_ScaleSetPriority(*source.ScaleSetPriority)
+		scaleSetPriority := ScaleSetPriority(*source.ScaleSetPriority)
 		profile.ScaleSetPriority = &scaleSetPriority
 	} else {
 		profile.ScaleSetPriority = nil
@@ -5387,7 +5428,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedClusterAgentPoolProfile_Type(*source.Type)
+		typeVar := AgentPoolType(*source.Type)
 		profile.Type = &typeVar
 	} else {
 		profile.Type = nil
@@ -5555,7 +5596,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// OsDiskSizeGB
 	if profile.OsDiskSizeGB != nil {
-		osDiskSizeGB := *profile.OsDiskSizeGB
+		osDiskSizeGB := int(*profile.OsDiskSizeGB)
 		destination.OsDiskSizeGB = &osDiskSizeGB
 	} else {
 		destination.OsDiskSizeGB = nil
@@ -5595,7 +5636,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// ProximityPlacementGroupID
 	if profile.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *profile.ProximityPlacementGroupID
+		proximityPlacementGroupID := string(*profile.ProximityPlacementGroupID)
 		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
 	} else {
 		destination.ProximityPlacementGroupID = nil
@@ -6521,7 +6562,6 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
 type ManagedClusterAPIServerAccessProfile struct {
 	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
 	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
@@ -6808,7 +6848,6 @@ func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_To_
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAutoUpgradeProfile
 type ManagedClusterAutoUpgradeProfile struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
@@ -6962,7 +7001,6 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_To_Mana
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterHTTPProxyConfig
 type ManagedClusterHTTPProxyConfig struct {
 	// HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
@@ -7199,15 +7237,10 @@ func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_To_ManagedC
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterIdentity
 type ManagedClusterIdentity struct {
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterIdentity{}
@@ -7223,14 +7256,6 @@ func (identity *ManagedClusterIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for key, value := range identity.UserAssignedIdentities {
-			result.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
 	}
 	return result, nil
 }
@@ -7253,14 +7278,6 @@ func (identity *ManagedClusterIdentity) PopulateFromARM(owner genruntime.Arbitra
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
-		for key, value := range typedInput.UserAssignedIdentities {
-			identity.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-
 	// No error
 	return nil
 }
@@ -7274,19 +7291,6 @@ func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIden
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -7304,19 +7308,6 @@ func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdenti
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -7535,7 +7526,6 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOp
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
 type ManagedClusterPodIdentityProfile struct {
 	// AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
 	// Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod
@@ -7963,6 +7953,435 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_Mana
 	return nil
 }
 
+type ManagedClusterProperties_AutoScalerProfile struct {
+	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
+	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
+
+	// Expander: If not specified, the default is 'random'. See
+	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
+	// information.
+	Expander *ManagedClusterProperties_AutoScalerProfile_Expander `json:"expander,omitempty"`
+
+	// MaxEmptyBulkDelete: The default is 10.
+	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
+
+	// MaxGracefulTerminationSec: The default is 600.
+	MaxGracefulTerminationSec *string `json:"max-graceful-termination-sec,omitempty"`
+
+	// MaxNodeProvisionTime: The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than
+	// minutes (m) is supported.
+	MaxNodeProvisionTime *string `json:"max-node-provision-time,omitempty"`
+
+	// MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum is 0.
+	MaxTotalUnreadyPercentage *string `json:"max-total-unready-percentage,omitempty"`
+
+	// NewPodScaleUpDelay: For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler
+	// could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is
+	// '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
+	NewPodScaleUpDelay *string `json:"new-pod-scale-up-delay,omitempty"`
+
+	// OkTotalUnreadyCount: This must be an integer. The default is 3.
+	OkTotalUnreadyCount *string `json:"ok-total-unready-count,omitempty"`
+
+	// ScaleDownDelayAfterAdd: The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than
+	// minutes (m) is supported.
+	ScaleDownDelayAfterAdd *string `json:"scale-down-delay-after-add,omitempty"`
+
+	// ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of
+	// time other than minutes (m) is supported.
+	ScaleDownDelayAfterDelete *string `json:"scale-down-delay-after-delete,omitempty"`
+
+	// ScaleDownDelayAfterFailure: The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other
+	// than minutes (m) is supported.
+	ScaleDownDelayAfterFailure *string `json:"scale-down-delay-after-failure,omitempty"`
+
+	// ScaleDownUnneededTime: The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than
+	// minutes (m) is supported.
+	ScaleDownUnneededTime *string `json:"scale-down-unneeded-time,omitempty"`
+
+	// ScaleDownUnreadyTime: The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than
+	// minutes (m) is supported.
+	ScaleDownUnreadyTime *string `json:"scale-down-unready-time,omitempty"`
+
+	// ScaleDownUtilizationThreshold: The default is '0.5'.
+	ScaleDownUtilizationThreshold *string `json:"scale-down-utilization-threshold,omitempty"`
+
+	// ScanInterval: The default is '10'. Values must be an integer number of seconds.
+	ScanInterval *string `json:"scan-interval,omitempty"`
+
+	// SkipNodesWithLocalStorage: The default is true.
+	SkipNodesWithLocalStorage *string `json:"skip-nodes-with-local-storage,omitempty"`
+
+	// SkipNodesWithSystemPods: The default is true.
+	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedClusterProperties_AutoScalerProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *ManagedClusterProperties_AutoScalerProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &ManagedClusterProperties_AutoScalerProfile_ARM{}
+
+	// Set property ‘BalanceSimilarNodeGroups’:
+	if profile.BalanceSimilarNodeGroups != nil {
+		balanceSimilarNodeGroups := *profile.BalanceSimilarNodeGroups
+		result.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
+	}
+
+	// Set property ‘Expander’:
+	if profile.Expander != nil {
+		expander := *profile.Expander
+		result.Expander = &expander
+	}
+
+	// Set property ‘MaxEmptyBulkDelete’:
+	if profile.MaxEmptyBulkDelete != nil {
+		maxEmptyBulkDelete := *profile.MaxEmptyBulkDelete
+		result.MaxEmptyBulkDelete = &maxEmptyBulkDelete
+	}
+
+	// Set property ‘MaxGracefulTerminationSec’:
+	if profile.MaxGracefulTerminationSec != nil {
+		maxGracefulTerminationSec := *profile.MaxGracefulTerminationSec
+		result.MaxGracefulTerminationSec = &maxGracefulTerminationSec
+	}
+
+	// Set property ‘MaxNodeProvisionTime’:
+	if profile.MaxNodeProvisionTime != nil {
+		maxNodeProvisionTime := *profile.MaxNodeProvisionTime
+		result.MaxNodeProvisionTime = &maxNodeProvisionTime
+	}
+
+	// Set property ‘MaxTotalUnreadyPercentage’:
+	if profile.MaxTotalUnreadyPercentage != nil {
+		maxTotalUnreadyPercentage := *profile.MaxTotalUnreadyPercentage
+		result.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
+	}
+
+	// Set property ‘NewPodScaleUpDelay’:
+	if profile.NewPodScaleUpDelay != nil {
+		newPodScaleUpDelay := *profile.NewPodScaleUpDelay
+		result.NewPodScaleUpDelay = &newPodScaleUpDelay
+	}
+
+	// Set property ‘OkTotalUnreadyCount’:
+	if profile.OkTotalUnreadyCount != nil {
+		okTotalUnreadyCount := *profile.OkTotalUnreadyCount
+		result.OkTotalUnreadyCount = &okTotalUnreadyCount
+	}
+
+	// Set property ‘ScaleDownDelayAfterAdd’:
+	if profile.ScaleDownDelayAfterAdd != nil {
+		scaleDownDelayAfterAdd := *profile.ScaleDownDelayAfterAdd
+		result.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
+	}
+
+	// Set property ‘ScaleDownDelayAfterDelete’:
+	if profile.ScaleDownDelayAfterDelete != nil {
+		scaleDownDelayAfterDelete := *profile.ScaleDownDelayAfterDelete
+		result.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
+	}
+
+	// Set property ‘ScaleDownDelayAfterFailure’:
+	if profile.ScaleDownDelayAfterFailure != nil {
+		scaleDownDelayAfterFailure := *profile.ScaleDownDelayAfterFailure
+		result.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
+	}
+
+	// Set property ‘ScaleDownUnneededTime’:
+	if profile.ScaleDownUnneededTime != nil {
+		scaleDownUnneededTime := *profile.ScaleDownUnneededTime
+		result.ScaleDownUnneededTime = &scaleDownUnneededTime
+	}
+
+	// Set property ‘ScaleDownUnreadyTime’:
+	if profile.ScaleDownUnreadyTime != nil {
+		scaleDownUnreadyTime := *profile.ScaleDownUnreadyTime
+		result.ScaleDownUnreadyTime = &scaleDownUnreadyTime
+	}
+
+	// Set property ‘ScaleDownUtilizationThreshold’:
+	if profile.ScaleDownUtilizationThreshold != nil {
+		scaleDownUtilizationThreshold := *profile.ScaleDownUtilizationThreshold
+		result.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
+	}
+
+	// Set property ‘ScanInterval’:
+	if profile.ScanInterval != nil {
+		scanInterval := *profile.ScanInterval
+		result.ScanInterval = &scanInterval
+	}
+
+	// Set property ‘SkipNodesWithLocalStorage’:
+	if profile.SkipNodesWithLocalStorage != nil {
+		skipNodesWithLocalStorage := *profile.SkipNodesWithLocalStorage
+		result.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
+	}
+
+	// Set property ‘SkipNodesWithSystemPods’:
+	if profile.SkipNodesWithSystemPods != nil {
+		skipNodesWithSystemPods := *profile.SkipNodesWithSystemPods
+		result.SkipNodesWithSystemPods = &skipNodesWithSystemPods
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *ManagedClusterProperties_AutoScalerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterProperties_AutoScalerProfile_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *ManagedClusterProperties_AutoScalerProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterProperties_AutoScalerProfile_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterProperties_AutoScalerProfile_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BalanceSimilarNodeGroups’:
+	if typedInput.BalanceSimilarNodeGroups != nil {
+		balanceSimilarNodeGroups := *typedInput.BalanceSimilarNodeGroups
+		profile.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
+	}
+
+	// Set property ‘Expander’:
+	if typedInput.Expander != nil {
+		expander := *typedInput.Expander
+		profile.Expander = &expander
+	}
+
+	// Set property ‘MaxEmptyBulkDelete’:
+	if typedInput.MaxEmptyBulkDelete != nil {
+		maxEmptyBulkDelete := *typedInput.MaxEmptyBulkDelete
+		profile.MaxEmptyBulkDelete = &maxEmptyBulkDelete
+	}
+
+	// Set property ‘MaxGracefulTerminationSec’:
+	if typedInput.MaxGracefulTerminationSec != nil {
+		maxGracefulTerminationSec := *typedInput.MaxGracefulTerminationSec
+		profile.MaxGracefulTerminationSec = &maxGracefulTerminationSec
+	}
+
+	// Set property ‘MaxNodeProvisionTime’:
+	if typedInput.MaxNodeProvisionTime != nil {
+		maxNodeProvisionTime := *typedInput.MaxNodeProvisionTime
+		profile.MaxNodeProvisionTime = &maxNodeProvisionTime
+	}
+
+	// Set property ‘MaxTotalUnreadyPercentage’:
+	if typedInput.MaxTotalUnreadyPercentage != nil {
+		maxTotalUnreadyPercentage := *typedInput.MaxTotalUnreadyPercentage
+		profile.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
+	}
+
+	// Set property ‘NewPodScaleUpDelay’:
+	if typedInput.NewPodScaleUpDelay != nil {
+		newPodScaleUpDelay := *typedInput.NewPodScaleUpDelay
+		profile.NewPodScaleUpDelay = &newPodScaleUpDelay
+	}
+
+	// Set property ‘OkTotalUnreadyCount’:
+	if typedInput.OkTotalUnreadyCount != nil {
+		okTotalUnreadyCount := *typedInput.OkTotalUnreadyCount
+		profile.OkTotalUnreadyCount = &okTotalUnreadyCount
+	}
+
+	// Set property ‘ScaleDownDelayAfterAdd’:
+	if typedInput.ScaleDownDelayAfterAdd != nil {
+		scaleDownDelayAfterAdd := *typedInput.ScaleDownDelayAfterAdd
+		profile.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
+	}
+
+	// Set property ‘ScaleDownDelayAfterDelete’:
+	if typedInput.ScaleDownDelayAfterDelete != nil {
+		scaleDownDelayAfterDelete := *typedInput.ScaleDownDelayAfterDelete
+		profile.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
+	}
+
+	// Set property ‘ScaleDownDelayAfterFailure’:
+	if typedInput.ScaleDownDelayAfterFailure != nil {
+		scaleDownDelayAfterFailure := *typedInput.ScaleDownDelayAfterFailure
+		profile.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
+	}
+
+	// Set property ‘ScaleDownUnneededTime’:
+	if typedInput.ScaleDownUnneededTime != nil {
+		scaleDownUnneededTime := *typedInput.ScaleDownUnneededTime
+		profile.ScaleDownUnneededTime = &scaleDownUnneededTime
+	}
+
+	// Set property ‘ScaleDownUnreadyTime’:
+	if typedInput.ScaleDownUnreadyTime != nil {
+		scaleDownUnreadyTime := *typedInput.ScaleDownUnreadyTime
+		profile.ScaleDownUnreadyTime = &scaleDownUnreadyTime
+	}
+
+	// Set property ‘ScaleDownUtilizationThreshold’:
+	if typedInput.ScaleDownUtilizationThreshold != nil {
+		scaleDownUtilizationThreshold := *typedInput.ScaleDownUtilizationThreshold
+		profile.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
+	}
+
+	// Set property ‘ScanInterval’:
+	if typedInput.ScanInterval != nil {
+		scanInterval := *typedInput.ScanInterval
+		profile.ScanInterval = &scanInterval
+	}
+
+	// Set property ‘SkipNodesWithLocalStorage’:
+	if typedInput.SkipNodesWithLocalStorage != nil {
+		skipNodesWithLocalStorage := *typedInput.SkipNodesWithLocalStorage
+		profile.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
+	}
+
+	// Set property ‘SkipNodesWithSystemPods’:
+	if typedInput.SkipNodesWithSystemPods != nil {
+		skipNodesWithSystemPods := *typedInput.SkipNodesWithSystemPods
+		profile.SkipNodesWithSystemPods = &skipNodesWithSystemPods
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterProperties_AutoScalerProfile populates our ManagedClusterProperties_AutoScalerProfile from the provided source ManagedClusterProperties_AutoScalerProfile
+func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_From_ManagedClusterProperties_AutoScalerProfile(source *v20210501s.ManagedClusterProperties_AutoScalerProfile) error {
+
+	// BalanceSimilarNodeGroups
+	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
+
+	// Expander
+	if source.Expander != nil {
+		expander := ManagedClusterProperties_AutoScalerProfile_Expander(*source.Expander)
+		profile.Expander = &expander
+	} else {
+		profile.Expander = nil
+	}
+
+	// MaxEmptyBulkDelete
+	profile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
+
+	// MaxGracefulTerminationSec
+	profile.MaxGracefulTerminationSec = genruntime.ClonePointerToString(source.MaxGracefulTerminationSec)
+
+	// MaxNodeProvisionTime
+	profile.MaxNodeProvisionTime = genruntime.ClonePointerToString(source.MaxNodeProvisionTime)
+
+	// MaxTotalUnreadyPercentage
+	profile.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(source.MaxTotalUnreadyPercentage)
+
+	// NewPodScaleUpDelay
+	profile.NewPodScaleUpDelay = genruntime.ClonePointerToString(source.NewPodScaleUpDelay)
+
+	// OkTotalUnreadyCount
+	profile.OkTotalUnreadyCount = genruntime.ClonePointerToString(source.OkTotalUnreadyCount)
+
+	// ScaleDownDelayAfterAdd
+	profile.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(source.ScaleDownDelayAfterAdd)
+
+	// ScaleDownDelayAfterDelete
+	profile.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(source.ScaleDownDelayAfterDelete)
+
+	// ScaleDownDelayAfterFailure
+	profile.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(source.ScaleDownDelayAfterFailure)
+
+	// ScaleDownUnneededTime
+	profile.ScaleDownUnneededTime = genruntime.ClonePointerToString(source.ScaleDownUnneededTime)
+
+	// ScaleDownUnreadyTime
+	profile.ScaleDownUnreadyTime = genruntime.ClonePointerToString(source.ScaleDownUnreadyTime)
+
+	// ScaleDownUtilizationThreshold
+	profile.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(source.ScaleDownUtilizationThreshold)
+
+	// ScanInterval
+	profile.ScanInterval = genruntime.ClonePointerToString(source.ScanInterval)
+
+	// SkipNodesWithLocalStorage
+	profile.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(source.SkipNodesWithLocalStorage)
+
+	// SkipNodesWithSystemPods
+	profile.SkipNodesWithSystemPods = genruntime.ClonePointerToString(source.SkipNodesWithSystemPods)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterProperties_AutoScalerProfile populates the provided destination ManagedClusterProperties_AutoScalerProfile from our ManagedClusterProperties_AutoScalerProfile
+func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(destination *v20210501s.ManagedClusterProperties_AutoScalerProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BalanceSimilarNodeGroups
+	destination.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(profile.BalanceSimilarNodeGroups)
+
+	// Expander
+	if profile.Expander != nil {
+		expander := string(*profile.Expander)
+		destination.Expander = &expander
+	} else {
+		destination.Expander = nil
+	}
+
+	// MaxEmptyBulkDelete
+	destination.MaxEmptyBulkDelete = genruntime.ClonePointerToString(profile.MaxEmptyBulkDelete)
+
+	// MaxGracefulTerminationSec
+	destination.MaxGracefulTerminationSec = genruntime.ClonePointerToString(profile.MaxGracefulTerminationSec)
+
+	// MaxNodeProvisionTime
+	destination.MaxNodeProvisionTime = genruntime.ClonePointerToString(profile.MaxNodeProvisionTime)
+
+	// MaxTotalUnreadyPercentage
+	destination.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(profile.MaxTotalUnreadyPercentage)
+
+	// NewPodScaleUpDelay
+	destination.NewPodScaleUpDelay = genruntime.ClonePointerToString(profile.NewPodScaleUpDelay)
+
+	// OkTotalUnreadyCount
+	destination.OkTotalUnreadyCount = genruntime.ClonePointerToString(profile.OkTotalUnreadyCount)
+
+	// ScaleDownDelayAfterAdd
+	destination.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(profile.ScaleDownDelayAfterAdd)
+
+	// ScaleDownDelayAfterDelete
+	destination.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(profile.ScaleDownDelayAfterDelete)
+
+	// ScaleDownDelayAfterFailure
+	destination.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(profile.ScaleDownDelayAfterFailure)
+
+	// ScaleDownUnneededTime
+	destination.ScaleDownUnneededTime = genruntime.ClonePointerToString(profile.ScaleDownUnneededTime)
+
+	// ScaleDownUnreadyTime
+	destination.ScaleDownUnreadyTime = genruntime.ClonePointerToString(profile.ScaleDownUnreadyTime)
+
+	// ScaleDownUtilizationThreshold
+	destination.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(profile.ScaleDownUtilizationThreshold)
+
+	// ScanInterval
+	destination.ScanInterval = genruntime.ClonePointerToString(profile.ScanInterval)
+
+	// SkipNodesWithLocalStorage
+	destination.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(profile.SkipNodesWithLocalStorage)
+
+	// SkipNodesWithSystemPods
+	destination.SkipNodesWithSystemPods = genruntime.ClonePointerToString(profile.SkipNodesWithSystemPods)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
 	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
@@ -8281,437 +8700,6 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperti
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPropertiesAutoScalerProfile
-type ManagedClusterPropertiesAutoScalerProfile struct {
-	// BalanceSimilarNodeGroups: Valid values are 'true' and 'false'
-	BalanceSimilarNodeGroups *string `json:"balance-similar-node-groups,omitempty"`
-
-	// Expander: If not specified, the default is 'random'. See
-	// [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more
-	// information.
-	Expander *ManagedClusterPropertiesAutoScalerProfile_Expander `json:"expander,omitempty"`
-
-	// MaxEmptyBulkDelete: The default is 10.
-	MaxEmptyBulkDelete *string `json:"max-empty-bulk-delete,omitempty"`
-
-	// MaxGracefulTerminationSec: The default is 600.
-	MaxGracefulTerminationSec *string `json:"max-graceful-termination-sec,omitempty"`
-
-	// MaxNodeProvisionTime: The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than
-	// minutes (m) is supported.
-	MaxNodeProvisionTime *string `json:"max-node-provision-time,omitempty"`
-
-	// MaxTotalUnreadyPercentage: The default is 45. The maximum is 100 and the minimum is 0.
-	MaxTotalUnreadyPercentage *string `json:"max-total-unready-percentage,omitempty"`
-
-	// NewPodScaleUpDelay: For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler
-	// could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is
-	// '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc).
-	NewPodScaleUpDelay *string `json:"new-pod-scale-up-delay,omitempty"`
-
-	// OkTotalUnreadyCount: This must be an integer. The default is 3.
-	OkTotalUnreadyCount *string `json:"ok-total-unready-count,omitempty"`
-
-	// ScaleDownDelayAfterAdd: The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than
-	// minutes (m) is supported.
-	ScaleDownDelayAfterAdd *string `json:"scale-down-delay-after-add,omitempty"`
-
-	// ScaleDownDelayAfterDelete: The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of
-	// time other than minutes (m) is supported.
-	ScaleDownDelayAfterDelete *string `json:"scale-down-delay-after-delete,omitempty"`
-
-	// ScaleDownDelayAfterFailure: The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other
-	// than minutes (m) is supported.
-	ScaleDownDelayAfterFailure *string `json:"scale-down-delay-after-failure,omitempty"`
-
-	// ScaleDownUnneededTime: The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than
-	// minutes (m) is supported.
-	ScaleDownUnneededTime *string `json:"scale-down-unneeded-time,omitempty"`
-
-	// ScaleDownUnreadyTime: The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than
-	// minutes (m) is supported.
-	ScaleDownUnreadyTime *string `json:"scale-down-unready-time,omitempty"`
-
-	// ScaleDownUtilizationThreshold: The default is '0.5'.
-	ScaleDownUtilizationThreshold *string `json:"scale-down-utilization-threshold,omitempty"`
-
-	// ScanInterval: The default is '10'. Values must be an integer number of seconds.
-	ScanInterval *string `json:"scan-interval,omitempty"`
-
-	// SkipNodesWithLocalStorage: The default is true.
-	SkipNodesWithLocalStorage *string `json:"skip-nodes-with-local-storage,omitempty"`
-
-	// SkipNodesWithSystemPods: The default is true.
-	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedClusterPropertiesAutoScalerProfile{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *ManagedClusterPropertiesAutoScalerProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	result := &ManagedClusterPropertiesAutoScalerProfile_ARM{}
-
-	// Set property ‘BalanceSimilarNodeGroups’:
-	if profile.BalanceSimilarNodeGroups != nil {
-		balanceSimilarNodeGroups := *profile.BalanceSimilarNodeGroups
-		result.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
-	}
-
-	// Set property ‘Expander’:
-	if profile.Expander != nil {
-		expander := *profile.Expander
-		result.Expander = &expander
-	}
-
-	// Set property ‘MaxEmptyBulkDelete’:
-	if profile.MaxEmptyBulkDelete != nil {
-		maxEmptyBulkDelete := *profile.MaxEmptyBulkDelete
-		result.MaxEmptyBulkDelete = &maxEmptyBulkDelete
-	}
-
-	// Set property ‘MaxGracefulTerminationSec’:
-	if profile.MaxGracefulTerminationSec != nil {
-		maxGracefulTerminationSec := *profile.MaxGracefulTerminationSec
-		result.MaxGracefulTerminationSec = &maxGracefulTerminationSec
-	}
-
-	// Set property ‘MaxNodeProvisionTime’:
-	if profile.MaxNodeProvisionTime != nil {
-		maxNodeProvisionTime := *profile.MaxNodeProvisionTime
-		result.MaxNodeProvisionTime = &maxNodeProvisionTime
-	}
-
-	// Set property ‘MaxTotalUnreadyPercentage’:
-	if profile.MaxTotalUnreadyPercentage != nil {
-		maxTotalUnreadyPercentage := *profile.MaxTotalUnreadyPercentage
-		result.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
-	}
-
-	// Set property ‘NewPodScaleUpDelay’:
-	if profile.NewPodScaleUpDelay != nil {
-		newPodScaleUpDelay := *profile.NewPodScaleUpDelay
-		result.NewPodScaleUpDelay = &newPodScaleUpDelay
-	}
-
-	// Set property ‘OkTotalUnreadyCount’:
-	if profile.OkTotalUnreadyCount != nil {
-		okTotalUnreadyCount := *profile.OkTotalUnreadyCount
-		result.OkTotalUnreadyCount = &okTotalUnreadyCount
-	}
-
-	// Set property ‘ScaleDownDelayAfterAdd’:
-	if profile.ScaleDownDelayAfterAdd != nil {
-		scaleDownDelayAfterAdd := *profile.ScaleDownDelayAfterAdd
-		result.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
-	}
-
-	// Set property ‘ScaleDownDelayAfterDelete’:
-	if profile.ScaleDownDelayAfterDelete != nil {
-		scaleDownDelayAfterDelete := *profile.ScaleDownDelayAfterDelete
-		result.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
-	}
-
-	// Set property ‘ScaleDownDelayAfterFailure’:
-	if profile.ScaleDownDelayAfterFailure != nil {
-		scaleDownDelayAfterFailure := *profile.ScaleDownDelayAfterFailure
-		result.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
-	}
-
-	// Set property ‘ScaleDownUnneededTime’:
-	if profile.ScaleDownUnneededTime != nil {
-		scaleDownUnneededTime := *profile.ScaleDownUnneededTime
-		result.ScaleDownUnneededTime = &scaleDownUnneededTime
-	}
-
-	// Set property ‘ScaleDownUnreadyTime’:
-	if profile.ScaleDownUnreadyTime != nil {
-		scaleDownUnreadyTime := *profile.ScaleDownUnreadyTime
-		result.ScaleDownUnreadyTime = &scaleDownUnreadyTime
-	}
-
-	// Set property ‘ScaleDownUtilizationThreshold’:
-	if profile.ScaleDownUtilizationThreshold != nil {
-		scaleDownUtilizationThreshold := *profile.ScaleDownUtilizationThreshold
-		result.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
-	}
-
-	// Set property ‘ScanInterval’:
-	if profile.ScanInterval != nil {
-		scanInterval := *profile.ScanInterval
-		result.ScanInterval = &scanInterval
-	}
-
-	// Set property ‘SkipNodesWithLocalStorage’:
-	if profile.SkipNodesWithLocalStorage != nil {
-		skipNodesWithLocalStorage := *profile.SkipNodesWithLocalStorage
-		result.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
-	}
-
-	// Set property ‘SkipNodesWithSystemPods’:
-	if profile.SkipNodesWithSystemPods != nil {
-		skipNodesWithSystemPods := *profile.SkipNodesWithSystemPods
-		result.SkipNodesWithSystemPods = &skipNodesWithSystemPods
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *ManagedClusterPropertiesAutoScalerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusterPropertiesAutoScalerProfile_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *ManagedClusterPropertiesAutoScalerProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusterPropertiesAutoScalerProfile_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterPropertiesAutoScalerProfile_ARM, got %T", armInput)
-	}
-
-	// Set property ‘BalanceSimilarNodeGroups’:
-	if typedInput.BalanceSimilarNodeGroups != nil {
-		balanceSimilarNodeGroups := *typedInput.BalanceSimilarNodeGroups
-		profile.BalanceSimilarNodeGroups = &balanceSimilarNodeGroups
-	}
-
-	// Set property ‘Expander’:
-	if typedInput.Expander != nil {
-		expander := *typedInput.Expander
-		profile.Expander = &expander
-	}
-
-	// Set property ‘MaxEmptyBulkDelete’:
-	if typedInput.MaxEmptyBulkDelete != nil {
-		maxEmptyBulkDelete := *typedInput.MaxEmptyBulkDelete
-		profile.MaxEmptyBulkDelete = &maxEmptyBulkDelete
-	}
-
-	// Set property ‘MaxGracefulTerminationSec’:
-	if typedInput.MaxGracefulTerminationSec != nil {
-		maxGracefulTerminationSec := *typedInput.MaxGracefulTerminationSec
-		profile.MaxGracefulTerminationSec = &maxGracefulTerminationSec
-	}
-
-	// Set property ‘MaxNodeProvisionTime’:
-	if typedInput.MaxNodeProvisionTime != nil {
-		maxNodeProvisionTime := *typedInput.MaxNodeProvisionTime
-		profile.MaxNodeProvisionTime = &maxNodeProvisionTime
-	}
-
-	// Set property ‘MaxTotalUnreadyPercentage’:
-	if typedInput.MaxTotalUnreadyPercentage != nil {
-		maxTotalUnreadyPercentage := *typedInput.MaxTotalUnreadyPercentage
-		profile.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
-	}
-
-	// Set property ‘NewPodScaleUpDelay’:
-	if typedInput.NewPodScaleUpDelay != nil {
-		newPodScaleUpDelay := *typedInput.NewPodScaleUpDelay
-		profile.NewPodScaleUpDelay = &newPodScaleUpDelay
-	}
-
-	// Set property ‘OkTotalUnreadyCount’:
-	if typedInput.OkTotalUnreadyCount != nil {
-		okTotalUnreadyCount := *typedInput.OkTotalUnreadyCount
-		profile.OkTotalUnreadyCount = &okTotalUnreadyCount
-	}
-
-	// Set property ‘ScaleDownDelayAfterAdd’:
-	if typedInput.ScaleDownDelayAfterAdd != nil {
-		scaleDownDelayAfterAdd := *typedInput.ScaleDownDelayAfterAdd
-		profile.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
-	}
-
-	// Set property ‘ScaleDownDelayAfterDelete’:
-	if typedInput.ScaleDownDelayAfterDelete != nil {
-		scaleDownDelayAfterDelete := *typedInput.ScaleDownDelayAfterDelete
-		profile.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
-	}
-
-	// Set property ‘ScaleDownDelayAfterFailure’:
-	if typedInput.ScaleDownDelayAfterFailure != nil {
-		scaleDownDelayAfterFailure := *typedInput.ScaleDownDelayAfterFailure
-		profile.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
-	}
-
-	// Set property ‘ScaleDownUnneededTime’:
-	if typedInput.ScaleDownUnneededTime != nil {
-		scaleDownUnneededTime := *typedInput.ScaleDownUnneededTime
-		profile.ScaleDownUnneededTime = &scaleDownUnneededTime
-	}
-
-	// Set property ‘ScaleDownUnreadyTime’:
-	if typedInput.ScaleDownUnreadyTime != nil {
-		scaleDownUnreadyTime := *typedInput.ScaleDownUnreadyTime
-		profile.ScaleDownUnreadyTime = &scaleDownUnreadyTime
-	}
-
-	// Set property ‘ScaleDownUtilizationThreshold’:
-	if typedInput.ScaleDownUtilizationThreshold != nil {
-		scaleDownUtilizationThreshold := *typedInput.ScaleDownUtilizationThreshold
-		profile.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
-	}
-
-	// Set property ‘ScanInterval’:
-	if typedInput.ScanInterval != nil {
-		scanInterval := *typedInput.ScanInterval
-		profile.ScanInterval = &scanInterval
-	}
-
-	// Set property ‘SkipNodesWithLocalStorage’:
-	if typedInput.SkipNodesWithLocalStorage != nil {
-		skipNodesWithLocalStorage := *typedInput.SkipNodesWithLocalStorage
-		profile.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
-	}
-
-	// Set property ‘SkipNodesWithSystemPods’:
-	if typedInput.SkipNodesWithSystemPods != nil {
-		skipNodesWithSystemPods := *typedInput.SkipNodesWithSystemPods
-		profile.SkipNodesWithSystemPods = &skipNodesWithSystemPods
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile populates our ManagedClusterPropertiesAutoScalerProfile from the provided source ManagedClusterPropertiesAutoScalerProfile
-func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignProperties_From_ManagedClusterPropertiesAutoScalerProfile(source *v20210501s.ManagedClusterPropertiesAutoScalerProfile) error {
-
-	// BalanceSimilarNodeGroups
-	profile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
-
-	// Expander
-	if source.Expander != nil {
-		expander := ManagedClusterPropertiesAutoScalerProfile_Expander(*source.Expander)
-		profile.Expander = &expander
-	} else {
-		profile.Expander = nil
-	}
-
-	// MaxEmptyBulkDelete
-	profile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
-
-	// MaxGracefulTerminationSec
-	profile.MaxGracefulTerminationSec = genruntime.ClonePointerToString(source.MaxGracefulTerminationSec)
-
-	// MaxNodeProvisionTime
-	profile.MaxNodeProvisionTime = genruntime.ClonePointerToString(source.MaxNodeProvisionTime)
-
-	// MaxTotalUnreadyPercentage
-	profile.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(source.MaxTotalUnreadyPercentage)
-
-	// NewPodScaleUpDelay
-	profile.NewPodScaleUpDelay = genruntime.ClonePointerToString(source.NewPodScaleUpDelay)
-
-	// OkTotalUnreadyCount
-	profile.OkTotalUnreadyCount = genruntime.ClonePointerToString(source.OkTotalUnreadyCount)
-
-	// ScaleDownDelayAfterAdd
-	profile.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(source.ScaleDownDelayAfterAdd)
-
-	// ScaleDownDelayAfterDelete
-	profile.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(source.ScaleDownDelayAfterDelete)
-
-	// ScaleDownDelayAfterFailure
-	profile.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(source.ScaleDownDelayAfterFailure)
-
-	// ScaleDownUnneededTime
-	profile.ScaleDownUnneededTime = genruntime.ClonePointerToString(source.ScaleDownUnneededTime)
-
-	// ScaleDownUnreadyTime
-	profile.ScaleDownUnreadyTime = genruntime.ClonePointerToString(source.ScaleDownUnreadyTime)
-
-	// ScaleDownUtilizationThreshold
-	profile.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(source.ScaleDownUtilizationThreshold)
-
-	// ScanInterval
-	profile.ScanInterval = genruntime.ClonePointerToString(source.ScanInterval)
-
-	// SkipNodesWithLocalStorage
-	profile.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(source.SkipNodesWithLocalStorage)
-
-	// SkipNodesWithSystemPods
-	profile.SkipNodesWithSystemPods = genruntime.ClonePointerToString(source.SkipNodesWithSystemPods)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile populates the provided destination ManagedClusterPropertiesAutoScalerProfile from our ManagedClusterPropertiesAutoScalerProfile
-func (profile *ManagedClusterPropertiesAutoScalerProfile) AssignProperties_To_ManagedClusterPropertiesAutoScalerProfile(destination *v20210501s.ManagedClusterPropertiesAutoScalerProfile) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// BalanceSimilarNodeGroups
-	destination.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(profile.BalanceSimilarNodeGroups)
-
-	// Expander
-	if profile.Expander != nil {
-		expander := string(*profile.Expander)
-		destination.Expander = &expander
-	} else {
-		destination.Expander = nil
-	}
-
-	// MaxEmptyBulkDelete
-	destination.MaxEmptyBulkDelete = genruntime.ClonePointerToString(profile.MaxEmptyBulkDelete)
-
-	// MaxGracefulTerminationSec
-	destination.MaxGracefulTerminationSec = genruntime.ClonePointerToString(profile.MaxGracefulTerminationSec)
-
-	// MaxNodeProvisionTime
-	destination.MaxNodeProvisionTime = genruntime.ClonePointerToString(profile.MaxNodeProvisionTime)
-
-	// MaxTotalUnreadyPercentage
-	destination.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(profile.MaxTotalUnreadyPercentage)
-
-	// NewPodScaleUpDelay
-	destination.NewPodScaleUpDelay = genruntime.ClonePointerToString(profile.NewPodScaleUpDelay)
-
-	// OkTotalUnreadyCount
-	destination.OkTotalUnreadyCount = genruntime.ClonePointerToString(profile.OkTotalUnreadyCount)
-
-	// ScaleDownDelayAfterAdd
-	destination.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(profile.ScaleDownDelayAfterAdd)
-
-	// ScaleDownDelayAfterDelete
-	destination.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(profile.ScaleDownDelayAfterDelete)
-
-	// ScaleDownDelayAfterFailure
-	destination.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(profile.ScaleDownDelayAfterFailure)
-
-	// ScaleDownUnneededTime
-	destination.ScaleDownUnneededTime = genruntime.ClonePointerToString(profile.ScaleDownUnneededTime)
-
-	// ScaleDownUnreadyTime
-	destination.ScaleDownUnreadyTime = genruntime.ClonePointerToString(profile.ScaleDownUnreadyTime)
-
-	// ScaleDownUtilizationThreshold
-	destination.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(profile.ScaleDownUtilizationThreshold)
-
-	// ScanInterval
-	destination.ScanInterval = genruntime.ClonePointerToString(profile.ScanInterval)
-
-	// SkipNodesWithLocalStorage
-	destination.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(profile.SkipNodesWithLocalStorage)
-
-	// SkipNodesWithSystemPods
-	destination.SkipNodesWithSystemPods = genruntime.ClonePointerToString(profile.SkipNodesWithSystemPods)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
 type ManagedClusterServicePrincipalProfile struct {
 	// +kubebuilder:validation:Required
 	// ClientId: The ID for the service principal.
@@ -8880,7 +8868,6 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_To
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterSKU
 type ManagedClusterSKU struct {
 	// Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKU_Name `json:"name,omitempty"`
@@ -9090,7 +9077,6 @@ func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_To_ManagedClusterSK
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterWindowsProfile
 type ManagedClusterWindowsProfile struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length: 8 characters
@@ -9473,7 +9459,6 @@ func (state *PowerState_STATUS) AssignProperties_To_PowerState_STATUS(destinatio
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/PrivateLinkResource
 type PrivateLinkResource struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
@@ -9771,6 +9756,219 @@ func (resource *PrivateLinkResource_STATUS) AssignProperties_To_PrivateLinkResou
 	return nil
 }
 
+type UserAssignedIdentity struct {
+	// ClientId: The client ID of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// ObjectId: The object ID of the user assigned identity.
+	ObjectId *string `json:"objectId,omitempty"`
+
+	// ResourceReference: The resource ID of the user assigned identity.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &UserAssignedIdentity{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if identity == nil {
+		return nil, nil
+	}
+	result := &UserAssignedIdentity_ARM{}
+
+	// Set property ‘ClientId’:
+	if identity.ClientId != nil {
+		clientId := *identity.ClientId
+		result.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if identity.ObjectId != nil {
+		objectId := *identity.ObjectId
+		result.ObjectId = &objectId
+	}
+
+	// Set property ‘ResourceId’:
+	if identity.ResourceReference != nil {
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.ResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		resourceReference := resourceReferenceARMID
+		result.ResourceId = &resourceReference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *UserAssignedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentity_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentity_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ClientId’:
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		identity.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if typedInput.ObjectId != nil {
+		objectId := *typedInput.ObjectId
+		identity.ObjectId = &objectId
+	}
+
+	// no assignment for property ‘ResourceReference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20210501s.UserAssignedIdentity) error {
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ObjectId
+	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		identity.ResourceReference = &resourceReference
+	} else {
+		identity.ResourceReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20210501s.UserAssignedIdentity) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ResourceReference
+	if identity.ResourceReference != nil {
+		resourceReference := identity.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type UserAssignedIdentity_STATUS struct {
+	// ClientId: The client ID of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// ObjectId: The object ID of the user assigned identity.
+	ObjectId *string `json:"objectId,omitempty"`
+
+	// ResourceId: The resource ID of the user assigned identity.
+	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentity_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UserAssignedIdentity_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ClientId’:
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		identity.ClientId = &clientId
+	}
+
+	// Set property ‘ObjectId’:
+	if typedInput.ObjectId != nil {
+		objectId := *typedInput.ObjectId
+		identity.ObjectId = &objectId
+	}
+
+	// Set property ‘ResourceId’:
+	if typedInput.ResourceId != nil {
+		resourceId := *typedInput.ResourceId
+		identity.ResourceId = &resourceId
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20210501s.UserAssignedIdentity_STATUS) error {
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// ObjectId
+	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ResourceId
+	identity.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20210501s.UserAssignedIdentity_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(identity.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // +kubebuilder:validation:Enum={"basic","standard"}
 type ContainerServiceNetworkProfile_LoadBalancerSku string
 
@@ -9846,7 +10044,6 @@ const (
 	ContainerServiceNetworkProfile_OutboundType_STATUS_UserDefinedRouting = ContainerServiceNetworkProfile_OutboundType_STATUS("userDefinedRouting")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
 type ContainerServiceSshConfiguration struct {
 	// +kubebuilder:validation:Required
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
@@ -10050,81 +10247,6 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_T
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
-type ManagedClusterAgentPoolProfile_GpuInstanceProfile string
-
-const (
-	ManagedClusterAgentPoolProfile_GpuInstanceProfile_MIG1G = ManagedClusterAgentPoolProfile_GpuInstanceProfile("MIG1g")
-	ManagedClusterAgentPoolProfile_GpuInstanceProfile_MIG2G = ManagedClusterAgentPoolProfile_GpuInstanceProfile("MIG2g")
-	ManagedClusterAgentPoolProfile_GpuInstanceProfile_MIG3G = ManagedClusterAgentPoolProfile_GpuInstanceProfile("MIG3g")
-	ManagedClusterAgentPoolProfile_GpuInstanceProfile_MIG4G = ManagedClusterAgentPoolProfile_GpuInstanceProfile("MIG4g")
-	ManagedClusterAgentPoolProfile_GpuInstanceProfile_MIG7G = ManagedClusterAgentPoolProfile_GpuInstanceProfile("MIG7g")
-)
-
-// +kubebuilder:validation:Enum={"OS","Temporary"}
-type ManagedClusterAgentPoolProfile_KubeletDiskType string
-
-const (
-	ManagedClusterAgentPoolProfile_KubeletDiskType_OS        = ManagedClusterAgentPoolProfile_KubeletDiskType("OS")
-	ManagedClusterAgentPoolProfile_KubeletDiskType_Temporary = ManagedClusterAgentPoolProfile_KubeletDiskType("Temporary")
-)
-
-// +kubebuilder:validation:Enum={"System","User"}
-type ManagedClusterAgentPoolProfile_Mode string
-
-const (
-	ManagedClusterAgentPoolProfile_Mode_System = ManagedClusterAgentPoolProfile_Mode("System")
-	ManagedClusterAgentPoolProfile_Mode_User   = ManagedClusterAgentPoolProfile_Mode("User")
-)
-
-// +kubebuilder:validation:Enum={"Ephemeral","Managed"}
-type ManagedClusterAgentPoolProfile_OsDiskType string
-
-const (
-	ManagedClusterAgentPoolProfile_OsDiskType_Ephemeral = ManagedClusterAgentPoolProfile_OsDiskType("Ephemeral")
-	ManagedClusterAgentPoolProfile_OsDiskType_Managed   = ManagedClusterAgentPoolProfile_OsDiskType("Managed")
-)
-
-// +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
-type ManagedClusterAgentPoolProfile_OsSKU string
-
-const (
-	ManagedClusterAgentPoolProfile_OsSKU_CBLMariner = ManagedClusterAgentPoolProfile_OsSKU("CBLMariner")
-	ManagedClusterAgentPoolProfile_OsSKU_Ubuntu     = ManagedClusterAgentPoolProfile_OsSKU("Ubuntu")
-)
-
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type ManagedClusterAgentPoolProfile_OsType string
-
-const (
-	ManagedClusterAgentPoolProfile_OsType_Linux   = ManagedClusterAgentPoolProfile_OsType("Linux")
-	ManagedClusterAgentPoolProfile_OsType_Windows = ManagedClusterAgentPoolProfile_OsType("Windows")
-)
-
-// +kubebuilder:validation:Enum={"Deallocate","Delete"}
-type ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy string
-
-const (
-	ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy_Deallocate = ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy("Deallocate")
-	ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy_Delete     = ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy("Delete")
-)
-
-// +kubebuilder:validation:Enum={"Regular","Spot"}
-type ManagedClusterAgentPoolProfile_ScaleSetPriority string
-
-const (
-	ManagedClusterAgentPoolProfile_ScaleSetPriority_Regular = ManagedClusterAgentPoolProfile_ScaleSetPriority("Regular")
-	ManagedClusterAgentPoolProfile_ScaleSetPriority_Spot    = ManagedClusterAgentPoolProfile_ScaleSetPriority("Spot")
-)
-
-// +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
-type ManagedClusterAgentPoolProfile_Type string
-
-const (
-	ManagedClusterAgentPoolProfile_Type_AvailabilitySet         = ManagedClusterAgentPoolProfile_Type("AvailabilitySet")
-	ManagedClusterAgentPoolProfile_Type_VirtualMachineScaleSets = ManagedClusterAgentPoolProfile_Type("VirtualMachineScaleSets")
-)
-
 // +kubebuilder:validation:Enum={"node-image","none","patch","rapid","stable"}
 type ManagedClusterAutoUpgradeProfile_UpgradeChannel string
 
@@ -10219,7 +10341,6 @@ func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignPr
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfile
 type ManagedClusterLoadBalancerProfile struct {
 	// +kubebuilder:validation:Maximum=64000
 	// +kubebuilder:validation:Minimum=0
@@ -10237,13 +10358,13 @@ type ManagedClusterLoadBalancerProfile struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// ManagedOutboundIPs: Desired managed outbound IPs for the cluster load balancer.
-	ManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
+	ManagedOutboundIPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
 
 	// OutboundIPPrefixes: Desired outbound IP Prefix resources for the cluster load balancer.
-	OutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPPrefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
 
 	// OutboundIPs: Desired outbound IP resources for the cluster load balancer.
-	OutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs `json:"outboundIPs,omitempty"`
+	OutboundIPs *ManagedClusterLoadBalancerProfile_OutboundIPs `json:"outboundIPs,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfile{}
@@ -10282,7 +10403,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		managedOutboundIPs := *managedOutboundIPs_ARM.(*ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM)
+		managedOutboundIPs := *managedOutboundIPs_ARM.(*ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM)
 		result.ManagedOutboundIPs = &managedOutboundIPs
 	}
 
@@ -10292,7 +10413,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		outboundIPPrefixes := *outboundIPPrefixes_ARM.(*ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM)
+		outboundIPPrefixes := *outboundIPPrefixes_ARM.(*ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM)
 		result.OutboundIPPrefixes = &outboundIPPrefixes
 	}
 
@@ -10302,7 +10423,7 @@ func (profile *ManagedClusterLoadBalancerProfile) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		outboundIPs := *outboundIPs_ARM.(*ManagedClusterLoadBalancerProfileOutboundIPs_ARM)
+		outboundIPs := *outboundIPs_ARM.(*ManagedClusterLoadBalancerProfile_OutboundIPs_ARM)
 		result.OutboundIPs = &outboundIPs
 	}
 	return result, nil
@@ -10344,7 +10465,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 
 	// Set property ‘ManagedOutboundIPs’:
 	if typedInput.ManagedOutboundIPs != nil {
-		var managedOutboundIPs1 ManagedClusterLoadBalancerProfileManagedOutboundIPs
+		var managedOutboundIPs1 ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 		err := managedOutboundIPs1.PopulateFromARM(owner, *typedInput.ManagedOutboundIPs)
 		if err != nil {
 			return err
@@ -10355,7 +10476,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 
 	// Set property ‘OutboundIPPrefixes’:
 	if typedInput.OutboundIPPrefixes != nil {
-		var outboundIPPrefixes1 ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+		var outboundIPPrefixes1 ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 		err := outboundIPPrefixes1.PopulateFromARM(owner, *typedInput.OutboundIPPrefixes)
 		if err != nil {
 			return err
@@ -10366,7 +10487,7 @@ func (profile *ManagedClusterLoadBalancerProfile) PopulateFromARM(owner genrunti
 
 	// Set property ‘OutboundIPs’:
 	if typedInput.OutboundIPs != nil {
-		var outboundIPs1 ManagedClusterLoadBalancerProfileOutboundIPs
+		var outboundIPs1 ManagedClusterLoadBalancerProfile_OutboundIPs
 		err := outboundIPs1.PopulateFromARM(owner, *typedInput.OutboundIPs)
 		if err != nil {
 			return err
@@ -10418,10 +10539,10 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
-		var managedOutboundIP ManagedClusterLoadBalancerProfileManagedOutboundIPs
-		err := managedOutboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs(source.ManagedOutboundIPs)
+		var managedOutboundIP ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+		err := managedOutboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source.ManagedOutboundIPs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs() to populate field ManagedOutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
 		}
 		profile.ManagedOutboundIPs = &managedOutboundIP
 	} else {
@@ -10430,10 +10551,10 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 
 	// OutboundIPPrefixes
 	if source.OutboundIPPrefixes != nil {
-		var outboundIPPrefix ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-		err := outboundIPPrefix.AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes(source.OutboundIPPrefixes)
+		var outboundIPPrefix ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+		err := outboundIPPrefix.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(source.OutboundIPPrefixes)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes() to populate field OutboundIPPrefixes")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes() to populate field OutboundIPPrefixes")
 		}
 		profile.OutboundIPPrefixes = &outboundIPPrefix
 	} else {
@@ -10442,10 +10563,10 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 
 	// OutboundIPs
 	if source.OutboundIPs != nil {
-		var outboundIP ManagedClusterLoadBalancerProfileOutboundIPs
-		err := outboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs(source.OutboundIPs)
+		var outboundIP ManagedClusterLoadBalancerProfile_OutboundIPs
+		err := outboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(source.OutboundIPs)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs() to populate field OutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs() to populate field OutboundIPs")
 		}
 		profile.OutboundIPs = &outboundIP
 	} else {
@@ -10497,10 +10618,10 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIP v20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs
-		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs(&managedOutboundIP)
+		var managedOutboundIP v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&managedOutboundIP)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs() to populate field ManagedOutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
 		}
 		destination.ManagedOutboundIPs = &managedOutboundIP
 	} else {
@@ -10509,10 +10630,10 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// OutboundIPPrefixes
 	if profile.OutboundIPPrefixes != nil {
-		var outboundIPPrefix v20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-		err := profile.OutboundIPPrefixes.AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes(&outboundIPPrefix)
+		var outboundIPPrefix v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+		err := profile.OutboundIPPrefixes.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(&outboundIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes() to populate field OutboundIPPrefixes")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes() to populate field OutboundIPPrefixes")
 		}
 		destination.OutboundIPPrefixes = &outboundIPPrefix
 	} else {
@@ -10521,10 +10642,10 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIP v20210501s.ManagedClusterLoadBalancerProfileOutboundIPs
-		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs(&outboundIP)
+		var outboundIP v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs
+		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(&outboundIP)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs() to populate field OutboundIPs")
+			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs() to populate field OutboundIPs")
 		}
 		destination.OutboundIPs = &outboundIP
 	} else {
@@ -10845,13 +10966,12 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentity
 type ManagedClusterPodIdentity struct {
 	// BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Identity: Details about a user assigned identity.
+	// Identity: The user assigned identity details.
 	Identity *UserAssignedIdentity `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -11199,7 +11319,6 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClu
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityException
 type ManagedClusterPodIdentityException struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the pod identity exception.
@@ -11412,6 +11531,16 @@ func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_To_
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"least-waste","most-pods","priority","random"}
+type ManagedClusterProperties_AutoScalerProfile_Expander string
+
+const (
+	ManagedClusterProperties_AutoScalerProfile_Expander_LeastWaste = ManagedClusterProperties_AutoScalerProfile_Expander("least-waste")
+	ManagedClusterProperties_AutoScalerProfile_Expander_MostPods   = ManagedClusterProperties_AutoScalerProfile_Expander("most-pods")
+	ManagedClusterProperties_AutoScalerProfile_Expander_Priority   = ManagedClusterProperties_AutoScalerProfile_Expander("priority")
+	ManagedClusterProperties_AutoScalerProfile_Expander_Random     = ManagedClusterProperties_AutoScalerProfile_Expander("random")
+)
+
 type ManagedClusterProperties_AutoScalerProfile_Expander_STATUS string
 
 const (
@@ -11419,16 +11548,6 @@ const (
 	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_MostPods   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("most-pods")
 	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Priority   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("priority")
 	ManagedClusterProperties_AutoScalerProfile_Expander_STATUS_Random     = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("random")
-)
-
-// +kubebuilder:validation:Enum={"least-waste","most-pods","priority","random"}
-type ManagedClusterPropertiesAutoScalerProfile_Expander string
-
-const (
-	ManagedClusterPropertiesAutoScalerProfile_Expander_LeastWaste = ManagedClusterPropertiesAutoScalerProfile_Expander("least-waste")
-	ManagedClusterPropertiesAutoScalerProfile_Expander_MostPods   = ManagedClusterPropertiesAutoScalerProfile_Expander("most-pods")
-	ManagedClusterPropertiesAutoScalerProfile_Expander_Priority   = ManagedClusterPropertiesAutoScalerProfile_Expander("priority")
-	ManagedClusterPropertiesAutoScalerProfile_Expander_Random     = ManagedClusterPropertiesAutoScalerProfile_Expander("random")
 )
 
 // +kubebuilder:validation:Enum={"None","Windows_Server"}
@@ -11446,7 +11565,13 @@ const (
 	ManagedClusterWindowsProfile_LicenseType_STATUS_Windows_Server = ManagedClusterWindowsProfile_LicenseType_STATUS("Windows_Server")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
+type PowerState_Code_STATUS string
+
+const (
+	PowerState_Code_STATUS_Running = PowerState_Code_STATUS("Running")
+	PowerState_Code_STATUS_Stopped = PowerState_Code_STATUS("Stopped")
+)
+
 type ContainerServiceSshPublicKey struct {
 	// +kubebuilder:validation:Required
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
@@ -11581,6 +11706,92 @@ func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_To_Contai
 	return nil
 }
 
+type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs struct {
+	// +kubebuilder:validation:Maximum=100
+	// +kubebuilder:validation:Minimum=1
+	// Count: The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be
+	// in the range of 1 to 100 (inclusive). The default value is 1.
+	Count *int `json:"count,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfile_ManagedOutboundIPs{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if iPs == nil {
+		return nil, nil
+	}
+	result := &ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM{}
+
+	// Set property ‘Count’:
+	if iPs.Count != nil {
+		count := *iPs.Count
+		result.Count = &count
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Count’:
+	if typedInput.Count != nil {
+		count := *typedInput.Count
+		iPs.Count = &count
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs populates our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
+
+	// Count
+	if source.Count != nil {
+		count := *source.Count
+		iPs.Count = &count
+	} else {
+		iPs.Count = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_ManagedOutboundIPs from our ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(destination *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Count
+	if iPs.Count != nil {
+		count := *iPs.Count
+		destination.Count = &count
+	} else {
+		destination.Count = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS struct {
 	// Count: The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be
 	// in the range of 1 to 100 (inclusive). The default value is 1.
@@ -11628,6 +11839,116 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignPr
 
 	// Count
 	destination.Count = genruntime.ClonePointerToInt(iPs.Count)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes struct {
+	// PublicIPPrefixes: A list of public IP prefix resources.
+	PublicIPPrefixes []ResourceReference `json:"publicIPPrefixes,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfile_OutboundIPPrefixes{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if prefixes == nil {
+		return nil, nil
+	}
+	result := &ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM{}
+
+	// Set property ‘PublicIPPrefixes’:
+	for _, item := range prefixes.PublicIPPrefixes {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.PublicIPPrefixes = append(result.PublicIPPrefixes, *item_ARM.(*ResourceReference_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM, got %T", armInput)
+	}
+
+	// Set property ‘PublicIPPrefixes’:
+	for _, item := range typedInput.PublicIPPrefixes {
+		var item1 ResourceReference
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		prefixes.PublicIPPrefixes = append(prefixes.PublicIPPrefixes, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes populates our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(source *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error {
+
+	// PublicIPPrefixes
+	if source.PublicIPPrefixes != nil {
+		publicIPPrefixList := make([]ResourceReference, len(source.PublicIPPrefixes))
+		for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
+			// Shadow the loop variable to avoid aliasing
+			publicIPPrefixItem := publicIPPrefixItem
+			var publicIPPrefix ResourceReference
+			err := publicIPPrefix.AssignProperties_From_ResourceReference(&publicIPPrefixItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PublicIPPrefixes")
+			}
+			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
+		}
+		prefixes.PublicIPPrefixes = publicIPPrefixList
+	} else {
+		prefixes.PublicIPPrefixes = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPPrefixes from our ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(destination *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PublicIPPrefixes
+	if prefixes.PublicIPPrefixes != nil {
+		publicIPPrefixList := make([]v20210501s.ResourceReference, len(prefixes.PublicIPPrefixes))
+		for publicIPPrefixIndex, publicIPPrefixItem := range prefixes.PublicIPPrefixes {
+			// Shadow the loop variable to avoid aliasing
+			publicIPPrefixItem := publicIPPrefixItem
+			var publicIPPrefix v20210501s.ResourceReference
+			err := publicIPPrefixItem.AssignProperties_To_ResourceReference(&publicIPPrefix)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPPrefixes")
+			}
+			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
+		}
+		destination.PublicIPPrefixes = publicIPPrefixList
+	} else {
+		destination.PublicIPPrefixes = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -11732,6 +12053,116 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) Ass
 	return nil
 }
 
+type ManagedClusterLoadBalancerProfile_OutboundIPs struct {
+	// PublicIPs: A list of public IP resources.
+	PublicIPs []ResourceReference `json:"publicIPs,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfile_OutboundIPs{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if iPs == nil {
+		return nil, nil
+	}
+	result := &ManagedClusterLoadBalancerProfile_OutboundIPs_ARM{}
+
+	// Set property ‘PublicIPs’:
+	for _, item := range iPs.PublicIPs {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.PublicIPs = append(result.PublicIPs, *item_ARM.(*ResourceReference_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusterLoadBalancerProfile_OutboundIPs_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusterLoadBalancerProfile_OutboundIPs_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfile_OutboundIPs_ARM, got %T", armInput)
+	}
+
+	// Set property ‘PublicIPs’:
+	for _, item := range typedInput.PublicIPs {
+		var item1 ResourceReference
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		iPs.PublicIPs = append(iPs.PublicIPs, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs populates our ManagedClusterLoadBalancerProfile_OutboundIPs from the provided source ManagedClusterLoadBalancerProfile_OutboundIPs
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(source *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs) error {
+
+	// PublicIPs
+	if source.PublicIPs != nil {
+		publicIPList := make([]ResourceReference, len(source.PublicIPs))
+		for publicIPIndex, publicIPItem := range source.PublicIPs {
+			// Shadow the loop variable to avoid aliasing
+			publicIPItem := publicIPItem
+			var publicIP ResourceReference
+			err := publicIP.AssignProperties_From_ResourceReference(&publicIPItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PublicIPs")
+			}
+			publicIPList[publicIPIndex] = publicIP
+		}
+		iPs.PublicIPs = publicIPList
+	} else {
+		iPs.PublicIPs = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs populates the provided destination ManagedClusterLoadBalancerProfile_OutboundIPs from our ManagedClusterLoadBalancerProfile_OutboundIPs
+func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(destination *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PublicIPs
+	if iPs.PublicIPs != nil {
+		publicIPList := make([]v20210501s.ResourceReference, len(iPs.PublicIPs))
+		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
+			// Shadow the loop variable to avoid aliasing
+			publicIPItem := publicIPItem
+			var publicIP v20210501s.ResourceReference
+			err := publicIPItem.AssignProperties_To_ResourceReference(&publicIP)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPs")
+			}
+			publicIPList[publicIPIndex] = publicIP
+		}
+		destination.PublicIPs = publicIPList
+	} else {
+		destination.PublicIPs = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 	// PublicIPs: A list of public IP resources.
 	PublicIPs []ResourceReference_STATUS `json:"publicIPs,omitempty"`
@@ -11805,315 +12236,6 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 			err := publicIPItem.AssignProperties_To_ResourceReference_STATUS(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PublicIPs")
-			}
-			publicIPList[publicIPIndex] = publicIP
-		}
-		destination.PublicIPs = publicIPList
-	} else {
-		destination.PublicIPs = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs
-type ManagedClusterLoadBalancerProfileManagedOutboundIPs struct {
-	// +kubebuilder:validation:Maximum=100
-	// +kubebuilder:validation:Minimum=1
-	// Count: The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be
-	// in the range of 1 to 100 (inclusive). The default value is 1.
-	Count *int `json:"count,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfileManagedOutboundIPs{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if iPs == nil {
-		return nil, nil
-	}
-	result := &ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM{}
-
-	// Set property ‘Count’:
-	if iPs.Count != nil {
-		count := *iPs.Count
-		result.Count = &count
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Count’:
-	if typedInput.Count != nil {
-		count := *typedInput.Count
-		iPs.Count = &count
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs populates our ManagedClusterLoadBalancerProfileManagedOutboundIPs from the provided source ManagedClusterLoadBalancerProfileManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfileManagedOutboundIPs(source *v20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
-
-	// Count
-	if source.Count != nil {
-		count := *source.Count
-		iPs.Count = &count
-	} else {
-		iPs.Count = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfileManagedOutboundIPs from our ManagedClusterLoadBalancerProfileManagedOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfileManagedOutboundIPs(destination *v20210501s.ManagedClusterLoadBalancerProfileManagedOutboundIPs) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Count
-	if iPs.Count != nil {
-		count := *iPs.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-type ManagedClusterLoadBalancerProfileOutboundIPPrefixes struct {
-	// PublicIPPrefixes: A list of public IP prefix resources.
-	PublicIPPrefixes []ResourceReference `json:"publicIPPrefixes,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfileOutboundIPPrefixes{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if prefixes == nil {
-		return nil, nil
-	}
-	result := &ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM{}
-
-	// Set property ‘PublicIPPrefixes’:
-	for _, item := range prefixes.PublicIPPrefixes {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.PublicIPPrefixes = append(result.PublicIPPrefixes, *item_ARM.(*ResourceReference_ARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM, got %T", armInput)
-	}
-
-	// Set property ‘PublicIPPrefixes’:
-	for _, item := range typedInput.PublicIPPrefixes {
-		var item1 ResourceReference
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		prefixes.PublicIPPrefixes = append(prefixes.PublicIPPrefixes, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes populates our ManagedClusterLoadBalancerProfileOutboundIPPrefixes from the provided source ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPPrefixes(source *v20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
-
-	// PublicIPPrefixes
-	if source.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]ResourceReference, len(source.PublicIPPrefixes))
-		for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
-			// Shadow the loop variable to avoid aliasing
-			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix ResourceReference
-			err := publicIPPrefix.AssignProperties_From_ResourceReference(&publicIPPrefixItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PublicIPPrefixes")
-			}
-			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
-		}
-		prefixes.PublicIPPrefixes = publicIPPrefixList
-	} else {
-		prefixes.PublicIPPrefixes = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes populates the provided destination ManagedClusterLoadBalancerProfileOutboundIPPrefixes from our ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-func (prefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPPrefixes(destination *v20210501s.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PublicIPPrefixes
-	if prefixes.PublicIPPrefixes != nil {
-		publicIPPrefixList := make([]v20210501s.ResourceReference, len(prefixes.PublicIPPrefixes))
-		for publicIPPrefixIndex, publicIPPrefixItem := range prefixes.PublicIPPrefixes {
-			// Shadow the loop variable to avoid aliasing
-			publicIPPrefixItem := publicIPPrefixItem
-			var publicIPPrefix v20210501s.ResourceReference
-			err := publicIPPrefixItem.AssignProperties_To_ResourceReference(&publicIPPrefix)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPPrefixes")
-			}
-			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
-		}
-		destination.PublicIPPrefixes = publicIPPrefixList
-	} else {
-		destination.PublicIPPrefixes = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPs
-type ManagedClusterLoadBalancerProfileOutboundIPs struct {
-	// PublicIPs: A list of public IP resources.
-	PublicIPs []ResourceReference `json:"publicIPs,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedClusterLoadBalancerProfileOutboundIPs{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if iPs == nil {
-		return nil, nil
-	}
-	result := &ManagedClusterLoadBalancerProfileOutboundIPs_ARM{}
-
-	// Set property ‘PublicIPs’:
-	for _, item := range iPs.PublicIPs {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.PublicIPs = append(result.PublicIPs, *item_ARM.(*ResourceReference_ARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusterLoadBalancerProfileOutboundIPs_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusterLoadBalancerProfileOutboundIPs_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusterLoadBalancerProfileOutboundIPs_ARM, got %T", armInput)
-	}
-
-	// Set property ‘PublicIPs’:
-	for _, item := range typedInput.PublicIPs {
-		var item1 ResourceReference
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		iPs.PublicIPs = append(iPs.PublicIPs, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs populates our ManagedClusterLoadBalancerProfileOutboundIPs from the provided source ManagedClusterLoadBalancerProfileOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignProperties_From_ManagedClusterLoadBalancerProfileOutboundIPs(source *v20210501s.ManagedClusterLoadBalancerProfileOutboundIPs) error {
-
-	// PublicIPs
-	if source.PublicIPs != nil {
-		publicIPList := make([]ResourceReference, len(source.PublicIPs))
-		for publicIPIndex, publicIPItem := range source.PublicIPs {
-			// Shadow the loop variable to avoid aliasing
-			publicIPItem := publicIPItem
-			var publicIP ResourceReference
-			err := publicIP.AssignProperties_From_ResourceReference(&publicIPItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PublicIPs")
-			}
-			publicIPList[publicIPIndex] = publicIP
-		}
-		iPs.PublicIPs = publicIPList
-	} else {
-		iPs.PublicIPs = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs populates the provided destination ManagedClusterLoadBalancerProfileOutboundIPs from our ManagedClusterLoadBalancerProfileOutboundIPs
-func (iPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignProperties_To_ManagedClusterLoadBalancerProfileOutboundIPs(destination *v20210501s.ManagedClusterLoadBalancerProfileOutboundIPs) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PublicIPs
-	if iPs.PublicIPs != nil {
-		publicIPList := make([]v20210501s.ResourceReference, len(iPs.PublicIPs))
-		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
-			// Shadow the loop variable to avoid aliasing
-			publicIPItem := publicIPItem
-			var publicIP v20210501s.ResourceReference
-			err := publicIPItem.AssignProperties_To_ResourceReference(&publicIP)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPs")
 			}
 			publicIPList[publicIPIndex] = publicIP
 		}
@@ -12223,7 +12345,6 @@ const (
 	ManagedClusterPodIdentity_ProvisioningState_STATUS_Updating = ManagedClusterPodIdentity_ProvisioningState_STATUS("Updating")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ResourceReference
 type ResourceReference struct {
 	// Reference: The fully qualified Azure resource id.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -12353,220 +12474,6 @@ func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(reference.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/UserAssignedIdentity
-type UserAssignedIdentity struct {
-	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UserAssignedIdentity{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *UserAssignedIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identity == nil {
-		return nil, nil
-	}
-	result := &UserAssignedIdentity_ARM{}
-
-	// Set property ‘ClientId’:
-	if identity.ClientId != nil {
-		clientId := *identity.ClientId
-		result.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if identity.ObjectId != nil {
-		objectId := *identity.ObjectId
-		result.ObjectId = &objectId
-	}
-
-	// Set property ‘ResourceId’:
-	if identity.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*identity.ResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		resourceReference := resourceReferenceARMID
-		result.ResourceId = &resourceReference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *UserAssignedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *UserAssignedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identity.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if typedInput.ObjectId != nil {
-		objectId := *typedInput.ObjectId
-		identity.ObjectId = &objectId
-	}
-
-	// no assignment for property ‘ResourceReference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v20210501s.UserAssignedIdentity) error {
-
-	// ClientId
-	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ObjectId
-	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		identity.ResourceReference = &resourceReference
-	} else {
-		identity.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v20210501s.UserAssignedIdentity) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
-
-	// ObjectId
-	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
-
-	// ResourceReference
-	if identity.ResourceReference != nil {
-		resourceReference := identity.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserAssignedIdentity_STATUS struct {
-	// ClientId: The client ID of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// ObjectId: The object ID of the user assigned identity.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// ResourceId: The resource ID of the user assigned identity.
-	ResourceId *string `json:"resourceId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *UserAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentity_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentity_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentity_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identity.ClientId = &clientId
-	}
-
-	// Set property ‘ObjectId’:
-	if typedInput.ObjectId != nil {
-		objectId := *typedInput.ObjectId
-		identity.ObjectId = &objectId
-	}
-
-	// Set property ‘ResourceId’:
-	if typedInput.ResourceId != nil {
-		resourceId := *typedInput.ResourceId
-		identity.ResourceId = &resourceId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20210501s.UserAssignedIdentity_STATUS) error {
-
-	// ClientId
-	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// ObjectId
-	identity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ResourceId
-	identity.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
-func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20210501s.UserAssignedIdentity_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
-
-	// ObjectId
-	destination.ObjectId = genruntime.ClonePointerToString(identity.ObjectId)
-
-	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(identity.ResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

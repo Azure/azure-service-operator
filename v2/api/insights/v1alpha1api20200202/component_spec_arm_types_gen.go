@@ -34,18 +34,18 @@ func (component *Component_Spec_ARM) GetType() string {
 
 // Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead
 type ApplicationInsightsComponentProperties_ARM struct {
-	Application_Type                *ApplicationInsightsComponentProperties_Application_Type                `json:"Application_Type,omitempty"`
-	DisableIpMasking                *bool                                                                   `json:"DisableIpMasking,omitempty"`
-	DisableLocalAuth                *bool                                                                   `json:"DisableLocalAuth,omitempty"`
-	Flow_Type                       *ApplicationInsightsComponentProperties_Flow_Type                       `json:"Flow_Type,omitempty"`
-	ForceCustomerStorageForProfiler *bool                                                                   `json:"ForceCustomerStorageForProfiler,omitempty"`
-	HockeyAppId                     *string                                                                 `json:"HockeyAppId,omitempty"`
-	ImmediatePurgeDataOn30Days      *bool                                                                   `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *ApplicationInsightsComponentProperties_IngestionMode                   `json:"IngestionMode,omitempty"`
-	PublicNetworkAccessForIngestion *ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
-	Request_Source                  *ApplicationInsightsComponentProperties_Request_Source                  `json:"Request_Source,omitempty"`
-	RetentionInDays                 *int                                                                    `json:"RetentionInDays,omitempty"`
-	SamplingPercentage              *float64                                                                `json:"SamplingPercentage,omitempty"`
-	WorkspaceResourceId             *string                                                                 `json:"workspaceResourceId,omitempty"`
+	Application_Type                *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
+	DisableIpMasking                *bool                                                    `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                                                    `json:"DisableLocalAuth,omitempty"`
+	Flow_Type                       *ApplicationInsightsComponentProperties_Flow_Type        `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                                                    `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                                                  `json:"HockeyAppId,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                                                    `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *ApplicationInsightsComponentProperties_IngestionMode    `json:"IngestionMode,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType                                 `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *PublicNetworkAccessType                                 `json:"publicNetworkAccessForQuery,omitempty"`
+	Request_Source                  *ApplicationInsightsComponentProperties_Request_Source   `json:"Request_Source,omitempty"`
+	RetentionInDays                 *int                                                     `json:"RetentionInDays,omitempty"`
+	SamplingPercentage              *float64                                                 `json:"SamplingPercentage,omitempty"`
+	WorkspaceResourceId             *string                                                  `json:"workspaceResourceId,omitempty"`
 }

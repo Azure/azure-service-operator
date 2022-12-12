@@ -1,0 +1,8 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── AllOf: Object (6 properties)
+    ├── alpha: string
+    ├── beta: string
+    ├── delta: string
+    ├── epsilon: string
+    ├── gamma: string
+    └── zeta: string

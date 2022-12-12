@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"encoding/json"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 // Deprecated version of Domain_Spec. Use v1beta20200601.Domain_Spec instead
 type Domain_Spec_ARM struct {
@@ -34,7 +37,7 @@ func (domain *Domain_Spec_ARM) GetType() string {
 type DomainProperties_ARM struct {
 	InboundIpRules      []InboundIpRule_ARM                   `json:"inboundIpRules,omitempty"`
 	InputSchema         *DomainProperties_InputSchema         `json:"inputSchema,omitempty"`
-	InputSchemaMapping  *JsonInputSchemaMapping_ARM           `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping  *InputSchemaMapping_ARM               `json:"inputSchemaMapping,omitempty"`
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
@@ -44,10 +47,40 @@ type InboundIpRule_ARM struct {
 	IpMask *string               `json:"ipMask,omitempty"`
 }
 
+// Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
+type InputSchemaMapping_ARM struct {
+	Json *JsonInputSchemaMapping_ARM `json:"json,omitempty"`
+}
+
+// MarshalJSON defers JSON marshaling to the first non-nil property, because InputSchemaMapping_ARM represents a discriminated union (JSON OneOf)
+func (mapping InputSchemaMapping_ARM) MarshalJSON() ([]byte, error) {
+	if mapping.Json != nil {
+		return json.Marshal(mapping.Json)
+	}
+	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the InputSchemaMapping_ARM
+func (mapping *InputSchemaMapping_ARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["inputSchemaMappingType"]
+	if discriminator == "Json" {
+		mapping.Json = &JsonInputSchemaMapping_ARM{}
+		return json.Unmarshal(data, mapping.Json)
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
 type JsonInputSchemaMapping_ARM struct {
-	InputSchemaMappingType *JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
-	Properties             *JsonInputSchemaMappingProperties_ARM          `json:"properties,omitempty"`
+	InputSchemaMappingType JsonInputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
+	Properties             *JsonInputSchemaMappingProperties_ARM         `json:"properties,omitempty"`
 }
 
 // Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead

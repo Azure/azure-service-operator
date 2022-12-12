@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"math/big"
 	"net/url"
 	"regexp"
@@ -57,12 +58,24 @@ func (schema GoJSONSchema) url() *url.URL {
 	return schema.inner.ID.GetUrl()
 }
 
+func (schema GoJSONSchema) Id() string {
+	return "" // Not used, GoJSONSchema going away soon
+}
+
 func (schema GoJSONSchema) title() *string {
 	return schema.inner.Title
 }
 
-func (schema GoJSONSchema) extensions(key string) interface{} {
-	return nil
+func (schema GoJSONSchema) extensionAsString(_ string) (string, bool) {
+	return "", false
+}
+
+func (schema GoJSONSchema) extensionAsBool(_ string) bool {
+	return false
+}
+
+func (schema GoJSONSchema) hasExtension(_ string) bool {
+	return false
 }
 
 func (schema GoJSONSchema) hasType(schemaType SchemaType) bool {
@@ -93,8 +106,19 @@ func (schema GoJSONSchema) hasOneOf() bool {
 	return len(schema.inner.OneOf) > 0
 }
 
+func (schema GoJSONSchema) discriminator() string {
+	return "" // not supported, GoJSONSchema going away soon
+}
+
+// oneOf returns any directly embedded definitions held within this definition
 func (schema GoJSONSchema) oneOf() []Schema {
 	return schema.transformGoJSONSlice(schema.inner.OneOf)
+}
+
+// expectedLooseOneOfOptions returns an empty set because JSON Schema don't work this way
+func (schema GoJSONSchema) discriminatorValues() set.Set[string] {
+	// Never have any
+	return nil
 }
 
 func (schema GoJSONSchema) properties() map[string]Schema {
@@ -254,6 +278,12 @@ func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
 
 func (schema GoJSONSchema) refObjectName() (string, error) {
 	return objectTypeOf(schema.inner.Ref.GetUrl())
+}
+
+func (schema GoJSONSchema) readOnly() bool {
+	// JSON Schema does not provide readonlyness,
+	// that is only in Swagger
+	return false
 }
 
 func objectTypeOf(url *url.URL) (string, error) {

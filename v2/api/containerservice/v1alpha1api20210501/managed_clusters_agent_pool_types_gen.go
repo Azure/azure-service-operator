@@ -28,8 +28,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClusters_AgentPool_Spec `json:"spec,omitempty"`
-	Status            AgentPool_STATUS               `json:"status,omitempty"`
+	Spec              ManagedClusters_AgentPool_Spec   `json:"spec,omitempty"`
+	Status            ManagedClusters_AgentPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -137,7 +137,7 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AgentPool_STATUS{}
+	return &ManagedClusters_AgentPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AgentPool_STATUS); ok {
+	if st, ok := status.(*ManagedClusters_AgentPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AgentPool_STATUS
+	var st ManagedClusters_AgentPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 	pool.Spec = spec
 
 	// Status
-	var status AgentPool_STATUS
-	err = status.AssignProperties_From_AgentPool_STATUS(&source.Status)
+	var status ManagedClusters_AgentPool_STATUS
+	err = status.AssignProperties_From_ManagedClusters_AgentPool_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AgentPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_ManagedClusters_AgentPool_STATUS() to populate field Status")
 	}
 	pool.Status = status
 
@@ -303,10 +303,10 @@ func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPo
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210501s.AgentPool_STATUS
-	err = pool.Status.AssignProperties_To_AgentPool_STATUS(&status)
+	var status alpha20210501s.ManagedClusters_AgentPool_STATUS
+	err = pool.Status.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AgentPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_ManagedClusters_AgentPool_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,8 +331,1138 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-// Deprecated version of AgentPool_STATUS. Use v1beta20210501.AgentPool_STATUS instead
-type AgentPool_STATUS struct {
+type ManagedClusters_AgentPool_Spec struct {
+	AvailabilityZones []string `json:"availabilityZones,omitempty"`
+
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName                     string                        `json:"azureName,omitempty"`
+	Count                         *int                          `json:"count,omitempty"`
+	EnableAutoScaling             *bool                         `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost        *bool                         `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                    *bool                         `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP            *bool                         `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD                *bool                         `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile            *GPUInstanceProfile           `json:"gpuInstanceProfile,omitempty"`
+	KubeletConfig                 *KubeletConfig                `json:"kubeletConfig,omitempty"`
+	KubeletDiskType               *KubeletDiskType              `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig                 *LinuxOSConfig                `json:"linuxOSConfig,omitempty"`
+	MaxCount                      *int                          `json:"maxCount,omitempty"`
+	MaxPods                       *int                          `json:"maxPods,omitempty"`
+	MinCount                      *int                          `json:"minCount,omitempty"`
+	Mode                          *AgentPoolMode                `json:"mode,omitempty"`
+	NodeLabels                    map[string]string             `json:"nodeLabels,omitempty"`
+	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
+	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
+	OrchestratorVersion           *string                       `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB                  *ContainerServiceOSDisk       `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                    *OSDiskType                   `json:"osDiskType,omitempty"`
+	OsSKU                         *OSSKU                        `json:"osSKU,omitempty"`
+	OsType                        *OSType                       `json:"osType,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a containerservice.azure.com/ManagedCluster resource
+	Owner                     *genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
+	PodSubnetIDReference      *genruntime.ResourceReference      `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
+	ProximityPlacementGroupID *ProximityPlacementGroupID         `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy            `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *ScaleSetPriority                  `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                           `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string                  `json:"tags,omitempty"`
+	Type                      *AgentPoolType                     `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings          `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                            `json:"vmSize,omitempty"`
+	VnetSubnetIDReference     *genruntime.ResourceReference      `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ManagedClusters_AgentPool_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if pool == nil {
+		return nil, nil
+	}
+	result := &ManagedClusters_AgentPool_Spec_ARM{}
+
+	// Set property ‘Name’:
+	result.Name = resolved.Name
+
+	// Set property ‘Properties’:
+	if pool.AvailabilityZones != nil ||
+		pool.Count != nil ||
+		pool.EnableAutoScaling != nil ||
+		pool.EnableEncryptionAtHost != nil ||
+		pool.EnableFIPS != nil ||
+		pool.EnableNodePublicIP != nil ||
+		pool.EnableUltraSSD != nil ||
+		pool.GpuInstanceProfile != nil ||
+		pool.KubeletConfig != nil ||
+		pool.KubeletDiskType != nil ||
+		pool.LinuxOSConfig != nil ||
+		pool.MaxCount != nil ||
+		pool.MaxPods != nil ||
+		pool.MinCount != nil ||
+		pool.Mode != nil ||
+		pool.NodeLabels != nil ||
+		pool.NodePublicIPPrefixIDReference != nil ||
+		pool.NodeTaints != nil ||
+		pool.OrchestratorVersion != nil ||
+		pool.OsDiskSizeGB != nil ||
+		pool.OsDiskType != nil ||
+		pool.OsSKU != nil ||
+		pool.OsType != nil ||
+		pool.PodSubnetIDReference != nil ||
+		pool.ProximityPlacementGroupID != nil ||
+		pool.ScaleSetEvictionPolicy != nil ||
+		pool.ScaleSetPriority != nil ||
+		pool.SpotMaxPrice != nil ||
+		pool.Tags != nil ||
+		pool.Type != nil ||
+		pool.UpgradeSettings != nil ||
+		pool.VmSize != nil ||
+		pool.VnetSubnetIDReference != nil {
+		result.Properties = &ManagedClusterAgentPoolProfileProperties_ARM{}
+	}
+	for _, item := range pool.AvailabilityZones {
+		result.Properties.AvailabilityZones = append(result.Properties.AvailabilityZones, item)
+	}
+	if pool.Count != nil {
+		count := *pool.Count
+		result.Properties.Count = &count
+	}
+	if pool.EnableAutoScaling != nil {
+		enableAutoScaling := *pool.EnableAutoScaling
+		result.Properties.EnableAutoScaling = &enableAutoScaling
+	}
+	if pool.EnableEncryptionAtHost != nil {
+		enableEncryptionAtHost := *pool.EnableEncryptionAtHost
+		result.Properties.EnableEncryptionAtHost = &enableEncryptionAtHost
+	}
+	if pool.EnableFIPS != nil {
+		enableFIPS := *pool.EnableFIPS
+		result.Properties.EnableFIPS = &enableFIPS
+	}
+	if pool.EnableNodePublicIP != nil {
+		enableNodePublicIP := *pool.EnableNodePublicIP
+		result.Properties.EnableNodePublicIP = &enableNodePublicIP
+	}
+	if pool.EnableUltraSSD != nil {
+		enableUltraSSD := *pool.EnableUltraSSD
+		result.Properties.EnableUltraSSD = &enableUltraSSD
+	}
+	if pool.GpuInstanceProfile != nil {
+		gpuInstanceProfile := *pool.GpuInstanceProfile
+		result.Properties.GpuInstanceProfile = &gpuInstanceProfile
+	}
+	if pool.KubeletConfig != nil {
+		kubeletConfig_ARM, err := (*pool.KubeletConfig).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		kubeletConfig := *kubeletConfig_ARM.(*KubeletConfig_ARM)
+		result.Properties.KubeletConfig = &kubeletConfig
+	}
+	if pool.KubeletDiskType != nil {
+		kubeletDiskType := *pool.KubeletDiskType
+		result.Properties.KubeletDiskType = &kubeletDiskType
+	}
+	if pool.LinuxOSConfig != nil {
+		linuxOSConfig_ARM, err := (*pool.LinuxOSConfig).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		linuxOSConfig := *linuxOSConfig_ARM.(*LinuxOSConfig_ARM)
+		result.Properties.LinuxOSConfig = &linuxOSConfig
+	}
+	if pool.MaxCount != nil {
+		maxCount := *pool.MaxCount
+		result.Properties.MaxCount = &maxCount
+	}
+	if pool.MaxPods != nil {
+		maxPods := *pool.MaxPods
+		result.Properties.MaxPods = &maxPods
+	}
+	if pool.MinCount != nil {
+		minCount := *pool.MinCount
+		result.Properties.MinCount = &minCount
+	}
+	if pool.Mode != nil {
+		mode := *pool.Mode
+		result.Properties.Mode = &mode
+	}
+	if pool.NodeLabels != nil {
+		result.Properties.NodeLabels = make(map[string]string, len(pool.NodeLabels))
+		for key, value := range pool.NodeLabels {
+			result.Properties.NodeLabels[key] = value
+		}
+	}
+	if pool.NodePublicIPPrefixIDReference != nil {
+		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.NodePublicIPPrefixIDReference)
+		if err != nil {
+			return nil, err
+		}
+		nodePublicIPPrefixID := nodePublicIPPrefixIDARMID
+		result.Properties.NodePublicIPPrefixID = &nodePublicIPPrefixID
+	}
+	for _, item := range pool.NodeTaints {
+		result.Properties.NodeTaints = append(result.Properties.NodeTaints, item)
+	}
+	if pool.OrchestratorVersion != nil {
+		orchestratorVersion := *pool.OrchestratorVersion
+		result.Properties.OrchestratorVersion = &orchestratorVersion
+	}
+	if pool.OsDiskSizeGB != nil {
+		osDiskSizeGB := *pool.OsDiskSizeGB
+		result.Properties.OsDiskSizeGB = &osDiskSizeGB
+	}
+	if pool.OsDiskType != nil {
+		osDiskType := *pool.OsDiskType
+		result.Properties.OsDiskType = &osDiskType
+	}
+	if pool.OsSKU != nil {
+		osSKU := *pool.OsSKU
+		result.Properties.OsSKU = &osSKU
+	}
+	if pool.OsType != nil {
+		osType := *pool.OsType
+		result.Properties.OsType = &osType
+	}
+	if pool.PodSubnetIDReference != nil {
+		podSubnetIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.PodSubnetIDReference)
+		if err != nil {
+			return nil, err
+		}
+		podSubnetID := podSubnetIDARMID
+		result.Properties.PodSubnetID = &podSubnetID
+	}
+	if pool.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := *pool.ProximityPlacementGroupID
+		result.Properties.ProximityPlacementGroupID = &proximityPlacementGroupID
+	}
+	if pool.ScaleSetEvictionPolicy != nil {
+		scaleSetEvictionPolicy := *pool.ScaleSetEvictionPolicy
+		result.Properties.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+	}
+	if pool.ScaleSetPriority != nil {
+		scaleSetPriority := *pool.ScaleSetPriority
+		result.Properties.ScaleSetPriority = &scaleSetPriority
+	}
+	if pool.SpotMaxPrice != nil {
+		spotMaxPrice := *pool.SpotMaxPrice
+		result.Properties.SpotMaxPrice = &spotMaxPrice
+	}
+	if pool.Tags != nil {
+		result.Properties.Tags = make(map[string]string, len(pool.Tags))
+		for key, value := range pool.Tags {
+			result.Properties.Tags[key] = value
+		}
+	}
+	if pool.Type != nil {
+		typeVar := *pool.Type
+		result.Properties.Type = &typeVar
+	}
+	if pool.UpgradeSettings != nil {
+		upgradeSettings_ARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		upgradeSettings := *upgradeSettings_ARM.(*AgentPoolUpgradeSettings_ARM)
+		result.Properties.UpgradeSettings = &upgradeSettings
+	}
+	if pool.VmSize != nil {
+		vmSize := *pool.VmSize
+		result.Properties.VmSize = &vmSize
+	}
+	if pool.VnetSubnetIDReference != nil {
+		vnetSubnetIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.VnetSubnetIDReference)
+		if err != nil {
+			return nil, err
+		}
+		vnetSubnetID := vnetSubnetIDARMID
+		result.Properties.VnetSubnetID = &vnetSubnetID
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (pool *ManagedClusters_AgentPool_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusters_AgentPool_Spec_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusters_AgentPool_Spec_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_Spec_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AvailabilityZones’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.AvailabilityZones {
+			pool.AvailabilityZones = append(pool.AvailabilityZones, item)
+		}
+	}
+
+	// Set property ‘AzureName’:
+	pool.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Count’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Count != nil {
+			count := *typedInput.Properties.Count
+			pool.Count = &count
+		}
+	}
+
+	// Set property ‘EnableAutoScaling’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableAutoScaling != nil {
+			enableAutoScaling := *typedInput.Properties.EnableAutoScaling
+			pool.EnableAutoScaling = &enableAutoScaling
+		}
+	}
+
+	// Set property ‘EnableEncryptionAtHost’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableEncryptionAtHost != nil {
+			enableEncryptionAtHost := *typedInput.Properties.EnableEncryptionAtHost
+			pool.EnableEncryptionAtHost = &enableEncryptionAtHost
+		}
+	}
+
+	// Set property ‘EnableFIPS’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFIPS != nil {
+			enableFIPS := *typedInput.Properties.EnableFIPS
+			pool.EnableFIPS = &enableFIPS
+		}
+	}
+
+	// Set property ‘EnableNodePublicIP’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableNodePublicIP != nil {
+			enableNodePublicIP := *typedInput.Properties.EnableNodePublicIP
+			pool.EnableNodePublicIP = &enableNodePublicIP
+		}
+	}
+
+	// Set property ‘EnableUltraSSD’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableUltraSSD != nil {
+			enableUltraSSD := *typedInput.Properties.EnableUltraSSD
+			pool.EnableUltraSSD = &enableUltraSSD
+		}
+	}
+
+	// Set property ‘GpuInstanceProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.GpuInstanceProfile != nil {
+			gpuInstanceProfile := *typedInput.Properties.GpuInstanceProfile
+			pool.GpuInstanceProfile = &gpuInstanceProfile
+		}
+	}
+
+	// Set property ‘KubeletConfig’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubeletConfig != nil {
+			var kubeletConfig1 KubeletConfig
+			err := kubeletConfig1.PopulateFromARM(owner, *typedInput.Properties.KubeletConfig)
+			if err != nil {
+				return err
+			}
+			kubeletConfig := kubeletConfig1
+			pool.KubeletConfig = &kubeletConfig
+		}
+	}
+
+	// Set property ‘KubeletDiskType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubeletDiskType != nil {
+			kubeletDiskType := *typedInput.Properties.KubeletDiskType
+			pool.KubeletDiskType = &kubeletDiskType
+		}
+	}
+
+	// Set property ‘LinuxOSConfig’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LinuxOSConfig != nil {
+			var linuxOSConfig1 LinuxOSConfig
+			err := linuxOSConfig1.PopulateFromARM(owner, *typedInput.Properties.LinuxOSConfig)
+			if err != nil {
+				return err
+			}
+			linuxOSConfig := linuxOSConfig1
+			pool.LinuxOSConfig = &linuxOSConfig
+		}
+	}
+
+	// Set property ‘MaxCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxCount != nil {
+			maxCount := *typedInput.Properties.MaxCount
+			pool.MaxCount = &maxCount
+		}
+	}
+
+	// Set property ‘MaxPods’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxPods != nil {
+			maxPods := *typedInput.Properties.MaxPods
+			pool.MaxPods = &maxPods
+		}
+	}
+
+	// Set property ‘MinCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MinCount != nil {
+			minCount := *typedInput.Properties.MinCount
+			pool.MinCount = &minCount
+		}
+	}
+
+	// Set property ‘Mode’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Mode != nil {
+			mode := *typedInput.Properties.Mode
+			pool.Mode = &mode
+		}
+	}
+
+	// Set property ‘NodeLabels’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NodeLabels != nil {
+			pool.NodeLabels = make(map[string]string, len(typedInput.Properties.NodeLabels))
+			for key, value := range typedInput.Properties.NodeLabels {
+				pool.NodeLabels[key] = value
+			}
+		}
+	}
+
+	// no assignment for property ‘NodePublicIPPrefixIDReference’
+
+	// Set property ‘NodeTaints’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.NodeTaints {
+			pool.NodeTaints = append(pool.NodeTaints, item)
+		}
+	}
+
+	// Set property ‘OrchestratorVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OrchestratorVersion != nil {
+			orchestratorVersion := *typedInput.Properties.OrchestratorVersion
+			pool.OrchestratorVersion = &orchestratorVersion
+		}
+	}
+
+	// Set property ‘OsDiskSizeGB’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsDiskSizeGB != nil {
+			osDiskSizeGB := *typedInput.Properties.OsDiskSizeGB
+			pool.OsDiskSizeGB = &osDiskSizeGB
+		}
+	}
+
+	// Set property ‘OsDiskType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsDiskType != nil {
+			osDiskType := *typedInput.Properties.OsDiskType
+			pool.OsDiskType = &osDiskType
+		}
+	}
+
+	// Set property ‘OsSKU’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsSKU != nil {
+			osSKU := *typedInput.Properties.OsSKU
+			pool.OsSKU = &osSKU
+		}
+	}
+
+	// Set property ‘OsType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OsType != nil {
+			osType := *typedInput.Properties.OsType
+			pool.OsType = &osType
+		}
+	}
+
+	// Set property ‘Owner’:
+	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// no assignment for property ‘PodSubnetIDReference’
+
+	// Set property ‘ProximityPlacementGroupID’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProximityPlacementGroupID != nil {
+			proximityPlacementGroupID := *typedInput.Properties.ProximityPlacementGroupID
+			pool.ProximityPlacementGroupID = &proximityPlacementGroupID
+		}
+	}
+
+	// Set property ‘ScaleSetEvictionPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
+			scaleSetEvictionPolicy := *typedInput.Properties.ScaleSetEvictionPolicy
+			pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+		}
+	}
+
+	// Set property ‘ScaleSetPriority’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ScaleSetPriority != nil {
+			scaleSetPriority := *typedInput.Properties.ScaleSetPriority
+			pool.ScaleSetPriority = &scaleSetPriority
+		}
+	}
+
+	// Set property ‘SpotMaxPrice’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SpotMaxPrice != nil {
+			spotMaxPrice := *typedInput.Properties.SpotMaxPrice
+			pool.SpotMaxPrice = &spotMaxPrice
+		}
+	}
+
+	// Set property ‘Tags’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Tags != nil {
+			pool.Tags = make(map[string]string, len(typedInput.Properties.Tags))
+			for key, value := range typedInput.Properties.Tags {
+				pool.Tags[key] = value
+			}
+		}
+	}
+
+	// Set property ‘Type’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Type != nil {
+			typeVar := *typedInput.Properties.Type
+			pool.Type = &typeVar
+		}
+	}
+
+	// Set property ‘UpgradeSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UpgradeSettings != nil {
+			var upgradeSettings1 AgentPoolUpgradeSettings
+			err := upgradeSettings1.PopulateFromARM(owner, *typedInput.Properties.UpgradeSettings)
+			if err != nil {
+				return err
+			}
+			upgradeSettings := upgradeSettings1
+			pool.UpgradeSettings = &upgradeSettings
+		}
+	}
+
+	// Set property ‘VmSize’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VmSize != nil {
+			vmSize := *typedInput.Properties.VmSize
+			pool.VmSize = &vmSize
+		}
+	}
+
+	// no assignment for property ‘VnetSubnetIDReference’
+
+	// No error
+	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &ManagedClusters_AgentPool_Spec{}
+
+// ConvertSpecFrom populates our ManagedClusters_AgentPool_Spec from the provided source
+func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210501s.ManagedClusters_AgentPool_Spec)
+	if ok {
+		// Populate our instance from source
+		return pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210501s.ManagedClusters_AgentPool_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our ManagedClusters_AgentPool_Spec
+func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210501s.ManagedClusters_AgentPool_Spec)
+	if ok {
+		// Populate destination from our instance
+		return pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210501s.ManagedClusters_AgentPool_Spec{}
+	err := pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ManagedClusters_AgentPool_Spec populates our ManagedClusters_AgentPool_Spec from the provided source ManagedClusters_AgentPool_Spec
+func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedClusters_AgentPool_Spec(source *alpha20210501s.ManagedClusters_AgentPool_Spec) error {
+
+	// AvailabilityZones
+	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
+
+	// AzureName
+	pool.AzureName = source.AzureName
+
+	// Count
+	pool.Count = genruntime.ClonePointerToInt(source.Count)
+
+	// EnableAutoScaling
+	if source.EnableAutoScaling != nil {
+		enableAutoScaling := *source.EnableAutoScaling
+		pool.EnableAutoScaling = &enableAutoScaling
+	} else {
+		pool.EnableAutoScaling = nil
+	}
+
+	// EnableEncryptionAtHost
+	if source.EnableEncryptionAtHost != nil {
+		enableEncryptionAtHost := *source.EnableEncryptionAtHost
+		pool.EnableEncryptionAtHost = &enableEncryptionAtHost
+	} else {
+		pool.EnableEncryptionAtHost = nil
+	}
+
+	// EnableFIPS
+	if source.EnableFIPS != nil {
+		enableFIPS := *source.EnableFIPS
+		pool.EnableFIPS = &enableFIPS
+	} else {
+		pool.EnableFIPS = nil
+	}
+
+	// EnableNodePublicIP
+	if source.EnableNodePublicIP != nil {
+		enableNodePublicIP := *source.EnableNodePublicIP
+		pool.EnableNodePublicIP = &enableNodePublicIP
+	} else {
+		pool.EnableNodePublicIP = nil
+	}
+
+	// EnableUltraSSD
+	if source.EnableUltraSSD != nil {
+		enableUltraSSD := *source.EnableUltraSSD
+		pool.EnableUltraSSD = &enableUltraSSD
+	} else {
+		pool.EnableUltraSSD = nil
+	}
+
+	// GpuInstanceProfile
+	if source.GpuInstanceProfile != nil {
+		gpuInstanceProfile := GPUInstanceProfile(*source.GpuInstanceProfile)
+		pool.GpuInstanceProfile = &gpuInstanceProfile
+	} else {
+		pool.GpuInstanceProfile = nil
+	}
+
+	// KubeletConfig
+	if source.KubeletConfig != nil {
+		var kubeletConfig KubeletConfig
+		err := kubeletConfig.AssignProperties_From_KubeletConfig(source.KubeletConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_KubeletConfig() to populate field KubeletConfig")
+		}
+		pool.KubeletConfig = &kubeletConfig
+	} else {
+		pool.KubeletConfig = nil
+	}
+
+	// KubeletDiskType
+	if source.KubeletDiskType != nil {
+		kubeletDiskType := KubeletDiskType(*source.KubeletDiskType)
+		pool.KubeletDiskType = &kubeletDiskType
+	} else {
+		pool.KubeletDiskType = nil
+	}
+
+	// LinuxOSConfig
+	if source.LinuxOSConfig != nil {
+		var linuxOSConfig LinuxOSConfig
+		err := linuxOSConfig.AssignProperties_From_LinuxOSConfig(source.LinuxOSConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxOSConfig() to populate field LinuxOSConfig")
+		}
+		pool.LinuxOSConfig = &linuxOSConfig
+	} else {
+		pool.LinuxOSConfig = nil
+	}
+
+	// MaxCount
+	pool.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
+
+	// MaxPods
+	pool.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
+
+	// MinCount
+	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
+
+	// Mode
+	if source.Mode != nil {
+		mode := AgentPoolMode(*source.Mode)
+		pool.Mode = &mode
+	} else {
+		pool.Mode = nil
+	}
+
+	// NodeLabels
+	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
+
+	// NodePublicIPPrefixIDReference
+	if source.NodePublicIPPrefixIDReference != nil {
+		nodePublicIPPrefixIDReference := source.NodePublicIPPrefixIDReference.Copy()
+		pool.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
+	} else {
+		pool.NodePublicIPPrefixIDReference = nil
+	}
+
+	// NodeTaints
+	pool.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
+
+	// OrchestratorVersion
+	pool.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
+
+	// OsDiskSizeGB
+	if source.OsDiskSizeGB != nil {
+		osDiskSizeGB := ContainerServiceOSDisk(*source.OsDiskSizeGB)
+		pool.OsDiskSizeGB = &osDiskSizeGB
+	} else {
+		pool.OsDiskSizeGB = nil
+	}
+
+	// OsDiskType
+	if source.OsDiskType != nil {
+		osDiskType := OSDiskType(*source.OsDiskType)
+		pool.OsDiskType = &osDiskType
+	} else {
+		pool.OsDiskType = nil
+	}
+
+	// OsSKU
+	if source.OsSKU != nil {
+		osSKU := OSSKU(*source.OsSKU)
+		pool.OsSKU = &osSKU
+	} else {
+		pool.OsSKU = nil
+	}
+
+	// OsType
+	if source.OsType != nil {
+		osType := OSType(*source.OsType)
+		pool.OsType = &osType
+	} else {
+		pool.OsType = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		pool.Owner = &owner
+	} else {
+		pool.Owner = nil
+	}
+
+	// PodSubnetIDReference
+	if source.PodSubnetIDReference != nil {
+		podSubnetIDReference := source.PodSubnetIDReference.Copy()
+		pool.PodSubnetIDReference = &podSubnetIDReference
+	} else {
+		pool.PodSubnetIDReference = nil
+	}
+
+	// ProximityPlacementGroupID
+	if source.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := ProximityPlacementGroupID(*source.ProximityPlacementGroupID)
+		pool.ProximityPlacementGroupID = &proximityPlacementGroupID
+	} else {
+		pool.ProximityPlacementGroupID = nil
+	}
+
+	// ScaleSetEvictionPolicy
+	if source.ScaleSetEvictionPolicy != nil {
+		scaleSetEvictionPolicy := ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
+		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+	} else {
+		pool.ScaleSetEvictionPolicy = nil
+	}
+
+	// ScaleSetPriority
+	if source.ScaleSetPriority != nil {
+		scaleSetPriority := ScaleSetPriority(*source.ScaleSetPriority)
+		pool.ScaleSetPriority = &scaleSetPriority
+	} else {
+		pool.ScaleSetPriority = nil
+	}
+
+	// SpotMaxPrice
+	if source.SpotMaxPrice != nil {
+		spotMaxPrice := *source.SpotMaxPrice
+		pool.SpotMaxPrice = &spotMaxPrice
+	} else {
+		pool.SpotMaxPrice = nil
+	}
+
+	// Tags
+	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	if source.Type != nil {
+		typeVar := AgentPoolType(*source.Type)
+		pool.Type = &typeVar
+	} else {
+		pool.Type = nil
+	}
+
+	// UpgradeSettings
+	if source.UpgradeSettings != nil {
+		var upgradeSetting AgentPoolUpgradeSettings
+		err := upgradeSetting.AssignProperties_From_AgentPoolUpgradeSettings(source.UpgradeSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
+		}
+		pool.UpgradeSettings = &upgradeSetting
+	} else {
+		pool.UpgradeSettings = nil
+	}
+
+	// VmSize
+	pool.VmSize = genruntime.ClonePointerToString(source.VmSize)
+
+	// VnetSubnetIDReference
+	if source.VnetSubnetIDReference != nil {
+		vnetSubnetIDReference := source.VnetSubnetIDReference.Copy()
+		pool.VnetSubnetIDReference = &vnetSubnetIDReference
+	} else {
+		pool.VnetSubnetIDReference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedClusters_AgentPool_Spec populates the provided destination ManagedClusters_AgentPool_Spec from our ManagedClusters_AgentPool_Spec
+func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_AgentPool_Spec(destination *alpha20210501s.ManagedClusters_AgentPool_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AvailabilityZones
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(pool.AvailabilityZones)
+
+	// AzureName
+	destination.AzureName = pool.AzureName
+
+	// Count
+	destination.Count = genruntime.ClonePointerToInt(pool.Count)
+
+	// EnableAutoScaling
+	if pool.EnableAutoScaling != nil {
+		enableAutoScaling := *pool.EnableAutoScaling
+		destination.EnableAutoScaling = &enableAutoScaling
+	} else {
+		destination.EnableAutoScaling = nil
+	}
+
+	// EnableEncryptionAtHost
+	if pool.EnableEncryptionAtHost != nil {
+		enableEncryptionAtHost := *pool.EnableEncryptionAtHost
+		destination.EnableEncryptionAtHost = &enableEncryptionAtHost
+	} else {
+		destination.EnableEncryptionAtHost = nil
+	}
+
+	// EnableFIPS
+	if pool.EnableFIPS != nil {
+		enableFIPS := *pool.EnableFIPS
+		destination.EnableFIPS = &enableFIPS
+	} else {
+		destination.EnableFIPS = nil
+	}
+
+	// EnableNodePublicIP
+	if pool.EnableNodePublicIP != nil {
+		enableNodePublicIP := *pool.EnableNodePublicIP
+		destination.EnableNodePublicIP = &enableNodePublicIP
+	} else {
+		destination.EnableNodePublicIP = nil
+	}
+
+	// EnableUltraSSD
+	if pool.EnableUltraSSD != nil {
+		enableUltraSSD := *pool.EnableUltraSSD
+		destination.EnableUltraSSD = &enableUltraSSD
+	} else {
+		destination.EnableUltraSSD = nil
+	}
+
+	// GpuInstanceProfile
+	if pool.GpuInstanceProfile != nil {
+		gpuInstanceProfile := string(*pool.GpuInstanceProfile)
+		destination.GpuInstanceProfile = &gpuInstanceProfile
+	} else {
+		destination.GpuInstanceProfile = nil
+	}
+
+	// KubeletConfig
+	if pool.KubeletConfig != nil {
+		var kubeletConfig alpha20210501s.KubeletConfig
+		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig(&kubeletConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
+		}
+		destination.KubeletConfig = &kubeletConfig
+	} else {
+		destination.KubeletConfig = nil
+	}
+
+	// KubeletDiskType
+	if pool.KubeletDiskType != nil {
+		kubeletDiskType := string(*pool.KubeletDiskType)
+		destination.KubeletDiskType = &kubeletDiskType
+	} else {
+		destination.KubeletDiskType = nil
+	}
+
+	// LinuxOSConfig
+	if pool.LinuxOSConfig != nil {
+		var linuxOSConfig alpha20210501s.LinuxOSConfig
+		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig(&linuxOSConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
+		}
+		destination.LinuxOSConfig = &linuxOSConfig
+	} else {
+		destination.LinuxOSConfig = nil
+	}
+
+	// MaxCount
+	destination.MaxCount = genruntime.ClonePointerToInt(pool.MaxCount)
+
+	// MaxPods
+	destination.MaxPods = genruntime.ClonePointerToInt(pool.MaxPods)
+
+	// MinCount
+	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
+
+	// Mode
+	if pool.Mode != nil {
+		mode := string(*pool.Mode)
+		destination.Mode = &mode
+	} else {
+		destination.Mode = nil
+	}
+
+	// NodeLabels
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
+
+	// NodePublicIPPrefixIDReference
+	if pool.NodePublicIPPrefixIDReference != nil {
+		nodePublicIPPrefixIDReference := pool.NodePublicIPPrefixIDReference.Copy()
+		destination.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
+	} else {
+		destination.NodePublicIPPrefixIDReference = nil
+	}
+
+	// NodeTaints
+	destination.NodeTaints = genruntime.CloneSliceOfString(pool.NodeTaints)
+
+	// OrchestratorVersion
+	destination.OrchestratorVersion = genruntime.ClonePointerToString(pool.OrchestratorVersion)
+
+	// OriginalVersion
+	destination.OriginalVersion = pool.OriginalVersion()
+
+	// OsDiskSizeGB
+	if pool.OsDiskSizeGB != nil {
+		osDiskSizeGB := int(*pool.OsDiskSizeGB)
+		destination.OsDiskSizeGB = &osDiskSizeGB
+	} else {
+		destination.OsDiskSizeGB = nil
+	}
+
+	// OsDiskType
+	if pool.OsDiskType != nil {
+		osDiskType := string(*pool.OsDiskType)
+		destination.OsDiskType = &osDiskType
+	} else {
+		destination.OsDiskType = nil
+	}
+
+	// OsSKU
+	if pool.OsSKU != nil {
+		osSKU := string(*pool.OsSKU)
+		destination.OsSKU = &osSKU
+	} else {
+		destination.OsSKU = nil
+	}
+
+	// OsType
+	if pool.OsType != nil {
+		osType := string(*pool.OsType)
+		destination.OsType = &osType
+	} else {
+		destination.OsType = nil
+	}
+
+	// Owner
+	if pool.Owner != nil {
+		owner := pool.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PodSubnetIDReference
+	if pool.PodSubnetIDReference != nil {
+		podSubnetIDReference := pool.PodSubnetIDReference.Copy()
+		destination.PodSubnetIDReference = &podSubnetIDReference
+	} else {
+		destination.PodSubnetIDReference = nil
+	}
+
+	// ProximityPlacementGroupID
+	if pool.ProximityPlacementGroupID != nil {
+		proximityPlacementGroupID := string(*pool.ProximityPlacementGroupID)
+		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
+	} else {
+		destination.ProximityPlacementGroupID = nil
+	}
+
+	// ScaleSetEvictionPolicy
+	if pool.ScaleSetEvictionPolicy != nil {
+		scaleSetEvictionPolicy := string(*pool.ScaleSetEvictionPolicy)
+		destination.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
+	} else {
+		destination.ScaleSetEvictionPolicy = nil
+	}
+
+	// ScaleSetPriority
+	if pool.ScaleSetPriority != nil {
+		scaleSetPriority := string(*pool.ScaleSetPriority)
+		destination.ScaleSetPriority = &scaleSetPriority
+	} else {
+		destination.ScaleSetPriority = nil
+	}
+
+	// SpotMaxPrice
+	if pool.SpotMaxPrice != nil {
+		spotMaxPrice := *pool.SpotMaxPrice
+		destination.SpotMaxPrice = &spotMaxPrice
+	} else {
+		destination.SpotMaxPrice = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
+
+	// Type
+	if pool.Type != nil {
+		typeVar := string(*pool.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// UpgradeSettings
+	if pool.UpgradeSettings != nil {
+		var upgradeSetting alpha20210501s.AgentPoolUpgradeSettings
+		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings(&upgradeSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
+		}
+		destination.UpgradeSettings = &upgradeSetting
+	} else {
+		destination.UpgradeSettings = nil
+	}
+
+	// VmSize
+	destination.VmSize = genruntime.ClonePointerToString(pool.VmSize)
+
+	// VnetSubnetIDReference
+	if pool.VnetSubnetIDReference != nil {
+		vnetSubnetIDReference := pool.VnetSubnetIDReference.Copy()
+		destination.VnetSubnetIDReference = &vnetSubnetIDReference
+	} else {
+		destination.VnetSubnetIDReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (pool *ManagedClusters_AgentPool_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (pool *ManagedClusters_AgentPool_Spec) SetAzureName(azureName string) {
+	pool.AzureName = azureName
+}
+
+// Deprecated version of ManagedClusters_AgentPool_STATUS. Use v1beta20210501.ManagedClusters_AgentPool_STATUS instead
+type ManagedClusters_AgentPool_STATUS struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	// Conditions: The observed state of the resource
@@ -377,25 +1507,25 @@ type AgentPool_STATUS struct {
 	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &ManagedClusters_AgentPool_STATUS{}
 
-// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
-func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210501s.AgentPool_STATUS)
+// ConvertStatusFrom populates our ManagedClusters_AgentPool_STATUS from the provided source
+func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210501s.ManagedClusters_AgentPool_STATUS)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignProperties_From_AgentPool_STATUS(src)
+		return pool.AssignProperties_From_ManagedClusters_AgentPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210501s.AgentPool_STATUS{}
+	src = &alpha20210501s.ManagedClusters_AgentPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignProperties_From_AgentPool_STATUS(src)
+	err = pool.AssignProperties_From_ManagedClusters_AgentPool_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -403,17 +1533,17 @@ func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSta
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210501s.AgentPool_STATUS)
+// ConvertStatusTo populates the provided destination from our ManagedClusters_AgentPool_STATUS
+func (pool *ManagedClusters_AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210501s.ManagedClusters_AgentPool_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignProperties_To_AgentPool_STATUS(dst)
+		return pool.AssignProperties_To_ManagedClusters_AgentPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210501s.AgentPool_STATUS{}
-	err := pool.AssignProperties_To_AgentPool_STATUS(dst)
+	dst = &alpha20210501s.ManagedClusters_AgentPool_STATUS{}
+	err := pool.AssignProperties_To_ManagedClusters_AgentPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -427,18 +1557,18 @@ func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.Convertible
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &AgentPool_STATUS{}
+var _ genruntime.FromARMConverter = &ManagedClusters_AgentPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *AgentPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AgentPool_STATUS_ARM{}
+func (pool *ManagedClusters_AgentPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClusters_AgentPool_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AgentPool_STATUS_ARM)
+func (pool *ManagedClusters_AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClusters_AgentPool_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPool_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AvailabilityZones’:
@@ -811,8 +1941,8 @@ func (pool *AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignProperties_From_AgentPool_STATUS populates our AgentPool_STATUS from the provided source AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignProperties_From_AgentPool_STATUS(source *alpha20210501s.AgentPool_STATUS) error {
+// AssignProperties_From_ManagedClusters_AgentPool_STATUS populates our ManagedClusters_AgentPool_STATUS from the provided source ManagedClusters_AgentPool_STATUS
+func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClusters_AgentPool_STATUS(source *alpha20210501s.ManagedClusters_AgentPool_STATUS) error {
 
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -1049,8 +2179,8 @@ func (pool *AgentPool_STATUS) AssignProperties_From_AgentPool_STATUS(source *alp
 	return nil
 }
 
-// AssignProperties_To_AgentPool_STATUS populates the provided destination AgentPool_STATUS from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignProperties_To_AgentPool_STATUS(destination *alpha20210501s.AgentPool_STATUS) error {
+// AssignProperties_To_ManagedClusters_AgentPool_STATUS populates the provided destination ManagedClusters_AgentPool_STATUS from our ManagedClusters_AgentPool_STATUS
+func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedClusters_AgentPool_STATUS(destination *alpha20210501s.ManagedClusters_AgentPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1296,1157 +2426,39 @@ func (pool *AgentPool_STATUS) AssignProperties_To_AgentPool_STATUS(destination *
 	return nil
 }
 
-type ManagedClusters_AgentPool_Spec struct {
-	AvailabilityZones []string `json:"availabilityZones,omitempty"`
-
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName                     string                                                       `json:"azureName,omitempty"`
-	Count                         *int                                                         `json:"count,omitempty"`
-	EnableAutoScaling             *bool                                                        `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost        *bool                                                        `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS                    *bool                                                        `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP            *bool                                                        `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD                *bool                                                        `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile            *ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile `json:"gpuInstanceProfile,omitempty"`
-	KubeletConfig                 *KubeletConfig                                               `json:"kubeletConfig,omitempty"`
-	KubeletDiskType               *ManagedClusterAgentPoolProfileProperties_KubeletDiskType    `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig                 *LinuxOSConfig                                               `json:"linuxOSConfig,omitempty"`
-	Location                      *string                                                      `json:"location,omitempty"`
-	MaxCount                      *int                                                         `json:"maxCount,omitempty"`
-	MaxPods                       *int                                                         `json:"maxPods,omitempty"`
-	MinCount                      *int                                                         `json:"minCount,omitempty"`
-	Mode                          *ManagedClusterAgentPoolProfileProperties_Mode               `json:"mode,omitempty"`
-	NodeLabels                    map[string]string                                            `json:"nodeLabels,omitempty"`
-	NodePublicIPPrefixIDReference *genruntime.ResourceReference                                `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
-	NodeTaints                    []string                                                     `json:"nodeTaints,omitempty"`
-	OrchestratorVersion           *string                                                      `json:"orchestratorVersion,omitempty"`
-
-	// +kubebuilder:validation:Maximum=2048
-	// +kubebuilder:validation:Minimum=0
-	OsDiskSizeGB *int                                                 `json:"osDiskSizeGB,omitempty"`
-	OsDiskType   *ManagedClusterAgentPoolProfileProperties_OsDiskType `json:"osDiskType,omitempty"`
-	OsSKU        *ManagedClusterAgentPoolProfileProperties_OsSKU      `json:"osSKU,omitempty"`
-	OsType       *ManagedClusterAgentPoolProfileProperties_OsType     `json:"osType,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a containerservice.azure.com/ManagedCluster resource
-	Owner                     *genruntime.KnownResourceReference                               `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
-	PodSubnetIDReference      *genruntime.ResourceReference                                    `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	ProximityPlacementGroupID *string                                                          `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ManagedClusterAgentPoolProfileProperties_ScaleSetPriority       `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                                                         `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string                                                `json:"tags,omitempty"`
-	Type                      *ManagedClusterAgentPoolProfileProperties_Type                   `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings                                        `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                                                          `json:"vmSize,omitempty"`
-	VnetSubnetIDReference     *genruntime.ResourceReference                                    `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedClusters_AgentPool_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (pool *ManagedClusters_AgentPool_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if pool == nil {
-		return nil, nil
-	}
-	result := &ManagedClusters_AgentPool_Spec_ARM{}
-
-	// Set property ‘Location’:
-	if pool.Location != nil {
-		location := *pool.Location
-		result.Location = &location
-	}
-
-	// Set property ‘Name’:
-	result.Name = resolved.Name
-
-	// Set property ‘Properties’:
-	if pool.AvailabilityZones != nil ||
-		pool.Count != nil ||
-		pool.EnableAutoScaling != nil ||
-		pool.EnableEncryptionAtHost != nil ||
-		pool.EnableFIPS != nil ||
-		pool.EnableNodePublicIP != nil ||
-		pool.EnableUltraSSD != nil ||
-		pool.GpuInstanceProfile != nil ||
-		pool.KubeletConfig != nil ||
-		pool.KubeletDiskType != nil ||
-		pool.LinuxOSConfig != nil ||
-		pool.MaxCount != nil ||
-		pool.MaxPods != nil ||
-		pool.MinCount != nil ||
-		pool.Mode != nil ||
-		pool.NodeLabels != nil ||
-		pool.NodePublicIPPrefixIDReference != nil ||
-		pool.NodeTaints != nil ||
-		pool.OrchestratorVersion != nil ||
-		pool.OsDiskSizeGB != nil ||
-		pool.OsDiskType != nil ||
-		pool.OsSKU != nil ||
-		pool.OsType != nil ||
-		pool.PodSubnetIDReference != nil ||
-		pool.ProximityPlacementGroupID != nil ||
-		pool.ScaleSetEvictionPolicy != nil ||
-		pool.ScaleSetPriority != nil ||
-		pool.SpotMaxPrice != nil ||
-		pool.Tags != nil ||
-		pool.Type != nil ||
-		pool.UpgradeSettings != nil ||
-		pool.VmSize != nil ||
-		pool.VnetSubnetIDReference != nil {
-		result.Properties = &ManagedClusterAgentPoolProfileProperties_ARM{}
-	}
-	for _, item := range pool.AvailabilityZones {
-		result.Properties.AvailabilityZones = append(result.Properties.AvailabilityZones, item)
-	}
-	if pool.Count != nil {
-		count := *pool.Count
-		result.Properties.Count = &count
-	}
-	if pool.EnableAutoScaling != nil {
-		enableAutoScaling := *pool.EnableAutoScaling
-		result.Properties.EnableAutoScaling = &enableAutoScaling
-	}
-	if pool.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *pool.EnableEncryptionAtHost
-		result.Properties.EnableEncryptionAtHost = &enableEncryptionAtHost
-	}
-	if pool.EnableFIPS != nil {
-		enableFIPS := *pool.EnableFIPS
-		result.Properties.EnableFIPS = &enableFIPS
-	}
-	if pool.EnableNodePublicIP != nil {
-		enableNodePublicIP := *pool.EnableNodePublicIP
-		result.Properties.EnableNodePublicIP = &enableNodePublicIP
-	}
-	if pool.EnableUltraSSD != nil {
-		enableUltraSSD := *pool.EnableUltraSSD
-		result.Properties.EnableUltraSSD = &enableUltraSSD
-	}
-	if pool.GpuInstanceProfile != nil {
-		gpuInstanceProfile := *pool.GpuInstanceProfile
-		result.Properties.GpuInstanceProfile = &gpuInstanceProfile
-	}
-	if pool.KubeletConfig != nil {
-		kubeletConfig_ARM, err := (*pool.KubeletConfig).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		kubeletConfig := *kubeletConfig_ARM.(*KubeletConfig_ARM)
-		result.Properties.KubeletConfig = &kubeletConfig
-	}
-	if pool.KubeletDiskType != nil {
-		kubeletDiskType := *pool.KubeletDiskType
-		result.Properties.KubeletDiskType = &kubeletDiskType
-	}
-	if pool.LinuxOSConfig != nil {
-		linuxOSConfig_ARM, err := (*pool.LinuxOSConfig).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		linuxOSConfig := *linuxOSConfig_ARM.(*LinuxOSConfig_ARM)
-		result.Properties.LinuxOSConfig = &linuxOSConfig
-	}
-	if pool.MaxCount != nil {
-		maxCount := *pool.MaxCount
-		result.Properties.MaxCount = &maxCount
-	}
-	if pool.MaxPods != nil {
-		maxPods := *pool.MaxPods
-		result.Properties.MaxPods = &maxPods
-	}
-	if pool.MinCount != nil {
-		minCount := *pool.MinCount
-		result.Properties.MinCount = &minCount
-	}
-	if pool.Mode != nil {
-		mode := *pool.Mode
-		result.Properties.Mode = &mode
-	}
-	if pool.NodeLabels != nil {
-		result.Properties.NodeLabels = make(map[string]string, len(pool.NodeLabels))
-		for key, value := range pool.NodeLabels {
-			result.Properties.NodeLabels[key] = value
-		}
-	}
-	if pool.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.NodePublicIPPrefixIDReference)
-		if err != nil {
-			return nil, err
-		}
-		nodePublicIPPrefixID := nodePublicIPPrefixIDARMID
-		result.Properties.NodePublicIPPrefixID = &nodePublicIPPrefixID
-	}
-	for _, item := range pool.NodeTaints {
-		result.Properties.NodeTaints = append(result.Properties.NodeTaints, item)
-	}
-	if pool.OrchestratorVersion != nil {
-		orchestratorVersion := *pool.OrchestratorVersion
-		result.Properties.OrchestratorVersion = &orchestratorVersion
-	}
-	if pool.OsDiskSizeGB != nil {
-		osDiskSizeGB := *pool.OsDiskSizeGB
-		result.Properties.OsDiskSizeGB = &osDiskSizeGB
-	}
-	if pool.OsDiskType != nil {
-		osDiskType := *pool.OsDiskType
-		result.Properties.OsDiskType = &osDiskType
-	}
-	if pool.OsSKU != nil {
-		osSKU := *pool.OsSKU
-		result.Properties.OsSKU = &osSKU
-	}
-	if pool.OsType != nil {
-		osType := *pool.OsType
-		result.Properties.OsType = &osType
-	}
-	if pool.PodSubnetIDReference != nil {
-		podSubnetIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.PodSubnetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		podSubnetID := podSubnetIDARMID
-		result.Properties.PodSubnetID = &podSubnetID
-	}
-	if pool.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *pool.ProximityPlacementGroupID
-		result.Properties.ProximityPlacementGroupID = &proximityPlacementGroupID
-	}
-	if pool.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := *pool.ScaleSetEvictionPolicy
-		result.Properties.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	}
-	if pool.ScaleSetPriority != nil {
-		scaleSetPriority := *pool.ScaleSetPriority
-		result.Properties.ScaleSetPriority = &scaleSetPriority
-	}
-	if pool.SpotMaxPrice != nil {
-		spotMaxPrice := *pool.SpotMaxPrice
-		result.Properties.SpotMaxPrice = &spotMaxPrice
-	}
-	if pool.Tags != nil {
-		result.Properties.Tags = make(map[string]string, len(pool.Tags))
-		for key, value := range pool.Tags {
-			result.Properties.Tags[key] = value
-		}
-	}
-	if pool.Type != nil {
-		typeVar := *pool.Type
-		result.Properties.Type = &typeVar
-	}
-	if pool.UpgradeSettings != nil {
-		upgradeSettings_ARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		upgradeSettings := *upgradeSettings_ARM.(*AgentPoolUpgradeSettings_ARM)
-		result.Properties.UpgradeSettings = &upgradeSettings
-	}
-	if pool.VmSize != nil {
-		vmSize := *pool.VmSize
-		result.Properties.VmSize = &vmSize
-	}
-	if pool.VnetSubnetIDReference != nil {
-		vnetSubnetIDARMID, err := resolved.ResolvedReferences.Lookup(*pool.VnetSubnetIDReference)
-		if err != nil {
-			return nil, err
-		}
-		vnetSubnetID := vnetSubnetIDARMID
-		result.Properties.VnetSubnetID = &vnetSubnetID
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *ManagedClusters_AgentPool_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedClusters_AgentPool_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *ManagedClusters_AgentPool_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedClusters_AgentPool_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClusters_AgentPool_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘AvailabilityZones’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.AvailabilityZones {
-			pool.AvailabilityZones = append(pool.AvailabilityZones, item)
-		}
-	}
-
-	// Set property ‘AzureName’:
-	pool.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Count’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Count != nil {
-			count := *typedInput.Properties.Count
-			pool.Count = &count
-		}
-	}
-
-	// Set property ‘EnableAutoScaling’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableAutoScaling != nil {
-			enableAutoScaling := *typedInput.Properties.EnableAutoScaling
-			pool.EnableAutoScaling = &enableAutoScaling
-		}
-	}
-
-	// Set property ‘EnableEncryptionAtHost’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableEncryptionAtHost != nil {
-			enableEncryptionAtHost := *typedInput.Properties.EnableEncryptionAtHost
-			pool.EnableEncryptionAtHost = &enableEncryptionAtHost
-		}
-	}
-
-	// Set property ‘EnableFIPS’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableFIPS != nil {
-			enableFIPS := *typedInput.Properties.EnableFIPS
-			pool.EnableFIPS = &enableFIPS
-		}
-	}
-
-	// Set property ‘EnableNodePublicIP’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableNodePublicIP != nil {
-			enableNodePublicIP := *typedInput.Properties.EnableNodePublicIP
-			pool.EnableNodePublicIP = &enableNodePublicIP
-		}
-	}
-
-	// Set property ‘EnableUltraSSD’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableUltraSSD != nil {
-			enableUltraSSD := *typedInput.Properties.EnableUltraSSD
-			pool.EnableUltraSSD = &enableUltraSSD
-		}
-	}
-
-	// Set property ‘GpuInstanceProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.GpuInstanceProfile != nil {
-			gpuInstanceProfile := *typedInput.Properties.GpuInstanceProfile
-			pool.GpuInstanceProfile = &gpuInstanceProfile
-		}
-	}
-
-	// Set property ‘KubeletConfig’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.KubeletConfig != nil {
-			var kubeletConfig1 KubeletConfig
-			err := kubeletConfig1.PopulateFromARM(owner, *typedInput.Properties.KubeletConfig)
-			if err != nil {
-				return err
-			}
-			kubeletConfig := kubeletConfig1
-			pool.KubeletConfig = &kubeletConfig
-		}
-	}
-
-	// Set property ‘KubeletDiskType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.KubeletDiskType != nil {
-			kubeletDiskType := *typedInput.Properties.KubeletDiskType
-			pool.KubeletDiskType = &kubeletDiskType
-		}
-	}
-
-	// Set property ‘LinuxOSConfig’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LinuxOSConfig != nil {
-			var linuxOSConfig1 LinuxOSConfig
-			err := linuxOSConfig1.PopulateFromARM(owner, *typedInput.Properties.LinuxOSConfig)
-			if err != nil {
-				return err
-			}
-			linuxOSConfig := linuxOSConfig1
-			pool.LinuxOSConfig = &linuxOSConfig
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		pool.Location = &location
-	}
-
-	// Set property ‘MaxCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxCount != nil {
-			maxCount := *typedInput.Properties.MaxCount
-			pool.MaxCount = &maxCount
-		}
-	}
-
-	// Set property ‘MaxPods’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxPods != nil {
-			maxPods := *typedInput.Properties.MaxPods
-			pool.MaxPods = &maxPods
-		}
-	}
-
-	// Set property ‘MinCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MinCount != nil {
-			minCount := *typedInput.Properties.MinCount
-			pool.MinCount = &minCount
-		}
-	}
-
-	// Set property ‘Mode’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Mode != nil {
-			mode := *typedInput.Properties.Mode
-			pool.Mode = &mode
-		}
-	}
-
-	// Set property ‘NodeLabels’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NodeLabels != nil {
-			pool.NodeLabels = make(map[string]string, len(typedInput.Properties.NodeLabels))
-			for key, value := range typedInput.Properties.NodeLabels {
-				pool.NodeLabels[key] = value
-			}
-		}
-	}
-
-	// no assignment for property ‘NodePublicIPPrefixIDReference’
-
-	// Set property ‘NodeTaints’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.NodeTaints {
-			pool.NodeTaints = append(pool.NodeTaints, item)
-		}
-	}
-
-	// Set property ‘OrchestratorVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OrchestratorVersion != nil {
-			orchestratorVersion := *typedInput.Properties.OrchestratorVersion
-			pool.OrchestratorVersion = &orchestratorVersion
-		}
-	}
-
-	// Set property ‘OsDiskSizeGB’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OsDiskSizeGB != nil {
-			osDiskSizeGB := *typedInput.Properties.OsDiskSizeGB
-			pool.OsDiskSizeGB = &osDiskSizeGB
-		}
-	}
-
-	// Set property ‘OsDiskType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OsDiskType != nil {
-			osDiskType := *typedInput.Properties.OsDiskType
-			pool.OsDiskType = &osDiskType
-		}
-	}
-
-	// Set property ‘OsSKU’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OsSKU != nil {
-			osSKU := *typedInput.Properties.OsSKU
-			pool.OsSKU = &osSKU
-		}
-	}
-
-	// Set property ‘OsType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OsType != nil {
-			osType := *typedInput.Properties.OsType
-			pool.OsType = &osType
-		}
-	}
-
-	// Set property ‘Owner’:
-	pool.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
-
-	// no assignment for property ‘PodSubnetIDReference’
-
-	// Set property ‘ProximityPlacementGroupID’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProximityPlacementGroupID != nil {
-			proximityPlacementGroupID := *typedInput.Properties.ProximityPlacementGroupID
-			pool.ProximityPlacementGroupID = &proximityPlacementGroupID
-		}
-	}
-
-	// Set property ‘ScaleSetEvictionPolicy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ScaleSetEvictionPolicy != nil {
-			scaleSetEvictionPolicy := *typedInput.Properties.ScaleSetEvictionPolicy
-			pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-		}
-	}
-
-	// Set property ‘ScaleSetPriority’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ScaleSetPriority != nil {
-			scaleSetPriority := *typedInput.Properties.ScaleSetPriority
-			pool.ScaleSetPriority = &scaleSetPriority
-		}
-	}
-
-	// Set property ‘SpotMaxPrice’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SpotMaxPrice != nil {
-			spotMaxPrice := *typedInput.Properties.SpotMaxPrice
-			pool.SpotMaxPrice = &spotMaxPrice
-		}
-	}
-
-	// Set property ‘Tags’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Tags != nil {
-			pool.Tags = make(map[string]string, len(typedInput.Properties.Tags))
-			for key, value := range typedInput.Properties.Tags {
-				pool.Tags[key] = value
-			}
-		}
-	}
-
-	// Set property ‘Type’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Type != nil {
-			typeVar := *typedInput.Properties.Type
-			pool.Type = &typeVar
-		}
-	}
-
-	// Set property ‘UpgradeSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpgradeSettings != nil {
-			var upgradeSettings1 AgentPoolUpgradeSettings
-			err := upgradeSettings1.PopulateFromARM(owner, *typedInput.Properties.UpgradeSettings)
-			if err != nil {
-				return err
-			}
-			upgradeSettings := upgradeSettings1
-			pool.UpgradeSettings = &upgradeSettings
-		}
-	}
-
-	// Set property ‘VmSize’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VmSize != nil {
-			vmSize := *typedInput.Properties.VmSize
-			pool.VmSize = &vmSize
-		}
-	}
-
-	// no assignment for property ‘VnetSubnetIDReference’
-
-	// No error
-	return nil
-}
-
-var _ genruntime.ConvertibleSpec = &ManagedClusters_AgentPool_Spec{}
-
-// ConvertSpecFrom populates our ManagedClusters_AgentPool_Spec from the provided source
-func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210501s.ManagedClusters_AgentPool_Spec)
-	if ok {
-		// Populate our instance from source
-		return pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20210501s.ManagedClusters_AgentPool_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = pool.AssignProperties_From_ManagedClusters_AgentPool_Spec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210501s.ManagedClusters_AgentPool_Spec)
-	if ok {
-		// Populate destination from our instance
-		return pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210501s.ManagedClusters_AgentPool_Spec{}
-	err := pool.AssignProperties_To_ManagedClusters_AgentPool_Spec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_ManagedClusters_AgentPool_Spec populates our ManagedClusters_AgentPool_Spec from the provided source ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedClusters_AgentPool_Spec(source *alpha20210501s.ManagedClusters_AgentPool_Spec) error {
-
-	// AvailabilityZones
-	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
-
-	// AzureName
-	pool.AzureName = source.AzureName
-
-	// Count
-	pool.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// EnableAutoScaling
-	if source.EnableAutoScaling != nil {
-		enableAutoScaling := *source.EnableAutoScaling
-		pool.EnableAutoScaling = &enableAutoScaling
-	} else {
-		pool.EnableAutoScaling = nil
-	}
-
-	// EnableEncryptionAtHost
-	if source.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *source.EnableEncryptionAtHost
-		pool.EnableEncryptionAtHost = &enableEncryptionAtHost
-	} else {
-		pool.EnableEncryptionAtHost = nil
-	}
-
-	// EnableFIPS
-	if source.EnableFIPS != nil {
-		enableFIPS := *source.EnableFIPS
-		pool.EnableFIPS = &enableFIPS
-	} else {
-		pool.EnableFIPS = nil
-	}
-
-	// EnableNodePublicIP
-	if source.EnableNodePublicIP != nil {
-		enableNodePublicIP := *source.EnableNodePublicIP
-		pool.EnableNodePublicIP = &enableNodePublicIP
-	} else {
-		pool.EnableNodePublicIP = nil
-	}
-
-	// EnableUltraSSD
-	if source.EnableUltraSSD != nil {
-		enableUltraSSD := *source.EnableUltraSSD
-		pool.EnableUltraSSD = &enableUltraSSD
-	} else {
-		pool.EnableUltraSSD = nil
-	}
-
-	// GpuInstanceProfile
-	if source.GpuInstanceProfile != nil {
-		gpuInstanceProfile := ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile(*source.GpuInstanceProfile)
-		pool.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		pool.GpuInstanceProfile = nil
-	}
-
-	// KubeletConfig
-	if source.KubeletConfig != nil {
-		var kubeletConfig KubeletConfig
-		err := kubeletConfig.AssignProperties_From_KubeletConfig(source.KubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubeletConfig() to populate field KubeletConfig")
-		}
-		pool.KubeletConfig = &kubeletConfig
-	} else {
-		pool.KubeletConfig = nil
-	}
-
-	// KubeletDiskType
-	if source.KubeletDiskType != nil {
-		kubeletDiskType := ManagedClusterAgentPoolProfileProperties_KubeletDiskType(*source.KubeletDiskType)
-		pool.KubeletDiskType = &kubeletDiskType
-	} else {
-		pool.KubeletDiskType = nil
-	}
-
-	// LinuxOSConfig
-	if source.LinuxOSConfig != nil {
-		var linuxOSConfig LinuxOSConfig
-		err := linuxOSConfig.AssignProperties_From_LinuxOSConfig(source.LinuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxOSConfig() to populate field LinuxOSConfig")
-		}
-		pool.LinuxOSConfig = &linuxOSConfig
-	} else {
-		pool.LinuxOSConfig = nil
-	}
-
-	// Location
-	pool.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaxCount
-	pool.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
-
-	// MaxPods
-	pool.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
-
-	// MinCount
-	pool.MinCount = genruntime.ClonePointerToInt(source.MinCount)
-
-	// Mode
-	if source.Mode != nil {
-		mode := ManagedClusterAgentPoolProfileProperties_Mode(*source.Mode)
-		pool.Mode = &mode
-	} else {
-		pool.Mode = nil
-	}
-
-	// NodeLabels
-	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
-
-	// NodePublicIPPrefixIDReference
-	if source.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReference := source.NodePublicIPPrefixIDReference.Copy()
-		pool.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
-	} else {
-		pool.NodePublicIPPrefixIDReference = nil
-	}
-
-	// NodeTaints
-	pool.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
-
-	// OrchestratorVersion
-	pool.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
-
-	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := *source.OsDiskSizeGB
-		pool.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		pool.OsDiskSizeGB = nil
-	}
-
-	// OsDiskType
-	if source.OsDiskType != nil {
-		osDiskType := ManagedClusterAgentPoolProfileProperties_OsDiskType(*source.OsDiskType)
-		pool.OsDiskType = &osDiskType
-	} else {
-		pool.OsDiskType = nil
-	}
-
-	// OsSKU
-	if source.OsSKU != nil {
-		osSKU := ManagedClusterAgentPoolProfileProperties_OsSKU(*source.OsSKU)
-		pool.OsSKU = &osSKU
-	} else {
-		pool.OsSKU = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := ManagedClusterAgentPoolProfileProperties_OsType(*source.OsType)
-		pool.OsType = &osType
-	} else {
-		pool.OsType = nil
-	}
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		pool.Owner = &owner
-	} else {
-		pool.Owner = nil
-	}
-
-	// PodSubnetIDReference
-	if source.PodSubnetIDReference != nil {
-		podSubnetIDReference := source.PodSubnetIDReference.Copy()
-		pool.PodSubnetIDReference = &podSubnetIDReference
-	} else {
-		pool.PodSubnetIDReference = nil
-	}
-
-	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
-		pool.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		pool.ProximityPlacementGroupID = nil
-	}
-
-	// ScaleSetEvictionPolicy
-	if source.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy(*source.ScaleSetEvictionPolicy)
-		pool.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		pool.ScaleSetEvictionPolicy = nil
-	}
-
-	// ScaleSetPriority
-	if source.ScaleSetPriority != nil {
-		scaleSetPriority := ManagedClusterAgentPoolProfileProperties_ScaleSetPriority(*source.ScaleSetPriority)
-		pool.ScaleSetPriority = &scaleSetPriority
-	} else {
-		pool.ScaleSetPriority = nil
-	}
-
-	// SpotMaxPrice
-	if source.SpotMaxPrice != nil {
-		spotMaxPrice := *source.SpotMaxPrice
-		pool.SpotMaxPrice = &spotMaxPrice
-	} else {
-		pool.SpotMaxPrice = nil
-	}
-
-	// Tags
-	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	if source.Type != nil {
-		typeVar := ManagedClusterAgentPoolProfileProperties_Type(*source.Type)
-		pool.Type = &typeVar
-	} else {
-		pool.Type = nil
-	}
-
-	// UpgradeSettings
-	if source.UpgradeSettings != nil {
-		var upgradeSetting AgentPoolUpgradeSettings
-		err := upgradeSetting.AssignProperties_From_AgentPoolUpgradeSettings(source.UpgradeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
-		}
-		pool.UpgradeSettings = &upgradeSetting
-	} else {
-		pool.UpgradeSettings = nil
-	}
-
-	// VmSize
-	pool.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// VnetSubnetIDReference
-	if source.VnetSubnetIDReference != nil {
-		vnetSubnetIDReference := source.VnetSubnetIDReference.Copy()
-		pool.VnetSubnetIDReference = &vnetSubnetIDReference
-	} else {
-		pool.VnetSubnetIDReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagedClusters_AgentPool_Spec populates the provided destination ManagedClusters_AgentPool_Spec from our ManagedClusters_AgentPool_Spec
-func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_AgentPool_Spec(destination *alpha20210501s.ManagedClusters_AgentPool_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AvailabilityZones
-	destination.AvailabilityZones = genruntime.CloneSliceOfString(pool.AvailabilityZones)
-
-	// AzureName
-	destination.AzureName = pool.AzureName
-
-	// Count
-	destination.Count = genruntime.ClonePointerToInt(pool.Count)
-
-	// EnableAutoScaling
-	if pool.EnableAutoScaling != nil {
-		enableAutoScaling := *pool.EnableAutoScaling
-		destination.EnableAutoScaling = &enableAutoScaling
-	} else {
-		destination.EnableAutoScaling = nil
-	}
-
-	// EnableEncryptionAtHost
-	if pool.EnableEncryptionAtHost != nil {
-		enableEncryptionAtHost := *pool.EnableEncryptionAtHost
-		destination.EnableEncryptionAtHost = &enableEncryptionAtHost
-	} else {
-		destination.EnableEncryptionAtHost = nil
-	}
-
-	// EnableFIPS
-	if pool.EnableFIPS != nil {
-		enableFIPS := *pool.EnableFIPS
-		destination.EnableFIPS = &enableFIPS
-	} else {
-		destination.EnableFIPS = nil
-	}
-
-	// EnableNodePublicIP
-	if pool.EnableNodePublicIP != nil {
-		enableNodePublicIP := *pool.EnableNodePublicIP
-		destination.EnableNodePublicIP = &enableNodePublicIP
-	} else {
-		destination.EnableNodePublicIP = nil
-	}
-
-	// EnableUltraSSD
-	if pool.EnableUltraSSD != nil {
-		enableUltraSSD := *pool.EnableUltraSSD
-		destination.EnableUltraSSD = &enableUltraSSD
-	} else {
-		destination.EnableUltraSSD = nil
-	}
-
-	// GpuInstanceProfile
-	if pool.GpuInstanceProfile != nil {
-		gpuInstanceProfile := string(*pool.GpuInstanceProfile)
-		destination.GpuInstanceProfile = &gpuInstanceProfile
-	} else {
-		destination.GpuInstanceProfile = nil
-	}
-
-	// KubeletConfig
-	if pool.KubeletConfig != nil {
-		var kubeletConfig alpha20210501s.KubeletConfig
-		err := pool.KubeletConfig.AssignProperties_To_KubeletConfig(&kubeletConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubeletConfig() to populate field KubeletConfig")
-		}
-		destination.KubeletConfig = &kubeletConfig
-	} else {
-		destination.KubeletConfig = nil
-	}
-
-	// KubeletDiskType
-	if pool.KubeletDiskType != nil {
-		kubeletDiskType := string(*pool.KubeletDiskType)
-		destination.KubeletDiskType = &kubeletDiskType
-	} else {
-		destination.KubeletDiskType = nil
-	}
-
-	// LinuxOSConfig
-	if pool.LinuxOSConfig != nil {
-		var linuxOSConfig alpha20210501s.LinuxOSConfig
-		err := pool.LinuxOSConfig.AssignProperties_To_LinuxOSConfig(&linuxOSConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxOSConfig() to populate field LinuxOSConfig")
-		}
-		destination.LinuxOSConfig = &linuxOSConfig
-	} else {
-		destination.LinuxOSConfig = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(pool.Location)
-
-	// MaxCount
-	destination.MaxCount = genruntime.ClonePointerToInt(pool.MaxCount)
-
-	// MaxPods
-	destination.MaxPods = genruntime.ClonePointerToInt(pool.MaxPods)
-
-	// MinCount
-	destination.MinCount = genruntime.ClonePointerToInt(pool.MinCount)
-
-	// Mode
-	if pool.Mode != nil {
-		mode := string(*pool.Mode)
-		destination.Mode = &mode
-	} else {
-		destination.Mode = nil
-	}
-
-	// NodeLabels
-	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
-
-	// NodePublicIPPrefixIDReference
-	if pool.NodePublicIPPrefixIDReference != nil {
-		nodePublicIPPrefixIDReference := pool.NodePublicIPPrefixIDReference.Copy()
-		destination.NodePublicIPPrefixIDReference = &nodePublicIPPrefixIDReference
-	} else {
-		destination.NodePublicIPPrefixIDReference = nil
-	}
-
-	// NodeTaints
-	destination.NodeTaints = genruntime.CloneSliceOfString(pool.NodeTaints)
-
-	// OrchestratorVersion
-	destination.OrchestratorVersion = genruntime.ClonePointerToString(pool.OrchestratorVersion)
-
-	// OriginalVersion
-	destination.OriginalVersion = pool.OriginalVersion()
-
-	// OsDiskSizeGB
-	if pool.OsDiskSizeGB != nil {
-		osDiskSizeGB := *pool.OsDiskSizeGB
-		destination.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		destination.OsDiskSizeGB = nil
-	}
-
-	// OsDiskType
-	if pool.OsDiskType != nil {
-		osDiskType := string(*pool.OsDiskType)
-		destination.OsDiskType = &osDiskType
-	} else {
-		destination.OsDiskType = nil
-	}
-
-	// OsSKU
-	if pool.OsSKU != nil {
-		osSKU := string(*pool.OsSKU)
-		destination.OsSKU = &osSKU
-	} else {
-		destination.OsSKU = nil
-	}
-
-	// OsType
-	if pool.OsType != nil {
-		osType := string(*pool.OsType)
-		destination.OsType = &osType
-	} else {
-		destination.OsType = nil
-	}
-
-	// Owner
-	if pool.Owner != nil {
-		owner := pool.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// PodSubnetIDReference
-	if pool.PodSubnetIDReference != nil {
-		podSubnetIDReference := pool.PodSubnetIDReference.Copy()
-		destination.PodSubnetIDReference = &podSubnetIDReference
-	} else {
-		destination.PodSubnetIDReference = nil
-	}
-
-	// ProximityPlacementGroupID
-	if pool.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *pool.ProximityPlacementGroupID
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
-
-	// ScaleSetEvictionPolicy
-	if pool.ScaleSetEvictionPolicy != nil {
-		scaleSetEvictionPolicy := string(*pool.ScaleSetEvictionPolicy)
-		destination.ScaleSetEvictionPolicy = &scaleSetEvictionPolicy
-	} else {
-		destination.ScaleSetEvictionPolicy = nil
-	}
-
-	// ScaleSetPriority
-	if pool.ScaleSetPriority != nil {
-		scaleSetPriority := string(*pool.ScaleSetPriority)
-		destination.ScaleSetPriority = &scaleSetPriority
-	} else {
-		destination.ScaleSetPriority = nil
-	}
-
-	// SpotMaxPrice
-	if pool.SpotMaxPrice != nil {
-		spotMaxPrice := *pool.SpotMaxPrice
-		destination.SpotMaxPrice = &spotMaxPrice
-	} else {
-		destination.SpotMaxPrice = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
-
-	// Type
-	if pool.Type != nil {
-		typeVar := string(*pool.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// UpgradeSettings
-	if pool.UpgradeSettings != nil {
-		var upgradeSetting alpha20210501s.AgentPoolUpgradeSettings
-		err := pool.UpgradeSettings.AssignProperties_To_AgentPoolUpgradeSettings(&upgradeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_AgentPoolUpgradeSettings() to populate field UpgradeSettings")
-		}
-		destination.UpgradeSettings = &upgradeSetting
-	} else {
-		destination.UpgradeSettings = nil
-	}
-
-	// VmSize
-	destination.VmSize = genruntime.ClonePointerToString(pool.VmSize)
-
-	// VnetSubnetIDReference
-	if pool.VnetSubnetIDReference != nil {
-		vnetSubnetIDReference := pool.VnetSubnetIDReference.Copy()
-		destination.VnetSubnetIDReference = &vnetSubnetIDReference
-	} else {
-		destination.VnetSubnetIDReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// OriginalVersion returns the original API version used to create the resource.
-func (pool *ManagedClusters_AgentPool_Spec) OriginalVersion() string {
-	return GroupVersion.Version
-}
-
-// SetAzureName sets the Azure name of the resource
-func (pool *ManagedClusters_AgentPool_Spec) SetAzureName(azureName string) {
-	pool.AzureName = azureName
-}
+// Deprecated version of AgentPoolMode. Use v1beta20210501.AgentPoolMode instead
+// +kubebuilder:validation:Enum={"System","User"}
+type AgentPoolMode string
+
+const (
+	AgentPoolMode_System = AgentPoolMode("System")
+	AgentPoolMode_User   = AgentPoolMode("User")
+)
+
+// Deprecated version of AgentPoolMode_STATUS. Use v1beta20210501.AgentPoolMode_STATUS instead
+type AgentPoolMode_STATUS string
+
+const (
+	AgentPoolMode_STATUS_System = AgentPoolMode_STATUS("System")
+	AgentPoolMode_STATUS_User   = AgentPoolMode_STATUS("User")
+)
+
+// Deprecated version of AgentPoolType. Use v1beta20210501.AgentPoolType instead
+// +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
+type AgentPoolType string
+
+const (
+	AgentPoolType_AvailabilitySet         = AgentPoolType("AvailabilitySet")
+	AgentPoolType_VirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
+)
+
+// Deprecated version of AgentPoolType_STATUS. Use v1beta20210501.AgentPoolType_STATUS instead
+type AgentPoolType_STATUS string
+
+const (
+	AgentPoolType_STATUS_AvailabilitySet         = AgentPoolType_STATUS("AvailabilitySet")
+	AgentPoolType_STATUS_VirtualMachineScaleSets = AgentPoolType_STATUS("VirtualMachineScaleSets")
+)
 
 // Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
 type AgentPoolUpgradeSettings struct {
@@ -2578,6 +2590,34 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 	// No error
 	return nil
 }
+
+// Deprecated version of ContainerServiceOSDisk. Use v1beta20210501.ContainerServiceOSDisk instead
+// +kubebuilder:validation:Maximum=2048
+// +kubebuilder:validation:Minimum=0
+type ContainerServiceOSDisk int
+
+// Deprecated version of GPUInstanceProfile. Use v1beta20210501.GPUInstanceProfile instead
+// +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
+type GPUInstanceProfile string
+
+const (
+	GPUInstanceProfile_MIG1G = GPUInstanceProfile("MIG1g")
+	GPUInstanceProfile_MIG2G = GPUInstanceProfile("MIG2g")
+	GPUInstanceProfile_MIG3G = GPUInstanceProfile("MIG3g")
+	GPUInstanceProfile_MIG4G = GPUInstanceProfile("MIG4g")
+	GPUInstanceProfile_MIG7G = GPUInstanceProfile("MIG7g")
+)
+
+// Deprecated version of GPUInstanceProfile_STATUS. Use v1beta20210501.GPUInstanceProfile_STATUS instead
+type GPUInstanceProfile_STATUS string
+
+const (
+	GPUInstanceProfile_STATUS_MIG1G = GPUInstanceProfile_STATUS("MIG1g")
+	GPUInstanceProfile_STATUS_MIG2G = GPUInstanceProfile_STATUS("MIG2g")
+	GPUInstanceProfile_STATUS_MIG3G = GPUInstanceProfile_STATUS("MIG3g")
+	GPUInstanceProfile_STATUS_MIG4G = GPUInstanceProfile_STATUS("MIG4g")
+	GPUInstanceProfile_STATUS_MIG7G = GPUInstanceProfile_STATUS("MIG7g")
+)
 
 // Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
 type KubeletConfig struct {
@@ -3079,6 +3119,23 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 	return nil
 }
 
+// Deprecated version of KubeletDiskType. Use v1beta20210501.KubeletDiskType instead
+// +kubebuilder:validation:Enum={"OS","Temporary"}
+type KubeletDiskType string
+
+const (
+	KubeletDiskType_OS        = KubeletDiskType("OS")
+	KubeletDiskType_Temporary = KubeletDiskType("Temporary")
+)
+
+// Deprecated version of KubeletDiskType_STATUS. Use v1beta20210501.KubeletDiskType_STATUS instead
+type KubeletDiskType_STATUS string
+
+const (
+	KubeletDiskType_STATUS_OS        = KubeletDiskType_STATUS("OS")
+	KubeletDiskType_STATUS_Temporary = KubeletDiskType_STATUS("Temporary")
+)
+
 // Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
 type LinuxOSConfig struct {
 	SwapFileSizeMB             *int          `json:"swapFileSizeMB,omitempty"`
@@ -3356,97 +3413,92 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 	return nil
 }
 
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile instead
-// +kubebuilder:validation:Enum={"MIG1g","MIG2g","MIG3g","MIG4g","MIG7g"}
-type ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile string
-
-const (
-	ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile_MIG1G = ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile("MIG1g")
-	ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile_MIG2G = ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile("MIG2g")
-	ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile_MIG3G = ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile("MIG3g")
-	ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile_MIG4G = ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile("MIG4g")
-	ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile_MIG7G = ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile("MIG7g")
-)
-
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_KubeletDiskType. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_KubeletDiskType instead
-// +kubebuilder:validation:Enum={"OS","Temporary"}
-type ManagedClusterAgentPoolProfileProperties_KubeletDiskType string
-
-const (
-	ManagedClusterAgentPoolProfileProperties_KubeletDiskType_OS        = ManagedClusterAgentPoolProfileProperties_KubeletDiskType("OS")
-	ManagedClusterAgentPoolProfileProperties_KubeletDiskType_Temporary = ManagedClusterAgentPoolProfileProperties_KubeletDiskType("Temporary")
-)
-
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_Mode. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_Mode instead
-// +kubebuilder:validation:Enum={"System","User"}
-type ManagedClusterAgentPoolProfileProperties_Mode string
-
-const (
-	ManagedClusterAgentPoolProfileProperties_Mode_System = ManagedClusterAgentPoolProfileProperties_Mode("System")
-	ManagedClusterAgentPoolProfileProperties_Mode_User   = ManagedClusterAgentPoolProfileProperties_Mode("User")
-)
-
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_OsDiskType. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_OsDiskType instead
+// Deprecated version of OSDiskType. Use v1beta20210501.OSDiskType instead
 // +kubebuilder:validation:Enum={"Ephemeral","Managed"}
-type ManagedClusterAgentPoolProfileProperties_OsDiskType string
+type OSDiskType string
 
 const (
-	ManagedClusterAgentPoolProfileProperties_OsDiskType_Ephemeral = ManagedClusterAgentPoolProfileProperties_OsDiskType("Ephemeral")
-	ManagedClusterAgentPoolProfileProperties_OsDiskType_Managed   = ManagedClusterAgentPoolProfileProperties_OsDiskType("Managed")
+	OSDiskType_Ephemeral = OSDiskType("Ephemeral")
+	OSDiskType_Managed   = OSDiskType("Managed")
 )
 
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_OsSKU. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_OsSKU instead
+// Deprecated version of OSDiskType_STATUS. Use v1beta20210501.OSDiskType_STATUS instead
+type OSDiskType_STATUS string
+
+const (
+	OSDiskType_STATUS_Ephemeral = OSDiskType_STATUS("Ephemeral")
+	OSDiskType_STATUS_Managed   = OSDiskType_STATUS("Managed")
+)
+
+// Deprecated version of OSSKU. Use v1beta20210501.OSSKU instead
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
-type ManagedClusterAgentPoolProfileProperties_OsSKU string
+type OSSKU string
 
 const (
-	ManagedClusterAgentPoolProfileProperties_OsSKU_CBLMariner = ManagedClusterAgentPoolProfileProperties_OsSKU("CBLMariner")
-	ManagedClusterAgentPoolProfileProperties_OsSKU_Ubuntu     = ManagedClusterAgentPoolProfileProperties_OsSKU("Ubuntu")
+	OSSKU_CBLMariner = OSSKU("CBLMariner")
+	OSSKU_Ubuntu     = OSSKU("Ubuntu")
 )
 
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_OsType. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_OsType instead
+// Deprecated version of OSSKU_STATUS. Use v1beta20210501.OSSKU_STATUS instead
+type OSSKU_STATUS string
+
+const (
+	OSSKU_STATUS_CBLMariner = OSSKU_STATUS("CBLMariner")
+	OSSKU_STATUS_Ubuntu     = OSSKU_STATUS("Ubuntu")
+)
+
+// Deprecated version of OSType. Use v1beta20210501.OSType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
-type ManagedClusterAgentPoolProfileProperties_OsType string
+type OSType string
 
 const (
-	ManagedClusterAgentPoolProfileProperties_OsType_Linux   = ManagedClusterAgentPoolProfileProperties_OsType("Linux")
-	ManagedClusterAgentPoolProfileProperties_OsType_Windows = ManagedClusterAgentPoolProfileProperties_OsType("Windows")
+	OSType_Linux   = OSType("Linux")
+	OSType_Windows = OSType("Windows")
 )
 
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy instead
+// Deprecated version of OSType_STATUS. Use v1beta20210501.OSType_STATUS instead
+type OSType_STATUS string
+
+const (
+	OSType_STATUS_Linux   = OSType_STATUS("Linux")
+	OSType_STATUS_Windows = OSType_STATUS("Windows")
+)
+
+// Deprecated version of ProximityPlacementGroupID. Use v1beta20210501.ProximityPlacementGroupID instead
+type ProximityPlacementGroupID string
+
+// Deprecated version of ScaleSetEvictionPolicy. Use v1beta20210501.ScaleSetEvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
-type ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy string
+type ScaleSetEvictionPolicy string
 
 const (
-	ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy_Deallocate = ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy("Deallocate")
-	ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy_Delete     = ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy("Delete")
+	ScaleSetEvictionPolicy_Deallocate = ScaleSetEvictionPolicy("Deallocate")
+	ScaleSetEvictionPolicy_Delete     = ScaleSetEvictionPolicy("Delete")
 )
 
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_ScaleSetPriority. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_ScaleSetPriority instead
+// Deprecated version of ScaleSetEvictionPolicy_STATUS. Use v1beta20210501.ScaleSetEvictionPolicy_STATUS instead
+type ScaleSetEvictionPolicy_STATUS string
+
+const (
+	ScaleSetEvictionPolicy_STATUS_Deallocate = ScaleSetEvictionPolicy_STATUS("Deallocate")
+	ScaleSetEvictionPolicy_STATUS_Delete     = ScaleSetEvictionPolicy_STATUS("Delete")
+)
+
+// Deprecated version of ScaleSetPriority. Use v1beta20210501.ScaleSetPriority instead
 // +kubebuilder:validation:Enum={"Regular","Spot"}
-type ManagedClusterAgentPoolProfileProperties_ScaleSetPriority string
+type ScaleSetPriority string
 
 const (
-	ManagedClusterAgentPoolProfileProperties_ScaleSetPriority_Regular = ManagedClusterAgentPoolProfileProperties_ScaleSetPriority("Regular")
-	ManagedClusterAgentPoolProfileProperties_ScaleSetPriority_Spot    = ManagedClusterAgentPoolProfileProperties_ScaleSetPriority("Spot")
+	ScaleSetPriority_Regular = ScaleSetPriority("Regular")
+	ScaleSetPriority_Spot    = ScaleSetPriority("Spot")
 )
 
-// Deprecated version of ManagedClusterAgentPoolProfileProperties_Type. Use
-// v1beta20210501.ManagedClusterAgentPoolProfileProperties_Type instead
-// +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
-type ManagedClusterAgentPoolProfileProperties_Type string
+// Deprecated version of ScaleSetPriority_STATUS. Use v1beta20210501.ScaleSetPriority_STATUS instead
+type ScaleSetPriority_STATUS string
 
 const (
-	ManagedClusterAgentPoolProfileProperties_Type_AvailabilitySet         = ManagedClusterAgentPoolProfileProperties_Type("AvailabilitySet")
-	ManagedClusterAgentPoolProfileProperties_Type_VirtualMachineScaleSets = ManagedClusterAgentPoolProfileProperties_Type("VirtualMachineScaleSets")
+	ScaleSetPriority_STATUS_Regular = ScaleSetPriority_STATUS("Regular")
+	ScaleSetPriority_STATUS_Spot    = ScaleSetPriority_STATUS("Spot")
 )
 
 // Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead

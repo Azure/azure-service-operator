@@ -6,7 +6,7 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RouteTables_Route_Spec_ARM struct {
-	// Name: Name of the resource
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
 
 	// Properties: Properties of the route.
@@ -30,7 +30,6 @@ func (route *RouteTables_Route_Spec_ARM) GetType() string {
 	return "Microsoft.Network/routeTables/routes"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/RoutePropertiesFormat
 type RoutePropertiesFormat_ARM struct {
 	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -43,5 +42,5 @@ type RoutePropertiesFormat_ARM struct {
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RoutePropertiesFormat_NextHopType `json:"nextHopType,omitempty"`
+	NextHopType *RouteNextHopType `json:"nextHopType,omitempty"`
 }

@@ -231,10 +231,10 @@ func AddIndependentPropertyGeneratorsForServerProperties_ARM(gens map[string]gop
 		ServerProperties_CreateMode_GeoRestore,
 		ServerProperties_CreateMode_PointInTimeRestore,
 		ServerProperties_CreateMode_Replica))
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ServerProperties_ReplicationRole_None, ServerProperties_ReplicationRole_Replica, ServerProperties_ReplicationRole_Source))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None, ReplicationRole_Replica, ReplicationRole_Source))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerProperties_Version_57, ServerProperties_Version_8021))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57, ServerVersion_8021))
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties_ARM is a factory method for creating gopter generators
@@ -366,7 +366,7 @@ func Backup_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForBackup_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackup_ARM(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(Backup_GeoRedundantBackup_Disabled, Backup_GeoRedundantBackup_Enabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled, EnableStatusEnum_Enabled))
 }
 
 func Test_DataEncryption_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -677,7 +677,7 @@ func Storage_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorage_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorage_ARM(gens map[string]gopter.Gen) {
-	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(Storage_AutoGrow_Disabled, Storage_AutoGrow_Enabled))
+	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled, EnableStatusEnum_Enabled))
 	gens["Iops"] = gen.PtrOf(gen.Int())
 	gens["StorageSizeGB"] = gen.PtrOf(gen.Int())
 }

@@ -65,7 +65,7 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 
 	// Update the subnet
 	old := subnet.DeepCopy()
-	subnet.Spec.Delegations = []network.VirtualNetworks_Subnet_Properties_Delegations_Spec{
+	subnet.Spec.Delegations = []network.Delegation{
 		{
 			Name:        to.StringPtr("mydelegation"),
 			ServiceName: to.StringPtr("Microsoft.DBforMySQL/serversv2"),
@@ -111,7 +111,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 
 func newVNet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, addressPrefixes []string) *network.VirtualNetwork {
 	vnet := &network.VirtualNetwork{
-		ObjectMeta: tc.MakeObjectMeta("vn"),
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetwork_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,

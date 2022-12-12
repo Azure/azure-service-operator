@@ -8,10 +8,10 @@ package controllers_test
 import (
 	"testing"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -69,8 +69,7 @@ func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.Namespaces_Topic_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(sbNamespace),
+			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}
 
@@ -95,8 +94,7 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 	subscription := &servicebus.NamespacesTopicsSubscription{
 		ObjectMeta: tc.MakeObjectMeta("subscription"),
 		Spec: servicebus.Namespaces_Topics_Subscription_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(sbTopic),
+			Owner: testcommon.AsOwner(sbTopic),
 		},
 	}
 
@@ -118,12 +116,10 @@ func ServiceBus_Subscription_CRUD(tc *testcommon.KubePerTestContext, sbTopic cli
 }
 
 func ServiceBus_Subscriptions_Rule_CRUD(tc *testcommon.KubePerTestContext, sbSubscription client.Object) {
-
 	rule := &servicebus.NamespacesTopicsSubscriptionsRule{
 		ObjectMeta: tc.MakeObjectMeta("subrule"),
 		Spec: servicebus.Namespaces_Topics_Subscriptions_Rule_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(sbSubscription),
+			Owner: testcommon.AsOwner(sbSubscription),
 		},
 	}
 

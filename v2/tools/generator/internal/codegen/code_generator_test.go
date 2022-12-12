@@ -119,7 +119,7 @@ func TestReplaceStage_PanicsForUnknownStage(t *testing.T) {
  * InjectStageAfterTests
  */
 
-func TestInjectStageAfter_InjectsSpecifiedStage(t *testing.T) {
+func TestGolden_InjectStageAfter_InjectsSpecifiedStage(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -137,7 +137,7 @@ func TestInjectStageAfter_InjectsSpecifiedStage(t *testing.T) {
 	g.Expect(gen.IndexOfStage("zoo")).To(Equal(1))
 }
 
-func TestInjectStageAfter_PanicsForUnknownStage(t *testing.T) {
+func TestGolden_InjectStageAfter_PanicsForUnknownStage(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

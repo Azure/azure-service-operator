@@ -127,20 +127,8 @@ type KeyVaultReference_STATUS_ARM struct {
 }
 
 type PrivateEndpointConnection_STATUS_ARM struct {
-	// Etag: The ETag of the resource, used for concurrency statements.
-	Etag *string `json:"etag,omitempty"`
-
 	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties associated with the private endpoint connection.
-	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 type VirtualMachineFamilyCoreQuota_STATUS_ARM struct {
@@ -159,20 +147,4 @@ type KeyVaultProperties_STATUS_ARM struct {
 	// The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
 	// The KeyVault has soft-delete and purge protection enabled
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-}
-
-type PrivateEndpointConnectionProperties_STATUS_ARM struct {
-	PrivateEndpoint                   *PrivateEndpoint_STATUS_ARM                                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM                 `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-}
-
-type PrivateEndpoint_STATUS_ARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-type PrivateLinkServiceConnectionState_STATUS_ARM struct {
-	ActionRequired *string                                    `json:"actionRequired,omitempty"`
-	Description    *string                                    `json:"description,omitempty"`
-	Status         *PrivateLinkServiceConnectionStatus_STATUS `json:"status,omitempty"`
 }

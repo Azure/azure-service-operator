@@ -36,8 +36,8 @@ func (account *StorageAccount_Spec_ARM) GetType() string {
 
 // Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
 type ExtendedLocation_ARM struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 // Deprecated version of Identity. Use v1beta20210401.Identity instead
@@ -47,8 +47,8 @@ type Identity_ARM struct {
 
 // Deprecated version of Sku. Use v1beta20210401.Sku instead
 type Sku_ARM struct {
-	Name *Sku_Name `json:"name,omitempty"`
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Name *SkuName `json:"name,omitempty"`
+	Tier *Tier    `json:"tier,omitempty"`
 }
 
 // Deprecated version of StorageAccount_Kind_Spec. Use v1beta20210401.StorageAccount_Kind_Spec instead
@@ -105,11 +105,11 @@ type Encryption_ARM struct {
 	Services                        *EncryptionServices_ARM `json:"services,omitempty"`
 }
 
-// Deprecated version of ExtendedLocation_Type. Use v1beta20210401.ExtendedLocation_Type instead
+// Deprecated version of ExtendedLocationType. Use v1beta20210401.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
+type ExtendedLocationType string
 
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of Identity_Type. Use v1beta20210401.Identity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
@@ -149,28 +149,28 @@ type SasPolicy_ARM struct {
 	SasExpirationPeriod *string                     `json:"sasExpirationPeriod,omitempty"`
 }
 
-// Deprecated version of Sku_Name. Use v1beta20210401.Sku_Name instead
+// Deprecated version of SkuName. Use v1beta20210401.SkuName instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_GRS","Standard_GZRS","Standard_LRS","Standard_RAGRS","Standard_RAGZRS","Standard_ZRS"}
-type Sku_Name string
+type SkuName string
 
 const (
-	Sku_Name_Premium_LRS     = Sku_Name("Premium_LRS")
-	Sku_Name_Premium_ZRS     = Sku_Name("Premium_ZRS")
-	Sku_Name_Standard_GRS    = Sku_Name("Standard_GRS")
-	Sku_Name_Standard_GZRS   = Sku_Name("Standard_GZRS")
-	Sku_Name_Standard_LRS    = Sku_Name("Standard_LRS")
-	Sku_Name_Standard_RAGRS  = Sku_Name("Standard_RAGRS")
-	Sku_Name_Standard_RAGZRS = Sku_Name("Standard_RAGZRS")
-	Sku_Name_Standard_ZRS    = Sku_Name("Standard_ZRS")
+	SkuName_Premium_LRS     = SkuName("Premium_LRS")
+	SkuName_Premium_ZRS     = SkuName("Premium_ZRS")
+	SkuName_Standard_GRS    = SkuName("Standard_GRS")
+	SkuName_Standard_GZRS   = SkuName("Standard_GZRS")
+	SkuName_Standard_LRS    = SkuName("Standard_LRS")
+	SkuName_Standard_RAGRS  = SkuName("Standard_RAGRS")
+	SkuName_Standard_RAGZRS = SkuName("Standard_RAGZRS")
+	SkuName_Standard_ZRS    = SkuName("Standard_ZRS")
 )
 
-// Deprecated version of Sku_Tier. Use v1beta20210401.Sku_Tier instead
+// Deprecated version of Tier. Use v1beta20210401.Tier instead
 // +kubebuilder:validation:Enum={"Premium","Standard"}
-type Sku_Tier string
+type Tier string
 
 const (
-	Sku_Tier_Premium  = Sku_Tier("Premium")
-	Sku_Tier_Standard = Sku_Tier("Standard")
+	Tier_Premium  = Tier("Premium")
+	Tier_Standard = Tier("Standard")
 )
 
 // Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead

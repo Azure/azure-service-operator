@@ -21,7 +21,21 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── PublicNetworkAccess: *string
-│   │   ├── RedisConfiguration: map[string]string
+│   │   ├── RedisConfiguration: *Object (14 properties)
+│   │   │   ├── AdditionalProperties: map[string]string
+│   │   │   ├── AofBackupEnabled: *string
+│   │   │   ├── AofStorageConnectionString0: *string
+│   │   │   ├── AofStorageConnectionString1: *string
+│   │   │   ├── Authnotrequired: *string
+│   │   │   ├── MaxfragmentationmemoryReserved: *string
+│   │   │   ├── MaxmemoryDelta: *string
+│   │   │   ├── MaxmemoryPolicy: *string
+│   │   │   ├── MaxmemoryReserved: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RdbBackupEnabled: *string
+│   │   │   ├── RdbBackupFrequency: *string
+│   │   │   ├── RdbBackupMaxSnapshotCount: *string
+│   │   │   └── RdbStorageConnectionString: *string
 │   │   ├── RedisVersion: *string
 │   │   ├── ReplicasPerMaster: *int
 │   │   ├── ReplicasPerPrimary: *int
@@ -62,7 +76,23 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── PublicNetworkAccess: *string
-│       ├── RedisConfiguration: map[string]string
+│       ├── RedisConfiguration: *Object (16 properties)
+│       │   ├── AdditionalProperties: map[string]string
+│       │   ├── AofBackupEnabled: *string
+│       │   ├── AofStorageConnectionString0: *string
+│       │   ├── AofStorageConnectionString1: *string
+│       │   ├── Authnotrequired: *string
+│       │   ├── Maxclients: *string
+│       │   ├── MaxfragmentationmemoryReserved: *string
+│       │   ├── MaxmemoryDelta: *string
+│       │   ├── MaxmemoryPolicy: *string
+│       │   ├── MaxmemoryReserved: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RdbBackupEnabled: *string
+│       │   ├── RdbBackupFrequency: *string
+│       │   ├── RdbBackupMaxSnapshotCount: *string
+│       │   ├── RdbStorageConnectionString: *string
+│       │   └── ZonalConfiguration: *string
 │       ├── RedisVersion: *string
 │       ├── ReplicasPerMaster: *int
 │       ├── ReplicasPerPrimary: *int
@@ -81,15 +111,13 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │       └── Zones: string[]
 ├── RedisFirewallRule: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201.Redis
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── EndIP: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── StartIP: *string
-│   │   └── Tags: map[string]string
+│   │   └── StartIP: *string
 │   └── Status: Object (7 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── EndIP: *string
@@ -100,16 +128,14 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │       └── Type: *string
 ├── RedisLinkedServer: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201.Redis
-│   ├── Spec: Object (9 properties)
+│   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── LinkedRedisCacheLocation: *string
 │   │   ├── LinkedRedisCacheReference: *genruntime.ResourceReference
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ServerRole: *string
-│   │   └── Tags: map[string]string
+│   │   └── ServerRole: *string
 │   └── Status: Object (9 properties)
 │       ├── Conditions: conditions.Condition[]
 │       ├── Id: *string
@@ -122,17 +148,15 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │       └── Type: *string
 └── RedisPatchSchedule: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201.Redis
-    ├── Spec: Object (6 properties)
-    │   ├── Location: *string
+    ├── Spec: Object (4 properties)
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── ScheduleEntries: Object (4 properties)[]
-    │   │   ├── DayOfWeek: *string
-    │   │   ├── MaintenanceWindow: *string
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── StartHourUtc: *int
-    │   └── Tags: map[string]string
+    │   └── ScheduleEntries: Object (4 properties)[]
+    │       ├── DayOfWeek: *string
+    │       ├── MaintenanceWindow: *string
+    │       ├── PropertyBag: genruntime.PropertyBag
+    │       └── StartHourUtc: *int
     └── Status: Object (7 properties)
         ├── Conditions: conditions.Condition[]
         ├── Id: *string

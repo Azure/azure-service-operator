@@ -217,8 +217,8 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 func (c *armConversionApplier) addARMConversionInterface(
 	kubeDef astmodel.TypeDefinition,
 	armDef astmodel.TypeDefinition,
-	typeType armconversion.TypeKind) (astmodel.TypeDefinition, error) {
-
+	typeType armconversion.TypeKind,
+) (astmodel.TypeDefinition, error) {
 	objectType, ok := astmodel.AsObjectType(armDef.Type())
 	if !ok {
 		emptyDef := astmodel.TypeDefinition{}
@@ -251,7 +251,7 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
-		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
+		c.idFactory.CreateStringIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		astmodel.OptionalKnownResourceReferenceType)
 	prop = prop.WithDescription(
 		fmt.Sprintf("The owner of the resource. The owner controls where the resource goes when it is deployed. "+
@@ -268,7 +268,7 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.PropertyDefinition {
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
-		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
+		c.idFactory.CreateStringIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		astmodel.NewOptionalType(astmodel.ArbitraryOwnerReference)).MakeRequired()
 	prop = prop.WithDescription(
 		"The owner of the resource. The owner controls where the resource goes when it is deployed. " +
