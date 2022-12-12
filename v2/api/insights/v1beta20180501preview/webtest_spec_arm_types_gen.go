@@ -6,16 +6,14 @@ package v1beta20180501preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Webtest_Spec_ARM struct {
-	// Location: Location to deploy resource to
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the Application Insights WebTest resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Metadata describing a web test for an Azure resource.
 	Properties *WebTestProperties_ARM `json:"properties,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -36,10 +34,9 @@ func (webtest *Webtest_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestProperties
 type WebTestProperties_ARM struct {
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestPropertiesConfiguration_ARM `json:"Configuration,omitempty"`
+	Configuration *WebTestProperties_Configuration_ARM `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -61,7 +58,7 @@ type WebTestProperties_ARM struct {
 	Name *string `json:"Name,omitempty"`
 
 	// Request: The collection of request properties
-	Request *WebTestPropertiesRequest_ARM `json:"Request,omitempty"`
+	Request *WebTestProperties_Request_ARM `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -73,23 +70,20 @@ type WebTestProperties_ARM struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestPropertiesValidationRules_ARM `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestProperties_ValidationRules_ARM `json:"ValidationRules,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
 type WebTestGeolocation_ARM struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
-type WebTestPropertiesConfiguration_ARM struct {
+type WebTestProperties_Configuration_ARM struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
-type WebTestPropertiesRequest_ARM struct {
+type WebTestProperties_Request_ARM struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
@@ -109,10 +103,9 @@ type WebTestPropertiesRequest_ARM struct {
 	RequestUrl *string `json:"RequestUrl,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
-type WebTestPropertiesValidationRules_ARM struct {
+type WebTestProperties_ValidationRules_ARM struct {
 	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestPropertiesValidationRulesContentValidation_ARM `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_ARM `json:"ContentValidation,omitempty"`
 
 	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
@@ -128,7 +121,6 @@ type WebTestPropertiesValidationRules_ARM struct {
 	SSLCheck *bool `json:"SSLCheck,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
 type HeaderField_ARM struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`
@@ -137,8 +129,7 @@ type HeaderField_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
-type WebTestPropertiesValidationRulesContentValidation_ARM struct {
+type WebTestProperties_ValidationRules_ContentValidation_ARM struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 

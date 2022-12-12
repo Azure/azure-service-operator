@@ -9,16 +9,14 @@ type NetworkInterface_Spec_ARM struct {
 	// ExtendedLocation: The extended location of the network interface.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the network interface.
-	Properties *NetworkInterface_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *NetworkInterfacePropertiesFormat_ARM `json:"properties,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -39,7 +37,7 @@ func (networkInterface *NetworkInterface_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 
-type NetworkInterface_Properties_Spec_ARM struct {
+type NetworkInterfacePropertiesFormat_ARM struct {
 	// DnsSettings: The DNS settings in network interface.
 	DnsSettings *NetworkInterfaceDnsSettings_ARM `json:"dnsSettings,omitempty"`
 
@@ -50,21 +48,18 @@ type NetworkInterface_Properties_Spec_ARM struct {
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	// IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterface_Properties_IpConfigurations_Spec_ARM `json:"ipConfigurations,omitempty"`
+	IpConfigurations []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM `json:"ipConfigurations,omitempty"`
 
 	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *SubResource_ARM `json:"networkSecurityGroup,omitempty"`
+	NetworkSecurityGroup *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
+
+	// NicType: Type of Network Interface resource.
+	NicType *NetworkInterfacePropertiesFormat_NicType `json:"nicType,omitempty"`
+
+	// PrivateLinkService: Privatelinkservice of the network interface resource.
+	PrivateLinkService *PrivateLinkServiceSpec_ARM `json:"privateLinkService,omitempty"`
 }
 
-type NetworkInterface_Properties_IpConfigurations_Spec_ARM struct {
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Network interface IP configuration properties.
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceDnsSettings
 type NetworkInterfaceDnsSettings_ARM struct {
 	// DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
 	// 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
@@ -75,24 +70,34 @@ type NetworkInterfaceDnsSettings_ARM struct {
 	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource
-type SubResource_ARM struct {
+type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM struct {
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Network interface IP configuration properties.
+	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/NetworkInterfaceIPConfigurationPropertiesFormat
+type PrivateLinkServiceSpec_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
 type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
 	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
-	ApplicationGatewayBackendAddressPools []SubResource_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 
 	// ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []SubResource_ARM `json:"applicationSecurityGroups,omitempty"`
+	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationSecurityGroups,omitempty"`
 
 	// LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []SubResource_ARM `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerBackendAddressPools []BackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	// LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []SubResource_ARM `json:"loadBalancerInboundNatRules,omitempty"`
+	LoadBalancerInboundNatRules []InboundNatRule_NetworkInterface_SubResourceEmbedded_ARM `json:"loadBalancerInboundNatRules,omitempty"`
 
 	// Primary: Whether this is a primary customer address on the network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -101,17 +106,45 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *NetworkInterfaceIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *SubResource_ARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
 
 	// Subnet: Subnet bound to the IP configuration.
-	Subnet *SubResource_ARM `json:"subnet,omitempty"`
+	Subnet *Subnet_NetworkInterface_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
 
 	// VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []SubResource_ARM `json:"virtualNetworkTaps,omitempty"`
+	VirtualNetworkTaps []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"virtualNetworkTaps,omitempty"`
+}
+
+type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type BackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type InboundNatRule_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type Subnet_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
 }

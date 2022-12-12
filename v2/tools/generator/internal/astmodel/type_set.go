@@ -16,6 +16,7 @@ type ReadonlyTypeSet interface {
 	ForEach(func(t Type, ix int))
 	ForEachError(func(t Type, ix int) error) error
 	Len() int
+	Single() (Type, bool)
 }
 
 var _ ReadonlyTypeSet = TypeSet{}
@@ -23,6 +24,8 @@ var _ ReadonlyTypeSet = TypeSet{}
 // MakeTypeSet makes a new TypeSet containing the given types
 func MakeTypeSet(types ...Type) TypeSet {
 	var result TypeSet
+	result.types = make([]Type, 0, len(types))
+
 	for _, t := range types {
 		result.Add(t)
 	}
@@ -62,6 +65,19 @@ func (ts *TypeSet) Add(t Type) bool {
 	return true
 }
 
+// Remove removes the type from the set if it exists,
+// and returns whether it was removed or not
+func (ts *TypeSet) Remove(t Type) bool {
+	for i, other := range ts.types {
+		if t.Equals(other, EqualityOverrides{}) {
+			ts.types = append(ts.types[:i], ts.types[i+1:]...)
+			return true
+		}
+	}
+
+	return false
+}
+
 // Contains checks if the set already contains the type
 func (ts TypeSet) Contains(t Type, overrides EqualityOverrides) bool {
 	// this is slow, but what can you do?
@@ -98,6 +114,31 @@ func (ts TypeSet) Equals(other TypeSet, overrides ...EqualityOverrides) bool {
 	return true
 }
 
+// Len returns the number of items in the set
 func (ts TypeSet) Len() int {
 	return len(ts.types)
+}
+
+// Single returns the only item in the set, and true, if it contains exactly one; otherwise it returns nil and false.
+func (ts TypeSet) Single() (Type, bool) {
+	if len(ts.types) != 1 {
+		return nil, false
+	}
+
+	return ts.types[0], true
+}
+
+// Copy returns a copy of this set that can then be modified.
+func (ts TypeSet) Copy() TypeSet {
+	return MakeTypeSet(ts.types...)
+}
+
+// AsSlice returns the content of this set as a slice
+func (ts TypeSet) AsSlice() []Type {
+	result := make([]Type, 0, len(ts.types))
+	for _, t := range ts.types {
+		result = append(result, t)
+	}
+
+	return result
 }

@@ -39,6 +39,34 @@ func (ts TypeNameSet) Contains(val TypeName) bool {
 	return found
 }
 
+// ContainsAll returns whether all the names are in the set. Works for nil
+// sets too.
+func (ts TypeNameSet) ContainsAll(other TypeNameSet) bool {
+	if ts == nil {
+		return false
+	}
+	for val := range other {
+		if !ts.Contains(val) {
+			return false
+		}
+	}
+	return true
+}
+
+// ContainsAny returns whether any item of other is contained in the set. Works for nil
+// sets too.
+func (ts TypeNameSet) ContainsAny(other TypeNameSet) bool {
+	if ts == nil {
+		return false
+	}
+	for val := range other {
+		if ts.Contains(val) {
+			return true
+		}
+	}
+	return false
+}
+
 // Remove removes the specified item if it is in the set. If it is not in the set this is a no-op.
 func (ts TypeNameSet) Remove(val TypeName) {
 	delete(ts, val)

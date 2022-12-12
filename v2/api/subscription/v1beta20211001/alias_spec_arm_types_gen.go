@@ -6,11 +6,9 @@ package v1beta20211001
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Alias_Spec_ARM struct {
-	// Name: AliasName is the name for the subscription creation request. Note that this is not the same as subscription name
-	// and this doesn’t have any other lifecycle need beyond the request for subscription creation.
 	Name string `json:"name,omitempty"`
 
-	// Properties: Put subscription properties.
+	// Properties: Put alias request properties.
 	Properties *PutAliasRequestProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -31,17 +29,10 @@ func (alias *Alias_Spec_ARM) GetType() string {
 	return "Microsoft.Subscription/aliases"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestProperties
 type PutAliasRequestProperties_ARM struct {
-	// AdditionalProperties: Put subscription additional properties.
+	// AdditionalProperties: Put alias request additional properties.
 	AdditionalProperties *PutAliasRequestAdditionalProperties_ARM `json:"additionalProperties,omitempty"`
-
-	// BillingScope: Billing scope of the subscription.
-	// For CustomerLed and FieldLed -
-	// /billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}
-	// For PartnerLed - /billingAccounts/{billingAccountName}/customers/{customerName}
-	// For Legacy EA - /billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}
-	BillingScope *string `json:"billingScope,omitempty"`
+	BillingScope         *string                                  `json:"billingScope,omitempty"`
 
 	// DisplayName: The friendly name of the subscription.
 	DisplayName *string `json:"displayName,omitempty"`
@@ -50,11 +41,10 @@ type PutAliasRequestProperties_ARM struct {
 	ResellerId *string `json:"resellerId,omitempty"`
 
 	// SubscriptionId: This parameter can be used to create alias for existing subscription Id
-	SubscriptionId *string                             `json:"subscriptionId,omitempty"`
-	Workload       *PutAliasRequestProperties_Workload `json:"workload,omitempty"`
+	SubscriptionId *string   `json:"subscriptionId,omitempty"`
+	Workload       *Workload `json:"workload,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.Subscription.json#/definitions/PutAliasRequestAdditionalProperties
 type PutAliasRequestAdditionalProperties_ARM struct {
 	// ManagementGroupId: Management group Id for the subscription.
 	ManagementGroupId *string `json:"managementGroupId,omitempty"`
@@ -70,9 +60,9 @@ type PutAliasRequestAdditionalProperties_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"DevTest","Production"}
-type PutAliasRequestProperties_Workload string
+type Workload string
 
 const (
-	PutAliasRequestProperties_Workload_DevTest    = PutAliasRequestProperties_Workload("DevTest")
-	PutAliasRequestProperties_Workload_Production = PutAliasRequestProperties_Workload("Production")
+	Workload_DevTest    = Workload("DevTest")
+	Workload_Production = Workload("Production")
 )

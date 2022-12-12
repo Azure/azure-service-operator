@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+// Generator information:
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Webtest_Spec   `json:"spec,omitempty"`
-	Status            WebTest_STATUS `json:"status,omitempty"`
+	Status            Webtest_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Webtest{}
@@ -124,7 +125,7 @@ func (webtest *Webtest) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &WebTest_STATUS{}
+	return &Webtest_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +141,13 @@ func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*WebTest_STATUS); ok {
+	if st, ok := status.(*Webtest_STATUS); ok {
 		webtest.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st WebTest_STATUS
+	var st Webtest_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +265,10 @@ func (webtest *Webtest) AssignProperties_From_Webtest(source *v20180501ps.Webtes
 	webtest.Spec = spec
 
 	// Status
-	var status WebTest_STATUS
-	err = status.AssignProperties_From_WebTest_STATUS(&source.Status)
+	var status Webtest_STATUS
+	err = status.AssignProperties_From_Webtest_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_WebTest_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Webtest_STATUS() to populate field Status")
 	}
 	webtest.Status = status
 
@@ -290,10 +291,10 @@ func (webtest *Webtest) AssignProperties_To_Webtest(destination *v20180501ps.Web
 	destination.Spec = spec
 
 	// Status
-	var status v20180501ps.WebTest_STATUS
-	err = webtest.Status.AssignProperties_To_WebTest_STATUS(&status)
+	var status v20180501ps.Webtest_STATUS
+	err = webtest.Status.AssignProperties_To_Webtest_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_WebTest_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Webtest_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -311,7 +312,9 @@ func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/resourceDefinitions/webtests
+// Generator information:
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}
 type WebtestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -329,7 +332,7 @@ type Webtest_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
+	Configuration *WebTestProperties_Configuration `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -344,7 +347,8 @@ type Webtest_Spec struct {
 	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
 	Kind *WebTestProperties_Kind `json:"Kind,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -363,7 +367,7 @@ type Webtest_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// Request: The collection of request properties
-	Request *WebTestPropertiesRequest `json:"Request,omitempty"`
+	Request *WebTestProperties_Request `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -372,14 +376,14 @@ type Webtest_Spec struct {
 	// SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
 	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestPropertiesValidationRules `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Webtest_Spec{}
@@ -420,7 +424,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		configuration := *configuration_ARM.(*WebTestPropertiesConfiguration_ARM)
+		configuration := *configuration_ARM.(*WebTestProperties_Configuration_ARM)
 		result.Properties.Configuration = &configuration
 	}
 	if webtest.Description != nil {
@@ -455,7 +459,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		request := *request_ARM.(*WebTestPropertiesRequest_ARM)
+		request := *request_ARM.(*WebTestProperties_Request_ARM)
 		result.Properties.Request = &request
 	}
 	if webtest.RetryEnabled != nil {
@@ -475,7 +479,7 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		validationRules := *validationRules_ARM.(*WebTestPropertiesValidationRules_ARM)
+		validationRules := *validationRules_ARM.(*WebTestProperties_ValidationRules_ARM)
 		result.Properties.ValidationRules = &validationRules
 	}
 
@@ -508,7 +512,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Configuration != nil {
-			var configuration1 WebTestPropertiesConfiguration
+			var configuration1 WebTestProperties_Configuration
 			err := configuration1.PopulateFromARM(owner, *typedInput.Properties.Configuration)
 			if err != nil {
 				return err
@@ -589,7 +593,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Request != nil {
-			var request1 WebTestPropertiesRequest
+			var request1 WebTestProperties_Request
 			err := request1.PopulateFromARM(owner, *typedInput.Properties.Request)
 			if err != nil {
 				return err
@@ -638,7 +642,7 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ValidationRules != nil {
-			var validationRules1 WebTestPropertiesValidationRules
+			var validationRules1 WebTestProperties_ValidationRules
 			err := validationRules1.PopulateFromARM(owner, *typedInput.Properties.ValidationRules)
 			if err != nil {
 				return err
@@ -710,10 +714,10 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v2018050
 
 	// Configuration
 	if source.Configuration != nil {
-		var configuration WebTestPropertiesConfiguration
-		err := configuration.AssignProperties_From_WebTestPropertiesConfiguration(source.Configuration)
+		var configuration WebTestProperties_Configuration
+		err := configuration.AssignProperties_From_WebTestProperties_Configuration(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesConfiguration() to populate field Configuration")
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration() to populate field Configuration")
 		}
 		webtest.Configuration = &configuration
 	} else {
@@ -776,10 +780,10 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v2018050
 
 	// Request
 	if source.Request != nil {
-		var request WebTestPropertiesRequest
-		err := request.AssignProperties_From_WebTestPropertiesRequest(source.Request)
+		var request WebTestProperties_Request
+		err := request.AssignProperties_From_WebTestProperties_Request(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesRequest() to populate field Request")
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request() to populate field Request")
 		}
 		webtest.Request = &request
 	} else {
@@ -805,10 +809,10 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v2018050
 
 	// ValidationRules
 	if source.ValidationRules != nil {
-		var validationRule WebTestPropertiesValidationRules
-		err := validationRule.AssignProperties_From_WebTestPropertiesValidationRules(source.ValidationRules)
+		var validationRule WebTestProperties_ValidationRules
+		err := validationRule.AssignProperties_From_WebTestProperties_ValidationRules(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesValidationRules() to populate field ValidationRules")
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules() to populate field ValidationRules")
 		}
 		webtest.ValidationRules = &validationRule
 	} else {
@@ -829,10 +833,10 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 
 	// Configuration
 	if webtest.Configuration != nil {
-		var configuration v20180501ps.WebTestPropertiesConfiguration
-		err := webtest.Configuration.AssignProperties_To_WebTestPropertiesConfiguration(&configuration)
+		var configuration v20180501ps.WebTestProperties_Configuration
+		err := webtest.Configuration.AssignProperties_To_WebTestProperties_Configuration(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesConfiguration() to populate field Configuration")
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -898,10 +902,10 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 
 	// Request
 	if webtest.Request != nil {
-		var request v20180501ps.WebTestPropertiesRequest
-		err := webtest.Request.AssignProperties_To_WebTestPropertiesRequest(&request)
+		var request v20180501ps.WebTestProperties_Request
+		err := webtest.Request.AssignProperties_To_WebTestProperties_Request(&request)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesRequest() to populate field Request")
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -927,10 +931,10 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 
 	// ValidationRules
 	if webtest.ValidationRules != nil {
-		var validationRule v20180501ps.WebTestPropertiesValidationRules
-		err := webtest.ValidationRules.AssignProperties_To_WebTestPropertiesValidationRules(&validationRule)
+		var validationRule v20180501ps.WebTestProperties_ValidationRules
+		err := webtest.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesValidationRules() to populate field ValidationRules")
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -956,7 +960,7 @@ func (webtest *Webtest_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (webtest *Webtest_Spec) SetAzureName(azureName string) { webtest.AzureName = azureName }
 
-type WebTest_STATUS struct {
+type Webtest_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -1006,7 +1010,7 @@ type WebTest_STATUS struct {
 	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
 
 	// Tags: Resource tags
-	Tags *v1.JSON `json:"tags,omitempty"`
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
 	Timeout *int `json:"Timeout,omitempty"`
@@ -1018,25 +1022,25 @@ type WebTest_STATUS struct {
 	ValidationRules *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &WebTest_STATUS{}
+var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
 
-// ConvertStatusFrom populates our WebTest_STATUS from the provided source
-func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180501ps.WebTest_STATUS)
+// ConvertStatusFrom populates our Webtest_STATUS from the provided source
+func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20180501ps.Webtest_STATUS)
 	if ok {
 		// Populate our instance from source
-		return test.AssignProperties_From_WebTest_STATUS(src)
+		return webtest.AssignProperties_From_Webtest_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180501ps.WebTest_STATUS{}
+	src = &v20180501ps.Webtest_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = test.AssignProperties_From_WebTest_STATUS(src)
+	err = webtest.AssignProperties_From_Webtest_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1044,17 +1048,17 @@ func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatu
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our WebTest_STATUS
-func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180501ps.WebTest_STATUS)
+// ConvertStatusTo populates the provided destination from our Webtest_STATUS
+func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20180501ps.Webtest_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return test.AssignProperties_To_WebTest_STATUS(dst)
+		return webtest.AssignProperties_To_Webtest_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180501ps.WebTest_STATUS{}
-	err := test.AssignProperties_To_WebTest_STATUS(dst)
+	dst = &v20180501ps.Webtest_STATUS{}
+	err := webtest.AssignProperties_To_Webtest_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1068,18 +1072,18 @@ func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSt
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &WebTest_STATUS{}
+var _ genruntime.FromARMConverter = &Webtest_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (test *WebTest_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTest_STATUS_ARM{}
+func (webtest *Webtest_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Webtest_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTest_STATUS_ARM)
+func (webtest *Webtest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Webtest_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTest_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Webtest_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -1094,7 +1098,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 				return err
 			}
 			configuration := configuration1
-			test.Configuration = &configuration
+			webtest.Configuration = &configuration
 		}
 	}
 
@@ -1103,7 +1107,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Description != nil {
 			description := *typedInput.Properties.Description
-			test.Description = &description
+			webtest.Description = &description
 		}
 	}
 
@@ -1112,7 +1116,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Enabled != nil {
 			enabled := *typedInput.Properties.Enabled
-			test.Enabled = &enabled
+			webtest.Enabled = &enabled
 		}
 	}
 
@@ -1121,14 +1125,14 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Frequency != nil {
 			frequency := *typedInput.Properties.Frequency
-			test.Frequency = &frequency
+			webtest.Frequency = &frequency
 		}
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		test.Id = &id
+		webtest.Id = &id
 	}
 
 	// Set property ‘Kind’:
@@ -1136,14 +1140,14 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Kind != nil {
 			kind := *typedInput.Properties.Kind
-			test.Kind = &kind
+			webtest.Kind = &kind
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		test.Location = &location
+		webtest.Location = &location
 	}
 
 	// Set property ‘Locations’:
@@ -1155,14 +1159,14 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 			if err != nil {
 				return err
 			}
-			test.Locations = append(test.Locations, item1)
+			webtest.Locations = append(webtest.Locations, item1)
 		}
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		test.Name = &name
+		webtest.Name = &name
 	}
 
 	// Set property ‘PropertiesName’:
@@ -1170,7 +1174,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Name != nil {
 			propertiesName := *typedInput.Properties.Name
-			test.PropertiesName = &propertiesName
+			webtest.PropertiesName = &propertiesName
 		}
 	}
 
@@ -1179,7 +1183,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
 			provisioningState := *typedInput.Properties.ProvisioningState
-			test.ProvisioningState = &provisioningState
+			webtest.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -1193,7 +1197,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 				return err
 			}
 			request := request1
-			test.Request = &request
+			webtest.Request = &request
 		}
 	}
 
@@ -1202,7 +1206,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RetryEnabled != nil {
 			retryEnabled := *typedInput.Properties.RetryEnabled
-			test.RetryEnabled = &retryEnabled
+			webtest.RetryEnabled = &retryEnabled
 		}
 	}
 
@@ -1211,14 +1215,16 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SyntheticMonitorId != nil {
 			syntheticMonitorId := *typedInput.Properties.SyntheticMonitorId
-			test.SyntheticMonitorId = &syntheticMonitorId
+			webtest.SyntheticMonitorId = &syntheticMonitorId
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		tags := *(*typedInput.Tags).DeepCopy()
-		test.Tags = &tags
+		webtest.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			webtest.Tags[key] = value
+		}
 	}
 
 	// Set property ‘Timeout’:
@@ -1226,14 +1232,14 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Timeout != nil {
 			timeout := *typedInput.Properties.Timeout
-			test.Timeout = &timeout
+			webtest.Timeout = &timeout
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		test.Type = &typeVar
+		webtest.Type = &typeVar
 	}
 
 	// Set property ‘ValidationRules’:
@@ -1246,7 +1252,7 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 				return err
 			}
 			validationRules := validationRules1
-			test.ValidationRules = &validationRules
+			webtest.ValidationRules = &validationRules
 		}
 	}
 
@@ -1254,11 +1260,11 @@ func (test *WebTest_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	return nil
 }
 
-// AssignProperties_From_WebTest_STATUS populates our WebTest_STATUS from the provided source WebTest_STATUS
-func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v20180501ps.WebTest_STATUS) error {
+// AssignProperties_From_Webtest_STATUS populates our Webtest_STATUS from the provided source Webtest_STATUS
+func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *v20180501ps.Webtest_STATUS) error {
 
 	// Conditions
-	test.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	webtest.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Configuration
 	if source.Configuration != nil {
@@ -1267,38 +1273,38 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
-		test.Configuration = &configuration
+		webtest.Configuration = &configuration
 	} else {
-		test.Configuration = nil
+		webtest.Configuration = nil
 	}
 
 	// Description
-	test.Description = genruntime.ClonePointerToString(source.Description)
+	webtest.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
-		test.Enabled = &enabled
+		webtest.Enabled = &enabled
 	} else {
-		test.Enabled = nil
+		webtest.Enabled = nil
 	}
 
 	// Frequency
-	test.Frequency = genruntime.ClonePointerToInt(source.Frequency)
+	webtest.Frequency = genruntime.ClonePointerToInt(source.Frequency)
 
 	// Id
-	test.Id = genruntime.ClonePointerToString(source.Id)
+	webtest.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Kind
 	if source.Kind != nil {
 		kind := WebTestProperties_Kind_STATUS(*source.Kind)
-		test.Kind = &kind
+		webtest.Kind = &kind
 	} else {
-		test.Kind = nil
+		webtest.Kind = nil
 	}
 
 	// Location
-	test.Location = genruntime.ClonePointerToString(source.Location)
+	webtest.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
@@ -1313,19 +1319,19 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 			}
 			locationList[locationIndex] = location
 		}
-		test.Locations = locationList
+		webtest.Locations = locationList
 	} else {
-		test.Locations = nil
+		webtest.Locations = nil
 	}
 
 	// Name
-	test.Name = genruntime.ClonePointerToString(source.Name)
+	webtest.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PropertiesName
-	test.PropertiesName = genruntime.ClonePointerToString(source.PropertiesName)
+	webtest.PropertiesName = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// ProvisioningState
-	test.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	webtest.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Request
 	if source.Request != nil {
@@ -1334,35 +1340,30 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_Request_STATUS() to populate field Request")
 		}
-		test.Request = &request
+		webtest.Request = &request
 	} else {
-		test.Request = nil
+		webtest.Request = nil
 	}
 
 	// RetryEnabled
 	if source.RetryEnabled != nil {
 		retryEnabled := *source.RetryEnabled
-		test.RetryEnabled = &retryEnabled
+		webtest.RetryEnabled = &retryEnabled
 	} else {
-		test.RetryEnabled = nil
+		webtest.RetryEnabled = nil
 	}
 
 	// SyntheticMonitorId
-	test.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
+	webtest.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
 
 	// Tags
-	if source.Tags != nil {
-		tag := *source.Tags.DeepCopy()
-		test.Tags = &tag
-	} else {
-		test.Tags = nil
-	}
+	webtest.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Timeout
-	test.Timeout = genruntime.ClonePointerToInt(source.Timeout)
+	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
 
 	// Type
-	test.Type = genruntime.ClonePointerToString(source.Type)
+	webtest.Type = genruntime.ClonePointerToString(source.Type)
 
 	// ValidationRules
 	if source.ValidationRules != nil {
@@ -1371,27 +1372,27 @@ func (test *WebTest_STATUS) AssignProperties_From_WebTest_STATUS(source *v201805
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
-		test.ValidationRules = &validationRule
+		webtest.ValidationRules = &validationRule
 	} else {
-		test.ValidationRules = nil
+		webtest.ValidationRules = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_WebTest_STATUS populates the provided destination WebTest_STATUS from our WebTest_STATUS
-func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v20180501ps.WebTest_STATUS) error {
+// AssignProperties_To_Webtest_STATUS populates the provided destination Webtest_STATUS from our Webtest_STATUS
+func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *v20180501ps.Webtest_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(test.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(webtest.Conditions)
 
 	// Configuration
-	if test.Configuration != nil {
+	if webtest.Configuration != nil {
 		var configuration v20180501ps.WebTestProperties_Configuration_STATUS
-		err := test.Configuration.AssignProperties_To_WebTestProperties_Configuration_STATUS(&configuration)
+		err := webtest.Configuration.AssignProperties_To_WebTestProperties_Configuration_STATUS(&configuration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
@@ -1401,37 +1402,37 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	}
 
 	// Description
-	destination.Description = genruntime.ClonePointerToString(test.Description)
+	destination.Description = genruntime.ClonePointerToString(webtest.Description)
 
 	// Enabled
-	if test.Enabled != nil {
-		enabled := *test.Enabled
+	if webtest.Enabled != nil {
+		enabled := *webtest.Enabled
 		destination.Enabled = &enabled
 	} else {
 		destination.Enabled = nil
 	}
 
 	// Frequency
-	destination.Frequency = genruntime.ClonePointerToInt(test.Frequency)
+	destination.Frequency = genruntime.ClonePointerToInt(webtest.Frequency)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(test.Id)
+	destination.Id = genruntime.ClonePointerToString(webtest.Id)
 
 	// Kind
-	if test.Kind != nil {
-		kind := string(*test.Kind)
+	if webtest.Kind != nil {
+		kind := string(*webtest.Kind)
 		destination.Kind = &kind
 	} else {
 		destination.Kind = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(test.Location)
+	destination.Location = genruntime.ClonePointerToString(webtest.Location)
 
 	// Locations
-	if test.Locations != nil {
-		locationList := make([]v20180501ps.WebTestGeolocation_STATUS, len(test.Locations))
-		for locationIndex, locationItem := range test.Locations {
+	if webtest.Locations != nil {
+		locationList := make([]v20180501ps.WebTestGeolocation_STATUS, len(webtest.Locations))
+		for locationIndex, locationItem := range webtest.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
 			var location v20180501ps.WebTestGeolocation_STATUS
@@ -1447,18 +1448,18 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(test.Name)
+	destination.Name = genruntime.ClonePointerToString(webtest.Name)
 
 	// PropertiesName
-	destination.PropertiesName = genruntime.ClonePointerToString(test.PropertiesName)
+	destination.PropertiesName = genruntime.ClonePointerToString(webtest.PropertiesName)
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(test.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(webtest.ProvisioningState)
 
 	// Request
-	if test.Request != nil {
+	if webtest.Request != nil {
 		var request v20180501ps.WebTestProperties_Request_STATUS
-		err := test.Request.AssignProperties_To_WebTestProperties_Request_STATUS(&request)
+		err := webtest.Request.AssignProperties_To_WebTestProperties_Request_STATUS(&request)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_Request_STATUS() to populate field Request")
 		}
@@ -1468,34 +1469,29 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	}
 
 	// RetryEnabled
-	if test.RetryEnabled != nil {
-		retryEnabled := *test.RetryEnabled
+	if webtest.RetryEnabled != nil {
+		retryEnabled := *webtest.RetryEnabled
 		destination.RetryEnabled = &retryEnabled
 	} else {
 		destination.RetryEnabled = nil
 	}
 
 	// SyntheticMonitorId
-	destination.SyntheticMonitorId = genruntime.ClonePointerToString(test.SyntheticMonitorId)
+	destination.SyntheticMonitorId = genruntime.ClonePointerToString(webtest.SyntheticMonitorId)
 
 	// Tags
-	if test.Tags != nil {
-		tag := *test.Tags.DeepCopy()
-		destination.Tags = &tag
-	} else {
-		destination.Tags = nil
-	}
+	destination.Tags = genruntime.CloneMapOfStringToString(webtest.Tags)
 
 	// Timeout
-	destination.Timeout = genruntime.ClonePointerToInt(test.Timeout)
+	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(test.Type)
+	destination.Type = genruntime.ClonePointerToString(webtest.Type)
 
 	// ValidationRules
-	if test.ValidationRules != nil {
+	if webtest.ValidationRules != nil {
 		var validationRule v20180501ps.WebTestProperties_ValidationRules_STATUS
-		err := test.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&validationRule)
+		err := webtest.ValidationRules.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&validationRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
@@ -1515,7 +1511,6 @@ func (test *WebTest_STATUS) AssignProperties_To_WebTest_STATUS(destination *v201
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestGeolocation
 type WebTestGeolocation struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
@@ -1647,6 +1642,79 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 	return nil
 }
 
+type WebTestProperties_Configuration struct {
+	// WebTest: The XML specification of a WebTest to run against an application.
+	WebTest *string `json:"WebTest,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &WebTestProperties_Configuration{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (configuration *WebTestProperties_Configuration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if configuration == nil {
+		return nil, nil
+	}
+	result := &WebTestProperties_Configuration_ARM{}
+
+	// Set property ‘WebTest’:
+	if configuration.WebTest != nil {
+		webTest := *configuration.WebTest
+		result.WebTest = &webTest
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configuration *WebTestProperties_Configuration) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WebTestProperties_Configuration_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configuration *WebTestProperties_Configuration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WebTestProperties_Configuration_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Configuration_ARM, got %T", armInput)
+	}
+
+	// Set property ‘WebTest’:
+	if typedInput.WebTest != nil {
+		webTest := *typedInput.WebTest
+		configuration.WebTest = &webTest
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_WebTestProperties_Configuration populates our WebTestProperties_Configuration from the provided source WebTestProperties_Configuration
+func (configuration *WebTestProperties_Configuration) AssignProperties_From_WebTestProperties_Configuration(source *v20180501ps.WebTestProperties_Configuration) error {
+
+	// WebTest
+	configuration.WebTest = genruntime.ClonePointerToString(source.WebTest)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebTestProperties_Configuration populates the provided destination WebTestProperties_Configuration from our WebTestProperties_Configuration
+func (configuration *WebTestProperties_Configuration) AssignProperties_To_WebTestProperties_Configuration(destination *v20180501ps.WebTestProperties_Configuration) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// WebTest
+	destination.WebTest = genruntime.ClonePointerToString(configuration.WebTest)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type WebTestProperties_Configuration_STATUS struct {
 	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
@@ -1714,6 +1782,250 @@ const (
 	WebTestProperties_Kind_Ping      = WebTestProperties_Kind("ping")
 	WebTestProperties_Kind_Standard  = WebTestProperties_Kind("standard")
 )
+
+type WebTestProperties_Kind_STATUS string
+
+const (
+	WebTestProperties_Kind_STATUS_Basic     = WebTestProperties_Kind_STATUS("basic")
+	WebTestProperties_Kind_STATUS_Multistep = WebTestProperties_Kind_STATUS("multistep")
+	WebTestProperties_Kind_STATUS_Ping      = WebTestProperties_Kind_STATUS("ping")
+	WebTestProperties_Kind_STATUS_Standard  = WebTestProperties_Kind_STATUS("standard")
+)
+
+type WebTestProperties_Request struct {
+	// FollowRedirects: Follow redirects for this web test.
+	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
+
+	// Headers: List of headers and their values to add to the WebTest call.
+	Headers []HeaderField `json:"Headers,omitempty"`
+
+	// HttpVerb: Http verb to use for this web test.
+	HttpVerb *string `json:"HttpVerb,omitempty"`
+
+	// ParseDependentRequests: Parse Dependent request for this WebTest.
+	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
+
+	// RequestBody: Base64 encoded string body to send with this web test.
+	RequestBody *string `json:"RequestBody,omitempty"`
+
+	// RequestUrl: Url location to test.
+	RequestUrl *string `json:"RequestUrl,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &WebTestProperties_Request{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (request *WebTestProperties_Request) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if request == nil {
+		return nil, nil
+	}
+	result := &WebTestProperties_Request_ARM{}
+
+	// Set property ‘FollowRedirects’:
+	if request.FollowRedirects != nil {
+		followRedirects := *request.FollowRedirects
+		result.FollowRedirects = &followRedirects
+	}
+
+	// Set property ‘Headers’:
+	for _, item := range request.Headers {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Headers = append(result.Headers, *item_ARM.(*HeaderField_ARM))
+	}
+
+	// Set property ‘HttpVerb’:
+	if request.HttpVerb != nil {
+		httpVerb := *request.HttpVerb
+		result.HttpVerb = &httpVerb
+	}
+
+	// Set property ‘ParseDependentRequests’:
+	if request.ParseDependentRequests != nil {
+		parseDependentRequests := *request.ParseDependentRequests
+		result.ParseDependentRequests = &parseDependentRequests
+	}
+
+	// Set property ‘RequestBody’:
+	if request.RequestBody != nil {
+		requestBody := *request.RequestBody
+		result.RequestBody = &requestBody
+	}
+
+	// Set property ‘RequestUrl’:
+	if request.RequestUrl != nil {
+		requestUrl := *request.RequestUrl
+		result.RequestUrl = &requestUrl
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (request *WebTestProperties_Request) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WebTestProperties_Request_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (request *WebTestProperties_Request) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WebTestProperties_Request_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_Request_ARM, got %T", armInput)
+	}
+
+	// Set property ‘FollowRedirects’:
+	if typedInput.FollowRedirects != nil {
+		followRedirects := *typedInput.FollowRedirects
+		request.FollowRedirects = &followRedirects
+	}
+
+	// Set property ‘Headers’:
+	for _, item := range typedInput.Headers {
+		var item1 HeaderField
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		request.Headers = append(request.Headers, item1)
+	}
+
+	// Set property ‘HttpVerb’:
+	if typedInput.HttpVerb != nil {
+		httpVerb := *typedInput.HttpVerb
+		request.HttpVerb = &httpVerb
+	}
+
+	// Set property ‘ParseDependentRequests’:
+	if typedInput.ParseDependentRequests != nil {
+		parseDependentRequests := *typedInput.ParseDependentRequests
+		request.ParseDependentRequests = &parseDependentRequests
+	}
+
+	// Set property ‘RequestBody’:
+	if typedInput.RequestBody != nil {
+		requestBody := *typedInput.RequestBody
+		request.RequestBody = &requestBody
+	}
+
+	// Set property ‘RequestUrl’:
+	if typedInput.RequestUrl != nil {
+		requestUrl := *typedInput.RequestUrl
+		request.RequestUrl = &requestUrl
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_WebTestProperties_Request populates our WebTestProperties_Request from the provided source WebTestProperties_Request
+func (request *WebTestProperties_Request) AssignProperties_From_WebTestProperties_Request(source *v20180501ps.WebTestProperties_Request) error {
+
+	// FollowRedirects
+	if source.FollowRedirects != nil {
+		followRedirect := *source.FollowRedirects
+		request.FollowRedirects = &followRedirect
+	} else {
+		request.FollowRedirects = nil
+	}
+
+	// Headers
+	if source.Headers != nil {
+		headerList := make([]HeaderField, len(source.Headers))
+		for headerIndex, headerItem := range source.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header HeaderField
+			err := header.AssignProperties_From_HeaderField(&headerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_HeaderField() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		request.Headers = headerList
+	} else {
+		request.Headers = nil
+	}
+
+	// HttpVerb
+	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
+
+	// ParseDependentRequests
+	if source.ParseDependentRequests != nil {
+		parseDependentRequest := *source.ParseDependentRequests
+		request.ParseDependentRequests = &parseDependentRequest
+	} else {
+		request.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
+
+	// RequestUrl
+	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebTestProperties_Request populates the provided destination WebTestProperties_Request from our WebTestProperties_Request
+func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_Request(destination *v20180501ps.WebTestProperties_Request) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// FollowRedirects
+	if request.FollowRedirects != nil {
+		followRedirect := *request.FollowRedirects
+		destination.FollowRedirects = &followRedirect
+	} else {
+		destination.FollowRedirects = nil
+	}
+
+	// Headers
+	if request.Headers != nil {
+		headerList := make([]v20180501ps.HeaderField, len(request.Headers))
+		for headerIndex, headerItem := range request.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header v20180501ps.HeaderField
+			err := headerItem.AssignProperties_To_HeaderField(&header)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_HeaderField() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		destination.Headers = headerList
+	} else {
+		destination.Headers = nil
+	}
+
+	// HttpVerb
+	destination.HttpVerb = genruntime.ClonePointerToString(request.HttpVerb)
+
+	// ParseDependentRequests
+	if request.ParseDependentRequests != nil {
+		parseDependentRequest := *request.ParseDependentRequests
+		destination.ParseDependentRequests = &parseDependentRequest
+	} else {
+		destination.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	destination.RequestBody = genruntime.ClonePointerToString(request.RequestBody)
+
+	// RequestUrl
+	destination.RequestUrl = genruntime.ClonePointerToString(request.RequestUrl)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type WebTestProperties_Request_STATUS struct {
 	// FollowRedirects: Follow redirects for this web test.
@@ -1902,6 +2214,211 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_To_WebTestProp
 	return nil
 }
 
+type WebTestProperties_ValidationRules struct {
+	// ContentValidation: The collection of content validation properties
+	ContentValidation *WebTestProperties_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
+
+	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
+	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
+
+	// IgnoreHttpsStatusCode: When set, validation will ignore the status code.
+	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
+
+	// SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
+	// must be positive and the SSLCheck must be set to true.
+	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+
+	// SSLCheck: Checks to see if the SSL cert is still valid.
+	SSLCheck *bool `json:"SSLCheck,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &WebTestProperties_ValidationRules{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (rules *WebTestProperties_ValidationRules) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if rules == nil {
+		return nil, nil
+	}
+	result := &WebTestProperties_ValidationRules_ARM{}
+
+	// Set property ‘ContentValidation’:
+	if rules.ContentValidation != nil {
+		contentValidation_ARM, err := (*rules.ContentValidation).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		contentValidation := *contentValidation_ARM.(*WebTestProperties_ValidationRules_ContentValidation_ARM)
+		result.ContentValidation = &contentValidation
+	}
+
+	// Set property ‘ExpectedHttpStatusCode’:
+	if rules.ExpectedHttpStatusCode != nil {
+		expectedHttpStatusCode := *rules.ExpectedHttpStatusCode
+		result.ExpectedHttpStatusCode = &expectedHttpStatusCode
+	}
+
+	// Set property ‘IgnoreHttpsStatusCode’:
+	if rules.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
+		result.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	}
+
+	// Set property ‘SSLCertRemainingLifetimeCheck’:
+	if rules.SSLCertRemainingLifetimeCheck != nil {
+		sslCertRemainingLifetimeCheck := *rules.SSLCertRemainingLifetimeCheck
+		result.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
+	}
+
+	// Set property ‘SSLCheck’:
+	if rules.SSLCheck != nil {
+		sslCheck := *rules.SSLCheck
+		result.SSLCheck = &sslCheck
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rules *WebTestProperties_ValidationRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WebTestProperties_ValidationRules_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (rules *WebTestProperties_ValidationRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WebTestProperties_ValidationRules_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ContentValidation’:
+	if typedInput.ContentValidation != nil {
+		var contentValidation1 WebTestProperties_ValidationRules_ContentValidation
+		err := contentValidation1.PopulateFromARM(owner, *typedInput.ContentValidation)
+		if err != nil {
+			return err
+		}
+		contentValidation := contentValidation1
+		rules.ContentValidation = &contentValidation
+	}
+
+	// Set property ‘ExpectedHttpStatusCode’:
+	if typedInput.ExpectedHttpStatusCode != nil {
+		expectedHttpStatusCode := *typedInput.ExpectedHttpStatusCode
+		rules.ExpectedHttpStatusCode = &expectedHttpStatusCode
+	}
+
+	// Set property ‘IgnoreHttpsStatusCode’:
+	if typedInput.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *typedInput.IgnoreHttpsStatusCode
+		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	}
+
+	// Set property ‘SSLCertRemainingLifetimeCheck’:
+	if typedInput.SSLCertRemainingLifetimeCheck != nil {
+		sslCertRemainingLifetimeCheck := *typedInput.SSLCertRemainingLifetimeCheck
+		rules.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
+	}
+
+	// Set property ‘SSLCheck’:
+	if typedInput.SSLCheck != nil {
+		sslCheck := *typedInput.SSLCheck
+		rules.SSLCheck = &sslCheck
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_WebTestProperties_ValidationRules populates our WebTestProperties_ValidationRules from the provided source WebTestProperties_ValidationRules
+func (rules *WebTestProperties_ValidationRules) AssignProperties_From_WebTestProperties_ValidationRules(source *v20180501ps.WebTestProperties_ValidationRules) error {
+
+	// ContentValidation
+	if source.ContentValidation != nil {
+		var contentValidation WebTestProperties_ValidationRules_ContentValidation
+		err := contentValidation.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(source.ContentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
+		}
+		rules.ContentValidation = &contentValidation
+	} else {
+		rules.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if source.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
+		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		rules.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if source.SSLCheck != nil {
+		sslCheck := *source.SSLCheck
+		rules.SSLCheck = &sslCheck
+	} else {
+		rules.SSLCheck = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebTestProperties_ValidationRules populates the provided destination WebTestProperties_ValidationRules from our WebTestProperties_ValidationRules
+func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestProperties_ValidationRules(destination *v20180501ps.WebTestProperties_ValidationRules) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ContentValidation
+	if rules.ContentValidation != nil {
+		var contentValidation v20180501ps.WebTestProperties_ValidationRules_ContentValidation
+		err := rules.ContentValidation.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&contentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation() to populate field ContentValidation")
+		}
+		destination.ContentValidation = &contentValidation
+	} else {
+		destination.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	destination.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(rules.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if rules.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
+		destination.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		destination.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	destination.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(rules.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if rules.SSLCheck != nil {
+		sslCheck := *rules.SSLCheck
+		destination.SSLCheck = &sslCheck
+	} else {
+		destination.SSLCheck = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type WebTestProperties_ValidationRules_STATUS struct {
 	// ContentValidation: The collection of content validation properties
 	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_STATUS `json:"ContentValidation,omitempty"`
@@ -2064,523 +2581,6 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTe
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesConfiguration
-type WebTestPropertiesConfiguration struct {
-	// WebTest: The XML specification of a WebTest to run against an application.
-	WebTest *string `json:"WebTest,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &WebTestPropertiesConfiguration{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configuration *WebTestPropertiesConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if configuration == nil {
-		return nil, nil
-	}
-	result := &WebTestPropertiesConfiguration_ARM{}
-
-	// Set property ‘WebTest’:
-	if configuration.WebTest != nil {
-		webTest := *configuration.WebTest
-		result.WebTest = &webTest
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *WebTestPropertiesConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestPropertiesConfiguration_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *WebTestPropertiesConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestPropertiesConfiguration_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestPropertiesConfiguration_ARM, got %T", armInput)
-	}
-
-	// Set property ‘WebTest’:
-	if typedInput.WebTest != nil {
-		webTest := *typedInput.WebTest
-		configuration.WebTest = &webTest
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_WebTestPropertiesConfiguration populates our WebTestPropertiesConfiguration from the provided source WebTestPropertiesConfiguration
-func (configuration *WebTestPropertiesConfiguration) AssignProperties_From_WebTestPropertiesConfiguration(source *v20180501ps.WebTestPropertiesConfiguration) error {
-
-	// WebTest
-	configuration.WebTest = genruntime.ClonePointerToString(source.WebTest)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WebTestPropertiesConfiguration populates the provided destination WebTestPropertiesConfiguration from our WebTestPropertiesConfiguration
-func (configuration *WebTestPropertiesConfiguration) AssignProperties_To_WebTestPropertiesConfiguration(destination *v20180501ps.WebTestPropertiesConfiguration) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// WebTest
-	destination.WebTest = genruntime.ClonePointerToString(configuration.WebTest)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesRequest
-type WebTestPropertiesRequest struct {
-	// FollowRedirects: Follow redirects for this web test.
-	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
-
-	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField `json:"Headers,omitempty"`
-
-	// HttpVerb: Http verb to use for this web test.
-	HttpVerb *string `json:"HttpVerb,omitempty"`
-
-	// ParseDependentRequests: Parse Dependent request for this WebTest.
-	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
-
-	// RequestBody: Base64 encoded string body to send with this web test.
-	RequestBody *string `json:"RequestBody,omitempty"`
-
-	// RequestUrl: Url location to test.
-	RequestUrl *string `json:"RequestUrl,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &WebTestPropertiesRequest{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (request *WebTestPropertiesRequest) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if request == nil {
-		return nil, nil
-	}
-	result := &WebTestPropertiesRequest_ARM{}
-
-	// Set property ‘FollowRedirects’:
-	if request.FollowRedirects != nil {
-		followRedirects := *request.FollowRedirects
-		result.FollowRedirects = &followRedirects
-	}
-
-	// Set property ‘Headers’:
-	for _, item := range request.Headers {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Headers = append(result.Headers, *item_ARM.(*HeaderField_ARM))
-	}
-
-	// Set property ‘HttpVerb’:
-	if request.HttpVerb != nil {
-		httpVerb := *request.HttpVerb
-		result.HttpVerb = &httpVerb
-	}
-
-	// Set property ‘ParseDependentRequests’:
-	if request.ParseDependentRequests != nil {
-		parseDependentRequests := *request.ParseDependentRequests
-		result.ParseDependentRequests = &parseDependentRequests
-	}
-
-	// Set property ‘RequestBody’:
-	if request.RequestBody != nil {
-		requestBody := *request.RequestBody
-		result.RequestBody = &requestBody
-	}
-
-	// Set property ‘RequestUrl’:
-	if request.RequestUrl != nil {
-		requestUrl := *request.RequestUrl
-		result.RequestUrl = &requestUrl
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (request *WebTestPropertiesRequest) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestPropertiesRequest_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (request *WebTestPropertiesRequest) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestPropertiesRequest_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestPropertiesRequest_ARM, got %T", armInput)
-	}
-
-	// Set property ‘FollowRedirects’:
-	if typedInput.FollowRedirects != nil {
-		followRedirects := *typedInput.FollowRedirects
-		request.FollowRedirects = &followRedirects
-	}
-
-	// Set property ‘Headers’:
-	for _, item := range typedInput.Headers {
-		var item1 HeaderField
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		request.Headers = append(request.Headers, item1)
-	}
-
-	// Set property ‘HttpVerb’:
-	if typedInput.HttpVerb != nil {
-		httpVerb := *typedInput.HttpVerb
-		request.HttpVerb = &httpVerb
-	}
-
-	// Set property ‘ParseDependentRequests’:
-	if typedInput.ParseDependentRequests != nil {
-		parseDependentRequests := *typedInput.ParseDependentRequests
-		request.ParseDependentRequests = &parseDependentRequests
-	}
-
-	// Set property ‘RequestBody’:
-	if typedInput.RequestBody != nil {
-		requestBody := *typedInput.RequestBody
-		request.RequestBody = &requestBody
-	}
-
-	// Set property ‘RequestUrl’:
-	if typedInput.RequestUrl != nil {
-		requestUrl := *typedInput.RequestUrl
-		request.RequestUrl = &requestUrl
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_WebTestPropertiesRequest populates our WebTestPropertiesRequest from the provided source WebTestPropertiesRequest
-func (request *WebTestPropertiesRequest) AssignProperties_From_WebTestPropertiesRequest(source *v20180501ps.WebTestPropertiesRequest) error {
-
-	// FollowRedirects
-	if source.FollowRedirects != nil {
-		followRedirect := *source.FollowRedirects
-		request.FollowRedirects = &followRedirect
-	} else {
-		request.FollowRedirects = nil
-	}
-
-	// Headers
-	if source.Headers != nil {
-		headerList := make([]HeaderField, len(source.Headers))
-		for headerIndex, headerItem := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerItem := headerItem
-			var header HeaderField
-			err := header.AssignProperties_From_HeaderField(&headerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_HeaderField() to populate field Headers")
-			}
-			headerList[headerIndex] = header
-		}
-		request.Headers = headerList
-	} else {
-		request.Headers = nil
-	}
-
-	// HttpVerb
-	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
-
-	// ParseDependentRequests
-	if source.ParseDependentRequests != nil {
-		parseDependentRequest := *source.ParseDependentRequests
-		request.ParseDependentRequests = &parseDependentRequest
-	} else {
-		request.ParseDependentRequests = nil
-	}
-
-	// RequestBody
-	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
-
-	// RequestUrl
-	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WebTestPropertiesRequest populates the provided destination WebTestPropertiesRequest from our WebTestPropertiesRequest
-func (request *WebTestPropertiesRequest) AssignProperties_To_WebTestPropertiesRequest(destination *v20180501ps.WebTestPropertiesRequest) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// FollowRedirects
-	if request.FollowRedirects != nil {
-		followRedirect := *request.FollowRedirects
-		destination.FollowRedirects = &followRedirect
-	} else {
-		destination.FollowRedirects = nil
-	}
-
-	// Headers
-	if request.Headers != nil {
-		headerList := make([]v20180501ps.HeaderField, len(request.Headers))
-		for headerIndex, headerItem := range request.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerItem := headerItem
-			var header v20180501ps.HeaderField
-			err := headerItem.AssignProperties_To_HeaderField(&header)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_HeaderField() to populate field Headers")
-			}
-			headerList[headerIndex] = header
-		}
-		destination.Headers = headerList
-	} else {
-		destination.Headers = nil
-	}
-
-	// HttpVerb
-	destination.HttpVerb = genruntime.ClonePointerToString(request.HttpVerb)
-
-	// ParseDependentRequests
-	if request.ParseDependentRequests != nil {
-		parseDependentRequest := *request.ParseDependentRequests
-		destination.ParseDependentRequests = &parseDependentRequest
-	} else {
-		destination.ParseDependentRequests = nil
-	}
-
-	// RequestBody
-	destination.RequestBody = genruntime.ClonePointerToString(request.RequestBody)
-
-	// RequestUrl
-	destination.RequestUrl = genruntime.ClonePointerToString(request.RequestUrl)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRules
-type WebTestPropertiesValidationRules struct {
-	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
-
-	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
-	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
-
-	// IgnoreHttpsStatusCode: When set, validation will ignore the status code.
-	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
-
-	// SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-	// must be positive and the SSLCheck must be set to true.
-	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-
-	// SSLCheck: Checks to see if the SSL cert is still valid.
-	SSLCheck *bool `json:"SSLCheck,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &WebTestPropertiesValidationRules{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rules *WebTestPropertiesValidationRules) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rules == nil {
-		return nil, nil
-	}
-	result := &WebTestPropertiesValidationRules_ARM{}
-
-	// Set property ‘ContentValidation’:
-	if rules.ContentValidation != nil {
-		contentValidation_ARM, err := (*rules.ContentValidation).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		contentValidation := *contentValidation_ARM.(*WebTestPropertiesValidationRulesContentValidation_ARM)
-		result.ContentValidation = &contentValidation
-	}
-
-	// Set property ‘ExpectedHttpStatusCode’:
-	if rules.ExpectedHttpStatusCode != nil {
-		expectedHttpStatusCode := *rules.ExpectedHttpStatusCode
-		result.ExpectedHttpStatusCode = &expectedHttpStatusCode
-	}
-
-	// Set property ‘IgnoreHttpsStatusCode’:
-	if rules.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
-		result.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	}
-
-	// Set property ‘SSLCertRemainingLifetimeCheck’:
-	if rules.SSLCertRemainingLifetimeCheck != nil {
-		sslCertRemainingLifetimeCheck := *rules.SSLCertRemainingLifetimeCheck
-		result.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
-	}
-
-	// Set property ‘SSLCheck’:
-	if rules.SSLCheck != nil {
-		sslCheck := *rules.SSLCheck
-		result.SSLCheck = &sslCheck
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rules *WebTestPropertiesValidationRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestPropertiesValidationRules_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rules *WebTestPropertiesValidationRules) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestPropertiesValidationRules_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestPropertiesValidationRules_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ContentValidation’:
-	if typedInput.ContentValidation != nil {
-		var contentValidation1 WebTestPropertiesValidationRulesContentValidation
-		err := contentValidation1.PopulateFromARM(owner, *typedInput.ContentValidation)
-		if err != nil {
-			return err
-		}
-		contentValidation := contentValidation1
-		rules.ContentValidation = &contentValidation
-	}
-
-	// Set property ‘ExpectedHttpStatusCode’:
-	if typedInput.ExpectedHttpStatusCode != nil {
-		expectedHttpStatusCode := *typedInput.ExpectedHttpStatusCode
-		rules.ExpectedHttpStatusCode = &expectedHttpStatusCode
-	}
-
-	// Set property ‘IgnoreHttpsStatusCode’:
-	if typedInput.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *typedInput.IgnoreHttpsStatusCode
-		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	}
-
-	// Set property ‘SSLCertRemainingLifetimeCheck’:
-	if typedInput.SSLCertRemainingLifetimeCheck != nil {
-		sslCertRemainingLifetimeCheck := *typedInput.SSLCertRemainingLifetimeCheck
-		rules.SSLCertRemainingLifetimeCheck = &sslCertRemainingLifetimeCheck
-	}
-
-	// Set property ‘SSLCheck’:
-	if typedInput.SSLCheck != nil {
-		sslCheck := *typedInput.SSLCheck
-		rules.SSLCheck = &sslCheck
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_WebTestPropertiesValidationRules populates our WebTestPropertiesValidationRules from the provided source WebTestPropertiesValidationRules
-func (rules *WebTestPropertiesValidationRules) AssignProperties_From_WebTestPropertiesValidationRules(source *v20180501ps.WebTestPropertiesValidationRules) error {
-
-	// ContentValidation
-	if source.ContentValidation != nil {
-		var contentValidation WebTestPropertiesValidationRulesContentValidation
-		err := contentValidation.AssignProperties_From_WebTestPropertiesValidationRulesContentValidation(source.ContentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
-		}
-		rules.ContentValidation = &contentValidation
-	} else {
-		rules.ContentValidation = nil
-	}
-
-	// ExpectedHttpStatusCode
-	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
-
-	// IgnoreHttpsStatusCode
-	if source.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
-		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	} else {
-		rules.IgnoreHttpsStatusCode = nil
-	}
-
-	// SSLCertRemainingLifetimeCheck
-	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
-
-	// SSLCheck
-	if source.SSLCheck != nil {
-		sslCheck := *source.SSLCheck
-		rules.SSLCheck = &sslCheck
-	} else {
-		rules.SSLCheck = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WebTestPropertiesValidationRules populates the provided destination WebTestPropertiesValidationRules from our WebTestPropertiesValidationRules
-func (rules *WebTestPropertiesValidationRules) AssignProperties_To_WebTestPropertiesValidationRules(destination *v20180501ps.WebTestPropertiesValidationRules) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ContentValidation
-	if rules.ContentValidation != nil {
-		var contentValidation v20180501ps.WebTestPropertiesValidationRulesContentValidation
-		err := rules.ContentValidation.AssignProperties_To_WebTestPropertiesValidationRulesContentValidation(&contentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
-		}
-		destination.ContentValidation = &contentValidation
-	} else {
-		destination.ContentValidation = nil
-	}
-
-	// ExpectedHttpStatusCode
-	destination.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(rules.ExpectedHttpStatusCode)
-
-	// IgnoreHttpsStatusCode
-	if rules.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *rules.IgnoreHttpsStatusCode
-		destination.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	} else {
-		destination.IgnoreHttpsStatusCode = nil
-	}
-
-	// SSLCertRemainingLifetimeCheck
-	destination.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(rules.SSLCertRemainingLifetimeCheck)
-
-	// SSLCheck
-	if rules.SSLCheck != nil {
-		sslCheck := *rules.SSLCheck
-		destination.SSLCheck = &sslCheck
-	} else {
-		destination.SSLCheck = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/HeaderField
 type HeaderField struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`
@@ -2748,6 +2748,142 @@ func (field *HeaderField_STATUS) AssignProperties_To_HeaderField_STATUS(destinat
 	return nil
 }
 
+type WebTestProperties_ValidationRules_ContentValidation struct {
+	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
+	ContentMatch *string `json:"ContentMatch,omitempty"`
+
+	// IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
+	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
+
+	// PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
+	// will fail if there is a match
+	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &WebTestProperties_ValidationRules_ContentValidation{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (validation *WebTestProperties_ValidationRules_ContentValidation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if validation == nil {
+		return nil, nil
+	}
+	result := &WebTestProperties_ValidationRules_ContentValidation_ARM{}
+
+	// Set property ‘ContentMatch’:
+	if validation.ContentMatch != nil {
+		contentMatch := *validation.ContentMatch
+		result.ContentMatch = &contentMatch
+	}
+
+	// Set property ‘IgnoreCase’:
+	if validation.IgnoreCase != nil {
+		ignoreCase := *validation.IgnoreCase
+		result.IgnoreCase = &ignoreCase
+	}
+
+	// Set property ‘PassIfTextFound’:
+	if validation.PassIfTextFound != nil {
+		passIfTextFound := *validation.PassIfTextFound
+		result.PassIfTextFound = &passIfTextFound
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (validation *WebTestProperties_ValidationRules_ContentValidation) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &WebTestProperties_ValidationRules_ContentValidation_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (validation *WebTestProperties_ValidationRules_ContentValidation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(WebTestProperties_ValidationRules_ContentValidation_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestProperties_ValidationRules_ContentValidation_ARM, got %T", armInput)
+	}
+
+	// Set property ‘ContentMatch’:
+	if typedInput.ContentMatch != nil {
+		contentMatch := *typedInput.ContentMatch
+		validation.ContentMatch = &contentMatch
+	}
+
+	// Set property ‘IgnoreCase’:
+	if typedInput.IgnoreCase != nil {
+		ignoreCase := *typedInput.IgnoreCase
+		validation.IgnoreCase = &ignoreCase
+	}
+
+	// Set property ‘PassIfTextFound’:
+	if typedInput.PassIfTextFound != nil {
+		passIfTextFound := *typedInput.PassIfTextFound
+		validation.PassIfTextFound = &passIfTextFound
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation populates our WebTestProperties_ValidationRules_ContentValidation from the provided source WebTestProperties_ValidationRules_ContentValidation
+func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(source *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error {
+
+	// ContentMatch
+	validation.ContentMatch = genruntime.ClonePointerToString(source.ContentMatch)
+
+	// IgnoreCase
+	if source.IgnoreCase != nil {
+		ignoreCase := *source.IgnoreCase
+		validation.IgnoreCase = &ignoreCase
+	} else {
+		validation.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if source.PassIfTextFound != nil {
+		passIfTextFound := *source.PassIfTextFound
+		validation.PassIfTextFound = &passIfTextFound
+	} else {
+		validation.PassIfTextFound = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation populates the provided destination WebTestProperties_ValidationRules_ContentValidation from our WebTestProperties_ValidationRules_ContentValidation
+func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(destination *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ContentMatch
+	destination.ContentMatch = genruntime.ClonePointerToString(validation.ContentMatch)
+
+	// IgnoreCase
+	if validation.IgnoreCase != nil {
+		ignoreCase := *validation.IgnoreCase
+		destination.IgnoreCase = &ignoreCase
+	} else {
+		destination.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if validation.PassIfTextFound != nil {
+		passIfTextFound := *validation.PassIfTextFound
+		destination.PassIfTextFound = &passIfTextFound
+	} else {
+		destination.PassIfTextFound = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
@@ -2824,143 +2960,6 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) As
 
 // AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS populates the provided destination WebTestProperties_ValidationRules_ContentValidation_STATUS from our WebTestProperties_ValidationRules_ContentValidation_STATUS
 func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(destination *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ContentMatch
-	destination.ContentMatch = genruntime.ClonePointerToString(validation.ContentMatch)
-
-	// IgnoreCase
-	if validation.IgnoreCase != nil {
-		ignoreCase := *validation.IgnoreCase
-		destination.IgnoreCase = &ignoreCase
-	} else {
-		destination.IgnoreCase = nil
-	}
-
-	// PassIfTextFound
-	if validation.PassIfTextFound != nil {
-		passIfTextFound := *validation.PassIfTextFound
-		destination.PassIfTextFound = &passIfTextFound
-	} else {
-		destination.PassIfTextFound = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2018-05-01-preview/Microsoft.Insights.Application.json#/definitions/WebTestPropertiesValidationRulesContentValidation
-type WebTestPropertiesValidationRulesContentValidation struct {
-	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
-	ContentMatch *string `json:"ContentMatch,omitempty"`
-
-	// IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
-	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
-
-	// PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-	// will fail if there is a match
-	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &WebTestPropertiesValidationRulesContentValidation{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (validation *WebTestPropertiesValidationRulesContentValidation) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if validation == nil {
-		return nil, nil
-	}
-	result := &WebTestPropertiesValidationRulesContentValidation_ARM{}
-
-	// Set property ‘ContentMatch’:
-	if validation.ContentMatch != nil {
-		contentMatch := *validation.ContentMatch
-		result.ContentMatch = &contentMatch
-	}
-
-	// Set property ‘IgnoreCase’:
-	if validation.IgnoreCase != nil {
-		ignoreCase := *validation.IgnoreCase
-		result.IgnoreCase = &ignoreCase
-	}
-
-	// Set property ‘PassIfTextFound’:
-	if validation.PassIfTextFound != nil {
-		passIfTextFound := *validation.PassIfTextFound
-		result.PassIfTextFound = &passIfTextFound
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (validation *WebTestPropertiesValidationRulesContentValidation) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &WebTestPropertiesValidationRulesContentValidation_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (validation *WebTestPropertiesValidationRulesContentValidation) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(WebTestPropertiesValidationRulesContentValidation_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WebTestPropertiesValidationRulesContentValidation_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ContentMatch’:
-	if typedInput.ContentMatch != nil {
-		contentMatch := *typedInput.ContentMatch
-		validation.ContentMatch = &contentMatch
-	}
-
-	// Set property ‘IgnoreCase’:
-	if typedInput.IgnoreCase != nil {
-		ignoreCase := *typedInput.IgnoreCase
-		validation.IgnoreCase = &ignoreCase
-	}
-
-	// Set property ‘PassIfTextFound’:
-	if typedInput.PassIfTextFound != nil {
-		passIfTextFound := *typedInput.PassIfTextFound
-		validation.PassIfTextFound = &passIfTextFound
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_WebTestPropertiesValidationRulesContentValidation populates our WebTestPropertiesValidationRulesContentValidation from the provided source WebTestPropertiesValidationRulesContentValidation
-func (validation *WebTestPropertiesValidationRulesContentValidation) AssignProperties_From_WebTestPropertiesValidationRulesContentValidation(source *v20180501ps.WebTestPropertiesValidationRulesContentValidation) error {
-
-	// ContentMatch
-	validation.ContentMatch = genruntime.ClonePointerToString(source.ContentMatch)
-
-	// IgnoreCase
-	if source.IgnoreCase != nil {
-		ignoreCase := *source.IgnoreCase
-		validation.IgnoreCase = &ignoreCase
-	} else {
-		validation.IgnoreCase = nil
-	}
-
-	// PassIfTextFound
-	if source.PassIfTextFound != nil {
-		passIfTextFound := *source.PassIfTextFound
-		validation.PassIfTextFound = &passIfTextFound
-	} else {
-		validation.PassIfTextFound = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WebTestPropertiesValidationRulesContentValidation populates the provided destination WebTestPropertiesValidationRulesContentValidation from our WebTestPropertiesValidationRulesContentValidation
-func (validation *WebTestPropertiesValidationRulesContentValidation) AssignProperties_To_WebTestPropertiesValidationRulesContentValidation(destination *v20180501ps.WebTestPropertiesValidationRulesContentValidation) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -9,7 +9,7 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101
 │   │   ├── AzureName: Validated<string> (3 rules)
 │   │   │   ├── Rule 0: MaxLength: 24
 │   │   │   ├── Rule 1: MinLength: 3
-│   │   │   └── Rule 2: Pattern: "^[a-zA-Z0-9]+$"
+│   │   │   └── Rule 2: Pattern: "^[a-z0-9]+$"
 │   │   ├── Encryption: *Object (2 properties)
 │   │   │   ├── KeySource: *Enum (2 values)
 │   │   │   │   ├── "Microsoft.Batch"
@@ -72,25 +72,8 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101
 │       │   ├── "BatchService"
 │       │   └── "UserSubscription"
 │       ├── PoolQuota: *int
-│       ├── PrivateEndpointConnections: Object (7 properties)[]
-│       │   ├── Etag: *string
-│       │   ├── Id: *string
-│       │   ├── Name: *string
-│       │   ├── PrivateEndpoint: *Object (1 property)
-│       │   │   └── Id: *string
-│       │   ├── PrivateLinkServiceConnectionState: *Object (3 properties)
-│       │   │   ├── ActionRequired: *string
-│       │   │   ├── Description: *string
-│       │   │   └── Status: *Enum (4 values)
-│       │   │       ├── "Approved"
-│       │   │       ├── "Disconnected"
-│       │   │       ├── "Pending"
-│       │   │       └── "Rejected"
-│       │   ├── ProvisioningState: *Enum (3 values)
-│       │   │   ├── "Failed"
-│       │   │   ├── "Succeeded"
-│       │   │   └── "Updating"
-│       │   └── Type: *string
+│       ├── PrivateEndpointConnections: Object (1 property)[]
+│       │   └── Id: *string
 │       ├── ProvisioningState: *Enum (6 values)
 │       │   ├── "Cancelled"
 │       │   ├── "Creating"
@@ -142,26 +125,8 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101
 │   │   │   ├── "BatchService"
 │   │   │   └── "UserSubscription"
 │   │   ├── PoolQuota: *int
-│   │   ├── PrivateEndpointConnections: Object (5 properties)[]
-│   │   │   ├── Etag: *string
-│   │   │   ├── Id: *string
-│   │   │   ├── Name: *string
-│   │   │   ├── Properties: *Object (3 properties)
-│   │   │   │   ├── PrivateEndpoint: *Object (1 property)
-│   │   │   │   │   └── Id: *string
-│   │   │   │   ├── PrivateLinkServiceConnectionState: *Object (3 properties)
-│   │   │   │   │   ├── ActionRequired: *string
-│   │   │   │   │   ├── Description: *string
-│   │   │   │   │   └── Status: *Enum (4 values)
-│   │   │   │   │       ├── "Approved"
-│   │   │   │   │       ├── "Disconnected"
-│   │   │   │   │       ├── "Pending"
-│   │   │   │   │       └── "Rejected"
-│   │   │   │   └── ProvisioningState: *Enum (3 values)
-│   │   │   │       ├── "Failed"
-│   │   │   │       ├── "Succeeded"
-│   │   │   │       └── "Updating"
-│   │   │   └── Type: *string
+│   │   ├── PrivateEndpointConnections: Object (1 property)[]
+│   │   │   └── Id: *string
 │   │   ├── ProvisioningState: *Enum (6 values)
 │   │   │   ├── "Cancelled"
 │   │   │   ├── "Creating"

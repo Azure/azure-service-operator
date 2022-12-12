@@ -1510,7 +1510,7 @@ interactions:
     code: 429
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"samplerule","properties":{"access":"Allow","description":"Allow
+    body: '{"name":"samplerule","properties":{"access":"Allow","description":"Allow
       access to source port 23-45 and destination port 45-56","destinationAddressPrefix":"*","destinationPortRange":"46-56","direction":"Inbound","priority":123,"protocol":"Tcp","sourceAddressPrefix":"*","sourcePortRange":"23-45"}}'
     form: {}
     headers:

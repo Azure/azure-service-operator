@@ -330,7 +330,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -371,7 +371,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -412,7 +412,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -453,7 +453,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -494,7 +494,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"fe37d5cb-8562-4f9f-a884-3eab6f541d46","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -624,7 +624,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"f31621aa-ea2d-4352-8648-dcf69feae3bb","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"d8026a10-d501-48c0-a422-1b39bcecf3bb","properties":{"principalId":"f31621aa-ea2d-4352-8648-dcf69feae3bb","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:

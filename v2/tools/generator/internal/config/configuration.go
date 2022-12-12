@@ -29,10 +29,8 @@ const (
 
 // Configuration is used to control which types get generated
 type Configuration struct {
-	// Base URL for the JSON schema to generate
-	SchemaURLs []string `yaml:"schemaUrls"`
-	// Part of the schema URL to rewrite, allows repointing to local files
-	SchemaURLRewrite *RewriteRule `yaml:"schemaUrlRewrite"`
+	// Where to load Swagger schemas from
+	SchemaRoot string `yaml:"schemaRoot"`
 	// Information about where to locate status (Swagger) files
 	Status StatusConfiguration `yaml:"status"`
 	// The pipeline that should be used for code generation
@@ -209,20 +207,20 @@ func (config *Configuration) VerifyIsSecretConsumed() error {
 	return config.ObjectModelConfiguration.VerifyIsSecretConsumed()
 }
 
-// IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
+// ResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
 // by the parent resource.
-func (config *Configuration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	return config.ObjectModelConfiguration.IsResourceLifecycleOwnedByParent(name, property)
+func (config *Configuration) ResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
+	return config.ObjectModelConfiguration.ResourceLifecycleOwnedByParent(name, property)
 }
 
-// MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
-func (config *Configuration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
-	return config.ObjectModelConfiguration.MarkIsResourceLifecycleOwnedByParentUnconsumed()
+// MarkResourceLifecycleOwnedByParentUnconsumed marks all ResourceLifecycleOwnedByParent as unconsumed
+func (config *Configuration) MarkResourceLifecycleOwnedByParentUnconsumed() error {
+	return config.ObjectModelConfiguration.MarkResourceLifecycleOwnedByParentUnconsumed()
 }
 
-// VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent flag is not consumed
-func (config *Configuration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
-	return config.ObjectModelConfiguration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+// VerifyResourceLifecycleOwnedByParentConsumed returns an error if any ResourceLifecycleOwnedByParent flag is not consumed
+func (config *Configuration) VerifyResourceLifecycleOwnedByParentConsumed() error {
+	return config.ObjectModelConfiguration.VerifyResourceLifecycleOwnedByParentConsumed()
 }
 
 // ImportConfigMapMode looks up a property to determine its import configMap mode.
@@ -238,8 +236,8 @@ func (config *Configuration) VerifyImportConfigMapModeConsumed() error {
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
-	if len(config.SchemaURLs) == 0 {
-		return errors.New("SchemaURLs missing")
+	if config.SchemaRoot == "" {
+		return errors.New("SchemaRoot missing")
 	}
 
 	absConfigLocation, err := filepath.Abs(configPath)
@@ -249,34 +247,8 @@ func (config *Configuration) initialize(configPath string) error {
 
 	configDirectory := filepath.Dir(absConfigLocation)
 
-	configDirectoryURL := absDirectoryPathToURL(configDirectory)
-
-	// resolve URLs relative to config directory (if needed)
-	resolvedURLs := make([]string, 0, len(config.SchemaURLs))
-	for _, schemaURLStr := range config.SchemaURLs {
-		var schemaURL *url.URL
-		schemaURL, err = url.Parse(schemaURLStr)
-		if err != nil {
-			return errors.Wrapf(err, "SchemaURL invalid")
-		}
-		resolvedURLs = append(resolvedURLs, configDirectoryURL.ResolveReference(schemaURL).String())
-	}
-	config.SchemaURLs = resolvedURLs
-
-	if config.SchemaURLRewrite != nil {
-		rewrite := config.SchemaURLRewrite
-
-		var toURL *url.URL
-		toURL, err = url.Parse(rewrite.To)
-		if err != nil {
-			return errors.Wrapf(err, "unable to parse rewriteSchemaUrl.to as URL")
-		}
-
-		rewrite.To = configDirectoryURL.ResolveReference(toURL).String()
-	}
-
-	// resolve Status.SchemaRoot relative to config file directory
-	config.Status.SchemaRoot = filepath.Join(configDirectory, config.Status.SchemaRoot)
+	// resolve SchemaRoot relative to config file directory
+	config.SchemaRoot = filepath.Join(configDirectory, config.SchemaRoot)
 
 	if config.TypesOutputPath == "" {
 		// Default to an apis folder if not specified
@@ -431,9 +403,6 @@ func getModulePathFromModFile(modFilePath string) (string, error) {
 // status parts of resources, which are generated from the
 // Azure Swagger specs.
 type StatusConfiguration struct {
-	// The root URL of the status (Swagger) files (relative to this file)
-	SchemaRoot string `yaml:"schemaRoot"`
-
 	// Custom per-group configuration
 	Overrides []SchemaOverride `yaml:"overrides"`
 }

@@ -25,14 +25,14 @@ func Test_FuzzySetSubnets(t *testing.T) {
 
 	vnet := &network.VirtualNetwork_Spec_ARM{
 		Location: to.StringPtr("westus"),
-		Properties: &network.VirtualNetwork_Properties_Spec_ARM{
+		Properties: &network.VirtualNetworkPropertiesFormat_ARM{
 			EnableDdosProtection: to.BoolPtr(true),
 		},
 	}
 
 	subnet := &network.VirtualNetworks_Subnet_Spec_ARM{
 		Name: "mysubnet",
-		Properties: &network.VirtualNetworks_Subnet_Properties_Spec_ARM{
+		Properties: &network.SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM{
 			AddressPrefix: to.StringPtr("1.2.3.4"),
 			NatGateway: &network.SubResource_ARM{
 				Id: to.StringPtr("/this/is/a/test"),
@@ -57,20 +57,21 @@ func Test_FuzzySetSubnets(t *testing.T) {
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(network.VirtualNetwork_Properties_Subnets_Spec_ARM{})
+	embeddedType := reflect.TypeOf(network.Subnet_VirtualNetwork_SubResourceEmbedded_ARM{})
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(subnet *network.VirtualNetworks_Subnet_Spec_ARM) bool {
+			func(subnet *network.VirtualNetworks_Subnet_Spec_ARM) (bool, error) {
 				val := reflect.New(embeddedType)
 				err := fuzzySetSubnet(subnet, val)
 
 				// This ensures that the self-check that fuzzySetSubnet does did not fail
-				return err == nil
+				return err == nil, err
 			}))
 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+
 }

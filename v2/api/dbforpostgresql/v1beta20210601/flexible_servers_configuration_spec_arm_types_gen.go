@@ -6,17 +6,10 @@ package v1beta20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServers_Configuration_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the server configuration.
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration.
 	Properties *ConfigurationProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServers_Configuration_Spec_ARM{}
@@ -36,7 +29,6 @@ func (configuration *FlexibleServers_Configuration_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ConfigurationProperties
 type ConfigurationProperties_ARM struct {
 	// Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`

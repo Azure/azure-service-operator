@@ -163,7 +163,7 @@ func MongodbDatabaseCollectionThroughputSettingGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_SpecGenerator()
-	gens["Status"] = ThroughputSettingsGetResults_STATUSGenerator()
+	gens["Status"] = DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator()
 }
 
 func Test_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -284,32 +284,32 @@ func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collection
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }
 
-func Test_ThroughputSettingsGetResults_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ThroughputSettingsGetResults_STATUS to ThroughputSettingsGetResults_STATUS via AssignProperties_To_ThroughputSettingsGetResults_STATUS & AssignProperties_From_ThroughputSettingsGetResults_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForThroughputSettingsGetResults_STATUS, ThroughputSettingsGetResults_STATUSGenerator()))
+		"Round trip from DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS to DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS via AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS & AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS, DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForThroughputSettingsGetResults_STATUS tests if a specific instance of ThroughputSettingsGetResults_STATUS can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForThroughputSettingsGetResults_STATUS(subject ThroughputSettingsGetResults_STATUS) string {
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(subject DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210515s.ThroughputSettingsGetResults_STATUS
-	err := copied.AssignProperties_To_ThroughputSettingsGetResults_STATUS(&other)
+	var other alpha20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ThroughputSettingsGetResults_STATUS
-	err = actual.AssignProperties_From_ThroughputSettingsGetResults_STATUS(&other)
+	var actual DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -326,20 +326,20 @@ func RunPropertyAssignmentTestForThroughputSettingsGetResults_STATUS(subject Thr
 	return ""
 }
 
-func Test_ThroughputSettingsGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ThroughputSettingsGetResults_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForThroughputSettingsGetResults_STATUS, ThroughputSettingsGetResults_STATUSGenerator()))
+		"Round trip of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS, DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForThroughputSettingsGetResults_STATUS runs a test to see if a specific instance of ThroughputSettingsGetResults_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForThroughputSettingsGetResults_STATUS(subject ThroughputSettingsGetResults_STATUS) string {
+// RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS runs a test to see if a specific instance of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(subject DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -347,7 +347,7 @@ func RunJSONSerializationTestForThroughputSettingsGetResults_STATUS(subject Thro
 	}
 
 	// Deserialize back into memory
-	var actual ThroughputSettingsGetResults_STATUS
+	var actual DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -365,34 +365,34 @@ func RunJSONSerializationTestForThroughputSettingsGetResults_STATUS(subject Thro
 	return ""
 }
 
-// Generator of ThroughputSettingsGetResults_STATUS instances for property testing - lazily instantiated by
-// ThroughputSettingsGetResults_STATUSGenerator()
-var throughputSettingsGetResults_STATUSGenerator gopter.Gen
+// Generator of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS instances for property testing -
+// lazily instantiated by DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator()
+var databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator gopter.Gen
 
-// ThroughputSettingsGetResults_STATUSGenerator returns a generator of ThroughputSettingsGetResults_STATUS instances for property testing.
-// We first initialize throughputSettingsGetResults_STATUSGenerator with a simplified generator based on the
+// DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator returns a generator of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS instances for property testing.
+// We first initialize databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ThroughputSettingsGetResults_STATUSGenerator() gopter.Gen {
-	if throughputSettingsGetResults_STATUSGenerator != nil {
-		return throughputSettingsGetResults_STATUSGenerator
+func DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator() gopter.Gen {
+	if databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator != nil {
+		return databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsGetResults_STATUS(generators)
-	throughputSettingsGetResults_STATUSGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetResults_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(generators)
+	databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForThroughputSettingsGetResults_STATUS(generators)
-	AddRelatedPropertyGeneratorsForThroughputSettingsGetResults_STATUS(generators)
-	throughputSettingsGetResults_STATUSGenerator = gen.Struct(reflect.TypeOf(ThroughputSettingsGetResults_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(generators)
+	databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}), generators)
 
-	return throughputSettingsGetResults_STATUSGenerator
+	return databaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForThroughputSettingsGetResults_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForThroughputSettingsGetResults_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -400,8 +400,8 @@ func AddIndependentPropertyGeneratorsForThroughputSettingsGetResults_STATUS(gens
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForThroughputSettingsGetResults_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForThroughputSettingsGetResults_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsGetProperties_Resource_STATUSGenerator())
 }
 

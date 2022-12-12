@@ -170,8 +170,8 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_ARM(gens map[string]
 		WorkspaceProperties_ProvisioningState_ProvisioningAccount,
 		WorkspaceProperties_ProvisioningState_Succeeded,
 		WorkspaceProperties_ProvisioningState_Updating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccessForIngestion_Disabled, WorkspaceProperties_PublicNetworkAccessForIngestion_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccessForQuery_Disabled, WorkspaceProperties_PublicNetworkAccessForQuery_Enabled))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -365,7 +365,15 @@ func WorkspaceSku_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspaceSku_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSku_ARM(gens map[string]gopter.Gen) {
-	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
+	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
+		WorkspaceSku_CapacityReservationLevel_100,
+		WorkspaceSku_CapacityReservationLevel_1000,
+		WorkspaceSku_CapacityReservationLevel_200,
+		WorkspaceSku_CapacityReservationLevel_2000,
+		WorkspaceSku_CapacityReservationLevel_300,
+		WorkspaceSku_CapacityReservationLevel_400,
+		WorkspaceSku_CapacityReservationLevel_500,
+		WorkspaceSku_CapacityReservationLevel_5000))
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		WorkspaceSku_Name_CapacityReservation,
 		WorkspaceSku_Name_Free,

@@ -370,7 +370,7 @@ func (in *DiskProperties_ARM) DeepCopyInto(out *DiskProperties_ARM) {
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(DiskProperties_NetworkAccessPolicy)
+		*out = new(NetworkAccessPolicy)
 		**out = **in
 	}
 	if in.OsType != nil {
@@ -950,7 +950,7 @@ func (in *Disk_Spec) DeepCopyInto(out *Disk_Spec) {
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(DiskProperties_NetworkAccessPolicy)
+		*out = new(NetworkAccessPolicy)
 		**out = **in
 	}
 	if in.OsType != nil {
@@ -1059,7 +1059,7 @@ func (in *Encryption) DeepCopyInto(out *Encryption) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Encryption_Type)
+		*out = new(EncryptionType)
 		**out = **in
 	}
 }
@@ -1312,7 +1312,7 @@ func (in *Encryption_ARM) DeepCopyInto(out *Encryption_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(Encryption_Type)
+		*out = new(EncryptionType)
 		**out = **in
 	}
 }
@@ -1387,7 +1387,7 @@ func (in *ExtendedLocation) DeepCopyInto(out *ExtendedLocation) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocation_Type)
+		*out = new(ExtendedLocationType)
 		**out = **in
 	}
 }
@@ -1412,7 +1412,7 @@ func (in *ExtendedLocation_ARM) DeepCopyInto(out *ExtendedLocation_ARM) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ExtendedLocation_Type)
+		*out = new(ExtendedLocationType)
 		**out = **in
 	}
 }
@@ -2036,7 +2036,7 @@ func (in *SnapshotProperties_ARM) DeepCopyInto(out *SnapshotProperties_ARM) {
 	}
 	if in.DiskState != nil {
 		in, out := &in.DiskState, &out.DiskState
-		*out = new(SnapshotProperties_DiskState)
+		*out = new(DiskState)
 		**out = **in
 	}
 	if in.Encryption != nil {
@@ -2061,7 +2061,7 @@ func (in *SnapshotProperties_ARM) DeepCopyInto(out *SnapshotProperties_ARM) {
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(SnapshotProperties_NetworkAccessPolicy)
+		*out = new(NetworkAccessPolicy)
 		**out = **in
 	}
 	if in.OsType != nil {
@@ -2487,7 +2487,7 @@ func (in *Snapshot_Spec) DeepCopyInto(out *Snapshot_Spec) {
 	}
 	if in.DiskState != nil {
 		in, out := &in.DiskState, &out.DiskState
-		*out = new(SnapshotProperties_DiskState)
+		*out = new(DiskState)
 		**out = **in
 	}
 	if in.Encryption != nil {
@@ -2522,7 +2522,7 @@ func (in *Snapshot_Spec) DeepCopyInto(out *Snapshot_Spec) {
 	}
 	if in.NetworkAccessPolicy != nil {
 		in, out := &in.NetworkAccessPolicy, &out.NetworkAccessPolicy
-		*out = new(SnapshotProperties_NetworkAccessPolicy)
+		*out = new(NetworkAccessPolicy)
 		**out = **in
 	}
 	if in.OsType != nil {

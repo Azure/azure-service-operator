@@ -162,7 +162,7 @@ func NamespacesTopicsSubscriptionsRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Topics_Subscriptions_Rule_SpecGenerator()
-	gens["Status"] = Rule_STATUSGenerator()
+	gens["Status"] = Namespaces_Topics_Subscriptions_Rule_STATUSGenerator()
 }
 
 func Test_Namespaces_Topics_Subscriptions_Rule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -275,9 +275,7 @@ func Namespaces_Topics_Subscriptions_Rule_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(Ruleproperties_FilterType_CorrelationFilter, Ruleproperties_FilterType_SqlFilter))
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(FilterType_CorrelationFilter, FilterType_SqlFilter))
 }
 
 // AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec is a factory method for creating gopter generators
@@ -287,32 +285,32 @@ func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec(ge
 	gens["SqlFilter"] = gen.PtrOf(SqlFilterGenerator())
 }
 
-func Test_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Namespaces_Topics_Subscriptions_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Rule_STATUS to Rule_STATUS via AssignProperties_To_Rule_STATUS & AssignProperties_From_Rule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRule_STATUS, Rule_STATUSGenerator()))
+		"Round trip from Namespaces_Topics_Subscriptions_Rule_STATUS to Namespaces_Topics_Subscriptions_Rule_STATUS via AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS & AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS, Namespaces_Topics_Subscriptions_Rule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRule_STATUS tests if a specific instance of Rule_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForRule_STATUS(subject Rule_STATUS) string {
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS tests if a specific instance of Namespaces_Topics_Subscriptions_Rule_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS(subject Namespaces_Topics_Subscriptions_Rule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.Rule_STATUS
-	err := copied.AssignProperties_To_Rule_STATUS(&other)
+	var other v20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
+	err := copied.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Rule_STATUS
-	err = actual.AssignProperties_From_Rule_STATUS(&other)
+	var actual Namespaces_Topics_Subscriptions_Rule_STATUS
+	err = actual.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -329,20 +327,20 @@ func RunPropertyAssignmentTestForRule_STATUS(subject Rule_STATUS) string {
 	return ""
 }
 
-func Test_Rule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Topics_Subscriptions_Rule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Rule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRule_STATUS, Rule_STATUSGenerator()))
+		"Round trip of Namespaces_Topics_Subscriptions_Rule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_STATUS, Namespaces_Topics_Subscriptions_Rule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRule_STATUS runs a test to see if a specific instance of Rule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForRule_STATUS(subject Rule_STATUS) string {
+// RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_STATUS runs a test to see if a specific instance of Namespaces_Topics_Subscriptions_Rule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topics_Subscriptions_Rule_STATUS(subject Namespaces_Topics_Subscriptions_Rule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -350,7 +348,7 @@ func RunJSONSerializationTestForRule_STATUS(subject Rule_STATUS) string {
 	}
 
 	// Deserialize back into memory
-	var actual Rule_STATUS
+	var actual Namespaces_Topics_Subscriptions_Rule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -368,41 +366,42 @@ func RunJSONSerializationTestForRule_STATUS(subject Rule_STATUS) string {
 	return ""
 }
 
-// Generator of Rule_STATUS instances for property testing - lazily instantiated by Rule_STATUSGenerator()
-var rule_STATUSGenerator gopter.Gen
+// Generator of Namespaces_Topics_Subscriptions_Rule_STATUS instances for property testing - lazily instantiated by
+// Namespaces_Topics_Subscriptions_Rule_STATUSGenerator()
+var namespaces_Topics_Subscriptions_Rule_STATUSGenerator gopter.Gen
 
-// Rule_STATUSGenerator returns a generator of Rule_STATUS instances for property testing.
-// We first initialize rule_STATUSGenerator with a simplified generator based on the
+// Namespaces_Topics_Subscriptions_Rule_STATUSGenerator returns a generator of Namespaces_Topics_Subscriptions_Rule_STATUS instances for property testing.
+// We first initialize namespaces_Topics_Subscriptions_Rule_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Rule_STATUSGenerator() gopter.Gen {
-	if rule_STATUSGenerator != nil {
-		return rule_STATUSGenerator
+func Namespaces_Topics_Subscriptions_Rule_STATUSGenerator() gopter.Gen {
+	if namespaces_Topics_Subscriptions_Rule_STATUSGenerator != nil {
+		return namespaces_Topics_Subscriptions_Rule_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRule_STATUS(generators)
-	rule_STATUSGenerator = gen.Struct(reflect.TypeOf(Rule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS(generators)
+	namespaces_Topics_Subscriptions_Rule_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscriptions_Rule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForRule_STATUS(generators)
-	rule_STATUSGenerator = gen.Struct(reflect.TypeOf(Rule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS(generators)
+	namespaces_Topics_Subscriptions_Rule_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscriptions_Rule_STATUS{}), generators)
 
-	return rule_STATUSGenerator
+	return namespaces_Topics_Subscriptions_Rule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRule_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS(gens map[string]gopter.Gen) {
 	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(FilterType_STATUS_CorrelationFilter, FilterType_STATUS_SqlFilter))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRule_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(Action_STATUSGenerator())
 	gens["CorrelationFilter"] = gen.PtrOf(CorrelationFilter_STATUSGenerator())
 	gens["SqlFilter"] = gen.PtrOf(SqlFilter_STATUSGenerator())

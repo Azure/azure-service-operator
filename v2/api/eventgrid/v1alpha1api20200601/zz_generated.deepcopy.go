@@ -21,62 +21,62 @@ func (in *AdvancedFilter) DeepCopyInto(out *AdvancedFilter) {
 	*out = *in
 	if in.BoolEquals != nil {
 		in, out := &in.BoolEquals, &out.BoolEquals
-		*out = new(AdvancedFilter_BoolEquals)
+		*out = new(BoolEqualsAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberGreaterThan != nil {
 		in, out := &in.NumberGreaterThan, &out.NumberGreaterThan
-		*out = new(AdvancedFilter_NumberGreaterThan)
+		*out = new(NumberGreaterThanAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberGreaterThanOrEquals != nil {
 		in, out := &in.NumberGreaterThanOrEquals, &out.NumberGreaterThanOrEquals
-		*out = new(AdvancedFilter_NumberGreaterThanOrEquals)
+		*out = new(NumberGreaterThanOrEqualsAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberIn != nil {
 		in, out := &in.NumberIn, &out.NumberIn
-		*out = new(AdvancedFilter_NumberIn)
+		*out = new(NumberInAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberLessThan != nil {
 		in, out := &in.NumberLessThan, &out.NumberLessThan
-		*out = new(AdvancedFilter_NumberLessThan)
+		*out = new(NumberLessThanAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberLessThanOrEquals != nil {
 		in, out := &in.NumberLessThanOrEquals, &out.NumberLessThanOrEquals
-		*out = new(AdvancedFilter_NumberLessThanOrEquals)
+		*out = new(NumberLessThanOrEqualsAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberNotIn != nil {
 		in, out := &in.NumberNotIn, &out.NumberNotIn
-		*out = new(AdvancedFilter_NumberNotIn)
+		*out = new(NumberNotInAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringBeginsWith != nil {
 		in, out := &in.StringBeginsWith, &out.StringBeginsWith
-		*out = new(AdvancedFilter_StringBeginsWith)
+		*out = new(StringBeginsWithAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringContains != nil {
 		in, out := &in.StringContains, &out.StringContains
-		*out = new(AdvancedFilter_StringContains)
+		*out = new(StringContainsAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringEndsWith != nil {
 		in, out := &in.StringEndsWith, &out.StringEndsWith
-		*out = new(AdvancedFilter_StringEndsWith)
+		*out = new(StringEndsWithAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringIn != nil {
 		in, out := &in.StringIn, &out.StringIn
-		*out = new(AdvancedFilter_StringIn)
+		*out = new(StringInAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringNotIn != nil {
 		in, out := &in.StringNotIn, &out.StringNotIn
-		*out = new(AdvancedFilter_StringNotIn)
+		*out = new(StringNotInAdvancedFilter)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -96,62 +96,62 @@ func (in *AdvancedFilter_ARM) DeepCopyInto(out *AdvancedFilter_ARM) {
 	*out = *in
 	if in.BoolEquals != nil {
 		in, out := &in.BoolEquals, &out.BoolEquals
-		*out = new(AdvancedFilter_BoolEquals_ARM)
+		*out = new(BoolEqualsAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberGreaterThan != nil {
 		in, out := &in.NumberGreaterThan, &out.NumberGreaterThan
-		*out = new(AdvancedFilter_NumberGreaterThan_ARM)
+		*out = new(NumberGreaterThanAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberGreaterThanOrEquals != nil {
 		in, out := &in.NumberGreaterThanOrEquals, &out.NumberGreaterThanOrEquals
-		*out = new(AdvancedFilter_NumberGreaterThanOrEquals_ARM)
+		*out = new(NumberGreaterThanOrEqualsAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberIn != nil {
 		in, out := &in.NumberIn, &out.NumberIn
-		*out = new(AdvancedFilter_NumberIn_ARM)
+		*out = new(NumberInAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberLessThan != nil {
 		in, out := &in.NumberLessThan, &out.NumberLessThan
-		*out = new(AdvancedFilter_NumberLessThan_ARM)
+		*out = new(NumberLessThanAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberLessThanOrEquals != nil {
 		in, out := &in.NumberLessThanOrEquals, &out.NumberLessThanOrEquals
-		*out = new(AdvancedFilter_NumberLessThanOrEquals_ARM)
+		*out = new(NumberLessThanOrEqualsAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.NumberNotIn != nil {
 		in, out := &in.NumberNotIn, &out.NumberNotIn
-		*out = new(AdvancedFilter_NumberNotIn_ARM)
+		*out = new(NumberNotInAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringBeginsWith != nil {
 		in, out := &in.StringBeginsWith, &out.StringBeginsWith
-		*out = new(AdvancedFilter_StringBeginsWith_ARM)
+		*out = new(StringBeginsWithAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringContains != nil {
 		in, out := &in.StringContains, &out.StringContains
-		*out = new(AdvancedFilter_StringContains_ARM)
+		*out = new(StringContainsAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringEndsWith != nil {
 		in, out := &in.StringEndsWith, &out.StringEndsWith
-		*out = new(AdvancedFilter_StringEndsWith_ARM)
+		*out = new(StringEndsWithAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringIn != nil {
 		in, out := &in.StringIn, &out.StringIn
-		*out = new(AdvancedFilter_StringIn_ARM)
+		*out = new(StringInAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.StringNotIn != nil {
 		in, out := &in.StringNotIn, &out.StringNotIn
-		*out = new(AdvancedFilter_StringNotIn_ARM)
+		*out = new(StringNotInAdvancedFilter_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 }
@@ -167,402 +167,67 @@ func (in *AdvancedFilter_ARM) DeepCopy() *AdvancedFilter_ARM {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_BoolEquals) DeepCopyInto(out *AdvancedFilter_BoolEquals) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_BoolEquals_OperatorType)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(bool)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_BoolEquals.
-func (in *AdvancedFilter_BoolEquals) DeepCopy() *AdvancedFilter_BoolEquals {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_BoolEquals)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_BoolEquals_ARM) DeepCopyInto(out *AdvancedFilter_BoolEquals_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(bool)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_BoolEquals_ARM.
-func (in *AdvancedFilter_BoolEquals_ARM) DeepCopy() *AdvancedFilter_BoolEquals_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_BoolEquals_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberGreaterThan) DeepCopyInto(out *AdvancedFilter_NumberGreaterThan) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_NumberGreaterThan_OperatorType)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberGreaterThan.
-func (in *AdvancedFilter_NumberGreaterThan) DeepCopy() *AdvancedFilter_NumberGreaterThan {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberGreaterThan)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberGreaterThanOrEquals) DeepCopyInto(out *AdvancedFilter_NumberGreaterThanOrEquals) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_NumberGreaterThanOrEquals_OperatorType)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberGreaterThanOrEquals.
-func (in *AdvancedFilter_NumberGreaterThanOrEquals) DeepCopy() *AdvancedFilter_NumberGreaterThanOrEquals {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberGreaterThanOrEquals)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberGreaterThanOrEquals_ARM) DeepCopyInto(out *AdvancedFilter_NumberGreaterThanOrEquals_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberGreaterThanOrEquals_ARM.
-func (in *AdvancedFilter_NumberGreaterThanOrEquals_ARM) DeepCopy() *AdvancedFilter_NumberGreaterThanOrEquals_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberGreaterThanOrEquals_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberGreaterThan_ARM) DeepCopyInto(out *AdvancedFilter_NumberGreaterThan_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberGreaterThan_ARM.
-func (in *AdvancedFilter_NumberGreaterThan_ARM) DeepCopy() *AdvancedFilter_NumberGreaterThan_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberGreaterThan_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberIn) DeepCopyInto(out *AdvancedFilter_NumberIn) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_NumberIn_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]float64, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberIn.
-func (in *AdvancedFilter_NumberIn) DeepCopy() *AdvancedFilter_NumberIn {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberIn)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberIn_ARM) DeepCopyInto(out *AdvancedFilter_NumberIn_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]float64, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberIn_ARM.
-func (in *AdvancedFilter_NumberIn_ARM) DeepCopy() *AdvancedFilter_NumberIn_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberIn_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberLessThan) DeepCopyInto(out *AdvancedFilter_NumberLessThan) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_NumberLessThan_OperatorType)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberLessThan.
-func (in *AdvancedFilter_NumberLessThan) DeepCopy() *AdvancedFilter_NumberLessThan {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberLessThan)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberLessThanOrEquals) DeepCopyInto(out *AdvancedFilter_NumberLessThanOrEquals) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_NumberLessThanOrEquals_OperatorType)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberLessThanOrEquals.
-func (in *AdvancedFilter_NumberLessThanOrEquals) DeepCopy() *AdvancedFilter_NumberLessThanOrEquals {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberLessThanOrEquals)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberLessThanOrEquals_ARM) DeepCopyInto(out *AdvancedFilter_NumberLessThanOrEquals_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberLessThanOrEquals_ARM.
-func (in *AdvancedFilter_NumberLessThanOrEquals_ARM) DeepCopy() *AdvancedFilter_NumberLessThanOrEquals_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberLessThanOrEquals_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberLessThan_ARM) DeepCopyInto(out *AdvancedFilter_NumberLessThan_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Value != nil {
-		in, out := &in.Value, &out.Value
-		*out = new(float64)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberLessThan_ARM.
-func (in *AdvancedFilter_NumberLessThan_ARM) DeepCopy() *AdvancedFilter_NumberLessThan_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberLessThan_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberNotIn) DeepCopyInto(out *AdvancedFilter_NumberNotIn) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_NumberNotIn_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]float64, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberNotIn.
-func (in *AdvancedFilter_NumberNotIn) DeepCopy() *AdvancedFilter_NumberNotIn {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberNotIn)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_NumberNotIn_ARM) DeepCopyInto(out *AdvancedFilter_NumberNotIn_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]float64, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_NumberNotIn_ARM.
-func (in *AdvancedFilter_NumberNotIn_ARM) DeepCopy() *AdvancedFilter_NumberNotIn_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_NumberNotIn_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AdvancedFilter_STATUS) DeepCopyInto(out *AdvancedFilter_STATUS) {
 	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
+	if in.BoolEquals != nil {
+		in, out := &in.BoolEquals, &out.BoolEquals
+		*out = new(BoolEqualsAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_OperatorType_STATUS)
-		**out = **in
+	if in.NumberGreaterThan != nil {
+		in, out := &in.NumberGreaterThan, &out.NumberGreaterThan
+		*out = new(NumberGreaterThanAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberGreaterThanOrEquals != nil {
+		in, out := &in.NumberGreaterThanOrEquals, &out.NumberGreaterThanOrEquals
+		*out = new(NumberGreaterThanOrEqualsAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberIn != nil {
+		in, out := &in.NumberIn, &out.NumberIn
+		*out = new(NumberInAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberLessThan != nil {
+		in, out := &in.NumberLessThan, &out.NumberLessThan
+		*out = new(NumberLessThanAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberLessThanOrEquals != nil {
+		in, out := &in.NumberLessThanOrEquals, &out.NumberLessThanOrEquals
+		*out = new(NumberLessThanOrEqualsAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberNotIn != nil {
+		in, out := &in.NumberNotIn, &out.NumberNotIn
+		*out = new(NumberNotInAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringBeginsWith != nil {
+		in, out := &in.StringBeginsWith, &out.StringBeginsWith
+		*out = new(StringBeginsWithAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringContains != nil {
+		in, out := &in.StringContains, &out.StringContains
+		*out = new(StringContainsAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringEndsWith != nil {
+		in, out := &in.StringEndsWith, &out.StringEndsWith
+		*out = new(StringEndsWithAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringIn != nil {
+		in, out := &in.StringIn, &out.StringIn
+		*out = new(StringInAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringNotIn != nil {
+		in, out := &in.StringNotIn, &out.StringNotIn
+		*out = new(StringNotInAdvancedFilter_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -579,15 +244,65 @@ func (in *AdvancedFilter_STATUS) DeepCopy() *AdvancedFilter_STATUS {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AdvancedFilter_STATUS_ARM) DeepCopyInto(out *AdvancedFilter_STATUS_ARM) {
 	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
+	if in.BoolEquals != nil {
+		in, out := &in.BoolEquals, &out.BoolEquals
+		*out = new(BoolEqualsAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_OperatorType_STATUS)
-		**out = **in
+	if in.NumberGreaterThan != nil {
+		in, out := &in.NumberGreaterThan, &out.NumberGreaterThan
+		*out = new(NumberGreaterThanAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberGreaterThanOrEquals != nil {
+		in, out := &in.NumberGreaterThanOrEquals, &out.NumberGreaterThanOrEquals
+		*out = new(NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberIn != nil {
+		in, out := &in.NumberIn, &out.NumberIn
+		*out = new(NumberInAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberLessThan != nil {
+		in, out := &in.NumberLessThan, &out.NumberLessThan
+		*out = new(NumberLessThanAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberLessThanOrEquals != nil {
+		in, out := &in.NumberLessThanOrEquals, &out.NumberLessThanOrEquals
+		*out = new(NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NumberNotIn != nil {
+		in, out := &in.NumberNotIn, &out.NumberNotIn
+		*out = new(NumberNotInAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringBeginsWith != nil {
+		in, out := &in.StringBeginsWith, &out.StringBeginsWith
+		*out = new(StringBeginsWithAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringContains != nil {
+		in, out := &in.StringContains, &out.StringContains
+		*out = new(StringContainsAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringEndsWith != nil {
+		in, out := &in.StringEndsWith, &out.StringEndsWith
+		*out = new(StringEndsWithAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringIn != nil {
+		in, out := &in.StringIn, &out.StringIn
+		*out = new(StringInAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StringNotIn != nil {
+		in, out := &in.StringNotIn, &out.StringNotIn
+		*out = new(StringNotInAdvancedFilter_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -602,281 +317,6 @@ func (in *AdvancedFilter_STATUS_ARM) DeepCopy() *AdvancedFilter_STATUS_ARM {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringBeginsWith) DeepCopyInto(out *AdvancedFilter_StringBeginsWith) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_StringBeginsWith_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringBeginsWith.
-func (in *AdvancedFilter_StringBeginsWith) DeepCopy() *AdvancedFilter_StringBeginsWith {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringBeginsWith)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringBeginsWith_ARM) DeepCopyInto(out *AdvancedFilter_StringBeginsWith_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringBeginsWith_ARM.
-func (in *AdvancedFilter_StringBeginsWith_ARM) DeepCopy() *AdvancedFilter_StringBeginsWith_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringBeginsWith_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringContains) DeepCopyInto(out *AdvancedFilter_StringContains) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_StringContains_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringContains.
-func (in *AdvancedFilter_StringContains) DeepCopy() *AdvancedFilter_StringContains {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringContains)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringContains_ARM) DeepCopyInto(out *AdvancedFilter_StringContains_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringContains_ARM.
-func (in *AdvancedFilter_StringContains_ARM) DeepCopy() *AdvancedFilter_StringContains_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringContains_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringEndsWith) DeepCopyInto(out *AdvancedFilter_StringEndsWith) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_StringEndsWith_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringEndsWith.
-func (in *AdvancedFilter_StringEndsWith) DeepCopy() *AdvancedFilter_StringEndsWith {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringEndsWith)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringEndsWith_ARM) DeepCopyInto(out *AdvancedFilter_StringEndsWith_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringEndsWith_ARM.
-func (in *AdvancedFilter_StringEndsWith_ARM) DeepCopy() *AdvancedFilter_StringEndsWith_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringEndsWith_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringIn) DeepCopyInto(out *AdvancedFilter_StringIn) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_StringIn_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringIn.
-func (in *AdvancedFilter_StringIn) DeepCopy() *AdvancedFilter_StringIn {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringIn)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringIn_ARM) DeepCopyInto(out *AdvancedFilter_StringIn_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringIn_ARM.
-func (in *AdvancedFilter_StringIn_ARM) DeepCopy() *AdvancedFilter_StringIn_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringIn_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringNotIn) DeepCopyInto(out *AdvancedFilter_StringNotIn) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.OperatorType != nil {
-		in, out := &in.OperatorType, &out.OperatorType
-		*out = new(AdvancedFilter_StringNotIn_OperatorType)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringNotIn.
-func (in *AdvancedFilter_StringNotIn) DeepCopy() *AdvancedFilter_StringNotIn {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringNotIn)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AdvancedFilter_StringNotIn_ARM) DeepCopyInto(out *AdvancedFilter_StringNotIn_ARM) {
-	*out = *in
-	if in.Key != nil {
-		in, out := &in.Key, &out.Key
-		*out = new(string)
-		**out = **in
-	}
-	if in.Values != nil {
-		in, out := &in.Values, &out.Values
-		*out = make([]string, len(*in))
-		copy(*out, *in)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AdvancedFilter_StringNotIn_ARM.
-func (in *AdvancedFilter_StringNotIn_ARM) DeepCopy() *AdvancedFilter_StringNotIn_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(AdvancedFilter_StringNotIn_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AzureFunctionEventSubscriptionDestination) DeepCopyInto(out *AzureFunctionEventSubscriptionDestination) {
 	*out = *in
 	if in.EndpointType != nil {
@@ -884,26 +324,6 @@ func (in *AzureFunctionEventSubscriptionDestination) DeepCopyInto(out *AzureFunc
 		*out = new(AzureFunctionEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(AzureFunctionEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AzureFunctionEventSubscriptionDestination.
-func (in *AzureFunctionEventSubscriptionDestination) DeepCopy() *AzureFunctionEventSubscriptionDestination {
-	if in == nil {
-		return nil
-	}
-	out := new(AzureFunctionEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *AzureFunctionEventSubscriptionDestinationProperties) DeepCopyInto(out *AzureFunctionEventSubscriptionDestinationProperties) {
-	*out = *in
 	if in.MaxEventsPerBatch != nil {
 		in, out := &in.MaxEventsPerBatch, &out.MaxEventsPerBatch
 		*out = new(int)
@@ -921,12 +341,12 @@ func (in *AzureFunctionEventSubscriptionDestinationProperties) DeepCopyInto(out 
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AzureFunctionEventSubscriptionDestinationProperties.
-func (in *AzureFunctionEventSubscriptionDestinationProperties) DeepCopy() *AzureFunctionEventSubscriptionDestinationProperties {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AzureFunctionEventSubscriptionDestination.
+func (in *AzureFunctionEventSubscriptionDestination) DeepCopy() *AzureFunctionEventSubscriptionDestination {
 	if in == nil {
 		return nil
 	}
-	out := new(AzureFunctionEventSubscriptionDestinationProperties)
+	out := new(AzureFunctionEventSubscriptionDestination)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -962,6 +382,36 @@ func (in *AzureFunctionEventSubscriptionDestinationProperties_ARM) DeepCopy() *A
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.MaxEventsPerBatch != nil {
+		in, out := &in.MaxEventsPerBatch, &out.MaxEventsPerBatch
+		*out = new(int)
+		**out = **in
+	}
+	if in.PreferredBatchSizeInKilobytes != nil {
+		in, out := &in.PreferredBatchSizeInKilobytes, &out.PreferredBatchSizeInKilobytes
+		*out = new(int)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *AzureFunctionEventSubscriptionDestination_ARM) DeepCopyInto(out *AzureFunctionEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -982,12 +432,217 @@ func (in *AzureFunctionEventSubscriptionDestination_ARM) DeepCopy() *AzureFuncti
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DeadLetterDestination_STATUS) DeepCopyInto(out *DeadLetterDestination_STATUS) {
+func (in *AzureFunctionEventSubscriptionDestination_STATUS) DeepCopyInto(out *AzureFunctionEventSubscriptionDestination_STATUS) {
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(DeadLetterDestination_EndpointType_STATUS)
+		*out = new(AzureFunctionEventSubscriptionDestination_EndpointType_STATUS)
 		**out = **in
+	}
+	if in.MaxEventsPerBatch != nil {
+		in, out := &in.MaxEventsPerBatch, &out.MaxEventsPerBatch
+		*out = new(int)
+		**out = **in
+	}
+	if in.PreferredBatchSizeInKilobytes != nil {
+		in, out := &in.PreferredBatchSizeInKilobytes, &out.PreferredBatchSizeInKilobytes
+		*out = new(int)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AzureFunctionEventSubscriptionDestination_STATUS.
+func (in *AzureFunctionEventSubscriptionDestination_STATUS) DeepCopy() *AzureFunctionEventSubscriptionDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(AzureFunctionEventSubscriptionDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *AzureFunctionEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *AzureFunctionEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(AzureFunctionEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new AzureFunctionEventSubscriptionDestination_STATUS_ARM.
+func (in *AzureFunctionEventSubscriptionDestination_STATUS_ARM) DeepCopy() *AzureFunctionEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(AzureFunctionEventSubscriptionDestination_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BoolEqualsAdvancedFilter) DeepCopyInto(out *BoolEqualsAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(BoolEqualsAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BoolEqualsAdvancedFilter.
+func (in *BoolEqualsAdvancedFilter) DeepCopy() *BoolEqualsAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(BoolEqualsAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BoolEqualsAdvancedFilter_ARM) DeepCopyInto(out *BoolEqualsAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BoolEqualsAdvancedFilter_ARM.
+func (in *BoolEqualsAdvancedFilter_ARM) DeepCopy() *BoolEqualsAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(BoolEqualsAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BoolEqualsAdvancedFilter_STATUS) DeepCopyInto(out *BoolEqualsAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(BoolEqualsAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BoolEqualsAdvancedFilter_STATUS.
+func (in *BoolEqualsAdvancedFilter_STATUS) DeepCopy() *BoolEqualsAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(BoolEqualsAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *BoolEqualsAdvancedFilter_STATUS_ARM) DeepCopyInto(out *BoolEqualsAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(bool)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new BoolEqualsAdvancedFilter_STATUS_ARM.
+func (in *BoolEqualsAdvancedFilter_STATUS_ARM) DeepCopy() *BoolEqualsAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(BoolEqualsAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DeadLetterDestination) DeepCopyInto(out *DeadLetterDestination) {
+	*out = *in
+	if in.StorageBlob != nil {
+		in, out := &in.StorageBlob, &out.StorageBlob
+		*out = new(StorageBlobDeadLetterDestination)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DeadLetterDestination.
+func (in *DeadLetterDestination) DeepCopy() *DeadLetterDestination {
+	if in == nil {
+		return nil
+	}
+	out := new(DeadLetterDestination)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DeadLetterDestination_ARM) DeepCopyInto(out *DeadLetterDestination_ARM) {
+	*out = *in
+	if in.StorageBlob != nil {
+		in, out := &in.StorageBlob, &out.StorageBlob
+		*out = new(StorageBlobDeadLetterDestination_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DeadLetterDestination_ARM.
+func (in *DeadLetterDestination_ARM) DeepCopy() *DeadLetterDestination_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(DeadLetterDestination_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *DeadLetterDestination_STATUS) DeepCopyInto(out *DeadLetterDestination_STATUS) {
+	*out = *in
+	if in.StorageBlob != nil {
+		in, out := &in.StorageBlob, &out.StorageBlob
+		*out = new(StorageBlobDeadLetterDestination_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -1004,10 +659,10 @@ func (in *DeadLetterDestination_STATUS) DeepCopy() *DeadLetterDestination_STATUS
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *DeadLetterDestination_STATUS_ARM) DeepCopyInto(out *DeadLetterDestination_STATUS_ARM) {
 	*out = *in
-	if in.EndpointType != nil {
-		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(DeadLetterDestination_EndpointType_STATUS)
-		**out = **in
+	if in.StorageBlob != nil {
+		in, out := &in.StorageBlob, &out.StorageBlob
+		*out = new(StorageBlobDeadLetterDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -1097,7 +752,7 @@ func (in *DomainProperties_ARM) DeepCopyInto(out *DomainProperties_ARM) {
 	}
 	if in.InputSchemaMapping != nil {
 		in, out := &in.InputSchemaMapping, &out.InputSchemaMapping
-		*out = new(JsonInputSchemaMapping_ARM)
+		*out = new(InputSchemaMapping_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.PublicNetworkAccess != nil {
@@ -1192,93 +847,6 @@ func (in *DomainTopicProperties_STATUS_ARM) DeepCopy() *DomainTopicProperties_ST
 		return nil
 	}
 	out := new(DomainTopicProperties_STATUS_ARM)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DomainTopic_STATUS) DeepCopyInto(out *DomainTopic_STATUS) {
-	*out = *in
-	if in.Conditions != nil {
-		in, out := &in.Conditions, &out.Conditions
-		*out = make([]conditions.Condition, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
-	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DomainTopicProperties_ProvisioningState_STATUS)
-		**out = **in
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_STATUS)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DomainTopic_STATUS.
-func (in *DomainTopic_STATUS) DeepCopy() *DomainTopic_STATUS {
-	if in == nil {
-		return nil
-	}
-	out := new(DomainTopic_STATUS)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *DomainTopic_STATUS_ARM) DeepCopyInto(out *DomainTopic_STATUS_ARM) {
-	*out = *in
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
-	if in.Name != nil {
-		in, out := &in.Name, &out.Name
-		*out = new(string)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(DomainTopicProperties_STATUS_ARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData_STATUS_ARM)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new DomainTopic_STATUS_ARM.
-func (in *DomainTopic_STATUS_ARM) DeepCopy() *DomainTopic_STATUS_ARM {
-	if in == nil {
-		return nil
-	}
-	out := new(DomainTopic_STATUS_ARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -1450,7 +1018,7 @@ func (in *Domain_Spec) DeepCopyInto(out *Domain_Spec) {
 	}
 	if in.InputSchemaMapping != nil {
 		in, out := &in.InputSchemaMapping, &out.InputSchemaMapping
-		*out = new(JsonInputSchemaMapping)
+		*out = new(InputSchemaMapping)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Location != nil {
@@ -1579,24 +1147,99 @@ func (in *DomainsTopicList) DeepCopyObject() runtime.Object {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *Domains_Topic_Spec) DeepCopyInto(out *Domains_Topic_Spec) {
+func (in *Domains_Topic_STATUS) DeepCopyInto(out *Domains_Topic_STATUS) {
 	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
+	if in.Conditions != nil {
+		in, out := &in.Conditions, &out.Conditions
+		*out = make([]conditions.Condition, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.ProvisioningState != nil {
+		in, out := &in.ProvisioningState, &out.ProvisioningState
+		*out = new(DomainTopicProperties_ProvisioningState_STATUS)
+		**out = **in
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Domains_Topic_STATUS.
+func (in *Domains_Topic_STATUS) DeepCopy() *Domains_Topic_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(Domains_Topic_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Domains_Topic_STATUS_ARM) DeepCopyInto(out *Domains_Topic_STATUS_ARM) {
+	*out = *in
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(DomainTopicProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Domains_Topic_STATUS_ARM.
+func (in *Domains_Topic_STATUS_ARM) DeepCopy() *Domains_Topic_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(Domains_Topic_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *Domains_Topic_Spec) DeepCopyInto(out *Domains_Topic_Spec) {
+	*out = *in
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
 		**out = **in
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
 	}
 }
 
@@ -1613,18 +1256,6 @@ func (in *Domains_Topic_Spec) DeepCopy() *Domains_Topic_Spec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Domains_Topic_Spec_ARM) DeepCopyInto(out *Domains_Topic_Spec_ARM) {
 	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Domains_Topic_Spec_ARM.
@@ -1645,10 +1276,10 @@ func (in *EventHubEventSubscriptionDestination) DeepCopyInto(out *EventHubEventS
 		*out = new(EventHubEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(EventHubEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
+	if in.ResourceReference != nil {
+		in, out := &in.ResourceReference, &out.ResourceReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
 	}
 }
 
@@ -1658,26 +1289,6 @@ func (in *EventHubEventSubscriptionDestination) DeepCopy() *EventHubEventSubscri
 		return nil
 	}
 	out := new(EventHubEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *EventHubEventSubscriptionDestinationProperties) DeepCopyInto(out *EventHubEventSubscriptionDestinationProperties) {
-	*out = *in
-	if in.ResourceReference != nil {
-		in, out := &in.ResourceReference, &out.ResourceReference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new EventHubEventSubscriptionDestinationProperties.
-func (in *EventHubEventSubscriptionDestinationProperties) DeepCopy() *EventHubEventSubscriptionDestinationProperties {
-	if in == nil {
-		return nil
-	}
-	out := new(EventHubEventSubscriptionDestinationProperties)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -1703,6 +1314,26 @@ func (in *EventHubEventSubscriptionDestinationProperties_ARM) DeepCopy() *EventH
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *EventHubEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *EventHubEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new EventHubEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *EventHubEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *EventHubEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(EventHubEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EventHubEventSubscriptionDestination_ARM) DeepCopyInto(out *EventHubEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -1718,6 +1349,51 @@ func (in *EventHubEventSubscriptionDestination_ARM) DeepCopy() *EventHubEventSub
 		return nil
 	}
 	out := new(EventHubEventSubscriptionDestination_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *EventHubEventSubscriptionDestination_STATUS) DeepCopyInto(out *EventHubEventSubscriptionDestination_STATUS) {
+	*out = *in
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(EventHubEventSubscriptionDestination_EndpointType_STATUS)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new EventHubEventSubscriptionDestination_STATUS.
+func (in *EventHubEventSubscriptionDestination_STATUS) DeepCopy() *EventHubEventSubscriptionDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(EventHubEventSubscriptionDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *EventHubEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *EventHubEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(EventHubEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new EventHubEventSubscriptionDestination_STATUS_ARM.
+func (in *EventHubEventSubscriptionDestination_STATUS_ARM) DeepCopy() *EventHubEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(EventHubEventSubscriptionDestination_STATUS_ARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -1852,10 +1528,40 @@ func (in *EventSubscriptionDestination_ARM) DeepCopy() *EventSubscriptionDestina
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EventSubscriptionDestination_STATUS) DeepCopyInto(out *EventSubscriptionDestination_STATUS) {
 	*out = *in
-	if in.EndpointType != nil {
-		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventSubscriptionDestination_EndpointType_STATUS)
-		**out = **in
+	if in.AzureFunction != nil {
+		in, out := &in.AzureFunction, &out.AzureFunction
+		*out = new(AzureFunctionEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EventHub != nil {
+		in, out := &in.EventHub, &out.EventHub
+		*out = new(EventHubEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.HybridConnection != nil {
+		in, out := &in.HybridConnection, &out.HybridConnection
+		*out = new(HybridConnectionEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceBusQueue != nil {
+		in, out := &in.ServiceBusQueue, &out.ServiceBusQueue
+		*out = new(ServiceBusQueueEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceBusTopic != nil {
+		in, out := &in.ServiceBusTopic, &out.ServiceBusTopic
+		*out = new(ServiceBusTopicEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StorageQueue != nil {
+		in, out := &in.StorageQueue, &out.StorageQueue
+		*out = new(StorageQueueEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.WebHook != nil {
+		in, out := &in.WebHook, &out.WebHook
+		*out = new(WebHookEventSubscriptionDestination_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -1872,10 +1578,40 @@ func (in *EventSubscriptionDestination_STATUS) DeepCopy() *EventSubscriptionDest
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *EventSubscriptionDestination_STATUS_ARM) {
 	*out = *in
-	if in.EndpointType != nil {
-		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(EventSubscriptionDestination_EndpointType_STATUS)
-		**out = **in
+	if in.AzureFunction != nil {
+		in, out := &in.AzureFunction, &out.AzureFunction
+		*out = new(AzureFunctionEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EventHub != nil {
+		in, out := &in.EventHub, &out.EventHub
+		*out = new(EventHubEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.HybridConnection != nil {
+		in, out := &in.HybridConnection, &out.HybridConnection
+		*out = new(HybridConnectionEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceBusQueue != nil {
+		in, out := &in.ServiceBusQueue, &out.ServiceBusQueue
+		*out = new(ServiceBusQueueEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServiceBusTopic != nil {
+		in, out := &in.ServiceBusTopic, &out.ServiceBusTopic
+		*out = new(ServiceBusTopicEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.StorageQueue != nil {
+		in, out := &in.StorageQueue, &out.StorageQueue
+		*out = new(StorageQueueEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.WebHook != nil {
+		in, out := &in.WebHook, &out.WebHook
+		*out = new(WebHookEventSubscriptionDestination_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -2094,7 +1830,7 @@ func (in *EventSubscriptionProperties_ARM) DeepCopyInto(out *EventSubscriptionPr
 	*out = *in
 	if in.DeadLetterDestination != nil {
 		in, out := &in.DeadLetterDestination, &out.DeadLetterDestination
-		*out = new(StorageBlobDeadLetterDestination_ARM)
+		*out = new(DeadLetterDestination_ARM)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Destination != nil {
@@ -2331,7 +2067,7 @@ func (in *EventSubscription_Spec) DeepCopyInto(out *EventSubscription_Spec) {
 	*out = *in
 	if in.DeadLetterDestination != nil {
 		in, out := &in.DeadLetterDestination, &out.DeadLetterDestination
-		*out = new(StorageBlobDeadLetterDestination)
+		*out = new(DeadLetterDestination)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Destination != nil {
@@ -2359,11 +2095,6 @@ func (in *EventSubscription_Spec) DeepCopyInto(out *EventSubscription_Spec) {
 		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.ArbitraryOwnerReference)
@@ -2373,13 +2104,6 @@ func (in *EventSubscription_Spec) DeepCopyInto(out *EventSubscription_Spec) {
 		in, out := &in.RetryPolicy, &out.RetryPolicy
 		*out = new(RetryPolicy)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
 	}
 }
 
@@ -2396,22 +2120,10 @@ func (in *EventSubscription_Spec) DeepCopy() *EventSubscription_Spec {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *EventSubscription_Spec_ARM) DeepCopyInto(out *EventSubscription_Spec_ARM) {
 	*out = *in
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(EventSubscriptionProperties_ARM)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
 	}
 }
 
@@ -2433,10 +2145,10 @@ func (in *HybridConnectionEventSubscriptionDestination) DeepCopyInto(out *Hybrid
 		*out = new(HybridConnectionEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(HybridConnectionEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
+	if in.ResourceReference != nil {
+		in, out := &in.ResourceReference, &out.ResourceReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
 	}
 }
 
@@ -2446,26 +2158,6 @@ func (in *HybridConnectionEventSubscriptionDestination) DeepCopy() *HybridConnec
 		return nil
 	}
 	out := new(HybridConnectionEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *HybridConnectionEventSubscriptionDestinationProperties) DeepCopyInto(out *HybridConnectionEventSubscriptionDestinationProperties) {
-	*out = *in
-	if in.ResourceReference != nil {
-		in, out := &in.ResourceReference, &out.ResourceReference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HybridConnectionEventSubscriptionDestinationProperties.
-func (in *HybridConnectionEventSubscriptionDestinationProperties) DeepCopy() *HybridConnectionEventSubscriptionDestinationProperties {
-	if in == nil {
-		return nil
-	}
-	out := new(HybridConnectionEventSubscriptionDestinationProperties)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -2491,6 +2183,26 @@ func (in *HybridConnectionEventSubscriptionDestinationProperties_ARM) DeepCopy()
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *HybridConnectionEventSubscriptionDestination_ARM) DeepCopyInto(out *HybridConnectionEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -2506,6 +2218,51 @@ func (in *HybridConnectionEventSubscriptionDestination_ARM) DeepCopy() *HybridCo
 		return nil
 	}
 	out := new(HybridConnectionEventSubscriptionDestination_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *HybridConnectionEventSubscriptionDestination_STATUS) DeepCopyInto(out *HybridConnectionEventSubscriptionDestination_STATUS) {
+	*out = *in
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(HybridConnectionEventSubscriptionDestination_EndpointType_STATUS)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HybridConnectionEventSubscriptionDestination_STATUS.
+func (in *HybridConnectionEventSubscriptionDestination_STATUS) DeepCopy() *HybridConnectionEventSubscriptionDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(HybridConnectionEventSubscriptionDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *HybridConnectionEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *HybridConnectionEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(HybridConnectionEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new HybridConnectionEventSubscriptionDestination_STATUS_ARM.
+func (in *HybridConnectionEventSubscriptionDestination_STATUS_ARM) DeepCopy() *HybridConnectionEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(HybridConnectionEventSubscriptionDestination_STATUS_ARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -2611,12 +2368,52 @@ func (in *InboundIpRule_STATUS_ARM) DeepCopy() *InboundIpRule_STATUS_ARM {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InputSchemaMapping) DeepCopyInto(out *InputSchemaMapping) {
+	*out = *in
+	if in.Json != nil {
+		in, out := &in.Json, &out.Json
+		*out = new(JsonInputSchemaMapping)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InputSchemaMapping.
+func (in *InputSchemaMapping) DeepCopy() *InputSchemaMapping {
+	if in == nil {
+		return nil
+	}
+	out := new(InputSchemaMapping)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *InputSchemaMapping_ARM) DeepCopyInto(out *InputSchemaMapping_ARM) {
+	*out = *in
+	if in.Json != nil {
+		in, out := &in.Json, &out.Json
+		*out = new(JsonInputSchemaMapping_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new InputSchemaMapping_ARM.
+func (in *InputSchemaMapping_ARM) DeepCopy() *InputSchemaMapping_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(InputSchemaMapping_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InputSchemaMapping_STATUS) DeepCopyInto(out *InputSchemaMapping_STATUS) {
 	*out = *in
-	if in.InputSchemaMappingType != nil {
-		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(InputSchemaMapping_InputSchemaMappingType_STATUS)
-		**out = **in
+	if in.Json != nil {
+		in, out := &in.Json, &out.Json
+		*out = new(JsonInputSchemaMapping_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -2633,10 +2430,10 @@ func (in *InputSchemaMapping_STATUS) DeepCopy() *InputSchemaMapping_STATUS {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *InputSchemaMapping_STATUS_ARM) DeepCopyInto(out *InputSchemaMapping_STATUS_ARM) {
 	*out = *in
-	if in.InputSchemaMappingType != nil {
-		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(InputSchemaMapping_InputSchemaMappingType_STATUS)
-		**out = **in
+	if in.Json != nil {
+		in, out := &in.Json, &out.Json
+		*out = new(JsonInputSchemaMapping_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -2721,6 +2518,56 @@ func (in *JsonFieldWithDefault_ARM) DeepCopy() *JsonFieldWithDefault_ARM {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *JsonFieldWithDefault_STATUS) DeepCopyInto(out *JsonFieldWithDefault_STATUS) {
+	*out = *in
+	if in.DefaultValue != nil {
+		in, out := &in.DefaultValue, &out.DefaultValue
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceField != nil {
+		in, out := &in.SourceField, &out.SourceField
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonFieldWithDefault_STATUS.
+func (in *JsonFieldWithDefault_STATUS) DeepCopy() *JsonFieldWithDefault_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(JsonFieldWithDefault_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *JsonFieldWithDefault_STATUS_ARM) DeepCopyInto(out *JsonFieldWithDefault_STATUS_ARM) {
+	*out = *in
+	if in.DefaultValue != nil {
+		in, out := &in.DefaultValue, &out.DefaultValue
+		*out = new(string)
+		**out = **in
+	}
+	if in.SourceField != nil {
+		in, out := &in.SourceField, &out.SourceField
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonFieldWithDefault_STATUS_ARM.
+func (in *JsonFieldWithDefault_STATUS_ARM) DeepCopy() *JsonFieldWithDefault_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(JsonFieldWithDefault_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *JsonField_ARM) DeepCopyInto(out *JsonField_ARM) {
 	*out = *in
 	if in.SourceField != nil {
@@ -2741,32 +2588,47 @@ func (in *JsonField_ARM) DeepCopy() *JsonField_ARM {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *JsonInputSchemaMapping) DeepCopyInto(out *JsonInputSchemaMapping) {
+func (in *JsonField_STATUS) DeepCopyInto(out *JsonField_STATUS) {
 	*out = *in
-	if in.InputSchemaMappingType != nil {
-		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(JsonInputSchemaMapping_InputSchemaMappingType)
+	if in.SourceField != nil {
+		in, out := &in.SourceField, &out.SourceField
+		*out = new(string)
 		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(JsonInputSchemaMappingProperties)
-		(*in).DeepCopyInto(*out)
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonInputSchemaMapping.
-func (in *JsonInputSchemaMapping) DeepCopy() *JsonInputSchemaMapping {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonField_STATUS.
+func (in *JsonField_STATUS) DeepCopy() *JsonField_STATUS {
 	if in == nil {
 		return nil
 	}
-	out := new(JsonInputSchemaMapping)
+	out := new(JsonField_STATUS)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *JsonInputSchemaMappingProperties) DeepCopyInto(out *JsonInputSchemaMappingProperties) {
+func (in *JsonField_STATUS_ARM) DeepCopyInto(out *JsonField_STATUS_ARM) {
+	*out = *in
+	if in.SourceField != nil {
+		in, out := &in.SourceField, &out.SourceField
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonField_STATUS_ARM.
+func (in *JsonField_STATUS_ARM) DeepCopy() *JsonField_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(JsonField_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *JsonInputSchemaMapping) DeepCopyInto(out *JsonInputSchemaMapping) {
 	*out = *in
 	if in.DataVersion != nil {
 		in, out := &in.DataVersion, &out.DataVersion
@@ -2788,6 +2650,11 @@ func (in *JsonInputSchemaMappingProperties) DeepCopyInto(out *JsonInputSchemaMap
 		*out = new(JsonField)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.InputSchemaMappingType != nil {
+		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
+		*out = new(JsonInputSchemaMapping_InputSchemaMappingType)
+		**out = **in
+	}
 	if in.Subject != nil {
 		in, out := &in.Subject, &out.Subject
 		*out = new(JsonFieldWithDefault)
@@ -2800,12 +2667,12 @@ func (in *JsonInputSchemaMappingProperties) DeepCopyInto(out *JsonInputSchemaMap
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonInputSchemaMappingProperties.
-func (in *JsonInputSchemaMappingProperties) DeepCopy() *JsonInputSchemaMappingProperties {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonInputSchemaMapping.
+func (in *JsonInputSchemaMapping) DeepCopy() *JsonInputSchemaMapping {
 	if in == nil {
 		return nil
 	}
-	out := new(JsonInputSchemaMappingProperties)
+	out := new(JsonInputSchemaMapping)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -2856,13 +2723,53 @@ func (in *JsonInputSchemaMappingProperties_ARM) DeepCopy() *JsonInputSchemaMappi
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *JsonInputSchemaMappingProperties_STATUS_ARM) DeepCopyInto(out *JsonInputSchemaMappingProperties_STATUS_ARM) {
+	*out = *in
+	if in.DataVersion != nil {
+		in, out := &in.DataVersion, &out.DataVersion
+		*out = new(JsonFieldWithDefault_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EventTime != nil {
+		in, out := &in.EventTime, &out.EventTime
+		*out = new(JsonField_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EventType != nil {
+		in, out := &in.EventType, &out.EventType
+		*out = new(JsonFieldWithDefault_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(JsonField_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Subject != nil {
+		in, out := &in.Subject, &out.Subject
+		*out = new(JsonFieldWithDefault_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Topic != nil {
+		in, out := &in.Topic, &out.Topic
+		*out = new(JsonField_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonInputSchemaMappingProperties_STATUS_ARM.
+func (in *JsonInputSchemaMappingProperties_STATUS_ARM) DeepCopy() *JsonInputSchemaMappingProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(JsonInputSchemaMappingProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *JsonInputSchemaMapping_ARM) DeepCopyInto(out *JsonInputSchemaMapping_ARM) {
 	*out = *in
-	if in.InputSchemaMappingType != nil {
-		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
-		*out = new(JsonInputSchemaMapping_InputSchemaMappingType)
-		**out = **in
-	}
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(JsonInputSchemaMappingProperties_ARM)
@@ -2876,6 +2783,736 @@ func (in *JsonInputSchemaMapping_ARM) DeepCopy() *JsonInputSchemaMapping_ARM {
 		return nil
 	}
 	out := new(JsonInputSchemaMapping_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *JsonInputSchemaMapping_STATUS) DeepCopyInto(out *JsonInputSchemaMapping_STATUS) {
+	*out = *in
+	if in.DataVersion != nil {
+		in, out := &in.DataVersion, &out.DataVersion
+		*out = new(JsonFieldWithDefault_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EventTime != nil {
+		in, out := &in.EventTime, &out.EventTime
+		*out = new(JsonField_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.EventType != nil {
+		in, out := &in.EventType, &out.EventType
+		*out = new(JsonFieldWithDefault_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(JsonField_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.InputSchemaMappingType != nil {
+		in, out := &in.InputSchemaMappingType, &out.InputSchemaMappingType
+		*out = new(JsonInputSchemaMapping_InputSchemaMappingType_STATUS)
+		**out = **in
+	}
+	if in.Subject != nil {
+		in, out := &in.Subject, &out.Subject
+		*out = new(JsonFieldWithDefault_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.Topic != nil {
+		in, out := &in.Topic, &out.Topic
+		*out = new(JsonField_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonInputSchemaMapping_STATUS.
+func (in *JsonInputSchemaMapping_STATUS) DeepCopy() *JsonInputSchemaMapping_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(JsonInputSchemaMapping_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *JsonInputSchemaMapping_STATUS_ARM) DeepCopyInto(out *JsonInputSchemaMapping_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(JsonInputSchemaMappingProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new JsonInputSchemaMapping_STATUS_ARM.
+func (in *JsonInputSchemaMapping_STATUS_ARM) DeepCopy() *JsonInputSchemaMapping_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(JsonInputSchemaMapping_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanAdvancedFilter) DeepCopyInto(out *NumberGreaterThanAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberGreaterThanAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanAdvancedFilter.
+func (in *NumberGreaterThanAdvancedFilter) DeepCopy() *NumberGreaterThanAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanAdvancedFilter_ARM) DeepCopyInto(out *NumberGreaterThanAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanAdvancedFilter_ARM.
+func (in *NumberGreaterThanAdvancedFilter_ARM) DeepCopy() *NumberGreaterThanAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanAdvancedFilter_STATUS) DeepCopyInto(out *NumberGreaterThanAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberGreaterThanAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanAdvancedFilter_STATUS.
+func (in *NumberGreaterThanAdvancedFilter_STATUS) DeepCopy() *NumberGreaterThanAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanAdvancedFilter_STATUS_ARM) DeepCopyInto(out *NumberGreaterThanAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanAdvancedFilter_STATUS_ARM.
+func (in *NumberGreaterThanAdvancedFilter_STATUS_ARM) DeepCopy() *NumberGreaterThanAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter) DeepCopyInto(out *NumberGreaterThanOrEqualsAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberGreaterThanOrEqualsAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanOrEqualsAdvancedFilter.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter) DeepCopy() *NumberGreaterThanOrEqualsAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanOrEqualsAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter_ARM) DeepCopyInto(out *NumberGreaterThanOrEqualsAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanOrEqualsAdvancedFilter_ARM.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter_ARM) DeepCopy() *NumberGreaterThanOrEqualsAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanOrEqualsAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) DeepCopyInto(out *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanOrEqualsAdvancedFilter_STATUS.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) DeepCopy() *NumberGreaterThanOrEqualsAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanOrEqualsAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM) DeepCopyInto(out *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM.
+func (in *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM) DeepCopy() *NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberGreaterThanOrEqualsAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberInAdvancedFilter) DeepCopyInto(out *NumberInAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberInAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberInAdvancedFilter.
+func (in *NumberInAdvancedFilter) DeepCopy() *NumberInAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberInAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberInAdvancedFilter_ARM) DeepCopyInto(out *NumberInAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberInAdvancedFilter_ARM.
+func (in *NumberInAdvancedFilter_ARM) DeepCopy() *NumberInAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberInAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberInAdvancedFilter_STATUS) DeepCopyInto(out *NumberInAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberInAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberInAdvancedFilter_STATUS.
+func (in *NumberInAdvancedFilter_STATUS) DeepCopy() *NumberInAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberInAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberInAdvancedFilter_STATUS_ARM) DeepCopyInto(out *NumberInAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberInAdvancedFilter_STATUS_ARM.
+func (in *NumberInAdvancedFilter_STATUS_ARM) DeepCopy() *NumberInAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberInAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanAdvancedFilter) DeepCopyInto(out *NumberLessThanAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberLessThanAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanAdvancedFilter.
+func (in *NumberLessThanAdvancedFilter) DeepCopy() *NumberLessThanAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanAdvancedFilter_ARM) DeepCopyInto(out *NumberLessThanAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanAdvancedFilter_ARM.
+func (in *NumberLessThanAdvancedFilter_ARM) DeepCopy() *NumberLessThanAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanAdvancedFilter_STATUS) DeepCopyInto(out *NumberLessThanAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberLessThanAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanAdvancedFilter_STATUS.
+func (in *NumberLessThanAdvancedFilter_STATUS) DeepCopy() *NumberLessThanAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanAdvancedFilter_STATUS_ARM) DeepCopyInto(out *NumberLessThanAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanAdvancedFilter_STATUS_ARM.
+func (in *NumberLessThanAdvancedFilter_STATUS_ARM) DeepCopy() *NumberLessThanAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanOrEqualsAdvancedFilter) DeepCopyInto(out *NumberLessThanOrEqualsAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberLessThanOrEqualsAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanOrEqualsAdvancedFilter.
+func (in *NumberLessThanOrEqualsAdvancedFilter) DeepCopy() *NumberLessThanOrEqualsAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanOrEqualsAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanOrEqualsAdvancedFilter_ARM) DeepCopyInto(out *NumberLessThanOrEqualsAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanOrEqualsAdvancedFilter_ARM.
+func (in *NumberLessThanOrEqualsAdvancedFilter_ARM) DeepCopy() *NumberLessThanOrEqualsAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanOrEqualsAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanOrEqualsAdvancedFilter_STATUS) DeepCopyInto(out *NumberLessThanOrEqualsAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanOrEqualsAdvancedFilter_STATUS.
+func (in *NumberLessThanOrEqualsAdvancedFilter_STATUS) DeepCopy() *NumberLessThanOrEqualsAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanOrEqualsAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM) DeepCopyInto(out *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Value != nil {
+		in, out := &in.Value, &out.Value
+		*out = new(float64)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM.
+func (in *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM) DeepCopy() *NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberLessThanOrEqualsAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberNotInAdvancedFilter) DeepCopyInto(out *NumberNotInAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberNotInAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberNotInAdvancedFilter.
+func (in *NumberNotInAdvancedFilter) DeepCopy() *NumberNotInAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberNotInAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberNotInAdvancedFilter_ARM) DeepCopyInto(out *NumberNotInAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberNotInAdvancedFilter_ARM.
+func (in *NumberNotInAdvancedFilter_ARM) DeepCopy() *NumberNotInAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberNotInAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberNotInAdvancedFilter_STATUS) DeepCopyInto(out *NumberNotInAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(NumberNotInAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberNotInAdvancedFilter_STATUS.
+func (in *NumberNotInAdvancedFilter_STATUS) DeepCopy() *NumberNotInAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberNotInAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *NumberNotInAdvancedFilter_STATUS_ARM) DeepCopyInto(out *NumberNotInAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]float64, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new NumberNotInAdvancedFilter_STATUS_ARM.
+func (in *NumberNotInAdvancedFilter_STATUS_ARM) DeepCopy() *NumberNotInAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(NumberNotInAdvancedFilter_STATUS_ARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3068,10 +3705,10 @@ func (in *ServiceBusQueueEventSubscriptionDestination) DeepCopyInto(out *Service
 		*out = new(ServiceBusQueueEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ServiceBusQueueEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
+	if in.ResourceReference != nil {
+		in, out := &in.ResourceReference, &out.ResourceReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
 	}
 }
 
@@ -3081,26 +3718,6 @@ func (in *ServiceBusQueueEventSubscriptionDestination) DeepCopy() *ServiceBusQue
 		return nil
 	}
 	out := new(ServiceBusQueueEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ServiceBusQueueEventSubscriptionDestinationProperties) DeepCopyInto(out *ServiceBusQueueEventSubscriptionDestinationProperties) {
-	*out = *in
-	if in.ResourceReference != nil {
-		in, out := &in.ResourceReference, &out.ResourceReference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusQueueEventSubscriptionDestinationProperties.
-func (in *ServiceBusQueueEventSubscriptionDestinationProperties) DeepCopy() *ServiceBusQueueEventSubscriptionDestinationProperties {
-	if in == nil {
-		return nil
-	}
-	out := new(ServiceBusQueueEventSubscriptionDestinationProperties)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3126,6 +3743,26 @@ func (in *ServiceBusQueueEventSubscriptionDestinationProperties_ARM) DeepCopy() 
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ServiceBusQueueEventSubscriptionDestination_ARM) DeepCopyInto(out *ServiceBusQueueEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -3146,6 +3783,51 @@ func (in *ServiceBusQueueEventSubscriptionDestination_ARM) DeepCopy() *ServiceBu
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceBusQueueEventSubscriptionDestination_STATUS) DeepCopyInto(out *ServiceBusQueueEventSubscriptionDestination_STATUS) {
+	*out = *in
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusQueueEventSubscriptionDestination_STATUS.
+func (in *ServiceBusQueueEventSubscriptionDestination_STATUS) DeepCopy() *ServiceBusQueueEventSubscriptionDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceBusQueueEventSubscriptionDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ServiceBusQueueEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusQueueEventSubscriptionDestination_STATUS_ARM.
+func (in *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM) DeepCopy() *ServiceBusQueueEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceBusQueueEventSubscriptionDestination_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ServiceBusTopicEventSubscriptionDestination) DeepCopyInto(out *ServiceBusTopicEventSubscriptionDestination) {
 	*out = *in
 	if in.EndpointType != nil {
@@ -3153,10 +3835,10 @@ func (in *ServiceBusTopicEventSubscriptionDestination) DeepCopyInto(out *Service
 		*out = new(ServiceBusTopicEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(ServiceBusTopicEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
+	if in.ResourceReference != nil {
+		in, out := &in.ResourceReference, &out.ResourceReference
+		*out = new(genruntime.ResourceReference)
+		**out = **in
 	}
 }
 
@@ -3166,26 +3848,6 @@ func (in *ServiceBusTopicEventSubscriptionDestination) DeepCopy() *ServiceBusTop
 		return nil
 	}
 	out := new(ServiceBusTopicEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *ServiceBusTopicEventSubscriptionDestinationProperties) DeepCopyInto(out *ServiceBusTopicEventSubscriptionDestinationProperties) {
-	*out = *in
-	if in.ResourceReference != nil {
-		in, out := &in.ResourceReference, &out.ResourceReference
-		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusTopicEventSubscriptionDestinationProperties.
-func (in *ServiceBusTopicEventSubscriptionDestinationProperties) DeepCopy() *ServiceBusTopicEventSubscriptionDestinationProperties {
-	if in == nil {
-		return nil
-	}
-	out := new(ServiceBusTopicEventSubscriptionDestinationProperties)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3211,6 +3873,26 @@ func (in *ServiceBusTopicEventSubscriptionDestinationProperties_ARM) DeepCopy() 
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *ServiceBusTopicEventSubscriptionDestination_ARM) DeepCopyInto(out *ServiceBusTopicEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -3231,36 +3913,61 @@ func (in *ServiceBusTopicEventSubscriptionDestination_ARM) DeepCopy() *ServiceBu
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageBlobDeadLetterDestination) DeepCopyInto(out *StorageBlobDeadLetterDestination) {
+func (in *ServiceBusTopicEventSubscriptionDestination_STATUS) DeepCopyInto(out *ServiceBusTopicEventSubscriptionDestination_STATUS) {
 	*out = *in
 	if in.EndpointType != nil {
 		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(StorageBlobDeadLetterDestination_EndpointType)
+		*out = new(ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(StorageBlobDeadLetterDestinationProperties)
-		(*in).DeepCopyInto(*out)
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageBlobDeadLetterDestination.
-func (in *StorageBlobDeadLetterDestination) DeepCopy() *StorageBlobDeadLetterDestination {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusTopicEventSubscriptionDestination_STATUS.
+func (in *ServiceBusTopicEventSubscriptionDestination_STATUS) DeepCopy() *ServiceBusTopicEventSubscriptionDestination_STATUS {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageBlobDeadLetterDestination)
+	out := new(ServiceBusTopicEventSubscriptionDestination_STATUS)
 	in.DeepCopyInto(out)
 	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageBlobDeadLetterDestinationProperties) DeepCopyInto(out *StorageBlobDeadLetterDestinationProperties) {
+func (in *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(ServiceBusTopicEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new ServiceBusTopicEventSubscriptionDestination_STATUS_ARM.
+func (in *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM) DeepCopy() *ServiceBusTopicEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(ServiceBusTopicEventSubscriptionDestination_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageBlobDeadLetterDestination) DeepCopyInto(out *StorageBlobDeadLetterDestination) {
 	*out = *in
 	if in.BlobContainerName != nil {
 		in, out := &in.BlobContainerName, &out.BlobContainerName
 		*out = new(string)
+		**out = **in
+	}
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(StorageBlobDeadLetterDestination_EndpointType)
 		**out = **in
 	}
 	if in.ResourceReference != nil {
@@ -3270,12 +3977,12 @@ func (in *StorageBlobDeadLetterDestinationProperties) DeepCopyInto(out *StorageB
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageBlobDeadLetterDestinationProperties.
-func (in *StorageBlobDeadLetterDestinationProperties) DeepCopy() *StorageBlobDeadLetterDestinationProperties {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageBlobDeadLetterDestination.
+func (in *StorageBlobDeadLetterDestination) DeepCopy() *StorageBlobDeadLetterDestination {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageBlobDeadLetterDestinationProperties)
+	out := new(StorageBlobDeadLetterDestination)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3306,13 +4013,33 @@ func (in *StorageBlobDeadLetterDestinationProperties_ARM) DeepCopy() *StorageBlo
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageBlobDeadLetterDestination_ARM) DeepCopyInto(out *StorageBlobDeadLetterDestination_ARM) {
+func (in *StorageBlobDeadLetterDestinationProperties_STATUS_ARM) DeepCopyInto(out *StorageBlobDeadLetterDestinationProperties_STATUS_ARM) {
 	*out = *in
-	if in.EndpointType != nil {
-		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(StorageBlobDeadLetterDestination_EndpointType)
+	if in.BlobContainerName != nil {
+		in, out := &in.BlobContainerName, &out.BlobContainerName
+		*out = new(string)
 		**out = **in
 	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageBlobDeadLetterDestinationProperties_STATUS_ARM.
+func (in *StorageBlobDeadLetterDestinationProperties_STATUS_ARM) DeepCopy() *StorageBlobDeadLetterDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageBlobDeadLetterDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageBlobDeadLetterDestination_ARM) DeepCopyInto(out *StorageBlobDeadLetterDestination_ARM) {
+	*out = *in
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(StorageBlobDeadLetterDestinationProperties_ARM)
@@ -3331,6 +4058,56 @@ func (in *StorageBlobDeadLetterDestination_ARM) DeepCopy() *StorageBlobDeadLette
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageBlobDeadLetterDestination_STATUS) DeepCopyInto(out *StorageBlobDeadLetterDestination_STATUS) {
+	*out = *in
+	if in.BlobContainerName != nil {
+		in, out := &in.BlobContainerName, &out.BlobContainerName
+		*out = new(string)
+		**out = **in
+	}
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(StorageBlobDeadLetterDestination_EndpointType_STATUS)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageBlobDeadLetterDestination_STATUS.
+func (in *StorageBlobDeadLetterDestination_STATUS) DeepCopy() *StorageBlobDeadLetterDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageBlobDeadLetterDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageBlobDeadLetterDestination_STATUS_ARM) DeepCopyInto(out *StorageBlobDeadLetterDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(StorageBlobDeadLetterDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageBlobDeadLetterDestination_STATUS_ARM.
+func (in *StorageBlobDeadLetterDestination_STATUS_ARM) DeepCopy() *StorageBlobDeadLetterDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageBlobDeadLetterDestination_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *StorageQueueEventSubscriptionDestination) DeepCopyInto(out *StorageQueueEventSubscriptionDestination) {
 	*out = *in
 	if in.EndpointType != nil {
@@ -3338,26 +4115,6 @@ func (in *StorageQueueEventSubscriptionDestination) DeepCopyInto(out *StorageQue
 		*out = new(StorageQueueEventSubscriptionDestination_EndpointType)
 		**out = **in
 	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(StorageQueueEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageQueueEventSubscriptionDestination.
-func (in *StorageQueueEventSubscriptionDestination) DeepCopy() *StorageQueueEventSubscriptionDestination {
-	if in == nil {
-		return nil
-	}
-	out := new(StorageQueueEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *StorageQueueEventSubscriptionDestinationProperties) DeepCopyInto(out *StorageQueueEventSubscriptionDestinationProperties) {
-	*out = *in
 	if in.QueueName != nil {
 		in, out := &in.QueueName, &out.QueueName
 		*out = new(string)
@@ -3370,12 +4127,12 @@ func (in *StorageQueueEventSubscriptionDestinationProperties) DeepCopyInto(out *
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageQueueEventSubscriptionDestinationProperties.
-func (in *StorageQueueEventSubscriptionDestinationProperties) DeepCopy() *StorageQueueEventSubscriptionDestinationProperties {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageQueueEventSubscriptionDestination.
+func (in *StorageQueueEventSubscriptionDestination) DeepCopy() *StorageQueueEventSubscriptionDestination {
 	if in == nil {
 		return nil
 	}
-	out := new(StorageQueueEventSubscriptionDestinationProperties)
+	out := new(StorageQueueEventSubscriptionDestination)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3406,6 +4163,31 @@ func (in *StorageQueueEventSubscriptionDestinationProperties_ARM) DeepCopy() *St
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.QueueName != nil {
+		in, out := &in.QueueName, &out.QueueName
+		*out = new(string)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *StorageQueueEventSubscriptionDestination_ARM) DeepCopyInto(out *StorageQueueEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -3421,6 +4203,606 @@ func (in *StorageQueueEventSubscriptionDestination_ARM) DeepCopy() *StorageQueue
 		return nil
 	}
 	out := new(StorageQueueEventSubscriptionDestination_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageQueueEventSubscriptionDestination_STATUS) DeepCopyInto(out *StorageQueueEventSubscriptionDestination_STATUS) {
+	*out = *in
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(StorageQueueEventSubscriptionDestination_EndpointType_STATUS)
+		**out = **in
+	}
+	if in.QueueName != nil {
+		in, out := &in.QueueName, &out.QueueName
+		*out = new(string)
+		**out = **in
+	}
+	if in.ResourceId != nil {
+		in, out := &in.ResourceId, &out.ResourceId
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageQueueEventSubscriptionDestination_STATUS.
+func (in *StorageQueueEventSubscriptionDestination_STATUS) DeepCopy() *StorageQueueEventSubscriptionDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageQueueEventSubscriptionDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StorageQueueEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *StorageQueueEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(StorageQueueEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StorageQueueEventSubscriptionDestination_STATUS_ARM.
+func (in *StorageQueueEventSubscriptionDestination_STATUS_ARM) DeepCopy() *StorageQueueEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StorageQueueEventSubscriptionDestination_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringBeginsWithAdvancedFilter) DeepCopyInto(out *StringBeginsWithAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringBeginsWithAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringBeginsWithAdvancedFilter.
+func (in *StringBeginsWithAdvancedFilter) DeepCopy() *StringBeginsWithAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(StringBeginsWithAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringBeginsWithAdvancedFilter_ARM) DeepCopyInto(out *StringBeginsWithAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringBeginsWithAdvancedFilter_ARM.
+func (in *StringBeginsWithAdvancedFilter_ARM) DeepCopy() *StringBeginsWithAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringBeginsWithAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringBeginsWithAdvancedFilter_STATUS) DeepCopyInto(out *StringBeginsWithAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringBeginsWithAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringBeginsWithAdvancedFilter_STATUS.
+func (in *StringBeginsWithAdvancedFilter_STATUS) DeepCopy() *StringBeginsWithAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StringBeginsWithAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringBeginsWithAdvancedFilter_STATUS_ARM) DeepCopyInto(out *StringBeginsWithAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringBeginsWithAdvancedFilter_STATUS_ARM.
+func (in *StringBeginsWithAdvancedFilter_STATUS_ARM) DeepCopy() *StringBeginsWithAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringBeginsWithAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringContainsAdvancedFilter) DeepCopyInto(out *StringContainsAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringContainsAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringContainsAdvancedFilter.
+func (in *StringContainsAdvancedFilter) DeepCopy() *StringContainsAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(StringContainsAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringContainsAdvancedFilter_ARM) DeepCopyInto(out *StringContainsAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringContainsAdvancedFilter_ARM.
+func (in *StringContainsAdvancedFilter_ARM) DeepCopy() *StringContainsAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringContainsAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringContainsAdvancedFilter_STATUS) DeepCopyInto(out *StringContainsAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringContainsAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringContainsAdvancedFilter_STATUS.
+func (in *StringContainsAdvancedFilter_STATUS) DeepCopy() *StringContainsAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StringContainsAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringContainsAdvancedFilter_STATUS_ARM) DeepCopyInto(out *StringContainsAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringContainsAdvancedFilter_STATUS_ARM.
+func (in *StringContainsAdvancedFilter_STATUS_ARM) DeepCopy() *StringContainsAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringContainsAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringEndsWithAdvancedFilter) DeepCopyInto(out *StringEndsWithAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringEndsWithAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringEndsWithAdvancedFilter.
+func (in *StringEndsWithAdvancedFilter) DeepCopy() *StringEndsWithAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(StringEndsWithAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringEndsWithAdvancedFilter_ARM) DeepCopyInto(out *StringEndsWithAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringEndsWithAdvancedFilter_ARM.
+func (in *StringEndsWithAdvancedFilter_ARM) DeepCopy() *StringEndsWithAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringEndsWithAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringEndsWithAdvancedFilter_STATUS) DeepCopyInto(out *StringEndsWithAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringEndsWithAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringEndsWithAdvancedFilter_STATUS.
+func (in *StringEndsWithAdvancedFilter_STATUS) DeepCopy() *StringEndsWithAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StringEndsWithAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringEndsWithAdvancedFilter_STATUS_ARM) DeepCopyInto(out *StringEndsWithAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringEndsWithAdvancedFilter_STATUS_ARM.
+func (in *StringEndsWithAdvancedFilter_STATUS_ARM) DeepCopy() *StringEndsWithAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringEndsWithAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringInAdvancedFilter) DeepCopyInto(out *StringInAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringInAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringInAdvancedFilter.
+func (in *StringInAdvancedFilter) DeepCopy() *StringInAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(StringInAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringInAdvancedFilter_ARM) DeepCopyInto(out *StringInAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringInAdvancedFilter_ARM.
+func (in *StringInAdvancedFilter_ARM) DeepCopy() *StringInAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringInAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringInAdvancedFilter_STATUS) DeepCopyInto(out *StringInAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringInAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringInAdvancedFilter_STATUS.
+func (in *StringInAdvancedFilter_STATUS) DeepCopy() *StringInAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StringInAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringInAdvancedFilter_STATUS_ARM) DeepCopyInto(out *StringInAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringInAdvancedFilter_STATUS_ARM.
+func (in *StringInAdvancedFilter_STATUS_ARM) DeepCopy() *StringInAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringInAdvancedFilter_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringNotInAdvancedFilter) DeepCopyInto(out *StringNotInAdvancedFilter) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringNotInAdvancedFilter_OperatorType)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringNotInAdvancedFilter.
+func (in *StringNotInAdvancedFilter) DeepCopy() *StringNotInAdvancedFilter {
+	if in == nil {
+		return nil
+	}
+	out := new(StringNotInAdvancedFilter)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringNotInAdvancedFilter_ARM) DeepCopyInto(out *StringNotInAdvancedFilter_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringNotInAdvancedFilter_ARM.
+func (in *StringNotInAdvancedFilter_ARM) DeepCopy() *StringNotInAdvancedFilter_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringNotInAdvancedFilter_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringNotInAdvancedFilter_STATUS) DeepCopyInto(out *StringNotInAdvancedFilter_STATUS) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.OperatorType != nil {
+		in, out := &in.OperatorType, &out.OperatorType
+		*out = new(StringNotInAdvancedFilter_OperatorType_STATUS)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringNotInAdvancedFilter_STATUS.
+func (in *StringNotInAdvancedFilter_STATUS) DeepCopy() *StringNotInAdvancedFilter_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(StringNotInAdvancedFilter_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *StringNotInAdvancedFilter_STATUS_ARM) DeepCopyInto(out *StringNotInAdvancedFilter_STATUS_ARM) {
+	*out = *in
+	if in.Key != nil {
+		in, out := &in.Key, &out.Key
+		*out = new(string)
+		**out = **in
+	}
+	if in.Values != nil {
+		in, out := &in.Values, &out.Values
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new StringNotInAdvancedFilter_STATUS_ARM.
+func (in *StringNotInAdvancedFilter_STATUS_ARM) DeepCopy() *StringNotInAdvancedFilter_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(StringNotInAdvancedFilter_STATUS_ARM)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3572,6 +4954,43 @@ func (in *TopicList) DeepCopyObject() runtime.Object {
 		return c
 	}
 	return nil
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TopicProperties_ARM) DeepCopyInto(out *TopicProperties_ARM) {
+	*out = *in
+	if in.InboundIpRules != nil {
+		in, out := &in.InboundIpRules, &out.InboundIpRules
+		*out = make([]InboundIpRule_ARM, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InputSchema != nil {
+		in, out := &in.InputSchema, &out.InputSchema
+		*out = new(TopicProperties_InputSchema)
+		**out = **in
+	}
+	if in.InputSchemaMapping != nil {
+		in, out := &in.InputSchemaMapping, &out.InputSchemaMapping
+		*out = new(InputSchemaMapping_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PublicNetworkAccess != nil {
+		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
+		*out = new(TopicProperties_PublicNetworkAccess)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TopicProperties_ARM.
+func (in *TopicProperties_ARM) DeepCopy() *TopicProperties_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(TopicProperties_ARM)
+	in.DeepCopyInto(out)
+	return out
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
@@ -3786,6 +5205,23 @@ func (in *Topic_STATUS_ARM) DeepCopy() *Topic_STATUS_ARM {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Topic_Spec) DeepCopyInto(out *Topic_Spec) {
 	*out = *in
+	if in.InboundIpRules != nil {
+		in, out := &in.InboundIpRules, &out.InboundIpRules
+		*out = make([]InboundIpRule, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.InputSchema != nil {
+		in, out := &in.InputSchema, &out.InputSchema
+		*out = new(TopicProperties_InputSchema)
+		**out = **in
+	}
+	if in.InputSchemaMapping != nil {
+		in, out := &in.InputSchemaMapping, &out.InputSchemaMapping
+		*out = new(InputSchemaMapping)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
@@ -3794,6 +5230,11 @@ func (in *Topic_Spec) DeepCopyInto(out *Topic_Spec) {
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
+		**out = **in
+	}
+	if in.PublicNetworkAccess != nil {
+		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
+		*out = new(TopicProperties_PublicNetworkAccess)
 		**out = **in
 	}
 	if in.Tags != nil {
@@ -3823,6 +5264,11 @@ func (in *Topic_Spec_ARM) DeepCopyInto(out *Topic_Spec_ARM) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(TopicProperties_ARM)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))
@@ -3845,31 +5291,6 @@ func (in *Topic_Spec_ARM) DeepCopy() *Topic_Spec_ARM {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WebHookEventSubscriptionDestination) DeepCopyInto(out *WebHookEventSubscriptionDestination) {
 	*out = *in
-	if in.EndpointType != nil {
-		in, out := &in.EndpointType, &out.EndpointType
-		*out = new(WebHookEventSubscriptionDestination_EndpointType)
-		**out = **in
-	}
-	if in.Properties != nil {
-		in, out := &in.Properties, &out.Properties
-		*out = new(WebHookEventSubscriptionDestinationProperties)
-		(*in).DeepCopyInto(*out)
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WebHookEventSubscriptionDestination.
-func (in *WebHookEventSubscriptionDestination) DeepCopy() *WebHookEventSubscriptionDestination {
-	if in == nil {
-		return nil
-	}
-	out := new(WebHookEventSubscriptionDestination)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *WebHookEventSubscriptionDestinationProperties) DeepCopyInto(out *WebHookEventSubscriptionDestinationProperties) {
-	*out = *in
 	if in.AzureActiveDirectoryApplicationIdOrUri != nil {
 		in, out := &in.AzureActiveDirectoryApplicationIdOrUri, &out.AzureActiveDirectoryApplicationIdOrUri
 		*out = new(string)
@@ -3880,9 +5301,14 @@ func (in *WebHookEventSubscriptionDestinationProperties) DeepCopyInto(out *WebHo
 		*out = new(string)
 		**out = **in
 	}
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(WebHookEventSubscriptionDestination_EndpointType)
+		**out = **in
+	}
 	if in.EndpointUrl != nil {
 		in, out := &in.EndpointUrl, &out.EndpointUrl
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.MaxEventsPerBatch != nil {
@@ -3897,12 +5323,12 @@ func (in *WebHookEventSubscriptionDestinationProperties) DeepCopyInto(out *WebHo
 	}
 }
 
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WebHookEventSubscriptionDestinationProperties.
-func (in *WebHookEventSubscriptionDestinationProperties) DeepCopy() *WebHookEventSubscriptionDestinationProperties {
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WebHookEventSubscriptionDestination.
+func (in *WebHookEventSubscriptionDestination) DeepCopy() *WebHookEventSubscriptionDestination {
 	if in == nil {
 		return nil
 	}
-	out := new(WebHookEventSubscriptionDestinationProperties)
+	out := new(WebHookEventSubscriptionDestination)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -3948,6 +5374,46 @@ func (in *WebHookEventSubscriptionDestinationProperties_ARM) DeepCopy() *WebHook
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WebHookEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopyInto(out *WebHookEventSubscriptionDestinationProperties_STATUS_ARM) {
+	*out = *in
+	if in.AzureActiveDirectoryApplicationIdOrUri != nil {
+		in, out := &in.AzureActiveDirectoryApplicationIdOrUri, &out.AzureActiveDirectoryApplicationIdOrUri
+		*out = new(string)
+		**out = **in
+	}
+	if in.AzureActiveDirectoryTenantId != nil {
+		in, out := &in.AzureActiveDirectoryTenantId, &out.AzureActiveDirectoryTenantId
+		*out = new(string)
+		**out = **in
+	}
+	if in.EndpointBaseUrl != nil {
+		in, out := &in.EndpointBaseUrl, &out.EndpointBaseUrl
+		*out = new(string)
+		**out = **in
+	}
+	if in.MaxEventsPerBatch != nil {
+		in, out := &in.MaxEventsPerBatch, &out.MaxEventsPerBatch
+		*out = new(int)
+		**out = **in
+	}
+	if in.PreferredBatchSizeInKilobytes != nil {
+		in, out := &in.PreferredBatchSizeInKilobytes, &out.PreferredBatchSizeInKilobytes
+		*out = new(int)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WebHookEventSubscriptionDestinationProperties_STATUS_ARM.
+func (in *WebHookEventSubscriptionDestinationProperties_STATUS_ARM) DeepCopy() *WebHookEventSubscriptionDestinationProperties_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(WebHookEventSubscriptionDestinationProperties_STATUS_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *WebHookEventSubscriptionDestination_ARM) DeepCopyInto(out *WebHookEventSubscriptionDestination_ARM) {
 	*out = *in
 	if in.Properties != nil {
@@ -3963,6 +5429,71 @@ func (in *WebHookEventSubscriptionDestination_ARM) DeepCopy() *WebHookEventSubsc
 		return nil
 	}
 	out := new(WebHookEventSubscriptionDestination_ARM)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WebHookEventSubscriptionDestination_STATUS) DeepCopyInto(out *WebHookEventSubscriptionDestination_STATUS) {
+	*out = *in
+	if in.AzureActiveDirectoryApplicationIdOrUri != nil {
+		in, out := &in.AzureActiveDirectoryApplicationIdOrUri, &out.AzureActiveDirectoryApplicationIdOrUri
+		*out = new(string)
+		**out = **in
+	}
+	if in.AzureActiveDirectoryTenantId != nil {
+		in, out := &in.AzureActiveDirectoryTenantId, &out.AzureActiveDirectoryTenantId
+		*out = new(string)
+		**out = **in
+	}
+	if in.EndpointBaseUrl != nil {
+		in, out := &in.EndpointBaseUrl, &out.EndpointBaseUrl
+		*out = new(string)
+		**out = **in
+	}
+	if in.EndpointType != nil {
+		in, out := &in.EndpointType, &out.EndpointType
+		*out = new(WebHookEventSubscriptionDestination_EndpointType_STATUS)
+		**out = **in
+	}
+	if in.MaxEventsPerBatch != nil {
+		in, out := &in.MaxEventsPerBatch, &out.MaxEventsPerBatch
+		*out = new(int)
+		**out = **in
+	}
+	if in.PreferredBatchSizeInKilobytes != nil {
+		in, out := &in.PreferredBatchSizeInKilobytes, &out.PreferredBatchSizeInKilobytes
+		*out = new(int)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WebHookEventSubscriptionDestination_STATUS.
+func (in *WebHookEventSubscriptionDestination_STATUS) DeepCopy() *WebHookEventSubscriptionDestination_STATUS {
+	if in == nil {
+		return nil
+	}
+	out := new(WebHookEventSubscriptionDestination_STATUS)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *WebHookEventSubscriptionDestination_STATUS_ARM) DeepCopyInto(out *WebHookEventSubscriptionDestination_STATUS_ARM) {
+	*out = *in
+	if in.Properties != nil {
+		in, out := &in.Properties, &out.Properties
+		*out = new(WebHookEventSubscriptionDestinationProperties_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new WebHookEventSubscriptionDestination_STATUS_ARM.
+func (in *WebHookEventSubscriptionDestination_STATUS_ARM) DeepCopy() *WebHookEventSubscriptionDestination_STATUS_ARM {
+	if in == nil {
+		return nil
+	}
+	out := new(WebHookEventSubscriptionDestination_STATUS_ARM)
 	in.DeepCopyInto(out)
 	return out
 }

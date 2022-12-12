@@ -12,25 +12,10 @@ import (
 )
 
 var (
-	aboveValue = EnumValue{
-		Identifier: "Above",
-		Value:      "Above",
-	}
-
-	underValue = EnumValue{
-		Identifier: "Under",
-		Value:      "Under",
-	}
-
-	leftValue = EnumValue{
-		Identifier: "Left",
-		Value:      "left",
-	}
-
-	rightValue = EnumValue{
-		Identifier: "Right",
-		Value:      "Right",
-	}
+	aboveValue = MakeEnumValue("Above", "Above")
+	underValue = MakeEnumValue("Under", "Under")
+	leftValue  = MakeEnumValue("Left", "left")
+	rightValue = MakeEnumValue("Right", "Right")
 )
 
 /*

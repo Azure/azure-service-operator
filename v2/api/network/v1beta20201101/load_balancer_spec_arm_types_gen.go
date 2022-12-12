@@ -9,19 +9,17 @@ type LoadBalancer_Spec_ARM struct {
 	// ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer.
-	Properties *LoadBalancer_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *LoadBalancerPropertiesFormat_ARM `json:"properties,omitempty"`
 
 	// Sku: The load balancer SKU.
 	Sku *LoadBalancerSku_ARM `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -42,40 +40,44 @@ func (balancer *LoadBalancer_Spec_ARM) GetType() string {
 	return "Microsoft.Network/loadBalancers"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation
 type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-type LoadBalancer_Properties_Spec_ARM struct {
+type LoadBalancerPropertiesFormat_ARM struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
-	BackendAddressPools []LoadBalancer_Properties_BackendAddressPools_Spec_ARM `json:"backendAddressPools,omitempty"`
+	BackendAddressPools []BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM `json:"backendAddressPools,omitempty"`
 
 	// FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.
-	FrontendIPConfigurations []LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM `json:"frontendIPConfigurations,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM `json:"frontendIPConfigurations,omitempty"`
 
 	// InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
 	// balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
 	// port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
 	// rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
 	// virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
-	InboundNatPools []LoadBalancer_Properties_InboundNatPools_Spec_ARM `json:"inboundNatPools,omitempty"`
+	InboundNatPools []InboundNatPool_ARM `json:"inboundNatPools,omitempty"`
+
+	// InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
+	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
+	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
+	// reference individual inbound NAT rules.
+	InboundNatRules []InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM `json:"inboundNatRules,omitempty"`
 
 	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
-	LoadBalancingRules []LoadBalancer_Properties_LoadBalancingRules_Spec_ARM `json:"loadBalancingRules,omitempty"`
+	LoadBalancingRules []LoadBalancingRule_ARM `json:"loadBalancingRules,omitempty"`
 
 	// OutboundRules: The outbound rules.
-	OutboundRules []LoadBalancer_Properties_OutboundRules_Spec_ARM `json:"outboundRules,omitempty"`
+	OutboundRules []OutboundRule_ARM `json:"outboundRules,omitempty"`
 
 	// Probes: Collection of probe objects used in the load balancer.
-	Probes []LoadBalancer_Properties_Probes_Spec_ARM `json:"probes,omitempty"`
+	Probes []Probe_ARM `json:"probes,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerSku
 type LoadBalancerSku_ARM struct {
 	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name `json:"name,omitempty"`
@@ -84,21 +86,21 @@ type LoadBalancerSku_ARM struct {
 	Tier *LoadBalancerSku_Tier `json:"tier,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
-
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
-
-type LoadBalancer_Properties_BackendAddressPools_Spec_ARM struct {
+type BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
 	// name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer backend address pool.
-	Properties *LoadBalancer_Properties_BackendAddressPools_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *BackendAddressPoolPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM struct {
+// +kubebuilder:validation:Enum={"EdgeZone"}
+type ExtendedLocationType string
+
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
+
+type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
 	// This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -110,7 +112,7 @@ type LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-type LoadBalancer_Properties_InboundNatPools_Spec_ARM struct {
+type InboundNatPool_ARM struct {
 	// Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
 	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -119,31 +121,13 @@ type LoadBalancer_Properties_InboundNatPools_Spec_ARM struct {
 	Properties *InboundNatPoolPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-type LoadBalancer_Properties_LoadBalancingRules_Spec_ARM struct {
-	// Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-	// name can be used to access the resource.
+type InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM struct {
+	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
+	// can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties of load balancer load balancing rule.
-	Properties *LoadBalancingRulePropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-type LoadBalancer_Properties_OutboundRules_Spec_ARM struct {
-	// Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-	// be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of load balancer outbound rule.
-	Properties *OutboundRulePropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-type LoadBalancer_Properties_Probes_Spec_ARM struct {
-	// Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-	// to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of load balancer probe.
-	Properties *ProbePropertiesFormat_ARM `json:"properties,omitempty"`
+	// Properties: Properties of load balancer inbound nat rule.
+	Properties *InboundNatRulePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
@@ -162,28 +146,58 @@ const (
 	LoadBalancerSku_Tier_Regional = LoadBalancerSku_Tier("Regional")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/FrontendIPConfigurationPropertiesFormat
+type LoadBalancingRule_ARM struct {
+	// Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
+	// name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of load balancer load balancing rule.
+	Properties *LoadBalancingRulePropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+type OutboundRule_ARM struct {
+	// Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
+	// be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of load balancer outbound rule.
+	Properties *OutboundRulePropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+type Probe_ARM struct {
+	// Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
+	// to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of load balancer probe.
+	Properties *ProbePropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+type BackendAddressPoolPropertiesFormat_ARM struct {
+	// LoadBalancerBackendAddresses: An array of backend addresses.
+	LoadBalancerBackendAddresses []LoadBalancerBackendAddress_ARM `json:"loadBalancerBackendAddresses,omitempty"`
+}
+
 type FrontendIPConfigurationPropertiesFormat_ARM struct {
 	// PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
 
 	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
 
 	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
 
 	// PublicIPAddress: The reference to the Public IP resource.
-	PublicIPAddress *SubResource_ARM `json:"publicIPAddress,omitempty"`
+	PublicIPAddress *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
 
 	// PublicIPPrefix: The reference to the Public IP Prefix resource.
 	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
 
 	// Subnet: The reference to the subnet resource.
-	Subnet *SubResource_ARM `json:"subnet,omitempty"`
+	Subnet *Subnet_LoadBalancer_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/InboundNatPoolPropertiesFormat
 type InboundNatPoolPropertiesFormat_ARM struct {
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
@@ -213,18 +227,37 @@ type InboundNatPoolPropertiesFormat_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *InboundNatPoolPropertiesFormat_Protocol `json:"protocol,omitempty"`
+	Protocol *TransportProtocol `json:"protocol,omitempty"`
 }
 
-type LoadBalancer_Properties_BackendAddressPools_Properties_Spec_ARM struct {
-	// LoadBalancerBackendAddresses: An array of backend addresses.
-	LoadBalancerBackendAddresses []LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM `json:"loadBalancerBackendAddresses,omitempty"`
+type InboundNatRulePropertiesFormat_ARM struct {
+	// BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
+	BackendPort *int `json:"backendPort,omitempty"`
 
-	// Location: The location of the backend address pool.
-	Location *string `json:"location,omitempty"`
+	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
+	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
+	// This setting can't be changed after you create the endpoint.
+	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
+
+	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
+	// element is only used when the protocol is set to TCP.
+	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
+
+	// FrontendIPConfiguration: A reference to frontend IP addresses.
+	FrontendIPConfiguration *SubResource_ARM `json:"frontendIPConfiguration,omitempty"`
+
+	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
+	// Acceptable values range from 1 to 65534.
+	FrontendPort *int `json:"frontendPort,omitempty"`
+
+	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
+	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
+	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
+
+	// Protocol: The reference to the transport protocol used by the load balancing rule.
+	Protocol *TransportProtocol `json:"protocol,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancingRulePropertiesFormat
 type LoadBalancingRulePropertiesFormat_ARM struct {
 	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
 	// IPs.
@@ -265,10 +298,9 @@ type LoadBalancingRulePropertiesFormat_ARM struct {
 	Probe *SubResource_ARM `json:"probe,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *LoadBalancingRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	Protocol *TransportProtocol `json:"protocol,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/OutboundRulePropertiesFormat
 type OutboundRulePropertiesFormat_ARM struct {
 	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
@@ -291,7 +323,6 @@ type OutboundRulePropertiesFormat_ARM struct {
 	Protocol *OutboundRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ProbePropertiesFormat
 type ProbePropertiesFormat_ARM struct {
 	// IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
 	// interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
@@ -316,7 +347,7 @@ type ProbePropertiesFormat_ARM struct {
 	RequestPath *string `json:"requestPath,omitempty"`
 }
 
-type LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM struct {
+type LoadBalancerBackendAddress_ARM struct {
 	// Name: Name of the backend address.
 	Name *string `json:"name,omitempty"`
 
@@ -324,7 +355,14 @@ type LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendA
 	Properties *LoadBalancerBackendAddressPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/LoadBalancerBackendAddressPropertiesFormat
+type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type Subnet_LoadBalancer_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
 type LoadBalancerBackendAddressPropertiesFormat_ARM struct {
 	// IpAddress: IP Address belonging to the referenced virtual network.
 	IpAddress *string `json:"ipAddress,omitempty"`

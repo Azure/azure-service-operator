@@ -162,7 +162,7 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	tc.Expect(resourceID).ToNot(BeEmpty())
 
 	// Deleting server1 here using AzureClient so that Operator does not know about the deletion.
-	// If operator reconciles that resource again it will be recreated and we will notice
+	// If operator reconciles that resource again it will be recreated, and we will notice
 	resp, err := tc.AzureClient.BeginDeleteByID(tc.Ctx, resourceID, vm1.GetAPIVersion())
 	tc.Expect(err).ToNot(HaveOccurred())
 	_, err = resp.Poller.PollUntilDone(tc.Ctx, nil)
@@ -171,8 +171,8 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	// VM2 with same secret name in ns2
 	_ = createNamespacedVM(tc, rg2, ns2, ns2Secret)
 
-	// Here we want to make sure that the server1 we deleted from Azure was not created again by a reconcile triggered when the second secret was created
-	// in other namespace
+	// Here we want to make sure that the server1 we deleted from Azure was not created again by a reconcile triggered
+	// when the second secret was created in other namespace
 	_, err = tc.AzureClient.GetByID(tc.Ctx, resourceID, vm1.GetAPIVersion(), vm1)
 	tc.Expect(err).To(HaveOccurred())
 	tc.Expect(genericarmclient.IsNotFoundError(err)).To(BeTrue())

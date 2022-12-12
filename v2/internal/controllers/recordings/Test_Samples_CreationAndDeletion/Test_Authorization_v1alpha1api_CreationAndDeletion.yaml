@@ -166,7 +166,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -207,7 +207,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -248,7 +248,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -289,7 +289,7 @@ interactions:
     code: 400
     duration: ""
 - request:
-    body: '{"location":"westcentralus","name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"name":"b5ce4677-d53d-4532-aa18-ac32aecb1111","properties":{"principalId":"eececd28-268b-4e18-b867-b5095685ecfd","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:

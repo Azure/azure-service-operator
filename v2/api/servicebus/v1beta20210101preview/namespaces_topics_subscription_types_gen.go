@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
 type NamespacesTopicsSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topics_Subscription_Spec `json:"spec,omitempty"`
-	Status            SBSubscription_STATUS               `json:"status,omitempty"`
+	Spec              Namespaces_Topics_Subscription_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topics_Subscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopicsSubscription{}
@@ -123,7 +125,7 @@ func (subscription *NamespacesTopicsSubscription) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBSubscription_STATUS{}
+	return &Namespaces_Topics_Subscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (subscription *NamespacesTopicsSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBSubscription_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBSubscription_STATUS
+	var st Namespaces_Topics_Subscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +265,10 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_From_Namespac
 	subscription.Spec = spec
 
 	// Status
-	var status SBSubscription_STATUS
-	err = status.AssignProperties_From_SBSubscription_STATUS(&source.Status)
+	var status Namespaces_Topics_Subscription_STATUS
+	err = status.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SBSubscription_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topics_Subscription_STATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -289,10 +291,10 @@ func (subscription *NamespacesTopicsSubscription) AssignProperties_To_Namespaces
 	destination.Spec = spec
 
 	// Status
-	var status v20210101ps.SBSubscription_STATUS
-	err = subscription.Status.AssignProperties_To_SBSubscription_STATUS(&status)
+	var status v20210101ps.Namespaces_Topics_Subscription_STATUS
+	err = subscription.Status.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SBSubscription_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topics_Subscription_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,7 +312,9 @@ func (subscription *NamespacesTopicsSubscription) OriginalGVK() *schema.GroupVer
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics_subscriptions
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
 type NamespacesTopicsSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -354,9 +358,6 @@ type Namespaces_Topics_Subscription_Spec struct {
 	// ForwardTo: Queue/Topic name to forward the messages
 	ForwardTo *string `json:"forwardTo,omitempty"`
 
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	// LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.
 	LockDuration *string `json:"lockDuration,omitempty"`
 
@@ -371,9 +372,6 @@ type Namespaces_Topics_Subscription_Spec struct {
 
 	// RequiresSession: Value indicating if a subscription supports the concept of sessions.
 	RequiresSession *bool `json:"requiresSession,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Topics_Subscription_Spec{}
@@ -384,12 +382,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 		return nil, nil
 	}
 	result := &Namespaces_Topics_Subscription_Spec_ARM{}
-
-	// Set property ‘Location’:
-	if subscription.Location != nil {
-		location := *subscription.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -451,14 +443,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertToARM(resolved g
 	if subscription.RequiresSession != nil {
 		requiresSession := *subscription.RequiresSession
 		result.Properties.RequiresSession = &requiresSession
-	}
-
-	// Set property ‘Tags’:
-	if subscription.Tags != nil {
-		result.Tags = make(map[string]string, len(subscription.Tags))
-		for key, value := range subscription.Tags {
-			result.Tags[key] = value
-		}
 	}
 	return result, nil
 }
@@ -550,12 +534,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		}
 	}
 
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		subscription.Location = &location
-	}
-
 	// Set property ‘LockDuration’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -583,14 +561,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) PopulateFromARM(owner g
 		if typedInput.Properties.RequiresSession != nil {
 			requiresSession := *typedInput.Properties.RequiresSession
 			subscription.RequiresSession = &requiresSession
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		subscription.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			subscription.Tags[key] = value
 		}
 	}
 
@@ -708,9 +678,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	// ForwardTo
 	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
 
-	// Location
-	subscription.Location = genruntime.ClonePointerToString(source.Location)
-
 	// LockDuration
 	if source.LockDuration != nil {
 		lockDuration := *source.LockDuration
@@ -737,9 +704,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	} else {
 		subscription.RequiresSession = nil
 	}
-
-	// Tags
-	subscription.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -807,9 +771,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	// ForwardTo
 	destination.ForwardTo = genruntime.ClonePointerToString(subscription.ForwardTo)
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(subscription.Location)
-
 	// LockDuration
 	if subscription.LockDuration != nil {
 		lockDuration := *subscription.LockDuration
@@ -840,9 +801,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		destination.RequiresSession = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(subscription.Tags)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -864,7 +822,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) SetAzureName(azureName 
 	subscription.AzureName = azureName
 }
 
-type SBSubscription_STATUS struct {
+type Namespaces_Topics_Subscription_STATUS struct {
 	// AccessedAt: Last time there was a receive request to this subscription.
 	AccessedAt *string `json:"accessedAt,omitempty"`
 
@@ -938,25 +896,25 @@ type SBSubscription_STATUS struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBSubscription_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}
 
-// ConvertStatusFrom populates our SBSubscription_STATUS from the provided source
-func (subscription *SBSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210101ps.SBSubscription_STATUS)
+// ConvertStatusFrom populates our Namespaces_Topics_Subscription_STATUS from the provided source
+func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210101ps.Namespaces_Topics_Subscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignProperties_From_SBSubscription_STATUS(src)
+		return subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101ps.SBSubscription_STATUS{}
+	src = &v20210101ps.Namespaces_Topics_Subscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignProperties_From_SBSubscription_STATUS(src)
+	err = subscription.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -964,17 +922,17 @@ func (subscription *SBSubscription_STATUS) ConvertStatusFrom(source genruntime.C
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SBSubscription_STATUS
-func (subscription *SBSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210101ps.SBSubscription_STATUS)
+// ConvertStatusTo populates the provided destination from our Namespaces_Topics_Subscription_STATUS
+func (subscription *Namespaces_Topics_Subscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210101ps.Namespaces_Topics_Subscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignProperties_To_SBSubscription_STATUS(dst)
+		return subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101ps.SBSubscription_STATUS{}
-	err := subscription.AssignProperties_To_SBSubscription_STATUS(dst)
+	dst = &v20210101ps.Namespaces_Topics_Subscription_STATUS{}
+	err := subscription.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -988,18 +946,18 @@ func (subscription *SBSubscription_STATUS) ConvertStatusTo(destination genruntim
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SBSubscription_STATUS{}
+var _ genruntime.FromARMConverter = &Namespaces_Topics_Subscription_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subscription *SBSubscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBSubscription_STATUS_ARM{}
+func (subscription *Namespaces_Topics_Subscription_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Topics_Subscription_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subscription *SBSubscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBSubscription_STATUS_ARM)
+func (subscription *Namespaces_Topics_Subscription_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Topics_Subscription_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBSubscription_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topics_Subscription_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AccessedAt’:
@@ -1195,8 +1153,8 @@ func (subscription *SBSubscription_STATUS) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignProperties_From_SBSubscription_STATUS populates our SBSubscription_STATUS from the provided source SBSubscription_STATUS
-func (subscription *SBSubscription_STATUS) AssignProperties_From_SBSubscription_STATUS(source *v20210101ps.SBSubscription_STATUS) error {
+// AssignProperties_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_STATUS from the provided source Namespaces_Topics_Subscription_STATUS
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_From_Namespaces_Topics_Subscription_STATUS(source *v20210101ps.Namespaces_Topics_Subscription_STATUS) error {
 
 	// AccessedAt
 	subscription.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1311,8 +1269,8 @@ func (subscription *SBSubscription_STATUS) AssignProperties_From_SBSubscription_
 	return nil
 }
 
-// AssignProperties_To_SBSubscription_STATUS populates the provided destination SBSubscription_STATUS from our SBSubscription_STATUS
-func (subscription *SBSubscription_STATUS) AssignProperties_To_SBSubscription_STATUS(destination *v20210101ps.SBSubscription_STATUS) error {
+// AssignProperties_To_Namespaces_Topics_Subscription_STATUS populates the provided destination Namespaces_Topics_Subscription_STATUS from our Namespaces_Topics_Subscription_STATUS
+func (subscription *Namespaces_Topics_Subscription_STATUS) AssignProperties_To_Namespaces_Topics_Subscription_STATUS(destination *v20210101ps.Namespaces_Topics_Subscription_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

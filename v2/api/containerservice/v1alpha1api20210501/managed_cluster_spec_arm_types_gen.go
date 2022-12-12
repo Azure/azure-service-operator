@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of ManagedCluster_Spec. Use v1beta20210501.ManagedCluster_Spec instead
 type ManagedCluster_Spec_ARM struct {
@@ -38,53 +35,45 @@ func (cluster *ManagedCluster_Spec_ARM) GetType() string {
 
 // Deprecated version of ExtendedLocation. Use v1beta20210501.ExtendedLocation instead
 type ExtendedLocation_ARM struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
 type ManagedClusterIdentity_ARM struct {
-	Type                   *ManagedClusterIdentity_Type `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON           `json:"userAssignedIdentities,omitempty"`
+	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagedClusterProperties. Use v1beta20210501.ManagedClusterProperties instead
 type ManagedClusterProperties_ARM struct {
-	AadProfile              *ManagedClusterAADProfile_ARM                                                                               `json:"aadProfile,omitempty"`
-	AddonProfiles           map[string]ManagedClusterAddonProfile_ARM                                                                   `json:"addonProfiles,omitempty"`
-	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_ARM                                                                        `json:"agentPoolProfiles,omitempty"`
-	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_ARM                                                                   `json:"apiServerAccessProfile,omitempty"`
-	AutoScalerProfile       *ManagedClusterPropertiesAutoScalerProfile_ARM                                                              `json:"autoScalerProfile,omitempty"`
-	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfile_ARM                                                                       `json:"autoUpgradeProfile,omitempty"`
-	DisableLocalAccounts    *bool                                                                                                       `json:"disableLocalAccounts,omitempty"`
-	DiskEncryptionSetID     *string                                                                                                     `json:"diskEncryptionSetID,omitempty"`
-	DnsPrefix               *string                                                                                                     `json:"dnsPrefix,omitempty"`
-	EnablePodSecurityPolicy *bool                                                                                                       `json:"enablePodSecurityPolicy,omitempty"`
-	EnableRBAC              *bool                                                                                                       `json:"enableRBAC,omitempty"`
-	FqdnSubdomain           *string                                                                                                     `json:"fqdnSubdomain,omitempty"`
-	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_ARM                                                                          `json:"httpProxyConfig,omitempty"`
-	IdentityProfile         map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM `json:"identityProfile,omitempty"`
-	KubernetesVersion       *string                                                                                                     `json:"kubernetesVersion,omitempty"`
-	LinuxProfile            *ContainerServiceLinuxProfile_ARM                                                                           `json:"linuxProfile,omitempty"`
-	NetworkProfile          *ContainerServiceNetworkProfile_ARM                                                                         `json:"networkProfile,omitempty"`
-	NodeResourceGroup       *string                                                                                                     `json:"nodeResourceGroup,omitempty"`
-	PodIdentityProfile      *ManagedClusterPodIdentityProfile_ARM                                                                       `json:"podIdentityProfile,omitempty"`
-	PrivateLinkResources    []PrivateLinkResource_ARM                                                                                   `json:"privateLinkResources,omitempty"`
-	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_ARM                                                                  `json:"servicePrincipalProfile,omitempty"`
-	WindowsProfile          *ManagedClusterWindowsProfile_ARM                                                                           `json:"windowsProfile,omitempty"`
+	AadProfile              *ManagedClusterAADProfile_ARM                   `json:"aadProfile,omitempty"`
+	AddonProfiles           map[string]ManagedClusterAddonProfile_ARM       `json:"addonProfiles,omitempty"`
+	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_ARM            `json:"agentPoolProfiles,omitempty"`
+	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_ARM       `json:"apiServerAccessProfile,omitempty"`
+	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_ARM `json:"autoScalerProfile,omitempty"`
+	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfile_ARM           `json:"autoUpgradeProfile,omitempty"`
+	DisableLocalAccounts    *bool                                           `json:"disableLocalAccounts,omitempty"`
+	DiskEncryptionSetID     *string                                         `json:"diskEncryptionSetID,omitempty"`
+	DnsPrefix               *string                                         `json:"dnsPrefix,omitempty"`
+	EnablePodSecurityPolicy *bool                                           `json:"enablePodSecurityPolicy,omitempty"`
+	EnableRBAC              *bool                                           `json:"enableRBAC,omitempty"`
+	FqdnSubdomain           *string                                         `json:"fqdnSubdomain,omitempty"`
+	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_ARM              `json:"httpProxyConfig,omitempty"`
+	IdentityProfile         map[string]UserAssignedIdentity_ARM             `json:"identityProfile,omitempty"`
+	KubernetesVersion       *string                                         `json:"kubernetesVersion,omitempty"`
+	LinuxProfile            *ContainerServiceLinuxProfile_ARM               `json:"linuxProfile,omitempty"`
+	NetworkProfile          *ContainerServiceNetworkProfile_ARM             `json:"networkProfile,omitempty"`
+	NodeResourceGroup       *string                                         `json:"nodeResourceGroup,omitempty"`
+	PodIdentityProfile      *ManagedClusterPodIdentityProfile_ARM           `json:"podIdentityProfile,omitempty"`
+	PrivateLinkResources    []PrivateLinkResource_ARM                       `json:"privateLinkResources,omitempty"`
+	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile_ARM      `json:"servicePrincipalProfile,omitempty"`
+	WindowsProfile          *ManagedClusterWindowsProfile_ARM               `json:"windowsProfile,omitempty"`
 }
 
 // Deprecated version of ManagedClusterSKU. Use v1beta20210501.ManagedClusterSKU instead
 type ManagedClusterSKU_ARM struct {
 	Name *ManagedClusterSKU_Name `json:"name,omitempty"`
 	Tier *ManagedClusterSKU_Tier `json:"tier,omitempty"`
-}
-
-// Deprecated version of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties. Use v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instead
-type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_ARM struct {
-	ClientId   *string `json:"clientId,omitempty"`
-	ObjectId   *string `json:"objectId,omitempty"`
-	ResourceId *string `json:"resourceId,omitempty"`
 }
 
 // Deprecated version of ContainerServiceLinuxProfile. Use v1beta20210501.ContainerServiceLinuxProfile instead
@@ -107,11 +96,11 @@ type ContainerServiceNetworkProfile_ARM struct {
 	ServiceCidr         *string                                         `json:"serviceCidr,omitempty"`
 }
 
-// Deprecated version of ExtendedLocation_Type. Use v1beta20210501.ExtendedLocation_Type instead
+// Deprecated version of ExtendedLocationType. Use v1beta20210501.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
+type ExtendedLocationType string
 
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
 type ManagedClusterAADProfile_ARM struct {
@@ -132,40 +121,40 @@ type ManagedClusterAddonProfile_ARM struct {
 
 // Deprecated version of ManagedClusterAgentPoolProfile. Use v1beta20210501.ManagedClusterAgentPoolProfile instead
 type ManagedClusterAgentPoolProfile_ARM struct {
-	AvailabilityZones         []string                                               `json:"availabilityZones,omitempty"`
-	Count                     *int                                                   `json:"count,omitempty"`
-	EnableAutoScaling         *bool                                                  `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost    *bool                                                  `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS                *bool                                                  `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP        *bool                                                  `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD            *bool                                                  `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *ManagedClusterAgentPoolProfile_GpuInstanceProfile     `json:"gpuInstanceProfile,omitempty"`
-	KubeletConfig             *KubeletConfig_ARM                                     `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *ManagedClusterAgentPoolProfile_KubeletDiskType        `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig             *LinuxOSConfig_ARM                                     `json:"linuxOSConfig,omitempty"`
-	MaxCount                  *int                                                   `json:"maxCount,omitempty"`
-	MaxPods                   *int                                                   `json:"maxPods,omitempty"`
-	MinCount                  *int                                                   `json:"minCount,omitempty"`
-	Mode                      *ManagedClusterAgentPoolProfile_Mode                   `json:"mode,omitempty"`
-	Name                      *string                                                `json:"name,omitempty"`
-	NodeLabels                map[string]string                                      `json:"nodeLabels,omitempty"`
-	NodePublicIPPrefixID      *string                                                `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                                               `json:"nodeTaints,omitempty"`
-	OrchestratorVersion       *string                                                `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *int                                                   `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *ManagedClusterAgentPoolProfile_OsDiskType             `json:"osDiskType,omitempty"`
-	OsSKU                     *ManagedClusterAgentPoolProfile_OsSKU                  `json:"osSKU,omitempty"`
-	OsType                    *ManagedClusterAgentPoolProfile_OsType                 `json:"osType,omitempty"`
-	PodSubnetID               *string                                                `json:"podSubnetID,omitempty"`
-	ProximityPlacementGroupID *string                                                `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ManagedClusterAgentPoolProfile_ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ManagedClusterAgentPoolProfile_ScaleSetPriority       `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                                               `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string                                      `json:"tags,omitempty"`
-	Type                      *ManagedClusterAgentPoolProfile_Type                   `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings_ARM                          `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                                                `json:"vmSize,omitempty"`
-	VnetSubnetID              *string                                                `json:"vnetSubnetID,omitempty"`
+	AvailabilityZones         []string                      `json:"availabilityZones,omitempty"`
+	Count                     *int                          `json:"count,omitempty"`
+	EnableAutoScaling         *bool                         `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost    *bool                         `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                *bool                         `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP        *bool                         `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD            *bool                         `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile        *GPUInstanceProfile           `json:"gpuInstanceProfile,omitempty"`
+	KubeletConfig             *KubeletConfig_ARM            `json:"kubeletConfig,omitempty"`
+	KubeletDiskType           *KubeletDiskType              `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig             *LinuxOSConfig_ARM            `json:"linuxOSConfig,omitempty"`
+	MaxCount                  *int                          `json:"maxCount,omitempty"`
+	MaxPods                   *int                          `json:"maxPods,omitempty"`
+	MinCount                  *int                          `json:"minCount,omitempty"`
+	Mode                      *AgentPoolMode                `json:"mode,omitempty"`
+	Name                      *string                       `json:"name,omitempty"`
+	NodeLabels                map[string]string             `json:"nodeLabels,omitempty"`
+	NodePublicIPPrefixID      *string                       `json:"nodePublicIPPrefixID,omitempty"`
+	NodeTaints                []string                      `json:"nodeTaints,omitempty"`
+	OrchestratorVersion       *string                       `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB              *ContainerServiceOSDisk       `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                *OSDiskType                   `json:"osDiskType,omitempty"`
+	OsSKU                     *OSSKU                        `json:"osSKU,omitempty"`
+	OsType                    *OSType                       `json:"osType,omitempty"`
+	PodSubnetID               *string                       `json:"podSubnetID,omitempty"`
+	ProximityPlacementGroupID *ProximityPlacementGroupID    `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy       `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *ScaleSetPriority             `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string             `json:"tags,omitempty"`
+	Type                      *AgentPoolType                `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                       `json:"vmSize,omitempty"`
+	VnetSubnetID              *string                       `json:"vnetSubnetID,omitempty"`
 }
 
 // Deprecated version of ManagedClusterAPIServerAccessProfile. Use v1beta20210501.ManagedClusterAPIServerAccessProfile instead
@@ -207,25 +196,25 @@ type ManagedClusterPodIdentityProfile_ARM struct {
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_ARM `json:"userAssignedIdentityExceptions,omitempty"`
 }
 
-// Deprecated version of ManagedClusterPropertiesAutoScalerProfile. Use v1beta20210501.ManagedClusterPropertiesAutoScalerProfile instead
-type ManagedClusterPropertiesAutoScalerProfile_ARM struct {
-	BalanceSimilarNodeGroups      *string                                             `json:"balance-similar-node-groups,omitempty"`
-	Expander                      *ManagedClusterPropertiesAutoScalerProfile_Expander `json:"expander,omitempty"`
-	MaxEmptyBulkDelete            *string                                             `json:"max-empty-bulk-delete,omitempty"`
-	MaxGracefulTerminationSec     *string                                             `json:"max-graceful-termination-sec,omitempty"`
-	MaxNodeProvisionTime          *string                                             `json:"max-node-provision-time,omitempty"`
-	MaxTotalUnreadyPercentage     *string                                             `json:"max-total-unready-percentage,omitempty"`
-	NewPodScaleUpDelay            *string                                             `json:"new-pod-scale-up-delay,omitempty"`
-	OkTotalUnreadyCount           *string                                             `json:"ok-total-unready-count,omitempty"`
-	ScaleDownDelayAfterAdd        *string                                             `json:"scale-down-delay-after-add,omitempty"`
-	ScaleDownDelayAfterDelete     *string                                             `json:"scale-down-delay-after-delete,omitempty"`
-	ScaleDownDelayAfterFailure    *string                                             `json:"scale-down-delay-after-failure,omitempty"`
-	ScaleDownUnneededTime         *string                                             `json:"scale-down-unneeded-time,omitempty"`
-	ScaleDownUnreadyTime          *string                                             `json:"scale-down-unready-time,omitempty"`
-	ScaleDownUtilizationThreshold *string                                             `json:"scale-down-utilization-threshold,omitempty"`
-	ScanInterval                  *string                                             `json:"scan-interval,omitempty"`
-	SkipNodesWithLocalStorage     *string                                             `json:"skip-nodes-with-local-storage,omitempty"`
-	SkipNodesWithSystemPods       *string                                             `json:"skip-nodes-with-system-pods,omitempty"`
+// Deprecated version of ManagedClusterProperties_AutoScalerProfile. Use v1beta20210501.ManagedClusterProperties_AutoScalerProfile instead
+type ManagedClusterProperties_AutoScalerProfile_ARM struct {
+	BalanceSimilarNodeGroups      *string                                              `json:"balance-similar-node-groups,omitempty"`
+	Expander                      *ManagedClusterProperties_AutoScalerProfile_Expander `json:"expander,omitempty"`
+	MaxEmptyBulkDelete            *string                                              `json:"max-empty-bulk-delete,omitempty"`
+	MaxGracefulTerminationSec     *string                                              `json:"max-graceful-termination-sec,omitempty"`
+	MaxNodeProvisionTime          *string                                              `json:"max-node-provision-time,omitempty"`
+	MaxTotalUnreadyPercentage     *string                                              `json:"max-total-unready-percentage,omitempty"`
+	NewPodScaleUpDelay            *string                                              `json:"new-pod-scale-up-delay,omitempty"`
+	OkTotalUnreadyCount           *string                                              `json:"ok-total-unready-count,omitempty"`
+	ScaleDownDelayAfterAdd        *string                                              `json:"scale-down-delay-after-add,omitempty"`
+	ScaleDownDelayAfterDelete     *string                                              `json:"scale-down-delay-after-delete,omitempty"`
+	ScaleDownDelayAfterFailure    *string                                              `json:"scale-down-delay-after-failure,omitempty"`
+	ScaleDownUnneededTime         *string                                              `json:"scale-down-unneeded-time,omitempty"`
+	ScaleDownUnreadyTime          *string                                              `json:"scale-down-unready-time,omitempty"`
+	ScaleDownUtilizationThreshold *string                                              `json:"scale-down-utilization-threshold,omitempty"`
+	ScanInterval                  *string                                              `json:"scan-interval,omitempty"`
+	SkipNodesWithLocalStorage     *string                                              `json:"skip-nodes-with-local-storage,omitempty"`
+	SkipNodesWithSystemPods       *string                                              `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
 // Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead
@@ -266,6 +255,13 @@ type PrivateLinkResource_ARM struct {
 	Type            *string  `json:"type,omitempty"`
 }
 
+// Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
+type UserAssignedIdentity_ARM struct {
+	ClientId   *string `json:"clientId,omitempty"`
+	ObjectId   *string `json:"objectId,omitempty"`
+	ResourceId *string `json:"resourceId,omitempty"`
+}
+
 // Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
 type ContainerServiceSshConfiguration_ARM struct {
 	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys,omitempty"`
@@ -273,12 +269,12 @@ type ContainerServiceSshConfiguration_ARM struct {
 
 // Deprecated version of ManagedClusterLoadBalancerProfile. Use v1beta20210501.ManagedClusterLoadBalancerProfile instead
 type ManagedClusterLoadBalancerProfile_ARM struct {
-	AllocatedOutboundPorts *int                                                     `json:"allocatedOutboundPorts,omitempty"`
-	EffectiveOutboundIPs   []ResourceReference_ARM                                  `json:"effectiveOutboundIPs,omitempty"`
-	IdleTimeoutInMinutes   *int                                                     `json:"idleTimeoutInMinutes,omitempty"`
-	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM `json:"managedOutboundIPs,omitempty"`
-	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM `json:"outboundIPPrefixes,omitempty"`
-	OutboundIPs            *ManagedClusterLoadBalancerProfileOutboundIPs_ARM        `json:"outboundIPs,omitempty"`
+	AllocatedOutboundPorts *int                                                      `json:"allocatedOutboundPorts,omitempty"`
+	EffectiveOutboundIPs   []ResourceReference_ARM                                   `json:"effectiveOutboundIPs,omitempty"`
+	IdleTimeoutInMinutes   *int                                                      `json:"idleTimeoutInMinutes,omitempty"`
+	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM `json:"managedOutboundIPs,omitempty"`
+	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPs            *ManagedClusterLoadBalancerProfile_OutboundIPs_ARM        `json:"outboundIPs,omitempty"`
 }
 
 // Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
@@ -301,29 +297,22 @@ type ContainerServiceSshPublicKey_ARM struct {
 	KeyData *string `json:"keyData,omitempty"`
 }
 
-// Deprecated version of ManagedClusterLoadBalancerProfileManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs instead
-type ManagedClusterLoadBalancerProfileManagedOutboundIPs_ARM struct {
+// Deprecated version of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs instead
+type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_ARM struct {
 	Count *int `json:"count,omitempty"`
 }
 
-// Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes instead
-type ManagedClusterLoadBalancerProfileOutboundIPPrefixes_ARM struct {
+// Deprecated version of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes. Use v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes instead
+type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_ARM struct {
 	PublicIPPrefixes []ResourceReference_ARM `json:"publicIPPrefixes,omitempty"`
 }
 
-// Deprecated version of ManagedClusterLoadBalancerProfileOutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPs instead
-type ManagedClusterLoadBalancerProfileOutboundIPs_ARM struct {
+// Deprecated version of ManagedClusterLoadBalancerProfile_OutboundIPs. Use v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPs instead
+type ManagedClusterLoadBalancerProfile_OutboundIPs_ARM struct {
 	PublicIPs []ResourceReference_ARM `json:"publicIPs,omitempty"`
 }
 
 // Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
 type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of UserAssignedIdentity. Use v1beta20210501.UserAssignedIdentity instead
-type UserAssignedIdentity_ARM struct {
-	ClientId   *string `json:"clientId,omitempty"`
-	ObjectId   *string `json:"objectId,omitempty"`
-	ResourceId *string `json:"resourceId,omitempty"`
 }

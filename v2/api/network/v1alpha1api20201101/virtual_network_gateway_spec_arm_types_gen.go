@@ -7,10 +7,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualNetworkGateway_Spec. Use v1beta20201101.VirtualNetworkGateway_Spec instead
 type VirtualNetworkGateway_Spec_ARM struct {
-	Location   *string                                    `json:"location,omitempty"`
-	Name       string                                     `json:"name,omitempty"`
-	Properties *VirtualNetworkGateway_Properties_Spec_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                          `json:"tags,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM                      `json:"extendedLocation,omitempty"`
+	Location         *string                                    `json:"location,omitempty"`
+	Name             string                                     `json:"name,omitempty"`
+	Properties       *VirtualNetworkGatewayPropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworkGateway_Spec_ARM{}
@@ -30,23 +31,22 @@ func (gateway *VirtualNetworkGateway_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
-// Deprecated version of VirtualNetworkGateway_Properties_Spec. Use v1beta20201101.VirtualNetworkGateway_Properties_Spec instead
-type VirtualNetworkGateway_Properties_Spec_ARM struct {
-	ActiveActive                   *bool                                                             `json:"activeActive,omitempty"`
-	BgpSettings                    *BgpSettings_ARM                                                  `json:"bgpSettings,omitempty"`
-	CustomRoutes                   *AddressSpace_ARM                                                 `json:"customRoutes,omitempty"`
-	EnableBgp                      *bool                                                             `json:"enableBgp,omitempty"`
-	EnableDnsForwarding            *bool                                                             `json:"enableDnsForwarding,omitempty"`
-	EnablePrivateIpAddress         *bool                                                             `json:"enablePrivateIpAddress,omitempty"`
-	GatewayDefaultSite             *SubResource_ARM                                                  `json:"gatewayDefaultSite,omitempty"`
-	GatewayType                    *VirtualNetworkGateway_Properties_GatewayType_Spec                `json:"gatewayType,omitempty"`
-	IpConfigurations               []VirtualNetworkGateway_Properties_IpConfigurations_Spec_ARM      `json:"ipConfigurations,omitempty"`
-	Sku                            *VirtualNetworkGatewaySku_ARM                                     `json:"sku,omitempty"`
-	VNetExtendedLocationResourceId *string                                                           `json:"vNetExtendedLocationResourceId,omitempty"`
-	VirtualNetworkExtendedLocation *ExtendedLocation_ARM                                             `json:"virtualNetworkExtendedLocation,omitempty"`
-	VpnClientConfiguration         *VirtualNetworkGateway_Properties_VpnClientConfiguration_Spec_ARM `json:"vpnClientConfiguration,omitempty"`
-	VpnGatewayGeneration           *VirtualNetworkGateway_Properties_VpnGatewayGeneration_Spec       `json:"vpnGatewayGeneration,omitempty"`
-	VpnType                        *VirtualNetworkGateway_Properties_VpnType_Spec                    `json:"vpnType,omitempty"`
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat. Use v1beta20201101.VirtualNetworkGatewayPropertiesFormat instead
+type VirtualNetworkGatewayPropertiesFormat_ARM struct {
+	ActiveActive                   *bool                                                       `json:"activeActive,omitempty"`
+	BgpSettings                    *BgpSettings_ARM                                            `json:"bgpSettings,omitempty"`
+	CustomRoutes                   *AddressSpace_ARM                                           `json:"customRoutes,omitempty"`
+	EnableBgp                      *bool                                                       `json:"enableBgp,omitempty"`
+	EnableDnsForwarding            *bool                                                       `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress         *bool                                                       `json:"enablePrivateIpAddress,omitempty"`
+	GatewayDefaultSite             *SubResource_ARM                                            `json:"gatewayDefaultSite,omitempty"`
+	GatewayType                    *VirtualNetworkGatewayPropertiesFormat_GatewayType          `json:"gatewayType,omitempty"`
+	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_ARM                  `json:"ipConfigurations,omitempty"`
+	Sku                            *VirtualNetworkGatewaySku_ARM                               `json:"sku,omitempty"`
+	VNetExtendedLocationResourceId *string                                                     `json:"vNetExtendedLocationResourceId,omitempty"`
+	VpnClientConfiguration         *VpnClientConfiguration_ARM                                 `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                        *VirtualNetworkGatewayPropertiesFormat_VpnType              `json:"vpnType,omitempty"`
 }
 
 // Deprecated version of AddressSpace. Use v1beta20201101.AddressSpace instead
@@ -62,32 +62,32 @@ type BgpSettings_ARM struct {
 	PeerWeight          *int                                   `json:"peerWeight,omitempty"`
 }
 
-// Deprecated version of VirtualNetworkGateway_Properties_IpConfigurations_Spec. Use v1beta20201101.VirtualNetworkGateway_Properties_IpConfigurations_Spec instead
-type VirtualNetworkGateway_Properties_IpConfigurations_Spec_ARM struct {
+// Deprecated version of VirtualNetworkGatewayIPConfiguration. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration instead
+type VirtualNetworkGatewayIPConfiguration_ARM struct {
 	Name       *string                                                   `json:"name,omitempty"`
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-// Deprecated version of VirtualNetworkGateway_Properties_VpnClientConfiguration_Spec. Use v1beta20201101.VirtualNetworkGateway_Properties_VpnClientConfiguration_Spec instead
-type VirtualNetworkGateway_Properties_VpnClientConfiguration_Spec_ARM struct {
-	AadAudience                  *string                                                                                         `json:"aadAudience,omitempty"`
-	AadIssuer                    *string                                                                                         `json:"aadIssuer,omitempty"`
-	AadTenant                    *string                                                                                         `json:"aadTenant,omitempty"`
-	RadiusServerAddress          *string                                                                                         `json:"radiusServerAddress,omitempty"`
-	RadiusServerSecret           *string                                                                                         `json:"radiusServerSecret,omitempty"`
-	RadiusServers                []RadiusServer_ARM                                                                              `json:"radiusServers,omitempty"`
-	VpnAuthenticationTypes       []VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnAuthenticationTypes_Spec           `json:"vpnAuthenticationTypes,omitempty"`
-	VpnClientAddressPool         *AddressSpace_ARM                                                                               `json:"vpnClientAddressPool,omitempty"`
-	VpnClientIpsecPolicies       []IpsecPolicy_ARM                                                                               `json:"vpnClientIpsecPolicies,omitempty"`
-	VpnClientProtocols           []VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientProtocols_Spec               `json:"vpnClientProtocols,omitempty"`
-	VpnClientRevokedCertificates []VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRevokedCertificates_Spec_ARM `json:"vpnClientRevokedCertificates,omitempty"`
-	VpnClientRootCertificates    []VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRootCertificates_Spec_ARM    `json:"vpnClientRootCertificates,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
 type VirtualNetworkGatewaySku_ARM struct {
 	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
 	Tier *VirtualNetworkGatewaySku_Tier `json:"tier,omitempty"`
+}
+
+// Deprecated version of VpnClientConfiguration. Use v1beta20201101.VpnClientConfiguration instead
+type VpnClientConfiguration_ARM struct {
+	AadAudience                  *string                                         `json:"aadAudience,omitempty"`
+	AadIssuer                    *string                                         `json:"aadIssuer,omitempty"`
+	AadTenant                    *string                                         `json:"aadTenant,omitempty"`
+	RadiusServerAddress          *string                                         `json:"radiusServerAddress,omitempty"`
+	RadiusServerSecret           *string                                         `json:"radiusServerSecret,omitempty"`
+	RadiusServers                []RadiusServer_ARM                              `json:"radiusServers,omitempty"`
+	VpnAuthenticationTypes       []VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnClientAddressPool         *AddressSpace_ARM                               `json:"vpnClientAddressPool,omitempty"`
+	VpnClientIpsecPolicies       []IpsecPolicy_ARM                               `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientProtocols           []VpnClientConfiguration_VpnClientProtocols     `json:"vpnClientProtocols,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate_ARM               `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRootCertificates    []VpnClientRootCertificate_ARM                  `json:"vpnClientRootCertificates,omitempty"`
 }
 
 // Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead
@@ -98,14 +98,14 @@ type IPConfigurationBgpPeeringAddress_ARM struct {
 
 // Deprecated version of IpsecPolicy. Use v1beta20201101.IpsecPolicy instead
 type IpsecPolicy_ARM struct {
-	DhGroup             *IpsecPolicy_DhGroup         `json:"dhGroup,omitempty"`
-	IkeEncryption       *IpsecPolicy_IkeEncryption   `json:"ikeEncryption,omitempty"`
-	IkeIntegrity        *IpsecPolicy_IkeIntegrity    `json:"ikeIntegrity,omitempty"`
-	IpsecEncryption     *IpsecPolicy_IpsecEncryption `json:"ipsecEncryption,omitempty"`
-	IpsecIntegrity      *IpsecPolicy_IpsecIntegrity  `json:"ipsecIntegrity,omitempty"`
-	PfsGroup            *IpsecPolicy_PfsGroup        `json:"pfsGroup,omitempty"`
-	SaDataSizeKilobytes *int                         `json:"saDataSizeKilobytes,omitempty"`
-	SaLifeTimeSeconds   *int                         `json:"saLifeTimeSeconds,omitempty"`
+	DhGroup             *DhGroup         `json:"dhGroup,omitempty"`
+	IkeEncryption       *IkeEncryption   `json:"ikeEncryption,omitempty"`
+	IkeIntegrity        *IkeIntegrity    `json:"ikeIntegrity,omitempty"`
+	IpsecEncryption     *IpsecEncryption `json:"ipsecEncryption,omitempty"`
+	IpsecIntegrity      *IpsecIntegrity  `json:"ipsecIntegrity,omitempty"`
+	PfsGroup            *PfsGroup        `json:"pfsGroup,omitempty"`
+	SaDataSizeKilobytes *int             `json:"saDataSizeKilobytes,omitempty"`
+	SaLifeTimeSeconds   *int             `json:"saLifeTimeSeconds,omitempty"`
 }
 
 // Deprecated version of RadiusServer. Use v1beta20201101.RadiusServer instead
@@ -115,23 +115,23 @@ type RadiusServer_ARM struct {
 	RadiusServerSecret  *string `json:"radiusServerSecret,omitempty"`
 }
 
-// Deprecated version of VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRevokedCertificates_Spec. Use v1beta20201101.VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRevokedCertificates_Spec instead
-type VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRevokedCertificates_Spec_ARM struct {
+// Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormat. Use v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat instead
+type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
+	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress           *SubResource_ARM    `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource_ARM    `json:"subnet,omitempty"`
+}
+
+// Deprecated version of VpnClientRevokedCertificate. Use v1beta20201101.VpnClientRevokedCertificate instead
+type VpnClientRevokedCertificate_ARM struct {
 	Name       *string                                          `json:"name,omitempty"`
 	Properties *VpnClientRevokedCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-// Deprecated version of VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRootCertificates_Spec. Use v1beta20201101.VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRootCertificates_Spec instead
-type VirtualNetworkGateway_Properties_VpnClientConfiguration_VpnClientRootCertificates_Spec_ARM struct {
+// Deprecated version of VpnClientRootCertificate. Use v1beta20201101.VpnClientRootCertificate instead
+type VpnClientRootCertificate_ARM struct {
 	Name       *string                                       `json:"name,omitempty"`
 	Properties *VpnClientRootCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-// Deprecated version of VirtualNetworkGatewayIPConfigurationPropertiesFormat. Use v1beta20201101.VirtualNetworkGatewayIPConfigurationPropertiesFormat instead
-type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
-	PrivateIPAllocationMethod *VirtualNetworkGatewayIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-	PublicIPAddress           *SubResource_ARM                                                                `json:"publicIPAddress,omitempty"`
-	Subnet                    *SubResource_ARM                                                                `json:"subnet,omitempty"`
 }
 
 // Deprecated version of VpnClientRevokedCertificatePropertiesFormat. Use v1beta20201101.VpnClientRevokedCertificatePropertiesFormat instead

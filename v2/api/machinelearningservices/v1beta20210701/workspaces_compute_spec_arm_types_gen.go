@@ -9,22 +9,20 @@ import (
 )
 
 type Workspaces_Compute_Spec_ARM struct {
-	// Identity: Identity for the resource.
+	// Identity: The identity of the resource.
 	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
-	// Name: Name of the Azure Machine Learning compute.
-	Name string `json:"name,omitempty"`
-
-	// Properties: Machine Learning compute object.
+	// Properties: Compute properties
 	Properties *Compute_ARM `json:"properties,omitempty"`
 
-	// Sku: Sku of the resource
+	// Sku: The sku of the workspace.
 	Sku *Sku_ARM `json:"sku,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: System data
 	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
@@ -48,34 +46,36 @@ func (compute *Workspaces_Compute_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/computes"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Compute
 type Compute_ARM struct {
 	// AKS: Mutually exclusive with all other properties
-	AKS *Compute_AKS_ARM `json:"aks,omitempty"`
+	AKS *AKS_ARM `json:"aks,omitempty"`
 
 	// AmlCompute: Mutually exclusive with all other properties
-	AmlCompute *Compute_AmlCompute_ARM `json:"amlCompute,omitempty"`
+	AmlCompute *AmlCompute_ARM `json:"amlCompute,omitempty"`
 
 	// ComputeInstance: Mutually exclusive with all other properties
-	ComputeInstance *Compute_ComputeInstance_ARM `json:"computeInstance,omitempty"`
+	ComputeInstance *ComputeInstance_ARM `json:"computeInstance,omitempty"`
 
 	// DataFactory: Mutually exclusive with all other properties
-	DataFactory *Compute_DataFactory_ARM `json:"dataFactory,omitempty"`
+	DataFactory *DataFactory_ARM `json:"dataFactory,omitempty"`
 
 	// DataLakeAnalytics: Mutually exclusive with all other properties
-	DataLakeAnalytics *Compute_DataLakeAnalytics_ARM `json:"dataLakeAnalytics,omitempty"`
+	DataLakeAnalytics *DataLakeAnalytics_ARM `json:"dataLakeAnalytics,omitempty"`
 
 	// Databricks: Mutually exclusive with all other properties
-	Databricks *Compute_Databricks_ARM `json:"databricks,omitempty"`
+	Databricks *Databricks_ARM `json:"databricks,omitempty"`
 
 	// HDInsight: Mutually exclusive with all other properties
-	HDInsight *Compute_HDInsight_ARM `json:"hdInsight,omitempty"`
+	HDInsight *HDInsight_ARM `json:"hdInsight,omitempty"`
+
+	// Kubernetes: Mutually exclusive with all other properties
+	Kubernetes *Kubernetes_ARM `json:"kubernetes,omitempty"`
 
 	// SynapseSpark: Mutually exclusive with all other properties
-	SynapseSpark *Compute_SynapseSpark_ARM `json:"synapseSpark,omitempty"`
+	SynapseSpark *SynapseSpark_ARM `json:"synapseSpark,omitempty"`
 
 	// VirtualMachine: Mutually exclusive with all other properties
-	VirtualMachine *Compute_VirtualMachine_ARM `json:"virtualMachine,omitempty"`
+	VirtualMachine *VirtualMachine_ARM `json:"virtualMachine,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Compute_ARM represents a discriminated union (JSON OneOf)
@@ -101,6 +101,9 @@ func (compute Compute_ARM) MarshalJSON() ([]byte, error) {
 	if compute.HDInsight != nil {
 		return json.Marshal(compute.HDInsight)
 	}
+	if compute.Kubernetes != nil {
+		return json.Marshal(compute.Kubernetes)
+	}
 	if compute.SynapseSpark != nil {
 		return json.Marshal(compute.SynapseSpark)
 	}
@@ -119,39 +122,43 @@ func (compute *Compute_ARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["computeType"]
 	if discriminator == "AKS" {
-		compute.AKS = &Compute_AKS_ARM{}
+		compute.AKS = &AKS_ARM{}
 		return json.Unmarshal(data, compute.AKS)
 	}
 	if discriminator == "AmlCompute" {
-		compute.AmlCompute = &Compute_AmlCompute_ARM{}
+		compute.AmlCompute = &AmlCompute_ARM{}
 		return json.Unmarshal(data, compute.AmlCompute)
 	}
 	if discriminator == "ComputeInstance" {
-		compute.ComputeInstance = &Compute_ComputeInstance_ARM{}
+		compute.ComputeInstance = &ComputeInstance_ARM{}
 		return json.Unmarshal(data, compute.ComputeInstance)
 	}
 	if discriminator == "DataFactory" {
-		compute.DataFactory = &Compute_DataFactory_ARM{}
+		compute.DataFactory = &DataFactory_ARM{}
 		return json.Unmarshal(data, compute.DataFactory)
 	}
 	if discriminator == "DataLakeAnalytics" {
-		compute.DataLakeAnalytics = &Compute_DataLakeAnalytics_ARM{}
+		compute.DataLakeAnalytics = &DataLakeAnalytics_ARM{}
 		return json.Unmarshal(data, compute.DataLakeAnalytics)
 	}
 	if discriminator == "Databricks" {
-		compute.Databricks = &Compute_Databricks_ARM{}
+		compute.Databricks = &Databricks_ARM{}
 		return json.Unmarshal(data, compute.Databricks)
 	}
 	if discriminator == "HDInsight" {
-		compute.HDInsight = &Compute_HDInsight_ARM{}
+		compute.HDInsight = &HDInsight_ARM{}
 		return json.Unmarshal(data, compute.HDInsight)
 	}
+	if discriminator == "Kubernetes" {
+		compute.Kubernetes = &Kubernetes_ARM{}
+		return json.Unmarshal(data, compute.Kubernetes)
+	}
 	if discriminator == "SynapseSpark" {
-		compute.SynapseSpark = &Compute_SynapseSpark_ARM{}
+		compute.SynapseSpark = &SynapseSpark_ARM{}
 		return json.Unmarshal(data, compute.SynapseSpark)
 	}
 	if discriminator == "VirtualMachine" {
-		compute.VirtualMachine = &Compute_VirtualMachine_ARM{}
+		compute.VirtualMachine = &VirtualMachine_ARM{}
 		return json.Unmarshal(data, compute.VirtualMachine)
 	}
 
@@ -159,10 +166,12 @@ func (compute *Compute_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-type Compute_AKS_ARM struct {
+type AKS_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                 `json:"computeLocation,omitempty"`
-	ComputeType     Compute_AKS_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType AKS_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -172,14 +181,16 @@ type Compute_AKS_ARM struct {
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
 	// Properties: AKS properties
-	Properties *AKSProperties_ARM `json:"properties,omitempty"`
-	ResourceId *string            `json:"resourceId,omitempty"`
+	Properties *AKS_Properties_ARM `json:"properties,omitempty"`
+	ResourceId *string             `json:"resourceId,omitempty"`
 }
 
-type Compute_AmlCompute_ARM struct {
+type AmlCompute_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                        `json:"computeLocation,omitempty"`
-	ComputeType     Compute_AmlCompute_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType AmlCompute_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -188,15 +199,17 @@ type Compute_AmlCompute_ARM struct {
 	// authentication.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	// Properties: AML Compute properties
+	// Properties: Properties of AmlCompute
 	Properties *AmlComputeProperties_ARM `json:"properties,omitempty"`
 	ResourceId *string                   `json:"resourceId,omitempty"`
 }
 
-type Compute_ComputeInstance_ARM struct {
+type ComputeInstance_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                             `json:"computeLocation,omitempty"`
-	ComputeType     Compute_ComputeInstance_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType ComputeInstance_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -205,32 +218,34 @@ type Compute_ComputeInstance_ARM struct {
 	// authentication.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	// Properties: Compute Instance properties
+	// Properties: Properties of ComputeInstance
 	Properties *ComputeInstanceProperties_ARM `json:"properties,omitempty"`
 	ResourceId *string                        `json:"resourceId,omitempty"`
 }
 
-type Compute_Databricks_ARM struct {
+type Databricks_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                        `json:"computeLocation,omitempty"`
-	ComputeType     Compute_Databricks_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType Databricks_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of Databricks
-	Properties *DatabricksProperties_ARM `json:"properties,omitempty"`
-	ResourceId *string                   `json:"resourceId,omitempty"`
+	DisableLocalAuth *bool                     `json:"disableLocalAuth,omitempty"`
+	Properties       *DatabricksProperties_ARM `json:"properties,omitempty"`
+	ResourceId       *string                   `json:"resourceId,omitempty"`
 }
 
-type Compute_DataFactory_ARM struct {
+type DataFactory_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                         `json:"computeLocation,omitempty"`
-	ComputeType     Compute_DataFactory_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType DataFactory_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -241,25 +256,46 @@ type Compute_DataFactory_ARM struct {
 	ResourceId       *string `json:"resourceId,omitempty"`
 }
 
-type Compute_DataLakeAnalytics_ARM struct {
+type DataLakeAnalytics_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                               `json:"computeLocation,omitempty"`
-	ComputeType     Compute_DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                            `json:"disableLocalAuth,omitempty"`
-	Properties       *DataLakeAnalyticsProperties_ARM `json:"properties,omitempty"`
-	ResourceId       *string                          `json:"resourceId,omitempty"`
+	DisableLocalAuth *bool                             `json:"disableLocalAuth,omitempty"`
+	Properties       *DataLakeAnalytics_Properties_ARM `json:"properties,omitempty"`
+	ResourceId       *string                           `json:"resourceId,omitempty"`
 }
 
-type Compute_HDInsight_ARM struct {
+type HDInsight_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                       `json:"computeLocation,omitempty"`
-	ComputeType     Compute_HDInsight_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType HDInsight_ComputeType `json:"computeType,omitempty"`
+
+	// Description: The description of the Machine Learning compute.
+	Description *string `json:"description,omitempty"`
+
+	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
+	// authentication.
+	DisableLocalAuth *bool                    `json:"disableLocalAuth,omitempty"`
+	Properties       *HDInsightProperties_ARM `json:"properties,omitempty"`
+	ResourceId       *string                  `json:"resourceId,omitempty"`
+}
+
+type Kubernetes_ARM struct {
+	// ComputeLocation: Location for the underlying compute
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType Kubernetes_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
@@ -268,69 +304,81 @@ type Compute_HDInsight_ARM struct {
 	// authentication.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	// Properties: HDInsight compute properties
-	Properties *HDInsightProperties_ARM `json:"properties,omitempty"`
-	ResourceId *string                  `json:"resourceId,omitempty"`
+	// Properties: Properties of Kubernetes
+	Properties *KubernetesProperties_ARM `json:"properties,omitempty"`
+	ResourceId *string                   `json:"resourceId,omitempty"`
 }
 
-type Compute_SynapseSpark_ARM struct {
+type SynapseSpark_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                          `json:"computeLocation,omitempty"`
-	ComputeType     Compute_SynapseSpark_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType SynapseSpark_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                       `json:"disableLocalAuth,omitempty"`
-	Properties       *SynapseSparkProperties_ARM `json:"properties,omitempty"`
-	ResourceId       *string                     `json:"resourceId,omitempty"`
+	DisableLocalAuth *bool                        `json:"disableLocalAuth,omitempty"`
+	Properties       *SynapseSpark_Properties_ARM `json:"properties,omitempty"`
+	ResourceId       *string                      `json:"resourceId,omitempty"`
 }
 
-type Compute_VirtualMachine_ARM struct {
+type VirtualMachine_ARM struct {
 	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string                            `json:"computeLocation,omitempty"`
-	ComputeType     Compute_VirtualMachine_ComputeType `json:"computeType,omitempty"`
+	ComputeLocation *string `json:"computeLocation,omitempty"`
+
+	// ComputeType: The type of compute
+	ComputeType VirtualMachine_ComputeType `json:"computeType,omitempty"`
 
 	// Description: The description of the Machine Learning compute.
 	Description *string `json:"description,omitempty"`
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                         `json:"disableLocalAuth,omitempty"`
-	Properties       *VirtualMachineProperties_ARM `json:"properties,omitempty"`
-	ResourceId       *string                       `json:"resourceId,omitempty"`
+	DisableLocalAuth *bool                          `json:"disableLocalAuth,omitempty"`
+	Properties       *VirtualMachine_Properties_ARM `json:"properties,omitempty"`
+	ResourceId       *string                        `json:"resourceId,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AKSProperties
-type AKSProperties_ARM struct {
+// +kubebuilder:validation:Enum={"AKS"}
+type AKS_ComputeType string
+
+const AKS_ComputeType_AKS = AKS_ComputeType("AKS")
+
+type AKS_Properties_ARM struct {
 	// AgentCount: Number of agents
 	AgentCount *int `json:"agentCount,omitempty"`
 
 	// AgentVmSize: Agent virtual machine size
 	AgentVmSize *string `json:"agentVmSize,omitempty"`
 
-	// AksNetworkingConfiguration: Advance configuration for AKS networking
+	// AksNetworkingConfiguration: AKS networking configuration for vnet
 	AksNetworkingConfiguration *AksNetworkingConfiguration_ARM `json:"aksNetworkingConfiguration,omitempty"`
 
 	// ClusterFqdn: Cluster full qualified domain name
 	ClusterFqdn *string `json:"clusterFqdn,omitempty"`
 
-	// ClusterPurpose: Intended usage of the cluster.
-	ClusterPurpose *AKSProperties_ClusterPurpose `json:"clusterPurpose,omitempty"`
+	// ClusterPurpose: Intended usage of the cluster
+	ClusterPurpose *AKS_Properties_ClusterPurpose `json:"clusterPurpose,omitempty"`
 
 	// LoadBalancerSubnet: Load Balancer Subnet
 	LoadBalancerSubnet *string `json:"loadBalancerSubnet,omitempty"`
 
-	// LoadBalancerType: Load Balancer Type.
-	LoadBalancerType *AKSProperties_LoadBalancerType `json:"loadBalancerType,omitempty"`
+	// LoadBalancerType: Load Balancer Type
+	LoadBalancerType *AKS_Properties_LoadBalancerType `json:"loadBalancerType,omitempty"`
 
-	// SslConfiguration: The ssl configuration for scoring
+	// SslConfiguration: SSL configuration
 	SslConfiguration *SslConfiguration_ARM `json:"sslConfiguration,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AmlComputeProperties
+// +kubebuilder:validation:Enum={"AmlCompute"}
+type AmlCompute_ComputeType string
+
+const AmlCompute_ComputeType_AmlCompute = AmlCompute_ComputeType("AmlCompute")
+
 type AmlComputeProperties_ARM struct {
 	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
 	// true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will
@@ -340,7 +388,7 @@ type AmlComputeProperties_ARM struct {
 	// IsolatedNetwork: Network is isolated or not
 	IsolatedNetwork *bool `json:"isolatedNetwork,omitempty"`
 
-	// OsType: Compute OS Type.
+	// OsType: Compute OS Type
 	OsType *AmlComputeProperties_OsType `json:"osType,omitempty"`
 
 	// RemoteLoginPortPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh
@@ -350,71 +398,30 @@ type AmlComputeProperties_ARM struct {
 	// enabled or disabled.
 	RemoteLoginPortPublicAccess *AmlComputeProperties_RemoteLoginPortPublicAccess `json:"remoteLoginPortPublicAccess,omitempty"`
 
-	// ScaleSettings: scale settings for AML Compute
+	// ScaleSettings: Scale settings for AML Compute
 	ScaleSettings *ScaleSettings_ARM `json:"scaleSettings,omitempty"`
 
-	// Subnet: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
 	Subnet *ResourceId_ARM `json:"subnet,omitempty"`
 
-	// UserAccountCredentials: Settings for user account that gets created on each on the nodes of a compute.
+	// UserAccountCredentials: Credentials for an administrator user account that will be created on each compute node.
 	UserAccountCredentials *UserAccountCredentials_ARM `json:"userAccountCredentials,omitempty"`
 
-	// VirtualMachineImage: Virtual Machine image for Windows AML Compute
+	// VirtualMachineImage: Virtual Machine image for AML Compute - windows only
 	VirtualMachineImage *VirtualMachineImage_ARM `json:"virtualMachineImage,omitempty"`
 
-	// VmPriority: Virtual Machine priority.
+	// VmPriority: Virtual Machine priority
 	VmPriority *AmlComputeProperties_VmPriority `json:"vmPriority,omitempty"`
 
 	// VmSize: Virtual Machine Size
 	VmSize *string `json:"vmSize,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"AKS"}
-type Compute_AKS_ComputeType string
-
-const Compute_AKS_ComputeType_AKS = Compute_AKS_ComputeType("AKS")
-
-// +kubebuilder:validation:Enum={"AmlCompute"}
-type Compute_AmlCompute_ComputeType string
-
-const Compute_AmlCompute_ComputeType_AmlCompute = Compute_AmlCompute_ComputeType("AmlCompute")
-
 // +kubebuilder:validation:Enum={"ComputeInstance"}
-type Compute_ComputeInstance_ComputeType string
+type ComputeInstance_ComputeType string
 
-const Compute_ComputeInstance_ComputeType_ComputeInstance = Compute_ComputeInstance_ComputeType("ComputeInstance")
+const ComputeInstance_ComputeType_ComputeInstance = ComputeInstance_ComputeType("ComputeInstance")
 
-// +kubebuilder:validation:Enum={"Databricks"}
-type Compute_Databricks_ComputeType string
-
-const Compute_Databricks_ComputeType_Databricks = Compute_Databricks_ComputeType("Databricks")
-
-// +kubebuilder:validation:Enum={"DataFactory"}
-type Compute_DataFactory_ComputeType string
-
-const Compute_DataFactory_ComputeType_DataFactory = Compute_DataFactory_ComputeType("DataFactory")
-
-// +kubebuilder:validation:Enum={"DataLakeAnalytics"}
-type Compute_DataLakeAnalytics_ComputeType string
-
-const Compute_DataLakeAnalytics_ComputeType_DataLakeAnalytics = Compute_DataLakeAnalytics_ComputeType("DataLakeAnalytics")
-
-// +kubebuilder:validation:Enum={"HDInsight"}
-type Compute_HDInsight_ComputeType string
-
-const Compute_HDInsight_ComputeType_HDInsight = Compute_HDInsight_ComputeType("HDInsight")
-
-// +kubebuilder:validation:Enum={"SynapseSpark"}
-type Compute_SynapseSpark_ComputeType string
-
-const Compute_SynapseSpark_ComputeType_SynapseSpark = Compute_SynapseSpark_ComputeType("SynapseSpark")
-
-// +kubebuilder:validation:Enum={"VirtualMachine"}
-type Compute_VirtualMachine_ComputeType string
-
-const Compute_VirtualMachine_ComputeType_VirtualMachine = Compute_VirtualMachine_ComputeType("VirtualMachine")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ComputeInstanceProperties
 type ComputeInstanceProperties_ARM struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
 	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
@@ -433,14 +440,18 @@ type ComputeInstanceProperties_ARM struct {
 	// SshSettings: Specifies policy and settings for SSH access.
 	SshSettings *ComputeInstanceSshSettings_ARM `json:"sshSettings,omitempty"`
 
-	// Subnet: Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
 	Subnet *ResourceId_ARM `json:"subnet,omitempty"`
 
 	// VmSize: Virtual Machine Size
 	VmSize *string `json:"vmSize,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DatabricksProperties
+// +kubebuilder:validation:Enum={"Databricks"}
+type Databricks_ComputeType string
+
+const Databricks_ComputeType_Databricks = Databricks_ComputeType("Databricks")
+
 type DatabricksProperties_ARM struct {
 	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
@@ -449,30 +460,78 @@ type DatabricksProperties_ARM struct {
 	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/DataLakeAnalyticsProperties
-type DataLakeAnalyticsProperties_ARM struct {
+// +kubebuilder:validation:Enum={"DataFactory"}
+type DataFactory_ComputeType string
+
+const DataFactory_ComputeType_DataFactory = DataFactory_ComputeType("DataFactory")
+
+// +kubebuilder:validation:Enum={"DataLakeAnalytics"}
+type DataLakeAnalytics_ComputeType string
+
+const DataLakeAnalytics_ComputeType_DataLakeAnalytics = DataLakeAnalytics_ComputeType("DataLakeAnalytics")
+
+type DataLakeAnalytics_Properties_ARM struct {
 	// DataLakeStoreAccountName: DataLake Store Account Name
 	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/HDInsightProperties
+// +kubebuilder:validation:Enum={"HDInsight"}
+type HDInsight_ComputeType string
+
+const HDInsight_ComputeType_HDInsight = HDInsight_ComputeType("HDInsight")
+
 type HDInsightProperties_ARM struct {
 	// Address: Public IP address of the master node of the cluster.
 	Address *string `json:"address,omitempty"`
 
-	// AdministratorAccount: Admin credentials for virtual machine
+	// AdministratorAccount: Admin credentials for master node of the cluster
 	AdministratorAccount *VirtualMachineSshCredentials_ARM `json:"administratorAccount,omitempty"`
 
 	// SshPort: Port open for ssh connections on the master node of the cluster.
 	SshPort *int `json:"sshPort,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SynapseSparkProperties
-type SynapseSparkProperties_ARM struct {
-	// AutoPauseProperties: Auto pause properties
+// +kubebuilder:validation:Enum={"Kubernetes"}
+type Kubernetes_ComputeType string
+
+const Kubernetes_ComputeType_Kubernetes = Kubernetes_ComputeType("Kubernetes")
+
+type KubernetesProperties_ARM struct {
+	// DefaultInstanceType: Default instance type
+	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
+
+	// ExtensionInstanceReleaseTrain: Extension instance release train.
+	ExtensionInstanceReleaseTrain *string `json:"extensionInstanceReleaseTrain,omitempty"`
+
+	// ExtensionPrincipalId: Extension principal-id.
+	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty"`
+
+	// InstanceTypes: Instance Type Schema
+	InstanceTypes map[string]InstanceTypeSchema_ARM `json:"instanceTypes,omitempty"`
+
+	// Namespace: Compute namespace
+	Namespace *string `json:"namespace,omitempty"`
+
+	// RelayConnectionString: Relay connection string.
+	RelayConnectionString *string `json:"relayConnectionString,omitempty"`
+
+	// ServiceBusConnectionString: ServiceBus connection string.
+	ServiceBusConnectionString *string `json:"serviceBusConnectionString,omitempty"`
+
+	// VcName: VC name.
+	VcName *string `json:"vcName,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"SynapseSpark"}
+type SynapseSpark_ComputeType string
+
+const SynapseSpark_ComputeType_SynapseSpark = SynapseSpark_ComputeType("SynapseSpark")
+
+type SynapseSpark_Properties_ARM struct {
+	// AutoPauseProperties: Auto pause properties.
 	AutoPauseProperties *AutoPauseProperties_ARM `json:"autoPauseProperties,omitempty"`
 
-	// AutoScaleProperties: Auto scale properties
+	// AutoScaleProperties: Auto scale properties.
 	AutoScaleProperties *AutoScaleProperties_ARM `json:"autoScaleProperties,omitempty"`
 
 	// NodeCount: The number of compute nodes currently assigned to the compute.
@@ -500,8 +559,12 @@ type SynapseSparkProperties_ARM struct {
 	WorkspaceName *string `json:"workspaceName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/VirtualMachineProperties
-type VirtualMachineProperties_ARM struct {
+// +kubebuilder:validation:Enum={"VirtualMachine"}
+type VirtualMachine_ComputeType string
+
+const VirtualMachine_ComputeType_VirtualMachine = VirtualMachine_ComputeType("VirtualMachine")
+
+type VirtualMachine_Properties_ARM struct {
 	// Address: Public IP address of the virtual machine.
 	Address *string `json:"address,omitempty"`
 
@@ -518,7 +581,23 @@ type VirtualMachineProperties_ARM struct {
 	VirtualMachineSize *string `json:"virtualMachineSize,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AksNetworkingConfiguration
+// +kubebuilder:validation:Enum={"DenseProd","DevTest","FastProd"}
+type AKS_Properties_ClusterPurpose string
+
+const (
+	AKS_Properties_ClusterPurpose_DenseProd = AKS_Properties_ClusterPurpose("DenseProd")
+	AKS_Properties_ClusterPurpose_DevTest   = AKS_Properties_ClusterPurpose("DevTest")
+	AKS_Properties_ClusterPurpose_FastProd  = AKS_Properties_ClusterPurpose("FastProd")
+)
+
+// +kubebuilder:validation:Enum={"InternalLoadBalancer","PublicIp"}
+type AKS_Properties_LoadBalancerType string
+
+const (
+	AKS_Properties_LoadBalancerType_InternalLoadBalancer = AKS_Properties_LoadBalancerType("InternalLoadBalancer")
+	AKS_Properties_LoadBalancerType_PublicIp             = AKS_Properties_LoadBalancerType("PublicIp")
+)
+
 type AksNetworkingConfiguration_ARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
@@ -533,23 +612,6 @@ type AksNetworkingConfiguration_ARM struct {
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 	SubnetId    *string `json:"subnetId,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"DenseProd","DevTest","FastProd"}
-type AKSProperties_ClusterPurpose string
-
-const (
-	AKSProperties_ClusterPurpose_DenseProd = AKSProperties_ClusterPurpose("DenseProd")
-	AKSProperties_ClusterPurpose_DevTest   = AKSProperties_ClusterPurpose("DevTest")
-	AKSProperties_ClusterPurpose_FastProd  = AKSProperties_ClusterPurpose("FastProd")
-)
-
-// +kubebuilder:validation:Enum={"InternalLoadBalancer","PublicIp"}
-type AKSProperties_LoadBalancerType string
-
-const (
-	AKSProperties_LoadBalancerType_InternalLoadBalancer = AKSProperties_LoadBalancerType("InternalLoadBalancer")
-	AKSProperties_LoadBalancerType_PublicIp             = AKSProperties_LoadBalancerType("PublicIp")
-)
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type AmlComputeProperties_OsType string
@@ -576,13 +638,11 @@ const (
 	AmlComputeProperties_VmPriority_LowPriority = AmlComputeProperties_VmPriority("LowPriority")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AutoPauseProperties
 type AutoPauseProperties_ARM struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AutoScaleProperties
 type AutoScaleProperties_ARM struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
@@ -602,7 +662,6 @@ type ComputeInstanceProperties_ComputeInstanceAuthorizationType string
 
 const ComputeInstanceProperties_ComputeInstanceAuthorizationType_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType("personal")
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ComputeInstanceSshSettings
 type ComputeInstanceSshSettings_ARM struct {
 	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
 	// key pairs.
@@ -614,18 +673,23 @@ type ComputeInstanceSshSettings_ARM struct {
 	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess `json:"sshPublicAccess,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/PersonalComputeInstanceSettings
+type InstanceTypeSchema_ARM struct {
+	// NodeSelector: Node Selector
+	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
+
+	// Resources: Resource requests/limits for this instance type
+	Resources *InstanceTypeSchema_Resources_ARM `json:"resources,omitempty"`
+}
+
 type PersonalComputeInstanceSettings_ARM struct {
-	// AssignedUser: A user that can be assigned to a compute instance.
+	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser_ARM `json:"assignedUser,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ResourceId
 type ResourceId_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ScaleSettings
 type ScaleSettings_ARM struct {
 	// MaxNodeCount: Max number of nodes to use
 	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
@@ -637,13 +701,11 @@ type ScaleSettings_ARM struct {
 	NodeIdleTimeBeforeScaleDown *string `json:"nodeIdleTimeBeforeScaleDown,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SetupScripts
 type SetupScripts_ARM struct {
 	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute_ARM `json:"scripts,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SslConfiguration
 type SslConfiguration_ARM struct {
 	// Cert: Cert data
 	Cert *string `json:"cert,omitempty"`
@@ -660,11 +722,10 @@ type SslConfiguration_ARM struct {
 	// OverwriteExistingDomain: Indicates whether to overwrite existing domain label.
 	OverwriteExistingDomain *bool `json:"overwriteExistingDomain,omitempty"`
 
-	// Status: Enable or disable ssl for scoring.
+	// Status: Enable or disable ssl for scoring
 	Status *SslConfiguration_Status `json:"status,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/UserAccountCredentials
 type UserAccountCredentials_ARM struct {
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
 	AdminUserName *string `json:"adminUserName,omitempty"`
@@ -676,12 +737,10 @@ type UserAccountCredentials_ARM struct {
 	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/VirtualMachineImage
 type VirtualMachineImage_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/VirtualMachineSshCredentials
 type VirtualMachineSshCredentials_ARM struct {
 	// Password: Password of admin account
 	Password *string `json:"password,omitempty"`
@@ -696,7 +755,6 @@ type VirtualMachineSshCredentials_ARM struct {
 	Username *string `json:"username,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/AssignedUser
 type AssignedUser_ARM struct {
 	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
@@ -713,12 +771,19 @@ const (
 	ComputeInstanceSshSettings_SshPublicAccess_Enabled  = ComputeInstanceSshSettings_SshPublicAccess("Enabled")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ScriptsToExecute
+type InstanceTypeSchema_Resources_ARM struct {
+	// Limits: Resource limits for this instance type
+	Limits map[string]string `json:"limits,omitempty"`
+
+	// Requests: Resource requests for this instance type
+	Requests map[string]string `json:"requests,omitempty"`
+}
+
 type ScriptsToExecute_ARM struct {
-	// CreationScript: Script reference
+	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference_ARM `json:"creationScript,omitempty"`
 
-	// StartupScript: Script reference
+	// StartupScript: Script that's run every time the machine starts.
 	StartupScript *ScriptReference_ARM `json:"startupScript,omitempty"`
 }
 
@@ -731,7 +796,6 @@ const (
 	SslConfiguration_Status_Enabled  = SslConfiguration_Status("Enabled")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ScriptReference
 type ScriptReference_ARM struct {
 	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`

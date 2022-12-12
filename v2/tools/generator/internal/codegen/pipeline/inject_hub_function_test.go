@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t *testing.T) {
+func TestGolden_InjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -51,7 +51,7 @@ func TestInjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpectedFile(t 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())
 }
 
-func TestInjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile(t *testing.T) {
+func TestGolden_InjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpectedFile(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

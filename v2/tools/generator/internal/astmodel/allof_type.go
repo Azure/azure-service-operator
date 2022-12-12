@@ -29,6 +29,12 @@ type AllOfType struct {
 
 var _ Type = &AllOfType{}
 
+func NewAllOfType(types ...Type) *AllOfType {
+	return &AllOfType{
+		types: MakeTypeSet(types...),
+	}
+}
+
 // BuildAllOfType is a smart constructor for AllOfType,
 // maintaining the invariants. If only one unique type
 // is passed, then the result will be that type, not an AllOf.
@@ -44,13 +50,8 @@ func BuildAllOfType(types ...Type) Type {
 		}
 	}
 
-	if uniqueTypes.Len() == 1 {
-		var result Type
-		uniqueTypes.ForEach(func(t Type, _ int) {
-			result = t
-		})
-
-		return result
+	if t, ok := uniqueTypes.Single(); ok {
+		return t
 	}
 
 	// see if there are any OneOfs inside
@@ -74,11 +75,12 @@ func BuildAllOfType(types ...Type) Type {
 		// "outer" and "inner" properties
 
 		var ts []Type
-		oneOfs[0].types.ForEach(func(t Type, _ int) {
+		onlyOneOf := oneOfs[0]
+		onlyOneOf.types.ForEach(func(t Type, _ int) {
 			ts = append(ts, BuildAllOfType(append(notOneOfs, t)...))
 		})
 
-		return BuildOneOfType(ts...)
+		return onlyOneOf.WithTypes(ts)
 	} else if len(oneOfs) > 1 {
 		// emit a warning if this ever comes up
 		// (it doesn't at the moment)
@@ -109,25 +111,25 @@ var allOfPanicMsg = "AllOfType should have been replaced by generation time by '
 
 // AsType always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsType(_ *CodeGenerationContext) dst.Expr {
+func (allOf *AllOfType) AsType(_ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(allOfPanicMsg))
 }
 
 // AsDeclarations always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
+func (allOf *AllOfType) AsDeclarations(_ *CodeGenerationContext, _ DeclarationContext) []dst.Decl {
 	panic(errors.New(allOfPanicMsg))
 }
 
 // AsZero always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) AsZero(definitions TypeDefinitionSet, ctx *CodeGenerationContext) dst.Expr {
+func (allOf *AllOfType) AsZero(_ TypeDefinitionSet, _ *CodeGenerationContext) dst.Expr {
 	panic(errors.New(allOfPanicMsg))
 }
 
 // RequiredPackageReferences always panics; AllOf cannot be represented by the Go AST and must be
 // lowered to an object type
-func (allOf AllOfType) RequiredPackageReferences() *PackageReferenceSet {
+func (allOf *AllOfType) RequiredPackageReferences() *PackageReferenceSet {
 	panic(errors.New(allOfPanicMsg))
 }
 
@@ -160,9 +162,9 @@ func (allOf *AllOfType) String() string {
 	return fmt.Sprintf("(allOf: %s)", strings.Join(subStrings, ", "))
 }
 
-// WriteDebugDescription adds a description of the current AnyOf type to the passed builder
-// builder receives the full description, including nested types
-// definitions is a dictionary for resolving named types
+// WriteDebugDescription adds a description of the current AnyOf type to the passed builder.
+// builder receives the full description, including nested types.
+// definitions is a dictionary for resolving named types.
 func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if allOf == nil {
 		builder.WriteString("<nilAllOf>")

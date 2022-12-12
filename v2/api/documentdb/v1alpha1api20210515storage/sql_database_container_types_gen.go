@@ -25,8 +25,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Container_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlDatabases_Container_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -97,7 +97,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerGetResults_STATUS{}
+	return &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Container_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerGetResults_STATUS
+	var st DatabaseAccounts_SqlDatabases_Container_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (container *SqlDatabaseContainer) AssignProperties_From_SqlDatabaseContaine
 	container.Spec = spec
 
 	// Status
-	var status SqlContainerGetResults_STATUS
-	err = status.AssignProperties_From_SqlContainerGetResults_STATUS(&source.Status)
+	var status DatabaseAccounts_SqlDatabases_Container_STATUS
+	err = status.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -170,10 +170,10 @@ func (container *SqlDatabaseContainer) AssignProperties_To_SqlDatabaseContainer(
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlContainerGetResults_STATUS
-	err = container.Status.AssignProperties_To_SqlContainerGetResults_STATUS(&status)
+	var status v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS
+	err = container.Status.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -388,9 +388,9 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlContainerGetResults_STATUS
-// Deprecated version of SqlContainerGetResults_STATUS. Use v1beta20210515.SqlContainerGetResults_STATUS instead
-type SqlContainerGetResults_STATUS struct {
+// Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Container_STATUS
+// Deprecated version of DatabaseAccounts_SqlDatabases_Container_STATUS. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Container_STATUS instead
+type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
 	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
 	Id          *string                                    `json:"id,omitempty"`
 	Location    *string                                    `json:"location,omitempty"`
@@ -402,25 +402,25 @@ type SqlContainerGetResults_STATUS struct {
 	Type        *string                                    `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 
-// ConvertStatusFrom populates our SqlContainerGetResults_STATUS from the provided source
-func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlContainerGetResults_STATUS)
+// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Container_STATUS from the provided source
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignProperties_From_SqlContainerGetResults_STATUS(src)
+		return container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.SqlContainerGetResults_STATUS{}
+	src = &v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignProperties_From_SqlContainerGetResults_STATUS(src)
+	err = container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -428,17 +428,17 @@ func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntim
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlContainerGetResults_STATUS)
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignProperties_To_SqlContainerGetResults_STATUS(dst)
+		return container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.SqlContainerGetResults_STATUS{}
-	err := results.AssignProperties_To_SqlContainerGetResults_STATUS(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS{}
+	err := container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -452,22 +452,22 @@ func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genrun
 	return nil
 }
 
-// AssignProperties_From_SqlContainerGetResults_STATUS populates our SqlContainerGetResults_STATUS from the provided source SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainerGetResults_STATUS(source *v20210515s.SqlContainerGetResults_STATUS) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS populates our DatabaseAccounts_SqlDatabases_Container_STATUS from the provided source DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(source *v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	container.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	container.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	container.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -476,9 +476,9 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainer
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
 		}
-		results.Options = &option
+		container.Options = &option
 	} else {
-		results.Options = nil
+		container.Options = nil
 	}
 
 	// Resource
@@ -488,49 +488,49 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainer
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
-		results.Resource = &resource
+		container.Resource = &resource
 	} else {
-		results.Resource = nil
+		container.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	container.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		results.PropertyBag = propertyBag
+		container.PropertyBag = propertyBag
 	} else {
-		results.PropertyBag = nil
+		container.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SqlContainerGetResults_STATUS populates the provided destination SqlContainerGetResults_STATUS from our SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGetResults_STATUS(destination *v20210515s.SqlContainerGetResults_STATUS) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS populates the provided destination DatabaseAccounts_SqlDatabases_Container_STATUS from our DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(destination *v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(results.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(container.PropertyBag)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(container.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(container.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(container.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(container.Name)
 
 	// Options
-	if results.Options != nil {
+	if container.Options != nil {
 		var option v20210515s.OptionsResource_STATUS
-		err := results.Options.AssignProperties_To_OptionsResource_STATUS(&option)
+		err := container.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
 		}
@@ -540,9 +540,9 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 	}
 
 	// Resource
-	if results.Resource != nil {
+	if container.Resource != nil {
 		var resource v20210515s.SqlContainerGetProperties_Resource_STATUS
-		err := results.Resource.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&resource)
+		err := container.Resource.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
@@ -552,10 +552,10 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(container.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

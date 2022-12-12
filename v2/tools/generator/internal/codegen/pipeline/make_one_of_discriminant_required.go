@@ -50,14 +50,15 @@ type propertyModifier struct {
 }
 
 func newPropertyModifier(json string) *propertyModifier {
-	remover := &propertyModifier{
+	modifier := &propertyModifier{
 		json: json,
 	}
-	remover.visitor = astmodel.TypeVisitorBuilder{
-		VisitObjectType: remover.makeDiscriminatorPropertiesRequired,
+
+	modifier.visitor = astmodel.TypeVisitorBuilder{
+		VisitObjectType: modifier.makeDiscriminatorPropertiesRequired,
 	}.Build()
 
-	return remover
+	return modifier
 }
 
 func (r *propertyModifier) makeDiscriminatorPropertiesRequired(
@@ -75,10 +76,17 @@ func (r *propertyModifier) makeDiscriminatorPropertiesRequired(
 func makeOneOfDiscriminantTypeRequired(oneOf astmodel.TypeDefinition, defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	objectType, ok := astmodel.AsObjectType(oneOf.Type())
 	if !ok {
-		return nil, errors.Errorf("OneOf %s was not of type Object, instead: %T", oneOf.Name(), oneOf.Type())
+		return nil, errors.Errorf(
+			"OneOf %s was not of type Object, instead was: %s",
+			oneOf.Name(),
+			astmodel.DebugDescription(oneOf.Type()))
 	}
+
 	result := make(astmodel.TypeDefinitionSet)
-	discriminantJson, values := astmodel.DetermineDiscriminantAndValues(objectType, defs)
+	discriminantJson, values, err := astmodel.DetermineDiscriminantAndValues(objectType, defs)
+	if err != nil {
+		return nil, err
+	}
 
 	astmodel.NewPropertyInjector()
 	remover := newPropertyModifier(discriminantJson)

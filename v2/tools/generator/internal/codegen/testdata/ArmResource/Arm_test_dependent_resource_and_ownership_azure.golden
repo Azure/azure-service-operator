@@ -92,7 +92,7 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -107,9 +107,9 @@ func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
+// GetType returns the ARM Type of the resource. This is always ""
 func (a *A) GetType() string {
-	return "Microsoft.Azure/A"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -269,12 +269,14 @@ type AList struct {
 }
 
 type A_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
+	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       A_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &A_Spec_ARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -284,9 +286,9 @@ func (a *A_Spec_ARM) GetName() string {
 	return a.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
+// GetType returns the ARM Type of the resource. This is always ""
 func (a *A_Spec_ARM) GetType() string {
-	return "Microsoft.Azure/A"
+	return ""
 }
 
 // +kubebuilder:object:root=true
@@ -363,7 +365,7 @@ func (b *B) AzureName() string {
 	return b.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -378,9 +380,9 @@ func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
+// GetType returns the ARM Type of the resource. This is always ""
 func (b *B) GetType() string {
-	return "Microsoft.Azure/B"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -540,12 +542,14 @@ type BList struct {
 }
 
 type B_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
+	APIVersion B_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       B_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &B_Spec_ARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -555,9 +559,9 @@ func (b *B_Spec_ARM) GetName() string {
 	return b.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
+// GetType returns the ARM Type of the resource. This is always ""
 func (b *B_Spec_ARM) GetType() string {
-	return "Microsoft.Azure/B"
+	return ""
 }
 
 // +kubebuilder:object:root=true
@@ -634,7 +638,7 @@ func (c *C) AzureName() string {
 	return c.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (c C) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -649,9 +653,9 @@ func (c *C) GetSpec() genruntime.ConvertibleSpec {
 	return &c.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
+// GetType returns the ARM Type of the resource. This is always ""
 func (c *C) GetType() string {
-	return "Microsoft.Azure/C"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -811,12 +815,14 @@ type CList struct {
 }
 
 type C_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
+	APIVersion C_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       C_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &C_Spec_ARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (c C_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -826,9 +832,9 @@ func (c *C_Spec_ARM) GetName() string {
 	return c.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
+// GetType returns the ARM Type of the resource. This is always ""
 func (c *C_Spec_ARM) GetType() string {
-	return "Microsoft.Azure/C"
+	return ""
 }
 
 // +kubebuilder:object:root=true
@@ -905,7 +911,7 @@ func (d *D) AzureName() string {
 	return d.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (d D) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -920,9 +926,9 @@ func (d *D) GetSpec() genruntime.ConvertibleSpec {
 	return &d.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"
+// GetType returns the ARM Type of the resource. This is always ""
 func (d *D) GetType() string {
-	return "Microsoft.Azure/D"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -1082,12 +1088,14 @@ type DList struct {
 }
 
 type D_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
+	APIVersion D_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Type       D_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &D_Spec_ARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (d D_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -1097,12 +1105,20 @@ func (d *D_Spec_ARM) GetName() string {
 	return d.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"
+// GetType returns the ARM Type of the resource. This is always ""
 func (d *D_Spec_ARM) GetType() string {
-	return "Microsoft.Azure/D"
+	return ""
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type A_APIVersion_Spec string
+
+const A_APIVersion_Spec_20200601 = A_APIVersion_Spec("2020-06-01")
+
 type A_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion A_APIVersion_Spec `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1112,6 +1128,9 @@ type A_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Type A_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &A_Spec{}
@@ -1123,8 +1142,14 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &A_Spec_ARM{}
 
+	// Set property ‘APIVersion’:
+	result.APIVersion = a.APIVersion
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Type’:
+	result.Type = a.Type
 	return result, nil
 }
 
@@ -1140,11 +1165,17 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_Spec_ARM, got %T", armInput)
 	}
 
+	// Set property ‘APIVersion’:
+	a.APIVersion = typedInput.APIVersion
+
 	// Set property ‘AzureName’:
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
 	a.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘Type’:
+	a.Type = typedInput.Type
 
 	// No error
 	return nil
@@ -1203,6 +1234,13 @@ func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 // AssignProperties_From_A_Spec populates our A_Spec from the provided source A_Spec
 func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 
+	// APIVersion
+	if source.APIVersion != nil {
+		a.APIVersion = A_APIVersion_Spec(*source.APIVersion)
+	} else {
+		a.APIVersion = ""
+	}
+
 	// AzureName
 	a.AzureName = source.AzureName
 
@@ -1214,6 +1252,13 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 		a.Owner = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		a.Type = A_Type_Spec(*source.Type)
+	} else {
+		a.Type = ""
+	}
+
 	// No error
 	return nil
 }
@@ -1222,6 +1267,10 @@ func (a *A_Spec) AssignProperties_From_A_Spec(source *v20200101s.A_Spec) error {
 func (a *A_Spec) AssignProperties_To_A_Spec(destination *v20200101s.A_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(a.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = a.AzureName
@@ -1236,6 +1285,10 @@ func (a *A_Spec) AssignProperties_To_A_Spec(destination *v20200101s.A_Spec) erro
 	} else {
 		destination.Owner = nil
 	}
+
+	// Type
+	typeVar := string(a.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1256,12 +1309,25 @@ func (a *A_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
+type A_Type_Spec string
+
+const A_Type_Spec_MicrosoftAzureA = A_Type_Spec("Microsoft.Azure/A")
+
+// +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-01-01")
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type B_APIVersion_Spec string
+
+const B_APIVersion_Spec_20200601 = B_APIVersion_Spec("2020-06-01")
 
 type B_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion B_APIVersion_Spec `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1269,8 +1335,11 @@ type B_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a test.azure.com/A resource
-	Owner *genruntime.KnownResourceReference `group:"test.azure.com" json:"owner,omitempty" kind:"A"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Type B_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &B_Spec{}
@@ -1282,8 +1351,14 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &B_Spec_ARM{}
 
+	// Set property ‘APIVersion’:
+	result.APIVersion = b.APIVersion
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Type’:
+	result.Type = b.Type
 	return result, nil
 }
 
@@ -1299,11 +1374,17 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_Spec_ARM, got %T", armInput)
 	}
 
+	// Set property ‘APIVersion’:
+	b.APIVersion = typedInput.APIVersion
+
 	// Set property ‘AzureName’:
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
 	b.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘Type’:
+	b.Type = typedInput.Type
 
 	// No error
 	return nil
@@ -1362,6 +1443,13 @@ func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 // AssignProperties_From_B_Spec populates our B_Spec from the provided source B_Spec
 func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 
+	// APIVersion
+	if source.APIVersion != nil {
+		b.APIVersion = B_APIVersion_Spec(*source.APIVersion)
+	} else {
+		b.APIVersion = ""
+	}
+
 	// AzureName
 	b.AzureName = source.AzureName
 
@@ -1373,6 +1461,13 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 		b.Owner = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		b.Type = B_Type_Spec(*source.Type)
+	} else {
+		b.Type = ""
+	}
+
 	// No error
 	return nil
 }
@@ -1381,6 +1476,10 @@ func (b *B_Spec) AssignProperties_From_B_Spec(source *v20200101s.B_Spec) error {
 func (b *B_Spec) AssignProperties_To_B_Spec(destination *v20200101s.B_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(b.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = b.AzureName
@@ -1395,6 +1494,10 @@ func (b *B_Spec) AssignProperties_To_B_Spec(destination *v20200101s.B_Spec) erro
 	} else {
 		destination.Owner = nil
 	}
+
+	// Type
+	typeVar := string(b.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1415,7 +1518,20 @@ func (b *B_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 
+// +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
+type B_Type_Spec string
+
+const B_Type_Spec_MicrosoftAzureB = B_Type_Spec("Microsoft.Azure/B")
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type C_APIVersion_Spec string
+
+const C_APIVersion_Spec_20200601 = C_APIVersion_Spec("2020-06-01")
+
 type C_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion C_APIVersion_Spec `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1423,8 +1539,11 @@ type C_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a test.azure.com/B resource
-	Owner *genruntime.KnownResourceReference `group:"test.azure.com" json:"owner,omitempty" kind:"B"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Type C_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &C_Spec{}
@@ -1436,8 +1555,14 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &C_Spec_ARM{}
 
+	// Set property ‘APIVersion’:
+	result.APIVersion = c.APIVersion
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Type’:
+	result.Type = c.Type
 	return result, nil
 }
 
@@ -1453,11 +1578,17 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_Spec_ARM, got %T", armInput)
 	}
 
+	// Set property ‘APIVersion’:
+	c.APIVersion = typedInput.APIVersion
+
 	// Set property ‘AzureName’:
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
 	c.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘Type’:
+	c.Type = typedInput.Type
 
 	// No error
 	return nil
@@ -1516,6 +1647,13 @@ func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 // AssignProperties_From_C_Spec populates our C_Spec from the provided source C_Spec
 func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 
+	// APIVersion
+	if source.APIVersion != nil {
+		c.APIVersion = C_APIVersion_Spec(*source.APIVersion)
+	} else {
+		c.APIVersion = ""
+	}
+
 	// AzureName
 	c.AzureName = source.AzureName
 
@@ -1527,6 +1665,13 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 		c.Owner = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		c.Type = C_Type_Spec(*source.Type)
+	} else {
+		c.Type = ""
+	}
+
 	// No error
 	return nil
 }
@@ -1535,6 +1680,10 @@ func (c *C_Spec) AssignProperties_From_C_Spec(source *v20200101s.C_Spec) error {
 func (c *C_Spec) AssignProperties_To_C_Spec(destination *v20200101s.C_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(c.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = c.AzureName
@@ -1549,6 +1698,10 @@ func (c *C_Spec) AssignProperties_To_C_Spec(destination *v20200101s.C_Spec) erro
 	} else {
 		destination.Owner = nil
 	}
+
+	// Type
+	typeVar := string(c.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1569,7 +1722,20 @@ func (c *C_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (c *C_Spec) SetAzureName(azureName string) { c.AzureName = azureName }
 
+// +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
+type C_Type_Spec string
+
+const C_Type_Spec_MicrosoftAzureC = C_Type_Spec("Microsoft.Azure/C")
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type D_APIVersion_Spec string
+
+const D_APIVersion_Spec_20200601 = D_APIVersion_Spec("2020-06-01")
+
 type D_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion D_APIVersion_Spec `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1577,8 +1743,11 @@ type D_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a test.azure.com/B resource
-	Owner *genruntime.KnownResourceReference `group:"test.azure.com" json:"owner,omitempty" kind:"B"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Type D_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &D_Spec{}
@@ -1590,8 +1759,14 @@ func (d *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	}
 	result := &D_Spec_ARM{}
 
+	// Set property ‘APIVersion’:
+	result.APIVersion = d.APIVersion
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Type’:
+	result.Type = d.Type
 	return result, nil
 }
 
@@ -1607,11 +1782,17 @@ func (d *D_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected D_Spec_ARM, got %T", armInput)
 	}
 
+	// Set property ‘APIVersion’:
+	d.APIVersion = typedInput.APIVersion
+
 	// Set property ‘AzureName’:
 	d.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
 	d.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘Type’:
+	d.Type = typedInput.Type
 
 	// No error
 	return nil
@@ -1670,6 +1851,13 @@ func (d *D_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 // AssignProperties_From_D_Spec populates our D_Spec from the provided source D_Spec
 func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 
+	// APIVersion
+	if source.APIVersion != nil {
+		d.APIVersion = D_APIVersion_Spec(*source.APIVersion)
+	} else {
+		d.APIVersion = ""
+	}
+
 	// AzureName
 	d.AzureName = source.AzureName
 
@@ -1681,6 +1869,13 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 		d.Owner = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		d.Type = D_Type_Spec(*source.Type)
+	} else {
+		d.Type = ""
+	}
+
 	// No error
 	return nil
 }
@@ -1689,6 +1884,10 @@ func (d *D_Spec) AssignProperties_From_D_Spec(source *v20200101s.D_Spec) error {
 func (d *D_Spec) AssignProperties_To_D_Spec(destination *v20200101s.D_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(d.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = d.AzureName
@@ -1703,6 +1902,10 @@ func (d *D_Spec) AssignProperties_To_D_Spec(destination *v20200101s.D_Spec) erro
 	} else {
 		destination.Owner = nil
 	}
+
+	// Type
+	typeVar := string(d.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1722,6 +1925,11 @@ func (d *D_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (d *D_Spec) SetAzureName(azureName string) { d.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
+type D_Type_Spec string
+
+const D_Type_Spec_MicrosoftAzureD = D_Type_Spec("Microsoft.Azure/D")
 
 func init() {
 	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})

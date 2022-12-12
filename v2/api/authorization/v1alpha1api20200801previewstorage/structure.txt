@@ -2,21 +2,19 @@ github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801
 ├── APIVersion: Enum (1 value)
 │   └── "2020-08-01-preview"
 └── RoleAssignment: Resource
-    ├── Spec: Object (14 properties)
+    ├── Spec: Object (12 properties)
     │   ├── AzureName: string
     │   ├── Condition: *string
     │   ├── ConditionVersion: *string
     │   ├── DelegatedManagedIdentityResourceId: *string
     │   ├── Description: *string
-    │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.ArbitraryOwnerReference
     │   ├── PrincipalId: *string
     │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
     │   ├── PrincipalType: *string
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── RoleDefinitionReference: *genruntime.ResourceReference
-    │   └── Tags: map[string]string
+    │   └── RoleDefinitionReference: *genruntime.ResourceReference
     └── Status: Object (17 properties)
         ├── Condition: *string
         ├── ConditionVersion: *string

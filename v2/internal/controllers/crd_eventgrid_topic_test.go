@@ -65,7 +65,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, topic *eventgrid.Topic) {
 	kind := storage.StorageAccount_Kind_Spec_StorageV2
-	sku := storage.Sku_Name_Standard_LRS
+	sku := storage.SkuName_Standard_LRS
 	acctName := tc.NoSpaceNamer.GenerateName("stor")
 	tier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	acct := &storage.StorageAccount{
@@ -99,9 +99,8 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 
 	tc.CreateResourceAndWait(queue)
 
-	/* TODO pending (evildiscriminator)
 	acctReference := tc.MakeReferenceFromResource(acct)
-	endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
+	endpointType := eventgrid.StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue
 	subscription := &eventgrid.EventSubscription{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: eventgrid.EventSubscription_Spec{
@@ -109,15 +108,18 @@ func Topic_Subscription_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 			Destination: &eventgrid.EventSubscriptionDestination{
 				StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
 					EndpointType: &endpointType,
-					Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-						ResourceReference: acctReference,
-						QueueName:         &queue.Name,
-					},
+					// TODO[donotmerge]: These properties used to be in a "Properties" property but are flattened
+					// TODO[donotmerge]: in the Swagger branch
+					//Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+					//	ResourceReference: acctReference,
+					//	QueueName:         &queue.Name,
+					//},
+					ResourceReference: acctReference,
+					QueueName:         &queue.Name,
 				},
 			},
 		},
 	}
 
 	tc.CreateResourceAndWait(subscription)
-	*/
 }

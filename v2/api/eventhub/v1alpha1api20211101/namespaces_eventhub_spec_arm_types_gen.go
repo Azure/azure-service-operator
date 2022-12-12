@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespaces_Eventhub_Spec. Use v1beta20211101.Namespaces_Eventhub_Spec instead
 type Namespaces_Eventhub_Spec_ARM struct {
-	Location   *string                                  `json:"location,omitempty"`
 	Name       string                                   `json:"name,omitempty"`
 	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                        `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_Eventhub_Spec_ARM{}
@@ -32,29 +30,29 @@ func (eventhub *Namespaces_Eventhub_Spec_ARM) GetType() string {
 
 // Deprecated version of Namespaces_Eventhub_Properties_Spec. Use v1beta20211101.Namespaces_Eventhub_Properties_Spec instead
 type Namespaces_Eventhub_Properties_Spec_ARM struct {
-	CaptureDescription     *Namespaces_Eventhub_Properties_CaptureDescription_Spec_ARM `json:"captureDescription,omitempty"`
-	MessageRetentionInDays *int                                                        `json:"messageRetentionInDays,omitempty"`
-	PartitionCount         *int                                                        `json:"partitionCount,omitempty"`
+	CaptureDescription     *CaptureDescription_ARM `json:"captureDescription,omitempty"`
+	MessageRetentionInDays *int                    `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                    `json:"partitionCount,omitempty"`
 }
 
-// Deprecated version of Namespaces_Eventhub_Properties_CaptureDescription_Spec. Use v1beta20211101.Namespaces_Eventhub_Properties_CaptureDescription_Spec instead
-type Namespaces_Eventhub_Properties_CaptureDescription_Spec_ARM struct {
-	Destination       *Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec_ARM `json:"destination,omitempty"`
-	Enabled           *bool                                                                   `json:"enabled,omitempty"`
-	Encoding          *Namespaces_Eventhub_Properties_CaptureDescription_Encoding_Spec        `json:"encoding,omitempty"`
-	IntervalInSeconds *int                                                                    `json:"intervalInSeconds,omitempty"`
-	SizeLimitInBytes  *int                                                                    `json:"sizeLimitInBytes,omitempty"`
-	SkipEmptyArchives *bool                                                                   `json:"skipEmptyArchives,omitempty"`
+// Deprecated version of CaptureDescription. Use v1beta20211101.CaptureDescription instead
+type CaptureDescription_ARM struct {
+	Destination       *Destination_ARM             `json:"destination,omitempty"`
+	Enabled           *bool                        `json:"enabled,omitempty"`
+	Encoding          *CaptureDescription_Encoding `json:"encoding,omitempty"`
+	IntervalInSeconds *int                         `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                         `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool                        `json:"skipEmptyArchives,omitempty"`
 }
 
-// Deprecated version of Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec. Use v1beta20211101.Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec instead
-type Namespaces_Eventhub_Properties_CaptureDescription_Destination_Spec_ARM struct {
-	Name       *string                    `json:"name,omitempty"`
-	Properties *DestinationProperties_ARM `json:"properties,omitempty"`
+// Deprecated version of Destination. Use v1beta20211101.Destination instead
+type Destination_ARM struct {
+	Name       *string                     `json:"name,omitempty"`
+	Properties *Destination_Properties_ARM `json:"properties,omitempty"`
 }
 
-// Deprecated version of DestinationProperties. Use v1beta20211101.DestinationProperties instead
-type DestinationProperties_ARM struct {
+// Deprecated version of Destination_Properties. Use v1beta20211101.Destination_Properties instead
+type Destination_Properties_ARM struct {
 	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string `json:"blobContainer,omitempty"`
 	DataLakeAccountName      *string `json:"dataLakeAccountName,omitempty"`

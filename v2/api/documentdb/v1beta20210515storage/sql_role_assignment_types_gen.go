@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.SqlRoleAssignment
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlRoleAssignments
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/rbac.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}
 type SqlRoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlRoleAssignment_Spec `json:"spec,omitempty"`
-	Status            SqlRoleAssignmentGetResults_STATUS      `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlRoleAssignment_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlRoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlRoleAssignment{}
@@ -76,7 +78,7 @@ func (assignment *SqlRoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlRoleAssignmentGetResults_STATUS{}
+	return &DatabaseAccounts_SqlRoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *SqlRoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlRoleAssignmentGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlRoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlRoleAssignmentGetResults_STATUS
+	var st DatabaseAccounts_SqlRoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (assignment *SqlRoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.SqlRoleAssignment
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlRoleAssignments
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/rbac.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}
 type SqlRoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,8 +172,8 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) ConvertSpecTo(destina
 	return destination.ConvertSpecFrom(assignment)
 }
 
-// Storage version of v1beta20210515.SqlRoleAssignmentGetResults_STATUS
-type SqlRoleAssignmentGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_SqlRoleAssignment_STATUS
+type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
 	Conditions       []conditions.Condition `json:"conditions,omitempty"`
 	Id               *string                `json:"id,omitempty"`
 	Name             *string                `json:"name,omitempty"`
@@ -180,24 +184,24 @@ type SqlRoleAssignmentGetResults_STATUS struct {
 	Type             *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlRoleAssignmentGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlRoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our SqlRoleAssignmentGetResults_STATUS from the provided source
-func (results *SqlRoleAssignmentGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccounts_SqlRoleAssignment_STATUS from the provided source
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(assignment)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlRoleAssignmentGetResults_STATUS
-func (results *SqlRoleAssignmentGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlRoleAssignment_STATUS
+func (assignment *DatabaseAccounts_SqlRoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(assignment)
 }
 
 func init() {
