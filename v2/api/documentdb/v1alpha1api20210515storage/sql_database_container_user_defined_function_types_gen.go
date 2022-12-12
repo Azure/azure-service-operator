@@ -25,8 +25,8 @@ import (
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionGetResults_STATUS                           `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -97,7 +97,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlUserDefinedFunctionGetResults_STATUS{}
+	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlUserDefinedFunctionGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlUserDefinedFunctionGetResults_STATUS
+	var st DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_From_S
 	function.Spec = spec
 
 	// Status
-	var status SqlUserDefinedFunctionGetResults_STATUS
-	err = status.AssignProperties_From_SqlUserDefinedFunctionGetResults_STATUS(&source.Status)
+	var status DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+	err = status.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS() to populate field Status")
 	}
 	function.Status = status
 
@@ -170,10 +170,10 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_To_Sql
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlUserDefinedFunctionGetResults_STATUS
-	err = function.Status.AssignProperties_To_SqlUserDefinedFunctionGetResults_STATUS(&status)
+	var status v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+	err = function.Status.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -388,9 +388,9 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	return nil
 }
 
-// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetResults_STATUS
-// Deprecated version of SqlUserDefinedFunctionGetResults_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetResults_STATUS instead
-type SqlUserDefinedFunctionGetResults_STATUS struct {
+// Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+// Deprecated version of DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS. Use v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS instead
+type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`
 	Location    *string                                              `json:"location,omitempty"`
@@ -401,25 +401,25 @@ type SqlUserDefinedFunctionGetResults_STATUS struct {
 	Type        *string                                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
 
-// ConvertStatusFrom populates our SqlUserDefinedFunctionGetResults_STATUS from the provided source
-func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlUserDefinedFunctionGetResults_STATUS)
+// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from the provided source
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignProperties_From_SqlUserDefinedFunctionGetResults_STATUS(src)
+		return function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.SqlUserDefinedFunctionGetResults_STATUS{}
+	src = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignProperties_From_SqlUserDefinedFunctionGetResults_STATUS(src)
+	err = function.AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -427,17 +427,17 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusFrom(source
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionGetResults_STATUS
-func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlUserDefinedFunctionGetResults_STATUS)
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignProperties_To_SqlUserDefinedFunctionGetResults_STATUS(dst)
+		return function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.SqlUserDefinedFunctionGetResults_STATUS{}
-	err := results.AssignProperties_To_SqlUserDefinedFunctionGetResults_STATUS(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
+	err := function.AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -451,22 +451,22 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) ConvertStatusTo(destinat
 	return nil
 }
 
-// AssignProperties_From_SqlUserDefinedFunctionGetResults_STATUS populates our SqlUserDefinedFunctionGetResults_STATUS from the provided source SqlUserDefinedFunctionGetResults_STATUS
-func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_From_SqlUserDefinedFunctionGetResults_STATUS(source *v20210515s.SqlUserDefinedFunctionGetResults_STATUS) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from the provided source DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) AssignProperties_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(source *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	function.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	function.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	function.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	function.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -475,49 +475,49 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_From_Sq
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
-		results.Resource = &resource
+		function.Resource = &resource
 	} else {
-		results.Resource = nil
+		function.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	function.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		results.PropertyBag = propertyBag
+		function.PropertyBag = propertyBag
 	} else {
-		results.PropertyBag = nil
+		function.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SqlUserDefinedFunctionGetResults_STATUS populates the provided destination SqlUserDefinedFunctionGetResults_STATUS from our SqlUserDefinedFunctionGetResults_STATUS
-func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_To_SqlUserDefinedFunctionGetResults_STATUS(destination *v20210515s.SqlUserDefinedFunctionGetResults_STATUS) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS populates the provided destination DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS from our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) AssignProperties_To_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(destination *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(results.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(function.PropertyBag)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(function.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(function.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(function.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(function.Name)
 
 	// Resource
-	if results.Resource != nil {
+	if function.Resource != nil {
 		var resource v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS
-		err := results.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&resource)
+		err := function.Resource.AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
@@ -527,10 +527,10 @@ func (results *SqlUserDefinedFunctionGetResults_STATUS) AssignProperties_To_SqlU
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(function.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(function.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

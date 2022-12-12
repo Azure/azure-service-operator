@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_BlobServices_Container_Spec. Use v1beta20210401.StorageAccounts_BlobServices_Container_Spec instead
 type StorageAccounts_BlobServices_Container_Spec_ARM struct {
-	Location   *string                  `json:"location,omitempty"`
 	Name       string                   `json:"name,omitempty"`
 	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string        `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobServices_Container_Spec_ARM{}

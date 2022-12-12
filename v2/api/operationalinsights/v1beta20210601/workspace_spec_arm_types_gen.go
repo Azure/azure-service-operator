@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspace_Spec_ARM struct {
 	// Etag: The etag of the workspace.
@@ -14,14 +11,12 @@ type Workspace_Spec_ARM struct {
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the workspace.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Workspace properties.
 	Properties *WorkspaceProperties_ARM `json:"properties,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -42,7 +37,6 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.OperationalInsights/workspaces"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceProperties
 type WorkspaceProperties_ARM struct {
 	// Features: Workspace features.
 	Features *WorkspaceFeatures_ARM `json:"features,omitempty"`
@@ -54,33 +48,29 @@ type WorkspaceProperties_ARM struct {
 	ProvisioningState *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
-	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *WorkspaceProperties_PublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
 	// documentation for details.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 
-	// Sku: The SKU (tier) of a workspace.
+	// Sku: The SKU of the workspace.
 	Sku *WorkspaceSku_ARM `json:"sku,omitempty"`
 
 	// WorkspaceCapping: The daily volume cap for ingestion.
 	WorkspaceCapping *WorkspaceCapping_ARM `json:"workspaceCapping,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
 type WorkspaceCapping_ARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
 type WorkspaceFeatures_ARM struct {
-	// AdditionalProperties: Unmatched properties from the message are deserialized this collection
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-	ClusterResourceId    *string            `json:"clusterResourceId,omitempty"`
+	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
 	// DisableLocalAuth: Disable Non-AAD based Auth.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
@@ -95,11 +85,10 @@ type WorkspaceFeatures_ARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
 type WorkspaceSku_ARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
-	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 
 	// Name: The name of the SKU.
 	Name *WorkspaceSku_Name `json:"name,omitempty"`

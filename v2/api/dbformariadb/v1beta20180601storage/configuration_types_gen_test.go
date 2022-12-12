@@ -75,76 +75,7 @@ func ConfigurationGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForConfiguration is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForConfiguration(gens map[string]gopter.Gen) {
 	gens["Spec"] = Servers_Configuration_SpecGenerator()
-	gens["Status"] = Configuration_STATUSGenerator()
-}
-
-func Test_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Configuration_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConfiguration_STATUS, Configuration_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForConfiguration_STATUS runs a test to see if a specific instance of Configuration_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForConfiguration_STATUS(subject Configuration_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Configuration_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Configuration_STATUS instances for property testing - lazily instantiated by
-// Configuration_STATUSGenerator()
-var configuration_STATUSGenerator gopter.Gen
-
-// Configuration_STATUSGenerator returns a generator of Configuration_STATUS instances for property testing.
-func Configuration_STATUSGenerator() gopter.Gen {
-	if configuration_STATUSGenerator != nil {
-		return configuration_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConfiguration_STATUS(generators)
-	configuration_STATUSGenerator = gen.Struct(reflect.TypeOf(Configuration_STATUS{}), generators)
-
-	return configuration_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForConfiguration_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConfiguration_STATUS(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Value"] = gen.PtrOf(gen.AlphaString())
+	gens["Status"] = Servers_Configuration_STATUSGenerator()
 }
 
 func Test_Servers_Configuration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -206,9 +137,76 @@ func Servers_Configuration_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServers_Configuration_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServers_Configuration_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Servers_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Servers_Configuration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServers_Configuration_STATUS, Servers_Configuration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServers_Configuration_STATUS runs a test to see if a specific instance of Servers_Configuration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServers_Configuration_STATUS(subject Servers_Configuration_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Servers_Configuration_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Servers_Configuration_STATUS instances for property testing - lazily instantiated by
+// Servers_Configuration_STATUSGenerator()
+var servers_Configuration_STATUSGenerator gopter.Gen
+
+// Servers_Configuration_STATUSGenerator returns a generator of Servers_Configuration_STATUS instances for property testing.
+func Servers_Configuration_STATUSGenerator() gopter.Gen {
+	if servers_Configuration_STATUSGenerator != nil {
+		return servers_Configuration_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServers_Configuration_STATUS(generators)
+	servers_Configuration_STATUSGenerator = gen.Struct(reflect.TypeOf(Servers_Configuration_STATUS{}), generators)
+
+	return servers_Configuration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServers_Configuration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServers_Configuration_STATUS(gens map[string]gopter.Gen) {
+	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
+	gens["DataType"] = gen.PtrOf(gen.AlphaString())
+	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Source"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

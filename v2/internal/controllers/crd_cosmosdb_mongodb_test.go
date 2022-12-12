@@ -25,7 +25,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 
 	// Create a Cosmos DB account
 	kind := documentdb.DatabaseAccount_Kind_Spec_MongoDB
-	offerType := documentdb.DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard
+	offerType := documentdb.DatabaseAccountOfferType_Standard
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: documentdb.DatabaseAccount_Spec{
@@ -65,7 +65,8 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	tc.CreateResourcesAndWait(&acct, &db)
 
 	// Perform some assertions on the resources we just created
-	expectedKind := documentdb.DatabaseAccountGetResults_Kind_STATUS_MongoDB
+	expectedKind := documentdb.DatabaseAccount_Kind_STATUS_MongoDB
+
 	tc.Expect(acct.Status.Kind).ToNot(BeNil())
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())

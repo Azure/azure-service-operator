@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20220501.ConfigurationStore
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/resourceDefinitions/configurationStores
+// Generator information:
+// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
 type ConfigurationStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (store *ConfigurationStore) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20220501.ConfigurationStore
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/resourceDefinitions/configurationStores
+// Generator information:
+// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
 type ConfigurationStoreList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -237,7 +241,6 @@ type ConfigurationStoreOperatorSpec struct {
 }
 
 // Storage version of v1beta20220501.EncryptionProperties
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/EncryptionProperties
 type EncryptionProperties struct {
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -256,7 +259,6 @@ type PrivateEndpointConnectionReference_STATUS struct {
 }
 
 // Storage version of v1beta20220501.ResourceIdentity
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/ResourceIdentity
 type ResourceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -272,7 +274,6 @@ type ResourceIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20220501.Sku
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/Sku
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -285,7 +286,6 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20220501.SystemData
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/SystemData
 type SystemData struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -325,7 +325,6 @@ type ConfigurationStoreOperatorSecrets struct {
 }
 
 // Storage version of v1beta20220501.KeyVaultProperties
-// Generated from: https://schema.management.azure.com/schemas/2022-05-01/Microsoft.AppConfiguration.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	IdentityClientId *string                `json:"identityClientId,omitempty"`
 	KeyIdentifier    *string                `json:"keyIdentifier,omitempty"`

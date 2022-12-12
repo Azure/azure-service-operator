@@ -8,6 +8,7 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
+	"golang.org/x/exp/slices"
 	"sort"
 	"strings"
 
@@ -42,7 +43,10 @@ func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
 		return options[left].Identifier < options[right].Identifier
 	})
 
-	return &EnumType{baseType: baseType, options: options, emitValidation: true}
+	return &EnumType{
+		baseType:       baseType,
+		options:        options,
+		emitValidation: true}
 }
 
 // WithoutValidation returns a copy of this enum, without associated Kubebuilder annotations.
@@ -185,7 +189,7 @@ func (enum *EnumType) RequiredPackageReferences() *PackageReferenceSet {
 // Options returns all the enum options
 // A copy of the slice is returned to preserve immutability
 func (enum *EnumType) Options() []EnumValue {
-	return append(enum.options[:0:0], enum.options...)
+	return slices.Clone(enum.options)
 }
 
 // CreateValidation creates the validation annotation for this Enum
@@ -206,7 +210,7 @@ func (enum *EnumType) BaseType() *PrimitiveType {
 func (enum *EnumType) clone() *EnumType {
 	result := *enum
 	result.emitValidation = enum.emitValidation
-	result.options = append([]EnumValue(nil), enum.options...)
+	result.options = slices.Clone(enum.options)
 	result.baseType = enum.baseType
 
 	return &result
@@ -222,9 +226,9 @@ func (enum *EnumType) String() string {
 }
 
 // WriteDebugDescription adds a description of the current enum type, including option names, to the
-// passed builder
-// builder receives the full description
-// definitions is for resolving named types
+// passed builder.
+// builder receives the full description.
+// definitions is for resolving named types.
 func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if enum == nil {
 		builder.WriteString("<nilEnum>")

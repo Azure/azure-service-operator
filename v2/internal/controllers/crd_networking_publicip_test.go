@@ -51,10 +51,10 @@ func newPublicIp(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResou
 	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
 	// TODO: depluralization of this resource doesn't work because of the collision.
 	sku := network.PublicIPAddressSku_Name_Standard
-	allocationMethod := network.PublicIPAddressPropertiesFormat_PublicIPAllocationMethod_Static
+	allocationMethod := network.IPAllocationMethod_Static
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
+		Spec: network.PublicIPAddress_Spec{
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &network.PublicIPAddressSku{

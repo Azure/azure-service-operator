@@ -57,7 +57,7 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 }
 
 func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTable) {
-	nextHopType := network.RoutePropertiesFormat_NextHopType_VirtualAppliance
+	nextHopType := network.RouteNextHopType_VirtualAppliance
 	ipv6Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv6route"),
 		Spec: network.RouteTables_Route_Spec{
@@ -124,7 +124,7 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 		},
 	}
 
-	nextHopType := network.RoutePropertiesFormat_NextHopType_VirtualAppliance
+	nextHopType := network.RouteNextHopType_VirtualAppliance
 	ipv4Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
 		Spec: network.RouteTables_Route_Spec{

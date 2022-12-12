@@ -87,7 +87,7 @@ func (resource *AResource) AzureName() string {
 	return "onlyonevalue"
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource AResource) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -102,9 +102,9 @@ func (resource *AResource) GetSpec() genruntime.ConvertibleSpec {
 	return &resource.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
+// GetType returns the ARM Type of the resource. This is always ""
 func (resource *AResource) GetType() string {
-	return "Microsoft.Azure/AResource"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -264,12 +264,14 @@ type AResourceList struct {
 }
 
 type AResource_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
+	APIVersion AResource_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Name       string                    `json:"name,omitempty"`
+	Type       AResource_Type_Spec       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &AResource_Spec_ARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource AResource_Spec_ARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -279,22 +281,33 @@ func (resource *AResource_Spec_ARM) GetName() string {
 	return resource.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
+// GetType returns the ARM Type of the resource. This is always ""
 func (resource *AResource_Spec_ARM) GetType() string {
-	return "Microsoft.Azure/AResource"
+	return ""
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-01-01")
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type AResource_APIVersion_Spec string
+
+const AResource_APIVersion_Spec_20200601 = AResource_APIVersion_Spec("2020-06-01")
 
 type AResource_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion AResource_APIVersion_Spec `json:"apiVersion,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Type AResource_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AResource_Spec{}
@@ -306,8 +319,14 @@ func (resource *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &AResource_Spec_ARM{}
 
+	// Set property ‘APIVersion’:
+	result.APIVersion = resource.APIVersion
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Type’:
+	result.Type = resource.Type
 	return result, nil
 }
 
@@ -323,8 +342,14 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_Spec_ARM, got %T", armInput)
 	}
 
+	// Set property ‘APIVersion’:
+	resource.APIVersion = typedInput.APIVersion
+
 	// Set property ‘Owner’:
 	resource.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
+
+	// Set property ‘Type’:
+	resource.Type = typedInput.Type
 
 	// No error
 	return nil
@@ -383,12 +408,26 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 // AssignProperties_From_AResource_Spec populates our AResource_Spec from the provided source AResource_Spec
 func (resource *AResource_Spec) AssignProperties_From_AResource_Spec(source *v20200101s.AResource_Spec) error {
 
+	// APIVersion
+	if source.APIVersion != nil {
+		resource.APIVersion = AResource_APIVersion_Spec(*source.APIVersion)
+	} else {
+		resource.APIVersion = ""
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
 		resource.Owner = &owner
 	} else {
 		resource.Owner = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		resource.Type = AResource_Type_Spec(*source.Type)
+	} else {
+		resource.Type = ""
 	}
 
 	// No error
@@ -400,6 +439,10 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// APIVersion
+	apiVersion := string(resource.APIVersion)
+	destination.APIVersion = &apiVersion
+
 	// OriginalVersion
 	destination.OriginalVersion = resource.OriginalVersion()
 
@@ -410,6 +453,10 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 	} else {
 		destination.Owner = nil
 	}
+
+	// Type
+	typeVar := string(resource.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -426,6 +473,11 @@ func (resource *AResource_Spec) AssignProperties_To_AResource_Spec(destination *
 func (resource *AResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}
+type AResource_Type_Spec string
+
+const AResource_Type_Spec_MicrosoftAzureAResource = AResource_Type_Spec("Microsoft.Azure/AResource")
 
 func init() {
 	SchemeBuilder.Register(&AResource{}, &AResourceList{})

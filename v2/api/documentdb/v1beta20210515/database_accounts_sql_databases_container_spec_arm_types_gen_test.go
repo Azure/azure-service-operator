@@ -755,10 +755,10 @@ func SpatialSpec_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSpatialSpec_ARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Types"] = gen.SliceOf(gen.OneConstOf(
-		SpatialSpec_Types_LineString,
-		SpatialSpec_Types_MultiPolygon,
-		SpatialSpec_Types_Point,
-		SpatialSpec_Types_Polygon))
+		SpatialType_LineString,
+		SpatialType_MultiPolygon,
+		SpatialType_Point,
+		SpatialType_Polygon))
 }
 
 func Test_UniqueKey_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

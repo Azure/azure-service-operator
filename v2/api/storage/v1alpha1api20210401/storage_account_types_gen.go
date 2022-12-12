@@ -385,9 +385,11 @@ type StorageAccount_Spec struct {
 	// +kubebuilder:validation:Required
 	Kind                 *StorageAccount_Kind_Spec                                      `json:"kind,omitempty"`
 	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
-	Location             *string                                                        `json:"location,omitempty"`
-	MinimumTlsVersion    *StorageAccountPropertiesCreateParameters_MinimumTlsVersion    `json:"minimumTlsVersion,omitempty"`
-	NetworkAcls          *NetworkRuleSet                                                `json:"networkAcls,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location          *string                                                     `json:"location,omitempty"`
+	MinimumTlsVersion *StorageAccountPropertiesCreateParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	NetworkAcls       *NetworkRuleSet                                             `json:"networkAcls,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -1391,40 +1393,40 @@ type StorageAccount_STATUS struct {
 	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                     `json:"blobRestoreStatus,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreationTime               *string                                                `json:"creationTime,omitempty"`
-	CustomDomain               *CustomDomain_STATUS                                   `json:"customDomain,omitempty"`
-	Encryption                 *Encryption_STATUS                                     `json:"encryption,omitempty"`
-	ExtendedLocation           *ExtendedLocation_STATUS                               `json:"extendedLocation,omitempty"`
-	FailoverInProgress         *bool                                                  `json:"failoverInProgress,omitempty"`
-	GeoReplicationStats        *GeoReplicationStats_STATUS                            `json:"geoReplicationStats,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *Identity_STATUS                                       `json:"identity,omitempty"`
-	IsHnsEnabled               *bool                                                  `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled             *bool                                                  `json:"isNfsV3Enabled,omitempty"`
-	KeyCreationTime            *KeyCreationTime_STATUS                                `json:"keyCreationTime,omitempty"`
-	KeyPolicy                  *KeyPolicy_STATUS                                      `json:"keyPolicy,omitempty"`
-	Kind                       *StorageAccount_Kind_STATUS                            `json:"kind,omitempty"`
-	LargeFileSharesState       *StorageAccountProperties_LargeFileSharesState_STATUS  `json:"largeFileSharesState,omitempty"`
-	LastGeoFailoverTime        *string                                                `json:"lastGeoFailoverTime,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	MinimumTlsVersion          *StorageAccountProperties_MinimumTlsVersion_STATUS     `json:"minimumTlsVersion,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	NetworkAcls                *NetworkRuleSet_STATUS                                 `json:"networkAcls,omitempty"`
-	PrimaryEndpoints           *Endpoints_STATUS                                      `json:"primaryEndpoints,omitempty"`
-	PrimaryLocation            *string                                                `json:"primaryLocation,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *StorageAccountProperties_ProvisioningState_STATUS     `json:"provisioningState,omitempty"`
-	RoutingPreference          *RoutingPreference_STATUS                              `json:"routingPreference,omitempty"`
-	SasPolicy                  *SasPolicy_STATUS                                      `json:"sasPolicy,omitempty"`
-	SecondaryEndpoints         *Endpoints_STATUS                                      `json:"secondaryEndpoints,omitempty"`
-	SecondaryLocation          *string                                                `json:"secondaryLocation,omitempty"`
-	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
-	StatusOfPrimary            *StorageAccountProperties_StatusOfPrimary_STATUS       `json:"statusOfPrimary,omitempty"`
-	StatusOfSecondary          *StorageAccountProperties_StatusOfSecondary_STATUS     `json:"statusOfSecondary,omitempty"`
-	SupportsHttpsTrafficOnly   *bool                                                  `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
+	Conditions                 []conditions.Condition                                `json:"conditions,omitempty"`
+	CreationTime               *string                                               `json:"creationTime,omitempty"`
+	CustomDomain               *CustomDomain_STATUS                                  `json:"customDomain,omitempty"`
+	Encryption                 *Encryption_STATUS                                    `json:"encryption,omitempty"`
+	ExtendedLocation           *ExtendedLocation_STATUS                              `json:"extendedLocation,omitempty"`
+	FailoverInProgress         *bool                                                 `json:"failoverInProgress,omitempty"`
+	GeoReplicationStats        *GeoReplicationStats_STATUS                           `json:"geoReplicationStats,omitempty"`
+	Id                         *string                                               `json:"id,omitempty"`
+	Identity                   *Identity_STATUS                                      `json:"identity,omitempty"`
+	IsHnsEnabled               *bool                                                 `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled             *bool                                                 `json:"isNfsV3Enabled,omitempty"`
+	KeyCreationTime            *KeyCreationTime_STATUS                               `json:"keyCreationTime,omitempty"`
+	KeyPolicy                  *KeyPolicy_STATUS                                     `json:"keyPolicy,omitempty"`
+	Kind                       *StorageAccount_Kind_STATUS                           `json:"kind,omitempty"`
+	LargeFileSharesState       *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LastGeoFailoverTime        *string                                               `json:"lastGeoFailoverTime,omitempty"`
+	Location                   *string                                               `json:"location,omitempty"`
+	MinimumTlsVersion          *StorageAccountProperties_MinimumTlsVersion_STATUS    `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                               `json:"name,omitempty"`
+	NetworkAcls                *NetworkRuleSet_STATUS                                `json:"networkAcls,omitempty"`
+	PrimaryEndpoints           *Endpoints_STATUS                                     `json:"primaryEndpoints,omitempty"`
+	PrimaryLocation            *string                                               `json:"primaryLocation,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS                    `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *StorageAccountProperties_ProvisioningState_STATUS    `json:"provisioningState,omitempty"`
+	RoutingPreference          *RoutingPreference_STATUS                             `json:"routingPreference,omitempty"`
+	SasPolicy                  *SasPolicy_STATUS                                     `json:"sasPolicy,omitempty"`
+	SecondaryEndpoints         *Endpoints_STATUS                                     `json:"secondaryEndpoints,omitempty"`
+	SecondaryLocation          *string                                               `json:"secondaryLocation,omitempty"`
+	Sku                        *Sku_STATUS                                           `json:"sku,omitempty"`
+	StatusOfPrimary            *StorageAccountProperties_StatusOfPrimary_STATUS      `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary          *StorageAccountProperties_StatusOfSecondary_STATUS    `json:"statusOfSecondary,omitempty"`
+	SupportsHttpsTrafficOnly   *bool                                                 `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                       map[string]string                                     `json:"tags,omitempty"`
+	Type                       *string                                               `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
@@ -1777,7 +1779,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
+			var item1 PrivateEndpointConnection_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -2140,14 +2142,14 @@ func (account *StorageAccount_STATUS) AssignProperties_From_StorageAccount_STATU
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignProperties_From_PrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -2489,14 +2491,14 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 
 	// PrivateEndpointConnections
 	if account.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]alpha20210401s.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(account.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]alpha20210401s.PrivateEndpointConnection_STATUS, len(account.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range account.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection alpha20210401s.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
+			var privateEndpointConnection alpha20210401s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignProperties_To_PrivateEndpointConnection_STATUS(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -3854,8 +3856,8 @@ func (endpoints *Endpoints_STATUS) AssignProperties_To_Endpoints_STATUS(destinat
 
 // Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
 type ExtendedLocation struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -3917,7 +3919,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -5084,52 +5086,52 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	return nil
 }
 
-// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210401.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210401.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUS struct {
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM{}
+func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM)
+func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		connection.Id = &id
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_From_PrivateEndpointConnection_STATUS_SubResourceEmbedded(source *alpha20210401s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *alpha20210401s.PrivateEndpointConnection_STATUS) error {
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	connection.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProperties_To_PrivateEndpointConnection_STATUS_SubResourceEmbedded(destination *alpha20210401s.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignProperties_To_PrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateEndpointConnection_STATUS(destination *alpha20210401s.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5586,8 +5588,8 @@ func (policy *SasPolicy_STATUS) AssignProperties_To_SasPolicy_STATUS(destination
 // Deprecated version of Sku. Use v1beta20210401.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	Name *Sku_Name `json:"name,omitempty"`
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Name *SkuName `json:"name,omitempty"`
+	Tier *Tier    `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -5646,7 +5648,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *alpha20210401s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := Sku_Name(*source.Name)
+		name := SkuName(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -5654,7 +5656,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *alpha20210401s.Sku) error {
 
 	// Tier
 	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
+		tier := Tier(*source.Tier)
 		sku.Tier = &tier
 	} else {
 		sku.Tier = nil

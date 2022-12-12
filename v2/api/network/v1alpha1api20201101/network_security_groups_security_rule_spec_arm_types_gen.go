@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroups_SecurityRule_Spec. Use v1beta20201101.NetworkSecurityGroups_SecurityRule_Spec instead
 type NetworkSecurityGroups_SecurityRule_Spec_ARM struct {
-	Location   *string                           `json:"location,omitempty"`
 	Name       string                            `json:"name,omitempty"`
 	Properties *SecurityRulePropertiesFormat_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SecurityRule_Spec_ARM{}
@@ -32,19 +30,24 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec_ARM) GetType() string {
 
 // Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead
 type SecurityRulePropertiesFormat_ARM struct {
-	Access                               *SecurityRulePropertiesFormat_Access    `json:"access,omitempty"`
-	Description                          *string                                 `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                                 `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                                `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []SubResource_ARM                       `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                                 `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                                `json:"destinationPortRanges,omitempty"`
-	Direction                            *SecurityRulePropertiesFormat_Direction `json:"direction,omitempty"`
-	Priority                             *int                                    `json:"priority,omitempty"`
-	Protocol                             *SecurityRulePropertiesFormat_Protocol  `json:"protocol,omitempty"`
-	SourceAddressPrefix                  *string                                 `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes                []string                                `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups      []SubResource_ARM                       `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                      *string                                 `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                     []string                                `json:"sourcePortRanges,omitempty"`
+	Access                               *SecurityRuleAccess                                                                       `json:"access,omitempty"`
+	Description                          *string                                                                                   `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                                                                                   `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                                                                                  `json:"destinationAddressPrefixes,omitempty"`
+	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationPortRange                 *string                                                                                   `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                                                                                  `json:"destinationPortRanges,omitempty"`
+	Direction                            *SecurityRuleDirection                                                                    `json:"direction,omitempty"`
+	Priority                             *int                                                                                      `json:"priority,omitempty"`
+	Protocol                             *SecurityRulePropertiesFormat_Protocol                                                    `json:"protocol,omitempty"`
+	SourceAddressPrefix                  *string                                                                                   `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes                []string                                                                                  `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups      []ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                      *string                                                                                   `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                     []string                                                                                  `json:"sourcePortRanges,omitempty"`
+}
+
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead
+type ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded_ARM struct {
+	Id *string `json:"id,omitempty"`
 }

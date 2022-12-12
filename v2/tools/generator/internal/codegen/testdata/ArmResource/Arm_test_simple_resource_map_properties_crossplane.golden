@@ -28,10 +28,10 @@ type FakeResourceList struct {
 	Items           []FakeResource `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("2020-06-01")
+const APIVersion_Value = APIVersion("2020-01-01")
 
 type FakeResource_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
@@ -39,6 +39,9 @@ type FakeResource_Spec struct {
 }
 
 type FakeResourceParameters struct {
+	// +kubebuilder:validation:Required
+	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
+
 	// +kubebuilder:validation:Required
 	MapFoo                   map[string]Foo                          `json:"mapFoo,omitempty"`
 	MapOfArrays              map[string][]Foo                        `json:"mapOfArrays,omitempty"`
@@ -53,6 +56,9 @@ type FakeResourceParameters struct {
 	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type FakeResource_Type_Spec `json:"type,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
@@ -64,6 +70,16 @@ const (
 	Color_Green = Color("green")
 	Color_Red   = Color("red")
 )
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_APIVersion_Spec string
+
+const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
+type FakeResource_Type_Spec string
+
+const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {

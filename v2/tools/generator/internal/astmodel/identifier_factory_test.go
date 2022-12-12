@@ -46,14 +46,42 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 		{"version2021 02 01", NotExported, "version20210201"},
 	}
 
-	idfactory := NewIdentifierFactory()
+	idFactory := NewIdentifierFactory()
 
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			identifier := idfactory.CreateIdentifier(c.name, c.visibility)
+			identifier := idFactory.CreateIdentifier(c.name, c.visibility)
+			g.Expect(identifier).To(Equal(c.expected))
+		})
+	}
+}
+
+func Test_CreateStringIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name       string
+		visibility Visibility
+		expected   string
+	}{
+		{"name", Exported, "Name"},
+		{"Name", Exported, "Name"},
+		{"$schema", Exported, "Schema"},
+		{"default", Exported, "Default"},
+		{"default", NotExported, "default"},
+	}
+
+	idFactory := NewIdentifierFactory()
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			identifier := idFactory.CreateStringIdentifier(c.name, c.visibility)
 			g.Expect(identifier).To(Equal(c.expected))
 		})
 	}

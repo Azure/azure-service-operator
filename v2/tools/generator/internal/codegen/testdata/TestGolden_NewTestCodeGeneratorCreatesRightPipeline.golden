@@ -1,16 +1,17 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
 loadTestSchema                                       Load and walk schema (test)
-addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
+assembleOneOfTypes                                   Assemble OneOf types from OpenAPI Fragments
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnused                                          Strip unused types for test
 removeAliases                                        Remove type aliases
-pluralizeNames                                       Improve resource pluralization
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
-removeResourceScope                                  Remove scope from all resources
+applyIsResourceOverrides                             Apply $isResource overrides to objects
+fixIdFields                                          Remove ARM ID annotations from status, and Id from Spec types
+add-api-version-enums                                Add enums for API Versions in each package
+removeAliases                                        Remove type aliases
 makeStatusPropertiesOptional                         Force all status properties to be optional
 removeStatusPropertyValidation                       Remove validation from all status properties
 transformValidatedFloats                             Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
@@ -19,9 +20,6 @@ determineResourceOwnership                           Determine ARM resource rela
 removeAliases                                        Remove type aliases
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
-removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
-removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
-add-api-version-enums                                Add enums for API Versions in each package
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON

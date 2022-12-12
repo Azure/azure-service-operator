@@ -3,8 +3,8 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-// Deprecated version of RedisPatchSchedule_STATUS. Use v1beta20201201.RedisPatchSchedule_STATUS instead
-type RedisPatchSchedule_STATUS_ARM struct {
+// Deprecated version of Redis_PatchSchedule_STATUS. Use v1beta20201201.Redis_PatchSchedule_STATUS instead
+type Redis_PatchSchedule_STATUS_ARM struct {
 	Id         *string                     `json:"id,omitempty"`
 	Location   *string                     `json:"location,omitempty"`
 	Name       *string                     `json:"name,omitempty"`

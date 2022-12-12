@@ -115,7 +115,7 @@ type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Network interface IP configuration properties.
-	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"properties,omitempty"`
+	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
@@ -132,17 +132,11 @@ type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct
 }
 
 type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
-	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
-
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
 type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
-	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
-
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
@@ -152,7 +146,7 @@ type SubResource_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
+type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
 
@@ -194,20 +188,8 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_Sub
 }
 
 type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the backend address pool that is unique within an Application Gateway.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the application gateway backend address pool.
-	Properties *ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM `json:"properties,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
@@ -237,17 +219,8 @@ type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_ARM s
 }
 
 type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
-	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
-
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSku_STATUS_ARM `json:"sku,omitempty"`
-
-	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
 }
 
 type Subnet_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
@@ -258,20 +231,4 @@ type Subnet_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
-}
-
-type ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM struct {
-	// BackendAddresses: Backend addresses.
-	BackendAddresses []ApplicationGatewayBackendAddress_STATUS_ARM `json:"backendAddresses,omitempty"`
-
-	// ProvisioningState: The provisioning state of the backend address pool resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-}
-
-type ApplicationGatewayBackendAddress_STATUS_ARM struct {
-	// Fqdn: Fully qualified domain name (FQDN).
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// IpAddress: IP address.
-	IpAddress *string `json:"ipAddress,omitempty"`
 }

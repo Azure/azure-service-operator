@@ -87,9 +87,9 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 		return it, nil
 	}
 
-	def, ok := t.allDefinitions[it]
-	if !ok {
-		return nil, errors.Errorf("couldn't find type %q", it)
+	def, err := t.allDefinitions.GetDefinition(it)
+	if err != nil {
+		return nil, err
 	}
 
 	// Prevent loops by bypassing this type if it's currently being processed.

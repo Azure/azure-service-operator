@@ -572,9 +572,6 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_ARM(subject Pri
 var privateEndpointConnection_STATUS_ARMGenerator gopter.Gen
 
 // PrivateEndpointConnection_STATUS_ARMGenerator returns a generator of PrivateEndpointConnection_STATUS_ARM instances for property testing.
-// We first initialize privateEndpointConnection_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func PrivateEndpointConnection_STATUS_ARMGenerator() gopter.Gen {
 	if privateEndpointConnection_STATUS_ARMGenerator != nil {
 		return privateEndpointConnection_STATUS_ARMGenerator
@@ -584,26 +581,12 @@ func PrivateEndpointConnection_STATUS_ARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
 	privateEndpointConnection_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
-	privateEndpointConnection_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_ARM{}), generators)
-
 	return privateEndpointConnection_STATUS_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(PrivateEndpointConnectionProperties_STATUS_ARMGenerator())
 }
 
 func Test_VirtualMachineFamilyCoreQuota_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -727,208 +710,4 @@ func KeyVaultProperties_STATUS_ARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultProperties_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateEndpointConnectionProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnectionProperties_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionProperties_STATUS_ARM, PrivateEndpointConnectionProperties_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointConnectionProperties_STATUS_ARM runs a test to see if a specific instance of PrivateEndpointConnectionProperties_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnectionProperties_STATUS_ARM(subject PrivateEndpointConnectionProperties_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpointConnectionProperties_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpointConnectionProperties_STATUS_ARM instances for property testing - lazily instantiated by
-// PrivateEndpointConnectionProperties_STATUS_ARMGenerator()
-var privateEndpointConnectionProperties_STATUS_ARMGenerator gopter.Gen
-
-// PrivateEndpointConnectionProperties_STATUS_ARMGenerator returns a generator of PrivateEndpointConnectionProperties_STATUS_ARM instances for property testing.
-// We first initialize privateEndpointConnectionProperties_STATUS_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointConnectionProperties_STATUS_ARMGenerator() gopter.Gen {
-	if privateEndpointConnectionProperties_STATUS_ARMGenerator != nil {
-		return privateEndpointConnectionProperties_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM(generators)
-	privateEndpointConnectionProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionProperties_STATUS_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM(generators)
-	privateEndpointConnectionProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionProperties_STATUS_ARM{}), generators)
-
-	return privateEndpointConnectionProperties_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed, PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Succeeded, PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Updating))
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpoint_STATUS_ARMGenerator())
-	gens["PrivateLinkServiceConnectionState"] = gen.PtrOf(PrivateLinkServiceConnectionState_STATUS_ARMGenerator())
-}
-
-func Test_PrivateEndpoint_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpoint_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpoint_STATUS_ARM, PrivateEndpoint_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpoint_STATUS_ARM runs a test to see if a specific instance of PrivateEndpoint_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpoint_STATUS_ARM(subject PrivateEndpoint_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpoint_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpoint_STATUS_ARM instances for property testing - lazily instantiated by
-// PrivateEndpoint_STATUS_ARMGenerator()
-var privateEndpoint_STATUS_ARMGenerator gopter.Gen
-
-// PrivateEndpoint_STATUS_ARMGenerator returns a generator of PrivateEndpoint_STATUS_ARM instances for property testing.
-func PrivateEndpoint_STATUS_ARMGenerator() gopter.Gen {
-	if privateEndpoint_STATUS_ARMGenerator != nil {
-		return privateEndpoint_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_ARM(generators)
-	privateEndpoint_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS_ARM{}), generators)
-
-	return privateEndpoint_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_PrivateLinkServiceConnectionState_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkServiceConnectionState_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS_ARM, PrivateLinkServiceConnectionState_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS_ARM runs a test to see if a specific instance of PrivateLinkServiceConnectionState_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkServiceConnectionState_STATUS_ARM(subject PrivateLinkServiceConnectionState_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkServiceConnectionState_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkServiceConnectionState_STATUS_ARM instances for property testing - lazily instantiated by
-// PrivateLinkServiceConnectionState_STATUS_ARMGenerator()
-var privateLinkServiceConnectionState_STATUS_ARMGenerator gopter.Gen
-
-// PrivateLinkServiceConnectionState_STATUS_ARMGenerator returns a generator of PrivateLinkServiceConnectionState_STATUS_ARM instances for property testing.
-func PrivateLinkServiceConnectionState_STATUS_ARMGenerator() gopter.Gen {
-	if privateLinkServiceConnectionState_STATUS_ARMGenerator != nil {
-		return privateLinkServiceConnectionState_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS_ARM(generators)
-	privateLinkServiceConnectionState_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionState_STATUS_ARM{}), generators)
-
-	return privateLinkServiceConnectionState_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateLinkServiceConnectionStatus_STATUS_Approved,
-		PrivateLinkServiceConnectionStatus_STATUS_Disconnected,
-		PrivateLinkServiceConnectionStatus_STATUS_Pending,
-		PrivateLinkServiceConnectionStatus_STATUS_Rejected))
 }

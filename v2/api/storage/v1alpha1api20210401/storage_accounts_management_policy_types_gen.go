@@ -28,8 +28,8 @@ import (
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_ManagementPolicy_Spec `json:"spec,omitempty"`
-	Status            ManagementPolicy_STATUS               `json:"status,omitempty"`
+	Spec              StorageAccounts_ManagementPolicy_Spec   `json:"spec,omitempty"`
+	Status            StorageAccounts_ManagementPolicy_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -130,7 +130,7 @@ func (policy *StorageAccountsManagementPolicy) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ManagementPolicy_STATUS{}
+	return &StorageAccounts_ManagementPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -146,13 +146,13 @@ func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ManagementPolicy_STATUS); ok {
+	if st, ok := status.(*StorageAccounts_ManagementPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ManagementPolicy_STATUS
+	var st StorageAccounts_ManagementPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -270,10 +270,10 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_From_StorageAcco
 	policy.Spec = spec
 
 	// Status
-	var status ManagementPolicy_STATUS
-	err = status.AssignProperties_From_ManagementPolicy_STATUS(&source.Status)
+	var status StorageAccounts_ManagementPolicy_STATUS
+	err = status.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS() to populate field Status")
 	}
 	policy.Status = status
 
@@ -296,10 +296,10 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_To_StorageAccoun
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210401s.ManagementPolicy_STATUS
-	err = policy.Status.AssignProperties_To_ManagementPolicy_STATUS(&status)
+	var status alpha20210401s.StorageAccounts_ManagementPolicy_STATUS
+	err = policy.Status.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicy_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,205 +324,6 @@ type StorageAccountsManagementPolicyList struct {
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
-// Deprecated version of ManagementPolicy_STATUS. Use v1beta20210401.ManagementPolicy_STATUS instead
-type ManagementPolicy_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
-	Id               *string                        `json:"id,omitempty"`
-	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
-	Name             *string                        `json:"name,omitempty"`
-	Policy           *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
-	Type             *string                        `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &ManagementPolicy_STATUS{}
-
-// ConvertStatusFrom populates our ManagementPolicy_STATUS from the provided source
-func (policy *ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210401s.ManagementPolicy_STATUS)
-	if ok {
-		// Populate our instance from source
-		return policy.AssignProperties_From_ManagementPolicy_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20210401s.ManagementPolicy_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = policy.AssignProperties_From_ManagementPolicy_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our ManagementPolicy_STATUS
-func (policy *ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210401s.ManagementPolicy_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return policy.AssignProperties_To_ManagementPolicy_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210401s.ManagementPolicy_STATUS{}
-	err := policy.AssignProperties_To_ManagementPolicy_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &ManagementPolicy_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *ManagementPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagementPolicy_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *ManagementPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagementPolicy_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagementPolicy_STATUS_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		policy.Id = &id
-	}
-
-	// Set property ‘LastModifiedTime’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LastModifiedTime != nil {
-			lastModifiedTime := *typedInput.Properties.LastModifiedTime
-			policy.LastModifiedTime = &lastModifiedTime
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		policy.Name = &name
-	}
-
-	// Set property ‘Policy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Policy != nil {
-			var policy2 ManagementPolicySchema_STATUS
-			err := policy2.PopulateFromARM(owner, *typedInput.Properties.Policy)
-			if err != nil {
-				return err
-			}
-			policy1 := policy2
-			policy.Policy = &policy1
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		policy.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ManagementPolicy_STATUS populates our ManagementPolicy_STATUS from the provided source ManagementPolicy_STATUS
-func (policy *ManagementPolicy_STATUS) AssignProperties_From_ManagementPolicy_STATUS(source *alpha20210401s.ManagementPolicy_STATUS) error {
-
-	// Conditions
-	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	policy.Id = genruntime.ClonePointerToString(source.Id)
-
-	// LastModifiedTime
-	policy.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
-
-	// Name
-	policy.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Policy
-	if source.Policy != nil {
-		var policyLocal ManagementPolicySchema_STATUS
-		err := policyLocal.AssignProperties_From_ManagementPolicySchema_STATUS(source.Policy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySchema_STATUS() to populate field Policy")
-		}
-		policy.Policy = &policyLocal
-	} else {
-		policy.Policy = nil
-	}
-
-	// Type
-	policy.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ManagementPolicy_STATUS populates the provided destination ManagementPolicy_STATUS from our ManagementPolicy_STATUS
-func (policy *ManagementPolicy_STATUS) AssignProperties_To_ManagementPolicy_STATUS(destination *alpha20210401s.ManagementPolicy_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(policy.Id)
-
-	// LastModifiedTime
-	destination.LastModifiedTime = genruntime.ClonePointerToString(policy.LastModifiedTime)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(policy.Name)
-
-	// Policy
-	if policy.Policy != nil {
-		var policyLocal alpha20210401s.ManagementPolicySchema_STATUS
-		err := policy.Policy.AssignProperties_To_ManagementPolicySchema_STATUS(&policyLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySchema_STATUS() to populate field Policy")
-		}
-		destination.Policy = &policyLocal
-	} else {
-		destination.Policy = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(policy.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type StorageAccounts_ManagementPolicy_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -532,7 +333,6 @@ type StorageAccounts_ManagementPolicy_Spec struct {
 
 	// +kubebuilder:validation:Required
 	Policy *ManagementPolicySchema `json:"policy,omitempty"`
-	Tags   map[string]string       `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccounts_ManagementPolicy_Spec{}
@@ -558,14 +358,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) ConvertToARM(resolved genru
 		}
 		policy1 := *policy_ARM.(*ManagementPolicySchema_ARM)
 		result.Properties.Policy = &policy1
-	}
-
-	// Set property ‘Tags’:
-	if policy.Tags != nil {
-		result.Tags = make(map[string]string, len(policy.Tags))
-		for key, value := range policy.Tags {
-			result.Tags[key] = value
-		}
 	}
 	return result, nil
 }
@@ -596,14 +388,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) PopulateFromARM(owner genru
 			}
 			policy1 := policy2
 			policy.Policy = &policy1
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		policy.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			policy.Tags[key] = value
 		}
 	}
 
@@ -684,9 +468,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 		policy.Policy = nil
 	}
 
-	// Tags
-	policy.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
 	// No error
 	return nil
 }
@@ -719,9 +500,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 		destination.Policy = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(policy.Tags)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -736,6 +514,205 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 // OriginalVersion returns the original API version used to create the resource.
 func (policy *StorageAccounts_ManagementPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
+}
+
+// Deprecated version of StorageAccounts_ManagementPolicy_STATUS. Use v1beta20210401.StorageAccounts_ManagementPolicy_STATUS instead
+type StorageAccounts_ManagementPolicy_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
+	Id               *string                        `json:"id,omitempty"`
+	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
+	Name             *string                        `json:"name,omitempty"`
+	Policy           *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
+	Type             *string                        `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &StorageAccounts_ManagementPolicy_STATUS{}
+
+// ConvertStatusFrom populates our StorageAccounts_ManagementPolicy_STATUS from the provided source
+func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210401s.StorageAccounts_ManagementPolicy_STATUS)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210401s.StorageAccounts_ManagementPolicy_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our StorageAccounts_ManagementPolicy_STATUS
+func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210401s.StorageAccounts_ManagementPolicy_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210401s.StorageAccounts_ManagementPolicy_STATUS{}
+	err := policy.AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &StorageAccounts_ManagementPolicy_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (policy *StorageAccounts_ManagementPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccounts_ManagementPolicy_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (policy *StorageAccounts_ManagementPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccounts_ManagementPolicy_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccounts_ManagementPolicy_STATUS_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		policy.Id = &id
+	}
+
+	// Set property ‘LastModifiedTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LastModifiedTime != nil {
+			lastModifiedTime := *typedInput.Properties.LastModifiedTime
+			policy.LastModifiedTime = &lastModifiedTime
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		policy.Name = &name
+	}
+
+	// Set property ‘Policy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Policy != nil {
+			var policy2 ManagementPolicySchema_STATUS
+			err := policy2.PopulateFromARM(owner, *typedInput.Properties.Policy)
+			if err != nil {
+				return err
+			}
+			policy1 := policy2
+			policy.Policy = &policy1
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		policy.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS populates our StorageAccounts_ManagementPolicy_STATUS from the provided source StorageAccounts_ManagementPolicy_STATUS
+func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_From_StorageAccounts_ManagementPolicy_STATUS(source *alpha20210401s.StorageAccounts_ManagementPolicy_STATUS) error {
+
+	// Conditions
+	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LastModifiedTime
+	policy.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Policy
+	if source.Policy != nil {
+		var policyLocal ManagementPolicySchema_STATUS
+		err := policyLocal.AssignProperties_From_ManagementPolicySchema_STATUS(source.Policy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ManagementPolicySchema_STATUS() to populate field Policy")
+		}
+		policy.Policy = &policyLocal
+	} else {
+		policy.Policy = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS populates the provided destination StorageAccounts_ManagementPolicy_STATUS from our StorageAccounts_ManagementPolicy_STATUS
+func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_StorageAccounts_ManagementPolicy_STATUS(destination *alpha20210401s.StorageAccounts_ManagementPolicy_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// LastModifiedTime
+	destination.LastModifiedTime = genruntime.ClonePointerToString(policy.LastModifiedTime)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// Policy
+	if policy.Policy != nil {
+		var policyLocal alpha20210401s.ManagementPolicySchema_STATUS
+		err := policy.Policy.AssignProperties_To_ManagementPolicySchema_STATUS(&policyLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ManagementPolicySchema_STATUS() to populate field Policy")
+		}
+		destination.Policy = &policyLocal
+	} else {
+		destination.Policy = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Deprecated version of ManagementPolicySchema. Use v1beta20210401.ManagementPolicySchema instead
@@ -1532,6 +1509,11 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_To_Managem
 type ManagementPolicyRule_Type string
 
 const ManagementPolicyRule_Type_Lifecycle = ManagementPolicyRule_Type("Lifecycle")
+
+// Deprecated version of ManagementPolicyRule_Type_STATUS. Use v1beta20210401.ManagementPolicyRule_Type_STATUS instead
+type ManagementPolicyRule_Type_STATUS string
+
+const ManagementPolicyRule_Type_STATUS_Lifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
 
 // Deprecated version of ManagementPolicyAction. Use v1beta20210401.ManagementPolicyAction instead
 type ManagementPolicyAction struct {

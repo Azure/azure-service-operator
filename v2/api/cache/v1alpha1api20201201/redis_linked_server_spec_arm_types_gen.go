@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_LinkedServer_Spec. Use v1beta20201201.Redis_LinkedServer_Spec instead
 type Redis_LinkedServer_Spec_ARM struct {
-	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
 	Properties *RedisLinkedServerCreateProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                      `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Redis_LinkedServer_Spec_ARM{}

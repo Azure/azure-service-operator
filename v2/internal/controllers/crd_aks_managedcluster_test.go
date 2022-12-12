@@ -31,8 +31,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	identityKind := aks.ManagedClusterIdentity_Type_SystemAssigned
-	osType := aks.ManagedClusterAgentPoolProfile_OsType_Linux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfile_Mode_System
+	osType := aks.OSType_Linux
+	agentPoolMode := aks.AgentPoolMode_System
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
@@ -112,8 +112,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 }
 
 func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
-	osType := aks.ManagedClusterAgentPoolProfileProperties_OsType_Linux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfileProperties_Mode_System
+	osType := aks.OSType_Linux
+	agentPoolMode := aks.AgentPoolMode_System
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),

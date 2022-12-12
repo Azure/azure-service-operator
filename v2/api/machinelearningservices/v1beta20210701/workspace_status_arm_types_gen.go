@@ -33,6 +33,48 @@ type Workspace_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+type Identity_STATUS_ARM struct {
+	// PrincipalId: The principal ID of resource identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: The tenant ID of resource.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: The identity type.
+	Type *Identity_Type_STATUS `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The user assigned identities associated with the resource.
+	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
+}
+
+type Sku_STATUS_ARM struct {
+	// Name: Name of the sku
+	Name *string `json:"name,omitempty"`
+
+	// Tier: Tier of the sku like Basic or Enterprise
+	Tier *string `json:"tier,omitempty"`
+}
+
+type SystemData_STATUS_ARM struct {
+	// CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
 type WorkspaceProperties_STATUS_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -77,7 +119,7 @@ type WorkspaceProperties_STATUS_ARM struct {
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// PrivateLinkCount: Count of private connections in the workspace
 	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
@@ -124,6 +166,15 @@ type EncryptionProperty_STATUS_ARM struct {
 	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
+type Identity_Type_STATUS string
+
+const (
+	Identity_Type_STATUS_None                       = Identity_Type_STATUS("None")
+	Identity_Type_STATUS_SystemAssigned             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_STATUS_SystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
+	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
+)
+
 type NotebookResourceInfo_STATUS_ARM struct {
 	Fqdn *string `json:"fqdn,omitempty"`
 
@@ -134,19 +185,10 @@ type NotebookResourceInfo_STATUS_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 type ServiceManagedResourcesSettings_STATUS_ARM struct {
@@ -160,6 +202,35 @@ type SharedPrivateLinkResource_STATUS_ARM struct {
 
 	// Properties: Resource properties.
 	Properties *SharedPrivateLinkResourceProperty_STATUS_ARM `json:"properties,omitempty"`
+}
+
+type SystemData_CreatedByType_STATUS string
+
+const (
+	SystemData_CreatedByType_STATUS_Application     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_STATUS_Key             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_STATUS_ManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
+)
+
+type SystemData_LastModifiedByType_STATUS string
+
+const (
+	SystemData_LastModifiedByType_STATUS_Application     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_STATUS_Key             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_STATUS_ManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
+)
+
+type UserAssignedIdentity_STATUS_ARM struct {
+	// ClientId: The clientId(aka appId) of the user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// PrincipalId: The principal ID of the user assigned identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: The tenant ID of the user assigned identity.
+	TenantId *string `json:"tenantId,omitempty"`
 }
 
 type CosmosDbSettings_STATUS_ARM struct {

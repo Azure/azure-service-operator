@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of FlexibleServers_Configuration_Spec. Use v1beta20210601.FlexibleServers_Configuration_Spec instead
 type FlexibleServers_Configuration_Spec_ARM struct {
-	Location   *string                      `json:"location,omitempty"`
 	Name       string                       `json:"name,omitempty"`
 	Properties *ConfigurationProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string            `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServers_Configuration_Spec_ARM{}

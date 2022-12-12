@@ -7,11 +7,13 @@ package pipeline
 
 import (
 	"context"
+	"path/filepath"
+
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
-	"github.com/pkg/errors"
-	"path/filepath"
 )
 
 // ReportResourceStructureStageId is the unique identifier for this stage

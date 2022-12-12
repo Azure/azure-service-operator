@@ -44,7 +44,7 @@ type ServerProperties_ARM struct {
 	PointInTimeUTC             *string                      `json:"pointInTimeUTC,omitempty"`
 	SourceServerResourceId     *string                      `json:"sourceServerResourceId,omitempty"`
 	Storage                    *Storage_ARM                 `json:"storage,omitempty"`
-	Version                    *ServerProperties_Version    `json:"version,omitempty"`
+	Version                    *ServerVersion               `json:"version,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210601.Sku instead

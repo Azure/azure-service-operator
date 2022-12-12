@@ -1,115 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
-├── AgentPool_STATUS_ARM: Object (4 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: *Object (36 properties)
-│   │   ├── AvailabilityZones: string[]
-│   │   ├── Count: *int
-│   │   ├── EnableAutoScaling: *bool
-│   │   ├── EnableEncryptionAtHost: *bool
-│   │   ├── EnableFIPS: *bool
-│   │   ├── EnableNodePublicIP: *bool
-│   │   ├── EnableUltraSSD: *bool
-│   │   ├── GpuInstanceProfile: *Enum (5 values)
-│   │   │   ├── "MIG1g"
-│   │   │   ├── "MIG2g"
-│   │   │   ├── "MIG3g"
-│   │   │   ├── "MIG4g"
-│   │   │   └── "MIG7g"
-│   │   ├── KubeletConfig: *Object (11 properties)
-│   │   │   ├── AllowedUnsafeSysctls: string[]
-│   │   │   ├── ContainerLogMaxFiles: *int
-│   │   │   ├── ContainerLogMaxSizeMB: *int
-│   │   │   ├── CpuCfsQuota: *bool
-│   │   │   ├── CpuCfsQuotaPeriod: *string
-│   │   │   ├── CpuManagerPolicy: *string
-│   │   │   ├── FailSwapOn: *bool
-│   │   │   ├── ImageGcHighThreshold: *int
-│   │   │   ├── ImageGcLowThreshold: *int
-│   │   │   ├── PodMaxPids: *int
-│   │   │   └── TopologyManagerPolicy: *string
-│   │   ├── KubeletDiskType: *Enum (2 values)
-│   │   │   ├── "OS"
-│   │   │   └── "Temporary"
-│   │   ├── LinuxOSConfig: *Object (4 properties)
-│   │   │   ├── SwapFileSizeMB: *int
-│   │   │   ├── Sysctls: *Object (28 properties)
-│   │   │   │   ├── FsAioMaxNr: *int
-│   │   │   │   ├── FsFileMax: *int
-│   │   │   │   ├── FsInotifyMaxUserWatches: *int
-│   │   │   │   ├── FsNrOpen: *int
-│   │   │   │   ├── KernelThreadsMax: *int
-│   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
-│   │   │   │   ├── NetCoreOptmemMax: *int
-│   │   │   │   ├── NetCoreRmemDefault: *int
-│   │   │   │   ├── NetCoreRmemMax: *int
-│   │   │   │   ├── NetCoreSomaxconn: *int
-│   │   │   │   ├── NetCoreWmemDefault: *int
-│   │   │   │   ├── NetCoreWmemMax: *int
-│   │   │   │   ├── NetIpv4IpLocalPortRange: *string
-│   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
-│   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
-│   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
-│   │   │   │   ├── NetIpv4TcpFinTimeout: *int
-│   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
-│   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
-│   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
-│   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
-│   │   │   │   ├── NetIpv4TcpTwReuse: *bool
-│   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
-│   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
-│   │   │   │   ├── NetNetfilterNfConntrackMax: *int
-│   │   │   │   ├── VmMaxMapCount: *int
-│   │   │   │   ├── VmSwappiness: *int
-│   │   │   │   └── VmVfsCachePressure: *int
-│   │   │   ├── TransparentHugePageDefrag: *string
-│   │   │   └── TransparentHugePageEnabled: *string
-│   │   ├── MaxCount: *int
-│   │   ├── MaxPods: *int
-│   │   ├── MinCount: *int
-│   │   ├── Mode: *Enum (2 values)
-│   │   │   ├── "System"
-│   │   │   └── "User"
-│   │   ├── NodeImageVersion: *string
-│   │   ├── NodeLabels: map[string]string
-│   │   ├── NodePublicIPPrefixID: *string
-│   │   ├── NodeTaints: string[]
-│   │   ├── OrchestratorVersion: *string
-│   │   ├── OsDiskSizeGB: *int
-│   │   ├── OsDiskType: *Enum (2 values)
-│   │   │   ├── "Ephemeral"
-│   │   │   └── "Managed"
-│   │   ├── OsSKU: *Enum (2 values)
-│   │   │   ├── "CBLMariner"
-│   │   │   └── "Ubuntu"
-│   │   ├── OsType: *Enum (2 values)
-│   │   │   ├── "Linux"
-│   │   │   └── "Windows"
-│   │   ├── PodSubnetID: *string
-│   │   ├── PowerState: *Object (1 property)
-│   │   │   └── Code: *Enum (2 values)
-│   │   │       ├── "Running"
-│   │   │       └── "Stopped"
-│   │   ├── ProvisioningState: *string
-│   │   ├── ProximityPlacementGroupID: *string
-│   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
-│   │   │   ├── "Deallocate"
-│   │   │   └── "Delete"
-│   │   ├── ScaleSetPriority: *Enum (2 values)
-│   │   │   ├── "Regular"
-│   │   │   └── "Spot"
-│   │   ├── SpotMaxPrice: *float64
-│   │   ├── Tags: map[string]string
-│   │   ├── Type: *Enum (2 values)
-│   │   │   ├── "AvailabilitySet"
-│   │   │   └── "VirtualMachineScaleSets"
-│   │   ├── UpgradeSettings: *Object (1 property)
-│   │   │   └── MaxSurge: *string
-│   │   ├── VmSize: *string
-│   │   └── VnetSubnetID: *string
-│   └── Type: *string
 ├── ManagedCluster: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
 │   ├── Spec: Object (30 properties)
@@ -199,7 +90,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
 │   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
-│   │   │   ├── OsDiskSizeGB: Validated<*int> (2 rules)
+│   │   │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
 │   │   │   │   ├── Rule 0: Maximum: 2048
 │   │   │   │   └── Rule 1: Minimum: 0
 │   │   │   ├── OsDiskType: *Enum (2 values)
@@ -212,7 +103,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-│   │   │   ├── ProximityPlacementGroupID: Validated<*string> (0 rules)
+│   │   │   ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
 │   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
@@ -281,12 +172,11 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── Identity: *Object (2 properties)
-│   │   │   ├── Type: *Enum (3 values)
-│   │   │   │   ├── "None"
-│   │   │   │   ├── "SystemAssigned"
-│   │   │   │   └── "UserAssigned"
-│   │   │   └── UserAssignedIdentities: map[string]v1.JSON
+│   │   ├── Identity: *Object (1 property)
+│   │   │   └── Type: *Enum (3 values)
+│   │   │       ├── "None"
+│   │   │       ├── "SystemAssigned"
+│   │   │       └── "UserAssigned"
 │   │   ├── IdentityProfile: map[string]Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── ObjectId: *string
@@ -395,7 +285,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │       │   ├── ServerAppID: *string
 │       │   ├── ServerAppSecret: *string
 │       │   └── TenantID: *string
-│       ├── AddonProfiles: *v1.JSON
+│       ├── AddonProfiles: map[string]Object (3 properties)
+│       │   ├── Config: map[string]string
+│       │   ├── Enabled: *bool
+│       │   └── Identity: *Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── ObjectId: *string
+│       │       └── ResourceId: *string
 │       ├── AgentPoolProfiles: Object (37 properties)[]
 │       │   ├── AvailabilityZones: string[]
 │       │   ├── Count: *int
@@ -565,7 +461,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │       │   └── UserAssignedIdentities: map[string]Object (2 properties)
 │       │       ├── ClientId: *string
 │       │       └── PrincipalId: *string
-│       ├── IdentityProfile: *v1.JSON
+│       ├── IdentityProfile: map[string]Object (3 properties)
+│       │   ├── ClientId: *string
+│       │   ├── ObjectId: *string
+│       │   └── ResourceId: *string
 │       ├── KubernetesVersion: *string
 │       ├── LinuxProfile: *Object (2 properties)
 │       │   ├── AdminUsername: *string
@@ -697,7 +596,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── ServerAppID: *string
 │   │   │   ├── ServerAppSecret: *string
 │   │   │   └── TenantID: *string
-│   │   ├── AddonProfiles: *v1.JSON
+│   │   ├── AddonProfiles: map[string]Object (3 properties)
+│   │   │   ├── Config: map[string]string
+│   │   │   ├── Enabled: *bool
+│   │   │   └── Identity: *Object (3 properties)
+│   │   │       ├── ClientId: *string
+│   │   │       ├── ObjectId: *string
+│   │   │       └── ResourceId: *string
 │   │   ├── AgentPoolProfiles: Object (37 properties)[]
 │   │   │   ├── AvailabilityZones: string[]
 │   │   │   ├── Count: *int
@@ -851,7 +756,10 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── IdentityProfile: *v1.JSON
+│   │   ├── IdentityProfile: map[string]Object (3 properties)
+│   │   │   ├── ClientId: *string
+│   │   │   ├── ObjectId: *string
+│   │   │   └── ResourceId: *string
 │   │   ├── KubernetesVersion: *string
 │   │   ├── LinuxProfile: *Object (2 properties)
 │   │   │   ├── AdminUsername: *string
@@ -959,12 +867,11 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   ├── Name: *string
 │   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
-│   ├── Identity: *Object (2 properties)
-│   │   ├── Type: *Enum (3 values)
-│   │   │   ├── "None"
-│   │   │   ├── "SystemAssigned"
-│   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: map[string]v1.JSON
+│   ├── Identity: *Object (1 property)
+│   │   └── Type: *Enum (3 values)
+│   │       ├── "None"
+│   │       ├── "SystemAssigned"
+│   │       └── "UserAssigned"
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: *Object (22 properties)
@@ -1052,7 +959,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   ├── NodePublicIPPrefixID: *string
 │   │   │   ├── NodeTaints: string[]
 │   │   │   ├── OrchestratorVersion: *string
-│   │   │   ├── OsDiskSizeGB: *int
+│   │   │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
+│   │   │   │   ├── Rule 0: Maximum: 2048
+│   │   │   │   └── Rule 1: Minimum: 0
 │   │   │   ├── OsDiskType: *Enum (2 values)
 │   │   │   │   ├── "Ephemeral"
 │   │   │   │   └── "Managed"
@@ -1063,7 +972,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetID: *string
-│   │   │   ├── ProximityPlacementGroupID: *string
+│   │   │   ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
 │   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
@@ -1208,7 +1117,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   └── Tags: map[string]string
 ├── ManagedClustersAgentPool: Resource
 │   ├── Owner: ManagedCluster
-│   ├── Spec: Object (36 properties)
+│   ├── Spec: Object (35 properties)
 │   │   ├── AvailabilityZones: string[]
 │   │   ├── AzureName: string
 │   │   ├── Count: *int
@@ -1272,7 +1181,6 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   └── VmVfsCachePressure: *int
 │   │   │   ├── TransparentHugePageDefrag: *string
 │   │   │   └── TransparentHugePageEnabled: *string
-│   │   ├── Location: *string
 │   │   ├── MaxCount: *int
 │   │   ├── MaxPods: *int
 │   │   ├── MinCount: *int
@@ -1283,7 +1191,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
 │   │   ├── NodeTaints: string[]
 │   │   ├── OrchestratorVersion: *string
-│   │   ├── OsDiskSizeGB: Validated<*int> (2 rules)
+│   │   ├── OsDiskSizeGB: *Validated<int> (2 rules)
 │   │   │   ├── Rule 0: Maximum: 2048
 │   │   │   └── Rule 1: Minimum: 0
 │   │   ├── OsDiskType: *Enum (2 values)
@@ -1297,7 +1205,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   └── "Windows"
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-│   │   ├── ProximityPlacementGroupID: Validated<*string> (0 rules)
+│   │   ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
 │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"
@@ -1422,8 +1330,116 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │       │   └── MaxSurge: *string
 │       ├── VmSize: *string
 │       └── VnetSubnetID: *string
-└── ManagedClusters_AgentPool_Spec_ARM: Object (3 properties)
-    ├── Location: *string
+├── ManagedClusters_AgentPool_STATUS_ARM: Object (4 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (36 properties)
+│   │   ├── AvailabilityZones: string[]
+│   │   ├── Count: *int
+│   │   ├── EnableAutoScaling: *bool
+│   │   ├── EnableEncryptionAtHost: *bool
+│   │   ├── EnableFIPS: *bool
+│   │   ├── EnableNodePublicIP: *bool
+│   │   ├── EnableUltraSSD: *bool
+│   │   ├── GpuInstanceProfile: *Enum (5 values)
+│   │   │   ├── "MIG1g"
+│   │   │   ├── "MIG2g"
+│   │   │   ├── "MIG3g"
+│   │   │   ├── "MIG4g"
+│   │   │   └── "MIG7g"
+│   │   ├── KubeletConfig: *Object (11 properties)
+│   │   │   ├── AllowedUnsafeSysctls: string[]
+│   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   ├── CpuCfsQuota: *bool
+│   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   ├── CpuManagerPolicy: *string
+│   │   │   ├── FailSwapOn: *bool
+│   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   ├── PodMaxPids: *int
+│   │   │   └── TopologyManagerPolicy: *string
+│   │   ├── KubeletDiskType: *Enum (2 values)
+│   │   │   ├── "OS"
+│   │   │   └── "Temporary"
+│   │   ├── LinuxOSConfig: *Object (4 properties)
+│   │   │   ├── SwapFileSizeMB: *int
+│   │   │   ├── Sysctls: *Object (28 properties)
+│   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   ├── FsFileMax: *int
+│   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   └── TransparentHugePageEnabled: *string
+│   │   ├── MaxCount: *int
+│   │   ├── MaxPods: *int
+│   │   ├── MinCount: *int
+│   │   ├── Mode: *Enum (2 values)
+│   │   │   ├── "System"
+│   │   │   └── "User"
+│   │   ├── NodeImageVersion: *string
+│   │   ├── NodeLabels: map[string]string
+│   │   ├── NodePublicIPPrefixID: *string
+│   │   ├── NodeTaints: string[]
+│   │   ├── OrchestratorVersion: *string
+│   │   ├── OsDiskSizeGB: *int
+│   │   ├── OsDiskType: *Enum (2 values)
+│   │   │   ├── "Ephemeral"
+│   │   │   └── "Managed"
+│   │   ├── OsSKU: *Enum (2 values)
+│   │   │   ├── "CBLMariner"
+│   │   │   └── "Ubuntu"
+│   │   ├── OsType: *Enum (2 values)
+│   │   │   ├── "Linux"
+│   │   │   └── "Windows"
+│   │   ├── PodSubnetID: *string
+│   │   ├── PowerState: *Object (1 property)
+│   │   │   └── Code: *Enum (2 values)
+│   │   │       ├── "Running"
+│   │   │       └── "Stopped"
+│   │   ├── ProvisioningState: *string
+│   │   ├── ProximityPlacementGroupID: *string
+│   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
+│   │   │   ├── "Deallocate"
+│   │   │   └── "Delete"
+│   │   ├── ScaleSetPriority: *Enum (2 values)
+│   │   │   ├── "Regular"
+│   │   │   └── "Spot"
+│   │   ├── SpotMaxPrice: *float64
+│   │   ├── Tags: map[string]string
+│   │   ├── Type: *Enum (2 values)
+│   │   │   ├── "AvailabilitySet"
+│   │   │   └── "VirtualMachineScaleSets"
+│   │   ├── UpgradeSettings: *Object (1 property)
+│   │   │   └── MaxSurge: *string
+│   │   ├── VmSize: *string
+│   │   └── VnetSubnetID: *string
+│   └── Type: *string
+└── ManagedClusters_AgentPool_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: *Object (33 properties)
         ├── AvailabilityZones: string[]
@@ -1497,7 +1513,9 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
         ├── NodePublicIPPrefixID: *string
         ├── NodeTaints: string[]
         ├── OrchestratorVersion: *string
-        ├── OsDiskSizeGB: *int
+        ├── OsDiskSizeGB: *Validated<int> (2 rules)
+        │   ├── Rule 0: Maximum: 2048
+        │   └── Rule 1: Minimum: 0
         ├── OsDiskType: *Enum (2 values)
         │   ├── "Ephemeral"
         │   └── "Managed"
@@ -1508,7 +1526,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
         │   ├── "Linux"
         │   └── "Windows"
         ├── PodSubnetID: *string
-        ├── ProximityPlacementGroupID: *string
+        ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
         ├── ScaleSetEvictionPolicy: *Enum (2 values)
         │   ├── "Deallocate"
         │   └── "Delete"

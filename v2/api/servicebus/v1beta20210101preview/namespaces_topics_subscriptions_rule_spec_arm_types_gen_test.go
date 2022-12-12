@@ -84,9 +84,7 @@ func Namespaces_Topics_Subscriptions_Rule_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec_ARM is a factory method for creating gopter generators
@@ -160,7 +158,7 @@ func Ruleproperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRuleproperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRuleproperties_ARM(gens map[string]gopter.Gen) {
-	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(Ruleproperties_FilterType_CorrelationFilter, Ruleproperties_FilterType_SqlFilter))
+	gens["FilterType"] = gen.PtrOf(gen.OneConstOf(FilterType_CorrelationFilter, FilterType_SqlFilter))
 }
 
 // AddRelatedPropertyGeneratorsForRuleproperties_ARM is a factory method for creating gopter generators

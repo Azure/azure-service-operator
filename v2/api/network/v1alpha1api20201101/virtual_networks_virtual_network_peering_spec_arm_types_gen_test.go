@@ -84,9 +84,7 @@ func VirtualNetworks_VirtualNetworkPeering_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworks_VirtualNetworkPeering_Spec_ARM is a factory method for creating gopter generators
@@ -164,6 +162,7 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormat_AR
 	gens["AllowForwardedTraffic"] = gen.PtrOf(gen.Bool())
 	gens["AllowGatewayTransit"] = gen.PtrOf(gen.Bool())
 	gens["AllowVirtualNetworkAccess"] = gen.PtrOf(gen.Bool())
+	gens["DoNotVerifyRemoteGateways"] = gen.PtrOf(gen.Bool())
 	gens["PeeringState"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkPeeringPropertiesFormat_PeeringState_Connected, VirtualNetworkPeeringPropertiesFormat_PeeringState_Disconnected, VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated))
 	gens["UseRemoteGateways"] = gen.PtrOf(gen.Bool())
 }

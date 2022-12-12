@@ -6,23 +6,16 @@ package v1beta20200930
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Disk_Spec_ARM struct {
-	// ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported
-	// characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-	Name string `json:"name,omitempty"`
-
-	// Properties: Disk resource properties.
+	// Location: Resource location
+	Location   *string             `json:"location,omitempty"`
+	Name       string              `json:"name,omitempty"`
 	Properties *DiskProperties_ARM `json:"properties,omitempty"`
+	Sku        *DiskSku_ARM        `json:"sku,omitempty"`
 
-	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
-	Sku *DiskSku_ARM `json:"sku,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: The Logical zone list for Disk.
@@ -46,13 +39,12 @@ func (disk *Disk_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/disks"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskProperties
 type DiskProperties_ARM struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
 	// disabled by default. Does not apply to Ultra disks.
 	BurstingEnabled *bool `json:"burstingEnabled,omitempty"`
 
-	// CreationData: Data used when creating a disk.
+	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_ARM `json:"creationData,omitempty"`
 	DiskAccessId *string           `json:"diskAccessId,omitempty"`
 
@@ -77,10 +69,11 @@ type DiskProperties_ARM struct {
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// Encryption: Encryption at rest settings for disk or snapshot
+	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
-	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	// EncryptionSettingsCollection: Encryption settings collection used for Azure Disk Encryption, can contain multiple
+	// encryption settings per disk or snapshot.
 	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
@@ -88,13 +81,14 @@ type DiskProperties_ARM struct {
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
-	MaxShares           *int                                `json:"maxShares,omitempty"`
-	NetworkAccessPolicy *DiskProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	MaxShares           *int                 `json:"maxShares,omitempty"`
+	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
 	OsType *DiskProperties_OsType `json:"osType,omitempty"`
 
-	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
+	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
 	PurchasePlan *PurchasePlan_ARM `json:"purchasePlan,omitempty"`
 
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
@@ -102,30 +96,28 @@ type DiskProperties_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku
 type DiskSku_ARM struct {
 	// Name: The sku name.
 	Name *DiskSku_Name `json:"name,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the extended location.
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
 type CreationData_ARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption *CreationData_CreateOption `json:"createOption,omitempty"`
 
-	// GalleryImageReference: The source image used for creating the disk.
+	// GalleryImageReference: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of
+	// the shared galley image version from which to create a disk.
 	GalleryImageReference *ImageDiskReference_ARM `json:"galleryImageReference,omitempty"`
 
-	// ImageReference: The source image used for creating the disk.
+	// ImageReference: Disk source information.
 	ImageReference *ImageDiskReference_ARM `json:"imageReference,omitempty"`
 
 	// LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
@@ -155,13 +147,11 @@ const (
 	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type Encryption_ARM struct {
-	DiskEncryptionSetId *string          `json:"diskEncryptionSetId,omitempty"`
-	Type                *Encryption_Type `json:"type,omitempty"`
+	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
+	Type                *EncryptionType `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection
 type EncryptionSettingsCollection_ARM struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	// this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
@@ -177,11 +167,10 @@ type EncryptionSettingsCollection_ARM struct {
 }
 
 // +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocation_Type string
+type ExtendedLocationType string
 
-const ExtendedLocation_Type_EdgeZone = ExtendedLocation_Type("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan
 type PurchasePlan_ARM struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -197,17 +186,15 @@ type PurchasePlan_ARM struct {
 	Publisher *string `json:"publisher,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement
 type EncryptionSettingsElement_ARM struct {
-	// DiskEncryptionKey: Key Vault Secret Url and vault id of the encryption key
+	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference_ARM `json:"diskEncryptionKey,omitempty"`
 
-	// KeyEncryptionKey: Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the
-	// encryptionKey
+	// KeyEncryptionKey: Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when
+	// provided is used to unwrap the disk encryption key.
 	KeyEncryptionKey *KeyVaultAndKeyReference_ARM `json:"keyEncryptionKey,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference
 type ImageDiskReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -216,27 +203,22 @@ type ImageDiskReference_ARM struct {
 	Lun *int `json:"lun,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference
 type KeyVaultAndKeyReference_ARM struct {
 	// KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
-	// SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+	// SourceVault: Resource id of the KeyVault containing the key or secret
 	SourceVault *SourceVault_ARM `json:"sourceVault,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference
 type KeyVaultAndSecretReference_ARM struct {
 	// SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
 
-	// SourceVault: The vault id is an Azure Resource Manager Resource id in the form
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
+	// SourceVault: Resource id of the KeyVault containing the key or secret
 	SourceVault *SourceVault_ARM `json:"sourceVault,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault
 type SourceVault_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

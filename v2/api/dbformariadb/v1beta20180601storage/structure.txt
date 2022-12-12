@@ -3,14 +3,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
 │   └── "2018-06-01"
 ├── Configuration: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601.Server
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Source: *string
-│   │   ├── Tags: map[string]string
 │   │   └── Value: *string
 │   └── Status: Object (11 properties)
 │       ├── AllowedValues: *string
@@ -26,15 +24,13 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
 │       └── Value: *string
 ├── Database: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601.Server
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── AzureName: string
 │   │   ├── Charset: *string
 │   │   ├── Collation: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── Tags: map[string]string
+│   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Status: Object (7 properties)
 │       ├── Charset: *string
 │       ├── Collation: *string
@@ -56,8 +52,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── Properties: *Object (5 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ServerPropertiesForDefaultCreate: *Object (9 properties)
+    │   │   ├── Default: *Object (9 properties)
     │   │   │   ├── AdministratorLogin: *string
     │   │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
     │   │   │   ├── CreateMode: *string
@@ -72,7 +67,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   ├── ServerPropertiesForGeoRestore: *Object (8 properties)
+    │   │   ├── GeoRestore: *Object (8 properties)
     │   │   │   ├── CreateMode: *string
     │   │   │   ├── MinimalTlsVersion: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -86,11 +81,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   ├── ServerPropertiesForReplica: *Object (8 properties)
+    │   │   ├── PointInTimeRestore: *Object (9 properties)
     │   │   │   ├── CreateMode: *string
     │   │   │   ├── MinimalTlsVersion: *string
     │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   ├── PublicNetworkAccess: *string
+    │   │   │   ├── RestorePointInTime: *string
     │   │   │   ├── SourceServerId: *string
     │   │   │   ├── SslEnforcement: *string
     │   │   │   ├── StorageProfile: *Object (5 properties)
@@ -100,12 +96,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storag
     │   │   │   │   ├── StorageAutogrow: *string
     │   │   │   │   └── StorageMB: *int
     │   │   │   └── Version: *string
-    │   │   └── ServerPropertiesForRestore: *Object (9 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Replica: *Object (8 properties)
     │   │       ├── CreateMode: *string
     │   │       ├── MinimalTlsVersion: *string
     │   │       ├── PropertyBag: genruntime.PropertyBag
     │   │       ├── PublicNetworkAccess: *string
-    │   │       ├── RestorePointInTime: *string
     │   │       ├── SourceServerId: *string
     │   │       ├── SslEnforcement: *string
     │   │       ├── StorageProfile: *Object (5 properties)

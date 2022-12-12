@@ -6,17 +6,10 @@ package v1beta20201201
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Redis_PatchSchedule_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: Default string modeled as parameter for auto generation to work correctly.
 	Name string `json:"name,omitempty"`
 
 	// Properties: List of patch schedules for a Redis cache.
 	Properties *ScheduleEntries_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Redis_PatchSchedule_Spec_ARM{}
@@ -36,13 +29,11 @@ func (schedule *Redis_PatchSchedule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntries
 type ScheduleEntries_ARM struct {
 	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_ARM `json:"scheduleEntries,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/ScheduleEntry
 type ScheduleEntry_ARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`

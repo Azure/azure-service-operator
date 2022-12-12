@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -64,6 +65,11 @@ func (r *RenamingVisitor) Rename(t Type) (Type, error) {
 	return r.visitor.Visit(t, nil)
 }
 
+// RenameDefinition applies the renames to the TypeDefinition’s Type and TypeName.
+func (r *RenamingVisitor) RenameDefinition(td TypeDefinition) (TypeDefinition, error) {
+	return r.visitor.VisitDefinition(td, nil)
+}
+
 // RenameAll applies the renames to all the type definitions in the provided set
 func (r *RenamingVisitor) RenameAll(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
 	result := make(TypeDefinitionSet)
@@ -73,6 +79,11 @@ func (r *RenamingVisitor) RenameAll(definitions TypeDefinitionSet) (TypeDefiniti
 		renamed, err := r.visitor.VisitDefinition(def, nil)
 		if err != nil {
 			errs = append(errs, err)
+			continue
+		}
+
+		if result.Contains(renamed.Name()) {
+			errs = append(errs, errors.Errorf("a definition for %s already exists", renamed.Name()))
 			continue
 		}
 

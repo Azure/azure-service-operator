@@ -162,8 +162,8 @@ func BatchAccountCreateProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountCreateProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountCreateProperties_ARM(gens map[string]gopter.Gen) {
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreateProperties_PoolAllocationMode_BatchService, BatchAccountCreateProperties_PoolAllocationMode_UserSubscription))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(BatchAccountCreateProperties_PublicNetworkAccess_Disabled, BatchAccountCreateProperties_PublicNetworkAccess_Enabled))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountCreateProperties_ARM is a factory method for creating gopter generators

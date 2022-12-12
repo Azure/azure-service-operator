@@ -17,20 +17,20 @@ import (
 	"testing"
 )
 
-func Test_RedisPatchSchedule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Redis_PatchSchedule_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisPatchSchedule_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisPatchSchedule_STATUS_ARM, RedisPatchSchedule_STATUS_ARMGenerator()))
+		"Round trip of Redis_PatchSchedule_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedis_PatchSchedule_STATUS_ARM, Redis_PatchSchedule_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisPatchSchedule_STATUS_ARM runs a test to see if a specific instance of RedisPatchSchedule_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisPatchSchedule_STATUS_ARM(subject RedisPatchSchedule_STATUS_ARM) string {
+// RunJSONSerializationTestForRedis_PatchSchedule_STATUS_ARM runs a test to see if a specific instance of Redis_PatchSchedule_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedis_PatchSchedule_STATUS_ARM(subject Redis_PatchSchedule_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -38,7 +38,7 @@ func RunJSONSerializationTestForRedisPatchSchedule_STATUS_ARM(subject RedisPatch
 	}
 
 	// Deserialize back into memory
-	var actual RedisPatchSchedule_STATUS_ARM
+	var actual Redis_PatchSchedule_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -56,42 +56,42 @@ func RunJSONSerializationTestForRedisPatchSchedule_STATUS_ARM(subject RedisPatch
 	return ""
 }
 
-// Generator of RedisPatchSchedule_STATUS_ARM instances for property testing - lazily instantiated by
-// RedisPatchSchedule_STATUS_ARMGenerator()
-var redisPatchSchedule_STATUS_ARMGenerator gopter.Gen
+// Generator of Redis_PatchSchedule_STATUS_ARM instances for property testing - lazily instantiated by
+// Redis_PatchSchedule_STATUS_ARMGenerator()
+var redis_PatchSchedule_STATUS_ARMGenerator gopter.Gen
 
-// RedisPatchSchedule_STATUS_ARMGenerator returns a generator of RedisPatchSchedule_STATUS_ARM instances for property testing.
-// We first initialize redisPatchSchedule_STATUS_ARMGenerator with a simplified generator based on the
+// Redis_PatchSchedule_STATUS_ARMGenerator returns a generator of Redis_PatchSchedule_STATUS_ARM instances for property testing.
+// We first initialize redis_PatchSchedule_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisPatchSchedule_STATUS_ARMGenerator() gopter.Gen {
-	if redisPatchSchedule_STATUS_ARMGenerator != nil {
-		return redisPatchSchedule_STATUS_ARMGenerator
+func Redis_PatchSchedule_STATUS_ARMGenerator() gopter.Gen {
+	if redis_PatchSchedule_STATUS_ARMGenerator != nil {
+		return redis_PatchSchedule_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM(generators)
-	redisPatchSchedule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedule_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM(generators)
+	redis_PatchSchedule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedule_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM(generators)
-	redisPatchSchedule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(RedisPatchSchedule_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM(generators)
+	redis_PatchSchedule_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Redis_PatchSchedule_STATUS_ARM{}), generators)
 
-	return redisPatchSchedule_STATUS_ARMGenerator
+	return redis_PatchSchedule_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedis_PatchSchedule_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ScheduleEntries_STATUS_ARMGenerator())
 }
 

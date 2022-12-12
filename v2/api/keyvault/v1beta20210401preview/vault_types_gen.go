@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/resourceDefinitions/vaults
+// Generator information:
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -323,7 +325,9 @@ func (vault *Vault) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/resourceDefinitions/vaults
+// Generator information:
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type VaultList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -341,6 +345,7 @@ type Vault_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Location: The supported Azure location where the key vault should be created.
 	Location *string `json:"location,omitempty"`
 
@@ -995,7 +1000,6 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/VaultProperties
 type VaultProperties struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
 	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
@@ -1035,7 +1039,7 @@ type VaultProperties struct {
 	// the key vault.
 	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
 
-	// NetworkAcls: A set of rules governing the network accessibility of a vault.
+	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
@@ -2031,7 +2035,6 @@ func (properties *VaultProperties_STATUS) AssignProperties_To_VaultProperties_ST
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/AccessPolicyEntry
 type AccessPolicyEntry struct {
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
@@ -2049,7 +2052,7 @@ type AccessPolicyEntry struct {
 	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
 
 	// +kubebuilder:validation:Required
-	// Permissions: Permissions the identity has for keys, secrets, certificates and storage.
+	// Permissions: Permissions the identity has for keys, secrets and certificates.
 	Permissions *Permissions `json:"permissions,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
@@ -2435,7 +2438,6 @@ func (entry *AccessPolicyEntry_STATUS) AssignProperties_To_AccessPolicyEntry_STA
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/NetworkRuleSet
 type NetworkRuleSet struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
@@ -3044,7 +3046,6 @@ func (item *PrivateEndpointConnectionItem_STATUS) AssignProperties_To_PrivateEnd
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Family: SKU family name
@@ -3254,7 +3255,6 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210401ps.S
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/IPRule
 type IPRule struct {
 	// +kubebuilder:validation:Required
 	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
@@ -3389,7 +3389,6 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *v20210
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/Permissions
 type Permissions struct {
 	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates `json:"certificates,omitempty"`
@@ -3954,7 +3953,6 @@ func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_Priva
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/VirtualNetworkRule
 type VirtualNetworkRule struct {
 	// IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
 	// serviceEndpoints configured.

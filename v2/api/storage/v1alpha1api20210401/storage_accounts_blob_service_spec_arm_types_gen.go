@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_BlobService_Spec. Use v1beta20210401.StorageAccounts_BlobService_Spec instead
 type StorageAccounts_BlobService_Spec_ARM struct {
-	Location   *string                              `json:"location,omitempty"`
-	Name       string                               `json:"name,omitempty"`
-	Properties *BlobServicePropertiesProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                    `json:"tags,omitempty"`
+	Name       string                                           `json:"name,omitempty"`
+	Properties *StorageAccounts_BlobService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_BlobService_Spec_ARM{}
@@ -30,8 +28,8 @@ func (service *StorageAccounts_BlobService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
-// Deprecated version of BlobServicePropertiesProperties. Use v1beta20210401.BlobServicePropertiesProperties instead
-type BlobServicePropertiesProperties_ARM struct {
+// Deprecated version of StorageAccounts_BlobService_Properties_Spec. Use v1beta20210401.StorageAccounts_BlobService_Properties_Spec instead
+type StorageAccounts_BlobService_Properties_Spec_ARM struct {
 	AutomaticSnapshotPolicyEnabled *bool                             `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_ARM                   `json:"changeFeed,omitempty"`
 	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_ARM        `json:"containerDeleteRetentionPolicy,omitempty"`

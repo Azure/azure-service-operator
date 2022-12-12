@@ -30,8 +30,8 @@ import (
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentity_Spec `json:"spec,omitempty"`
-	Status            Identity_STATUS           `json:"status,omitempty"`
+	Spec              UserAssignedIdentity_Spec   `json:"spec,omitempty"`
+	Status            UserAssignedIdentity_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -129,7 +129,7 @@ func (identity *UserAssignedIdentity) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Identity_STATUS{}
+	return &UserAssignedIdentity_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -145,13 +145,13 @@ func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Identity_STATUS); ok {
+	if st, ok := status.(*UserAssignedIdentity_STATUS); ok {
 		identity.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Identity_STATUS
+	var st UserAssignedIdentity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -176,10 +176,10 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	identity.Spec = spec
 
 	// Status
-	var status Identity_STATUS
-	err = status.AssignProperties_From_Identity_STATUS(&source.Status)
+	var status UserAssignedIdentity_STATUS
+	err = status.AssignProperties_From_UserAssignedIdentity_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	identity.Status = status
 
@@ -202,10 +202,10 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	destination.Spec = spec
 
 	// Status
-	var status v20181130s.Identity_STATUS
-	err = identity.Status.AssignProperties_To_Identity_STATUS(&status)
+	var status v20181130s.UserAssignedIdentity_STATUS
+	err = identity.Status.AssignProperties_To_UserAssignedIdentity_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -237,157 +237,6 @@ type UserAssignedIdentityList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-11-30")
-
-// Storage version of v1alpha1api20181130.Identity_STATUS
-// Deprecated version of Identity_STATUS. Use v1beta20181130.Identity_STATUS instead
-type Identity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	Conditions  []conditions.Condition `json:"conditions,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	Location    *string                `json:"location,omitempty"`
-	Name        *string                `json:"name,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tags        map[string]string      `json:"tags,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
-	Type        *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Identity_STATUS{}
-
-// ConvertStatusFrom populates our Identity_STATUS from the provided source
-func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20181130s.Identity_STATUS)
-	if ok {
-		// Populate our instance from source
-		return identity.AssignProperties_From_Identity_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20181130s.Identity_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = identity.AssignProperties_From_Identity_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our Identity_STATUS
-func (identity *Identity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20181130s.Identity_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return identity.AssignProperties_To_Identity_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20181130s.Identity_STATUS{}
-	err := identity.AssignProperties_To_Identity_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-// AssignProperties_From_Identity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v20181130s.Identity_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ClientId
-	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// Conditions
-	identity.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	identity.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	identity.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	identity.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// Tags
-	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	identity.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		identity.PropertyBag = propertyBag
-	} else {
-		identity.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Identity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *v20181130s.Identity_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(identity.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(identity.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(identity.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(identity.Name)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(identity.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Storage version of v1alpha1api20181130.UserAssignedIdentity_Spec
 type UserAssignedIdentity_Spec struct {
@@ -541,6 +390,157 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20181130.UserAssignedIdentity_STATUS
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20181130.UserAssignedIdentity_STATUS instead
+type UserAssignedIdentity_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Location    *string                `json:"location,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Tags        map[string]string      `json:"tags,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}
+
+// ConvertStatusFrom populates our UserAssignedIdentity_STATUS from the provided source
+func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20181130s.UserAssignedIdentity_STATUS)
+	if ok {
+		// Populate our instance from source
+		return identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20181130s.UserAssignedIdentity_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20181130s.UserAssignedIdentity_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20181130s.UserAssignedIdentity_STATUS{}
+	err := identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v20181130s.UserAssignedIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// Conditions
+	identity.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	identity.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	identity.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	identity.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// Tags
+	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v20181130s.UserAssignedIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(identity.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(identity.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(identity.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(identity.Name)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

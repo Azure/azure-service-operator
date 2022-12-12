@@ -106,7 +106,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"e0823656-ed38-4d04-b949-687bdd167246","properties":{"principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","roleDefinitionId":"/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"}}'
+    body: '{"name":"e0823656-ed38-4d04-b949-687bdd167246","properties":{"principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","roleDefinitionId":"/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"}}'
     form: {}
     headers:
       Accept:

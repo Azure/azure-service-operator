@@ -7,7 +7,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of ManagedClusters_AgentPool_Spec. Use v1beta20210501.ManagedClusters_AgentPool_Spec instead
 type ManagedClusters_AgentPool_Spec_ARM struct {
-	Location   *string                                       `json:"location,omitempty"`
 	Name       string                                        `json:"name,omitempty"`
 	Properties *ManagedClusterAgentPoolProfileProperties_ARM `json:"properties,omitempty"`
 }
@@ -31,39 +30,39 @@ func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 
 // Deprecated version of ManagedClusterAgentPoolProfileProperties. Use v1beta20210501.ManagedClusterAgentPoolProfileProperties instead
 type ManagedClusterAgentPoolProfileProperties_ARM struct {
-	AvailabilityZones         []string                                                         `json:"availabilityZones,omitempty"`
-	Count                     *int                                                             `json:"count,omitempty"`
-	EnableAutoScaling         *bool                                                            `json:"enableAutoScaling,omitempty"`
-	EnableEncryptionAtHost    *bool                                                            `json:"enableEncryptionAtHost,omitempty"`
-	EnableFIPS                *bool                                                            `json:"enableFIPS,omitempty"`
-	EnableNodePublicIP        *bool                                                            `json:"enableNodePublicIP,omitempty"`
-	EnableUltraSSD            *bool                                                            `json:"enableUltraSSD,omitempty"`
-	GpuInstanceProfile        *ManagedClusterAgentPoolProfileProperties_GpuInstanceProfile     `json:"gpuInstanceProfile,omitempty"`
-	KubeletConfig             *KubeletConfig_ARM                                               `json:"kubeletConfig,omitempty"`
-	KubeletDiskType           *ManagedClusterAgentPoolProfileProperties_KubeletDiskType        `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig             *LinuxOSConfig_ARM                                               `json:"linuxOSConfig,omitempty"`
-	MaxCount                  *int                                                             `json:"maxCount,omitempty"`
-	MaxPods                   *int                                                             `json:"maxPods,omitempty"`
-	MinCount                  *int                                                             `json:"minCount,omitempty"`
-	Mode                      *ManagedClusterAgentPoolProfileProperties_Mode                   `json:"mode,omitempty"`
-	NodeLabels                map[string]string                                                `json:"nodeLabels,omitempty"`
-	NodePublicIPPrefixID      *string                                                          `json:"nodePublicIPPrefixID,omitempty"`
-	NodeTaints                []string                                                         `json:"nodeTaints,omitempty"`
-	OrchestratorVersion       *string                                                          `json:"orchestratorVersion,omitempty"`
-	OsDiskSizeGB              *int                                                             `json:"osDiskSizeGB,omitempty"`
-	OsDiskType                *ManagedClusterAgentPoolProfileProperties_OsDiskType             `json:"osDiskType,omitempty"`
-	OsSKU                     *ManagedClusterAgentPoolProfileProperties_OsSKU                  `json:"osSKU,omitempty"`
-	OsType                    *ManagedClusterAgentPoolProfileProperties_OsType                 `json:"osType,omitempty"`
-	PodSubnetID               *string                                                          `json:"podSubnetID,omitempty"`
-	ProximityPlacementGroupID *string                                                          `json:"proximityPlacementGroupID,omitempty"`
-	ScaleSetEvictionPolicy    *ManagedClusterAgentPoolProfileProperties_ScaleSetEvictionPolicy `json:"scaleSetEvictionPolicy,omitempty"`
-	ScaleSetPriority          *ManagedClusterAgentPoolProfileProperties_ScaleSetPriority       `json:"scaleSetPriority,omitempty"`
-	SpotMaxPrice              *float64                                                         `json:"spotMaxPrice,omitempty"`
-	Tags                      map[string]string                                                `json:"tags,omitempty"`
-	Type                      *ManagedClusterAgentPoolProfileProperties_Type                   `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings_ARM                                    `json:"upgradeSettings,omitempty"`
-	VmSize                    *string                                                          `json:"vmSize,omitempty"`
-	VnetSubnetID              *string                                                          `json:"vnetSubnetID,omitempty"`
+	AvailabilityZones         []string                      `json:"availabilityZones,omitempty"`
+	Count                     *int                          `json:"count,omitempty"`
+	EnableAutoScaling         *bool                         `json:"enableAutoScaling,omitempty"`
+	EnableEncryptionAtHost    *bool                         `json:"enableEncryptionAtHost,omitempty"`
+	EnableFIPS                *bool                         `json:"enableFIPS,omitempty"`
+	EnableNodePublicIP        *bool                         `json:"enableNodePublicIP,omitempty"`
+	EnableUltraSSD            *bool                         `json:"enableUltraSSD,omitempty"`
+	GpuInstanceProfile        *GPUInstanceProfile           `json:"gpuInstanceProfile,omitempty"`
+	KubeletConfig             *KubeletConfig_ARM            `json:"kubeletConfig,omitempty"`
+	KubeletDiskType           *KubeletDiskType              `json:"kubeletDiskType,omitempty"`
+	LinuxOSConfig             *LinuxOSConfig_ARM            `json:"linuxOSConfig,omitempty"`
+	MaxCount                  *int                          `json:"maxCount,omitempty"`
+	MaxPods                   *int                          `json:"maxPods,omitempty"`
+	MinCount                  *int                          `json:"minCount,omitempty"`
+	Mode                      *AgentPoolMode                `json:"mode,omitempty"`
+	NodeLabels                map[string]string             `json:"nodeLabels,omitempty"`
+	NodePublicIPPrefixID      *string                       `json:"nodePublicIPPrefixID,omitempty"`
+	NodeTaints                []string                      `json:"nodeTaints,omitempty"`
+	OrchestratorVersion       *string                       `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB              *ContainerServiceOSDisk       `json:"osDiskSizeGB,omitempty"`
+	OsDiskType                *OSDiskType                   `json:"osDiskType,omitempty"`
+	OsSKU                     *OSSKU                        `json:"osSKU,omitempty"`
+	OsType                    *OSType                       `json:"osType,omitempty"`
+	PodSubnetID               *string                       `json:"podSubnetID,omitempty"`
+	ProximityPlacementGroupID *ProximityPlacementGroupID    `json:"proximityPlacementGroupID,omitempty"`
+	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy       `json:"scaleSetEvictionPolicy,omitempty"`
+	ScaleSetPriority          *ScaleSetPriority             `json:"scaleSetPriority,omitempty"`
+	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`
+	Tags                      map[string]string             `json:"tags,omitempty"`
+	Type                      *AgentPoolType                `json:"type,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
+	VmSize                    *string                       `json:"vmSize,omitempty"`
+	VnetSubnetID              *string                       `json:"vnetSubnetID,omitempty"`
 }
 
 // Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead

@@ -1,0 +1,9 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Gamma: OneOf (2 objects, 0 options)
+    ├── discriminator value: Gamma
+    └── Property Objects (2 objects):
+        ├── Object (1 property)
+        │   └── FullName: string
+        └── Object (1 property)
+            └── Discriminator: *Enum (1 value)
+                └── "Gamma"

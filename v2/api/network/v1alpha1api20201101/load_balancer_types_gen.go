@@ -340,23 +340,24 @@ const APIVersion_Value = APIVersion("2020-11-01")
 type LoadBalancer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                string                                                  `json:"azureName,omitempty"`
-	BackendAddressPools      []LoadBalancer_Properties_BackendAddressPools_Spec      `json:"backendAddressPools,omitempty"`
-	ExtendedLocation         *ExtendedLocation                                       `json:"extendedLocation,omitempty"`
-	FrontendIPConfigurations []LoadBalancer_Properties_FrontendIPConfigurations_Spec `json:"frontendIPConfigurations,omitempty"`
-	InboundNatPools          []LoadBalancer_Properties_InboundNatPools_Spec          `json:"inboundNatPools,omitempty"`
-	LoadBalancingRules       []LoadBalancer_Properties_LoadBalancingRules_Spec       `json:"loadBalancingRules,omitempty"`
-	Location                 *string                                                 `json:"location,omitempty"`
-	OutboundRules            []LoadBalancer_Properties_OutboundRules_Spec            `json:"outboundRules,omitempty"`
+	AzureName                string                                                     `json:"azureName,omitempty"`
+	BackendAddressPools      []BackendAddressPool_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
+	ExtendedLocation         *ExtendedLocation                                          `json:"extendedLocation,omitempty"`
+	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
+	InboundNatPools          []InboundNatPool                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
+	Location                 *string                                                    `json:"location,omitempty"`
+	OutboundRules            []OutboundRule                                             `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner  *genruntime.KnownResourceReference    `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Probes []LoadBalancer_Properties_Probes_Spec `json:"probes,omitempty"`
-	Sku    *LoadBalancerSku                      `json:"sku,omitempty"`
-	Tags   map[string]string                     `json:"tags,omitempty"`
+	Owner  *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Probes []Probe                            `json:"probes,omitempty"`
+	Sku    *LoadBalancerSku                   `json:"sku,omitempty"`
+	Tags   map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LoadBalancer_Spec{}
@@ -391,52 +392,60 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if balancer.BackendAddressPools != nil ||
 		balancer.FrontendIPConfigurations != nil ||
 		balancer.InboundNatPools != nil ||
+		balancer.InboundNatRules != nil ||
 		balancer.LoadBalancingRules != nil ||
 		balancer.OutboundRules != nil ||
 		balancer.Probes != nil {
-		result.Properties = &LoadBalancer_Properties_Spec_ARM{}
+		result.Properties = &LoadBalancerPropertiesFormat_ARM{}
 	}
 	for _, item := range balancer.BackendAddressPools {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*LoadBalancer_Properties_BackendAddressPools_Spec_ARM))
+		result.Properties.BackendAddressPools = append(result.Properties.BackendAddressPools, *item_ARM.(*BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM))
 	}
 	for _, item := range balancer.FrontendIPConfigurations {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM))
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM))
 	}
 	for _, item := range balancer.InboundNatPools {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *item_ARM.(*LoadBalancer_Properties_InboundNatPools_Spec_ARM))
+		result.Properties.InboundNatPools = append(result.Properties.InboundNatPools, *item_ARM.(*InboundNatPool_ARM))
+	}
+	for _, item := range balancer.InboundNatRules {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.InboundNatRules = append(result.Properties.InboundNatRules, *item_ARM.(*InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM))
 	}
 	for _, item := range balancer.LoadBalancingRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *item_ARM.(*LoadBalancer_Properties_LoadBalancingRules_Spec_ARM))
+		result.Properties.LoadBalancingRules = append(result.Properties.LoadBalancingRules, *item_ARM.(*LoadBalancingRule_ARM))
 	}
 	for _, item := range balancer.OutboundRules {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *item_ARM.(*LoadBalancer_Properties_OutboundRules_Spec_ARM))
+		result.Properties.OutboundRules = append(result.Properties.OutboundRules, *item_ARM.(*OutboundRule_ARM))
 	}
 	for _, item := range balancer.Probes {
 		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*LoadBalancer_Properties_Probes_Spec_ARM))
+		result.Properties.Probes = append(result.Properties.Probes, *item_ARM.(*Probe_ARM))
 	}
 
 	// Set property ‘Sku’:
@@ -478,7 +487,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.BackendAddressPools {
-			var item1 LoadBalancer_Properties_BackendAddressPools_Spec
+			var item1 BackendAddressPool_LoadBalancer_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -502,7 +511,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.FrontendIPConfigurations {
-			var item1 LoadBalancer_Properties_FrontendIPConfigurations_Spec
+			var item1 FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -515,7 +524,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.InboundNatPools {
-			var item1 LoadBalancer_Properties_InboundNatPools_Spec
+			var item1 InboundNatPool
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -524,11 +533,24 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
+	// Set property ‘InboundNatRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.InboundNatRules {
+			var item1 InboundNatRule_LoadBalancer_SubResourceEmbedded
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			balancer.InboundNatRules = append(balancer.InboundNatRules, item1)
+		}
+	}
+
 	// Set property ‘LoadBalancingRules’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.LoadBalancingRules {
-			var item1 LoadBalancer_Properties_LoadBalancingRules_Spec
+			var item1 LoadBalancingRule
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -547,7 +569,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OutboundRules {
-			var item1 LoadBalancer_Properties_OutboundRules_Spec
+			var item1 OutboundRule
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -563,7 +585,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Probes {
-			var item1 LoadBalancer_Properties_Probes_Spec
+			var item1 Probe
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -653,14 +675,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 
 	// BackendAddressPools
 	if source.BackendAddressPools != nil {
-		backendAddressPoolList := make([]LoadBalancer_Properties_BackendAddressPools_Spec, len(source.BackendAddressPools))
+		backendAddressPoolList := make([]BackendAddressPool_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			backendAddressPoolItem := backendAddressPoolItem
-			var backendAddressPool LoadBalancer_Properties_BackendAddressPools_Spec
-			err := backendAddressPool.AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Spec(&backendAddressPoolItem)
+			var backendAddressPool BackendAddressPool_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPool.AssignProperties_From_BackendAddressPool_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Spec() to populate field BackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_From_BackendAddressPool_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
@@ -683,14 +705,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 
 	// FrontendIPConfigurations
 	if source.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]LoadBalancer_Properties_FrontendIPConfigurations_Spec, len(source.FrontendIPConfigurations))
+		frontendIPConfigurationList := make([]FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration LoadBalancer_Properties_FrontendIPConfigurations_Spec
-			err := frontendIPConfiguration.AssignProperties_From_LoadBalancer_Properties_FrontendIPConfigurations_Spec(&frontendIPConfigurationItem)
+			var frontendIPConfiguration FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfiguration.AssignProperties_From_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_FrontendIPConfigurations_Spec() to populate field FrontendIPConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_From_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -701,14 +723,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 
 	// InboundNatPools
 	if source.InboundNatPools != nil {
-		inboundNatPoolList := make([]LoadBalancer_Properties_InboundNatPools_Spec, len(source.InboundNatPools))
+		inboundNatPoolList := make([]InboundNatPool, len(source.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
 			// Shadow the loop variable to avoid aliasing
 			inboundNatPoolItem := inboundNatPoolItem
-			var inboundNatPool LoadBalancer_Properties_InboundNatPools_Spec
-			err := inboundNatPool.AssignProperties_From_LoadBalancer_Properties_InboundNatPools_Spec(&inboundNatPoolItem)
+			var inboundNatPool InboundNatPool
+			err := inboundNatPool.AssignProperties_From_InboundNatPool(&inboundNatPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_InboundNatPools_Spec() to populate field InboundNatPools")
+				return errors.Wrap(err, "calling AssignProperties_From_InboundNatPool() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -717,16 +739,34 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 		balancer.InboundNatPools = nil
 	}
 
+	// InboundNatRules
+	if source.InboundNatRules != nil {
+		inboundNatRuleList := make([]InboundNatRule_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule InboundNatRule_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRule.AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		}
+		balancer.InboundNatRules = inboundNatRuleList
+	} else {
+		balancer.InboundNatRules = nil
+	}
+
 	// LoadBalancingRules
 	if source.LoadBalancingRules != nil {
-		loadBalancingRuleList := make([]LoadBalancer_Properties_LoadBalancingRules_Spec, len(source.LoadBalancingRules))
+		loadBalancingRuleList := make([]LoadBalancingRule, len(source.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var loadBalancingRule LoadBalancer_Properties_LoadBalancingRules_Spec
-			err := loadBalancingRule.AssignProperties_From_LoadBalancer_Properties_LoadBalancingRules_Spec(&loadBalancingRuleItem)
+			var loadBalancingRule LoadBalancingRule
+			err := loadBalancingRule.AssignProperties_From_LoadBalancingRule(&loadBalancingRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_LoadBalancingRules_Spec() to populate field LoadBalancingRules")
+				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancingRule() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -740,14 +780,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 
 	// OutboundRules
 	if source.OutboundRules != nil {
-		outboundRuleList := make([]LoadBalancer_Properties_OutboundRules_Spec, len(source.OutboundRules))
+		outboundRuleList := make([]OutboundRule, len(source.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
-			var outboundRule LoadBalancer_Properties_OutboundRules_Spec
-			err := outboundRule.AssignProperties_From_LoadBalancer_Properties_OutboundRules_Spec(&outboundRuleItem)
+			var outboundRule OutboundRule
+			err := outboundRule.AssignProperties_From_OutboundRule(&outboundRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_OutboundRules_Spec() to populate field OutboundRules")
+				return errors.Wrap(err, "calling AssignProperties_From_OutboundRule() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -766,14 +806,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 
 	// Probes
 	if source.Probes != nil {
-		probeList := make([]LoadBalancer_Properties_Probes_Spec, len(source.Probes))
+		probeList := make([]Probe, len(source.Probes))
 		for probeIndex, probeItem := range source.Probes {
 			// Shadow the loop variable to avoid aliasing
 			probeItem := probeItem
-			var probe LoadBalancer_Properties_Probes_Spec
-			err := probe.AssignProperties_From_LoadBalancer_Properties_Probes_Spec(&probeItem)
+			var probe Probe
+			err := probe.AssignProperties_From_Probe(&probeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_Probes_Spec() to populate field Probes")
+				return errors.Wrap(err, "calling AssignProperties_From_Probe() to populate field Probes")
 			}
 			probeList[probeIndex] = probe
 		}
@@ -811,14 +851,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 
 	// BackendAddressPools
 	if balancer.BackendAddressPools != nil {
-		backendAddressPoolList := make([]alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Spec, len(balancer.BackendAddressPools))
+		backendAddressPoolList := make([]alpha20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded, len(balancer.BackendAddressPools))
 		for backendAddressPoolIndex, backendAddressPoolItem := range balancer.BackendAddressPools {
 			// Shadow the loop variable to avoid aliasing
 			backendAddressPoolItem := backendAddressPoolItem
-			var backendAddressPool alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Spec
-			err := backendAddressPoolItem.AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Spec(&backendAddressPool)
+			var backendAddressPool alpha20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPoolItem.AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded(&backendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Spec() to populate field BackendAddressPools")
+				return errors.Wrap(err, "calling AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
@@ -841,14 +881,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 
 	// FrontendIPConfigurations
 	if balancer.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]alpha20201101s.LoadBalancer_Properties_FrontendIPConfigurations_Spec, len(balancer.FrontendIPConfigurations))
+		frontendIPConfigurationList := make([]alpha20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, len(balancer.FrontendIPConfigurations))
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range balancer.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration alpha20201101s.LoadBalancer_Properties_FrontendIPConfigurations_Spec
-			err := frontendIPConfigurationItem.AssignProperties_To_LoadBalancer_Properties_FrontendIPConfigurations_Spec(&frontendIPConfiguration)
+			var frontendIPConfiguration alpha20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfigurationItem.AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(&frontendIPConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_FrontendIPConfigurations_Spec() to populate field FrontendIPConfigurations")
+				return errors.Wrap(err, "calling AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -859,14 +899,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 
 	// InboundNatPools
 	if balancer.InboundNatPools != nil {
-		inboundNatPoolList := make([]alpha20201101s.LoadBalancer_Properties_InboundNatPools_Spec, len(balancer.InboundNatPools))
+		inboundNatPoolList := make([]alpha20201101s.InboundNatPool, len(balancer.InboundNatPools))
 		for inboundNatPoolIndex, inboundNatPoolItem := range balancer.InboundNatPools {
 			// Shadow the loop variable to avoid aliasing
 			inboundNatPoolItem := inboundNatPoolItem
-			var inboundNatPool alpha20201101s.LoadBalancer_Properties_InboundNatPools_Spec
-			err := inboundNatPoolItem.AssignProperties_To_LoadBalancer_Properties_InboundNatPools_Spec(&inboundNatPool)
+			var inboundNatPool alpha20201101s.InboundNatPool
+			err := inboundNatPoolItem.AssignProperties_To_InboundNatPool(&inboundNatPool)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_InboundNatPools_Spec() to populate field InboundNatPools")
+				return errors.Wrap(err, "calling AssignProperties_To_InboundNatPool() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -875,16 +915,34 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 		destination.InboundNatPools = nil
 	}
 
+	// InboundNatRules
+	if balancer.InboundNatRules != nil {
+		inboundNatRuleList := make([]alpha20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded, len(balancer.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range balancer.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule alpha20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRuleItem.AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(&inboundNatRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		}
+		destination.InboundNatRules = inboundNatRuleList
+	} else {
+		destination.InboundNatRules = nil
+	}
+
 	// LoadBalancingRules
 	if balancer.LoadBalancingRules != nil {
-		loadBalancingRuleList := make([]alpha20201101s.LoadBalancer_Properties_LoadBalancingRules_Spec, len(balancer.LoadBalancingRules))
+		loadBalancingRuleList := make([]alpha20201101s.LoadBalancingRule, len(balancer.LoadBalancingRules))
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range balancer.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var loadBalancingRule alpha20201101s.LoadBalancer_Properties_LoadBalancingRules_Spec
-			err := loadBalancingRuleItem.AssignProperties_To_LoadBalancer_Properties_LoadBalancingRules_Spec(&loadBalancingRule)
+			var loadBalancingRule alpha20201101s.LoadBalancingRule
+			err := loadBalancingRuleItem.AssignProperties_To_LoadBalancingRule(&loadBalancingRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_LoadBalancingRules_Spec() to populate field LoadBalancingRules")
+				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancingRule() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -901,14 +959,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 
 	// OutboundRules
 	if balancer.OutboundRules != nil {
-		outboundRuleList := make([]alpha20201101s.LoadBalancer_Properties_OutboundRules_Spec, len(balancer.OutboundRules))
+		outboundRuleList := make([]alpha20201101s.OutboundRule, len(balancer.OutboundRules))
 		for outboundRuleIndex, outboundRuleItem := range balancer.OutboundRules {
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
-			var outboundRule alpha20201101s.LoadBalancer_Properties_OutboundRules_Spec
-			err := outboundRuleItem.AssignProperties_To_LoadBalancer_Properties_OutboundRules_Spec(&outboundRule)
+			var outboundRule alpha20201101s.OutboundRule
+			err := outboundRuleItem.AssignProperties_To_OutboundRule(&outboundRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_OutboundRules_Spec() to populate field OutboundRules")
+				return errors.Wrap(err, "calling AssignProperties_To_OutboundRule() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -927,14 +985,14 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 
 	// Probes
 	if balancer.Probes != nil {
-		probeList := make([]alpha20201101s.LoadBalancer_Properties_Probes_Spec, len(balancer.Probes))
+		probeList := make([]alpha20201101s.Probe, len(balancer.Probes))
 		for probeIndex, probeItem := range balancer.Probes {
 			// Shadow the loop variable to avoid aliasing
 			probeItem := probeItem
-			var probe alpha20201101s.LoadBalancer_Properties_Probes_Spec
-			err := probeItem.AssignProperties_To_LoadBalancer_Properties_Probes_Spec(&probe)
+			var probe alpha20201101s.Probe
+			err := probeItem.AssignProperties_To_Probe(&probe)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_Probes_Spec() to populate field Probes")
+				return errors.Wrap(err, "calling AssignProperties_To_Probe() to populate field Probes")
 			}
 			probeList[probeIndex] = probe
 		}
@@ -1627,9 +1685,153 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	return nil
 }
 
+// Deprecated version of BackendAddressPool_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded instead
+type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
+	LoadBalancerBackendAddresses []LoadBalancerBackendAddress `json:"loadBalancerBackendAddresses,omitempty"`
+	Name                         *string                      `json:"name,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &BackendAddressPool_LoadBalancer_SubResourceEmbedded{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if embedded == nil {
+		return nil, nil
+	}
+	result := &BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM{}
+
+	// Set property ‘Name’:
+	if embedded.Name != nil {
+		name := *embedded.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if embedded.LoadBalancerBackendAddresses != nil {
+		result.Properties = &BackendAddressPoolPropertiesFormat_ARM{}
+	}
+	for _, item := range embedded.LoadBalancerBackendAddresses {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *item_ARM.(*LoadBalancerBackendAddress_ARM))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+	}
+
+	// Set property ‘LoadBalancerBackendAddresses’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancerBackendAddresses {
+			var item1 LoadBalancerBackendAddress
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			embedded.LoadBalancerBackendAddresses = append(embedded.LoadBalancerBackendAddresses, item1)
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		embedded.Name = &name
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_BackendAddressPool_LoadBalancer_SubResourceEmbedded populates our BackendAddressPool_LoadBalancer_SubResourceEmbedded from the provided source BackendAddressPool_LoadBalancer_SubResourceEmbedded
+func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignProperties_From_BackendAddressPool_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded) error {
+
+	// LoadBalancerBackendAddresses
+	if source.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]LoadBalancerBackendAddress, len(source.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress LoadBalancerBackendAddress
+			err := loadBalancerBackendAddress.AssignProperties_From_LoadBalancerBackendAddress(&loadBalancerBackendAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancerBackendAddress() to populate field LoadBalancerBackendAddresses")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		}
+		embedded.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		embedded.LoadBalancerBackendAddresses = nil
+	}
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded populates the provided destination BackendAddressPool_LoadBalancer_SubResourceEmbedded from our BackendAddressPool_LoadBalancer_SubResourceEmbedded
+func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignProperties_To_BackendAddressPool_LoadBalancer_SubResourceEmbedded(destination *alpha20201101s.BackendAddressPool_LoadBalancer_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// LoadBalancerBackendAddresses
+	if embedded.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]alpha20201101s.LoadBalancerBackendAddress, len(embedded.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range embedded.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress alpha20201101s.LoadBalancerBackendAddress
+			err := loadBalancerBackendAddressItem.AssignProperties_To_LoadBalancerBackendAddress(&loadBalancerBackendAddress)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancerBackendAddress() to populate field LoadBalancerBackendAddresses")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		}
+		destination.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		destination.LoadBalancerBackendAddresses = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	Id *string `json:"id,omitempty"`
+	BackendIPConfigurations      []NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfigurations,omitempty"`
+	Etag                         *string                                                                   `json:"etag,omitempty"`
+	Id                           *string                                                                   `json:"id,omitempty"`
+	LoadBalancerBackendAddresses []LoadBalancerBackendAddress_STATUS                                       `json:"loadBalancerBackendAddresses,omitempty"`
+	LoadBalancingRules           []SubResource_STATUS                                                      `json:"loadBalancingRules,omitempty"`
+	Name                         *string                                                                   `json:"name,omitempty"`
+	OutboundRule                 *SubResource_STATUS                                                       `json:"outboundRule,omitempty"`
+	OutboundRules                []SubResource_STATUS                                                      `json:"outboundRules,omitempty"`
+	ProvisioningState            *ProvisioningState_STATUS                                                 `json:"provisioningState,omitempty"`
+	Type                         *string                                                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded{}
@@ -1646,10 +1848,103 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
+	// Set property ‘BackendIPConfigurations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.BackendIPConfigurations {
+			var item1 NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			embedded.BackendIPConfigurations = append(embedded.BackendIPConfigurations, item1)
+		}
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		embedded.Etag = &etag
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
+	}
+
+	// Set property ‘LoadBalancerBackendAddresses’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancerBackendAddresses {
+			var item1 LoadBalancerBackendAddress_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			embedded.LoadBalancerBackendAddresses = append(embedded.LoadBalancerBackendAddresses, item1)
+		}
+	}
+
+	// Set property ‘LoadBalancingRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.LoadBalancingRules {
+			var item1 SubResource_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			embedded.LoadBalancingRules = append(embedded.LoadBalancingRules, item1)
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		embedded.Name = &name
+	}
+
+	// Set property ‘OutboundRule’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OutboundRule != nil {
+			var outboundRule1 SubResource_STATUS
+			err := outboundRule1.PopulateFromARM(owner, *typedInput.Properties.OutboundRule)
+			if err != nil {
+				return err
+			}
+			outboundRule := outboundRule1
+			embedded.OutboundRule = &outboundRule
+		}
+	}
+
+	// Set property ‘OutboundRules’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.OutboundRules {
+			var item1 SubResource_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			embedded.OutboundRules = append(embedded.OutboundRules, item1)
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			embedded.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		embedded.Type = &typeVar
 	}
 
 	// No error
@@ -1659,8 +1954,109 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Popu
 // AssignProperties_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded populates our BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) error {
 
+	// BackendIPConfigurations
+	if source.BackendIPConfigurations != nil {
+		backendIPConfigurationList := make([]NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(source.BackendIPConfigurations))
+		for backendIPConfigurationIndex, backendIPConfigurationItem := range source.BackendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			backendIPConfigurationItem := backendIPConfigurationItem
+			var backendIPConfiguration NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+			err := backendIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&backendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendIPConfigurations")
+			}
+			backendIPConfigurationList[backendIPConfigurationIndex] = backendIPConfiguration
+		}
+		embedded.BackendIPConfigurations = backendIPConfigurationList
+	} else {
+		embedded.BackendIPConfigurations = nil
+	}
+
+	// Etag
+	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LoadBalancerBackendAddresses
+	if source.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]LoadBalancerBackendAddress_STATUS, len(source.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress LoadBalancerBackendAddress_STATUS
+			err := loadBalancerBackendAddress.AssignProperties_From_LoadBalancerBackendAddress_STATUS(&loadBalancerBackendAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancerBackendAddress_STATUS() to populate field LoadBalancerBackendAddresses")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		}
+		embedded.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		embedded.LoadBalancerBackendAddresses = nil
+	}
+
+	// LoadBalancingRules
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]SubResource_STATUS, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule SubResource_STATUS
+			err := loadBalancingRule.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field LoadBalancingRules")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		}
+		embedded.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		embedded.LoadBalancingRules = nil
+	}
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OutboundRule
+	if source.OutboundRule != nil {
+		var outboundRule SubResource_STATUS
+		err := outboundRule.AssignProperties_From_SubResource_STATUS(source.OutboundRule)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field OutboundRule")
+		}
+		embedded.OutboundRule = &outboundRule
+	} else {
+		embedded.OutboundRule = nil
+	}
+
+	// OutboundRules
+	if source.OutboundRules != nil {
+		outboundRuleList := make([]SubResource_STATUS, len(source.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule SubResource_STATUS
+			err := outboundRule.AssignProperties_From_SubResource_STATUS(&outboundRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field OutboundRules")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
+		}
+		embedded.OutboundRules = outboundRuleList
+	} else {
+		embedded.OutboundRules = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
+		embedded.ProvisioningState = &provisioningState
+	} else {
+		embedded.ProvisioningState = nil
+	}
+
+	// Type
+	embedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1671,8 +2067,109 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// BackendIPConfigurations
+	if embedded.BackendIPConfigurations != nil {
+		backendIPConfigurationList := make([]alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded, len(embedded.BackendIPConfigurations))
+		for backendIPConfigurationIndex, backendIPConfigurationItem := range embedded.BackendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			backendIPConfigurationItem := backendIPConfigurationItem
+			var backendIPConfiguration alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+			err := backendIPConfigurationItem.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&backendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendIPConfigurations")
+			}
+			backendIPConfigurationList[backendIPConfigurationIndex] = backendIPConfiguration
+		}
+		destination.BackendIPConfigurations = backendIPConfigurationList
+	} else {
+		destination.BackendIPConfigurations = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// LoadBalancerBackendAddresses
+	if embedded.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]alpha20201101s.LoadBalancerBackendAddress_STATUS, len(embedded.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range embedded.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress alpha20201101s.LoadBalancerBackendAddress_STATUS
+			err := loadBalancerBackendAddressItem.AssignProperties_To_LoadBalancerBackendAddress_STATUS(&loadBalancerBackendAddress)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancerBackendAddress_STATUS() to populate field LoadBalancerBackendAddresses")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		}
+		destination.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		destination.LoadBalancerBackendAddresses = nil
+	}
+
+	// LoadBalancingRules
+	if embedded.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]alpha20201101s.SubResource_STATUS, len(embedded.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range embedded.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule alpha20201101s.SubResource_STATUS
+			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&loadBalancingRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field LoadBalancingRules")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		}
+		destination.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		destination.LoadBalancingRules = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// OutboundRule
+	if embedded.OutboundRule != nil {
+		var outboundRule alpha20201101s.SubResource_STATUS
+		err := embedded.OutboundRule.AssignProperties_To_SubResource_STATUS(&outboundRule)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field OutboundRule")
+		}
+		destination.OutboundRule = &outboundRule
+	} else {
+		destination.OutboundRule = nil
+	}
+
+	// OutboundRules
+	if embedded.OutboundRules != nil {
+		outboundRuleList := make([]alpha20201101s.SubResource_STATUS, len(embedded.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range embedded.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule alpha20201101s.SubResource_STATUS
+			err := outboundRuleItem.AssignProperties_To_SubResource_STATUS(&outboundRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field OutboundRules")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
+		}
+		destination.OutboundRules = outboundRuleList
+	} else {
+		destination.OutboundRules = nil
+	}
+
+	// ProvisioningState
+	if embedded.ProvisioningState != nil {
+		provisioningState := string(*embedded.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(embedded.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1691,7 +2188,7 @@ type ExtendedLocation struct {
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -1753,7 +2250,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -1859,6 +2356,327 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	} else {
 		destination.Type = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded instead
+type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
+	Name                      *string                                               `json:"name,omitempty"`
+	PrivateIPAddress          *string                                               `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion   *IPVersion                                            `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod                                   `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress           *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
+	PublicIPPrefix            *SubResource                                          `json:"publicIPPrefix,omitempty"`
+	Subnet                    *Subnet_LoadBalancer_SubResourceEmbedded              `json:"subnet,omitempty"`
+	Zones                     []string                                              `json:"zones,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if embedded == nil {
+		return nil, nil
+	}
+	result := &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM{}
+
+	// Set property ‘Name’:
+	if embedded.Name != nil {
+		name := *embedded.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if embedded.PrivateIPAddress != nil ||
+		embedded.PrivateIPAddressVersion != nil ||
+		embedded.PrivateIPAllocationMethod != nil ||
+		embedded.PublicIPAddress != nil ||
+		embedded.PublicIPPrefix != nil ||
+		embedded.Subnet != nil {
+		result.Properties = &FrontendIPConfigurationPropertiesFormat_ARM{}
+	}
+	if embedded.PrivateIPAddress != nil {
+		privateIPAddress := *embedded.PrivateIPAddress
+		result.Properties.PrivateIPAddress = &privateIPAddress
+	}
+	if embedded.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := *embedded.PrivateIPAddressVersion
+		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
+	}
+	if embedded.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := *embedded.PrivateIPAllocationMethod
+		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	}
+	if embedded.PublicIPAddress != nil {
+		publicIPAddress_ARM, err := (*embedded.PublicIPAddress).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		publicIPAddress := *publicIPAddress_ARM.(*PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM)
+		result.Properties.PublicIPAddress = &publicIPAddress
+	}
+	if embedded.PublicIPPrefix != nil {
+		publicIPPrefix_ARM, err := (*embedded.PublicIPPrefix).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
+		result.Properties.PublicIPPrefix = &publicIPPrefix
+	}
+	if embedded.Subnet != nil {
+		subnet_ARM, err := (*embedded.Subnet).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		subnet := *subnet_ARM.(*Subnet_LoadBalancer_SubResourceEmbedded_ARM)
+		result.Properties.Subnet = &subnet
+	}
+
+	// Set property ‘Zones’:
+	for _, item := range embedded.Zones {
+		result.Zones = append(result.Zones, item)
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		embedded.Name = &name
+	}
+
+	// Set property ‘PrivateIPAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddress != nil {
+			privateIPAddress := *typedInput.Properties.PrivateIPAddress
+			embedded.PrivateIPAddress = &privateIPAddress
+		}
+	}
+
+	// Set property ‘PrivateIPAddressVersion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddressVersion != nil {
+			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
+			embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+		}
+	}
+
+	// Set property ‘PrivateIPAllocationMethod’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAllocationMethod != nil {
+			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
+			embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		}
+	}
+
+	// Set property ‘PublicIPAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPAddress != nil {
+			var publicIPAddress1 PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+			err := publicIPAddress1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddress)
+			if err != nil {
+				return err
+			}
+			publicIPAddress := publicIPAddress1
+			embedded.PublicIPAddress = &publicIPAddress
+		}
+	}
+
+	// Set property ‘PublicIPPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PublicIPPrefix != nil {
+			var publicIPPrefix1 SubResource
+			err := publicIPPrefix1.PopulateFromARM(owner, *typedInput.Properties.PublicIPPrefix)
+			if err != nil {
+				return err
+			}
+			publicIPPrefix := publicIPPrefix1
+			embedded.PublicIPPrefix = &publicIPPrefix
+		}
+	}
+
+	// Set property ‘Subnet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subnet != nil {
+			var subnet1 Subnet_LoadBalancer_SubResourceEmbedded
+			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
+			if err != nil {
+				return err
+			}
+			subnet := subnet1
+			embedded.Subnet = &subnet
+		}
+	}
+
+	// Set property ‘Zones’:
+	for _, item := range typedInput.Zones {
+		embedded.Zones = append(embedded.Zones, item)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded populates our FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded from the provided source FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) AssignProperties_From_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) error {
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateIPAddress
+	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAddressVersion
+	if source.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
+		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		embedded.PrivateIPAddressVersion = nil
+	}
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		embedded.PrivateIPAllocationMethod = nil
+	}
+
+	// PublicIPAddress
+	if source.PublicIPAddress != nil {
+		var publicIPAddress PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+		err := publicIPAddress.AssignProperties_From_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(source.PublicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded() to populate field PublicIPAddress")
+		}
+		embedded.PublicIPAddress = &publicIPAddress
+	} else {
+		embedded.PublicIPAddress = nil
+	}
+
+	// PublicIPPrefix
+	if source.PublicIPPrefix != nil {
+		var publicIPPrefix SubResource
+		err := publicIPPrefix.AssignProperties_From_SubResource(source.PublicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPPrefix")
+		}
+		embedded.PublicIPPrefix = &publicIPPrefix
+	} else {
+		embedded.PublicIPPrefix = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet Subnet_LoadBalancer_SubResourceEmbedded
+		err := subnet.AssignProperties_From_Subnet_LoadBalancer_SubResourceEmbedded(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_Subnet_LoadBalancer_SubResourceEmbedded() to populate field Subnet")
+		}
+		embedded.Subnet = &subnet
+	} else {
+		embedded.Subnet = nil
+	}
+
+	// Zones
+	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded populates the provided destination FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded from our FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) AssignProperties_To_FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded(destination *alpha20201101s.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// PrivateIPAddress
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(embedded.PrivateIPAddress)
+
+	// PrivateIPAddressVersion
+	if embedded.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := string(*embedded.PrivateIPAddressVersion)
+		destination.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		destination.PrivateIPAddressVersion = nil
+	}
+
+	// PrivateIPAllocationMethod
+	if embedded.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := string(*embedded.PrivateIPAllocationMethod)
+		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		destination.PrivateIPAllocationMethod = nil
+	}
+
+	// PublicIPAddress
+	if embedded.PublicIPAddress != nil {
+		var publicIPAddress alpha20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+		err := embedded.PublicIPAddress.AssignProperties_To_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(&publicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded() to populate field PublicIPAddress")
+		}
+		destination.PublicIPAddress = &publicIPAddress
+	} else {
+		destination.PublicIPAddress = nil
+	}
+
+	// PublicIPPrefix
+	if embedded.PublicIPPrefix != nil {
+		var publicIPPrefix alpha20201101s.SubResource
+		err := embedded.PublicIPPrefix.AssignProperties_To_SubResource(&publicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPPrefix")
+		}
+		destination.PublicIPPrefix = &publicIPPrefix
+	} else {
+		destination.PublicIPPrefix = nil
+	}
+
+	// Subnet
+	if embedded.Subnet != nil {
+		var subnet alpha20201101s.Subnet_LoadBalancer_SubResourceEmbedded
+		err := embedded.Subnet.AssignProperties_To_Subnet_LoadBalancer_SubResourceEmbedded(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_Subnet_LoadBalancer_SubResourceEmbedded() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// Zones
+	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2391,6 +3209,315 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
+// Deprecated version of InboundNatPool. Use v1beta20201101.InboundNatPool instead
+type InboundNatPool struct {
+	// +kubebuilder:validation:Required
+	BackendPort             *int         `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool        `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool        `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
+
+	// +kubebuilder:validation:Required
+	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
+
+	// +kubebuilder:validation:Required
+	FrontendPortRangeStart *int    `json:"frontendPortRangeStart,omitempty"`
+	IdleTimeoutInMinutes   *int    `json:"idleTimeoutInMinutes,omitempty"`
+	Name                   *string `json:"name,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Protocol *TransportProtocol `json:"protocol,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &InboundNatPool{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (pool *InboundNatPool) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if pool == nil {
+		return nil, nil
+	}
+	result := &InboundNatPool_ARM{}
+
+	// Set property ‘Name’:
+	if pool.Name != nil {
+		name := *pool.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if pool.BackendPort != nil ||
+		pool.EnableFloatingIP != nil ||
+		pool.EnableTcpReset != nil ||
+		pool.FrontendIPConfiguration != nil ||
+		pool.FrontendPortRangeEnd != nil ||
+		pool.FrontendPortRangeStart != nil ||
+		pool.IdleTimeoutInMinutes != nil ||
+		pool.Protocol != nil {
+		result.Properties = &InboundNatPoolPropertiesFormat_ARM{}
+	}
+	if pool.BackendPort != nil {
+		backendPort := *pool.BackendPort
+		result.Properties.BackendPort = &backendPort
+	}
+	if pool.EnableFloatingIP != nil {
+		enableFloatingIP := *pool.EnableFloatingIP
+		result.Properties.EnableFloatingIP = &enableFloatingIP
+	}
+	if pool.EnableTcpReset != nil {
+		enableTcpReset := *pool.EnableTcpReset
+		result.Properties.EnableTcpReset = &enableTcpReset
+	}
+	if pool.FrontendIPConfiguration != nil {
+		frontendIPConfiguration_ARM, err := (*pool.FrontendIPConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
+	}
+	if pool.FrontendPortRangeEnd != nil {
+		frontendPortRangeEnd := *pool.FrontendPortRangeEnd
+		result.Properties.FrontendPortRangeEnd = &frontendPortRangeEnd
+	}
+	if pool.FrontendPortRangeStart != nil {
+		frontendPortRangeStart := *pool.FrontendPortRangeStart
+		result.Properties.FrontendPortRangeStart = &frontendPortRangeStart
+	}
+	if pool.IdleTimeoutInMinutes != nil {
+		idleTimeoutInMinutes := *pool.IdleTimeoutInMinutes
+		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	}
+	if pool.Protocol != nil {
+		protocol := *pool.Protocol
+		result.Properties.Protocol = &protocol
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (pool *InboundNatPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &InboundNatPool_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (pool *InboundNatPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(InboundNatPool_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatPool_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BackendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			pool.BackendPort = &backendPort
+		}
+	}
+
+	// Set property ‘EnableFloatingIP’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFloatingIP != nil {
+			enableFloatingIP := *typedInput.Properties.EnableFloatingIP
+			pool.EnableFloatingIP = &enableFloatingIP
+		}
+	}
+
+	// Set property ‘EnableTcpReset’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableTcpReset != nil {
+			enableTcpReset := *typedInput.Properties.EnableTcpReset
+			pool.EnableTcpReset = &enableTcpReset
+		}
+	}
+
+	// Set property ‘FrontendIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendIPConfiguration != nil {
+			var frontendIPConfiguration1 SubResource
+			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			frontendIPConfiguration := frontendIPConfiguration1
+			pool.FrontendIPConfiguration = &frontendIPConfiguration
+		}
+	}
+
+	// Set property ‘FrontendPortRangeEnd’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendPortRangeEnd != nil {
+			frontendPortRangeEnd := *typedInput.Properties.FrontendPortRangeEnd
+			pool.FrontendPortRangeEnd = &frontendPortRangeEnd
+		}
+	}
+
+	// Set property ‘FrontendPortRangeStart’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendPortRangeStart != nil {
+			frontendPortRangeStart := *typedInput.Properties.FrontendPortRangeStart
+			pool.FrontendPortRangeStart = &frontendPortRangeStart
+		}
+	}
+
+	// Set property ‘IdleTimeoutInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			pool.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		pool.Name = &name
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			pool.Protocol = &protocol
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_InboundNatPool populates our InboundNatPool from the provided source InboundNatPool
+func (pool *InboundNatPool) AssignProperties_From_InboundNatPool(source *alpha20201101s.InboundNatPool) error {
+
+	// BackendPort
+	pool.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		pool.EnableFloatingIP = &enableFloatingIP
+	} else {
+		pool.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		pool.EnableTcpReset = &enableTcpReset
+	} else {
+		pool.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
+		}
+		pool.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		pool.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPortRangeEnd
+	pool.FrontendPortRangeEnd = genruntime.ClonePointerToInt(source.FrontendPortRangeEnd)
+
+	// FrontendPortRangeStart
+	pool.FrontendPortRangeStart = genruntime.ClonePointerToInt(source.FrontendPortRangeStart)
+
+	// IdleTimeoutInMinutes
+	pool.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	pool.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol(*source.Protocol)
+		pool.Protocol = &protocol
+	} else {
+		pool.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InboundNatPool populates the provided destination InboundNatPool from our InboundNatPool
+func (pool *InboundNatPool) AssignProperties_To_InboundNatPool(destination *alpha20201101s.InboundNatPool) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BackendPort
+	destination.BackendPort = genruntime.ClonePointerToInt(pool.BackendPort)
+
+	// EnableFloatingIP
+	if pool.EnableFloatingIP != nil {
+		enableFloatingIP := *pool.EnableFloatingIP
+		destination.EnableFloatingIP = &enableFloatingIP
+	} else {
+		destination.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if pool.EnableTcpReset != nil {
+		enableTcpReset := *pool.EnableTcpReset
+		destination.EnableTcpReset = &enableTcpReset
+	} else {
+		destination.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if pool.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration alpha20201101s.SubResource
+		err := pool.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
+		}
+		destination.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		destination.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPortRangeEnd
+	destination.FrontendPortRangeEnd = genruntime.ClonePointerToInt(pool.FrontendPortRangeEnd)
+
+	// FrontendPortRangeStart
+	destination.FrontendPortRangeStart = genruntime.ClonePointerToInt(pool.FrontendPortRangeStart)
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(pool.IdleTimeoutInMinutes)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(pool.Name)
+
+	// Protocol
+	if pool.Protocol != nil {
+		protocol := string(*pool.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of InboundNatPool_STATUS. Use v1beta20201101.InboundNatPool_STATUS instead
 type InboundNatPool_STATUS struct {
 	BackendPort             *int                      `json:"backendPort,omitempty"`
@@ -2695,9 +3822,302 @@ func (pool *InboundNatPool_STATUS) AssignProperties_To_InboundNatPool_STATUS(des
 	return nil
 }
 
+// Deprecated version of InboundNatRule_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded instead
+type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
+	BackendPort             *int               `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool              `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool              `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource       `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int               `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes    *int               `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string            `json:"name,omitempty"`
+	Protocol                *TransportProtocol `json:"protocol,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &InboundNatRule_LoadBalancer_SubResourceEmbedded{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if embedded == nil {
+		return nil, nil
+	}
+	result := &InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{}
+
+	// Set property ‘Name’:
+	if embedded.Name != nil {
+		name := *embedded.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if embedded.BackendPort != nil ||
+		embedded.EnableFloatingIP != nil ||
+		embedded.EnableTcpReset != nil ||
+		embedded.FrontendIPConfiguration != nil ||
+		embedded.FrontendPort != nil ||
+		embedded.IdleTimeoutInMinutes != nil ||
+		embedded.Protocol != nil {
+		result.Properties = &InboundNatRulePropertiesFormat_ARM{}
+	}
+	if embedded.BackendPort != nil {
+		backendPort := *embedded.BackendPort
+		result.Properties.BackendPort = &backendPort
+	}
+	if embedded.EnableFloatingIP != nil {
+		enableFloatingIP := *embedded.EnableFloatingIP
+		result.Properties.EnableFloatingIP = &enableFloatingIP
+	}
+	if embedded.EnableTcpReset != nil {
+		enableTcpReset := *embedded.EnableTcpReset
+		result.Properties.EnableTcpReset = &enableTcpReset
+	}
+	if embedded.FrontendIPConfiguration != nil {
+		frontendIPConfiguration_ARM, err := (*embedded.FrontendIPConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
+	}
+	if embedded.FrontendPort != nil {
+		frontendPort := *embedded.FrontendPort
+		result.Properties.FrontendPort = &frontendPort
+	}
+	if embedded.IdleTimeoutInMinutes != nil {
+		idleTimeoutInMinutes := *embedded.IdleTimeoutInMinutes
+		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	}
+	if embedded.Protocol != nil {
+		protocol := *embedded.Protocol
+		result.Properties.Protocol = &protocol
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BackendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			embedded.BackendPort = &backendPort
+		}
+	}
+
+	// Set property ‘EnableFloatingIP’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFloatingIP != nil {
+			enableFloatingIP := *typedInput.Properties.EnableFloatingIP
+			embedded.EnableFloatingIP = &enableFloatingIP
+		}
+	}
+
+	// Set property ‘EnableTcpReset’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableTcpReset != nil {
+			enableTcpReset := *typedInput.Properties.EnableTcpReset
+			embedded.EnableTcpReset = &enableTcpReset
+		}
+	}
+
+	// Set property ‘FrontendIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendIPConfiguration != nil {
+			var frontendIPConfiguration1 SubResource
+			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			frontendIPConfiguration := frontendIPConfiguration1
+			embedded.FrontendIPConfiguration = &frontendIPConfiguration
+		}
+	}
+
+	// Set property ‘FrontendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendPort != nil {
+			frontendPort := *typedInput.Properties.FrontendPort
+			embedded.FrontendPort = &frontendPort
+		}
+	}
+
+	// Set property ‘IdleTimeoutInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			embedded.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		embedded.Name = &name
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			embedded.Protocol = &protocol
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded populates our InboundNatRule_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_LoadBalancer_SubResourceEmbedded
+func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded) error {
+
+	// BackendPort
+	embedded.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		embedded.EnableFloatingIP = &enableFloatingIP
+	} else {
+		embedded.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		embedded.EnableTcpReset = &enableTcpReset
+	} else {
+		embedded.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
+		}
+		embedded.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		embedded.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	embedded.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
+
+	// IdleTimeoutInMinutes
+	embedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol(*source.Protocol)
+		embedded.Protocol = &protocol
+	} else {
+		embedded.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded populates the provided destination InboundNatRule_LoadBalancer_SubResourceEmbedded from our InboundNatRule_LoadBalancer_SubResourceEmbedded
+func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(destination *alpha20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BackendPort
+	destination.BackendPort = genruntime.ClonePointerToInt(embedded.BackendPort)
+
+	// EnableFloatingIP
+	if embedded.EnableFloatingIP != nil {
+		enableFloatingIP := *embedded.EnableFloatingIP
+		destination.EnableFloatingIP = &enableFloatingIP
+	} else {
+		destination.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if embedded.EnableTcpReset != nil {
+		enableTcpReset := *embedded.EnableTcpReset
+		destination.EnableTcpReset = &enableTcpReset
+	} else {
+		destination.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if embedded.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration alpha20201101s.SubResource
+		err := embedded.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
+		}
+		destination.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		destination.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	destination.FrontendPort = genruntime.ClonePointerToInt(embedded.FrontendPort)
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(embedded.IdleTimeoutInMinutes)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
+
+	// Protocol
+	if embedded.Protocol != nil {
+		protocol := string(*embedded.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	Id *string `json:"id,omitempty"`
+	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
+	BackendPort             *int                                                                     `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                                                                    `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                                                                    `json:"enableTcpReset,omitempty"`
+	Etag                    *string                                                                  `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS                                                      `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                                                                     `json:"frontendPort,omitempty"`
+	Id                      *string                                                                  `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                                                                     `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string                                                                  `json:"name,omitempty"`
+	Protocol                *TransportProtocol_STATUS                                                `json:"protocol,omitempty"`
+	ProvisioningState       *ProvisioningState_STATUS                                                `json:"provisioningState,omitempty"`
+	Type                    *string                                                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}
@@ -2714,10 +4134,119 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
+	// Set property ‘BackendIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendIPConfiguration != nil {
+			var backendIPConfiguration1 NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+			err := backendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.BackendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			backendIPConfiguration := backendIPConfiguration1
+			embedded.BackendIPConfiguration = &backendIPConfiguration
+		}
+	}
+
+	// Set property ‘BackendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			embedded.BackendPort = &backendPort
+		}
+	}
+
+	// Set property ‘EnableFloatingIP’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFloatingIP != nil {
+			enableFloatingIP := *typedInput.Properties.EnableFloatingIP
+			embedded.EnableFloatingIP = &enableFloatingIP
+		}
+	}
+
+	// Set property ‘EnableTcpReset’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableTcpReset != nil {
+			enableTcpReset := *typedInput.Properties.EnableTcpReset
+			embedded.EnableTcpReset = &enableTcpReset
+		}
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		embedded.Etag = &etag
+	}
+
+	// Set property ‘FrontendIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendIPConfiguration != nil {
+			var frontendIPConfiguration1 SubResource_STATUS
+			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			frontendIPConfiguration := frontendIPConfiguration1
+			embedded.FrontendIPConfiguration = &frontendIPConfiguration
+		}
+	}
+
+	// Set property ‘FrontendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendPort != nil {
+			frontendPort := *typedInput.Properties.FrontendPort
+			embedded.FrontendPort = &frontendPort
+		}
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
+	}
+
+	// Set property ‘IdleTimeoutInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			embedded.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		embedded.Name = &name
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			embedded.Protocol = &protocol
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			embedded.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		embedded.Type = &typeVar
 	}
 
 	// No error
@@ -2727,8 +4256,82 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) Populate
 // AssignProperties_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded populates our InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) error {
 
+	// BackendIPConfiguration
+	if source.BackendIPConfiguration != nil {
+		var backendIPConfiguration NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+		err := backendIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(source.BackendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendIPConfiguration")
+		}
+		embedded.BackendIPConfiguration = &backendIPConfiguration
+	} else {
+		embedded.BackendIPConfiguration = nil
+	}
+
+	// BackendPort
+	embedded.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		embedded.EnableFloatingIP = &enableFloatingIP
+	} else {
+		embedded.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		embedded.EnableTcpReset = &enableTcpReset
+	} else {
+		embedded.EnableTcpReset = nil
+	}
+
+	// Etag
+	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource_STATUS
+		err := frontendIPConfiguration.AssignProperties_From_SubResource_STATUS(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field FrontendIPConfiguration")
+		}
+		embedded.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		embedded.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	embedded.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
+
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IdleTimeoutInMinutes
+	embedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol_STATUS(*source.Protocol)
+		embedded.Protocol = &protocol
+	} else {
+		embedded.Protocol = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
+		embedded.ProvisioningState = &provisioningState
+	} else {
+		embedded.ProvisioningState = nil
+	}
+
+	// Type
+	embedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -2739,1742 +4342,82 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// BackendIPConfiguration
+	if embedded.BackendIPConfiguration != nil {
+		var backendIPConfiguration alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+		err := embedded.BackendIPConfiguration.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&backendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendIPConfiguration")
+		}
+		destination.BackendIPConfiguration = &backendIPConfiguration
+	} else {
+		destination.BackendIPConfiguration = nil
+	}
+
+	// BackendPort
+	destination.BackendPort = genruntime.ClonePointerToInt(embedded.BackendPort)
+
+	// EnableFloatingIP
+	if embedded.EnableFloatingIP != nil {
+		enableFloatingIP := *embedded.EnableFloatingIP
+		destination.EnableFloatingIP = &enableFloatingIP
+	} else {
+		destination.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if embedded.EnableTcpReset != nil {
+		enableTcpReset := *embedded.EnableTcpReset
+		destination.EnableTcpReset = &enableTcpReset
+	} else {
+		destination.EnableTcpReset = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
+
+	// FrontendIPConfiguration
+	if embedded.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration alpha20201101s.SubResource_STATUS
+		err := embedded.FrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&frontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field FrontendIPConfiguration")
+		}
+		destination.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		destination.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	destination.FrontendPort = genruntime.ClonePointerToInt(embedded.FrontendPort)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of LoadBalancer_Properties_BackendAddressPools_Spec. Use v1beta20201101.LoadBalancer_Properties_BackendAddressPools_Spec instead
-type LoadBalancer_Properties_BackendAddressPools_Spec struct {
-	LoadBalancerBackendAddresses []LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec `json:"loadBalancerBackendAddresses,omitempty"`
-	Location                     *string                                                                                    `json:"location,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Name *string `json:"name,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_BackendAddressPools_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (pools *LoadBalancer_Properties_BackendAddressPools_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if pools == nil {
-		return nil, nil
-	}
-	result := &LoadBalancer_Properties_BackendAddressPools_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if pools.Name != nil {
-		name := *pools.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if pools.LoadBalancerBackendAddresses != nil || pools.Location != nil {
-		result.Properties = &LoadBalancer_Properties_BackendAddressPools_Properties_Spec_ARM{}
-	}
-	for _, item := range pools.LoadBalancerBackendAddresses {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.LoadBalancerBackendAddresses = append(result.Properties.LoadBalancerBackendAddresses, *item_ARM.(*LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM))
-	}
-	if pools.Location != nil {
-		location := *pools.Location
-		result.Properties.Location = &location
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pools *LoadBalancer_Properties_BackendAddressPools_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_BackendAddressPools_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pools *LoadBalancer_Properties_BackendAddressPools_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_BackendAddressPools_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_BackendAddressPools_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘LoadBalancerBackendAddresses’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.LoadBalancerBackendAddresses {
-			var item1 LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			pools.LoadBalancerBackendAddresses = append(pools.LoadBalancerBackendAddresses, item1)
-		}
-	}
-
-	// Set property ‘Location’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Location != nil {
-			location := *typedInput.Properties.Location
-			pools.Location = &location
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		pools.Name = &name
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Spec populates our LoadBalancer_Properties_BackendAddressPools_Spec from the provided source LoadBalancer_Properties_BackendAddressPools_Spec
-func (pools *LoadBalancer_Properties_BackendAddressPools_Spec) AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Spec(source *alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Spec) error {
-
-	// LoadBalancerBackendAddresses
-	if source.LoadBalancerBackendAddresses != nil {
-		loadBalancerBackendAddressList := make([]LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec, len(source.LoadBalancerBackendAddresses))
-		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
-			var loadBalancerBackendAddress LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec
-			err := loadBalancerBackendAddress.AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec(&loadBalancerBackendAddressItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec() to populate field LoadBalancerBackendAddresses")
-			}
-			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
-		}
-		pools.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
-	} else {
-		pools.LoadBalancerBackendAddresses = nil
-	}
-
-	// Location
-	pools.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	pools.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Spec populates the provided destination LoadBalancer_Properties_BackendAddressPools_Spec from our LoadBalancer_Properties_BackendAddressPools_Spec
-func (pools *LoadBalancer_Properties_BackendAddressPools_Spec) AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Spec(destination *alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// LoadBalancerBackendAddresses
-	if pools.LoadBalancerBackendAddresses != nil {
-		loadBalancerBackendAddressList := make([]alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec, len(pools.LoadBalancerBackendAddresses))
-		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range pools.LoadBalancerBackendAddresses {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
-			var loadBalancerBackendAddress alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec
-			err := loadBalancerBackendAddressItem.AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec(&loadBalancerBackendAddress)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec() to populate field LoadBalancerBackendAddresses")
-			}
-			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
-		}
-		destination.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
-	} else {
-		destination.LoadBalancerBackendAddresses = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(pools.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(pools.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of LoadBalancer_Properties_FrontendIPConfigurations_Spec. Use v1beta20201101.LoadBalancer_Properties_FrontendIPConfigurations_Spec instead
-type LoadBalancer_Properties_FrontendIPConfigurations_Spec struct {
-	// +kubebuilder:validation:Required
-	Name                      *string                                                            `json:"name,omitempty"`
-	PrivateIPAddress          *string                                                            `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion   `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-	PublicIPAddress           *SubResource                                                       `json:"publicIPAddress,omitempty"`
-	PublicIPPrefix            *SubResource                                                       `json:"publicIPPrefix,omitempty"`
-	Subnet                    *SubResource                                                       `json:"subnet,omitempty"`
-	Zones                     []string                                                           `json:"zones,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_FrontendIPConfigurations_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configurations *LoadBalancer_Properties_FrontendIPConfigurations_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if configurations == nil {
-		return nil, nil
-	}
-	result := &LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if configurations.Name != nil {
-		name := *configurations.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if configurations.PrivateIPAddress != nil ||
-		configurations.PrivateIPAddressVersion != nil ||
-		configurations.PrivateIPAllocationMethod != nil ||
-		configurations.PublicIPAddress != nil ||
-		configurations.PublicIPPrefix != nil ||
-		configurations.Subnet != nil {
-		result.Properties = &FrontendIPConfigurationPropertiesFormat_ARM{}
-	}
-	if configurations.PrivateIPAddress != nil {
-		privateIPAddress := *configurations.PrivateIPAddress
-		result.Properties.PrivateIPAddress = &privateIPAddress
-	}
-	if configurations.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := *configurations.PrivateIPAddressVersion
-		result.Properties.PrivateIPAddressVersion = &privateIPAddressVersion
-	}
-	if configurations.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := *configurations.PrivateIPAllocationMethod
-		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	}
-	if configurations.PublicIPAddress != nil {
-		publicIPAddress_ARM, err := (*configurations.PublicIPAddress).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		publicIPAddress := *publicIPAddress_ARM.(*SubResource_ARM)
-		result.Properties.PublicIPAddress = &publicIPAddress
-	}
-	if configurations.PublicIPPrefix != nil {
-		publicIPPrefix_ARM, err := (*configurations.PublicIPPrefix).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		publicIPPrefix := *publicIPPrefix_ARM.(*SubResource_ARM)
-		result.Properties.PublicIPPrefix = &publicIPPrefix
-	}
-	if configurations.Subnet != nil {
-		subnet_ARM, err := (*configurations.Subnet).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		subnet := *subnet_ARM.(*SubResource_ARM)
-		result.Properties.Subnet = &subnet
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range configurations.Zones {
-		result.Zones = append(result.Zones, item)
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configurations *LoadBalancer_Properties_FrontendIPConfigurations_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configurations *LoadBalancer_Properties_FrontendIPConfigurations_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_FrontendIPConfigurations_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		configurations.Name = &name
-	}
-
-	// Set property ‘PrivateIPAddress’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateIPAddress != nil {
-			privateIPAddress := *typedInput.Properties.PrivateIPAddress
-			configurations.PrivateIPAddress = &privateIPAddress
-		}
-	}
-
-	// Set property ‘PrivateIPAddressVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateIPAddressVersion != nil {
-			privateIPAddressVersion := *typedInput.Properties.PrivateIPAddressVersion
-			configurations.PrivateIPAddressVersion = &privateIPAddressVersion
-		}
-	}
-
-	// Set property ‘PrivateIPAllocationMethod’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateIPAllocationMethod != nil {
-			privateIPAllocationMethod := *typedInput.Properties.PrivateIPAllocationMethod
-			configurations.PrivateIPAllocationMethod = &privateIPAllocationMethod
-		}
-	}
-
-	// Set property ‘PublicIPAddress’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIPAddress != nil {
-			var publicIPAddress1 SubResource
-			err := publicIPAddress1.PopulateFromARM(owner, *typedInput.Properties.PublicIPAddress)
-			if err != nil {
-				return err
-			}
-			publicIPAddress := publicIPAddress1
-			configurations.PublicIPAddress = &publicIPAddress
-		}
-	}
-
-	// Set property ‘PublicIPPrefix’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicIPPrefix != nil {
-			var publicIPPrefix1 SubResource
-			err := publicIPPrefix1.PopulateFromARM(owner, *typedInput.Properties.PublicIPPrefix)
-			if err != nil {
-				return err
-			}
-			publicIPPrefix := publicIPPrefix1
-			configurations.PublicIPPrefix = &publicIPPrefix
-		}
-	}
-
-	// Set property ‘Subnet’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Subnet != nil {
-			var subnet1 SubResource
-			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
-			if err != nil {
-				return err
-			}
-			subnet := subnet1
-			configurations.Subnet = &subnet
-		}
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range typedInput.Zones {
-		configurations.Zones = append(configurations.Zones, item)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_LoadBalancer_Properties_FrontendIPConfigurations_Spec populates our LoadBalancer_Properties_FrontendIPConfigurations_Spec from the provided source LoadBalancer_Properties_FrontendIPConfigurations_Spec
-func (configurations *LoadBalancer_Properties_FrontendIPConfigurations_Spec) AssignProperties_From_LoadBalancer_Properties_FrontendIPConfigurations_Spec(source *alpha20201101s.LoadBalancer_Properties_FrontendIPConfigurations_Spec) error {
-
-	// Name
-	configurations.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateIPAddress
-	configurations.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion(*source.PrivateIPAddressVersion)
-		configurations.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		configurations.PrivateIPAddressVersion = nil
-	}
-
-	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod(*source.PrivateIPAllocationMethod)
-		configurations.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		configurations.PrivateIPAllocationMethod = nil
-	}
-
-	// PublicIPAddress
-	if source.PublicIPAddress != nil {
-		var publicIPAddress SubResource
-		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
-		}
-		configurations.PublicIPAddress = &publicIPAddress
-	} else {
-		configurations.PublicIPAddress = nil
-	}
-
-	// PublicIPPrefix
-	if source.PublicIPPrefix != nil {
-		var publicIPPrefix SubResource
-		err := publicIPPrefix.AssignProperties_From_SubResource(source.PublicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPPrefix")
-		}
-		configurations.PublicIPPrefix = &publicIPPrefix
-	} else {
-		configurations.PublicIPPrefix = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet SubResource
-		err := subnet.AssignProperties_From_SubResource(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
-		}
-		configurations.Subnet = &subnet
-	} else {
-		configurations.Subnet = nil
-	}
-
-	// Zones
-	configurations.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_LoadBalancer_Properties_FrontendIPConfigurations_Spec populates the provided destination LoadBalancer_Properties_FrontendIPConfigurations_Spec from our LoadBalancer_Properties_FrontendIPConfigurations_Spec
-func (configurations *LoadBalancer_Properties_FrontendIPConfigurations_Spec) AssignProperties_To_LoadBalancer_Properties_FrontendIPConfigurations_Spec(destination *alpha20201101s.LoadBalancer_Properties_FrontendIPConfigurations_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(configurations.Name)
-
-	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(configurations.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	if configurations.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := string(*configurations.PrivateIPAddressVersion)
-		destination.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		destination.PrivateIPAddressVersion = nil
-	}
-
-	// PrivateIPAllocationMethod
-	if configurations.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := string(*configurations.PrivateIPAllocationMethod)
-		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		destination.PrivateIPAllocationMethod = nil
-	}
-
-	// PublicIPAddress
-	if configurations.PublicIPAddress != nil {
-		var publicIPAddress alpha20201101s.SubResource
-		err := configurations.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
-		}
-		destination.PublicIPAddress = &publicIPAddress
-	} else {
-		destination.PublicIPAddress = nil
-	}
-
-	// PublicIPPrefix
-	if configurations.PublicIPPrefix != nil {
-		var publicIPPrefix alpha20201101s.SubResource
-		err := configurations.PublicIPPrefix.AssignProperties_To_SubResource(&publicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPPrefix")
-		}
-		destination.PublicIPPrefix = &publicIPPrefix
-	} else {
-		destination.PublicIPPrefix = nil
-	}
-
-	// Subnet
-	if configurations.Subnet != nil {
-		var subnet alpha20201101s.SubResource
-		err := configurations.Subnet.AssignProperties_To_SubResource(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
-		}
-		destination.Subnet = &subnet
-	} else {
-		destination.Subnet = nil
-	}
-
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(configurations.Zones)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of LoadBalancer_Properties_InboundNatPools_Spec. Use v1beta20201101.LoadBalancer_Properties_InboundNatPools_Spec instead
-type LoadBalancer_Properties_InboundNatPools_Spec struct {
-	// +kubebuilder:validation:Required
-	BackendPort      *int  `json:"backendPort,omitempty"`
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset   *bool `json:"enableTcpReset,omitempty"`
-
-	// +kubebuilder:validation:Required
-	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
-
-	// +kubebuilder:validation:Required
-	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
-
-	// +kubebuilder:validation:Required
-	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
-	IdleTimeoutInMinutes   *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Name *string `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Protocol *InboundNatPoolPropertiesFormat_Protocol `json:"protocol,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_InboundNatPools_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (pools *LoadBalancer_Properties_InboundNatPools_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if pools == nil {
-		return nil, nil
-	}
-	result := &LoadBalancer_Properties_InboundNatPools_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if pools.Name != nil {
-		name := *pools.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if pools.BackendPort != nil ||
-		pools.EnableFloatingIP != nil ||
-		pools.EnableTcpReset != nil ||
-		pools.FrontendIPConfiguration != nil ||
-		pools.FrontendPortRangeEnd != nil ||
-		pools.FrontendPortRangeStart != nil ||
-		pools.IdleTimeoutInMinutes != nil ||
-		pools.Protocol != nil {
-		result.Properties = &InboundNatPoolPropertiesFormat_ARM{}
-	}
-	if pools.BackendPort != nil {
-		backendPort := *pools.BackendPort
-		result.Properties.BackendPort = &backendPort
-	}
-	if pools.EnableFloatingIP != nil {
-		enableFloatingIP := *pools.EnableFloatingIP
-		result.Properties.EnableFloatingIP = &enableFloatingIP
-	}
-	if pools.EnableTcpReset != nil {
-		enableTcpReset := *pools.EnableTcpReset
-		result.Properties.EnableTcpReset = &enableTcpReset
-	}
-	if pools.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*pools.FrontendIPConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
-		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
-	}
-	if pools.FrontendPortRangeEnd != nil {
-		frontendPortRangeEnd := *pools.FrontendPortRangeEnd
-		result.Properties.FrontendPortRangeEnd = &frontendPortRangeEnd
-	}
-	if pools.FrontendPortRangeStart != nil {
-		frontendPortRangeStart := *pools.FrontendPortRangeStart
-		result.Properties.FrontendPortRangeStart = &frontendPortRangeStart
-	}
-	if pools.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinutes := *pools.IdleTimeoutInMinutes
-		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-	}
-	if pools.Protocol != nil {
-		protocol := *pools.Protocol
-		result.Properties.Protocol = &protocol
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pools *LoadBalancer_Properties_InboundNatPools_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_InboundNatPools_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pools *LoadBalancer_Properties_InboundNatPools_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_InboundNatPools_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_InboundNatPools_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘BackendPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.BackendPort != nil {
-			backendPort := *typedInput.Properties.BackendPort
-			pools.BackendPort = &backendPort
-		}
-	}
-
-	// Set property ‘EnableFloatingIP’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableFloatingIP != nil {
-			enableFloatingIP := *typedInput.Properties.EnableFloatingIP
-			pools.EnableFloatingIP = &enableFloatingIP
-		}
-	}
-
-	// Set property ‘EnableTcpReset’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableTcpReset != nil {
-			enableTcpReset := *typedInput.Properties.EnableTcpReset
-			pools.EnableTcpReset = &enableTcpReset
-		}
-	}
-
-	// Set property ‘FrontendIPConfiguration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FrontendIPConfiguration != nil {
-			var frontendIPConfiguration1 SubResource
-			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
-			if err != nil {
-				return err
-			}
-			frontendIPConfiguration := frontendIPConfiguration1
-			pools.FrontendIPConfiguration = &frontendIPConfiguration
-		}
-	}
-
-	// Set property ‘FrontendPortRangeEnd’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FrontendPortRangeEnd != nil {
-			frontendPortRangeEnd := *typedInput.Properties.FrontendPortRangeEnd
-			pools.FrontendPortRangeEnd = &frontendPortRangeEnd
-		}
-	}
-
-	// Set property ‘FrontendPortRangeStart’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FrontendPortRangeStart != nil {
-			frontendPortRangeStart := *typedInput.Properties.FrontendPortRangeStart
-			pools.FrontendPortRangeStart = &frontendPortRangeStart
-		}
-	}
-
-	// Set property ‘IdleTimeoutInMinutes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IdleTimeoutInMinutes != nil {
-			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
-			pools.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		pools.Name = &name
-	}
-
-	// Set property ‘Protocol’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
-			pools.Protocol = &protocol
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_LoadBalancer_Properties_InboundNatPools_Spec populates our LoadBalancer_Properties_InboundNatPools_Spec from the provided source LoadBalancer_Properties_InboundNatPools_Spec
-func (pools *LoadBalancer_Properties_InboundNatPools_Spec) AssignProperties_From_LoadBalancer_Properties_InboundNatPools_Spec(source *alpha20201101s.LoadBalancer_Properties_InboundNatPools_Spec) error {
-
-	// BackendPort
-	pools.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
-
-	// EnableFloatingIP
-	if source.EnableFloatingIP != nil {
-		enableFloatingIP := *source.EnableFloatingIP
-		pools.EnableFloatingIP = &enableFloatingIP
-	} else {
-		pools.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		pools.EnableTcpReset = &enableTcpReset
-	} else {
-		pools.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if source.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration SubResource
-		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
-		}
-		pools.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		pools.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPortRangeEnd
-	pools.FrontendPortRangeEnd = genruntime.ClonePointerToInt(source.FrontendPortRangeEnd)
-
-	// FrontendPortRangeStart
-	pools.FrontendPortRangeStart = genruntime.ClonePointerToInt(source.FrontendPortRangeStart)
-
 	// IdleTimeoutInMinutes
-	pools.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(embedded.IdleTimeoutInMinutes)
 
 	// Name
-	pools.Name = genruntime.ClonePointerToString(source.Name)
+	destination.Name = genruntime.ClonePointerToString(embedded.Name)
 
 	// Protocol
-	if source.Protocol != nil {
-		protocol := InboundNatPoolPropertiesFormat_Protocol(*source.Protocol)
-		pools.Protocol = &protocol
-	} else {
-		pools.Protocol = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_LoadBalancer_Properties_InboundNatPools_Spec populates the provided destination LoadBalancer_Properties_InboundNatPools_Spec from our LoadBalancer_Properties_InboundNatPools_Spec
-func (pools *LoadBalancer_Properties_InboundNatPools_Spec) AssignProperties_To_LoadBalancer_Properties_InboundNatPools_Spec(destination *alpha20201101s.LoadBalancer_Properties_InboundNatPools_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// BackendPort
-	destination.BackendPort = genruntime.ClonePointerToInt(pools.BackendPort)
-
-	// EnableFloatingIP
-	if pools.EnableFloatingIP != nil {
-		enableFloatingIP := *pools.EnableFloatingIP
-		destination.EnableFloatingIP = &enableFloatingIP
-	} else {
-		destination.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if pools.EnableTcpReset != nil {
-		enableTcpReset := *pools.EnableTcpReset
-		destination.EnableTcpReset = &enableTcpReset
-	} else {
-		destination.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if pools.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration alpha20201101s.SubResource
-		err := pools.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
-		}
-		destination.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		destination.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPortRangeEnd
-	destination.FrontendPortRangeEnd = genruntime.ClonePointerToInt(pools.FrontendPortRangeEnd)
-
-	// FrontendPortRangeStart
-	destination.FrontendPortRangeStart = genruntime.ClonePointerToInt(pools.FrontendPortRangeStart)
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(pools.IdleTimeoutInMinutes)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(pools.Name)
-
-	// Protocol
-	if pools.Protocol != nil {
-		protocol := string(*pools.Protocol)
+	if embedded.Protocol != nil {
+		protocol := string(*embedded.Protocol)
 		destination.Protocol = &protocol
 	} else {
 		destination.Protocol = nil
 	}
 
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+	// ProvisioningState
+	if embedded.ProvisioningState != nil {
+		provisioningState := string(*embedded.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
 	} else {
-		destination.PropertyBag = nil
+		destination.ProvisioningState = nil
 	}
 
-	// No error
-	return nil
-}
-
-// Deprecated version of LoadBalancer_Properties_LoadBalancingRules_Spec. Use v1beta20201101.LoadBalancer_Properties_LoadBalancingRules_Spec instead
-type LoadBalancer_Properties_LoadBalancingRules_Spec struct {
-	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
-
-	// +kubebuilder:validation:Required
-	BackendPort         *int  `json:"backendPort,omitempty"`
-	DisableOutboundSnat *bool `json:"disableOutboundSnat,omitempty"`
-	EnableFloatingIP    *bool `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset      *bool `json:"enableTcpReset,omitempty"`
-
-	// +kubebuilder:validation:Required
-	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
-
-	// +kubebuilder:validation:Required
-	FrontendPort         *int                                                `json:"frontendPort,omitempty"`
-	IdleTimeoutInMinutes *int                                                `json:"idleTimeoutInMinutes,omitempty"`
-	LoadDistribution     *LoadBalancingRulePropertiesFormat_LoadDistribution `json:"loadDistribution,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Name  *string      `json:"name,omitempty"`
-	Probe *SubResource `json:"probe,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Protocol *LoadBalancingRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_LoadBalancingRules_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rules *LoadBalancer_Properties_LoadBalancingRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rules == nil {
-		return nil, nil
-	}
-	result := &LoadBalancer_Properties_LoadBalancingRules_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if rules.Name != nil {
-		name := *rules.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if rules.BackendAddressPool != nil ||
-		rules.BackendPort != nil ||
-		rules.DisableOutboundSnat != nil ||
-		rules.EnableFloatingIP != nil ||
-		rules.EnableTcpReset != nil ||
-		rules.FrontendIPConfiguration != nil ||
-		rules.FrontendPort != nil ||
-		rules.IdleTimeoutInMinutes != nil ||
-		rules.LoadDistribution != nil ||
-		rules.Probe != nil ||
-		rules.Protocol != nil {
-		result.Properties = &LoadBalancingRulePropertiesFormat_ARM{}
-	}
-	if rules.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rules.BackendAddressPool).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
-		result.Properties.BackendAddressPool = &backendAddressPool
-	}
-	if rules.BackendPort != nil {
-		backendPort := *rules.BackendPort
-		result.Properties.BackendPort = &backendPort
-	}
-	if rules.DisableOutboundSnat != nil {
-		disableOutboundSnat := *rules.DisableOutboundSnat
-		result.Properties.DisableOutboundSnat = &disableOutboundSnat
-	}
-	if rules.EnableFloatingIP != nil {
-		enableFloatingIP := *rules.EnableFloatingIP
-		result.Properties.EnableFloatingIP = &enableFloatingIP
-	}
-	if rules.EnableTcpReset != nil {
-		enableTcpReset := *rules.EnableTcpReset
-		result.Properties.EnableTcpReset = &enableTcpReset
-	}
-	if rules.FrontendIPConfiguration != nil {
-		frontendIPConfiguration_ARM, err := (*rules.FrontendIPConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
-		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
-	}
-	if rules.FrontendPort != nil {
-		frontendPort := *rules.FrontendPort
-		result.Properties.FrontendPort = &frontendPort
-	}
-	if rules.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinutes := *rules.IdleTimeoutInMinutes
-		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-	}
-	if rules.LoadDistribution != nil {
-		loadDistribution := *rules.LoadDistribution
-		result.Properties.LoadDistribution = &loadDistribution
-	}
-	if rules.Probe != nil {
-		probe_ARM, err := (*rules.Probe).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		probe := *probe_ARM.(*SubResource_ARM)
-		result.Properties.Probe = &probe
-	}
-	if rules.Protocol != nil {
-		protocol := *rules.Protocol
-		result.Properties.Protocol = &protocol
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rules *LoadBalancer_Properties_LoadBalancingRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_LoadBalancingRules_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rules *LoadBalancer_Properties_LoadBalancingRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_LoadBalancingRules_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_LoadBalancingRules_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘BackendAddressPool’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.BackendAddressPool != nil {
-			var backendAddressPool1 SubResource
-			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
-			if err != nil {
-				return err
-			}
-			backendAddressPool := backendAddressPool1
-			rules.BackendAddressPool = &backendAddressPool
-		}
-	}
-
-	// Set property ‘BackendPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.BackendPort != nil {
-			backendPort := *typedInput.Properties.BackendPort
-			rules.BackendPort = &backendPort
-		}
-	}
-
-	// Set property ‘DisableOutboundSnat’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DisableOutboundSnat != nil {
-			disableOutboundSnat := *typedInput.Properties.DisableOutboundSnat
-			rules.DisableOutboundSnat = &disableOutboundSnat
-		}
-	}
-
-	// Set property ‘EnableFloatingIP’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableFloatingIP != nil {
-			enableFloatingIP := *typedInput.Properties.EnableFloatingIP
-			rules.EnableFloatingIP = &enableFloatingIP
-		}
-	}
-
-	// Set property ‘EnableTcpReset’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableTcpReset != nil {
-			enableTcpReset := *typedInput.Properties.EnableTcpReset
-			rules.EnableTcpReset = &enableTcpReset
-		}
-	}
-
-	// Set property ‘FrontendIPConfiguration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FrontendIPConfiguration != nil {
-			var frontendIPConfiguration1 SubResource
-			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
-			if err != nil {
-				return err
-			}
-			frontendIPConfiguration := frontendIPConfiguration1
-			rules.FrontendIPConfiguration = &frontendIPConfiguration
-		}
-	}
-
-	// Set property ‘FrontendPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FrontendPort != nil {
-			frontendPort := *typedInput.Properties.FrontendPort
-			rules.FrontendPort = &frontendPort
-		}
-	}
-
-	// Set property ‘IdleTimeoutInMinutes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IdleTimeoutInMinutes != nil {
-			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
-			rules.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-		}
-	}
-
-	// Set property ‘LoadDistribution’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LoadDistribution != nil {
-			loadDistribution := *typedInput.Properties.LoadDistribution
-			rules.LoadDistribution = &loadDistribution
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		rules.Name = &name
-	}
-
-	// Set property ‘Probe’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Probe != nil {
-			var probe1 SubResource
-			err := probe1.PopulateFromARM(owner, *typedInput.Properties.Probe)
-			if err != nil {
-				return err
-			}
-			probe := probe1
-			rules.Probe = &probe
-		}
-	}
-
-	// Set property ‘Protocol’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
-			rules.Protocol = &protocol
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_LoadBalancer_Properties_LoadBalancingRules_Spec populates our LoadBalancer_Properties_LoadBalancingRules_Spec from the provided source LoadBalancer_Properties_LoadBalancingRules_Spec
-func (rules *LoadBalancer_Properties_LoadBalancingRules_Spec) AssignProperties_From_LoadBalancer_Properties_LoadBalancingRules_Spec(source *alpha20201101s.LoadBalancer_Properties_LoadBalancingRules_Spec) error {
-
-	// BackendAddressPool
-	if source.BackendAddressPool != nil {
-		var backendAddressPool SubResource
-		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
-		}
-		rules.BackendAddressPool = &backendAddressPool
-	} else {
-		rules.BackendAddressPool = nil
-	}
-
-	// BackendPort
-	rules.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
-
-	// DisableOutboundSnat
-	if source.DisableOutboundSnat != nil {
-		disableOutboundSnat := *source.DisableOutboundSnat
-		rules.DisableOutboundSnat = &disableOutboundSnat
-	} else {
-		rules.DisableOutboundSnat = nil
-	}
-
-	// EnableFloatingIP
-	if source.EnableFloatingIP != nil {
-		enableFloatingIP := *source.EnableFloatingIP
-		rules.EnableFloatingIP = &enableFloatingIP
-	} else {
-		rules.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		rules.EnableTcpReset = &enableTcpReset
-	} else {
-		rules.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if source.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration SubResource
-		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
-		}
-		rules.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		rules.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	rules.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
-
-	// IdleTimeoutInMinutes
-	rules.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// LoadDistribution
-	if source.LoadDistribution != nil {
-		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution(*source.LoadDistribution)
-		rules.LoadDistribution = &loadDistribution
-	} else {
-		rules.LoadDistribution = nil
-	}
-
-	// Name
-	rules.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Probe
-	if source.Probe != nil {
-		var probe SubResource
-		err := probe.AssignProperties_From_SubResource(source.Probe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Probe")
-		}
-		rules.Probe = &probe
-	} else {
-		rules.Probe = nil
-	}
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := LoadBalancingRulePropertiesFormat_Protocol(*source.Protocol)
-		rules.Protocol = &protocol
-	} else {
-		rules.Protocol = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_LoadBalancer_Properties_LoadBalancingRules_Spec populates the provided destination LoadBalancer_Properties_LoadBalancingRules_Spec from our LoadBalancer_Properties_LoadBalancingRules_Spec
-func (rules *LoadBalancer_Properties_LoadBalancingRules_Spec) AssignProperties_To_LoadBalancer_Properties_LoadBalancingRules_Spec(destination *alpha20201101s.LoadBalancer_Properties_LoadBalancingRules_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// BackendAddressPool
-	if rules.BackendAddressPool != nil {
-		var backendAddressPool alpha20201101s.SubResource
-		err := rules.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
-		}
-		destination.BackendAddressPool = &backendAddressPool
-	} else {
-		destination.BackendAddressPool = nil
-	}
-
-	// BackendPort
-	destination.BackendPort = genruntime.ClonePointerToInt(rules.BackendPort)
-
-	// DisableOutboundSnat
-	if rules.DisableOutboundSnat != nil {
-		disableOutboundSnat := *rules.DisableOutboundSnat
-		destination.DisableOutboundSnat = &disableOutboundSnat
-	} else {
-		destination.DisableOutboundSnat = nil
-	}
-
-	// EnableFloatingIP
-	if rules.EnableFloatingIP != nil {
-		enableFloatingIP := *rules.EnableFloatingIP
-		destination.EnableFloatingIP = &enableFloatingIP
-	} else {
-		destination.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if rules.EnableTcpReset != nil {
-		enableTcpReset := *rules.EnableTcpReset
-		destination.EnableTcpReset = &enableTcpReset
-	} else {
-		destination.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if rules.FrontendIPConfiguration != nil {
-		var frontendIPConfiguration alpha20201101s.SubResource
-		err := rules.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
-		}
-		destination.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		destination.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	destination.FrontendPort = genruntime.ClonePointerToInt(rules.FrontendPort)
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rules.IdleTimeoutInMinutes)
-
-	// LoadDistribution
-	if rules.LoadDistribution != nil {
-		loadDistribution := string(*rules.LoadDistribution)
-		destination.LoadDistribution = &loadDistribution
-	} else {
-		destination.LoadDistribution = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(rules.Name)
-
-	// Probe
-	if rules.Probe != nil {
-		var probe alpha20201101s.SubResource
-		err := rules.Probe.AssignProperties_To_SubResource(&probe)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Probe")
-		}
-		destination.Probe = &probe
-	} else {
-		destination.Probe = nil
-	}
-
-	// Protocol
-	if rules.Protocol != nil {
-		protocol := string(*rules.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of LoadBalancer_Properties_OutboundRules_Spec. Use v1beta20201101.LoadBalancer_Properties_OutboundRules_Spec instead
-type LoadBalancer_Properties_OutboundRules_Spec struct {
-	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
-
-	// +kubebuilder:validation:Required
-	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
-	EnableTcpReset     *bool        `json:"enableTcpReset,omitempty"`
-
-	// +kubebuilder:validation:Required
-	FrontendIPConfigurations []SubResource `json:"frontendIPConfigurations,omitempty"`
-	IdleTimeoutInMinutes     *int          `json:"idleTimeoutInMinutes,omitempty"`
-	Name                     *string       `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Protocol *OutboundRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_OutboundRules_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rules *LoadBalancer_Properties_OutboundRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rules == nil {
-		return nil, nil
-	}
-	result := &LoadBalancer_Properties_OutboundRules_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if rules.Name != nil {
-		name := *rules.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if rules.AllocatedOutboundPorts != nil ||
-		rules.BackendAddressPool != nil ||
-		rules.EnableTcpReset != nil ||
-		rules.FrontendIPConfigurations != nil ||
-		rules.IdleTimeoutInMinutes != nil ||
-		rules.Protocol != nil {
-		result.Properties = &OutboundRulePropertiesFormat_ARM{}
-	}
-	if rules.AllocatedOutboundPorts != nil {
-		allocatedOutboundPorts := *rules.AllocatedOutboundPorts
-		result.Properties.AllocatedOutboundPorts = &allocatedOutboundPorts
-	}
-	if rules.BackendAddressPool != nil {
-		backendAddressPool_ARM, err := (*rules.BackendAddressPool).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
-		result.Properties.BackendAddressPool = &backendAddressPool
-	}
-	if rules.EnableTcpReset != nil {
-		enableTcpReset := *rules.EnableTcpReset
-		result.Properties.EnableTcpReset = &enableTcpReset
-	}
-	for _, item := range rules.FrontendIPConfigurations {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*SubResource_ARM))
-	}
-	if rules.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinutes := *rules.IdleTimeoutInMinutes
-		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-	}
-	if rules.Protocol != nil {
-		protocol := *rules.Protocol
-		result.Properties.Protocol = &protocol
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rules *LoadBalancer_Properties_OutboundRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_OutboundRules_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rules *LoadBalancer_Properties_OutboundRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_OutboundRules_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_OutboundRules_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘AllocatedOutboundPorts’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AllocatedOutboundPorts != nil {
-			allocatedOutboundPorts := *typedInput.Properties.AllocatedOutboundPorts
-			rules.AllocatedOutboundPorts = &allocatedOutboundPorts
-		}
-	}
-
-	// Set property ‘BackendAddressPool’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.BackendAddressPool != nil {
-			var backendAddressPool1 SubResource
-			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
-			if err != nil {
-				return err
-			}
-			backendAddressPool := backendAddressPool1
-			rules.BackendAddressPool = &backendAddressPool
-		}
-	}
-
-	// Set property ‘EnableTcpReset’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableTcpReset != nil {
-			enableTcpReset := *typedInput.Properties.EnableTcpReset
-			rules.EnableTcpReset = &enableTcpReset
-		}
-	}
-
-	// Set property ‘FrontendIPConfigurations’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.FrontendIPConfigurations {
-			var item1 SubResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			rules.FrontendIPConfigurations = append(rules.FrontendIPConfigurations, item1)
-		}
-	}
-
-	// Set property ‘IdleTimeoutInMinutes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IdleTimeoutInMinutes != nil {
-			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
-			rules.IdleTimeoutInMinutes = &idleTimeoutInMinutes
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		rules.Name = &name
-	}
-
-	// Set property ‘Protocol’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
-			rules.Protocol = &protocol
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_LoadBalancer_Properties_OutboundRules_Spec populates our LoadBalancer_Properties_OutboundRules_Spec from the provided source LoadBalancer_Properties_OutboundRules_Spec
-func (rules *LoadBalancer_Properties_OutboundRules_Spec) AssignProperties_From_LoadBalancer_Properties_OutboundRules_Spec(source *alpha20201101s.LoadBalancer_Properties_OutboundRules_Spec) error {
-
-	// AllocatedOutboundPorts
-	rules.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
-
-	// BackendAddressPool
-	if source.BackendAddressPool != nil {
-		var backendAddressPool SubResource
-		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
-		}
-		rules.BackendAddressPool = &backendAddressPool
-	} else {
-		rules.BackendAddressPool = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		rules.EnableTcpReset = &enableTcpReset
-	} else {
-		rules.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfigurations
-	if source.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration SubResource
-			err := frontendIPConfiguration.AssignProperties_From_SubResource(&frontendIPConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfigurations")
-			}
-			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
-		}
-		rules.FrontendIPConfigurations = frontendIPConfigurationList
-	} else {
-		rules.FrontendIPConfigurations = nil
-	}
-
-	// IdleTimeoutInMinutes
-	rules.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// Name
-	rules.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := OutboundRulePropertiesFormat_Protocol(*source.Protocol)
-		rules.Protocol = &protocol
-	} else {
-		rules.Protocol = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_LoadBalancer_Properties_OutboundRules_Spec populates the provided destination LoadBalancer_Properties_OutboundRules_Spec from our LoadBalancer_Properties_OutboundRules_Spec
-func (rules *LoadBalancer_Properties_OutboundRules_Spec) AssignProperties_To_LoadBalancer_Properties_OutboundRules_Spec(destination *alpha20201101s.LoadBalancer_Properties_OutboundRules_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AllocatedOutboundPorts
-	destination.AllocatedOutboundPorts = genruntime.ClonePointerToInt(rules.AllocatedOutboundPorts)
-
-	// BackendAddressPool
-	if rules.BackendAddressPool != nil {
-		var backendAddressPool alpha20201101s.SubResource
-		err := rules.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
-		}
-		destination.BackendAddressPool = &backendAddressPool
-	} else {
-		destination.BackendAddressPool = nil
-	}
-
-	// EnableTcpReset
-	if rules.EnableTcpReset != nil {
-		enableTcpReset := *rules.EnableTcpReset
-		destination.EnableTcpReset = &enableTcpReset
-	} else {
-		destination.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfigurations
-	if rules.FrontendIPConfigurations != nil {
-		frontendIPConfigurationList := make([]alpha20201101s.SubResource, len(rules.FrontendIPConfigurations))
-		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rules.FrontendIPConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var frontendIPConfiguration alpha20201101s.SubResource
-			err := frontendIPConfigurationItem.AssignProperties_To_SubResource(&frontendIPConfiguration)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfigurations")
-			}
-			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
-		}
-		destination.FrontendIPConfigurations = frontendIPConfigurationList
-	} else {
-		destination.FrontendIPConfigurations = nil
-	}
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rules.IdleTimeoutInMinutes)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(rules.Name)
-
-	// Protocol
-	if rules.Protocol != nil {
-		protocol := string(*rules.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of LoadBalancer_Properties_Probes_Spec. Use v1beta20201101.LoadBalancer_Properties_Probes_Spec instead
-type LoadBalancer_Properties_Probes_Spec struct {
-	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Name *string `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Port *int `json:"port,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Protocol    *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
-	RequestPath *string                         `json:"requestPath,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_Probes_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (probes *LoadBalancer_Properties_Probes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if probes == nil {
-		return nil, nil
-	}
-	result := &LoadBalancer_Properties_Probes_Spec_ARM{}
-
-	// Set property ‘Name’:
-	if probes.Name != nil {
-		name := *probes.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if probes.IntervalInSeconds != nil ||
-		probes.NumberOfProbes != nil ||
-		probes.Port != nil ||
-		probes.Protocol != nil ||
-		probes.RequestPath != nil {
-		result.Properties = &ProbePropertiesFormat_ARM{}
-	}
-	if probes.IntervalInSeconds != nil {
-		intervalInSeconds := *probes.IntervalInSeconds
-		result.Properties.IntervalInSeconds = &intervalInSeconds
-	}
-	if probes.NumberOfProbes != nil {
-		numberOfProbes := *probes.NumberOfProbes
-		result.Properties.NumberOfProbes = &numberOfProbes
-	}
-	if probes.Port != nil {
-		port := *probes.Port
-		result.Properties.Port = &port
-	}
-	if probes.Protocol != nil {
-		protocol := *probes.Protocol
-		result.Properties.Protocol = &protocol
-	}
-	if probes.RequestPath != nil {
-		requestPath := *probes.RequestPath
-		result.Properties.RequestPath = &requestPath
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (probes *LoadBalancer_Properties_Probes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_Probes_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (probes *LoadBalancer_Properties_Probes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_Probes_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_Probes_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘IntervalInSeconds’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IntervalInSeconds != nil {
-			intervalInSeconds := *typedInput.Properties.IntervalInSeconds
-			probes.IntervalInSeconds = &intervalInSeconds
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		probes.Name = &name
-	}
-
-	// Set property ‘NumberOfProbes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NumberOfProbes != nil {
-			numberOfProbes := *typedInput.Properties.NumberOfProbes
-			probes.NumberOfProbes = &numberOfProbes
-		}
-	}
-
-	// Set property ‘Port’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Port != nil {
-			port := *typedInput.Properties.Port
-			probes.Port = &port
-		}
-	}
-
-	// Set property ‘Protocol’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Protocol != nil {
-			protocol := *typedInput.Properties.Protocol
-			probes.Protocol = &protocol
-		}
-	}
-
-	// Set property ‘RequestPath’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RequestPath != nil {
-			requestPath := *typedInput.Properties.RequestPath
-			probes.RequestPath = &requestPath
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_LoadBalancer_Properties_Probes_Spec populates our LoadBalancer_Properties_Probes_Spec from the provided source LoadBalancer_Properties_Probes_Spec
-func (probes *LoadBalancer_Properties_Probes_Spec) AssignProperties_From_LoadBalancer_Properties_Probes_Spec(source *alpha20201101s.LoadBalancer_Properties_Probes_Spec) error {
-
-	// IntervalInSeconds
-	probes.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
-
-	// Name
-	probes.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NumberOfProbes
-	probes.NumberOfProbes = genruntime.ClonePointerToInt(source.NumberOfProbes)
-
-	// Port
-	probes.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := ProbePropertiesFormat_Protocol(*source.Protocol)
-		probes.Protocol = &protocol
-	} else {
-		probes.Protocol = nil
-	}
-
-	// RequestPath
-	probes.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_LoadBalancer_Properties_Probes_Spec populates the provided destination LoadBalancer_Properties_Probes_Spec from our LoadBalancer_Properties_Probes_Spec
-func (probes *LoadBalancer_Properties_Probes_Spec) AssignProperties_To_LoadBalancer_Properties_Probes_Spec(destination *alpha20201101s.LoadBalancer_Properties_Probes_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// IntervalInSeconds
-	destination.IntervalInSeconds = genruntime.ClonePointerToInt(probes.IntervalInSeconds)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(probes.Name)
-
-	// NumberOfProbes
-	destination.NumberOfProbes = genruntime.ClonePointerToInt(probes.NumberOfProbes)
-
-	// Port
-	destination.Port = genruntime.ClonePointerToInt(probes.Port)
-
-	// Protocol
-	if probes.Protocol != nil {
-		protocol := string(*probes.Protocol)
-		destination.Protocol = &protocol
-	} else {
-		destination.Protocol = nil
-	}
-
-	// RequestPath
-	destination.RequestPath = genruntime.ClonePointerToString(probes.RequestPath)
+	// Type
+	destination.Type = genruntime.ClonePointerToString(embedded.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4677,6 +4620,449 @@ func (balancerSku *LoadBalancerSku_STATUS) AssignProperties_To_LoadBalancerSku_S
 		destination.Tier = &tier
 	} else {
 		destination.Tier = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of LoadBalancingRule. Use v1beta20201101.LoadBalancingRule instead
+type LoadBalancingRule struct {
+	BackendAddressPool      *SubResource `json:"backendAddressPool,omitempty"`
+	BackendPort             *int         `json:"backendPort,omitempty"`
+	DisableOutboundSnat     *bool        `json:"disableOutboundSnat,omitempty"`
+	EnableFloatingIP        *bool        `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool        `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
+
+	// +kubebuilder:validation:Required
+	FrontendPort         *int                                                `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes *int                                                `json:"idleTimeoutInMinutes,omitempty"`
+	LoadDistribution     *LoadBalancingRulePropertiesFormat_LoadDistribution `json:"loadDistribution,omitempty"`
+	Name                 *string                                             `json:"name,omitempty"`
+	Probe                *SubResource                                        `json:"probe,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Protocol *TransportProtocol `json:"protocol,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &LoadBalancingRule{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (rule *LoadBalancingRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if rule == nil {
+		return nil, nil
+	}
+	result := &LoadBalancingRule_ARM{}
+
+	// Set property ‘Name’:
+	if rule.Name != nil {
+		name := *rule.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if rule.BackendAddressPool != nil ||
+		rule.BackendPort != nil ||
+		rule.DisableOutboundSnat != nil ||
+		rule.EnableFloatingIP != nil ||
+		rule.EnableTcpReset != nil ||
+		rule.FrontendIPConfiguration != nil ||
+		rule.FrontendPort != nil ||
+		rule.IdleTimeoutInMinutes != nil ||
+		rule.LoadDistribution != nil ||
+		rule.Probe != nil ||
+		rule.Protocol != nil {
+		result.Properties = &LoadBalancingRulePropertiesFormat_ARM{}
+	}
+	if rule.BackendAddressPool != nil {
+		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
+		result.Properties.BackendAddressPool = &backendAddressPool
+	}
+	if rule.BackendPort != nil {
+		backendPort := *rule.BackendPort
+		result.Properties.BackendPort = &backendPort
+	}
+	if rule.DisableOutboundSnat != nil {
+		disableOutboundSnat := *rule.DisableOutboundSnat
+		result.Properties.DisableOutboundSnat = &disableOutboundSnat
+	}
+	if rule.EnableFloatingIP != nil {
+		enableFloatingIP := *rule.EnableFloatingIP
+		result.Properties.EnableFloatingIP = &enableFloatingIP
+	}
+	if rule.EnableTcpReset != nil {
+		enableTcpReset := *rule.EnableTcpReset
+		result.Properties.EnableTcpReset = &enableTcpReset
+	}
+	if rule.FrontendIPConfiguration != nil {
+		frontendIPConfiguration_ARM, err := (*rule.FrontendIPConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		frontendIPConfiguration := *frontendIPConfiguration_ARM.(*SubResource_ARM)
+		result.Properties.FrontendIPConfiguration = &frontendIPConfiguration
+	}
+	if rule.FrontendPort != nil {
+		frontendPort := *rule.FrontendPort
+		result.Properties.FrontendPort = &frontendPort
+	}
+	if rule.IdleTimeoutInMinutes != nil {
+		idleTimeoutInMinutes := *rule.IdleTimeoutInMinutes
+		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	}
+	if rule.LoadDistribution != nil {
+		loadDistribution := *rule.LoadDistribution
+		result.Properties.LoadDistribution = &loadDistribution
+	}
+	if rule.Probe != nil {
+		probe_ARM, err := (*rule.Probe).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		probe := *probe_ARM.(*SubResource_ARM)
+		result.Properties.Probe = &probe
+	}
+	if rule.Protocol != nil {
+		protocol := *rule.Protocol
+		result.Properties.Protocol = &protocol
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rule *LoadBalancingRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancingRule_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (rule *LoadBalancingRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(LoadBalancingRule_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancingRule_ARM, got %T", armInput)
+	}
+
+	// Set property ‘BackendAddressPool’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendAddressPool != nil {
+			var backendAddressPool1 SubResource
+			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
+			if err != nil {
+				return err
+			}
+			backendAddressPool := backendAddressPool1
+			rule.BackendAddressPool = &backendAddressPool
+		}
+	}
+
+	// Set property ‘BackendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendPort != nil {
+			backendPort := *typedInput.Properties.BackendPort
+			rule.BackendPort = &backendPort
+		}
+	}
+
+	// Set property ‘DisableOutboundSnat’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DisableOutboundSnat != nil {
+			disableOutboundSnat := *typedInput.Properties.DisableOutboundSnat
+			rule.DisableOutboundSnat = &disableOutboundSnat
+		}
+	}
+
+	// Set property ‘EnableFloatingIP’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableFloatingIP != nil {
+			enableFloatingIP := *typedInput.Properties.EnableFloatingIP
+			rule.EnableFloatingIP = &enableFloatingIP
+		}
+	}
+
+	// Set property ‘EnableTcpReset’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableTcpReset != nil {
+			enableTcpReset := *typedInput.Properties.EnableTcpReset
+			rule.EnableTcpReset = &enableTcpReset
+		}
+	}
+
+	// Set property ‘FrontendIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendIPConfiguration != nil {
+			var frontendIPConfiguration1 SubResource
+			err := frontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.FrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			frontendIPConfiguration := frontendIPConfiguration1
+			rule.FrontendIPConfiguration = &frontendIPConfiguration
+		}
+	}
+
+	// Set property ‘FrontendPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FrontendPort != nil {
+			frontendPort := *typedInput.Properties.FrontendPort
+			rule.FrontendPort = &frontendPort
+		}
+	}
+
+	// Set property ‘IdleTimeoutInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			rule.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
+	}
+
+	// Set property ‘LoadDistribution’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LoadDistribution != nil {
+			loadDistribution := *typedInput.Properties.LoadDistribution
+			rule.LoadDistribution = &loadDistribution
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		rule.Name = &name
+	}
+
+	// Set property ‘Probe’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Probe != nil {
+			var probe1 SubResource
+			err := probe1.PopulateFromARM(owner, *typedInput.Properties.Probe)
+			if err != nil {
+				return err
+			}
+			probe := probe1
+			rule.Probe = &probe
+		}
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rule.Protocol = &protocol
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_LoadBalancingRule populates our LoadBalancingRule from the provided source LoadBalancingRule
+func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *alpha20201101s.LoadBalancingRule) error {
+
+	// BackendAddressPool
+	if source.BackendAddressPool != nil {
+		var backendAddressPool SubResource
+		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
+		}
+		rule.BackendAddressPool = &backendAddressPool
+	} else {
+		rule.BackendAddressPool = nil
+	}
+
+	// BackendPort
+	rule.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// DisableOutboundSnat
+	if source.DisableOutboundSnat != nil {
+		disableOutboundSnat := *source.DisableOutboundSnat
+		rule.DisableOutboundSnat = &disableOutboundSnat
+	} else {
+		rule.DisableOutboundSnat = nil
+	}
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		rule.EnableFloatingIP = &enableFloatingIP
+	} else {
+		rule.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		rule.EnableTcpReset = &enableTcpReset
+	} else {
+		rule.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration")
+		}
+		rule.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		rule.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	rule.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
+
+	// IdleTimeoutInMinutes
+	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// LoadDistribution
+	if source.LoadDistribution != nil {
+		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution(*source.LoadDistribution)
+		rule.LoadDistribution = &loadDistribution
+	} else {
+		rule.LoadDistribution = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Probe
+	if source.Probe != nil {
+		var probe SubResource
+		err := probe.AssignProperties_From_SubResource(source.Probe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Probe")
+		}
+		rule.Probe = &probe
+	} else {
+		rule.Probe = nil
+	}
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol(*source.Protocol)
+		rule.Protocol = &protocol
+	} else {
+		rule.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_LoadBalancingRule populates the provided destination LoadBalancingRule from our LoadBalancingRule
+func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination *alpha20201101s.LoadBalancingRule) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BackendAddressPool
+	if rule.BackendAddressPool != nil {
+		var backendAddressPool alpha20201101s.SubResource
+		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
+		}
+		destination.BackendAddressPool = &backendAddressPool
+	} else {
+		destination.BackendAddressPool = nil
+	}
+
+	// BackendPort
+	destination.BackendPort = genruntime.ClonePointerToInt(rule.BackendPort)
+
+	// DisableOutboundSnat
+	if rule.DisableOutboundSnat != nil {
+		disableOutboundSnat := *rule.DisableOutboundSnat
+		destination.DisableOutboundSnat = &disableOutboundSnat
+	} else {
+		destination.DisableOutboundSnat = nil
+	}
+
+	// EnableFloatingIP
+	if rule.EnableFloatingIP != nil {
+		enableFloatingIP := *rule.EnableFloatingIP
+		destination.EnableFloatingIP = &enableFloatingIP
+	} else {
+		destination.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if rule.EnableTcpReset != nil {
+		enableTcpReset := *rule.EnableTcpReset
+		destination.EnableTcpReset = &enableTcpReset
+	} else {
+		destination.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if rule.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration alpha20201101s.SubResource
+		err := rule.FrontendIPConfiguration.AssignProperties_To_SubResource(&frontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration")
+		}
+		destination.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		destination.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	destination.FrontendPort = genruntime.ClonePointerToInt(rule.FrontendPort)
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rule.IdleTimeoutInMinutes)
+
+	// LoadDistribution
+	if rule.LoadDistribution != nil {
+		loadDistribution := string(*rule.LoadDistribution)
+		destination.LoadDistribution = &loadDistribution
+	} else {
+		destination.LoadDistribution = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Probe
+	if rule.Probe != nil {
+		var probe alpha20201101s.SubResource
+		err := rule.Probe.AssignProperties_To_SubResource(&probe)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Probe")
+		}
+		destination.Probe = &probe
+	} else {
+		destination.Probe = nil
+	}
+
+	// Protocol
+	if rule.Protocol != nil {
+		protocol := string(*rule.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
 	}
 
 	// Update the property bag
@@ -5108,6 +5494,299 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 	return nil
 }
 
+// Deprecated version of OutboundRule. Use v1beta20201101.OutboundRule instead
+type OutboundRule struct {
+	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
+
+	// +kubebuilder:validation:Required
+	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
+	EnableTcpReset     *bool        `json:"enableTcpReset,omitempty"`
+
+	// +kubebuilder:validation:Required
+	FrontendIPConfigurations []SubResource `json:"frontendIPConfigurations,omitempty"`
+	IdleTimeoutInMinutes     *int          `json:"idleTimeoutInMinutes,omitempty"`
+	Name                     *string       `json:"name,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Protocol *OutboundRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &OutboundRule{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (rule *OutboundRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if rule == nil {
+		return nil, nil
+	}
+	result := &OutboundRule_ARM{}
+
+	// Set property ‘Name’:
+	if rule.Name != nil {
+		name := *rule.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if rule.AllocatedOutboundPorts != nil ||
+		rule.BackendAddressPool != nil ||
+		rule.EnableTcpReset != nil ||
+		rule.FrontendIPConfigurations != nil ||
+		rule.IdleTimeoutInMinutes != nil ||
+		rule.Protocol != nil {
+		result.Properties = &OutboundRulePropertiesFormat_ARM{}
+	}
+	if rule.AllocatedOutboundPorts != nil {
+		allocatedOutboundPorts := *rule.AllocatedOutboundPorts
+		result.Properties.AllocatedOutboundPorts = &allocatedOutboundPorts
+	}
+	if rule.BackendAddressPool != nil {
+		backendAddressPool_ARM, err := (*rule.BackendAddressPool).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		backendAddressPool := *backendAddressPool_ARM.(*SubResource_ARM)
+		result.Properties.BackendAddressPool = &backendAddressPool
+	}
+	if rule.EnableTcpReset != nil {
+		enableTcpReset := *rule.EnableTcpReset
+		result.Properties.EnableTcpReset = &enableTcpReset
+	}
+	for _, item := range rule.FrontendIPConfigurations {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.FrontendIPConfigurations = append(result.Properties.FrontendIPConfigurations, *item_ARM.(*SubResource_ARM))
+	}
+	if rule.IdleTimeoutInMinutes != nil {
+		idleTimeoutInMinutes := *rule.IdleTimeoutInMinutes
+		result.Properties.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+	}
+	if rule.Protocol != nil {
+		protocol := *rule.Protocol
+		result.Properties.Protocol = &protocol
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rule *OutboundRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &OutboundRule_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (rule *OutboundRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(OutboundRule_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OutboundRule_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AllocatedOutboundPorts’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllocatedOutboundPorts != nil {
+			allocatedOutboundPorts := *typedInput.Properties.AllocatedOutboundPorts
+			rule.AllocatedOutboundPorts = &allocatedOutboundPorts
+		}
+	}
+
+	// Set property ‘BackendAddressPool’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.BackendAddressPool != nil {
+			var backendAddressPool1 SubResource
+			err := backendAddressPool1.PopulateFromARM(owner, *typedInput.Properties.BackendAddressPool)
+			if err != nil {
+				return err
+			}
+			backendAddressPool := backendAddressPool1
+			rule.BackendAddressPool = &backendAddressPool
+		}
+	}
+
+	// Set property ‘EnableTcpReset’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableTcpReset != nil {
+			enableTcpReset := *typedInput.Properties.EnableTcpReset
+			rule.EnableTcpReset = &enableTcpReset
+		}
+	}
+
+	// Set property ‘FrontendIPConfigurations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.FrontendIPConfigurations {
+			var item1 SubResource
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			rule.FrontendIPConfigurations = append(rule.FrontendIPConfigurations, item1)
+		}
+	}
+
+	// Set property ‘IdleTimeoutInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IdleTimeoutInMinutes != nil {
+			idleTimeoutInMinutes := *typedInput.Properties.IdleTimeoutInMinutes
+			rule.IdleTimeoutInMinutes = &idleTimeoutInMinutes
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		rule.Name = &name
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			rule.Protocol = &protocol
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_OutboundRule populates our OutboundRule from the provided source OutboundRule
+func (rule *OutboundRule) AssignProperties_From_OutboundRule(source *alpha20201101s.OutboundRule) error {
+
+	// AllocatedOutboundPorts
+	rule.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
+
+	// BackendAddressPool
+	if source.BackendAddressPool != nil {
+		var backendAddressPool SubResource
+		err := backendAddressPool.AssignProperties_From_SubResource(source.BackendAddressPool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field BackendAddressPool")
+		}
+		rule.BackendAddressPool = &backendAddressPool
+	} else {
+		rule.BackendAddressPool = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		rule.EnableTcpReset = &enableTcpReset
+	} else {
+		rule.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfigurations
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration SubResource
+			err := frontendIPConfiguration.AssignProperties_From_SubResource(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfigurations")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		}
+		rule.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		rule.FrontendIPConfigurations = nil
+	}
+
+	// IdleTimeoutInMinutes
+	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := OutboundRulePropertiesFormat_Protocol(*source.Protocol)
+		rule.Protocol = &protocol
+	} else {
+		rule.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OutboundRule populates the provided destination OutboundRule from our OutboundRule
+func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *alpha20201101s.OutboundRule) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AllocatedOutboundPorts
+	destination.AllocatedOutboundPorts = genruntime.ClonePointerToInt(rule.AllocatedOutboundPorts)
+
+	// BackendAddressPool
+	if rule.BackendAddressPool != nil {
+		var backendAddressPool alpha20201101s.SubResource
+		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&backendAddressPool)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field BackendAddressPool")
+		}
+		destination.BackendAddressPool = &backendAddressPool
+	} else {
+		destination.BackendAddressPool = nil
+	}
+
+	// EnableTcpReset
+	if rule.EnableTcpReset != nil {
+		enableTcpReset := *rule.EnableTcpReset
+		destination.EnableTcpReset = &enableTcpReset
+	} else {
+		destination.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfigurations
+	if rule.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]alpha20201101s.SubResource, len(rule.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rule.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration alpha20201101s.SubResource
+			err := frontendIPConfigurationItem.AssignProperties_To_SubResource(&frontendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfigurations")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		}
+		destination.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		destination.FrontendIPConfigurations = nil
+	}
+
+	// IdleTimeoutInMinutes
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(rule.IdleTimeoutInMinutes)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Protocol
+	if rule.Protocol != nil {
+		protocol := string(*rule.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of OutboundRule_STATUS. Use v1beta20201101.OutboundRule_STATUS instead
 type OutboundRule_STATUS struct {
 	AllocatedOutboundPorts   *int                                          `json:"allocatedOutboundPorts,omitempty"`
@@ -5404,6 +6083,202 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 	return nil
 }
 
+// Deprecated version of Probe. Use v1beta20201101.Probe instead
+type Probe struct {
+	IntervalInSeconds *int    `json:"intervalInSeconds,omitempty"`
+	Name              *string `json:"name,omitempty"`
+	NumberOfProbes    *int    `json:"numberOfProbes,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Port *int `json:"port,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Protocol    *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	RequestPath *string                         `json:"requestPath,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Probe{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (probe *Probe) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if probe == nil {
+		return nil, nil
+	}
+	result := &Probe_ARM{}
+
+	// Set property ‘Name’:
+	if probe.Name != nil {
+		name := *probe.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if probe.IntervalInSeconds != nil ||
+		probe.NumberOfProbes != nil ||
+		probe.Port != nil ||
+		probe.Protocol != nil ||
+		probe.RequestPath != nil {
+		result.Properties = &ProbePropertiesFormat_ARM{}
+	}
+	if probe.IntervalInSeconds != nil {
+		intervalInSeconds := *probe.IntervalInSeconds
+		result.Properties.IntervalInSeconds = &intervalInSeconds
+	}
+	if probe.NumberOfProbes != nil {
+		numberOfProbes := *probe.NumberOfProbes
+		result.Properties.NumberOfProbes = &numberOfProbes
+	}
+	if probe.Port != nil {
+		port := *probe.Port
+		result.Properties.Port = &port
+	}
+	if probe.Protocol != nil {
+		protocol := *probe.Protocol
+		result.Properties.Protocol = &protocol
+	}
+	if probe.RequestPath != nil {
+		requestPath := *probe.RequestPath
+		result.Properties.RequestPath = &requestPath
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (probe *Probe) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Probe_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (probe *Probe) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Probe_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Probe_ARM, got %T", armInput)
+	}
+
+	// Set property ‘IntervalInSeconds’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IntervalInSeconds != nil {
+			intervalInSeconds := *typedInput.Properties.IntervalInSeconds
+			probe.IntervalInSeconds = &intervalInSeconds
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		probe.Name = &name
+	}
+
+	// Set property ‘NumberOfProbes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NumberOfProbes != nil {
+			numberOfProbes := *typedInput.Properties.NumberOfProbes
+			probe.NumberOfProbes = &numberOfProbes
+		}
+	}
+
+	// Set property ‘Port’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Port != nil {
+			port := *typedInput.Properties.Port
+			probe.Port = &port
+		}
+	}
+
+	// Set property ‘Protocol’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Protocol != nil {
+			protocol := *typedInput.Properties.Protocol
+			probe.Protocol = &protocol
+		}
+	}
+
+	// Set property ‘RequestPath’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequestPath != nil {
+			requestPath := *typedInput.Properties.RequestPath
+			probe.RequestPath = &requestPath
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Probe populates our Probe from the provided source Probe
+func (probe *Probe) AssignProperties_From_Probe(source *alpha20201101s.Probe) error {
+
+	// IntervalInSeconds
+	probe.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
+
+	// Name
+	probe.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NumberOfProbes
+	probe.NumberOfProbes = genruntime.ClonePointerToInt(source.NumberOfProbes)
+
+	// Port
+	probe.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := ProbePropertiesFormat_Protocol(*source.Protocol)
+		probe.Protocol = &protocol
+	} else {
+		probe.Protocol = nil
+	}
+
+	// RequestPath
+	probe.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Probe populates the provided destination Probe from our Probe
+func (probe *Probe) AssignProperties_To_Probe(destination *alpha20201101s.Probe) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// IntervalInSeconds
+	destination.IntervalInSeconds = genruntime.ClonePointerToInt(probe.IntervalInSeconds)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(probe.Name)
+
+	// NumberOfProbes
+	destination.NumberOfProbes = genruntime.ClonePointerToInt(probe.NumberOfProbes)
+
+	// Port
+	destination.Port = genruntime.ClonePointerToInt(probe.Port)
+
+	// Protocol
+	if probe.Protocol != nil {
+		protocol := string(*probe.Protocol)
+		destination.Protocol = &protocol
+	} else {
+		destination.Protocol = nil
+	}
+
+	// RequestPath
+	destination.RequestPath = genruntime.ClonePointerToString(probe.RequestPath)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of Probe_STATUS. Use v1beta20201101.Probe_STATUS instead
 type Probe_STATUS struct {
 	Etag               *string                                `json:"etag,omitempty"`
@@ -5677,39 +6552,8 @@ const (
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
-// Deprecated version of FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion. Use
-// v1beta20201101.FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion instead
-// +kubebuilder:validation:Enum={"IPv4","IPv6"}
-type FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion string
-
-const (
-	FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv4 = FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion("IPv4")
-	FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion_IPv6 = FrontendIPConfigurationPropertiesFormat_PrivateIPAddressVersion("IPv6")
-)
-
-// Deprecated version of FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod. Use
-// v1beta20201101.FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod instead
-// +kubebuilder:validation:Enum={"Dynamic","Static"}
-type FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod string
-
-const (
-	FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Dynamic = FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod("Dynamic")
-	FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod_Static  = FrontendIPConfigurationPropertiesFormat_PrivateIPAllocationMethod("Static")
-)
-
-// Deprecated version of InboundNatPoolPropertiesFormat_Protocol. Use
-// v1beta20201101.InboundNatPoolPropertiesFormat_Protocol instead
-// +kubebuilder:validation:Enum={"All","Tcp","Udp"}
-type InboundNatPoolPropertiesFormat_Protocol string
-
-const (
-	InboundNatPoolPropertiesFormat_Protocol_All = InboundNatPoolPropertiesFormat_Protocol("All")
-	InboundNatPoolPropertiesFormat_Protocol_Tcp = InboundNatPoolPropertiesFormat_Protocol("Tcp")
-	InboundNatPoolPropertiesFormat_Protocol_Udp = InboundNatPoolPropertiesFormat_Protocol("Udp")
-)
-
-// Deprecated version of LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec. Use v1beta20201101.LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec instead
-type LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec struct {
+// Deprecated version of LoadBalancerBackendAddress. Use v1beta20201101.LoadBalancerBackendAddress instead
+type LoadBalancerBackendAddress struct {
 	IpAddress                           *string      `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource `json:"loadBalancerFrontendIPConfiguration,omitempty"`
 	Name                                *string      `json:"name,omitempty"`
@@ -5717,50 +6561,50 @@ type LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendA
 	VirtualNetwork                      *SubResource `json:"virtualNetwork,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec{}
+var _ genruntime.ARMTransformer = &LoadBalancerBackendAddress{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if addresses == nil {
+func (address *LoadBalancerBackendAddress) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if address == nil {
 		return nil, nil
 	}
-	result := &LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM{}
+	result := &LoadBalancerBackendAddress_ARM{}
 
 	// Set property ‘Name’:
-	if addresses.Name != nil {
-		name := *addresses.Name
+	if address.Name != nil {
+		name := *address.Name
 		result.Name = &name
 	}
 
 	// Set property ‘Properties’:
-	if addresses.IpAddress != nil ||
-		addresses.LoadBalancerFrontendIPConfiguration != nil ||
-		addresses.Subnet != nil ||
-		addresses.VirtualNetwork != nil {
+	if address.IpAddress != nil ||
+		address.LoadBalancerFrontendIPConfiguration != nil ||
+		address.Subnet != nil ||
+		address.VirtualNetwork != nil {
 		result.Properties = &LoadBalancerBackendAddressPropertiesFormat_ARM{}
 	}
-	if addresses.IpAddress != nil {
-		ipAddress := *addresses.IpAddress
+	if address.IpAddress != nil {
+		ipAddress := *address.IpAddress
 		result.Properties.IpAddress = &ipAddress
 	}
-	if addresses.LoadBalancerFrontendIPConfiguration != nil {
-		loadBalancerFrontendIPConfiguration_ARM, err := (*addresses.LoadBalancerFrontendIPConfiguration).ConvertToARM(resolved)
+	if address.LoadBalancerFrontendIPConfiguration != nil {
+		loadBalancerFrontendIPConfiguration_ARM, err := (*address.LoadBalancerFrontendIPConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		loadBalancerFrontendIPConfiguration := *loadBalancerFrontendIPConfiguration_ARM.(*SubResource_ARM)
 		result.Properties.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	}
-	if addresses.Subnet != nil {
-		subnet_ARM, err := (*addresses.Subnet).ConvertToARM(resolved)
+	if address.Subnet != nil {
+		subnet_ARM, err := (*address.Subnet).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		subnet := *subnet_ARM.(*SubResource_ARM)
 		result.Properties.Subnet = &subnet
 	}
-	if addresses.VirtualNetwork != nil {
-		virtualNetwork_ARM, err := (*addresses.VirtualNetwork).ConvertToARM(resolved)
+	if address.VirtualNetwork != nil {
+		virtualNetwork_ARM, err := (*address.VirtualNetwork).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -5771,15 +6615,15 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM{}
+func (address *LoadBalancerBackendAddress) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancerBackendAddress_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM)
+func (address *LoadBalancerBackendAddress) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(LoadBalancerBackendAddress_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_ARM, got %T", armInput)
 	}
 
 	// Set property ‘IpAddress’:
@@ -5787,7 +6631,7 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IpAddress != nil {
 			ipAddress := *typedInput.Properties.IpAddress
-			addresses.IpAddress = &ipAddress
+			address.IpAddress = &ipAddress
 		}
 	}
 
@@ -5801,14 +6645,14 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 				return err
 			}
 			loadBalancerFrontendIPConfiguration := loadBalancerFrontendIPConfiguration1
-			addresses.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
+			address.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 		}
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		addresses.Name = &name
+		address.Name = &name
 	}
 
 	// Set property ‘Subnet’:
@@ -5821,7 +6665,7 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 				return err
 			}
 			subnet := subnet1
-			addresses.Subnet = &subnet
+			address.Subnet = &subnet
 		}
 	}
 
@@ -5835,7 +6679,7 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 				return err
 			}
 			virtualNetwork := virtualNetwork1
-			addresses.VirtualNetwork = &virtualNetwork
+			address.VirtualNetwork = &virtualNetwork
 		}
 	}
 
@@ -5843,11 +6687,11 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 	return nil
 }
 
-// AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec populates our LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec from the provided source LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec
-func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) AssignProperties_From_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec(source *alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) error {
+// AssignProperties_From_LoadBalancerBackendAddress populates our LoadBalancerBackendAddress from the provided source LoadBalancerBackendAddress
+func (address *LoadBalancerBackendAddress) AssignProperties_From_LoadBalancerBackendAddress(source *alpha20201101s.LoadBalancerBackendAddress) error {
 
 	// IpAddress
-	addresses.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+	address.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
 
 	// LoadBalancerFrontendIPConfiguration
 	if source.LoadBalancerFrontendIPConfiguration != nil {
@@ -5856,13 +6700,13 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field LoadBalancerFrontendIPConfiguration")
 		}
-		addresses.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
+		address.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	} else {
-		addresses.LoadBalancerFrontendIPConfiguration = nil
+		address.LoadBalancerFrontendIPConfiguration = nil
 	}
 
 	// Name
-	addresses.Name = genruntime.ClonePointerToString(source.Name)
+	address.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Subnet
 	if source.Subnet != nil {
@@ -5871,9 +6715,9 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
 		}
-		addresses.Subnet = &subnet
+		address.Subnet = &subnet
 	} else {
-		addresses.Subnet = nil
+		address.Subnet = nil
 	}
 
 	// VirtualNetwork
@@ -5883,27 +6727,27 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field VirtualNetwork")
 		}
-		addresses.VirtualNetwork = &virtualNetwork
+		address.VirtualNetwork = &virtualNetwork
 	} else {
-		addresses.VirtualNetwork = nil
+		address.VirtualNetwork = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec populates the provided destination LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec from our LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec
-func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) AssignProperties_To_LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec(destination *alpha20201101s.LoadBalancer_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_Spec) error {
+// AssignProperties_To_LoadBalancerBackendAddress populates the provided destination LoadBalancerBackendAddress from our LoadBalancerBackendAddress
+func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBackendAddress(destination *alpha20201101s.LoadBalancerBackendAddress) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IpAddress
-	destination.IpAddress = genruntime.ClonePointerToString(addresses.IpAddress)
+	destination.IpAddress = genruntime.ClonePointerToString(address.IpAddress)
 
 	// LoadBalancerFrontendIPConfiguration
-	if addresses.LoadBalancerFrontendIPConfiguration != nil {
+	if address.LoadBalancerFrontendIPConfiguration != nil {
 		var loadBalancerFrontendIPConfiguration alpha20201101s.SubResource
-		err := addresses.LoadBalancerFrontendIPConfiguration.AssignProperties_To_SubResource(&loadBalancerFrontendIPConfiguration)
+		err := address.LoadBalancerFrontendIPConfiguration.AssignProperties_To_SubResource(&loadBalancerFrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field LoadBalancerFrontendIPConfiguration")
 		}
@@ -5913,12 +6757,12 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(addresses.Name)
+	destination.Name = genruntime.ClonePointerToString(address.Name)
 
 	// Subnet
-	if addresses.Subnet != nil {
+	if address.Subnet != nil {
 		var subnet alpha20201101s.SubResource
-		err := addresses.Subnet.AssignProperties_To_SubResource(&subnet)
+		err := address.Subnet.AssignProperties_To_SubResource(&subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
 		}
@@ -5928,11 +6772,241 @@ func (addresses *LoadBalancer_Properties_BackendAddressPools_Properties_LoadBala
 	}
 
 	// VirtualNetwork
-	if addresses.VirtualNetwork != nil {
+	if address.VirtualNetwork != nil {
 		var virtualNetwork alpha20201101s.SubResource
-		err := addresses.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
+		err := address.VirtualNetwork.AssignProperties_To_SubResource(&virtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field VirtualNetwork")
+		}
+		destination.VirtualNetwork = &virtualNetwork
+	} else {
+		destination.VirtualNetwork = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of LoadBalancerBackendAddress_STATUS. Use v1beta20201101.LoadBalancerBackendAddress_STATUS instead
+type LoadBalancerBackendAddress_STATUS struct {
+	IpAddress                           *string             `json:"ipAddress,omitempty"`
+	LoadBalancerFrontendIPConfiguration *SubResource_STATUS `json:"loadBalancerFrontendIPConfiguration,omitempty"`
+	Name                                *string             `json:"name,omitempty"`
+	NetworkInterfaceIPConfiguration     *SubResource_STATUS `json:"networkInterfaceIPConfiguration,omitempty"`
+	Subnet                              *SubResource_STATUS `json:"subnet,omitempty"`
+	VirtualNetwork                      *SubResource_STATUS `json:"virtualNetwork,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &LoadBalancerBackendAddress_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (address *LoadBalancerBackendAddress_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LoadBalancerBackendAddress_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (address *LoadBalancerBackendAddress_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(LoadBalancerBackendAddress_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LoadBalancerBackendAddress_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘IpAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IpAddress != nil {
+			ipAddress := *typedInput.Properties.IpAddress
+			address.IpAddress = &ipAddress
+		}
+	}
+
+	// Set property ‘LoadBalancerFrontendIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LoadBalancerFrontendIPConfiguration != nil {
+			var loadBalancerFrontendIPConfiguration1 SubResource_STATUS
+			err := loadBalancerFrontendIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.LoadBalancerFrontendIPConfiguration)
+			if err != nil {
+				return err
+			}
+			loadBalancerFrontendIPConfiguration := loadBalancerFrontendIPConfiguration1
+			address.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		address.Name = &name
+	}
+
+	// Set property ‘NetworkInterfaceIPConfiguration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NetworkInterfaceIPConfiguration != nil {
+			var networkInterfaceIPConfiguration1 SubResource_STATUS
+			err := networkInterfaceIPConfiguration1.PopulateFromARM(owner, *typedInput.Properties.NetworkInterfaceIPConfiguration)
+			if err != nil {
+				return err
+			}
+			networkInterfaceIPConfiguration := networkInterfaceIPConfiguration1
+			address.NetworkInterfaceIPConfiguration = &networkInterfaceIPConfiguration
+		}
+	}
+
+	// Set property ‘Subnet’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subnet != nil {
+			var subnet1 SubResource_STATUS
+			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
+			if err != nil {
+				return err
+			}
+			subnet := subnet1
+			address.Subnet = &subnet
+		}
+	}
+
+	// Set property ‘VirtualNetwork’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.VirtualNetwork != nil {
+			var virtualNetwork1 SubResource_STATUS
+			err := virtualNetwork1.PopulateFromARM(owner, *typedInput.Properties.VirtualNetwork)
+			if err != nil {
+				return err
+			}
+			virtualNetwork := virtualNetwork1
+			address.VirtualNetwork = &virtualNetwork
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_LoadBalancerBackendAddress_STATUS populates our LoadBalancerBackendAddress_STATUS from the provided source LoadBalancerBackendAddress_STATUS
+func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBalancerBackendAddress_STATUS(source *alpha20201101s.LoadBalancerBackendAddress_STATUS) error {
+
+	// IpAddress
+	address.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+
+	// LoadBalancerFrontendIPConfiguration
+	if source.LoadBalancerFrontendIPConfiguration != nil {
+		var loadBalancerFrontendIPConfiguration SubResource_STATUS
+		err := loadBalancerFrontendIPConfiguration.AssignProperties_From_SubResource_STATUS(source.LoadBalancerFrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field LoadBalancerFrontendIPConfiguration")
+		}
+		address.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
+	} else {
+		address.LoadBalancerFrontendIPConfiguration = nil
+	}
+
+	// Name
+	address.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NetworkInterfaceIPConfiguration
+	if source.NetworkInterfaceIPConfiguration != nil {
+		var networkInterfaceIPConfiguration SubResource_STATUS
+		err := networkInterfaceIPConfiguration.AssignProperties_From_SubResource_STATUS(source.NetworkInterfaceIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field NetworkInterfaceIPConfiguration")
+		}
+		address.NetworkInterfaceIPConfiguration = &networkInterfaceIPConfiguration
+	} else {
+		address.NetworkInterfaceIPConfiguration = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource_STATUS
+		err := subnet.AssignProperties_From_SubResource_STATUS(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
+		}
+		address.Subnet = &subnet
+	} else {
+		address.Subnet = nil
+	}
+
+	// VirtualNetwork
+	if source.VirtualNetwork != nil {
+		var virtualNetwork SubResource_STATUS
+		err := virtualNetwork.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualNetwork")
+		}
+		address.VirtualNetwork = &virtualNetwork
+	} else {
+		address.VirtualNetwork = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_LoadBalancerBackendAddress_STATUS populates the provided destination LoadBalancerBackendAddress_STATUS from our LoadBalancerBackendAddress_STATUS
+func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalancerBackendAddress_STATUS(destination *alpha20201101s.LoadBalancerBackendAddress_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// IpAddress
+	destination.IpAddress = genruntime.ClonePointerToString(address.IpAddress)
+
+	// LoadBalancerFrontendIPConfiguration
+	if address.LoadBalancerFrontendIPConfiguration != nil {
+		var loadBalancerFrontendIPConfiguration alpha20201101s.SubResource_STATUS
+		err := address.LoadBalancerFrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&loadBalancerFrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field LoadBalancerFrontendIPConfiguration")
+		}
+		destination.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
+	} else {
+		destination.LoadBalancerFrontendIPConfiguration = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(address.Name)
+
+	// NetworkInterfaceIPConfiguration
+	if address.NetworkInterfaceIPConfiguration != nil {
+		var networkInterfaceIPConfiguration alpha20201101s.SubResource_STATUS
+		err := address.NetworkInterfaceIPConfiguration.AssignProperties_To_SubResource_STATUS(&networkInterfaceIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field NetworkInterfaceIPConfiguration")
+		}
+		destination.NetworkInterfaceIPConfiguration = &networkInterfaceIPConfiguration
+	} else {
+		destination.NetworkInterfaceIPConfiguration = nil
+	}
+
+	// Subnet
+	if address.Subnet != nil {
+		var subnet alpha20201101s.SubResource_STATUS
+		err := address.Subnet.AssignProperties_To_SubResource_STATUS(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// VirtualNetwork
+	if address.VirtualNetwork != nil {
+		var virtualNetwork alpha20201101s.SubResource_STATUS
+		err := address.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&virtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -5971,16 +7045,63 @@ const (
 	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
 
-// Deprecated version of LoadBalancingRulePropertiesFormat_Protocol. Use
-// v1beta20201101.LoadBalancingRulePropertiesFormat_Protocol instead
-// +kubebuilder:validation:Enum={"All","Tcp","Udp"}
-type LoadBalancingRulePropertiesFormat_Protocol string
+// Deprecated version of NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instead
+type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
+	Id *string `json:"id,omitempty"`
+}
 
-const (
-	LoadBalancingRulePropertiesFormat_Protocol_All = LoadBalancingRulePropertiesFormat_Protocol("All")
-	LoadBalancingRulePropertiesFormat_Protocol_Tcp = LoadBalancingRulePropertiesFormat_Protocol("Tcp")
-	LoadBalancingRulePropertiesFormat_Protocol_Udp = LoadBalancingRulePropertiesFormat_Protocol("Udp")
-)
+var _ genruntime.FromARMConverter = &NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		embedded.Id = &id
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded populates the provided destination NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded from our NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(destination *alpha20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // Deprecated version of OutboundRulePropertiesFormat_Protocol. Use v1beta20201101.OutboundRulePropertiesFormat_Protocol
 // instead
@@ -6025,10 +7146,7 @@ const (
 
 // Deprecated version of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instead
 type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	ExtendedLocation *ExtendedLocation_STATUS   `json:"extendedLocation,omitempty"`
-	Id               *string                    `json:"id,omitempty"`
-	Sku              *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
-	Zones            []string                   `json:"zones,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded{}
@@ -6045,37 +7163,10 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) Populat
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation_STATUS
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		embedded.ExtendedLocation = &extendedLocation
-	}
-
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		embedded.Id = &id
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 PublicIPAddressSku_STATUS
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		embedded.Sku = &sku
-	}
-
-	// Set property ‘Zones’:
-	for _, item := range typedInput.Zones {
-		embedded.Zones = append(embedded.Zones, item)
 	}
 
 	// No error
@@ -6085,35 +7176,8 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) Populat
 // AssignProperties_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded populates our PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
 func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
 
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		embedded.ExtendedLocation = &extendedLocation
-	} else {
-		embedded.ExtendedLocation = nil
-	}
-
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Sku
-	if source.Sku != nil {
-		var sku PublicIPAddressSku_STATUS
-		err := sku.AssignProperties_From_PublicIPAddressSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PublicIPAddressSku_STATUS() to populate field Sku")
-		}
-		embedded.Sku = &sku
-	} else {
-		embedded.Sku = nil
-	}
-
-	// Zones
-	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -6124,35 +7188,174 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignP
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ExtendedLocation
-	if embedded.ExtendedLocation != nil {
-		var extendedLocation alpha20201101s.ExtendedLocation_STATUS
-		err := embedded.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
-	// Sku
-	if embedded.Sku != nil {
-		var sku alpha20201101s.PublicIPAddressSku_STATUS
-		err := embedded.Sku.AssignProperties_To_PublicIPAddressSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PublicIPAddressSku_STATUS() to populate field Sku")
-		}
-		destination.Sku = &sku
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
 	} else {
-		destination.Sku = nil
+		destination.PropertyBag = nil
 	}
 
-	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(embedded.Zones)
+	// No error
+	return nil
+}
+
+// Deprecated version of PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded instead
+type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded struct {
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if embedded == nil {
+		return nil, nil
+	}
+	result := &PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM{}
+
+	// Set property ‘Id’:
+	if embedded.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded populates our PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded from the provided source PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) AssignProperties_From_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded populates the provided destination PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded from our PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) AssignProperties_To_PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded(destination *alpha20201101s.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of Subnet_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_LoadBalancer_SubResourceEmbedded instead
+type Subnet_LoadBalancer_SubResourceEmbedded struct {
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &Subnet_LoadBalancer_SubResourceEmbedded{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if embedded == nil {
+		return nil, nil
+	}
+	result := &Subnet_LoadBalancer_SubResourceEmbedded_ARM{}
+
+	// Set property ‘Id’:
+	if embedded.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.Lookup(*embedded.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Subnet_LoadBalancer_SubResourceEmbedded_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(Subnet_LoadBalancer_SubResourceEmbedded_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_LoadBalancer_SubResourceEmbedded_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Subnet_LoadBalancer_SubResourceEmbedded populates our Subnet_LoadBalancer_SubResourceEmbedded from the provided source Subnet_LoadBalancer_SubResourceEmbedded
+func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignProperties_From_Subnet_LoadBalancer_SubResourceEmbedded(source *alpha20201101s.Subnet_LoadBalancer_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Subnet_LoadBalancer_SubResourceEmbedded populates the provided destination Subnet_LoadBalancer_SubResourceEmbedded from our Subnet_LoadBalancer_SubResourceEmbedded
+func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignProperties_To_Subnet_LoadBalancer_SubResourceEmbedded(destination *alpha20201101s.Subnet_LoadBalancer_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6222,6 +7425,16 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 	// No error
 	return nil
 }
+
+// Deprecated version of TransportProtocol. Use v1beta20201101.TransportProtocol instead
+// +kubebuilder:validation:Enum={"All","Tcp","Udp"}
+type TransportProtocol string
+
+const (
+	TransportProtocol_All = TransportProtocol("All")
+	TransportProtocol_Tcp = TransportProtocol("Tcp")
+	TransportProtocol_Udp = TransportProtocol("Udp")
+)
 
 // Deprecated version of TransportProtocol_STATUS. Use v1beta20201101.TransportProtocol_STATUS instead
 type TransportProtocol_STATUS string

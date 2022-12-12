@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210401.StorageAccount
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts
+// Generator information:
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210401.StorageAccount
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts
+// Generator information:
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -198,47 +202,47 @@ func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.Convert
 
 // Storage version of v1beta20210401.StorageAccount_STATUS
 type StorageAccount_STATUS struct {
-	AccessTier                            *string                                                `json:"accessTier,omitempty"`
-	AllowBlobPublicAccess                 *bool                                                  `json:"allowBlobPublicAccess,omitempty"`
-	AllowCrossTenantReplication           *bool                                                  `json:"allowCrossTenantReplication,omitempty"`
-	AllowSharedKeyAccess                  *bool                                                  `json:"allowSharedKeyAccess,omitempty"`
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS          `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                              `json:"blobRestoreStatus,omitempty"`
-	Conditions                            []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreationTime                          *string                                                `json:"creationTime,omitempty"`
-	CustomDomain                          *CustomDomain_STATUS                                   `json:"customDomain,omitempty"`
-	Encryption                            *Encryption_STATUS                                     `json:"encryption,omitempty"`
-	ExtendedLocation                      *ExtendedLocation_STATUS                               `json:"extendedLocation,omitempty"`
-	FailoverInProgress                    *bool                                                  `json:"failoverInProgress,omitempty"`
-	GeoReplicationStats                   *GeoReplicationStats_STATUS                            `json:"geoReplicationStats,omitempty"`
-	Id                                    *string                                                `json:"id,omitempty"`
-	Identity                              *Identity_STATUS                                       `json:"identity,omitempty"`
-	IsHnsEnabled                          *bool                                                  `json:"isHnsEnabled,omitempty"`
-	IsNfsV3Enabled                        *bool                                                  `json:"isNfsV3Enabled,omitempty"`
-	KeyCreationTime                       *KeyCreationTime_STATUS                                `json:"keyCreationTime,omitempty"`
-	KeyPolicy                             *KeyPolicy_STATUS                                      `json:"keyPolicy,omitempty"`
-	Kind                                  *string                                                `json:"kind,omitempty"`
-	LargeFileSharesState                  *string                                                `json:"largeFileSharesState,omitempty"`
-	LastGeoFailoverTime                   *string                                                `json:"lastGeoFailoverTime,omitempty"`
-	Location                              *string                                                `json:"location,omitempty"`
-	MinimumTlsVersion                     *string                                                `json:"minimumTlsVersion,omitempty"`
-	Name                                  *string                                                `json:"name,omitempty"`
-	NetworkAcls                           *NetworkRuleSet_STATUS                                 `json:"networkAcls,omitempty"`
-	PrimaryEndpoints                      *Endpoints_STATUS                                      `json:"primaryEndpoints,omitempty"`
-	PrimaryLocation                       *string                                                `json:"primaryLocation,omitempty"`
-	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState                     *string                                                `json:"provisioningState,omitempty"`
-	RoutingPreference                     *RoutingPreference_STATUS                              `json:"routingPreference,omitempty"`
-	SasPolicy                             *SasPolicy_STATUS                                      `json:"sasPolicy,omitempty"`
-	SecondaryEndpoints                    *Endpoints_STATUS                                      `json:"secondaryEndpoints,omitempty"`
-	SecondaryLocation                     *string                                                `json:"secondaryLocation,omitempty"`
-	Sku                                   *Sku_STATUS                                            `json:"sku,omitempty"`
-	StatusOfPrimary                       *string                                                `json:"statusOfPrimary,omitempty"`
-	StatusOfSecondary                     *string                                                `json:"statusOfSecondary,omitempty"`
-	SupportsHttpsTrafficOnly              *bool                                                  `json:"supportsHttpsTrafficOnly,omitempty"`
-	Tags                                  map[string]string                                      `json:"tags,omitempty"`
-	Type                                  *string                                                `json:"type,omitempty"`
+	AccessTier                            *string                                       `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                         `json:"allowSharedKeyAccess,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                     `json:"blobRestoreStatus,omitempty"`
+	Conditions                            []conditions.Condition                        `json:"conditions,omitempty"`
+	CreationTime                          *string                                       `json:"creationTime,omitempty"`
+	CustomDomain                          *CustomDomain_STATUS                          `json:"customDomain,omitempty"`
+	Encryption                            *Encryption_STATUS                            `json:"encryption,omitempty"`
+	ExtendedLocation                      *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
+	FailoverInProgress                    *bool                                         `json:"failoverInProgress,omitempty"`
+	GeoReplicationStats                   *GeoReplicationStats_STATUS                   `json:"geoReplicationStats,omitempty"`
+	Id                                    *string                                       `json:"id,omitempty"`
+	Identity                              *Identity_STATUS                              `json:"identity,omitempty"`
+	IsHnsEnabled                          *bool                                         `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled                        *bool                                         `json:"isNfsV3Enabled,omitempty"`
+	KeyCreationTime                       *KeyCreationTime_STATUS                       `json:"keyCreationTime,omitempty"`
+	KeyPolicy                             *KeyPolicy_STATUS                             `json:"keyPolicy,omitempty"`
+	Kind                                  *string                                       `json:"kind,omitempty"`
+	LargeFileSharesState                  *string                                       `json:"largeFileSharesState,omitempty"`
+	LastGeoFailoverTime                   *string                                       `json:"lastGeoFailoverTime,omitempty"`
+	Location                              *string                                       `json:"location,omitempty"`
+	MinimumTlsVersion                     *string                                       `json:"minimumTlsVersion,omitempty"`
+	Name                                  *string                                       `json:"name,omitempty"`
+	NetworkAcls                           *NetworkRuleSet_STATUS                        `json:"networkAcls,omitempty"`
+	PrimaryEndpoints                      *Endpoints_STATUS                             `json:"primaryEndpoints,omitempty"`
+	PrimaryLocation                       *string                                       `json:"primaryLocation,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS            `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                           genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	ProvisioningState                     *string                                       `json:"provisioningState,omitempty"`
+	RoutingPreference                     *RoutingPreference_STATUS                     `json:"routingPreference,omitempty"`
+	SasPolicy                             *SasPolicy_STATUS                             `json:"sasPolicy,omitempty"`
+	SecondaryEndpoints                    *Endpoints_STATUS                             `json:"secondaryEndpoints,omitempty"`
+	SecondaryLocation                     *string                                       `json:"secondaryLocation,omitempty"`
+	Sku                                   *Sku_STATUS                                   `json:"sku,omitempty"`
+	StatusOfPrimary                       *string                                       `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary                     *string                                       `json:"statusOfSecondary,omitempty"`
+	SupportsHttpsTrafficOnly              *bool                                         `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                                  map[string]string                             `json:"tags,omitempty"`
+	Type                                  *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
@@ -262,7 +266,6 @@ func (account *StorageAccount_STATUS) ConvertStatusTo(destination genruntime.Con
 }
 
 // Storage version of v1beta20210401.AzureFilesIdentityBasedAuthentication
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
 type AzureFilesIdentityBasedAuthentication struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *string                    `json:"defaultSharePermission,omitempty"`
@@ -288,7 +291,6 @@ type BlobRestoreStatus_STATUS struct {
 }
 
 // Storage version of v1beta20210401.CustomDomain
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CustomDomain
 type CustomDomain struct {
 	Name             *string                `json:"name,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -303,7 +305,6 @@ type CustomDomain_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Encryption
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Encryption
 type Encryption struct {
 	Identity                        *EncryptionIdentity    `json:"identity,omitempty"`
 	KeySource                       *string                `json:"keySource,omitempty"`
@@ -337,7 +338,6 @@ type Endpoints_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ExtendedLocation
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -360,7 +360,6 @@ type GeoReplicationStats_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Identity
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Identity
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -383,7 +382,6 @@ type KeyCreationTime_STATUS struct {
 }
 
 // Storage version of v1beta20210401.KeyPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyPolicy
 type KeyPolicy struct {
 	KeyExpirationPeriodInDays *int                   `json:"keyExpirationPeriodInDays,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -396,7 +394,6 @@ type KeyPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210401.NetworkRuleSet
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/NetworkRuleSet
 type NetworkRuleSet struct {
 	Bypass              *string                `json:"bypass,omitempty"`
 	DefaultAction       *string                `json:"defaultAction,omitempty"`
@@ -416,14 +413,13 @@ type NetworkRuleSet_STATUS struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules,omitempty"`
 }
 
-// Storage version of v1beta20210401.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+// Storage version of v1beta20210401.PrivateEndpointConnection_STATUS
+type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.RoutingPreference
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RoutingPreference
 type RoutingPreference struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublishInternetEndpoints  *bool                  `json:"publishInternetEndpoints,omitempty"`
@@ -440,7 +436,6 @@ type RoutingPreference_STATUS struct {
 }
 
 // Storage version of v1beta20210401.SasPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/SasPolicy
 type SasPolicy struct {
 	ExpirationAction    *string                `json:"expirationAction,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -455,7 +450,6 @@ type SasPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/Sku
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -477,7 +471,6 @@ type StorageAccountOperatorSpec struct {
 }
 
 // Storage version of v1beta20210401.ActiveDirectoryProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ActiveDirectoryProperties
 type ActiveDirectoryProperties struct {
 	AzureStorageSid   *string                `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string                `json:"domainGuid,omitempty"`
@@ -507,7 +500,6 @@ type BlobRestoreParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210401.EncryptionIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionIdentity
 type EncryptionIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -523,7 +515,6 @@ type EncryptionIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20210401.EncryptionServices
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionServices
 type EncryptionServices struct {
 	Blob        *EncryptionService     `json:"blob,omitempty"`
 	File        *EncryptionService     `json:"file,omitempty"`
@@ -542,7 +533,6 @@ type EncryptionServices_STATUS struct {
 }
 
 // Storage version of v1beta20210401.IPRule
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/IPRule
 type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -557,7 +547,6 @@ type IPRule_STATUS struct {
 }
 
 // Storage version of v1beta20210401.KeyVaultProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	Keyname     *string                `json:"keyname,omitempty"`
 	Keyvaulturi *string                `json:"keyvaulturi,omitempty"`
@@ -576,7 +565,6 @@ type KeyVaultProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ResourceAccessRule
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ResourceAccessRule
 type ResourceAccessRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -633,7 +621,6 @@ type UserAssignedIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20210401.VirtualNetworkRule
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/VirtualNetworkRule
 type VirtualNetworkRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -661,7 +648,6 @@ type BlobRestoreRange_STATUS struct {
 }
 
 // Storage version of v1beta20210401.EncryptionService
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/EncryptionService
 type EncryptionService struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	KeyType     *string                `json:"keyType,omitempty"`

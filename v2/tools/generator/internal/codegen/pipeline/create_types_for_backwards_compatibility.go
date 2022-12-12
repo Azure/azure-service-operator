@@ -169,7 +169,7 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 			continue
 		}
 
-		result.Add(def.WithType(t).WithDescription(desc))
+		result.Add(def.WithType(t).WithDescription(desc...))
 	}
 
 	if len(errs) > 0 {
