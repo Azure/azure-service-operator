@@ -271,12 +271,16 @@ type FakeResourceList struct {
 }
 
 type FakeResource_Spec_ARM struct {
-	APIVersion  FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
-	Color       *FakeResource_Color_Spec     `json:"color,omitempty"`
-	Foo         *Foo_ARM                     `json:"foo,omitempty"`
-	Name        string                       `json:"name,omitempty"`
-	OptionalFoo *Foo_ARM                     `json:"optionalFoo,omitempty"`
-	Type        FakeResource_Type_Spec       `json:"type,omitempty"`
+	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
+	Color      *FakeResource_Color_Spec     `json:"color,omitempty"`
+
+	// Foo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+	Foo  *Foo_ARM `json:"foo,omitempty"`
+	Name string   `json:"name,omitempty"`
+
+	// OptionalFoo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+	OptionalFoo *Foo_ARM               `json:"optionalFoo,omitempty"`
+	Type        FakeResource_Type_Spec `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_Spec_ARM{}
@@ -325,7 +329,10 @@ type FakeResource_Spec struct {
 	Color     *FakeResource_Color_Spec `json:"color,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Foo         *Foo `json:"foo,omitempty"`
+	// Foo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+	Foo *Foo `json:"foo,omitempty"`
+
+	// OptionalFoo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 	OptionalFoo *Foo `json:"optionalFoo,omitempty"`
 
 	// +kubebuilder:validation:Required
