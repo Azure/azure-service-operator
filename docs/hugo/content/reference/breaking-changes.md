@@ -129,10 +129,10 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### VirtualMachineScaleSet
 
-| Property                                                 | Change               | Reason              |
-| -------------------------------------------------------- | -------------------- | ------------------- |
-| VirtualMachineProfile.NetworkProfile.Id                  | Renamed to Reference | Reference Detection |
-| VirtualMachineProfile.NetworkProfile.IpConfigurations.Id | Renamed to Reference | Reference Detection |
+| Property Path                                                                           | Change               | Reason              |
+| --------------------------------------------------------------------------------------- | -------------------- | ------------------- |
+| VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Id                  | Renamed to Reference | Reference Detection |
+| VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IpConfigurations.Id | Renamed to Reference | Reference Detection |
 
 
 ## Compute v2022-03-01
