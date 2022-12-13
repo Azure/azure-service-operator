@@ -146,12 +146,14 @@ type ServerParameters struct {
 	Version *string `json:"version,omitempty"`
 }
 
+// Azure Active Directory identity configuration for a resource.
 type ResourceIdentity struct {
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
+// Azure Active Directory identity configuration for a resource.
 type ResourceIdentity_STATUS struct {
 	// PrincipalId: The Azure Active Directory principal id.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -167,6 +169,7 @@ type ResourceIdentity_STATUS struct {
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
+// Properties of a active directory administrator.
 type ServerExternalAdministrator struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *ServerExternalAdministrator_AdministratorType `json:"administratorType,omitempty"`
@@ -189,6 +192,7 @@ type ServerExternalAdministrator struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// Properties of a active directory administrator.
 type ServerExternalAdministrator_STATUS struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *ServerExternalAdministrator_AdministratorType_STATUS `json:"administratorType,omitempty"`
@@ -209,6 +213,7 @@ type ServerExternalAdministrator_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -239,6 +244,7 @@ const (
 	ServerProperties_WorkspaceFeature_STATUS_Disconnected = ServerProperties_WorkspaceFeature_STATUS("Disconnected")
 )
 
+// Properties of a private endpoint connection.
 type PrivateEndpointConnectionProperties_STATUS struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_STATUS `json:"privateEndpoint,omitempty"`
@@ -295,6 +301,7 @@ const (
 	ServerExternalAdministrator_PrincipalType_STATUS_User        = ServerExternalAdministrator_PrincipalType_STATUS("User")
 )
 
+// Azure Active Directory identity configuration for a resource.
 type UserIdentity_STATUS struct {
 	// ClientId: The Azure Active Directory client id.
 	ClientId *string `json:"clientId,omitempty"`

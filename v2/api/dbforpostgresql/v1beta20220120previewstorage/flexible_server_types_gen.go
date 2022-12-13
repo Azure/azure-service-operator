@@ -986,6 +986,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 }
 
 // Storage version of v1beta20220120preview.Backup
+// Backup properties of a server
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -1037,6 +1038,7 @@ func (backup *Backup) AssignProperties_To_Backup(destination *v20210601s.Backup)
 }
 
 // Storage version of v1beta20220120preview.Backup_STATUS
+// Backup properties of a server
 type Backup_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -1174,6 +1176,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 }
 
 // Storage version of v1beta20220120preview.HighAvailability
+// High availability properties of a server
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1225,6 +1228,7 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 }
 
 // Storage version of v1beta20220120preview.HighAvailability_STATUS
+// High availability properties of a server
 type HighAvailability_STATUS struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1283,6 +1287,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailabilit
 }
 
 // Storage version of v1beta20220120preview.MaintenanceWindow
+// Maintenance window properties of a server.
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -1348,6 +1353,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 }
 
 // Storage version of v1beta20220120preview.MaintenanceWindow_STATUS
+// Maintenance window properties of a server.
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -1413,6 +1419,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 }
 
 // Storage version of v1beta20220120preview.Network
+// Network properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: delegated subnet arm resource id.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -1487,6 +1494,7 @@ func (network *Network) AssignProperties_To_Network(destination *v20210601s.Netw
 }
 
 // Storage version of v1beta20220120preview.Network_STATUS
+// Network properties of a server
 type Network_STATUS struct {
 	DelegatedSubnetResourceId   *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string                `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -1545,6 +1553,7 @@ func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *v
 }
 
 // Storage version of v1beta20220120preview.Sku
+// Sku information related properties of a server.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1596,6 +1605,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
 }
 
 // Storage version of v1beta20220120preview.Sku_STATUS
+// Sku information related properties of a server.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1647,6 +1657,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210601s.Sk
 }
 
 // Storage version of v1beta20220120preview.Storage
+// Storage properties of a server
 type Storage struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
@@ -1691,6 +1702,7 @@ func (storage *Storage) AssignProperties_To_Storage(destination *v20210601s.Stor
 }
 
 // Storage version of v1beta20220120preview.Storage_STATUS
+// Storage properties of a server
 type Storage_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
@@ -1735,6 +1747,7 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *v
 }
 
 // Storage version of v1beta20220120preview.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

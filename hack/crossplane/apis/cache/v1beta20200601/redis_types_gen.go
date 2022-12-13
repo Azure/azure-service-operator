@@ -189,6 +189,7 @@ type RedisParameters struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -211,6 +212,7 @@ type PrivateEndpointConnection_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Redis cache access keys.
 type RedisAccessKeys_STATUS struct {
 	// PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
 	PrimaryKey *string `json:"primaryKey,omitempty"`
@@ -270,6 +272,7 @@ type RedisCreateProperties_RedisConfiguration struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
+// Details of single instance of redis.
 type RedisInstanceDetails_STATUS struct {
 	// IsMaster: Specifies whether the instance is a master node.
 	IsMaster *bool `json:"isMaster,omitempty"`
@@ -287,6 +290,7 @@ type RedisInstanceDetails_STATUS struct {
 	Zone *string `json:"zone,omitempty"`
 }
 
+// Linked server Id
 type RedisLinkedServer_STATUS struct {
 	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
@@ -361,6 +365,7 @@ type RedisProperties_RedisConfiguration_STATUS struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
+// SKU parameters supplied to the create Redis operation.
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
@@ -376,6 +381,7 @@ type Sku struct {
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
+// SKU parameters supplied to the create Redis operation.
 type Sku_STATUS struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).
@@ -388,11 +394,13 @@ type Sku_STATUS struct {
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
+// The Private Endpoint resource.
 type PrivateEndpoint_STATUS struct {
 	// Id: The ARM identifier for Private Endpoint
 	Id *string `json:"id,omitempty"`
 }
 
+// The current provisioning state.
 type PrivateEndpointConnectionProvisioningState_STATUS string
 
 const (
@@ -402,6 +410,7 @@ const (
 	PrivateEndpointConnectionProvisioningState_STATUS_Succeeded = PrivateEndpointConnectionProvisioningState_STATUS("Succeeded")
 )
 
+// A collection of information about the state of the connection between service consumer and provider.
 type PrivateLinkServiceConnectionState_STATUS struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
 	ActionsRequired *string `json:"actionsRequired,omitempty"`
@@ -445,6 +454,7 @@ const (
 	Sku_Name_STATUS_Standard = Sku_Name_STATUS("Standard")
 )
 
+// The private endpoint connection status.
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (

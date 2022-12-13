@@ -29,6 +29,7 @@ func (rule *FlexibleServers_FirewallRule_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 }
 
+// The properties of a server firewall rule.
 type FirewallRuleProperties_ARM struct {
 	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
