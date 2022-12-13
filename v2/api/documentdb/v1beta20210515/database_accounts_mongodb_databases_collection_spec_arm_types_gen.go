@@ -32,6 +32,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetType
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
+// Properties to create and update Azure Cosmos DB MongoDB collection.
 type MongoDBCollectionCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -41,6 +42,7 @@ type MongoDBCollectionCreateUpdateProperties_ARM struct {
 	Resource *MongoDBCollectionResource_ARM `json:"resource,omitempty"`
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoDBCollectionResource_ARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -55,6 +57,7 @@ type MongoDBCollectionResource_ARM struct {
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
+// Cosmos DB MongoDB collection index key
 type MongoIndex_ARM struct {
 	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_ARM `json:"key,omitempty"`
@@ -63,11 +66,13 @@ type MongoIndex_ARM struct {
 	Options *MongoIndexOptions_ARM `json:"options,omitempty"`
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_ARM struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions_ARM struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

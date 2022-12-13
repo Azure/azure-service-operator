@@ -191,6 +191,7 @@ func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // Storage version of v1beta20210901.Registry_STATUS
+// An object that represents a container registry.
 type Registry_STATUS struct {
 	AdminUserEnabled           *bool                              `json:"adminUserEnabled,omitempty"`
 	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
@@ -253,6 +254,7 @@ type EncryptionProperty_STATUS struct {
 }
 
 // Storage version of v1beta20210901.IdentityProperties
+// Managed identity for the resource.
 type IdentityProperties struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -262,6 +264,7 @@ type IdentityProperties struct {
 }
 
 // Storage version of v1beta20210901.IdentityProperties_STATUS
+// Managed identity for the resource.
 type IdentityProperties_STATUS struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
@@ -271,6 +274,7 @@ type IdentityProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210901.NetworkRuleSet
+// The network rule set for a container registry.
 type NetworkRuleSet struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
 	IpRules       []IPRule               `json:"ipRules,omitempty"`
@@ -278,6 +282,7 @@ type NetworkRuleSet struct {
 }
 
 // Storage version of v1beta20210901.NetworkRuleSet_STATUS
+// The network rule set for a container registry.
 type NetworkRuleSet_STATUS struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
 	IpRules       []IPRule_STATUS        `json:"ipRules,omitempty"`
@@ -285,6 +290,7 @@ type NetworkRuleSet_STATUS struct {
 }
 
 // Storage version of v1beta20210901.Policies
+// The policies for a container registry.
 type Policies struct {
 	ExportPolicy     *ExportPolicy          `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -294,6 +300,7 @@ type Policies struct {
 }
 
 // Storage version of v1beta20210901.Policies_STATUS
+// The policies for a container registry.
 type Policies_STATUS struct {
 	ExportPolicy     *ExportPolicy_STATUS     `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
@@ -303,18 +310,21 @@ type Policies_STATUS struct {
 }
 
 // Storage version of v1beta20210901.PrivateEndpointConnection_STATUS
+// An object that represents a private endpoint connection for a container registry.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210901.Sku
+// The SKU of a container registry.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210901.Sku_STATUS
+// The SKU of a container registry.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -322,6 +332,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210901.Status_STATUS
+// The status of an Azure resource at the time the operation was called.
 type Status_STATUS struct {
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Message       *string                `json:"message,omitempty"`
@@ -330,6 +341,7 @@ type Status_STATUS struct {
 }
 
 // Storage version of v1beta20210901.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -341,18 +353,21 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20210901.ExportPolicy
+// The export policy for a container registry.
 type ExportPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.ExportPolicy_STATUS
+// The export policy for a container registry.
 type ExportPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.IPRule
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -360,6 +375,7 @@ type IPRule struct {
 }
 
 // Storage version of v1beta20210901.IPRule_STATUS
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -384,18 +400,21 @@ type KeyVaultProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210901.QuarantinePolicy
+// The quarantine policy for a container registry.
 type QuarantinePolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.QuarantinePolicy_STATUS
+// The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.RetentionPolicy
+// The retention policy for a container registry.
 type RetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -403,6 +422,7 @@ type RetentionPolicy struct {
 }
 
 // Storage version of v1beta20210901.RetentionPolicy_STATUS
+// The retention policy for a container registry.
 type RetentionPolicy_STATUS struct {
 	Days            *int                   `json:"days,omitempty"`
 	LastUpdatedTime *string                `json:"lastUpdatedTime,omitempty"`
@@ -411,6 +431,7 @@ type RetentionPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210901.TrustPolicy
+// The content trust policy for a container registry.
 type TrustPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
@@ -418,6 +439,7 @@ type TrustPolicy struct {
 }
 
 // Storage version of v1beta20210901.TrustPolicy_STATUS
+// The content trust policy for a container registry.
 type TrustPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`

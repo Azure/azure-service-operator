@@ -1511,6 +1511,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *v
 	return nil
 }
 
+// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
@@ -1584,6 +1585,7 @@ func (geolocation *WebTestGeolocation) AssignProperties_To_WebTestGeolocation(de
 	return nil
 }
 
+// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation_STATUS struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
@@ -2581,6 +2583,7 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTe
 	return nil
 }
 
+// A header to add to the WebTest.
 type HeaderField struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`
@@ -2675,6 +2678,7 @@ func (field *HeaderField) AssignProperties_To_HeaderField(destination *v20180501
 	return nil
 }
 
+// A header to add to the WebTest.
 type HeaderField_STATUS struct {
 	// Key: The name of the header.
 	Key *string `json:"key,omitempty"`

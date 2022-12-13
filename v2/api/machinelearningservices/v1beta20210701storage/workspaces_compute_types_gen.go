@@ -556,6 +556,7 @@ type AKS_Properties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.AmlComputeProperties
+// AML Compute properties
 type AmlComputeProperties struct {
 	EnableNodePublicIp          *bool                   `json:"enableNodePublicIp,omitempty"`
 	IsolatedNetwork             *bool                   `json:"isolatedNetwork,omitempty"`
@@ -571,6 +572,7 @@ type AmlComputeProperties struct {
 }
 
 // Storage version of v1beta20210701.AmlComputeProperties_STATUS
+// AML Compute properties
 type AmlComputeProperties_STATUS struct {
 	AllocationState               *string                        `json:"allocationState,omitempty"`
 	AllocationStateTransitionTime *string                        `json:"allocationStateTransitionTime,omitempty"`
@@ -592,6 +594,7 @@ type AmlComputeProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceProperties
+// Compute Instance properties
 type ComputeInstanceProperties struct {
 	ApplicationSharingPolicy         *string                          `json:"applicationSharingPolicy,omitempty"`
 	ComputeInstanceAuthorizationType *string                          `json:"computeInstanceAuthorizationType,omitempty"`
@@ -604,6 +607,7 @@ type ComputeInstanceProperties struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceProperties_STATUS
+// Compute Instance properties
 type ComputeInstanceProperties_STATUS struct {
 	ApplicationSharingPolicy         *string                                      `json:"applicationSharingPolicy,omitempty"`
 	Applications                     []ComputeInstanceApplication_STATUS          `json:"applications,omitempty"`
@@ -622,6 +626,7 @@ type ComputeInstanceProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.DatabricksProperties
+// Properties of Databricks
 type DatabricksProperties struct {
 	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -629,6 +634,7 @@ type DatabricksProperties struct {
 }
 
 // Storage version of v1beta20210701.DatabricksProperties_STATUS
+// Properties of Databricks
 type DatabricksProperties_STATUS struct {
 	DatabricksAccessToken *string                `json:"databricksAccessToken,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -648,12 +654,15 @@ type DataLakeAnalytics_Properties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ErrorResponse_STATUS
+// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
+// follows the OData error response format.).
 type ErrorResponse_STATUS struct {
 	Error       *ErrorDetail_STATUS    `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210701.HDInsightProperties
+// HDInsight compute properties
 type HDInsightProperties struct {
 	Address              *string                       `json:"address,omitempty"`
 	AdministratorAccount *VirtualMachineSshCredentials `json:"administratorAccount,omitempty"`
@@ -662,6 +671,7 @@ type HDInsightProperties struct {
 }
 
 // Storage version of v1beta20210701.HDInsightProperties_STATUS
+// HDInsight compute properties
 type HDInsightProperties_STATUS struct {
 	Address              *string                              `json:"address,omitempty"`
 	AdministratorAccount *VirtualMachineSshCredentials_STATUS `json:"administratorAccount,omitempty"`
@@ -670,6 +680,7 @@ type HDInsightProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.KubernetesProperties
+// Kubernetes properties
 type KubernetesProperties struct {
 	DefaultInstanceType           *string                       `json:"defaultInstanceType,omitempty"`
 	ExtensionInstanceReleaseTrain *string                       `json:"extensionInstanceReleaseTrain,omitempty"`
@@ -683,6 +694,7 @@ type KubernetesProperties struct {
 }
 
 // Storage version of v1beta20210701.KubernetesProperties_STATUS
+// Kubernetes properties
 type KubernetesProperties_STATUS struct {
 	DefaultInstanceType           *string                              `json:"defaultInstanceType,omitempty"`
 	ExtensionInstanceReleaseTrain *string                              `json:"extensionInstanceReleaseTrain,omitempty"`
@@ -744,6 +756,7 @@ type VirtualMachine_Properties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.AksNetworkingConfiguration
+// Advance configuration for AKS networking
 type AksNetworkingConfiguration struct {
 	DnsServiceIP     *string                `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr *string                `json:"dockerBridgeCidr,omitempty"`
@@ -755,6 +768,7 @@ type AksNetworkingConfiguration struct {
 }
 
 // Storage version of v1beta20210701.AksNetworkingConfiguration_STATUS
+// Advance configuration for AKS networking
 type AksNetworkingConfiguration_STATUS struct {
 	DnsServiceIP     *string                `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr *string                `json:"dockerBridgeCidr,omitempty"`
@@ -764,6 +778,7 @@ type AksNetworkingConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20210701.AutoPauseProperties
+// Auto pause properties
 type AutoPauseProperties struct {
 	DelayInMinutes *int                   `json:"delayInMinutes,omitempty"`
 	Enabled        *bool                  `json:"enabled,omitempty"`
@@ -771,6 +786,7 @@ type AutoPauseProperties struct {
 }
 
 // Storage version of v1beta20210701.AutoPauseProperties_STATUS
+// Auto pause properties
 type AutoPauseProperties_STATUS struct {
 	DelayInMinutes *int                   `json:"delayInMinutes,omitempty"`
 	Enabled        *bool                  `json:"enabled,omitempty"`
@@ -778,6 +794,7 @@ type AutoPauseProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.AutoScaleProperties
+// Auto scale properties
 type AutoScaleProperties struct {
 	Enabled      *bool                  `json:"enabled,omitempty"`
 	MaxNodeCount *int                   `json:"maxNodeCount,omitempty"`
@@ -786,6 +803,7 @@ type AutoScaleProperties struct {
 }
 
 // Storage version of v1beta20210701.AutoScaleProperties_STATUS
+// Auto scale properties
 type AutoScaleProperties_STATUS struct {
 	Enabled      *bool                  `json:"enabled,omitempty"`
 	MaxNodeCount *int                   `json:"maxNodeCount,omitempty"`
@@ -794,6 +812,7 @@ type AutoScaleProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceApplication_STATUS
+// Defines an Aml Instance application and its connectivity endpoint URI.
 type ComputeInstanceApplication_STATUS struct {
 	DisplayName *string                `json:"displayName,omitempty"`
 	EndpointUri *string                `json:"endpointUri,omitempty"`
@@ -801,6 +820,7 @@ type ComputeInstanceApplication_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceConnectivityEndpoints_STATUS
+// Defines all connectivity endpoints and properties for an ComputeInstance.
 type ComputeInstanceConnectivityEndpoints_STATUS struct {
 	PrivateIpAddress *string                `json:"privateIpAddress,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -808,6 +828,7 @@ type ComputeInstanceConnectivityEndpoints_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceCreatedBy_STATUS
+// Describes information on user who created this ComputeInstance.
 type ComputeInstanceCreatedBy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserId      *string                `json:"userId,omitempty"`
@@ -816,6 +837,7 @@ type ComputeInstanceCreatedBy_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceLastOperation_STATUS
+// The last operation on ComputeInstance.
 type ComputeInstanceLastOperation_STATUS struct {
 	OperationName   *string                `json:"operationName,omitempty"`
 	OperationStatus *string                `json:"operationStatus,omitempty"`
@@ -824,6 +846,7 @@ type ComputeInstanceLastOperation_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceSshSettings
+// Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings struct {
 	AdminPublicKey  *string                `json:"adminPublicKey,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -831,6 +854,7 @@ type ComputeInstanceSshSettings struct {
 }
 
 // Storage version of v1beta20210701.ComputeInstanceSshSettings_STATUS
+// Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings_STATUS struct {
 	AdminPublicKey  *string                `json:"adminPublicKey,omitempty"`
 	AdminUserName   *string                `json:"adminUserName,omitempty"`
@@ -840,6 +864,7 @@ type ComputeInstanceSshSettings_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ErrorDetail_STATUS
+// The error detail.
 type ErrorDetail_STATUS struct {
 	AdditionalInfo []ErrorAdditionalInfo_STATUS  `json:"additionalInfo,omitempty"`
 	Code           *string                       `json:"code,omitempty"`
@@ -850,6 +875,7 @@ type ErrorDetail_STATUS struct {
 }
 
 // Storage version of v1beta20210701.InstanceTypeSchema
+// Instance type schema.
 type InstanceTypeSchema struct {
 	NodeSelector map[string]string             `json:"nodeSelector,omitempty"`
 	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -857,6 +883,7 @@ type InstanceTypeSchema struct {
 }
 
 // Storage version of v1beta20210701.InstanceTypeSchema_STATUS
+// Instance type schema.
 type InstanceTypeSchema_STATUS struct {
 	NodeSelector map[string]string                    `json:"nodeSelector,omitempty"`
 	PropertyBag  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
@@ -864,6 +891,7 @@ type InstanceTypeSchema_STATUS struct {
 }
 
 // Storage version of v1beta20210701.NodeStateCounts_STATUS
+// Counts of various compute node states on the amlCompute.
 type NodeStateCounts_STATUS struct {
 	IdleNodeCount      *int                   `json:"idleNodeCount,omitempty"`
 	LeavingNodeCount   *int                   `json:"leavingNodeCount,omitempty"`
@@ -875,18 +903,21 @@ type NodeStateCounts_STATUS struct {
 }
 
 // Storage version of v1beta20210701.PersonalComputeInstanceSettings
+// Settings for a personal compute instance.
 type PersonalComputeInstanceSettings struct {
 	AssignedUser *AssignedUser          `json:"assignedUser,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210701.PersonalComputeInstanceSettings_STATUS
+// Settings for a personal compute instance.
 type PersonalComputeInstanceSettings_STATUS struct {
 	AssignedUser *AssignedUser_STATUS   `json:"assignedUser,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210701.ResourceId
+// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 type ResourceId struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -896,12 +927,14 @@ type ResourceId struct {
 }
 
 // Storage version of v1beta20210701.ResourceId_STATUS
+// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 type ResourceId_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210701.ScaleSettings
+// scale settings for AML Compute
 type ScaleSettings struct {
 	MaxNodeCount                *int                   `json:"maxNodeCount,omitempty"`
 	MinNodeCount                *int                   `json:"minNodeCount,omitempty"`
@@ -910,6 +943,7 @@ type ScaleSettings struct {
 }
 
 // Storage version of v1beta20210701.ScaleSettings_STATUS
+// scale settings for AML Compute
 type ScaleSettings_STATUS struct {
 	MaxNodeCount                *int                   `json:"maxNodeCount,omitempty"`
 	MinNodeCount                *int                   `json:"minNodeCount,omitempty"`
@@ -918,18 +952,21 @@ type ScaleSettings_STATUS struct {
 }
 
 // Storage version of v1beta20210701.SetupScripts
+// Details of customized scripts to execute for setting up the cluster.
 type SetupScripts struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Scripts     *ScriptsToExecute      `json:"scripts,omitempty"`
 }
 
 // Storage version of v1beta20210701.SetupScripts_STATUS
+// Details of customized scripts to execute for setting up the cluster.
 type SetupScripts_STATUS struct {
 	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 	Scripts     *ScriptsToExecute_STATUS `json:"scripts,omitempty"`
 }
 
 // Storage version of v1beta20210701.SslConfiguration
+// The ssl configuration for scoring
 type SslConfiguration struct {
 	Cert                    *string                `json:"cert,omitempty"`
 	Cname                   *string                `json:"cname,omitempty"`
@@ -941,6 +978,7 @@ type SslConfiguration struct {
 }
 
 // Storage version of v1beta20210701.SslConfiguration_STATUS
+// The ssl configuration for scoring
 type SslConfiguration_STATUS struct {
 	Cert                    *string                `json:"cert,omitempty"`
 	Cname                   *string                `json:"cname,omitempty"`
@@ -952,6 +990,7 @@ type SslConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20210701.SystemService_STATUS
+// A system service running on a compute.
 type SystemService_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicIpAddress   *string                `json:"publicIpAddress,omitempty"`
@@ -960,6 +999,7 @@ type SystemService_STATUS struct {
 }
 
 // Storage version of v1beta20210701.UserAccountCredentials
+// Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials struct {
 	AdminUserName         *string                     `json:"adminUserName,omitempty"`
 	AdminUserPassword     *genruntime.SecretReference `json:"adminUserPassword,omitempty"`
@@ -968,6 +1008,7 @@ type UserAccountCredentials struct {
 }
 
 // Storage version of v1beta20210701.UserAccountCredentials_STATUS
+// Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials_STATUS struct {
 	AdminUserName         *string                `json:"adminUserName,omitempty"`
 	AdminUserPassword     *string                `json:"adminUserPassword,omitempty"`
@@ -976,6 +1017,7 @@ type UserAccountCredentials_STATUS struct {
 }
 
 // Storage version of v1beta20210701.VirtualMachineImage
+// Virtual Machine image for Windows AML Compute
 type VirtualMachineImage struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -985,12 +1027,14 @@ type VirtualMachineImage struct {
 }
 
 // Storage version of v1beta20210701.VirtualMachineImage_STATUS
+// Virtual Machine image for Windows AML Compute
 type VirtualMachineImage_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210701.VirtualMachineSshCredentials
+// Admin credentials for virtual machine
 type VirtualMachineSshCredentials struct {
 	Password       *genruntime.SecretReference `json:"password,omitempty"`
 	PrivateKeyData *string                     `json:"privateKeyData,omitempty"`
@@ -1000,6 +1044,7 @@ type VirtualMachineSshCredentials struct {
 }
 
 // Storage version of v1beta20210701.VirtualMachineSshCredentials_STATUS
+// Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
 	Password       *string                `json:"password,omitempty"`
 	PrivateKeyData *string                `json:"privateKeyData,omitempty"`
@@ -1009,6 +1054,7 @@ type VirtualMachineSshCredentials_STATUS struct {
 }
 
 // Storage version of v1beta20210701.AssignedUser
+// A user that can be assigned to a compute instance.
 type AssignedUser struct {
 	ObjectId    *string                `json:"objectId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1016,6 +1062,7 @@ type AssignedUser struct {
 }
 
 // Storage version of v1beta20210701.AssignedUser_STATUS
+// A user that can be assigned to a compute instance.
 type AssignedUser_STATUS struct {
 	ObjectId    *string                `json:"objectId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1023,6 +1070,7 @@ type AssignedUser_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ErrorAdditionalInfo_STATUS
+// The resource management error additional info.
 type ErrorAdditionalInfo_STATUS struct {
 	Info        map[string]v1.JSON     `json:"info,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1053,6 +1101,7 @@ type InstanceTypeSchema_Resources_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ScriptsToExecute
+// Customized setup scripts
 type ScriptsToExecute struct {
 	CreationScript *ScriptReference       `json:"creationScript,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1060,6 +1109,7 @@ type ScriptsToExecute struct {
 }
 
 // Storage version of v1beta20210701.ScriptsToExecute_STATUS
+// Customized setup scripts
 type ScriptsToExecute_STATUS struct {
 	CreationScript *ScriptReference_STATUS `json:"creationScript,omitempty"`
 	PropertyBag    genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -1067,6 +1117,7 @@ type ScriptsToExecute_STATUS struct {
 }
 
 // Storage version of v1beta20210701.ScriptReference
+// Script reference
 type ScriptReference struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScriptArguments *string                `json:"scriptArguments,omitempty"`
@@ -1076,6 +1127,7 @@ type ScriptReference struct {
 }
 
 // Storage version of v1beta20210701.ScriptReference_STATUS
+// Script reference
 type ScriptReference_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScriptArguments *string                `json:"scriptArguments,omitempty"`

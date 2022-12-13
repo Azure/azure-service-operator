@@ -8,6 +8,7 @@ package jsonast
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"math"
 	"math/big"
 	"net/url"
@@ -649,15 +650,20 @@ func generateDefinitionsFor(
 	if resourceType != nil {
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
 	}
-
 	definition := astmodel.MakeTypeDefinition(typeName, result)
+
+	// Add a description of the type
+	var description []string
+	if desc := schema.description(); desc != nil {
+		description = astbuilder.WordWrap(*desc, 120)
+	}
 
 	// Add URL reference if we have one
 	if schema.url().String() != "" {
-		description := []string{
-			fmt.Sprintf("Generated from: %s", schema.url().String()),
-		}
+		description = append(description, fmt.Sprintf("Generated from: %s", schema.url().String()))
+	}
 
+	if len(description) > 0 {
 		definition = definition.WithDescription(description...)
 	}
 

@@ -294,7 +294,9 @@ type Databricks_STATUS_ARM struct {
 	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
 
 	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                          `json:"modifiedOn,omitempty"`
+	ModifiedOn *string `json:"modifiedOn,omitempty"`
+
+	// Properties: Properties of Databricks
 	Properties *DatabricksProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// ProvisioningErrors: Errors during provisioning
@@ -401,7 +403,9 @@ type HDInsight_STATUS_ARM struct {
 	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
 
 	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                         `json:"modifiedOn,omitempty"`
+	ModifiedOn *string `json:"modifiedOn,omitempty"`
+
+	// Properties: HDInsight compute properties
 	Properties *HDInsightProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// ProvisioningErrors: Errors during provisioning
@@ -586,6 +590,7 @@ const (
 	AmlCompute_ProvisioningState_STATUS_Updating  = AmlCompute_ProvisioningState_STATUS("Updating")
 )
 
+// AML Compute properties
 type AmlComputeProperties_STATUS_ARM struct {
 	// AllocationState: Allocation state of the compute. Possible values are: steady - Indicates that the compute is not
 	// resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state
@@ -663,6 +668,7 @@ const (
 	ComputeInstance_ProvisioningState_STATUS_Updating  = ComputeInstance_ProvisioningState_STATUS("Updating")
 )
 
+// Compute Instance properties
 type ComputeInstanceProperties_STATUS_ARM struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
 	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
@@ -722,6 +728,7 @@ const (
 	Databricks_ProvisioningState_STATUS_Updating  = Databricks_ProvisioningState_STATUS("Updating")
 )
 
+// Properties of Databricks
 type DatabricksProperties_STATUS_ARM struct {
 	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
@@ -767,6 +774,8 @@ const (
 	DataLakeAnalytics_ProvisioningState_STATUS_Updating  = DataLakeAnalytics_ProvisioningState_STATUS("Updating")
 )
 
+// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
+// follows the OData error response format.).
 type ErrorResponse_STATUS_ARM struct {
 	// Error: The error object.
 	Error *ErrorDetail_STATUS_ARM `json:"error,omitempty"`
@@ -788,6 +797,7 @@ const (
 	HDInsight_ProvisioningState_STATUS_Updating  = HDInsight_ProvisioningState_STATUS("Updating")
 )
 
+// HDInsight compute properties
 type HDInsightProperties_STATUS_ARM struct {
 	// Address: Public IP address of the master node of the cluster.
 	Address *string `json:"address,omitempty"`
@@ -815,6 +825,7 @@ const (
 	Kubernetes_ProvisioningState_STATUS_Updating  = Kubernetes_ProvisioningState_STATUS("Updating")
 )
 
+// Kubernetes properties
 type KubernetesProperties_STATUS_ARM struct {
 	// DefaultInstanceType: Default instance type
 	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
@@ -931,6 +942,7 @@ const (
 	AKS_Properties_LoadBalancerType_STATUS_PublicIp             = AKS_Properties_LoadBalancerType_STATUS("PublicIp")
 )
 
+// Advance configuration for AKS networking
 type AksNetworkingConfiguration_STATUS_ARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
@@ -977,17 +989,20 @@ const (
 	AmlComputeProperties_VmPriority_STATUS_LowPriority = AmlComputeProperties_VmPriority_STATUS("LowPriority")
 )
 
+// Auto pause properties
 type AutoPauseProperties_STATUS_ARM struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
 }
 
+// Auto scale properties
 type AutoScaleProperties_STATUS_ARM struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
 	MinNodeCount *int  `json:"minNodeCount,omitempty"`
 }
 
+// Defines an Aml Instance application and its connectivity endpoint URI.
 type ComputeInstanceApplication_STATUS_ARM struct {
 	// DisplayName: Name of the ComputeInstance application.
 	DisplayName *string `json:"displayName,omitempty"`
@@ -996,6 +1011,7 @@ type ComputeInstanceApplication_STATUS_ARM struct {
 	EndpointUri *string `json:"endpointUri,omitempty"`
 }
 
+// Defines all connectivity endpoints and properties for an ComputeInstance.
 type ComputeInstanceConnectivityEndpoints_STATUS_ARM struct {
 	// PrivateIpAddress: Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is
 	// deployed).
@@ -1005,6 +1021,7 @@ type ComputeInstanceConnectivityEndpoints_STATUS_ARM struct {
 	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
 }
 
+// Describes information on user who created this ComputeInstance.
 type ComputeInstanceCreatedBy_STATUS_ARM struct {
 	// UserId: Uniquely identifies the user within his/her organization.
 	UserId *string `json:"userId,omitempty"`
@@ -1016,6 +1033,7 @@ type ComputeInstanceCreatedBy_STATUS_ARM struct {
 	UserOrgId *string `json:"userOrgId,omitempty"`
 }
 
+// The last operation on ComputeInstance.
 type ComputeInstanceLastOperation_STATUS_ARM struct {
 	// OperationName: Name of the last operation.
 	OperationName *ComputeInstanceLastOperation_OperationName_STATUS `json:"operationName,omitempty"`
@@ -1038,6 +1056,7 @@ type ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS string
 
 const ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS("personal")
 
+// Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings_STATUS_ARM struct {
 	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
 	// key pairs.
@@ -1055,6 +1074,7 @@ type ComputeInstanceSshSettings_STATUS_ARM struct {
 	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess_STATUS `json:"sshPublicAccess,omitempty"`
 }
 
+// Current state of an ComputeInstance.
 type ComputeInstanceState_STATUS string
 
 const (
@@ -1075,6 +1095,7 @@ const (
 	ComputeInstanceState_STATUS_UserSetupFailed = ComputeInstanceState_STATUS("UserSetupFailed")
 )
 
+// The error detail.
 type ErrorDetail_STATUS_ARM struct {
 	// AdditionalInfo: The error additional info.
 	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
@@ -1092,6 +1113,7 @@ type ErrorDetail_STATUS_ARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
+// Instance type schema.
 type InstanceTypeSchema_STATUS_ARM struct {
 	// NodeSelector: Node Selector
 	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
@@ -1100,6 +1122,7 @@ type InstanceTypeSchema_STATUS_ARM struct {
 	Resources *InstanceTypeSchema_Resources_STATUS_ARM `json:"resources,omitempty"`
 }
 
+// Counts of various compute node states on the amlCompute.
 type NodeStateCounts_STATUS_ARM struct {
 	// IdleNodeCount: Number of compute nodes in idle state.
 	IdleNodeCount *int `json:"idleNodeCount,omitempty"`
@@ -1120,16 +1143,19 @@ type NodeStateCounts_STATUS_ARM struct {
 	UnusableNodeCount *int `json:"unusableNodeCount,omitempty"`
 }
 
+// Settings for a personal compute instance.
 type PersonalComputeInstanceSettings_STATUS_ARM struct {
 	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser_STATUS_ARM `json:"assignedUser,omitempty"`
 }
 
+// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 type ResourceId_STATUS_ARM struct {
 	// Id: The ID of the resource
 	Id *string `json:"id,omitempty"`
 }
 
+// scale settings for AML Compute
 type ScaleSettings_STATUS_ARM struct {
 	// MaxNodeCount: Max number of nodes to use
 	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
@@ -1141,11 +1167,13 @@ type ScaleSettings_STATUS_ARM struct {
 	NodeIdleTimeBeforeScaleDown *string `json:"nodeIdleTimeBeforeScaleDown,omitempty"`
 }
 
+// Details of customized scripts to execute for setting up the cluster.
 type SetupScripts_STATUS_ARM struct {
 	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute_STATUS_ARM `json:"scripts,omitempty"`
 }
 
+// The ssl configuration for scoring
 type SslConfiguration_STATUS_ARM struct {
 	// Cert: Cert data
 	Cert *string `json:"cert,omitempty"`
@@ -1166,6 +1194,7 @@ type SslConfiguration_STATUS_ARM struct {
 	Status *SslConfiguration_Status_STATUS `json:"status,omitempty"`
 }
 
+// A system service running on a compute.
 type SystemService_STATUS_ARM struct {
 	// PublicIpAddress: Public IP address
 	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
@@ -1177,6 +1206,7 @@ type SystemService_STATUS_ARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
+// Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials_STATUS_ARM struct {
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
 	AdminUserName *string `json:"adminUserName,omitempty"`
@@ -1188,11 +1218,13 @@ type UserAccountCredentials_STATUS_ARM struct {
 	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
+// Virtual Machine image for Windows AML Compute
 type VirtualMachineImage_STATUS_ARM struct {
 	// Id: Virtual Machine image path
 	Id *string `json:"id,omitempty"`
 }
 
+// Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS_ARM struct {
 	// Password: Password of admin account
 	Password *string `json:"password,omitempty"`
@@ -1207,6 +1239,7 @@ type VirtualMachineSshCredentials_STATUS_ARM struct {
 	Username *string `json:"username,omitempty"`
 }
 
+// A user that can be assigned to a compute instance.
 type AssignedUser_STATUS_ARM struct {
 	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
@@ -1246,6 +1279,7 @@ const (
 	ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled  = ComputeInstanceSshSettings_SshPublicAccess_STATUS("Enabled")
 )
 
+// The resource management error additional info.
 type ErrorAdditionalInfo_STATUS_ARM struct {
 	// Info: The additional info.
 	Info map[string]v1.JSON `json:"info,omitempty"`
@@ -1276,6 +1310,7 @@ type InstanceTypeSchema_Resources_STATUS_ARM struct {
 	Requests map[string]string `json:"requests,omitempty"`
 }
 
+// Customized setup scripts
 type ScriptsToExecute_STATUS_ARM struct {
 	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference_STATUS_ARM `json:"creationScript,omitempty"`
@@ -1292,6 +1327,7 @@ const (
 	SslConfiguration_Status_STATUS_Enabled  = SslConfiguration_Status_STATUS("Enabled")
 )
 
+// Script reference
 type ScriptReference_STATUS_ARM struct {
 	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`

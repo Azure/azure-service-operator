@@ -21,7 +21,9 @@ type DatabaseAccounts_SqlDatabase_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB SQL database
 type SqlDatabaseGetProperties_STATUS_ARM struct {
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                   `json:"options,omitempty"`
 	Resource *SqlDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }

@@ -1151,6 +1151,7 @@ func (gateway *VirtualNetworkGateway_Spec) SetAzureName(azureName string) {
 	gateway.AzureName = azureName
 }
 
+// A common class for general resource information.
 type VirtualNetworkGateway_STATUS struct {
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -1925,6 +1926,7 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 	return nil
 }
 
+// BGP settings details.
 type BgpSettings struct {
 	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
@@ -2108,6 +2110,7 @@ func (settings *BgpSettings) AssignProperties_To_BgpSettings(destination *v20201
 	return nil
 }
 
+// BGP settings details.
 type BgpSettings_STATUS struct {
 	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
@@ -2255,6 +2258,7 @@ func (settings *BgpSettings_STATUS) AssignProperties_To_BgpSettings_STATUS(desti
 	return nil
 }
 
+// IP configuration for virtual network gateway.
 type VirtualNetworkGatewayIPConfiguration struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -2465,6 +2469,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 	return nil
 }
 
+// IP configuration for virtual network gateway.
 type VirtualNetworkGatewayIPConfiguration_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2758,6 +2763,7 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("RouteBased")
 )
 
+// VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku struct {
 	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
@@ -2872,6 +2878,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_To_VirtualNetworkGa
 	return nil
 }
 
+// VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku_STATUS struct {
 	// Capacity: The capacity.
 	Capacity *int `json:"capacity,omitempty"`
@@ -2980,6 +2987,7 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_To_VirtualNe
 	return nil
 }
 
+// VpnClientConfiguration for P2S client.
 type VpnClientConfiguration struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
@@ -3498,6 +3506,7 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	return nil
 }
 
+// VpnClientConfiguration for P2S client.
 type VpnClientConfiguration_STATUS struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
@@ -3921,6 +3930,7 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	return nil
 }
 
+// Properties of IPConfigurationBgpPeeringAddress.
 type IPConfigurationBgpPeeringAddress struct {
 	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
@@ -4013,6 +4023,7 @@ func (address *IPConfigurationBgpPeeringAddress) AssignProperties_To_IPConfigura
 	return nil
 }
 
+// Properties of IPConfigurationBgpPeeringAddress.
 type IPConfigurationBgpPeeringAddress_STATUS struct {
 	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
@@ -4113,6 +4124,7 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignProperties_To_IPCo
 	return nil
 }
 
+// An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy struct {
 	// +kubebuilder:validation:Required
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
@@ -4403,6 +4415,7 @@ func (policy *IpsecPolicy) AssignProperties_To_IpsecPolicy(destination *v2020110
 	return nil
 }
 
+// An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy_STATUS struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup_STATUS `json:"dhGroup,omitempty"`
@@ -4628,6 +4641,7 @@ func (policy *IpsecPolicy_STATUS) AssignProperties_To_IpsecPolicy_STATUS(destina
 	return nil
 }
 
+// Radius Server Settings.
 type RadiusServer struct {
 	// +kubebuilder:validation:Required
 	// RadiusServerAddress: The address of this radius server.
@@ -4744,6 +4758,7 @@ func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *v20201
 	return nil
 }
 
+// Radius Server Settings.
 type RadiusServer_STATUS struct {
 	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
@@ -4956,6 +4971,7 @@ const (
 	VpnClientConfiguration_VpnClientProtocols_STATUS_SSTP    = VpnClientConfiguration_VpnClientProtocols_STATUS("SSTP")
 )
 
+// VPN client revoked certificate of virtual network gateway.
 type VpnClientRevokedCertificate struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -5056,6 +5072,7 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_To_VpnClientRev
 	return nil
 }
 
+// VPN client revoked certificate of virtual network gateway.
 type VpnClientRevokedCertificate_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -5190,6 +5207,7 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_To_VpnCl
 	return nil
 }
 
+// VPN client root certificate of virtual network gateway.
 type VpnClientRootCertificate struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -5291,6 +5309,7 @@ func (certificate *VpnClientRootCertificate) AssignProperties_To_VpnClientRootCe
 	return nil
 }
 
+// VPN client root certificate of virtual network gateway.
 type VpnClientRootCertificate_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -5425,6 +5444,7 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_To_VpnClien
 	return nil
 }
 
+// The DH Groups used in IKE Phase 1 for initial SA.
 // +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
 type DhGroup string
 
@@ -5439,6 +5459,7 @@ const (
 	DhGroup_None        = DhGroup("None")
 )
 
+// The DH Groups used in IKE Phase 1 for initial SA.
 type DhGroup_STATUS string
 
 const (
@@ -5452,6 +5473,7 @@ const (
 	DhGroup_STATUS_None        = DhGroup_STATUS("None")
 )
 
+// The IKE encryption algorithm (IKE phase 2).
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
 type IkeEncryption string
 
@@ -5465,6 +5487,7 @@ const (
 	IkeEncryption_GCMAES256 = IkeEncryption("GCMAES256")
 )
 
+// The IKE encryption algorithm (IKE phase 2).
 type IkeEncryption_STATUS string
 
 const (
@@ -5477,6 +5500,7 @@ const (
 	IkeEncryption_STATUS_GCMAES256 = IkeEncryption_STATUS("GCMAES256")
 )
 
+// The IKE integrity algorithm (IKE phase 2).
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
 type IkeIntegrity string
 
@@ -5489,6 +5513,7 @@ const (
 	IkeIntegrity_SHA384    = IkeIntegrity("SHA384")
 )
 
+// The IKE integrity algorithm (IKE phase 2).
 type IkeIntegrity_STATUS string
 
 const (
@@ -5500,6 +5525,7 @@ const (
 	IkeIntegrity_STATUS_SHA384    = IkeIntegrity_STATUS("SHA384")
 )
 
+// The IPSec encryption algorithm (IKE phase 1).
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
 type IpsecEncryption string
 
@@ -5515,6 +5541,7 @@ const (
 	IpsecEncryption_None      = IpsecEncryption("None")
 )
 
+// The IPSec encryption algorithm (IKE phase 1).
 type IpsecEncryption_STATUS string
 
 const (
@@ -5529,6 +5556,7 @@ const (
 	IpsecEncryption_STATUS_None      = IpsecEncryption_STATUS("None")
 )
 
+// The IPSec integrity algorithm (IKE phase 1).
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
 type IpsecIntegrity string
 
@@ -5541,6 +5569,7 @@ const (
 	IpsecIntegrity_SHA256    = IpsecIntegrity("SHA256")
 )
 
+// The IPSec integrity algorithm (IKE phase 1).
 type IpsecIntegrity_STATUS string
 
 const (
@@ -5552,6 +5581,7 @@ const (
 	IpsecIntegrity_STATUS_SHA256    = IpsecIntegrity_STATUS("SHA256")
 )
 
+// The Pfs Groups used in IKE Phase 2 for new child SA.
 // +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
 type PfsGroup string
 
@@ -5567,6 +5597,7 @@ const (
 	PfsGroup_PFSMM   = PfsGroup("PFSMM")
 )
 
+// The Pfs Groups used in IKE Phase 2 for new child SA.
 type PfsGroup_STATUS string
 
 const (

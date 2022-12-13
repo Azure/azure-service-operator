@@ -1885,6 +1885,7 @@ type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
 const ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`
@@ -1958,6 +1959,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 	return nil
 }
 
+// The network access type for operating on the Application Insights Component. By default it is Enabled
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccessType string
 
@@ -1966,6 +1968,7 @@ const (
 	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
+// The network access type for operating on the Application Insights Component. By default it is Enabled
 type PublicNetworkAccessType_STATUS string
 
 const (

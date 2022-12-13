@@ -709,6 +709,7 @@ func (assignment *RoleAssignment_Spec) SetAzureName(azureName string) {
 	assignment.AzureName = azureName
 }
 
+// Role Assignments
 type RoleAssignment_STATUS struct {
 	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
 	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase

@@ -11,7 +11,10 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Foo              *Foo     `json:"foo,omitempty"`
+	// Foo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
+	Foo *Foo `json:"foo,omitempty"`
+
+	// FooAlias: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 	FooAlias         *Foo     `json:"fooAlias,omitempty"`
 	StringAlias      *string  `json:"stringAlias,omitempty"`
 	StringArrayAlias []string `json:"stringArrayAlias,omitempty"`

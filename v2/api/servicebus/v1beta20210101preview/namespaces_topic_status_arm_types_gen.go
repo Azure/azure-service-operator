@@ -20,6 +20,7 @@ type Namespaces_Topic_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The Topic Properties definition.
 type SBTopicProperties_STATUS_ARM struct {
 	// AccessedAt: Last time the message was sent, or a request was received, for this topic.
 	AccessedAt *string `json:"accessedAt,omitempty"`

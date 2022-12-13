@@ -43,6 +43,7 @@ func (cluster *ManagedCluster_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -51,12 +52,14 @@ type ExtendedLocation_ARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
+// Identity for the managed cluster.
 type ManagedClusterIdentity_ARM struct {
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
 }
 
+// Properties of the managed cluster.
 type ManagedClusterProperties_ARM struct {
 	// AadProfile: The Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile_ARM `json:"aadProfile,omitempty"`
@@ -131,6 +134,7 @@ type ManagedClusterProperties_ARM struct {
 	WindowsProfile *ManagedClusterWindowsProfile_ARM `json:"windowsProfile,omitempty"`
 }
 
+// The SKU of a Managed Cluster.
 type ManagedClusterSKU_ARM struct {
 	// Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKU_Name `json:"name,omitempty"`
@@ -140,6 +144,7 @@ type ManagedClusterSKU_ARM struct {
 	Tier *ManagedClusterSKU_Tier `json:"tier,omitempty"`
 }
 
+// Profile for Linux VMs in the container service cluster.
 type ContainerServiceLinuxProfile_ARM struct {
 	// AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername *string `json:"adminUsername,omitempty"`
@@ -148,6 +153,7 @@ type ContainerServiceLinuxProfile_ARM struct {
 	Ssh *ContainerServiceSshConfiguration_ARM `json:"ssh,omitempty"`
 }
 
+// Profile of network configuration.
 type ContainerServiceNetworkProfile_ARM struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
@@ -186,11 +192,13 @@ type ContainerServiceNetworkProfile_ARM struct {
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 }
 
+// The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
+// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile_ARM struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
 	AdminGroupObjectIDs []string `json:"adminGroupObjectIDs,omitempty"`
@@ -215,6 +223,7 @@ type ManagedClusterAADProfile_ARM struct {
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
+// A Kubernetes add-on profile for a managed cluster.
 type ManagedClusterAddonProfile_ARM struct {
 	// Config: Key-value pairs for configuring an add-on.
 	Config map[string]string `json:"config,omitempty"`
@@ -223,6 +232,7 @@ type ManagedClusterAddonProfile_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// Profile for the container service agent pool.
 type ManagedClusterAgentPoolProfile_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
@@ -258,8 +268,11 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType   `json:"kubeletDiskType,omitempty"`
+	KubeletConfig *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
+
+	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
+	// storage.
+	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
@@ -271,8 +284,11 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int           `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode `json:"mode,omitempty"`
+	MinCount *int `json:"minCount,omitempty"`
+
+	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
+	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	Mode *AgentPoolMode `json:"mode,omitempty"`
 
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
@@ -291,10 +307,18 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType             `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
-	OsType              *OSType                 `json:"osType,omitempty"`
-	PodSubnetID         *string                 `json:"podSubnetID,omitempty"`
+
+	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
+	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	OsDiskType *OSDiskType `json:"osDiskType,omitempty"`
+
+	// OsSKU: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+	OsSKU *OSSKU `json:"osSKU,omitempty"`
+
+	// OsType: The operating system type. The default is Linux.
+	OsType      *OSType `json:"osType,omitempty"`
+	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *ProximityPlacementGroupID `json:"proximityPlacementGroupID,omitempty"`
@@ -313,7 +337,9 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string `json:"tags,omitempty"`
-	Type *AgentPoolType    `json:"type,omitempty"`
+
+	// Type: The type of Agent Pool.
+	Type *AgentPoolType `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
@@ -325,6 +351,7 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
+// Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfile_ARM struct {
 	// AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with
 	// clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API
@@ -344,12 +371,14 @@ type ManagedClusterAPIServerAccessProfile_ARM struct {
 	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
 }
 
+// Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfile_ARM struct {
 	// UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	// channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *ManagedClusterAutoUpgradeProfile_UpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
+// Cluster HTTP proxy configuration.
 type ManagedClusterHTTPProxyConfig_ARM struct {
 	// HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
@@ -373,6 +402,8 @@ const (
 	ManagedClusterIdentity_Type_UserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
 )
 
+// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod
+// identity integration.
 type ManagedClusterPodIdentityProfile_ARM struct {
 	// AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
 	// Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod
@@ -453,6 +484,7 @@ type ManagedClusterProperties_AutoScalerProfile_ARM struct {
 	SkipNodesWithSystemPods *string `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
+// Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 type ManagedClusterServicePrincipalProfile_ARM struct {
 	// ClientId: The ID for the service principal.
 	ClientId *string `json:"clientId,omitempty"`
@@ -474,6 +506,7 @@ const (
 	ManagedClusterSKU_Tier_Paid = ManagedClusterSKU_Tier("Paid")
 )
 
+// Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile_ARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length: 8 characters
@@ -505,6 +538,7 @@ type ManagedClusterWindowsProfile_ARM struct {
 	LicenseType *ManagedClusterWindowsProfile_LicenseType `json:"licenseType,omitempty"`
 }
 
+// A private link resource
 type PrivateLinkResource_ARM struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
@@ -520,6 +554,7 @@ type PrivateLinkResource_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Details about a user assigned identity.
 type UserAssignedIdentity_ARM struct {
 	// ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -529,11 +564,13 @@ type UserAssignedIdentity_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey_ARM `json:"publicKeys,omitempty"`
 }
 
+// Profile of the managed cluster load balancer.
 type ManagedClusterLoadBalancerProfile_ARM struct {
 	// AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000
 	// (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
@@ -556,6 +593,7 @@ type ManagedClusterLoadBalancerProfile_ARM struct {
 	OutboundIPs *ManagedClusterLoadBalancerProfile_OutboundIPs_ARM `json:"outboundIPs,omitempty"`
 }
 
+// Details about the pod identity assigned to the Managed Cluster.
 type ManagedClusterPodIdentity_ARM struct {
 	// BindingSelector: The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `json:"bindingSelector,omitempty"`
@@ -570,6 +608,8 @@ type ManagedClusterPodIdentity_ARM struct {
 	Namespace *string `json:"namespace,omitempty"`
 }
 
+// See [disable AAD Pod Identity for a specific
+// Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityException_ARM struct {
 	// Name: The name of the pod identity exception.
 	Name *string `json:"name,omitempty"`
@@ -581,6 +621,7 @@ type ManagedClusterPodIdentityException_ARM struct {
 	PodLabels map[string]string `json:"podLabels,omitempty"`
 }
 
+// Contains information about SSH certificate public key data.
 type ContainerServiceSshPublicKey_ARM struct {
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or
 	// without headers.
@@ -603,6 +644,7 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs_ARM struct {
 	PublicIPs []ResourceReference_ARM `json:"publicIPs,omitempty"`
 }
 
+// A reference to an Azure resource.
 type ResourceReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

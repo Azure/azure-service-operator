@@ -217,6 +217,7 @@ type SqlDatabaseGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlDatabaseResource
+// Cosmos DB SQL database resource object
 type SqlDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

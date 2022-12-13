@@ -21,6 +21,7 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB trigger
 type SqlTriggerGetProperties_STATUS_ARM struct {
 	Resource *SqlTriggerGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }

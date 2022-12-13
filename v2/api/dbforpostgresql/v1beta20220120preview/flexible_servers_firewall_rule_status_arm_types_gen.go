@@ -21,6 +21,7 @@ type FlexibleServers_FirewallRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a server firewall rule.
 type FirewallRuleProperties_STATUS_ARM struct {
 	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`

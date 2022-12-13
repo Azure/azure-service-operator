@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1beta20220501
 
+// The configuration store along with all resource properties. The Configuration Store will have all information to begin
+// utilizing it.
 type ConfigurationStore_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -33,6 +35,7 @@ type ConfigurationStore_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a configuration store.
 type ConfigurationStoreProperties_STATUS_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
 	CreateMode *ConfigurationStoreProperties_CreateMode_STATUS `json:"createMode,omitempty"`
@@ -67,6 +70,7 @@ type ConfigurationStoreProperties_STATUS_ARM struct {
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 }
 
+// An identity that can be associated with a resource.
 type ResourceIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the identity. This property will only be provided for a system-assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -85,11 +89,13 @@ type ResourceIdentity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]UserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// Describes a configuration store SKU.
 type Sku_STATUS_ARM struct {
 	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -110,11 +116,13 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// The encryption settings for a configuration store.
 type EncryptionProperties_STATUS_ARM struct {
 	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 }
 
+// A reference to a related private endpoint connection.
 type PrivateEndpointConnectionReference_STATUS_ARM struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
@@ -147,6 +155,7 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
+// A resource identity that is managed by the user of the service.
 type UserIdentity_STATUS_ARM struct {
 	// ClientId: The client ID of the user-assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -155,6 +164,7 @@ type UserIdentity_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties_STATUS_ARM struct {
 	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`

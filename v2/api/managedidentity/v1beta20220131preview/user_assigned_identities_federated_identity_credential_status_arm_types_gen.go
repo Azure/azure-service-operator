@@ -18,6 +18,7 @@ type UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties associated with a federated identity credential.
 type FederatedIdentityCredentialProperties_STATUS_ARM struct {
 	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`

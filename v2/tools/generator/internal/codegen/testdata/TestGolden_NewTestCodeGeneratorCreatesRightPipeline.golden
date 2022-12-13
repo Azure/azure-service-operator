@@ -23,6 +23,7 @@ assertTypesStructureValid                            Verify that all local TypeN
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
+improvePropertyDescriptions                          Improve property descriptions by copying from the corresponding type
 addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
 addConfigMaps                             azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 makeOneOfDiscriminantRequired             azure      Fix one of types to a discriminator which is not omitempty/optional

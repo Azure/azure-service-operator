@@ -37,6 +37,7 @@ func (network *VirtualNetwork_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
+// Properties of the virtual network.
 type VirtualNetworkPropertiesFormat_ARM struct {
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace_ARM `json:"addressSpace,omitempty"`
@@ -67,11 +68,14 @@ type VirtualNetworkPropertiesFormat_ARM struct {
 	VirtualNetworkPeerings []VirtualNetworkPeering_ARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions_ARM struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
+// Subnet in a virtual network resource.
 type Subnet_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -85,11 +89,13 @@ type Subnet_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities_ARM struct {
 	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
+// Peerings in a virtual network resource.
 type VirtualNetworkPeering_ARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -103,6 +109,7 @@ type VirtualNetworkPeering_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the subnet.
 type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -141,18 +148,22 @@ type SubnetPropertiesFormat_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	ServiceEndpoints []ServiceEndpointPropertiesFormat_ARM `json:"serviceEndpoints,omitempty"`
 }
 
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroupSpec_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Route table resource.
 type RouteTableSpec_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Service End point policy resource.
 type ServiceEndpointPolicySpec_VirtualNetwork_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

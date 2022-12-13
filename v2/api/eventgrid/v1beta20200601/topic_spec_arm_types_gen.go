@@ -34,6 +34,7 @@ func (topic *Topic_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/topics"
 }
 
+// Properties of the Topic
 type TopicProperties_ARM struct {
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.

@@ -1359,6 +1359,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 	return nil
 }
 
+// The blob service properties for change feed events.
 type ChangeFeed struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -1476,6 +1477,7 @@ func (feed *ChangeFeed) AssignProperties_To_ChangeFeed(destination *v20210401s.C
 	return nil
 }
 
+// The blob service properties for change feed events.
 type ChangeFeed_STATUS struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -1560,6 +1562,7 @@ func (feed *ChangeFeed_STATUS) AssignProperties_To_ChangeFeed_STATUS(destination
 	return nil
 }
 
+// Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule `json:"corsRules,omitempty"`
@@ -1670,6 +1673,7 @@ func (rules *CorsRules) AssignProperties_To_CorsRules(destination *v20210401s.Co
 	return nil
 }
 
+// Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules_STATUS struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule_STATUS `json:"corsRules,omitempty"`
@@ -1762,6 +1766,7 @@ func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination 
 	return nil
 }
 
+// The service properties for soft delete.
 type DeleteRetentionPolicy struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
@@ -1879,6 +1884,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 	return nil
 }
 
+// The service properties for soft delete.
 type DeleteRetentionPolicy_STATUS struct {
 	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
 	// the maximum value can be 365.
@@ -1963,6 +1969,7 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionP
 	return nil
 }
 
+// The blob service properties for Last access time based tracking policy.
 type LastAccessTimeTrackingPolicy struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
@@ -2120,6 +2127,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_To_LastAccessTimeTr
 	return nil
 }
 
+// The blob service properties for Last access time based tracking policy.
 type LastAccessTimeTrackingPolicy_STATUS struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
@@ -2244,6 +2252,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_To_LastAcces
 	return nil
 }
 
+// The blob service properties for blob restore policy
 type RestorePolicyProperties struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
@@ -2361,6 +2370,7 @@ func (properties *RestorePolicyProperties) AssignProperties_To_RestorePolicyProp
 	return nil
 }
 
+// The blob service properties for blob restore policy
 type RestorePolicyProperties_STATUS struct {
 	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
@@ -2474,6 +2484,7 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_To_RestorePol
 	return nil
 }
 
+// Specifies a CORS rule for the Blob service.
 type CorsRule struct {
 	// +kubebuilder:validation:Required
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
@@ -2652,6 +2663,7 @@ func (rule *CorsRule) AssignProperties_To_CorsRule(destination *v20210401s.CorsR
 	return nil
 }
 
+// Specifies a CORS rule for the Blob service.
 type CorsRule_STATUS struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.

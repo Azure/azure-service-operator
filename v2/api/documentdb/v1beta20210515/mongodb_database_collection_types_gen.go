@@ -637,7 +637,9 @@ type DatabaseAccounts_MongodbDatabases_Collection_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                         `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                               `json:"tags,omitempty"`
@@ -1077,6 +1079,7 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignProperties
 	return nil
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoDBCollectionResource struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -1255,6 +1258,7 @@ func (resource *MongoDBCollectionResource) AssignProperties_To_MongoDBCollection
 	return nil
 }
 
+// Cosmos DB MongoDB collection index key
 type MongoIndex struct {
 	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys `json:"key,omitempty"`
@@ -1403,6 +1407,7 @@ func (index *MongoIndex) AssignProperties_To_MongoIndex(destination *v20210515s.
 	return nil
 }
 
+// Cosmos DB MongoDB collection index key
 type MongoIndex_STATUS struct {
 	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_STATUS `json:"key,omitempty"`
@@ -1522,6 +1527,7 @@ func (index *MongoIndex_STATUS) AssignProperties_To_MongoIndex_STATUS(destinatio
 	return nil
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
@@ -1593,6 +1599,7 @@ func (keys *MongoIndexKeys) AssignProperties_To_MongoIndexKeys(destination *v202
 	return nil
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_STATUS struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
@@ -1650,6 +1657,7 @@ func (keys *MongoIndexKeys_STATUS) AssignProperties_To_MongoIndexKeys_STATUS(des
 	return nil
 }
 
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
@@ -1754,6 +1762,7 @@ func (options *MongoIndexOptions) AssignProperties_To_MongoIndexOptions(destinat
 	return nil
 }
 
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions_STATUS struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

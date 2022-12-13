@@ -27,6 +27,7 @@ type PrivateDnsZone_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Represents the properties of the Private DNS zone.
 type PrivateZoneProperties_STATUS_ARM struct {
 	// MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
 	// read-only property and any attempt to set this value will be ignored.

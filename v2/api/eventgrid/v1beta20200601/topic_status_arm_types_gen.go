@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
+// EventGrid Topic
 type Topic_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
@@ -26,6 +27,7 @@ type Topic_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the Topic
 type TopicProperties_STATUS_ARM struct {
 	// Endpoint: Endpoint for the topic.
 	Endpoint *string `json:"endpoint,omitempty"`

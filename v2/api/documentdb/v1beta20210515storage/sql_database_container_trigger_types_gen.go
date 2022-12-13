@@ -217,6 +217,7 @@ type SqlTriggerGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlTriggerResource
+// Cosmos DB SQL trigger resource object
 type SqlTriggerResource struct {
 	Body             *string                `json:"body,omitempty"`
 	Id               *string                `json:"id,omitempty"`

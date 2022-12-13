@@ -21,6 +21,7 @@ type FlexibleServers_Configuration_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a configuration.
 type ConfigurationProperties_STATUS_ARM struct {
 	// AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`

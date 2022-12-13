@@ -637,7 +637,9 @@ type DatabaseAccounts_SqlDatabase_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                   `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS                   `json:"options,omitempty"`
 	Resource *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                         `json:"tags,omitempty"`
@@ -1026,6 +1028,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 	return nil
 }
 
+// Cosmos DB SQL database resource object
 type SqlDatabaseResource struct {
 	// +kubebuilder:validation:Required
 	// Id: Name of the Cosmos DB SQL database

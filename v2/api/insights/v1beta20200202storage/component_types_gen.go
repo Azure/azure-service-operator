@@ -255,6 +255,7 @@ func (component *Component_STATUS) ConvertStatusTo(destination genruntime.Conver
 }
 
 // Storage version of v1beta20200202.PrivateLinkScopedResource_STATUS
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"ResourceId,omitempty"`

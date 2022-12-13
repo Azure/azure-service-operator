@@ -143,6 +143,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		pipeline.ReplaceAnyTypeWithJSON(),
+		pipeline.ImprovePropertyDescriptions(),
 
 		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),

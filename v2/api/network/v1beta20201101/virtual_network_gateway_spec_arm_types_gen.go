@@ -37,6 +37,7 @@ func (gateway *VirtualNetworkGateway_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
+// VirtualNetworkGateway properties.
 type VirtualNetworkGatewayPropertiesFormat_ARM struct {
 	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -83,11 +84,13 @@ type VirtualNetworkGatewayPropertiesFormat_ARM struct {
 	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType `json:"vpnType,omitempty"`
 }
 
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace_ARM struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
+// BGP settings details.
 type BgpSettings_ARM struct {
 	// Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
@@ -102,6 +105,7 @@ type BgpSettings_ARM struct {
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
+// IP configuration for virtual network gateway.
 type VirtualNetworkGatewayIPConfiguration_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -110,6 +114,7 @@ type VirtualNetworkGatewayIPConfiguration_ARM struct {
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
+// VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku_ARM struct {
 	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
@@ -118,6 +123,7 @@ type VirtualNetworkGatewaySku_ARM struct {
 	Tier *VirtualNetworkGatewaySku_Tier `json:"tier,omitempty"`
 }
 
+// VpnClientConfiguration for P2S client.
 type VpnClientConfiguration_ARM struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
 	// authentication.
@@ -159,6 +165,7 @@ type VpnClientConfiguration_ARM struct {
 	VpnClientRootCertificates []VpnClientRootCertificate_ARM `json:"vpnClientRootCertificates,omitempty"`
 }
 
+// Properties of IPConfigurationBgpPeeringAddress.
 type IPConfigurationBgpPeeringAddress_ARM struct {
 	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
@@ -167,6 +174,7 @@ type IPConfigurationBgpPeeringAddress_ARM struct {
 	IpconfigurationId *string `json:"ipconfigurationId,omitempty"`
 }
 
+// An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy_ARM struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup `json:"dhGroup,omitempty"`
@@ -195,6 +203,7 @@ type IpsecPolicy_ARM struct {
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
+// Radius Server Settings.
 type RadiusServer_ARM struct {
 	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
@@ -206,6 +215,7 @@ type RadiusServer_ARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
+// Properties of VirtualNetworkGatewayIPConfiguration.
 type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
 	// PrivateIPAllocationMethod: The private IP address allocation method.
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
@@ -217,6 +227,7 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_ARM struct {
 	Subnet *SubResource_ARM `json:"subnet,omitempty"`
 }
 
+// VPN client revoked certificate of virtual network gateway.
 type VpnClientRevokedCertificate_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -225,6 +236,7 @@ type VpnClientRevokedCertificate_ARM struct {
 	Properties *VpnClientRevokedCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
+// VPN client root certificate of virtual network gateway.
 type VpnClientRootCertificate_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -233,11 +245,13 @@ type VpnClientRootCertificate_ARM struct {
 	Properties *VpnClientRootCertificatePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
+// Properties of the revoked VPN client certificate of virtual network gateway.
 type VpnClientRevokedCertificatePropertiesFormat_ARM struct {
 	// Thumbprint: The revoked VPN client certificate thumbprint.
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
+// Properties of SSL certificates of application gateway.
 type VpnClientRootCertificatePropertiesFormat_ARM struct {
 	// PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`

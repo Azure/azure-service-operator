@@ -186,6 +186,7 @@ func (balancer *LoadBalancer_Spec) ConvertSpecTo(destination genruntime.Converti
 }
 
 // Storage version of v1beta20201101.LoadBalancer_STATUS
+// LoadBalancer resource.
 type LoadBalancer_STATUS struct {
 	BackendAddressPools      []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
 	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
@@ -229,6 +230,7 @@ func (balancer *LoadBalancer_STATUS) ConvertStatusTo(destination genruntime.Conv
 }
 
 // Storage version of v1beta20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded
+// Pool of backend IP addresses.
 type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
 	LoadBalancerBackendAddresses []LoadBalancerBackendAddress `json:"loadBalancerBackendAddresses,omitempty"`
 	Name                         *string                      `json:"name,omitempty"`
@@ -236,6 +238,7 @@ type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
+// Pool of backend IP addresses.
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	BackendIPConfigurations      []NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfigurations,omitempty"`
 	Etag                         *string                                                                   `json:"etag,omitempty"`
@@ -251,6 +254,7 @@ type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.ExtendedLocation
+// ExtendedLocation complex type.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -258,6 +262,7 @@ type ExtendedLocation struct {
 }
 
 // Storage version of v1beta20201101.ExtendedLocation_STATUS
+// ExtendedLocation complex type.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -265,6 +270,7 @@ type ExtendedLocation_STATUS struct {
 }
 
 // Storage version of v1beta20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+// Frontend IP address of the load balancer.
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
 	Name                      *string                                               `json:"name,omitempty"`
 	PrivateIPAddress          *string                                               `json:"privateIPAddress,omitempty"`
@@ -278,6 +284,7 @@ type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+// Frontend IP address of the load balancer.
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	Etag                      *string                                                  `json:"etag,omitempty"`
 	Id                        *string                                                  `json:"id,omitempty"`
@@ -299,6 +306,7 @@ type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.InboundNatPool
+// Inbound NAT pool of the load balancer.
 type InboundNatPool struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
@@ -313,6 +321,7 @@ type InboundNatPool struct {
 }
 
 // Storage version of v1beta20201101.InboundNatPool_STATUS
+// Inbound NAT pool of the load balancer.
 type InboundNatPool_STATUS struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
@@ -331,6 +340,7 @@ type InboundNatPool_STATUS struct {
 }
 
 // Storage version of v1beta20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded
+// Inbound NAT rule of the load balancer.
 type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
@@ -344,6 +354,7 @@ type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
+// Inbound NAT rule of the load balancer.
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
 	BackendPort             *int                                                                     `json:"backendPort,omitempty"`
@@ -362,6 +373,7 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.LoadBalancerSku
+// SKU of a load balancer.
 type LoadBalancerSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -369,6 +381,7 @@ type LoadBalancerSku struct {
 }
 
 // Storage version of v1beta20201101.LoadBalancerSku_STATUS
+// SKU of a load balancer.
 type LoadBalancerSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -376,6 +389,7 @@ type LoadBalancerSku_STATUS struct {
 }
 
 // Storage version of v1beta20201101.LoadBalancingRule
+// A load balancing rule for a load balancer.
 type LoadBalancingRule struct {
 	BackendAddressPool      *SubResource           `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
@@ -393,6 +407,7 @@ type LoadBalancingRule struct {
 }
 
 // Storage version of v1beta20201101.LoadBalancingRule_STATUS
+// A load balancing rule for a load balancer.
 type LoadBalancingRule_STATUS struct {
 	BackendAddressPool      *SubResource_STATUS    `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
@@ -414,6 +429,7 @@ type LoadBalancingRule_STATUS struct {
 }
 
 // Storage version of v1beta20201101.OutboundRule
+// Outbound rule of the load balancer.
 type OutboundRule struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource           `json:"backendAddressPool,omitempty"`
@@ -426,6 +442,7 @@ type OutboundRule struct {
 }
 
 // Storage version of v1beta20201101.OutboundRule_STATUS
+// Outbound rule of the load balancer.
 type OutboundRule_STATUS struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource_STATUS    `json:"backendAddressPool,omitempty"`
@@ -442,6 +459,7 @@ type OutboundRule_STATUS struct {
 }
 
 // Storage version of v1beta20201101.Probe
+// A load balancer probe.
 type Probe struct {
 	IntervalInSeconds *int                   `json:"intervalInSeconds,omitempty"`
 	Name              *string                `json:"name,omitempty"`
@@ -453,6 +471,7 @@ type Probe struct {
 }
 
 // Storage version of v1beta20201101.Probe_STATUS
+// A load balancer probe.
 type Probe_STATUS struct {
 	Etag               *string                `json:"etag,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -469,6 +488,7 @@ type Probe_STATUS struct {
 }
 
 // Storage version of v1beta20201101.LoadBalancerBackendAddress
+// Load balancer backend addresses.
 type LoadBalancerBackendAddress struct {
 	IpAddress                           *string                `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource           `json:"loadBalancerFrontendIPConfiguration,omitempty"`
@@ -479,6 +499,7 @@ type LoadBalancerBackendAddress struct {
 }
 
 // Storage version of v1beta20201101.LoadBalancerBackendAddress_STATUS
+// Load balancer backend addresses.
 type LoadBalancerBackendAddress_STATUS struct {
 	IpAddress                           *string                `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource_STATUS    `json:"loadBalancerFrontendIPConfiguration,omitempty"`
@@ -490,18 +511,21 @@ type LoadBalancerBackendAddress_STATUS struct {
 }
 
 // Storage version of v1beta20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+// IPConfiguration in a network interface.
 type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+// Public IP address resource.
 type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+// Public IP address resource.
 type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -510,6 +534,7 @@ type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.Subnet_LoadBalancer_SubResourceEmbedded
+// Subnet in a virtual network resource.
 type Subnet_LoadBalancer_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -518,6 +543,7 @@ type Subnet_LoadBalancer_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.Subnet_STATUS_LoadBalancer_SubResourceEmbedded
+// Subnet in a virtual network resource.
 type Subnet_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

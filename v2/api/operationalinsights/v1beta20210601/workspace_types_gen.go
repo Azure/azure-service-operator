@@ -861,6 +861,7 @@ func (workspace *Workspace_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (workspace *Workspace_Spec) SetAzureName(azureName string) { workspace.AzureName = azureName }
 
+// The top level Workspace resource container.
 type Workspace_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1418,6 +1419,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	return nil
 }
 
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -1491,6 +1493,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 	return nil
 }
 
+// The network access type for operating on the Log Analytics Workspace. By default it is Enabled
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccessType string
 
@@ -1499,6 +1502,7 @@ const (
 	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
+// The network access type for operating on the Log Analytics Workspace. By default it is Enabled
 type PublicNetworkAccessType_STATUS string
 
 const (
@@ -1506,6 +1510,7 @@ const (
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
+// The daily volume cap for ingestion.
 type WorkspaceCapping struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
@@ -1589,6 +1594,7 @@ func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destinatio
 	return nil
 }
 
+// The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
@@ -1697,6 +1703,7 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STA
 	return nil
 }
 
+// Workspace features.
 type WorkspaceFeatures struct {
 	// ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceReference *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
@@ -1904,6 +1911,7 @@ func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destina
 	return nil
 }
 
+// Workspace features.
 type WorkspaceFeatures_STATUS struct {
 	// ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
@@ -2087,6 +2095,7 @@ const (
 	WorkspaceProperties_ProvisioningState_STATUS_Updating            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
 
+// The SKU (tier) of a workspace.
 type WorkspaceSku struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
@@ -2203,6 +2212,7 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 	return nil
 }
 
+// The SKU (tier) of a workspace.
 type WorkspaceSku_STATUS struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.

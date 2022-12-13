@@ -43,7 +43,9 @@ type FakeResourceParameters struct {
 	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name                      string              `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+
+	// Properties: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 	Properties                *Properties         `json:"properties,omitempty"`
 	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`

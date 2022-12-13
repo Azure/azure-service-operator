@@ -212,6 +212,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) ConvertStatusTo(destination genrunti
 }
 
 // Storage version of v1beta20211101.CaptureDescription
+// Properties to configure capture description for eventhub
 type CaptureDescription struct {
 	Destination       *Destination           `json:"destination,omitempty"`
 	Enabled           *bool                  `json:"enabled,omitempty"`
@@ -223,6 +224,7 @@ type CaptureDescription struct {
 }
 
 // Storage version of v1beta20211101.CaptureDescription_STATUS
+// Properties to configure capture description for eventhub
 type CaptureDescription_STATUS struct {
 	Destination       *Destination_STATUS    `json:"destination,omitempty"`
 	Enabled           *bool                  `json:"enabled,omitempty"`
@@ -234,6 +236,7 @@ type CaptureDescription_STATUS struct {
 }
 
 // Storage version of v1beta20211101.Destination
+// Capture storage details for capture description
 type Destination struct {
 	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
 	BlobContainer          *string                `json:"blobContainer,omitempty"`
@@ -248,6 +251,7 @@ type Destination struct {
 }
 
 // Storage version of v1beta20211101.Destination_STATUS
+// Capture storage details for capture description
 type Destination_STATUS struct {
 	ArchiveNameFormat        *string                `json:"archiveNameFormat,omitempty"`
 	BlobContainer            *string                `json:"blobContainer,omitempty"`

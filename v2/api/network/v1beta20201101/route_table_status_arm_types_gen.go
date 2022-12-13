@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
+// Route table resource.
 type RouteTable_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -26,6 +27,7 @@ type RouteTable_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Route Table resource.
 type RouteTablePropertiesFormat_STATUS_ARM struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`

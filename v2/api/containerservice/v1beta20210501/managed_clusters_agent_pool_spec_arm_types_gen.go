@@ -29,6 +29,7 @@ func (pool *ManagedClusters_AgentPool_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
+// Properties for the container service agent pool profile.
 type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// AvailabilityZones: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType
 	// property is 'VirtualMachineScaleSets'.
@@ -64,8 +65,11 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	GpuInstanceProfile *GPUInstanceProfile `json:"gpuInstanceProfile,omitempty"`
 
 	// KubeletConfig: The Kubelet configuration on the agent pool nodes.
-	KubeletConfig   *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
-	KubeletDiskType *KubeletDiskType   `json:"kubeletDiskType,omitempty"`
+	KubeletConfig *KubeletConfig_ARM `json:"kubeletConfig,omitempty"`
+
+	// KubeletDiskType: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral
+	// storage.
+	KubeletDiskType *KubeletDiskType `json:"kubeletDiskType,omitempty"`
 
 	// LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_ARM `json:"linuxOSConfig,omitempty"`
@@ -77,8 +81,11 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	MaxPods *int `json:"maxPods,omitempty"`
 
 	// MinCount: The minimum number of nodes for auto-scaling
-	MinCount *int           `json:"minCount,omitempty"`
-	Mode     *AgentPoolMode `json:"mode,omitempty"`
+	MinCount *int `json:"minCount,omitempty"`
+
+	// Mode: A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool
+	// restrictions  and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools
+	Mode *AgentPoolMode `json:"mode,omitempty"`
 
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
@@ -94,10 +101,18 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	// pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
 	OrchestratorVersion *string                 `json:"orchestratorVersion,omitempty"`
 	OsDiskSizeGB        *ContainerServiceOSDisk `json:"osDiskSizeGB,omitempty"`
-	OsDiskType          *OSDiskType             `json:"osDiskType,omitempty"`
-	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
-	OsType              *OSType                 `json:"osType,omitempty"`
-	PodSubnetID         *string                 `json:"podSubnetID,omitempty"`
+
+	// OsDiskType: The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested
+	// OSDiskSizeGB. Otherwise,  defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral
+	// OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os).
+	OsDiskType *OSDiskType `json:"osDiskType,omitempty"`
+
+	// OsSKU: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+	OsSKU *OSSKU `json:"osSKU,omitempty"`
+
+	// OsType: The operating system type. The default is Linux.
+	OsType      *OSType `json:"osType,omitempty"`
+	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *ProximityPlacementGroupID `json:"proximityPlacementGroupID,omitempty"`
@@ -116,7 +131,9 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 
 	// Tags: The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string `json:"tags,omitempty"`
-	Type *AgentPoolType    `json:"type,omitempty"`
+
+	// Type: The type of Agent Pool.
+	Type *AgentPoolType `json:"type,omitempty"`
 
 	// UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_ARM `json:"upgradeSettings,omitempty"`
@@ -128,6 +145,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
+// Settings for upgrading an agentpool
 type AgentPoolUpgradeSettings_ARM struct {
 	// MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it
 	// is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded
@@ -136,6 +154,7 @@ type AgentPoolUpgradeSettings_ARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
+// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type KubeletConfig_ARM struct {
 	// AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
@@ -177,6 +196,7 @@ type KubeletConfig_ARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
+// See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
 type LinuxOSConfig_ARM struct {
 	// SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
@@ -195,6 +215,7 @@ type LinuxOSConfig_ARM struct {
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
+// Sysctl settings for Linux agent nodes.
 type SysctlConfig_ARM struct {
 	// FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`

@@ -1006,6 +1006,8 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 	return nil
 }
 
+// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+// expression.
 type Action struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.
@@ -1132,6 +1134,8 @@ func (action *Action) AssignProperties_To_Action(destination *v20210101ps.Action
 	return nil
 }
 
+// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+// expression.
 type Action_STATUS struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.
@@ -1231,6 +1235,7 @@ func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v202
 	return nil
 }
 
+// Represents the correlation filter expression.
 type CorrelationFilter struct {
 	// ContentType: Content type of the message.
 	ContentType *string `json:"contentType,omitempty"`
@@ -1507,6 +1512,7 @@ func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destinati
 	return nil
 }
 
+// Represents the correlation filter expression.
 type CorrelationFilter_STATUS struct {
 	// ContentType: Content type of the message.
 	ContentType *string `json:"contentType,omitempty"`
@@ -1712,6 +1718,7 @@ func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_ST
 	return nil
 }
 
+// Rule filter types
 // +kubebuilder:validation:Enum={"CorrelationFilter","SqlFilter"}
 type FilterType string
 
@@ -1720,6 +1727,7 @@ const (
 	FilterType_SqlFilter         = FilterType("SqlFilter")
 )
 
+// Rule filter types
 type FilterType_STATUS string
 
 const (
@@ -1727,6 +1735,7 @@ const (
 	FilterType_STATUS_SqlFilter         = FilterType_STATUS("SqlFilter")
 )
 
+// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter struct {
 	// +kubebuilder:validation:Maximum=20
 	// +kubebuilder:validation:Minimum=20
@@ -1865,6 +1874,7 @@ func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v20210101ps.
 	return nil
 }
 
+// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter_STATUS struct {
 	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
 	// currently hard-coded to 20.

@@ -715,6 +715,8 @@ func (image *Image_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (image *Image_Spec) SetAzureName(azureName string) { image.AzureName = azureName }
 
+// The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual
+// machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 type Image_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1065,6 +1067,7 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202203
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -1169,6 +1172,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -1252,6 +1256,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Specifies the HyperVGeneration Type
 // +kubebuilder:validation:Enum={"V1","V2"}
 type HyperVGenerationType string
 
@@ -1260,6 +1265,7 @@ const (
 	HyperVGenerationType_V2 = HyperVGenerationType("V2")
 )
 
+// Specifies the HyperVGeneration Type
 type HyperVGenerationType_STATUS string
 
 const (
@@ -1267,6 +1273,7 @@ const (
 	HyperVGenerationType_STATUS_V2 = HyperVGenerationType_STATUS("V2")
 )
 
+// Describes a storage profile.
 type ImageStorageProfile struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -1461,6 +1468,7 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 	return nil
 }
 
+// Describes a storage profile.
 type ImageStorageProfile_STATUS struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -1762,6 +1770,7 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
+// Describes a data disk.
 type ImageDataDisk struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`
@@ -2093,6 +2102,7 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *v20220
 	return nil
 }
 
+// Describes a data disk.
 type ImageDataDisk_STATUS struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`
@@ -2354,6 +2364,7 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 	return nil
 }
 
+// Describes an Operating System disk.
 type ImageOSDisk struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`
@@ -2730,6 +2741,7 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *v20220301s
 	return nil
 }
 
+// Describes an Operating System disk.
 type ImageOSDisk_STATUS struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`
@@ -3093,6 +3105,13 @@ const (
 	ImageOSDisk_OsType_STATUS_Windows = ImageOSDisk_OsType_STATUS("Windows")
 )
 
+// Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
+// create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
+// uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk.
+// Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more
+// information regarding disks supported for Windows Virtual Machines, refer to
+// https://docs.microsoft.com/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
+// https://docs.microsoft.com/azure/virtual-machines/linux/disks-types
 // +kubebuilder:validation:Enum={"PremiumV2_LRS","Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
 type StorageAccountType string
 
@@ -3106,6 +3125,13 @@ const (
 	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
+// Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
+// create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
+// uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk.
+// Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more
+// information regarding disks supported for Windows Virtual Machines, refer to
+// https://docs.microsoft.com/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
+// https://docs.microsoft.com/azure/virtual-machines/linux/disks-types
 type StorageAccountType_STATUS string
 
 const (

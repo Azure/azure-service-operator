@@ -21,7 +21,9 @@ type DatabaseAccounts_MongodbDatabase_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB MongoDB database
 type MongoDBDatabaseGetProperties_STATUS_ARM struct {
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                       `json:"options,omitempty"`
 	Resource *MongoDBDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
@@ -40,6 +42,7 @@ type MongoDBDatabaseGetProperties_Resource_STATUS_ARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
+// Cosmos DB options resource object
 type OptionsResource_STATUS_ARM struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_STATUS_ARM `json:"autoscaleSettings,omitempty"`

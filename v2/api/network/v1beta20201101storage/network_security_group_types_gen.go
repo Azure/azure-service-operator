@@ -171,6 +171,7 @@ func (group *NetworkSecurityGroup_Spec) ConvertSpecTo(destination genruntime.Con
 }
 
 // Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
 	DefaultSecurityRules []SecurityRule_STATUS                                              `json:"defaultSecurityRules,omitempty"`
@@ -210,24 +211,28 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 }
 
 // Storage version of v1beta20201101.FlowLog_STATUS
+// A flow log resource.
 type FlowLog_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+// A network interface in a resource group.
 type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.SecurityRule_STATUS
+// Network security rule.
 type SecurityRule_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+// Subnet in a virtual network resource.
 type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

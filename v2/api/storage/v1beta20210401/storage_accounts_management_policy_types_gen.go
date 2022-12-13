@@ -718,6 +718,8 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_Stora
 	return nil
 }
 
+// The Storage Account ManagementPolicies Rules. See more details in:
+// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema struct {
 	// +kubebuilder:validation:Required
 	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
@@ -830,6 +832,8 @@ func (schema *ManagementPolicySchema) AssignProperties_To_ManagementPolicySchema
 	return nil
 }
 
+// The Storage Account ManagementPolicies Rules. See more details in:
+// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema_STATUS struct {
 	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
@@ -923,6 +927,7 @@ func (schema *ManagementPolicySchema_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
+// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule struct {
 	// +kubebuilder:validation:Required
 	// Definition: An object that defines the Lifecycle rule.
@@ -1110,6 +1115,7 @@ func (rule *ManagementPolicyRule) AssignProperties_To_ManagementPolicyRule(desti
 	return nil
 }
 
+// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule_STATUS struct {
 	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_STATUS `json:"definition,omitempty"`
@@ -1257,6 +1263,7 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_To_ManagementPolicyRul
 	return nil
 }
 
+// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition struct {
 	// +kubebuilder:validation:Required
 	// Actions: An object that defines the action set.
@@ -1406,6 +1413,7 @@ func (definition *ManagementPolicyDefinition) AssignProperties_To_ManagementPoli
 	return nil
 }
 
+// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition_STATUS struct {
 	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_STATUS `json:"actions,omitempty"`
@@ -1534,6 +1542,7 @@ type ManagementPolicyRule_Type_STATUS string
 
 const ManagementPolicyRule_Type_STATUS_Lifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
 
+// Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction struct {
 	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
@@ -1730,6 +1739,7 @@ func (action *ManagementPolicyAction) AssignProperties_To_ManagementPolicyAction
 	return nil
 }
 
+// Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction_STATUS struct {
 	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_STATUS `json:"baseBlob,omitempty"`
@@ -1887,6 +1897,8 @@ func (action *ManagementPolicyAction_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
+// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
+// AND is performed on all filters.
 type ManagementPolicyFilter struct {
 	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter `json:"blobIndexMatch,omitempty"`
@@ -2037,6 +2049,8 @@ func (filter *ManagementPolicyFilter) AssignProperties_To_ManagementPolicyFilter
 	return nil
 }
 
+// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
+// AND is performed on all filters.
 type ManagementPolicyFilter_STATUS struct {
 	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_STATUS `json:"blobIndexMatch,omitempty"`
@@ -2158,6 +2172,7 @@ func (filter *ManagementPolicyFilter_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
+// Management policy action for base blob.
 type ManagementPolicyBaseBlob struct {
 	// Delete: The function to delete the blob
 	Delete *DateAfterModification `json:"delete,omitempty"`
@@ -2386,6 +2401,7 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBl
 	return nil
 }
 
+// Management policy action for base blob.
 type ManagementPolicyBaseBlob_STATUS struct {
 	// Delete: The function to delete the blob
 	Delete *DateAfterModification_STATUS `json:"delete,omitempty"`
@@ -2569,6 +2585,7 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
+// Management policy action for snapshot.
 type ManagementPolicySnapShot struct {
 	// Delete: The function to delete the blob snapshot
 	Delete *DateAfterCreation `json:"delete,omitempty"`
@@ -2765,6 +2782,7 @@ func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapSh
 	return nil
 }
 
+// Management policy action for snapshot.
 type ManagementPolicySnapShot_STATUS struct {
 	// Delete: The function to delete the blob snapshot
 	Delete *DateAfterCreation_STATUS `json:"delete,omitempty"`
@@ -2922,6 +2940,7 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
+// Management policy action for blob version.
 type ManagementPolicyVersion struct {
 	// Delete: The function to delete the blob version
 	Delete *DateAfterCreation `json:"delete,omitempty"`
@@ -3118,6 +3137,7 @@ func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVers
 	return nil
 }
 
+// Management policy action for blob version.
 type ManagementPolicyVersion_STATUS struct {
 	// Delete: The function to delete the blob version
 	Delete *DateAfterCreation_STATUS `json:"delete,omitempty"`
@@ -3275,6 +3295,7 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_To_ManagementPol
 	return nil
 }
 
+// Blob index tag based filtering for blob objects
 type TagFilter struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=128
@@ -3418,6 +3439,7 @@ func (filter *TagFilter) AssignProperties_To_TagFilter(destination *v20210401s.T
 	return nil
 }
 
+// Blob index tag based filtering for blob objects
 type TagFilter_STATUS struct {
 	// Name: This is the filter tag name, it can have 1 - 128 characters
 	Name *string `json:"name,omitempty"`
@@ -3507,6 +3529,7 @@ func (filter *TagFilter_STATUS) AssignProperties_To_TagFilter_STATUS(destination
 	return nil
 }
 
+// Object to define the number of days after creation.
 type DateAfterCreation struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Minimum=0
@@ -3593,6 +3616,7 @@ func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destina
 	return nil
 }
 
+// Object to define the number of days after creation.
 type DateAfterCreation_STATUS struct {
 	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
@@ -3661,6 +3685,8 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_To_DateAfterCreation_
 	return nil
 }
 
+// Object to define the number of days after object last modification Or last access. Properties
+// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
 type DateAfterModification struct {
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
@@ -3780,6 +3806,8 @@ func (modification *DateAfterModification) AssignProperties_To_DateAfterModifica
 	return nil
 }
 
+// Object to define the number of days after object last modification Or last access. Properties
+// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
 type DateAfterModification_STATUS struct {
 	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
 	// used in conjunction with last access time tracking policy

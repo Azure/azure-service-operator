@@ -1743,6 +1743,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 	return nil
 }
 
+// Backup properties of a server
 type Backup struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -1847,6 +1848,7 @@ func (backup *Backup) AssignProperties_To_Backup(destination *v20210601s.Backup)
 	return nil
 }
 
+// Backup properties of a server
 type Backup_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -1998,6 +2000,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 	return nil
 }
 
+// High availability properties of a server
 type HighAvailability struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
@@ -2102,6 +2105,7 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 	return nil
 }
 
+// High availability properties of a server
 type HighAvailability_STATUS struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
@@ -2210,6 +2214,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailabilit
 	return nil
 }
 
+// Maintenance window properties of a server.
 type MaintenanceWindow struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -2346,6 +2351,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	return nil
 }
 
+// Maintenance window properties of a server.
 type MaintenanceWindow_STATUS struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -2449,6 +2455,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 	return nil
 }
 
+// Network properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: delegated subnet arm resource id.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -2563,6 +2570,7 @@ func (network *Network) AssignProperties_To_Network(destination *v20210601s.Netw
 	return nil
 }
 
+// Network properties of a server
 type Network_STATUS struct {
 	// DelegatedSubnetResourceId: delegated subnet arm resource id.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -2692,6 +2700,7 @@ const (
 	ServerProperties_State_STATUS_Updating = ServerProperties_State_STATUS("Updating")
 )
 
+// The version of a server.
 // +kubebuilder:validation:Enum={"11","12","13","14"}
 type ServerVersion string
 
@@ -2702,6 +2711,7 @@ const (
 	ServerVersion_14 = ServerVersion("14")
 )
 
+// The version of a server.
 type ServerVersion_STATUS string
 
 const (
@@ -2711,6 +2721,7 @@ const (
 	ServerVersion_STATUS_14 = ServerVersion_STATUS("14")
 )
 
+// Sku information related properties of a server.
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
@@ -2817,6 +2828,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
 	return nil
 }
 
+// Sku information related properties of a server.
 type Sku_STATUS struct {
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
@@ -2900,6 +2912,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210601s.Sk
 	return nil
 }
 
+// Storage properties of a server
 type Storage struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
@@ -2973,6 +2986,7 @@ func (storage *Storage) AssignProperties_To_Storage(destination *v20210601s.Stor
 	return nil
 }
 
+// Storage properties of a server
 type Storage_STATUS struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
@@ -3031,6 +3045,7 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *v
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`

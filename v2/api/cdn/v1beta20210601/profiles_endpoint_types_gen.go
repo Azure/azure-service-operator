@@ -1268,7 +1268,9 @@ type Profiles_Endpoint_STATUS struct {
 
 	// ResourceState: Resource status of the endpoint.
 	ResourceState *EndpointProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
-	SystemData    *SystemData_STATUS                       `json:"systemData,omitempty"`
+
+	// SystemData: Read only system data
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -2087,6 +2089,7 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 	return nil
 }
 
+// Custom domains created on the CDN endpoint.
 type DeepCreatedCustomDomain_STATUS struct {
 	// HostName: The host name of the custom domain. Must be a domain name.
 	HostName *string `json:"hostName,omitempty"`
@@ -2182,6 +2185,7 @@ func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCus
 	return nil
 }
 
+// The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -2593,6 +2597,7 @@ func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destinati
 	return nil
 }
 
+// The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin_STATUS struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -2893,6 +2898,8 @@ func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_ST
 	return nil
 }
 
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
 type DeepCreatedOriginGroup struct {
 	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
 	HealthProbeSettings *HealthProbeParameters `json:"healthProbeSettings,omitempty"`
@@ -3170,6 +3177,8 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 	return nil
 }
 
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
 type DeepCreatedOriginGroup_STATUS struct {
 	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
 	HealthProbeSettings *HealthProbeParameters_STATUS `json:"healthProbeSettings,omitempty"`
@@ -3784,6 +3793,7 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignPr
 	return nil
 }
 
+// Rules defining user's geo access within a CDN endpoint.
 type GeoFilter struct {
 	// +kubebuilder:validation:Required
 	// Action: Action of the geo filter, i.e. allow or block access.
@@ -3910,6 +3920,7 @@ func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *v20210601s.G
 	return nil
 }
 
+// Rules defining user's geo access within a CDN endpoint.
 type GeoFilter_STATUS struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
 	Action *GeoFilter_Action_STATUS `json:"action,omitempty"`
@@ -4007,6 +4018,8 @@ func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination
 	return nil
 }
 
+// Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this
+// information we can apply scenario driven optimization.
 // +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
 type OptimizationType string
 
@@ -4018,6 +4031,8 @@ const (
 	OptimizationType_VideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
 )
 
+// Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this
+// information we can apply scenario driven optimization.
 type OptimizationType_STATUS string
 
 const (
@@ -4028,6 +4043,8 @@ const (
 	OptimizationType_STATUS_VideoOnDemandMediaStreaming = OptimizationType_STATUS("VideoOnDemandMediaStreaming")
 )
 
+// Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
+// caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
 type QueryStringCachingBehavior string
 
@@ -4038,6 +4055,8 @@ const (
 	QueryStringCachingBehavior_UseQueryString    = QueryStringCachingBehavior("UseQueryString")
 )
 
+// Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
+// caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
 type QueryStringCachingBehavior_STATUS string
 
 const (
@@ -4047,6 +4066,7 @@ const (
 	QueryStringCachingBehavior_STATUS_UseQueryString    = QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
+// Reference to another resource.
 type ResourceReference struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -4130,6 +4150,7 @@ func (reference *ResourceReference) AssignProperties_To_ResourceReference(destin
 	return nil
 }
 
+// Reference to another resource.
 type ResourceReference_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -4188,6 +4209,7 @@ func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference
 	return nil
 }
 
+// Url signing key
 type UrlSigningKey struct {
 	// +kubebuilder:validation:Required
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
@@ -4312,6 +4334,7 @@ func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *
 	return nil
 }
 
+// Url signing key
 type UrlSigningKey_STATUS struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
@@ -4409,6 +4432,7 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS
 	return nil
 }
 
+// A rule that specifies a set of actions and conditions
 type DeliveryRule struct {
 	// +kubebuilder:validation:Required
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
@@ -4623,6 +4647,7 @@ func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *v2021060
 	return nil
 }
 
+// A rule that specifies a set of actions and conditions
 type DeliveryRule_STATUS struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
 	Actions []DeliveryRuleAction_STATUS `json:"actions,omitempty"`
@@ -4803,6 +4828,7 @@ const (
 	GeoFilter_Action_STATUS_Block = GeoFilter_Action_STATUS("Block")
 )
 
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters struct {
 	// +kubebuilder:validation:Maximum=255
 	// +kubebuilder:validation:Minimum=1
@@ -4971,6 +4997,7 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 	return nil
 }
 
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
@@ -5094,6 +5121,7 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeP
 	return nil
 }
 
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters struct {
 	// +kubebuilder:validation:Required
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
@@ -5287,6 +5315,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSign
 	return nil
 }
 
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_STATUS struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
@@ -5428,6 +5457,7 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVa
 	return nil
 }
 
+// The approval status for the connection to the Private Link
 type PrivateEndpointStatus_STATUS string
 
 const (
@@ -5438,6 +5468,7 @@ const (
 	PrivateEndpointStatus_STATUS_Timeout      = PrivateEndpointStatus_STATUS("Timeout")
 )
 
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
@@ -5613,6 +5644,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 	return nil
 }
 
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
@@ -5746,6 +5778,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 	return nil
 }
 
+// An action for the delivery rule.
 type DeliveryRuleAction struct {
 	// CacheExpiration: Mutually exclusive with all other properties
 	CacheExpiration *DeliveryRuleCacheExpirationAction `json:"cacheExpiration,omitempty"`
@@ -6230,6 +6263,7 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 	return nil
 }
 
+// An action for the delivery rule.
 type DeliveryRuleAction_STATUS struct {
 	// CacheExpiration: Mutually exclusive with all other properties
 	CacheExpiration *DeliveryRuleCacheExpirationAction_STATUS `json:"cacheExpiration,omitempty"`
@@ -6615,6 +6649,7 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 	return nil
 }
 
+// A condition for the delivery rule.
 type DeliveryRuleCondition struct {
 	// ClientPort: Mutually exclusive with all other properties
 	ClientPort *DeliveryRuleClientPortCondition `json:"clientPort,omitempty"`
@@ -7579,6 +7614,7 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 	return nil
 }
 
+// A condition for the delivery rule.
 type DeliveryRuleCondition_STATUS struct {
 	// ClientPort: Mutually exclusive with all other properties
 	ClientPort *DeliveryRuleClientPortCondition_STATUS `json:"clientPort,omitempty"`
@@ -8378,6 +8414,7 @@ const (
 	HealthProbeParameters_ProbeRequestType_STATUS_NotSet = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
 )
 
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters struct {
 	// +kubebuilder:validation:Maximum=999
 	// +kubebuilder:validation:Minimum=100
@@ -8496,6 +8533,7 @@ func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangePa
 	return nil
 }
 
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_STATUS struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
@@ -15091,6 +15129,7 @@ func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STAT
 	return nil
 }
 
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters struct {
 	// +kubebuilder:validation:Required
 	// CacheBehavior: Caching behavior for the requests
@@ -15259,6 +15298,7 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpi
 	return nil
 }
 
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters_STATUS struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
@@ -15390,6 +15430,7 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_To_Ca
 	return nil
 }
 
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters struct {
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
@@ -15526,6 +15567,7 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_Cache
 	return nil
 }
 
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters_STATUS struct {
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
@@ -15632,6 +15674,7 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -15836,6 +15879,7 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_Client
 	return nil
 }
 
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -16000,6 +16044,7 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -16225,6 +16270,7 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMa
 	return nil
 }
 
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -16620,6 +16666,7 @@ type DeliveryRuleUrlPathCondition_Name_STATUS string
 
 const DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath = DeliveryRuleUrlPathCondition_Name_STATUS("UrlPath")
 
+// Defines the parameters for the request header action.
 type HeaderActionParameters struct {
 	// +kubebuilder:validation:Required
 	// HeaderAction: Action to perform
@@ -16778,6 +16825,7 @@ func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParame
 	return nil
 }
 
+// Defines the parameters for the request header action.
 type HeaderActionParameters_STATUS struct {
 	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction_STATUS `json:"headerAction,omitempty"`
@@ -16899,6 +16947,7 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_To_HeaderActio
 	return nil
 }
 
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -17103,6 +17152,7 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostName
 	return nil
 }
 
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -17267,6 +17317,7 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_H
 	return nil
 }
 
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -17471,6 +17522,7 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpV
 	return nil
 }
 
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -17635,6 +17687,7 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -17859,6 +17912,7 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDevice
 	return nil
 }
 
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []IsDeviceMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
@@ -18052,6 +18106,7 @@ type OriginGroupOverrideAction_Name_STATUS string
 
 const OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride = OriginGroupOverrideAction_Name_STATUS("OriginGroupOverride")
 
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters struct {
 	// +kubebuilder:validation:Required
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
@@ -18184,6 +18239,7 @@ func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_Origi
 	return nil
 }
 
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_STATUS struct {
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference_STATUS                            `json:"originGroup,omitempty"`
@@ -18288,6 +18344,7 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -18513,6 +18570,7 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgs
 	return nil
 }
 
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -18692,6 +18750,7 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_P
 	return nil
 }
 
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -18896,6 +18955,7 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_Query
 	return nil
 }
 
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -19060,6 +19120,7 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters struct {
 	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
 	// them match the variable with the given operator this match condition is considered a match.
@@ -19265,6 +19326,7 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_Rem
 	return nil
 }
 
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters_STATUS struct {
 	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
 	// them match the variable with the given operator this match condition is considered a match.
@@ -19430,6 +19492,7 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -19634,6 +19697,7 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_Reque
 	return nil
 }
 
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -19798,6 +19862,7 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -20023,6 +20088,7 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_Req
 	return nil
 }
 
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -20202,6 +20268,7 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -20426,6 +20493,7 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_Req
 	return nil
 }
 
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestMethodMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
@@ -20610,6 +20678,7 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
@@ -20834,6 +20903,7 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_Req
 	return nil
 }
 
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestSchemeMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
@@ -21018,6 +21088,7 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -21222,6 +21293,7 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_Reques
 	return nil
 }
 
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -21386,6 +21458,7 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters struct {
 	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
 	// cacheConfiguration object.
@@ -21567,6 +21640,7 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters_STATUS struct {
 	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
 	// cacheConfiguration object.
@@ -21711,6 +21785,7 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 	return nil
 }
 
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -21915,6 +21990,7 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_Server
 	return nil
 }
 
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -22079,6 +22155,7 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -22283,6 +22360,7 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_Socket
 	return nil
 }
 
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -22447,6 +22525,7 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []SslProtocol `json:"matchValues,omitempty"`
@@ -22671,6 +22750,7 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslPr
 	return nil
 }
 
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []SslProtocol_STATUS `json:"matchValues,omitempty"`
@@ -22855,6 +22935,7 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -23059,6 +23140,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_
 	return nil
 }
 
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -23223,6 +23305,7 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 	return nil
 }
 
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -23427,6 +23510,7 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFi
 	return nil
 }
 
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -23591,6 +23675,7 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -23795,6 +23880,7 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMa
 	return nil
 }
 
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -23968,6 +24054,7 @@ type UrlRedirectAction_Name_STATUS string
 
 const UrlRedirectAction_Name_STATUS_UrlRedirect = UrlRedirectAction_Name_STATUS("UrlRedirect")
 
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
 	// the #.
@@ -24202,6 +24289,7 @@ func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectAc
 	return nil
 }
 
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters_STATUS struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
 	// the #.
@@ -24391,6 +24479,7 @@ type UrlRewriteAction_Name_STATUS string
 
 const UrlRewriteAction_Name_STATUS_UrlRewrite = UrlRewriteAction_Name_STATUS("UrlRewrite")
 
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters struct {
 	// +kubebuilder:validation:Required
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
@@ -24550,6 +24639,7 @@ func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActi
 	return nil
 }
 
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters_STATUS struct {
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
 	Destination *string `json:"destination,omitempty"`
@@ -24681,6 +24771,7 @@ type UrlSigningAction_Name_STATUS string
 
 const UrlSigningAction_Name_STATUS_UrlSigning = UrlSigningAction_Name_STATUS("UrlSigning")
 
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters struct {
 	// Algorithm: Algorithm to use for URL signing
 	Algorithm *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
@@ -24853,6 +24944,7 @@ func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActi
 	return nil
 }
 
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters_STATUS struct {
 	// Algorithm: Algorithm to use for URL signing
 	Algorithm *UrlSigningActionParameters_Algorithm_STATUS `json:"algorithm,omitempty"`
@@ -24993,6 +25085,7 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSign
 	return nil
 }
 
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheConfiguration_CacheBehavior `json:"cacheBehavior,omitempty"`
@@ -25184,6 +25277,7 @@ func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(
 	return nil
 }
 
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration_STATUS struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheConfiguration_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
@@ -25596,6 +25690,7 @@ type IsDeviceMatchConditionParameters_TypeName_STATUS string
 
 const IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName_STATUS("DeliveryRuleIsDeviceConditionParameters")
 
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
@@ -25727,6 +25822,7 @@ func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(des
 	return nil
 }
 
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride_STATUS struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol_STATUS `json:"forwardingProtocol,omitempty"`
@@ -26217,6 +26313,7 @@ type SocketAddrMatchConditionParameters_TypeName_STATUS string
 
 const SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName_STATUS("DeliveryRuleSocketAddrConditionParameters")
 
+// The protocol of an established TLS connection.
 // +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
 type SslProtocol string
 
@@ -26226,6 +26323,7 @@ const (
 	SslProtocol_TLSv12 = SslProtocol("TLSv1.2")
 )
 
+// The protocol of an established TLS connection.
 type SslProtocol_STATUS string
 
 const (
@@ -26252,6 +26350,7 @@ type SslProtocolMatchConditionParameters_TypeName_STATUS string
 
 const SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName_STATUS("DeliveryRuleSslProtocolConditionParameters")
 
+// Describes what transforms are applied before matching
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type Transform string
 
@@ -26264,6 +26363,7 @@ const (
 	Transform_UrlEncode   = Transform("UrlEncode")
 )
 
+// Describes what transforms are applied before matching
 type Transform_STATUS string
 
 const (
@@ -26469,6 +26569,7 @@ type UrlSigningActionParameters_TypeName_STATUS string
 
 const UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName_STATUS("DeliveryRuleUrlSigningActionParameters")
 
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier struct {
 	// +kubebuilder:validation:Required
 	// ParamIndicator: Indicates the purpose of the parameter
@@ -26575,6 +26676,7 @@ func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParam
 	return nil
 }
 
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier_STATUS struct {
 	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator_STATUS `json:"paramIndicator,omitempty"`

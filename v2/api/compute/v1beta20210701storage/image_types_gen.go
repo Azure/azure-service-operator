@@ -431,6 +431,8 @@ func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *v20220301s.
 }
 
 // Storage version of v1beta20210701.Image_STATUS
+// The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual
+// machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 type Image_STATUS struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
 	ExtendedLocation     *ExtendedLocation_STATUS    `json:"extendedLocation,omitempty"`
@@ -649,6 +651,7 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202203
 }
 
 // Storage version of v1beta20210701.ExtendedLocation
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -700,6 +703,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 }
 
 // Storage version of v1beta20210701.ExtendedLocation_STATUS
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -751,6 +755,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 }
 
 // Storage version of v1beta20210701.ImageStorageProfile
+// Describes a storage profile.
 type ImageStorageProfile struct {
 	DataDisks     []ImageDataDisk        `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk           `json:"osDisk,omitempty"`
@@ -867,6 +872,7 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 }
 
 // Storage version of v1beta20210701.ImageStorageProfile_STATUS
+// Describes a storage profile.
 type ImageStorageProfile_STATUS struct {
 	DataDisks     []ImageDataDisk_STATUS `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_STATUS    `json:"osDisk,omitempty"`
@@ -1083,6 +1089,7 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 }
 
 // Storage version of v1beta20210701.ImageDataDisk
+// Describes a data disk.
 type ImageDataDisk struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1230,6 +1237,7 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *v20220
 }
 
 // Storage version of v1beta20210701.ImageDataDisk_STATUS
+// Describes a data disk.
 type ImageDataDisk_STATUS struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1377,6 +1385,7 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 }
 
 // Storage version of v1beta20210701.ImageOSDisk
+// Describes an Operating System disk.
 type ImageOSDisk struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1531,6 +1540,7 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *v20220301s
 }
 
 // Storage version of v1beta20210701.ImageOSDisk_STATUS
+// Describes an Operating System disk.
 type ImageOSDisk_STATUS struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`

@@ -1971,6 +1971,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 	return nil
 }
 
+// Storage Profile properties of a server
 type Backup struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -2075,6 +2076,7 @@ func (backup *Backup) AssignProperties_To_Backup(destination *v20210501s.Backup)
 	return nil
 }
 
+// Storage Profile properties of a server
 type Backup_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -2173,6 +2175,7 @@ func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *v202
 	return nil
 }
 
+// The date encryption for cmk.
 type DataEncryption struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
@@ -2361,6 +2364,7 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	return nil
 }
 
+// The date encryption for cmk.
 type DataEncryption_STATUS struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
@@ -2543,6 +2547,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 	return nil
 }
 
+// Network related properties of a server
 type HighAvailability struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
@@ -2647,6 +2652,7 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 	return nil
 }
 
+// Network related properties of a server
 type HighAvailability_STATUS struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
@@ -2755,6 +2761,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailabilit
 	return nil
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
@@ -2838,6 +2845,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210501s.I
 	return nil
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2973,6 +2981,7 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+// Maintenance window of a server.
 type MaintenanceWindow struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -3109,6 +3118,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	return nil
 }
 
+// Maintenance window of a server.
 type MaintenanceWindow_STATUS struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -3212,6 +3222,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 	return nil
 }
 
+// Network related properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -3326,6 +3337,7 @@ func (network *Network) AssignProperties_To_Network(destination *v20210501s.Netw
 	return nil
 }
 
+// Network related properties of a server
 type Network_STATUS struct {
 	// DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -3425,6 +3437,7 @@ func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *v
 	return nil
 }
 
+// The replication role.
 // +kubebuilder:validation:Enum={"None","Replica","Source"}
 type ReplicationRole string
 
@@ -3434,6 +3447,7 @@ const (
 	ReplicationRole_Source  = ReplicationRole("Source")
 )
 
+// The replication role.
 type ReplicationRole_STATUS string
 
 const (
@@ -3473,6 +3487,7 @@ const (
 	ServerProperties_State_STATUS_Updating = ServerProperties_State_STATUS("Updating")
 )
 
+// The version of a server.
 // +kubebuilder:validation:Enum={"5.7","8.0.21"}
 type ServerVersion string
 
@@ -3481,6 +3496,7 @@ const (
 	ServerVersion_8021 = ServerVersion("8.0.21")
 )
 
+// The version of a server.
 type ServerVersion_STATUS string
 
 const (
@@ -3488,6 +3504,7 @@ const (
 	ServerVersion_STATUS_8021 = ServerVersion_STATUS("8.0.21")
 )
 
+// Billing information related properties of a server.
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
@@ -3594,6 +3611,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210501s.Sku) error {
 	return nil
 }
 
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
@@ -3677,6 +3695,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210501s.Sk
 	return nil
 }
 
+// Storage Profile properties of a server
 type Storage struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum `json:"autoGrow,omitempty"`
@@ -3802,6 +3821,7 @@ func (storage *Storage) AssignProperties_To_Storage(destination *v20210501s.Stor
 	return nil
 }
 
+// Storage Profile properties of a server
 type Storage_STATUS struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum_STATUS `json:"autoGrow,omitempty"`
@@ -3915,6 +3935,7 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *v
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -4083,6 +4104,7 @@ const (
 	DataEncryption_Type_STATUS_SystemManaged = DataEncryption_Type_STATUS("SystemManaged")
 )
 
+// Enum to indicate whether value is 'Enabled' or 'Disabled'
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type EnableStatusEnum string
 
@@ -4091,6 +4113,7 @@ const (
 	EnableStatusEnum_Enabled  = EnableStatusEnum("Enabled")
 )
 
+// Enum to indicate whether value is 'Enabled' or 'Disabled'
 type EnableStatusEnum_STATUS string
 
 const (

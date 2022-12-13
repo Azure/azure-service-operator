@@ -17,6 +17,7 @@ type Workspaces_Connection_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Workspace Connection specific properties.
 type WorkspaceConnectionProps_STATUS_ARM struct {
 	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`

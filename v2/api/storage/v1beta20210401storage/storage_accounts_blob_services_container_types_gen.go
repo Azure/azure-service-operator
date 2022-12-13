@@ -223,6 +223,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) ConvertStatusTo(
 }
 
 // Storage version of v1beta20210401.ImmutabilityPolicyProperties_STATUS
+// The properties of an ImmutabilityPolicy of a blob container.
 type ImmutabilityPolicyProperties_STATUS struct {
 	AllowProtectedAppendWrites            *bool                          `json:"allowProtectedAppendWrites,omitempty"`
 	Etag                                  *string                        `json:"etag,omitempty"`
@@ -233,12 +234,14 @@ type ImmutabilityPolicyProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ImmutableStorageWithVersioning
+// Object level immutability properties of the container.
 type ImmutableStorageWithVersioning struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.ImmutableStorageWithVersioning_STATUS
+// Object level immutability properties of the container.
 type ImmutableStorageWithVersioning_STATUS struct {
 	Enabled        *bool                  `json:"enabled,omitempty"`
 	MigrationState *string                `json:"migrationState,omitempty"`
@@ -247,6 +250,7 @@ type ImmutableStorageWithVersioning_STATUS struct {
 }
 
 // Storage version of v1beta20210401.LegalHoldProperties_STATUS
+// The LegalHold property of a blob container.
 type LegalHoldProperties_STATUS struct {
 	HasLegalHold *bool                  `json:"hasLegalHold,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -254,6 +258,7 @@ type LegalHoldProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401.TagProperty_STATUS
+// A tag of the LegalHold of a blob container.
 type TagProperty_STATUS struct {
 	ObjectIdentifier *string                `json:"objectIdentifier,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -264,6 +269,7 @@ type TagProperty_STATUS struct {
 }
 
 // Storage version of v1beta20210401.UpdateHistoryProperty_STATUS
+// An update history of the ImmutabilityPolicy of a blob container.
 type UpdateHistoryProperty_STATUS struct {
 	ImmutabilityPeriodSinceCreationInDays *int                   `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	ObjectIdentifier                      *string                `json:"objectIdentifier,omitempty"`

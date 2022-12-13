@@ -29,11 +29,13 @@ func (schedule *Redis_PatchSchedule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 
+// List of patch schedules for a Redis cache.
 type ScheduleEntries_ARM struct {
 	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_ARM `json:"scheduleEntries,omitempty"`
 }
 
+// Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_ARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`

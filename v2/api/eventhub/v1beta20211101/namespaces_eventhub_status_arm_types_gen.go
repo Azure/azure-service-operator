@@ -47,6 +47,7 @@ type Namespaces_Eventhub_Properties_STATUS_ARM struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
+// Properties to configure capture description for eventhub
 type CaptureDescription_STATUS_ARM struct {
 	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
 	Destination *Destination_STATUS_ARM `json:"destination,omitempty"`
@@ -70,6 +71,7 @@ type CaptureDescription_STATUS_ARM struct {
 	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
 }
 
+// Capture storage details for capture description
 type Destination_STATUS_ARM struct {
 	// Name: Name for capture destination
 	Name *string `json:"name,omitempty"`

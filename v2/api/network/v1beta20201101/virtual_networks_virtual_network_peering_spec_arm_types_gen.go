@@ -30,6 +30,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec_ARM) GetType() string 
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
+// Properties of the virtual network peering.
 type VirtualNetworkPeeringPropertiesFormat_ARM struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
 	// allowed/disallowed in remote virtual network.

@@ -37,6 +37,7 @@ func (domain *Domain_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 
+// Properties of the Domain.
 type DomainProperties_ARM struct {
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
@@ -100,6 +101,8 @@ type JsonInputSchemaMapping_ARM struct {
 	Properties *JsonInputSchemaMappingProperties_ARM `json:"properties,omitempty"`
 }
 
+// This can be used to map properties of a source schema (or default values, for certain supported properties) to
+// properties of the EventGridEvent schema.
 type JsonInputSchemaMappingProperties_ARM struct {
 	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
 	DataVersion *JsonFieldWithDefault_ARM `json:"dataVersion,omitempty"`
@@ -120,11 +123,21 @@ type JsonInputSchemaMappingProperties_ARM struct {
 	Topic *JsonField_ARM `json:"topic,omitempty"`
 }
 
+// This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
+// This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
+// input event schema.
 type JsonField_ARM struct {
 	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
+// This is used to express the source of an input schema mapping for a single target field
+// in the Event Grid Event schema.
+// This is currently used in the mappings for the 'subject',
+// 'eventtype' and 'dataversion' properties. This represents a
+// field in the input event schema
+// along with a default value to be used, and at least one of these two properties should
+// be provided.
 type JsonFieldWithDefault_ARM struct {
 	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
 	// the specified name in the published JSON event payload.

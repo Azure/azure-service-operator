@@ -3,11 +3,15 @@
 // Licensed under the MIT license.
 package v1beta20220301
 
+// A web app, a mobile app backend, or an API app.
 type Site_STATUS_ARM struct {
+	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id.
-	Id       *string                            `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Identity: Managed service identity.
 	Identity *ManagedServiceIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Kind: Kind of resource.
@@ -29,6 +33,7 @@ type Site_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Managed service identity.
 type ManagedServiceIdentity_STATUS_ARM struct {
 	// PrincipalId: Principal Id of managed service identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -202,6 +207,7 @@ type Site_Properties_STATUS_ARM struct {
 	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
 }
 
+// Information needed for cloning operation.
 type CloningInfo_STATUS_ARM struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -247,6 +253,7 @@ type CloningInfo_STATUS_ARM struct {
 	TrafficManagerProfileName *string `json:"trafficManagerProfileName,omitempty"`
 }
 
+// SSL-enabled hostname.
 type HostNameSslState_STATUS_ARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
@@ -276,6 +283,7 @@ const (
 	ManagedServiceIdentity_Type_STATUS_UserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
 )
 
+// Configuration of an App Service app.
 type SiteConfig_STATUS_ARM struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -490,6 +498,7 @@ type SiteConfig_STATUS_ARM struct {
 	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
 }
 
+// The status of the last successful slot swap operation.
 type SlotSwapStatus_STATUS_ARM struct {
 	// DestinationSlotName: The destination slot of the last swap operation.
 	DestinationSlotName *string `json:"destinationSlotName,omitempty"`
@@ -501,6 +510,7 @@ type SlotSwapStatus_STATUS_ARM struct {
 	TimestampUtc *string `json:"timestampUtc,omitempty"`
 }
 
+// User Assigned identity.
 type UserAssignedIdentity_STATUS_ARM struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -509,16 +519,19 @@ type UserAssignedIdentity_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo_STATUS_ARM struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
 }
 
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig_STATUS_ARM struct {
 	// Id: APIM-Api Identifier.
 	Id *string `json:"id,omitempty"`
 }
 
+// Rules that can be defined for auto-heal.
 type AutoHealRules_STATUS_ARM struct {
 	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions_STATUS_ARM `json:"actions,omitempty"`
@@ -527,6 +540,7 @@ type AutoHealRules_STATUS_ARM struct {
 	Triggers *AutoHealTriggers_STATUS_ARM `json:"triggers,omitempty"`
 }
 
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue_STATUS_ARM struct {
 	// AccountName: Name of the storage account.
 	AccountName *string `json:"accountName,omitempty"`
@@ -544,6 +558,7 @@ type AzureStorageInfoValue_STATUS_ARM struct {
 	Type *AzureStorageInfoValue_Type_STATUS `json:"type,omitempty"`
 }
 
+// Database connection string information.
 type ConnStringInfo_STATUS_ARM struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -555,6 +570,7 @@ type ConnStringInfo_STATUS_ARM struct {
 	Type *ConnStringInfo_Type_STATUS `json:"type,omitempty"`
 }
 
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings_STATUS_ARM struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -566,11 +582,15 @@ type CorsSettings_STATUS_ARM struct {
 	SupportCredentials *bool `json:"supportCredentials,omitempty"`
 }
 
+// Routing rules in production experiments.
 type Experiments_STATUS_ARM struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule_STATUS_ARM `json:"rampUpRules,omitempty"`
 }
 
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping_STATUS_ARM struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -582,6 +602,7 @@ type HandlerMapping_STATUS_ARM struct {
 	ScriptProcessor *string `json:"scriptProcessor,omitempty"`
 }
 
+// IP security restriction on an app.
 type IpSecurityRestriction_STATUS_ARM struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -634,6 +655,7 @@ type IpSecurityRestriction_STATUS_ARM struct {
 	VnetTrafficTag *int `json:"vnetTrafficTag,omitempty"`
 }
 
+// Name value pair.
 type NameValuePair_STATUS_ARM struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -642,6 +664,7 @@ type NameValuePair_STATUS_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Push settings for the App.
 type PushSettings_STATUS_ARM struct {
 	// Id: Resource Id.
 	Id *string `json:"id,omitempty"`
@@ -659,6 +682,7 @@ type PushSettings_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Metric limits set on an app.
 type SiteLimits_STATUS_ARM struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -670,6 +694,7 @@ type SiteLimits_STATUS_ARM struct {
 	MaxPercentageCpu *float64 `json:"maxPercentageCpu,omitempty"`
 }
 
+// MachineKey of an app.
 type SiteMachineKey_STATUS_ARM struct {
 	// Decryption: Algorithm used for decryption.
 	Decryption *string `json:"decryption,omitempty"`
@@ -684,6 +709,7 @@ type SiteMachineKey_STATUS_ARM struct {
 	ValidationKey *string `json:"validationKey,omitempty"`
 }
 
+// Virtual application in an app.
 type VirtualApplication_STATUS_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -698,6 +724,7 @@ type VirtualApplication_STATUS_ARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_STATUS_ARM struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType_STATUS `json:"actionType,omitempty"`
@@ -710,6 +737,7 @@ type AutoHealActions_STATUS_ARM struct {
 	MinProcessExecutionTime *string `json:"minProcessExecutionTime,omitempty"`
 }
 
+// Triggers for auto-heal.
 type AutoHealTriggers_STATUS_ARM struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
@@ -750,6 +778,8 @@ type PushSettings_Properties_STATUS_ARM struct {
 	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
 }
 
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule_STATUS_ARM struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -784,6 +814,7 @@ type RampUpRule_STATUS_ARM struct {
 	ReroutePercentage *float64 `json:"reroutePercentage,omitempty"`
 }
 
+// Directory for virtual application.
 type VirtualDirectory_STATUS_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -792,6 +823,8 @@ type VirtualDirectory_STATUS_ARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction_STATUS_ARM struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -800,6 +833,7 @@ type AutoHealCustomAction_STATUS_ARM struct {
 	Parameters *string `json:"parameters,omitempty"`
 }
 
+// Trigger based on total requests.
 type RequestsBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -808,6 +842,7 @@ type RequestsBasedTrigger_STATUS_ARM struct {
 	TimeInterval *string `json:"timeInterval,omitempty"`
 }
 
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -822,6 +857,7 @@ type SlowRequestsBasedTrigger_STATUS_ARM struct {
 	TimeTaken *string `json:"timeTaken,omitempty"`
 }
 
+// Trigger based on status code.
 type StatusCodesBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -842,6 +878,7 @@ type StatusCodesBasedTrigger_STATUS_ARM struct {
 	Win32Status *int `json:"win32Status,omitempty"`
 }
 
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger_STATUS_ARM struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`

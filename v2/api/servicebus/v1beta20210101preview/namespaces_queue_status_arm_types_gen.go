@@ -20,6 +20,7 @@ type Namespaces_Queue_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The Queue Properties definition.
 type SBQueueProperties_STATUS_ARM struct {
 	// AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
 	AccessedAt *string `json:"accessedAt,omitempty"`
@@ -94,6 +95,7 @@ type SBQueueProperties_STATUS_ARM struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
+// Message Count Details.
 type MessageCountDetails_STATUS_ARM struct {
 	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
 	ActiveMessageCount *int `json:"activeMessageCount,omitempty"`
