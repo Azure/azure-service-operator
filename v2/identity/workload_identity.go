@@ -36,7 +36,7 @@ func NewWorkloadIdentityCredential(tenantID, clientID string) (*workloadIdentity
 	if err != nil {
 		return nil, err
 	}
-	
+
 	w.cred = cred
 	return w, nil
 }
@@ -54,9 +54,10 @@ func (w *workloadIdentityCredential) getAssertion(context.Context) (string, erro
 		if err != nil {
 			return "", err
 		}
-		
+
 		w.assertion = string(content)
 		w.lastRead = now
 	}
+
 	return w.assertion, nil
 }
