@@ -4,19 +4,19 @@ title: "Upgrading"
 
 ## Before you upgrade
 
-Ensure that you have carefully reviewed the upgrade instructions included in the [release notes](https://github.com/Azure/azure-service-operator/releases) for the release
-you are upgrading to.
+Ensure that you have carefully reviewed the upgrade instructions included in the [release notes](https://github.com/Azure/azure-service-operator/releases) for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version. 
 
 ## Recommended upgrade pattern
 
-We recommend that you upgrade ASO one minor version at a time. 
+We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.
 
-| Old version      | New version     |  Recommended  |
-|------------------|-----------------|:-------------:|
-| `v2.0.0-beta.0`  | `v2.0.0-beta.1` |       ✔       |
-| `v2.0.0-alpha.6` | `v2.0.0-beta.1` |       ❌       |
+| Old version      | New version     | Recommended |
+| ---------------- | --------------- | :---------: |
+| `v2.0.0-beta.0`  | `v2.0.0-beta.1` |      ✔      |
+| `v2.0.0-alpha.6` | `v2.0.0-beta.1` |      ❌      |
 
-If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time.
+If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time, giving your cluster time to stabilize between upgrades.
+
 For example `v2.0.0-alpha.6` to `v2.0.0-beta.1` should be accomplished with two upgrades:
  - `v2.0.0-alpha.6` to `v2.0.0-beta.0`
  - `v2.0.0-beta.0` to `v2.0.0-beta.1`
@@ -48,3 +48,7 @@ helm upgrade --devel --version v2.0.0-beta.3 aso2 aso2/azure-service-operator \
         --set azureClientID=$AZURE_CLIENT_ID \
         --set azureClientSecret=$AZURE_CLIENT_SECRET
 ```
+
+## Supported Versions
+
+We provide best effort support via GitHub for ASO, focusing on the latest version and the previous version. If you're running an older version, we may ask you to upgrade to the latest release before we can help you.

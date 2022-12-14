@@ -118,8 +118,8 @@ func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) (
 		return nil, errors.Errorf("required environment variable %q was not supplied", config.AzureClientIDMultitenantVar)
 	}
 
-	secretData[config.AzureClientIDVar] = []byte(clientID)
-	secretData[config.AzureClientSecretVar] = []byte(clientSecret)
+	secretData[config.ClientIDVar] = []byte(clientID)
+	secretData[config.ClientSecretVar] = []byte(clientSecret)
 	secretData[config.TenantIDVar] = []byte(tenantID)
 	secretData[config.SubscriptionIDVar] = []byte(subscriptionID)
 

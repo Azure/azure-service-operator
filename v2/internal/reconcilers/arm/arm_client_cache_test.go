@@ -251,7 +251,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	// change secret and check if we get a new client
 	old := secret
-	secret.Data[config.AzureClientIDVar] = []byte("11111111-1111-1111-1111-111111111111")
+	secret.Data[config.ClientIDVar] = []byte("11111111-1111-1111-1111-111111111111")
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -288,8 +288,8 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 
 func newSecret(name string, namespace string) *v1.Secret {
 	secretData := make(map[string][]byte)
-	secretData[config.AzureClientIDVar] = []byte(fakeID)
-	secretData[config.AzureClientSecretVar] = []byte(fakeID)
+	secretData[config.ClientIDVar] = []byte(fakeID)
+	secretData[config.ClientSecretVar] = []byte(fakeID)
 	secretData[config.TenantIDVar] = []byte(fakeID)
 	secretData[config.SubscriptionIDVar] = []byte(fakeID)
 

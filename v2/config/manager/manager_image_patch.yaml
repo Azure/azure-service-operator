@@ -70,6 +70,12 @@ spec:
                   name: aso-controller-settings
                   key: AZURE_SYNC_PERIOD
                   optional: true
+            - name: USE_WORKLOAD_IDENTITY_AUTH
+              valueFrom:
+                secretKeyRef:
+                  key: USE_WORKLOAD_IDENTITY_AUTH
+                  name: aso-controller-settings
+                  optional: true
             # Used for setting the operator-namespace annotation (and
             # for aad-pod-identity once we support it).
             - name: POD_NAMESPACE
