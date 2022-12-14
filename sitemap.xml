@@ -36,6 +36,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-11-resource-import/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2022-11-change-detection/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
