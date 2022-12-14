@@ -54,6 +54,7 @@ func (w *workloadIdentityCredential) getAssertion(context.Context) (string, erro
 		if err != nil {
 			return "", err
 		}
+		
 		w.assertion = string(content)
 		w.lastRead = now
 	}
