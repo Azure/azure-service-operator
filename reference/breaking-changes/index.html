@@ -35,7 +35,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 Unfortunately, this change brings with it a few breaking changes, listed in this document.">
 
-<meta itemprop="wordCount" content="1246">
+<meta itemprop="wordCount" content="1259">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="Breaking Changes in beta.4 In the &lsquo;beta.4&rsquo; release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API Specifications as our sole source of truth for our code generator.
@@ -900,7 +900,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1028,19 +1028,19 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>VirtualMachineProfile.NetworkProfile.Id</td>
+<td>VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Id</td>
 <td>Renamed to Reference</td>
 <td>Reference Detection</td>
 </tr>
 <tr>
-<td>VirtualMachineProfile.NetworkProfile.IpConfigurations.Id</td>
+<td>VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IpConfigurations.Id</td>
 <td>Renamed to Reference</td>
 <td>Reference Detection</td>
 </tr>
@@ -1051,7 +1051,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1074,7 +1074,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1153,7 +1153,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Property</th>
+<th style="text-align:left">Property Path</th>
 <th style="text-align:left">Change</th>
 <th style="text-align:left">Reason</th>
 </tr>
@@ -1298,7 +1298,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1342,7 +1342,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Property</th>
+<th style="text-align:left">Property Path</th>
 <th style="text-align:left">Change</th>
 <th style="text-align:left">Reason</th>
 </tr>
@@ -1511,7 +1511,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1528,7 +1528,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1568,7 +1568,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Property</th>
+<th style="text-align:left">Property Path</th>
 <th style="text-align:left">Change</th>
 <th style="text-align:left">Reason</th>
 </tr>
@@ -1625,7 +1625,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th style="text-align:left">Property</th>
+<th style="text-align:left">Property Path</th>
 <th style="text-align:left">Change</th>
 <th style="text-align:left">Reason</th>
 </tr>
@@ -1731,7 +1731,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason</th>
 </tr>
@@ -1855,7 +1855,7 @@ Unfortunately, this change brings with it a few breaking changes, listed in this
 <table>
 <thead>
 <tr>
-<th>Property</th>
+<th>Property Path</th>
 <th>Change</th>
 <th>Reason Only</th>
 </tr>

@@ -34,7 +34,7 @@ What resources can be code generated? Any ARM resource can be generated. There a
 What resources can be code generated? Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:
  If the resource is defined in the ARM template JSON schema, or the auto-generated ARM template JSON schema it is an ARM resource.">
 
-<meta itemprop="wordCount" content="1517">
+<meta itemprop="wordCount" content="1601">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a new code generated resource to ASO v2"/>
 <meta name="twitter:description" content="This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&rsquo;d like to see what the end product looks like.
@@ -682,7 +682,17 @@ The Azure REST API specs and ARM template JSON schemas which these types were de
     <span style="color:#f92672">property</span>: <span style="color:#ae81ff">ProvisioningState</span>
     <span style="color:#f92672">remove</span>: <span style="color:#66d9ef">true</span>
     <span style="color:#f92672">because</span>: <span style="color:#ae81ff">This property should have been marked readonly but wasn&#39;t.</span>
-</code></pre></div><h3 id="debugging">Debugging</h3>
+</code></pre></div><h4 id="types-that-cant-be-found">Types that can&rsquo;t be found</h4>
+<p>If you get an error indicating the generator can&rsquo;t find a type, but you&rsquo;re sure it exists:</p>
+<pre tabindex="0"><code>E1214 10:34:15.476761   95884 gen_kustomize.go:111] 
+Error during code generation:
+failed during pipeline stage 23/67 [filterTypes]: 
+Apply export filters to reduce the number of generated types: 
+group cdn: version 2021-06-01: 
+type DodgyResource not seen (did you mean ResourceReference?): 
+type DodgyResource: $exportAs: ReputableResource not consumed
+</code></pre><p>It&rsquo;s possible the submodule <code>v2/specs/azure-rest-api-specs</code> is out of date. Try running <code>git submodule update --init --recursive</code> to update the submodule.</p>
+<h3 id="debugging">Debugging</h3>
 <p>Sometimes it is useful to see what each stage of the generator pipeline has changed. To write detailed debug logs detailing internal stage after each stage of the pipeline has run, use the <code>--debug</code> flag to specify the group (or groups) to include.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PS&gt; aso-gen gen-types azure-arm.yaml --debug network
 I0622 12:28:01.913420    <span style="color:#ae81ff">5572</span> gen_types.go:49<span style="color:#f92672">]</span> Debug output will be written to the folder C:<span style="color:#ae81ff">\.</span>..<span style="color:#ae81ff">\T</span>emp<span style="color:#ae81ff">\a</span>so-gen-debug-1580100077

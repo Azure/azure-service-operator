@@ -20,28 +20,24 @@
 
 <title>Upgrading | Azure Service Operator</title>
 <meta name="description" content="Before you upgrade
-Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release
-you are upgrading …">
+Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading …">
 <meta property="og:title" content="Upgrading" />
-<meta property="og:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time.
-   Old version New version Recommended     v2.0.0-beta.0 v2.0.0-beta.1 ✔   v2.0.0-alpha.6 v2.0.0-beta.1 ❌    If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time." />
+<meta property="og:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
+Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/upgrading/" /><meta property="article:section" content="introduction" />
 
 
 
 <meta itemprop="name" content="Upgrading">
-<meta itemprop="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time.
-   Old version New version Recommended     v2.0.0-beta.0 v2.0.0-beta.1 ✔   v2.0.0-alpha.6 v2.0.0-beta.1 ❌    If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time.">
+<meta itemprop="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
+Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.">
 
-<meta itemprop="wordCount" content="186">
+<meta itemprop="wordCount" content="272">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrading"/>
-<meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time.
-   Old version New version Recommended     v2.0.0-beta.0 v2.0.0-beta.1 ✔   v2.0.0-alpha.6 v2.0.0-beta.1 ❌    If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time."/>
+<meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
+Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features."/>
 
 
 
@@ -513,6 +509,7 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
         <li><a href="#helm">Helm</a></li>
       </ul>
     </li>
+    <li><a href="#supported-versions">Supported Versions</a></li>
   </ul>
 </nav></div>
 
@@ -573,10 +570,9 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 		
 	</header>    
 	<h2 id="before-you-upgrade">Before you upgrade</h2>
-<p>Ensure that you have carefully reviewed the upgrade instructions included in the <a href="https://github.com/Azure/azure-service-operator/releases">release notes</a> for the release
-you are upgrading to.</p>
+<p>Ensure that you have carefully reviewed the upgrade instructions included in the <a href="https://github.com/Azure/azure-service-operator/releases">release notes</a> for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.</p>
 <h2 id="recommended-upgrade-pattern">Recommended upgrade pattern</h2>
-<p>We recommend that you upgrade ASO one minor version at a time.</p>
+<p>We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.</p>
 <table>
 <thead>
 <tr>
@@ -598,8 +594,8 @@ you are upgrading to.</p>
 </tr>
 </tbody>
 </table>
-<p>If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time.
-For example <code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.1</code> should be accomplished with two upgrades:</p>
+<p>If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time, giving your cluster time to stabilize between upgrades.</p>
+<p>For example <code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.1</code> should be accomplished with two upgrades:</p>
 <ul>
 <li><code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.0</code></li>
 <li><code>v2.0.0-beta.0</code> to <code>v2.0.0-beta.1</code></li>
@@ -620,7 +616,9 @@ helm upgrade --devel --version v2.0.0-beta.3 aso2 aso2/azure-service-operator <s
 </span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET
-</code></pre></div>
+</code></pre></div><h2 id="supported-versions">Supported Versions</h2>
+<p>We provide best effort support via GitHub for ASO, focusing on the latest version and the previous version. If you&rsquo;re running an older version, we may ask you to upgrade to the latest release before we can help you.</p>
+
 	
 	
 	

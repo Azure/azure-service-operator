@@ -698,6 +698,7 @@ be dangerous if you were to do this with an existing resource group which contai
 not wish to be deleted.</strong></p>
 <p>If you want to delete the resources you&rsquo;ve created, just <code>kubectl delete</code> each of the Azure
 resources.</p>
+<p>If you want to delete the cluster resource without affecting the Azure resource, apply the annotation <code>serviceoperator.azure.com/reconcile-policy: skip</code> first.</p>
 <p>As for deleting controller components, just <code>kubectl delete -f</code> the release manifests you created
 to get started. For example, creating and deleting cert-manager.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># remove the cert-manager components</span>
