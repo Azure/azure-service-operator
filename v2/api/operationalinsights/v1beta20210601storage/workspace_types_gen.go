@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -23,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210601.Workspace
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
+// Generator information:
+// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -123,7 +124,9 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210601.Workspace
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
+// Generator information:
+// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/Workspaces.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -186,6 +189,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // Storage version of v1beta20210601.Workspace_STATUS
+// The top level Workspace resource container.
 type Workspace_STATUS struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	CreatedDate                     *string                            `json:"createdDate,omitempty"`
@@ -230,6 +234,7 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 }
 
 // Storage version of v1beta20210601.PrivateLinkScopedResource_STATUS
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"resourceId,omitempty"`
@@ -237,13 +242,14 @@ type PrivateLinkScopedResource_STATUS struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceCapping
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
+// The daily volume cap for ingestion.
 type WorkspaceCapping struct {
 	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.WorkspaceCapping_STATUS
+// The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS struct {
 	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
 	DataIngestionStatus *string                `json:"dataIngestionStatus,omitempty"`
@@ -252,10 +258,8 @@ type WorkspaceCapping_STATUS struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceFeatures
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
+// Workspace features.
 type WorkspaceFeatures struct {
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-
 	// ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
@@ -266,6 +270,7 @@ type WorkspaceFeatures struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceFeatures_STATUS
+// Workspace features.
 type WorkspaceFeatures_STATUS struct {
 	ClusterResourceId                           *string                `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool                  `json:"disableLocalAuth,omitempty"`
@@ -276,7 +281,7 @@ type WorkspaceFeatures_STATUS struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceSku
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
+// The SKU (tier) of a workspace.
 type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
@@ -284,6 +289,7 @@ type WorkspaceSku struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceSku_STATUS
+// The SKU (tier) of a workspace.
 type WorkspaceSku_STATUS struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`

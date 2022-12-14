@@ -161,7 +161,7 @@ func AliasGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForAlias is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
 	gens["Spec"] = Alias_SpecGenerator()
-	gens["Status"] = SubscriptionAliasResponse_STATUSGenerator()
+	gens["Status"] = Alias_STATUSGenerator()
 }
 
 func Test_Alias_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -280,32 +280,32 @@ func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(PutAliasRequestPropertiesGenerator())
 }
 
-func Test_SubscriptionAliasResponse_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Alias_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SubscriptionAliasResponse_STATUS to SubscriptionAliasResponse_STATUS via AssignProperties_To_SubscriptionAliasResponse_STATUS & AssignProperties_From_SubscriptionAliasResponse_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubscriptionAliasResponse_STATUS, SubscriptionAliasResponse_STATUSGenerator()))
+		"Round trip from Alias_STATUS to Alias_STATUS via AssignProperties_To_Alias_STATUS & AssignProperties_From_Alias_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAlias_STATUS, Alias_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubscriptionAliasResponse_STATUS tests if a specific instance of SubscriptionAliasResponse_STATUS can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForSubscriptionAliasResponse_STATUS(subject SubscriptionAliasResponse_STATUS) string {
+// RunPropertyAssignmentTestForAlias_STATUS tests if a specific instance of Alias_STATUS can be assigned to v1beta20211001storage and back losslessly
+func RunPropertyAssignmentTestForAlias_STATUS(subject Alias_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211001s.SubscriptionAliasResponse_STATUS
-	err := copied.AssignProperties_To_SubscriptionAliasResponse_STATUS(&other)
+	var other v20211001s.Alias_STATUS
+	err := copied.AssignProperties_To_Alias_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SubscriptionAliasResponse_STATUS
-	err = actual.AssignProperties_From_SubscriptionAliasResponse_STATUS(&other)
+	var actual Alias_STATUS
+	err = actual.AssignProperties_From_Alias_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -322,20 +322,20 @@ func RunPropertyAssignmentTestForSubscriptionAliasResponse_STATUS(subject Subscr
 	return ""
 }
 
-func Test_SubscriptionAliasResponse_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Alias_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SubscriptionAliasResponse_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubscriptionAliasResponse_STATUS, SubscriptionAliasResponse_STATUSGenerator()))
+		"Round trip of Alias_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAlias_STATUS, Alias_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubscriptionAliasResponse_STATUS runs a test to see if a specific instance of SubscriptionAliasResponse_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubscriptionAliasResponse_STATUS(subject SubscriptionAliasResponse_STATUS) string {
+// RunJSONSerializationTestForAlias_STATUS runs a test to see if a specific instance of Alias_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAlias_STATUS(subject Alias_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -343,7 +343,7 @@ func RunJSONSerializationTestForSubscriptionAliasResponse_STATUS(subject Subscri
 	}
 
 	// Deserialize back into memory
-	var actual SubscriptionAliasResponse_STATUS
+	var actual Alias_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -361,41 +361,40 @@ func RunJSONSerializationTestForSubscriptionAliasResponse_STATUS(subject Subscri
 	return ""
 }
 
-// Generator of SubscriptionAliasResponse_STATUS instances for property testing - lazily instantiated by
-// SubscriptionAliasResponse_STATUSGenerator()
-var subscriptionAliasResponse_STATUSGenerator gopter.Gen
+// Generator of Alias_STATUS instances for property testing - lazily instantiated by Alias_STATUSGenerator()
+var alias_STATUSGenerator gopter.Gen
 
-// SubscriptionAliasResponse_STATUSGenerator returns a generator of SubscriptionAliasResponse_STATUS instances for property testing.
-// We first initialize subscriptionAliasResponse_STATUSGenerator with a simplified generator based on the
+// Alias_STATUSGenerator returns a generator of Alias_STATUS instances for property testing.
+// We first initialize alias_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SubscriptionAliasResponse_STATUSGenerator() gopter.Gen {
-	if subscriptionAliasResponse_STATUSGenerator != nil {
-		return subscriptionAliasResponse_STATUSGenerator
+func Alias_STATUSGenerator() gopter.Gen {
+	if alias_STATUSGenerator != nil {
+		return alias_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionAliasResponse_STATUS(generators)
-	subscriptionAliasResponse_STATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionAliasResponse_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForAlias_STATUS(generators)
+	alias_STATUSGenerator = gen.Struct(reflect.TypeOf(Alias_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubscriptionAliasResponse_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSubscriptionAliasResponse_STATUS(generators)
-	subscriptionAliasResponse_STATUSGenerator = gen.Struct(reflect.TypeOf(SubscriptionAliasResponse_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForAlias_STATUS(generators)
+	AddRelatedPropertyGeneratorsForAlias_STATUS(generators)
+	alias_STATUSGenerator = gen.Struct(reflect.TypeOf(Alias_STATUS{}), generators)
 
-	return subscriptionAliasResponse_STATUSGenerator
+	return alias_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubscriptionAliasResponse_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubscriptionAliasResponse_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAlias_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSubscriptionAliasResponse_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSubscriptionAliasResponse_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAlias_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SubscriptionAliasResponseProperties_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
@@ -513,7 +512,7 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestProperties(gens map[strin
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["ResellerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Workload"] = gen.PtrOf(gen.OneConstOf(PutAliasRequestProperties_Workload_DevTest, PutAliasRequestProperties_Workload_Production))
+	gens["Workload"] = gen.PtrOf(gen.OneConstOf(Workload_DevTest, Workload_Production))
 }
 
 // AddRelatedPropertyGeneratorsForPutAliasRequestProperties is a factory method for creating gopter generators

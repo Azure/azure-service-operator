@@ -6,6 +6,8 @@
 package pipeline
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -13,11 +15,13 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func makeSynth() synthesizer {
-	return synthesizer{
-		defs:      make(astmodel.TypeDefinitionSet),
-		idFactory: astmodel.NewIdentifierFactory(),
+func makeSynth(definitions ...astmodel.TypeDefinition) synthesizer {
+	defs := make(astmodel.TypeDefinitionSet)
+	for _, d := range definitions {
+		defs.Add(d)
 	}
+
+	return newSynthesizer(defs, astmodel.NewIdentifierFactory())
 }
 
 var (
@@ -31,10 +35,7 @@ var emptyObject = astmodel.NewObjectType()
 func defineEnum(strings ...string) astmodel.Type {
 	values := make([]astmodel.EnumValue, 0, len(strings))
 	for _, value := range strings {
-		values = append(values, astmodel.EnumValue{
-			Identifier: value,
-			Value:      value,
-		})
+		values = append(values, astmodel.MakeEnumValue(value, value))
 	}
 
 	return astmodel.NewEnumType(
@@ -108,6 +109,24 @@ func TestMergeObjectObject(t *testing.T) {
 	obj2 := astmodel.NewObjectType().WithProperties(propY)
 
 	expected := astmodel.NewObjectType().WithProperties(propX, propY)
+
+	synth := makeSynth()
+	g.Expect(synth.intersectTypes(obj1, obj2)).To(Equal(expected))
+	g.Expect(synth.intersectTypes(obj2, obj1)).To(Equal(expected))
+}
+
+// merging two objects preserves isResource
+func TestMergeObjectIsResource(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	propX := astmodel.NewPropertyDefinition("x", "x", astmodel.IntType)
+	obj1 := astmodel.NewObjectType().WithProperties(propX).WithIsResource(true)
+
+	propY := astmodel.NewPropertyDefinition("y", "y", astmodel.FloatType)
+	obj2 := astmodel.NewObjectType().WithProperties(propY)
+
+	expected := astmodel.NewObjectType().WithProperties(propX, propY).WithIsResource(true)
 
 	synth := makeSynth()
 	g.Expect(synth.intersectTypes(obj1, obj2)).To(Equal(expected))
@@ -194,7 +213,7 @@ func TestMergeOptionalOptional(t *testing.T) {
 // merging an optional with something else that it can be merged with results in that result
 // TODO: dubious?
 func TestMergeOptionalEnum(t *testing.T) {
-	// this feels a bit wrong but it seems to be expected in real life specs
+	// this feels a bit wrong, but it seems to be expected in real life specs
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -324,7 +343,7 @@ func TestMergeOneOf(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	oneOf := astmodel.BuildOneOfType(astmodel.IntType, astmodel.StringType, astmodel.BoolType)
+	oneOf := astmodel.NewOneOfType("oneOf", astmodel.IntType, astmodel.StringType, astmodel.BoolType)
 
 	synth := makeSynth()
 	g.Expect(synth.intersectTypes(oneOf, astmodel.BoolType)).To(Equal(astmodel.BoolType))
@@ -352,7 +371,8 @@ func TestMergeOneOfEnum(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	oneOf := astmodel.BuildOneOfType(
+	oneOf := astmodel.NewOneOfType(
+		"oneOf",
 		astmodel.StringType,
 		defineEnum("a", "b", "c"),
 	)
@@ -371,22 +391,21 @@ func TestOneOfResourceSpec(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	r := astmodel.NewResourceType(astmodel.StringType, astmodel.IntType)
-	oneOf := astmodel.BuildOneOfType(astmodel.BoolType, r).(*astmodel.OneOfType)
+	oneOf := astmodel.NewOneOfType("oneOf", astmodel.BoolType, r)
 
 	synth := makeSynth()
 	synth.specOrStatus = chooseSpec
 
 	expected := astmodel.NewObjectType().WithProperties(
-		astmodel.NewPropertyDefinition(astmodel.PropertyName("Bool0"), "bool0", astmodel.BoolType).
+		astmodel.NewPropertyDefinition("Bool0", "bool0", astmodel.BoolType).
 			MakeTypeOptional().WithDescription("Mutually exclusive with all other properties"),
-		astmodel.NewPropertyDefinition(astmodel.PropertyName("Resource1"), "resource1", r).
+		astmodel.NewPropertyDefinition("Resource1", "resource1", r).
 			MakeTypeOptional().WithDescription("Mutually exclusive with all other properties"),
 	)
 
-	names, err := synth.getOneOfPropNames(oneOf)
+	result, err := synth.oneOfToObject(oneOf)
 	g.Expect(err).To(BeNil())
 
-	result := synth.oneOfObject(oneOf, names)
 	result, ok := astmodel.AsObjectType(result)
 	g.Expect(ok).To(BeTrue())
 	result = astmodel.NewObjectType().WithProperties(result.(*astmodel.ObjectType).Properties().AsSlice()...)
@@ -429,4 +448,309 @@ func TestSimplifyPropNamesDoesNotCreateEmptyNames(t *testing.T) {
 	// simplifyPropNames will do nothing,
 	// because trimming the common suffix would result in an empty name
 	g.Expect(newNames).To(Equal(names))
+}
+
+func TestSynthesizerOneOfObject_GivenOneOfUsingTypeNames_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	commonProperties := test.CreateObjectType(
+		test.FamilyNameProperty,
+		test.FullNameProperty)
+
+	parent := createTestLeafOneOfDefinition(
+		"Parent",
+		"", // No swagger name, to force use of type names
+		"", // No discriminator, to force use of type names
+		commonProperties,
+		test.PostalAddress2021,
+		test.ResidentialAddress2021)
+
+	child := createTestLeafOneOfDefinition(
+		"Child",
+		"", // No swagger name, to force use of type names
+		"", // No discriminator, to force use of type names
+		commonProperties,
+		test.KnownAsProperty)
+
+	person := createTestRootOneOfDefinition(
+		"Person",
+		"Kind",
+		// Use names to reference leaves
+		parent.Name(),
+		child.Name())
+
+	synth := makeSynth(parent, child, person)
+
+	oneOf := person.Type().(*astmodel.OneOfType)
+
+	actual, err := synth.oneOfToObject(oneOf)
+	g.Expect(err).To(BeNil())
+
+	// Expect actual to have a property for each OneOf Option
+	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyExistsWithType(t, actual, "Parent", astmodel.NewOptionalType(parent.Name()))
+	test.AssertPropertyExistsWithType(t, actual, "Child", astmodel.NewOptionalType(child.Name()))
+}
+
+func TestSynthesizerOneOfObject_GivenOneOfUsingSwaggerNames_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	commonProperties := test.CreateObjectType(
+		test.FamilyNameProperty,
+		test.FullNameProperty)
+
+	parent := createTestLeafOneOfDefinition(
+		"Parent",
+		"Senior",
+		"", // No discriminator, to force use of the Swagger names
+		commonProperties,
+		test.PostalAddress2021,
+		test.ResidentialAddress2021)
+
+	child := createTestLeafOneOfDefinition(
+		"Child",
+		"Junior",
+		"", // No discriminator, to force use of the Swagger names
+		commonProperties,
+		test.KnownAsProperty)
+
+	person := createTestRootOneOfDefinition(
+		"Person",
+		"Kind",
+		// Use bodies to ensure we're not using the type names
+		parent.Type(),
+		child.Type())
+
+	synth := makeSynth(parent, child, person)
+
+	oneOf := person.Type().(*astmodel.OneOfType)
+
+	actual, err := synth.oneOfToObject(oneOf)
+	g.Expect(err).To(BeNil())
+
+	// Expect actual to have a property for each OneOf Option
+	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyExists(t, actual, "Senior")
+	test.AssertPropertyExists(t, actual, "Junior")
+}
+
+func TestSynthesizerOneOfObject_GivenOneOfUsingDiscriminatorValues_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	commonProperties := test.CreateObjectType(
+		test.FamilyNameProperty,
+		test.FullNameProperty)
+
+	parent := createTestLeafOneOfDefinition(
+		"Parent",
+		"", // no swagger name
+		"Maxima",
+		commonProperties,
+		test.PostalAddress2021,
+		test.ResidentialAddress2021)
+
+	child := createTestLeafOneOfDefinition(
+		"Child",
+		"", // no swagger name
+		"Minima",
+		commonProperties,
+		test.KnownAsProperty)
+
+	person := createTestRootOneOfDefinition(
+		"Person",
+		"Kind",
+		// Use bodies to ensure we're not using the type names
+		parent.Type(),
+		child.Type())
+
+	synth := makeSynth(parent, child, person)
+
+	oneOf := person.Type().(*astmodel.OneOfType)
+
+	actual, err := synth.oneOfToObject(oneOf)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	// Expect actual to have a property for each OneOf Option
+	test.AssertPropertyCount(t, actual, 2)
+	test.AssertPropertyExists(t, actual, "Maxima")
+	test.AssertPropertyExists(t, actual, "Minima")
+}
+
+var (
+	olympianProperties = test.CreateObjectType(
+		test.FullNameProperty,
+		test.KnownAsProperty)
+
+	zeus = createTestLeafOneOfDefinition(
+		"Zeus",
+		"zeus",
+		"zeus",
+		olympianProperties,
+		astmodel.NewPropertyDefinition("LightningBolts", "lightningBolts", astmodel.IntType))
+
+	demeter = createTestLeafOneOfDefinition(
+		"Demeter",
+		"demeter",
+		"demeter",
+		olympianProperties,
+		astmodel.NewPropertyDefinition("Crops", "crops", astmodel.IntType))
+
+	poscidon = createTestLeafOneOfDefinition(
+		"Poseidon",
+		"poseidon",
+		"poseidon",
+		olympianProperties,
+		astmodel.NewPropertyDefinition("Tsunamis", "tsunamis", astmodel.IntType))
+
+	hades = createTestLeafOneOfDefinition(
+		"Hades",
+		"hades",
+		"hades",
+		olympianProperties,
+		astmodel.NewPropertyDefinition("Souls", "souls", astmodel.IntType))
+
+	olympian = createTestRootOneOfDefinition(
+		"Olympian",
+		"name",
+		zeus.Name(),
+		demeter.Name(),
+		poscidon.Name(),
+		hades.Name())
+)
+
+func createTestRootOneOfDefinition(
+	name string,
+	discriminatorProperty string,
+	leaves ...astmodel.Type,
+) astmodel.TypeDefinition {
+	oneOf := astmodel.NewOneOfType(name, leaves...).
+		WithDiscriminatorProperty(discriminatorProperty)
+	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(test.Pkg2020, name), oneOf)
+}
+
+func createTestLeafOneOfDefinition(
+	typeName string,
+	swaggerName string,
+	discriminator string,
+	commonProperties *astmodel.ObjectType,
+	properties ...*astmodel.PropertyDefinition,
+) astmodel.TypeDefinition {
+	obj := astmodel.NewObjectType().
+		WithProperties(properties...)
+	body := astmodel.NewOneOfType(swaggerName, obj, commonProperties).
+		WithDiscriminatorValue(discriminator)
+	return astmodel.MakeTypeDefinition(astmodel.MakeTypeName(test.Pkg2020, typeName), body)
+}
+
+func Test_ConversionWithNestedAllOfs_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	// Testing a scenario found during manual testing
+	webtestsResource := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebtestsResource"),
+		astmodel.NewObjectType().
+			WithProperties(
+				astmodel.NewPropertyDefinition(
+					"Location", "location", astmodel.OptionalStringType),
+				astmodel.NewPropertyDefinition(
+					"Tags", "tags", astmodel.NewOptionalType(astmodel.AnyType))))
+
+	webTestProperties := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTestProperties"),
+		astmodel.NewObjectType().
+			WithProperties(
+				astmodel.NewPropertyDefinition(
+					"Alias", "alias", astmodel.OptionalStringType)))
+
+	webTest := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTest"),
+		astmodel.NewAllOfType(
+			webtestsResource.Name(),
+			astmodel.NewObjectType().WithProperties(
+				astmodel.NewPropertyDefinition(
+					"Kind", "kind", astmodel.NewOptionalType(astmodel.NewEnumType(
+						astmodel.StringType,
+						astmodel.MakeEnumValue("MultiStep", "multistep"),
+						astmodel.MakeEnumValue("Ping", "ping")))),
+				astmodel.NewPropertyDefinition("Properties", "properties", webTestProperties.Name()))))
+
+	webTestSpec := astmodel.NewAllOfType(
+		webTest.Name(),
+		astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("AzureName", "azurename", astmodel.StringType),
+			astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)))
+
+	webTest_Status := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTest_Status"),
+		astmodel.NewObjectType().WithProperties(
+			astmodel.NewPropertyDefinition("Status", "status", astmodel.OptionalStringType)))
+
+	webTestResource := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "WebTestResource"),
+		astmodel.NewResourceType(webTestSpec, webTest_Status.Name()))
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(webtestsResource, webTestProperties, webTest, webTest_Status, webTestResource)
+
+	state := NewState(defs)
+	stage := ConvertAllOfAndOneOfToObjects(idFactory)
+
+	finalState, err := stage.Run(context.TODO(), state)
+	g.Expect(err).To(BeNil())
+
+	// Check on the final shape
+	for _, def := range finalState.definitions {
+		test.AssertDefinitionHasExpectedShape(t, def.Name().Name(), def)
+	}
+}
+
+func TestConversionOfSequentialOneOf_ReturnsExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	g := NewGomegaWithT(t)
+
+	idFactory := astmodel.NewIdentifierFactory()
+
+	first := astmodel.NewObjectType().
+		WithProperties(
+			astmodel.NewPropertyDefinition("alpha", "alpha", astmodel.StringType),
+			astmodel.NewPropertyDefinition("beta", "beta", astmodel.StringType))
+
+	second := astmodel.NewObjectType().
+		WithProperties(
+			astmodel.NewPropertyDefinition("gamma", "gamma", astmodel.StringType),
+			astmodel.NewPropertyDefinition("delta", "delta", astmodel.StringType))
+
+	third := astmodel.NewObjectType().
+		WithProperties(
+			astmodel.NewPropertyDefinition("epsilon", "epsilon", astmodel.StringType),
+			astmodel.NewPropertyDefinition("zeta", "zeta", astmodel.StringType))
+
+	firstDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "First"),
+		first)
+
+	allOfDef := astmodel.MakeTypeDefinition(
+		astmodel.MakeTypeName(test.Pkg2020, "AllOf"),
+		astmodel.NewAllOfType(firstDef.Name(), second, third))
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(allOfDef, firstDef)
+
+	state := NewState(defs)
+	stage := ConvertAllOfAndOneOfToObjects(idFactory)
+
+	finalState, err := stage.Run(context.TODO(), state)
+	g.Expect(err).To(BeNil())
+
+	// Check on the final shape
+	for _, def := range finalState.definitions {
+		test.AssertDefinitionHasExpectedShape(t, def.Name().Name(), def)
+	}
 }

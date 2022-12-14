@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestInjectOriginalGVKFunction(t *testing.T) {
+func TestGolden_InjectOriginalGVKFunction(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

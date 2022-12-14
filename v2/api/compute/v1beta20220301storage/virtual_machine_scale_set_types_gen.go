@@ -23,7 +23,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20220301.VirtualMachineScaleSet
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachineScaleSet.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -123,7 +125,9 @@ func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20220301.VirtualMachineScaleSet
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachineScaleSet.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}
 type VirtualMachineScaleSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -151,20 +155,20 @@ type VirtualMachineScaleSet_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                    *genruntime.KnownResourceReference                            `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Plan                     *Plan                                                         `json:"plan,omitempty"`
-	PlatformFaultDomainCount *int                                                          `json:"platformFaultDomainCount,omitempty"`
-	PropertyBag              genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
-	ProximityPlacementGroup  *SubResource                                                  `json:"proximityPlacementGroup,omitempty"`
-	ScaleInPolicy            *ScaleInPolicy                                                `json:"scaleInPolicy,omitempty"`
-	SinglePlacementGroup     *bool                                                         `json:"singlePlacementGroup,omitempty"`
-	Sku                      *Sku                                                          `json:"sku,omitempty"`
-	SpotRestorePolicy        *SpotRestorePolicy                                            `json:"spotRestorePolicy,omitempty"`
-	Tags                     map[string]string                                             `json:"tags,omitempty"`
-	UpgradePolicy            *UpgradePolicy                                                `json:"upgradePolicy,omitempty"`
-	VirtualMachineProfile    *VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec `json:"virtualMachineProfile,omitempty"`
-	ZoneBalance              *bool                                                         `json:"zoneBalance,omitempty"`
-	Zones                    []string                                                      `json:"zones,omitempty"`
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Plan                     *Plan                              `json:"plan,omitempty"`
+	PlatformFaultDomainCount *int                               `json:"platformFaultDomainCount,omitempty"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProximityPlacementGroup  *SubResource                       `json:"proximityPlacementGroup,omitempty"`
+	ScaleInPolicy            *ScaleInPolicy                     `json:"scaleInPolicy,omitempty"`
+	SinglePlacementGroup     *bool                              `json:"singlePlacementGroup,omitempty"`
+	Sku                      *Sku                               `json:"sku,omitempty"`
+	SpotRestorePolicy        *SpotRestorePolicy                 `json:"spotRestorePolicy,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+	UpgradePolicy            *UpgradePolicy                     `json:"upgradePolicy,omitempty"`
+	VirtualMachineProfile    *VirtualMachineScaleSetVMProfile   `json:"virtualMachineProfile,omitempty"`
+	ZoneBalance              *bool                              `json:"zoneBalance,omitempty"`
+	Zones                    []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualMachineScaleSet_Spec{}
@@ -188,6 +192,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertSpecTo(destination genruntim
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSet_STATUS
+// Describes a Virtual Machine Scale Set.
 type VirtualMachineScaleSet_STATUS struct {
 	AdditionalCapabilities                 *AdditionalCapabilities_STATUS          `json:"additionalCapabilities,omitempty"`
 	AutomaticRepairsPolicy                 *AutomaticRepairsPolicy_STATUS          `json:"automaticRepairsPolicy,omitempty"`
@@ -241,7 +246,7 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) ConvertStatusTo(destination genru
 }
 
 // Storage version of v1beta20220301.AutomaticRepairsPolicy
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/AutomaticRepairsPolicy
+// Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
 type AutomaticRepairsPolicy struct {
 	Enabled      *bool                  `json:"enabled,omitempty"`
 	GracePeriod  *string                `json:"gracePeriod,omitempty"`
@@ -250,6 +255,7 @@ type AutomaticRepairsPolicy struct {
 }
 
 // Storage version of v1beta20220301.AutomaticRepairsPolicy_STATUS
+// Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
 type AutomaticRepairsPolicy_STATUS struct {
 	Enabled      *bool                  `json:"enabled,omitempty"`
 	GracePeriod  *string                `json:"gracePeriod,omitempty"`
@@ -258,7 +264,7 @@ type AutomaticRepairsPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20220301.ScaleInPolicy
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ScaleInPolicy
+// Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy struct {
 	ForceDeletion *bool                  `json:"forceDeletion,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -266,6 +272,7 @@ type ScaleInPolicy struct {
 }
 
 // Storage version of v1beta20220301.ScaleInPolicy_STATUS
+// Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy_STATUS struct {
 	ForceDeletion *bool                  `json:"forceDeletion,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -273,7 +280,8 @@ type ScaleInPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20220301.Sku
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/Sku
+// Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is
+// currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -282,6 +290,8 @@ type Sku struct {
 }
 
 // Storage version of v1beta20220301.Sku_STATUS
+// Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is
+// currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
 type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -290,7 +300,10 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SpotRestorePolicy
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/SpotRestorePolicy
+// Specifies the Spot-Try-Restore properties for the virtual machine scale set.
+// With this property customer can
+// enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity
+// availability and pricing constraint.
 type SpotRestorePolicy struct {
 	Enabled        *bool                  `json:"enabled,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -298,6 +311,10 @@ type SpotRestorePolicy struct {
 }
 
 // Storage version of v1beta20220301.SpotRestorePolicy_STATUS
+// Specifies the Spot-Try-Restore properties for the virtual machine scale set.
+// With this property customer can
+// enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity
+// availability and pricing constraint.
 type SpotRestorePolicy_STATUS struct {
 	Enabled        *bool                  `json:"enabled,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -305,7 +322,7 @@ type SpotRestorePolicy_STATUS struct {
 }
 
 // Storage version of v1beta20220301.UpgradePolicy
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/UpgradePolicy
+// Describes an upgrade policy - automatic, manual, or rolling.
 type UpgradePolicy struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *string                   `json:"mode,omitempty"`
@@ -314,6 +331,7 @@ type UpgradePolicy struct {
 }
 
 // Storage version of v1beta20220301.UpgradePolicy_STATUS
+// Describes an upgrade policy - automatic, manual, or rolling.
 type UpgradePolicy_STATUS struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_STATUS `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *string                          `json:"mode,omitempty"`
@@ -321,34 +339,15 @@ type UpgradePolicy_STATUS struct {
 	RollingUpgradePolicy     *RollingUpgradePolicy_STATUS     `json:"rollingUpgradePolicy,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec struct {
-	ApplicationProfile     *ApplicationProfile                                                            `json:"applicationProfile,omitempty"`
-	BillingProfile         *BillingProfile                                                                `json:"billingProfile,omitempty"`
-	CapacityReservation    *CapacityReservationProfile                                                    `json:"capacityReservation,omitempty"`
-	DiagnosticsProfile     *DiagnosticsProfile                                                            `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy         *string                                                                        `json:"evictionPolicy,omitempty"`
-	ExtensionProfile       *VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Spec `json:"extensionProfile,omitempty"`
-	HardwareProfile        *VirtualMachineScaleSetHardwareProfile                                         `json:"hardwareProfile,omitempty"`
-	LicenseType            *string                                                                        `json:"licenseType,omitempty"`
-	NetworkProfile         *VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec   `json:"networkProfile,omitempty"`
-	OsProfile              *VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec        `json:"osProfile,omitempty"`
-	Priority               *string                                                                        `json:"priority,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                                         `json:"$propertyBag,omitempty"`
-	ScheduledEventsProfile *ScheduledEventsProfile                                                        `json:"scheduledEventsProfile,omitempty"`
-	SecurityProfile        *SecurityProfile                                                               `json:"securityProfile,omitempty"`
-	StorageProfile         *VirtualMachineScaleSetStorageProfile                                          `json:"storageProfile,omitempty"`
-	UserData               *string                                                                        `json:"userData,omitempty"`
-}
-
 // Storage version of v1beta20220301.VirtualMachineScaleSetIdentity
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIdentity
+// Identity for the virtual machine scale set.
 type VirtualMachineScaleSetIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetIdentity_STATUS
+// Identity for the virtual machine scale set.
 type VirtualMachineScaleSetIdentity_STATUS struct {
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -356,7 +355,29 @@ type VirtualMachineScaleSetIdentity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20220301.VirtualMachineScaleSetVMProfile
+// Describes a virtual machine scale set virtual machine profile.
+type VirtualMachineScaleSetVMProfile struct {
+	ApplicationProfile     *ApplicationProfile                     `json:"applicationProfile,omitempty"`
+	BillingProfile         *BillingProfile                         `json:"billingProfile,omitempty"`
+	CapacityReservation    *CapacityReservationProfile             `json:"capacityReservation,omitempty"`
+	DiagnosticsProfile     *DiagnosticsProfile                     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy         *string                                 `json:"evictionPolicy,omitempty"`
+	ExtensionProfile       *VirtualMachineScaleSetExtensionProfile `json:"extensionProfile,omitempty"`
+	HardwareProfile        *VirtualMachineScaleSetHardwareProfile  `json:"hardwareProfile,omitempty"`
+	LicenseType            *string                                 `json:"licenseType,omitempty"`
+	NetworkProfile         *VirtualMachineScaleSetNetworkProfile   `json:"networkProfile,omitempty"`
+	OsProfile              *VirtualMachineScaleSetOSProfile        `json:"osProfile,omitempty"`
+	Priority               *string                                 `json:"priority,omitempty"`
+	PropertyBag            genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	ScheduledEventsProfile *ScheduledEventsProfile                 `json:"scheduledEventsProfile,omitempty"`
+	SecurityProfile        *SecurityProfile                        `json:"securityProfile,omitempty"`
+	StorageProfile         *VirtualMachineScaleSetStorageProfile   `json:"storageProfile,omitempty"`
+	UserData               *string                                 `json:"userData,omitempty"`
+}
+
 // Storage version of v1beta20220301.VirtualMachineScaleSetVMProfile_STATUS
+// Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile_STATUS struct {
 	ApplicationProfile     *ApplicationProfile_STATUS                     `json:"applicationProfile,omitempty"`
 	BillingProfile         *BillingProfile_STATUS                         `json:"billingProfile,omitempty"`
@@ -377,7 +398,7 @@ type VirtualMachineScaleSetVMProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.AutomaticOSUpgradePolicy
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/AutomaticOSUpgradePolicy
+// The configuration parameters used for performing automatic OS upgrade.
 type AutomaticOSUpgradePolicy struct {
 	DisableAutomaticRollback *bool                  `json:"disableAutomaticRollback,omitempty"`
 	EnableAutomaticOSUpgrade *bool                  `json:"enableAutomaticOSUpgrade,omitempty"`
@@ -386,6 +407,7 @@ type AutomaticOSUpgradePolicy struct {
 }
 
 // Storage version of v1beta20220301.AutomaticOSUpgradePolicy_STATUS
+// The configuration parameters used for performing automatic OS upgrade.
 type AutomaticOSUpgradePolicy_STATUS struct {
 	DisableAutomaticRollback *bool                  `json:"disableAutomaticRollback,omitempty"`
 	EnableAutomaticOSUpgrade *bool                  `json:"enableAutomaticOSUpgrade,omitempty"`
@@ -394,7 +416,7 @@ type AutomaticOSUpgradePolicy_STATUS struct {
 }
 
 // Storage version of v1beta20220301.RollingUpgradePolicy
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/RollingUpgradePolicy
+// The configuration parameters used while performing a rolling upgrade.
 type RollingUpgradePolicy struct {
 	EnableCrossZoneUpgrade              *bool                  `json:"enableCrossZoneUpgrade,omitempty"`
 	MaxBatchInstancePercent             *int                   `json:"maxBatchInstancePercent,omitempty"`
@@ -406,6 +428,7 @@ type RollingUpgradePolicy struct {
 }
 
 // Storage version of v1beta20220301.RollingUpgradePolicy_STATUS
+// The configuration parameters used while performing a rolling upgrade.
 type RollingUpgradePolicy_STATUS struct {
 	EnableCrossZoneUpgrade              *bool                  `json:"enableCrossZoneUpgrade,omitempty"`
 	MaxBatchInstancePercent             *int                   `json:"maxBatchInstancePercent,omitempty"`
@@ -416,23 +439,57 @@ type RollingUpgradePolicy_STATUS struct {
 	PropertyBag                         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Spec struct {
-	Extensions           []VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_Spec `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                                                                    `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag                                                                     `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile
+// Describes a virtual machine scale set extension profile.
+type VirtualMachineScaleSetExtensionProfile struct {
+	Extensions           []VirtualMachineScaleSetExtension `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                           `json:"extensionsTimeBudget,omitempty"`
+	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec struct {
-	HealthProbe                    *ApiEntityReference                                                                                          `json:"healthProbe,omitempty"`
-	NetworkApiVersion              *string                                                                                                      `json:"networkApiVersion,omitempty"`
-	NetworkInterfaceConfigurations []VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec `json:"networkInterfaceConfigurations,omitempty"`
-	PropertyBag                    genruntime.PropertyBag                                                                                       `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile_STATUS
+// Describes a virtual machine scale set extension profile.
+type VirtualMachineScaleSetExtensionProfile_STATUS struct {
+	Extensions           []VirtualMachineScaleSetExtension_STATUS `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                                  `json:"extensionsTimeBudget,omitempty"`
+	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec struct {
+// Storage version of v1beta20220301.VirtualMachineScaleSetHardwareProfile
+// Specifies the hardware settings for the virtual machine scale set.
+type VirtualMachineScaleSetHardwareProfile struct {
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	VmSizeProperties *VMSizeProperties      `json:"vmSizeProperties,omitempty"`
+}
+
+// Storage version of v1beta20220301.VirtualMachineScaleSetHardwareProfile_STATUS
+// Specifies the hardware settings for the virtual machine scale set.
+type VirtualMachineScaleSetHardwareProfile_STATUS struct {
+	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	VmSizeProperties *VMSizeProperties_STATUS `json:"vmSizeProperties,omitempty"`
+}
+
+// Storage version of v1beta20220301.VirtualMachineScaleSetNetworkProfile
+// Describes a virtual machine scale set network profile.
+type VirtualMachineScaleSetNetworkProfile struct {
+	HealthProbe                    *ApiEntityReference                          `json:"healthProbe,omitempty"`
+	NetworkApiVersion              *string                                      `json:"networkApiVersion,omitempty"`
+	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration `json:"networkInterfaceConfigurations,omitempty"`
+	PropertyBag                    genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20220301.VirtualMachineScaleSetNetworkProfile_STATUS
+// Describes a virtual machine scale set network profile.
+type VirtualMachineScaleSetNetworkProfile_STATUS struct {
+	HealthProbe                    *ApiEntityReference_STATUS                          `json:"healthProbe,omitempty"`
+	NetworkApiVersion              *string                                             `json:"networkApiVersion,omitempty"`
+	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_STATUS `json:"networkInterfaceConfigurations,omitempty"`
+	PropertyBag                    genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20220301.VirtualMachineScaleSetOSProfile
+// Describes a virtual machine scale set OS profile.
+type VirtualMachineScaleSetOSProfile struct {
 	AdminPassword            *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername            *string                     `json:"adminUsername,omitempty"`
 	AllowExtensionOperations *bool                       `json:"allowExtensionOperations,omitempty"`
@@ -444,35 +501,8 @@ type VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec stru
 	WindowsConfiguration     *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSetExtensionProfile_STATUS
-type VirtualMachineScaleSetExtensionProfile_STATUS struct {
-	Extensions           []VirtualMachineScaleSetExtension_STATUS `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                  `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSetHardwareProfile
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetHardwareProfile
-type VirtualMachineScaleSetHardwareProfile struct {
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VmSizeProperties *VMSizeProperties      `json:"vmSizeProperties,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSetHardwareProfile_STATUS
-type VirtualMachineScaleSetHardwareProfile_STATUS struct {
-	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	VmSizeProperties *VMSizeProperties_STATUS `json:"vmSizeProperties,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSetNetworkProfile_STATUS
-type VirtualMachineScaleSetNetworkProfile_STATUS struct {
-	HealthProbe                    *ApiEntityReference_STATUS                          `json:"healthProbe,omitempty"`
-	NetworkApiVersion              *string                                             `json:"networkApiVersion,omitempty"`
-	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_STATUS `json:"networkInterfaceConfigurations,omitempty"`
-	PropertyBag                    genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20220301.VirtualMachineScaleSetOSProfile_STATUS
+// Describes a virtual machine scale set OS profile.
 type VirtualMachineScaleSetOSProfile_STATUS struct {
 	AdminUsername            *string                      `json:"adminUsername,omitempty"`
 	AllowExtensionOperations *bool                        `json:"allowExtensionOperations,omitempty"`
@@ -485,7 +515,7 @@ type VirtualMachineScaleSetOSProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetStorageProfile
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetStorageProfile
+// Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfile struct {
 	DataDisks      []VirtualMachineScaleSetDataDisk `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference                  `json:"imageReference,omitempty"`
@@ -494,6 +524,7 @@ type VirtualMachineScaleSetStorageProfile struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetStorageProfile_STATUS
+// Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfile_STATUS struct {
 	DataDisks      []VirtualMachineScaleSetDataDisk_STATUS `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_STATUS                  `json:"imageReference,omitempty"`
@@ -502,7 +533,7 @@ type VirtualMachineScaleSetStorageProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.ApiEntityReference
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ApiEntityReference
+// The API entity reference.
 type ApiEntityReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -511,38 +542,14 @@ type ApiEntityReference struct {
 }
 
 // Storage version of v1beta20220301.ApiEntityReference_STATUS
+// The API entity reference.
 type ApiEntityReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_Spec struct {
-	Name               *string                `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Publisher          *string                `json:"publisher,omitempty"`
-	Settings           map[string]v1.JSON     `json:"settings,omitempty"`
-	Type               *string                `json:"type,omitempty"`
-	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
-}
-
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec struct {
-	DeleteOption                *string                                                                                                                                  `json:"deleteOption,omitempty"`
-	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings                                                                                   `json:"dnsSettings,omitempty"`
-	EnableAcceleratedNetworking *bool                                                                                                                                    `json:"enableAcceleratedNetworking,omitempty"`
-	EnableFpga                  *bool                                                                                                                                    `json:"enableFpga,omitempty"`
-	EnableIPForwarding          *bool                                                                                                                                    `json:"enableIPForwarding,omitempty"`
-	Id                          *string                                                                                                                                  `json:"id,omitempty"`
-	IpConfigurations            []VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec `json:"ipConfigurations,omitempty"`
-	Name                        *string                                                                                                                                  `json:"name,omitempty"`
-	NetworkSecurityGroup        *SubResource                                                                                                                             `json:"networkSecurityGroup,omitempty"`
-	Primary                     *bool                                                                                                                                    `json:"primary,omitempty"`
-	PropertyBag                 genruntime.PropertyBag                                                                                                                   `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20220301.VirtualMachineScaleSetDataDisk
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetDataDisk
+// Describes a virtual machine scale set data disk.
 type VirtualMachineScaleSetDataDisk struct {
 	Caching                 *string                                      `json:"caching,omitempty"`
 	CreateOption            *string                                      `json:"createOption,omitempty"`
@@ -558,6 +565,7 @@ type VirtualMachineScaleSetDataDisk struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetDataDisk_STATUS
+// Describes a virtual machine scale set data disk.
 type VirtualMachineScaleSetDataDisk_STATUS struct {
 	Caching                 *string                                             `json:"caching,omitempty"`
 	CreateOption            *string                                             `json:"createOption,omitempty"`
@@ -572,7 +580,26 @@ type VirtualMachineScaleSetDataDisk_STATUS struct {
 	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// Storage version of v1beta20220301.VirtualMachineScaleSetExtension
+// Describes a Virtual Machine Scale Set Extension.
+type VirtualMachineScaleSetExtension struct {
+	AutoUpgradeMinorVersion       *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade        *bool                  `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag                *string                `json:"forceUpdateTag,omitempty"`
+	Name                          *string                `json:"name,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProtectedSettings             map[string]v1.JSON     `json:"protectedSettings,omitempty"`
+	ProtectedSettingsFromKeyVault map[string]v1.JSON     `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProvisionAfterExtensions      []string               `json:"provisionAfterExtensions,omitempty"`
+	Publisher                     *string                `json:"publisher,omitempty"`
+	Settings                      map[string]v1.JSON     `json:"settings,omitempty"`
+	SuppressFailures              *bool                  `json:"suppressFailures,omitempty"`
+	Type                          *string                `json:"type,omitempty"`
+	TypeHandlerVersion            *string                `json:"typeHandlerVersion,omitempty"`
+}
+
 // Storage version of v1beta20220301.VirtualMachineScaleSetExtension_STATUS
+// Describes a Virtual Machine Scale Set Extension.
 type VirtualMachineScaleSetExtension_STATUS struct {
 	AutoUpgradeMinorVersion       *bool                  `json:"autoUpgradeMinorVersion,omitempty"`
 	EnableAutomaticUpgrade        *bool                  `json:"enableAutomaticUpgrade,omitempty"`
@@ -592,7 +619,26 @@ type VirtualMachineScaleSetExtension_STATUS struct {
 	TypeHandlerVersion            *string                `json:"typeHandlerVersion,omitempty"`
 }
 
+// Storage version of v1beta20220301.VirtualMachineScaleSetNetworkConfiguration
+// Describes a virtual machine scale set network profile's network configurations.
+type VirtualMachineScaleSetNetworkConfiguration struct {
+	DeleteOption                *string                                                `json:"deleteOption,omitempty"`
+	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
+	EnableFpga                  *bool                                                  `json:"enableFpga,omitempty"`
+	EnableIPForwarding          *bool                                                  `json:"enableIPForwarding,omitempty"`
+	IpConfigurations            []VirtualMachineScaleSetIPConfiguration                `json:"ipConfigurations,omitempty"`
+	Name                        *string                                                `json:"name,omitempty"`
+	NetworkSecurityGroup        *SubResource                                           `json:"networkSecurityGroup,omitempty"`
+	Primary                     *bool                                                  `json:"primary,omitempty"`
+	PropertyBag                 genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource Id
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkConfiguration_STATUS
+// Describes a virtual machine scale set network profile's network configurations.
 type VirtualMachineScaleSetNetworkConfiguration_STATUS struct {
 	DeleteOption                *string                                                       `json:"deleteOption,omitempty"`
 	DnsSettings                 *VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS `json:"dnsSettings,omitempty"`
@@ -608,7 +654,7 @@ type VirtualMachineScaleSetNetworkConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetOSDisk
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSDisk
+// Describes a virtual machine scale set operating system disk.
 type VirtualMachineScaleSetOSDisk struct {
 	Caching                 *string                                      `json:"caching,omitempty"`
 	CreateOption            *string                                      `json:"createOption,omitempty"`
@@ -625,6 +671,7 @@ type VirtualMachineScaleSetOSDisk struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetOSDisk_STATUS
+// Describes a virtual machine scale set operating system disk.
 type VirtualMachineScaleSetOSDisk_STATUS struct {
 	Caching                 *string                                             `json:"caching,omitempty"`
 	CreateOption            *string                                             `json:"createOption,omitempty"`
@@ -640,22 +687,26 @@ type VirtualMachineScaleSetOSDisk_STATUS struct {
 	WriteAcceleratorEnabled *bool                                               `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec struct {
-	ApplicationGatewayBackendAddressPools []SubResource                                                                                                                                                                   `json:"applicationGatewayBackendAddressPools,omitempty"`
-	ApplicationSecurityGroups             []SubResource                                                                                                                                                                   `json:"applicationSecurityGroups,omitempty"`
-	Id                                    *string                                                                                                                                                                         `json:"id,omitempty"`
-	LoadBalancerBackendAddressPools       []SubResource                                                                                                                                                                   `json:"loadBalancerBackendAddressPools,omitempty"`
-	LoadBalancerInboundNatPools           []SubResource                                                                                                                                                                   `json:"loadBalancerInboundNatPools,omitempty"`
-	Name                                  *string                                                                                                                                                                         `json:"name,omitempty"`
-	Primary                               *bool                                                                                                                                                                           `json:"primary,omitempty"`
-	PrivateIPAddressVersion               *string                                                                                                                                                                         `json:"privateIPAddressVersion,omitempty"`
-	PropertyBag                           genruntime.PropertyBag                                                                                                                                                          `json:"$propertyBag,omitempty"`
-	PublicIPAddressConfiguration          *VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                                *ApiEntityReference                                                                                                                                                             `json:"subnet,omitempty"`
+// Storage version of v1beta20220301.VirtualMachineScaleSetIPConfiguration
+// Describes a virtual machine scale set network profile's IP configuration.
+type VirtualMachineScaleSetIPConfiguration struct {
+	ApplicationGatewayBackendAddressPools []SubResource                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource                                       `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource                                       `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatPools           []SubResource                                       `json:"loadBalancerInboundNatPools,omitempty"`
+	Name                                  *string                                             `json:"name,omitempty"`
+	Primary                               *bool                                               `json:"primary,omitempty"`
+	PrivateIPAddressVersion               *string                                             `json:"privateIPAddressVersion,omitempty"`
+	PropertyBag                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
+	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
+
+	// Reference: Resource Id
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Subnet    *ApiEntityReference           `json:"subnet,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetIPConfiguration_STATUS
+// Describes a virtual machine scale set network profile's IP configuration.
 type VirtualMachineScaleSetIPConfiguration_STATUS struct {
 	ApplicationGatewayBackendAddressPools []SubResource_STATUS                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource_STATUS                                       `json:"applicationSecurityGroups,omitempty"`
@@ -671,15 +722,16 @@ type VirtualMachineScaleSetIPConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetManagedDiskParameters
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetManagedDiskParameters
+// Describes the parameters of a ScaleSet managed disk.
 type VirtualMachineScaleSetManagedDiskParameters struct {
-	DiskEncryptionSet  *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	PropertyBag        genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	SecurityProfile    *VMDiskSecurityProfile       `json:"securityProfile,omitempty"`
-	StorageAccountType *string                      `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource           `json:"diskEncryptionSet,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SecurityProfile    *VMDiskSecurityProfile `json:"securityProfile,omitempty"`
+	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetManagedDiskParameters_STATUS
+// Describes the parameters of a ScaleSet managed disk.
 type VirtualMachineScaleSetManagedDiskParameters_STATUS struct {
 	DiskEncryptionSet  *SubResource_STATUS           `json:"diskEncryptionSet,omitempty"`
 	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -688,20 +740,22 @@ type VirtualMachineScaleSetManagedDiskParameters_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkConfigurationDnsSettings
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetNetworkConfigurationDnsSettings
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20220301.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec
-type VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec struct {
+// Storage version of v1beta20220301.VirtualMachineScaleSetPublicIPAddressConfiguration
+// Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
+type VirtualMachineScaleSetPublicIPAddressConfiguration struct {
 	DeleteOption           *string                                                        `json:"deleteOption,omitempty"`
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings `json:"dnsSettings,omitempty"`
 	IdleTimeoutInMinutes   *int                                                           `json:"idleTimeoutInMinutes,omitempty"`
@@ -714,6 +768,7 @@ type VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Netw
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
+// Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 type VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS struct {
 	DeleteOption           *string                                                               `json:"deleteOption,omitempty"`
 	DnsSettings            *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS `json:"dnsSettings,omitempty"`
@@ -727,7 +782,7 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetIpTag
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetIpTag
+// Contains the IP tag associated with the public IP address.
 type VirtualMachineScaleSetIpTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -735,6 +790,7 @@ type VirtualMachineScaleSetIpTag struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetIpTag_STATUS
+// Contains the IP tag associated with the public IP address.
 type VirtualMachineScaleSetIpTag_STATUS struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -742,13 +798,14 @@ type VirtualMachineScaleSetIpTag_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220301.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS
+// Describes a virtual machines scale sets network configuration's DNS settings.
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`

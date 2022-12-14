@@ -8,19 +8,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Cosmos DB userDefinedFunction name.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB userDefinedFunction.
 	Properties *SqlUserDefinedFunctionCreateUpdateProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec_ARM{}
@@ -40,17 +32,17 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionCreateUpdateProperties
+// Properties to create and update Azure Cosmos DB userDefinedFunction.
 type SqlUserDefinedFunctionCreateUpdateProperties_ARM struct {
-	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	// "If-None-Match", "Session-Token" and "Throughput"
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
 	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
-	// Resource: Cosmos DB SQL userDefinedFunction resource object
+	// Resource: The standard JSON format of a userDefinedFunction
 	Resource *SqlUserDefinedFunctionResource_ARM `json:"resource,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource
+// Cosmos DB SQL userDefinedFunction resource object
 type SqlUserDefinedFunctionResource_ARM struct {
 	// Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`

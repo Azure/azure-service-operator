@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -328,7 +330,9 @@ func (server *Server) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -340,6 +344,7 @@ type Server_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 
@@ -354,10 +359,10 @@ type Server_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	// Properties: The properties used to create a new server.
+	// Properties: Properties of the server.
 	Properties *ServerPropertiesForCreate `json:"properties,omitempty"`
 
-	// Sku: Billing information related properties of a server.
+	// Sku: The SKU (pricing tier) of the server.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// Tags: Application-specific metadata in the form of key-value pairs.
@@ -662,6 +667,7 @@ func (server *Server_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (server *Server_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
+// Represents a server.
 type Server_STATUS struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -1225,6 +1231,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v201
 	return nil
 }
 
+// Enforce a minimal Tls version for the server.
 type MinimalTlsVersion_STATUS string
 
 const (
@@ -1234,6 +1241,8 @@ const (
 	MinimalTlsVersion_STATUS_TLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
+// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'
 type PublicNetworkAccess_STATUS string
 
 const (
@@ -1294,6 +1303,7 @@ func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(desti
 	return nil
 }
 
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS struct {
 	// Id: Resource Id of the private endpoint connection.
 	Id *string `json:"id,omitempty"`
@@ -1398,19 +1408,18 @@ const (
 	ServerProperties_UserVisibleState_STATUS_Ready    = ServerProperties_UserVisibleState_STATUS("Ready")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/ServerPropertiesForCreate
 type ServerPropertiesForCreate struct {
-	// ServerPropertiesForDefaultCreate: Mutually exclusive with all other properties
-	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate `json:"serverPropertiesForDefaultCreate,omitempty"`
+	// Default: Mutually exclusive with all other properties
+	Default *ServerPropertiesForDefaultCreate `json:"default,omitempty"`
 
-	// ServerPropertiesForGeoRestore: Mutually exclusive with all other properties
-	ServerPropertiesForGeoRestore *ServerPropertiesForGeoRestore `json:"serverPropertiesForGeoRestore,omitempty"`
+	// GeoRestore: Mutually exclusive with all other properties
+	GeoRestore *ServerPropertiesForGeoRestore `json:"geoRestore,omitempty"`
 
-	// ServerPropertiesForReplica: Mutually exclusive with all other properties
-	ServerPropertiesForReplica *ServerPropertiesForReplica `json:"serverPropertiesForReplica,omitempty"`
+	// PointInTimeRestore: Mutually exclusive with all other properties
+	PointInTimeRestore *ServerPropertiesForRestore `json:"pointInTimeRestore,omitempty"`
 
-	// ServerPropertiesForRestore: Mutually exclusive with all other properties
-	ServerPropertiesForRestore *ServerPropertiesForRestore `json:"serverPropertiesForRestore,omitempty"`
+	// Replica: Mutually exclusive with all other properties
+	Replica *ServerPropertiesForReplica `json:"replica,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForCreate{}
@@ -1422,44 +1431,44 @@ func (create *ServerPropertiesForCreate) ConvertToARM(resolved genruntime.Conver
 	}
 	result := &ServerPropertiesForCreate_ARM{}
 
-	// Set property ‘ServerPropertiesForDefaultCreate’:
-	if create.ServerPropertiesForDefaultCreate != nil {
-		serverPropertiesForDefaultCreate_ARM, err := (*create.ServerPropertiesForDefaultCreate).ConvertToARM(resolved)
+	// Set property ‘Default’:
+	if create.Default != nil {
+		default_ARM, err := (*create.Default).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForDefaultCreate := *serverPropertiesForDefaultCreate_ARM.(*ServerPropertiesForDefaultCreate_ARM)
-		result.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		def := *default_ARM.(*ServerPropertiesForDefaultCreate_ARM)
+		result.Default = &def
 	}
 
-	// Set property ‘ServerPropertiesForGeoRestore’:
-	if create.ServerPropertiesForGeoRestore != nil {
-		serverPropertiesForGeoRestore_ARM, err := (*create.ServerPropertiesForGeoRestore).ConvertToARM(resolved)
+	// Set property ‘GeoRestore’:
+	if create.GeoRestore != nil {
+		geoRestore_ARM, err := (*create.GeoRestore).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForGeoRestore := *serverPropertiesForGeoRestore_ARM.(*ServerPropertiesForGeoRestore_ARM)
-		result.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		geoRestore := *geoRestore_ARM.(*ServerPropertiesForGeoRestore_ARM)
+		result.GeoRestore = &geoRestore
 	}
 
-	// Set property ‘ServerPropertiesForReplica’:
-	if create.ServerPropertiesForReplica != nil {
-		serverPropertiesForReplica_ARM, err := (*create.ServerPropertiesForReplica).ConvertToARM(resolved)
+	// Set property ‘PointInTimeRestore’:
+	if create.PointInTimeRestore != nil {
+		pointInTimeRestore_ARM, err := (*create.PointInTimeRestore).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForReplica := *serverPropertiesForReplica_ARM.(*ServerPropertiesForReplica_ARM)
-		result.ServerPropertiesForReplica = &serverPropertiesForReplica
+		pointInTimeRestore := *pointInTimeRestore_ARM.(*ServerPropertiesForRestore_ARM)
+		result.PointInTimeRestore = &pointInTimeRestore
 	}
 
-	// Set property ‘ServerPropertiesForRestore’:
-	if create.ServerPropertiesForRestore != nil {
-		serverPropertiesForRestore_ARM, err := (*create.ServerPropertiesForRestore).ConvertToARM(resolved)
+	// Set property ‘Replica’:
+	if create.Replica != nil {
+		replica_ARM, err := (*create.Replica).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		serverPropertiesForRestore := *serverPropertiesForRestore_ARM.(*ServerPropertiesForRestore_ARM)
-		result.ServerPropertiesForRestore = &serverPropertiesForRestore
+		replica := *replica_ARM.(*ServerPropertiesForReplica_ARM)
+		result.Replica = &replica
 	}
 	return result, nil
 }
@@ -1476,48 +1485,48 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPropertiesForCreate_ARM, got %T", armInput)
 	}
 
-	// Set property ‘ServerPropertiesForDefaultCreate’:
-	if typedInput.ServerPropertiesForDefaultCreate != nil {
-		var serverPropertiesForDefaultCreate1 ServerPropertiesForDefaultCreate
-		err := serverPropertiesForDefaultCreate1.PopulateFromARM(owner, *typedInput.ServerPropertiesForDefaultCreate)
+	// Set property ‘Default’:
+	if typedInput.Default != nil {
+		var default1 ServerPropertiesForDefaultCreate
+		err := default1.PopulateFromARM(owner, *typedInput.Default)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForDefaultCreate := serverPropertiesForDefaultCreate1
-		create.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		def := default1
+		create.Default = &def
 	}
 
-	// Set property ‘ServerPropertiesForGeoRestore’:
-	if typedInput.ServerPropertiesForGeoRestore != nil {
-		var serverPropertiesForGeoRestore1 ServerPropertiesForGeoRestore
-		err := serverPropertiesForGeoRestore1.PopulateFromARM(owner, *typedInput.ServerPropertiesForGeoRestore)
+	// Set property ‘GeoRestore’:
+	if typedInput.GeoRestore != nil {
+		var geoRestore1 ServerPropertiesForGeoRestore
+		err := geoRestore1.PopulateFromARM(owner, *typedInput.GeoRestore)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForGeoRestore := serverPropertiesForGeoRestore1
-		create.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		geoRestore := geoRestore1
+		create.GeoRestore = &geoRestore
 	}
 
-	// Set property ‘ServerPropertiesForReplica’:
-	if typedInput.ServerPropertiesForReplica != nil {
-		var serverPropertiesForReplica1 ServerPropertiesForReplica
-		err := serverPropertiesForReplica1.PopulateFromARM(owner, *typedInput.ServerPropertiesForReplica)
+	// Set property ‘PointInTimeRestore’:
+	if typedInput.PointInTimeRestore != nil {
+		var pointInTimeRestore1 ServerPropertiesForRestore
+		err := pointInTimeRestore1.PopulateFromARM(owner, *typedInput.PointInTimeRestore)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForReplica := serverPropertiesForReplica1
-		create.ServerPropertiesForReplica = &serverPropertiesForReplica
+		pointInTimeRestore := pointInTimeRestore1
+		create.PointInTimeRestore = &pointInTimeRestore
 	}
 
-	// Set property ‘ServerPropertiesForRestore’:
-	if typedInput.ServerPropertiesForRestore != nil {
-		var serverPropertiesForRestore1 ServerPropertiesForRestore
-		err := serverPropertiesForRestore1.PopulateFromARM(owner, *typedInput.ServerPropertiesForRestore)
+	// Set property ‘Replica’:
+	if typedInput.Replica != nil {
+		var replica1 ServerPropertiesForReplica
+		err := replica1.PopulateFromARM(owner, *typedInput.Replica)
 		if err != nil {
 			return err
 		}
-		serverPropertiesForRestore := serverPropertiesForRestore1
-		create.ServerPropertiesForRestore = &serverPropertiesForRestore
+		replica := replica1
+		create.Replica = &replica
 	}
 
 	// No error
@@ -1527,52 +1536,52 @@ func (create *ServerPropertiesForCreate) PopulateFromARM(owner genruntime.Arbitr
 // AssignProperties_From_ServerPropertiesForCreate populates our ServerPropertiesForCreate from the provided source ServerPropertiesForCreate
 func (create *ServerPropertiesForCreate) AssignProperties_From_ServerPropertiesForCreate(source *v20180601s.ServerPropertiesForCreate) error {
 
-	// ServerPropertiesForDefaultCreate
-	if source.ServerPropertiesForDefaultCreate != nil {
-		var serverPropertiesForDefaultCreate ServerPropertiesForDefaultCreate
-		err := serverPropertiesForDefaultCreate.AssignProperties_From_ServerPropertiesForDefaultCreate(source.ServerPropertiesForDefaultCreate)
+	// Default
+	if source.Default != nil {
+		var def ServerPropertiesForDefaultCreate
+		err := def.AssignProperties_From_ServerPropertiesForDefaultCreate(source.Default)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field ServerPropertiesForDefaultCreate")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
-		create.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		create.Default = &def
 	} else {
-		create.ServerPropertiesForDefaultCreate = nil
+		create.Default = nil
 	}
 
-	// ServerPropertiesForGeoRestore
-	if source.ServerPropertiesForGeoRestore != nil {
-		var serverPropertiesForGeoRestore ServerPropertiesForGeoRestore
-		err := serverPropertiesForGeoRestore.AssignProperties_From_ServerPropertiesForGeoRestore(source.ServerPropertiesForGeoRestore)
+	// GeoRestore
+	if source.GeoRestore != nil {
+		var geoRestore ServerPropertiesForGeoRestore
+		err := geoRestore.AssignProperties_From_ServerPropertiesForGeoRestore(source.GeoRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field ServerPropertiesForGeoRestore")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForGeoRestore() to populate field GeoRestore")
 		}
-		create.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		create.GeoRestore = &geoRestore
 	} else {
-		create.ServerPropertiesForGeoRestore = nil
+		create.GeoRestore = nil
 	}
 
-	// ServerPropertiesForReplica
-	if source.ServerPropertiesForReplica != nil {
-		var serverPropertiesForReplica ServerPropertiesForReplica
-		err := serverPropertiesForReplica.AssignProperties_From_ServerPropertiesForReplica(source.ServerPropertiesForReplica)
+	// PointInTimeRestore
+	if source.PointInTimeRestore != nil {
+		var pointInTimeRestore ServerPropertiesForRestore
+		err := pointInTimeRestore.AssignProperties_From_ServerPropertiesForRestore(source.PointInTimeRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field ServerPropertiesForReplica")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field PointInTimeRestore")
 		}
-		create.ServerPropertiesForReplica = &serverPropertiesForReplica
+		create.PointInTimeRestore = &pointInTimeRestore
 	} else {
-		create.ServerPropertiesForReplica = nil
+		create.PointInTimeRestore = nil
 	}
 
-	// ServerPropertiesForRestore
-	if source.ServerPropertiesForRestore != nil {
-		var serverPropertiesForRestore ServerPropertiesForRestore
-		err := serverPropertiesForRestore.AssignProperties_From_ServerPropertiesForRestore(source.ServerPropertiesForRestore)
+	// Replica
+	if source.Replica != nil {
+		var replica ServerPropertiesForReplica
+		err := replica.AssignProperties_From_ServerPropertiesForReplica(source.Replica)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForRestore() to populate field ServerPropertiesForRestore")
+			return errors.Wrap(err, "calling AssignProperties_From_ServerPropertiesForReplica() to populate field Replica")
 		}
-		create.ServerPropertiesForRestore = &serverPropertiesForRestore
+		create.Replica = &replica
 	} else {
-		create.ServerPropertiesForRestore = nil
+		create.Replica = nil
 	}
 
 	// No error
@@ -1584,52 +1593,52 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ServerPropertiesForDefaultCreate
-	if create.ServerPropertiesForDefaultCreate != nil {
-		var serverPropertiesForDefaultCreate v20180601s.ServerPropertiesForDefaultCreate
-		err := create.ServerPropertiesForDefaultCreate.AssignProperties_To_ServerPropertiesForDefaultCreate(&serverPropertiesForDefaultCreate)
+	// Default
+	if create.Default != nil {
+		var def v20180601s.ServerPropertiesForDefaultCreate
+		err := create.Default.AssignProperties_To_ServerPropertiesForDefaultCreate(&def)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field ServerPropertiesForDefaultCreate")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForDefaultCreate() to populate field Default")
 		}
-		destination.ServerPropertiesForDefaultCreate = &serverPropertiesForDefaultCreate
+		destination.Default = &def
 	} else {
-		destination.ServerPropertiesForDefaultCreate = nil
+		destination.Default = nil
 	}
 
-	// ServerPropertiesForGeoRestore
-	if create.ServerPropertiesForGeoRestore != nil {
-		var serverPropertiesForGeoRestore v20180601s.ServerPropertiesForGeoRestore
-		err := create.ServerPropertiesForGeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&serverPropertiesForGeoRestore)
+	// GeoRestore
+	if create.GeoRestore != nil {
+		var geoRestore v20180601s.ServerPropertiesForGeoRestore
+		err := create.GeoRestore.AssignProperties_To_ServerPropertiesForGeoRestore(&geoRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field ServerPropertiesForGeoRestore")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForGeoRestore() to populate field GeoRestore")
 		}
-		destination.ServerPropertiesForGeoRestore = &serverPropertiesForGeoRestore
+		destination.GeoRestore = &geoRestore
 	} else {
-		destination.ServerPropertiesForGeoRestore = nil
+		destination.GeoRestore = nil
 	}
 
-	// ServerPropertiesForReplica
-	if create.ServerPropertiesForReplica != nil {
-		var serverPropertiesForReplica v20180601s.ServerPropertiesForReplica
-		err := create.ServerPropertiesForReplica.AssignProperties_To_ServerPropertiesForReplica(&serverPropertiesForReplica)
+	// PointInTimeRestore
+	if create.PointInTimeRestore != nil {
+		var pointInTimeRestore v20180601s.ServerPropertiesForRestore
+		err := create.PointInTimeRestore.AssignProperties_To_ServerPropertiesForRestore(&pointInTimeRestore)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field ServerPropertiesForReplica")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field PointInTimeRestore")
 		}
-		destination.ServerPropertiesForReplica = &serverPropertiesForReplica
+		destination.PointInTimeRestore = &pointInTimeRestore
 	} else {
-		destination.ServerPropertiesForReplica = nil
+		destination.PointInTimeRestore = nil
 	}
 
-	// ServerPropertiesForRestore
-	if create.ServerPropertiesForRestore != nil {
-		var serverPropertiesForRestore v20180601s.ServerPropertiesForRestore
-		err := create.ServerPropertiesForRestore.AssignProperties_To_ServerPropertiesForRestore(&serverPropertiesForRestore)
+	// Replica
+	if create.Replica != nil {
+		var replica v20180601s.ServerPropertiesForReplica
+		err := create.Replica.AssignProperties_To_ServerPropertiesForReplica(&replica)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForRestore() to populate field ServerPropertiesForRestore")
+			return errors.Wrap(err, "calling AssignProperties_To_ServerPropertiesForReplica() to populate field Replica")
 		}
-		destination.ServerPropertiesForRestore = &serverPropertiesForRestore
+		destination.Replica = &replica
 	} else {
-		destination.ServerPropertiesForRestore = nil
+		destination.Replica = nil
 	}
 
 	// Update the property bag
@@ -1643,6 +1652,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 	return nil
 }
 
+// The version of a server.
 type ServerVersion_STATUS string
 
 const (
@@ -1650,7 +1660,7 @@ const (
 	ServerVersion_STATUS_103 = ServerVersion_STATUS("10.3")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
+// Billing information related properties of a server.
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
 	// Capacity: The scale up/out capacity, representing server's compute units.
@@ -1830,6 +1840,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20180601s.Sku) error {
 	return nil
 }
 
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
@@ -1958,6 +1969,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20180601s.Sk
 	return nil
 }
 
+// Enable ssl enforcement or not when connect to server.
 type SslEnforcement_STATUS string
 
 const (
@@ -1965,6 +1977,7 @@ const (
 	SslEnforcement_STATUS_Enabled  = SslEnforcement_STATUS("Enabled")
 )
 
+// Storage Profile properties of a server
 type StorageProfile_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -2133,6 +2146,7 @@ func (secrets *ServerOperatorSecrets) AssignProperties_To_ServerOperatorSecrets(
 	return nil
 }
 
+// Properties of a private endpoint connection.
 type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_STATUS `json:"privateEndpoint,omitempty"`
@@ -2288,23 +2302,24 @@ type ServerPropertiesForDefaultCreate struct {
 	AdministratorLoginPassword genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreateMode *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
+	// CreateMode: The mode to create a new server.
+	CreateMode *ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'.
-	PublicNetworkAccess *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
 
-	// StorageProfile: Storage Profile properties of a server
+	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_Version `json:"version,omitempty"`
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForDefaultCreate{}
@@ -2447,7 +2462,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForDefaultCreate_CreateMode(*source.CreateMode)
 		create.CreateMode = &createMode
 	} else {
 		create.CreateMode = nil
@@ -2455,7 +2470,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_MinimalTlsVersion(*source.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
 		create.MinimalTlsVersion = &minimalTlsVersion
 	} else {
 		create.MinimalTlsVersion = nil
@@ -2463,7 +2478,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
 		create.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		create.PublicNetworkAccess = nil
@@ -2471,7 +2486,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_SslEnforcement(*source.SslEnforcement)
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
 		create.SslEnforcement = &sslEnforcement
 	} else {
 		create.SslEnforcement = nil
@@ -2491,7 +2506,7 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_From_ServerProp
 
 	// Version
 	if source.Version != nil {
-		version := ServerPropertiesForCreate_ServerPropertiesForDefaultCreate_Version(*source.Version)
+		version := ServerVersion(*source.Version)
 		create.Version = &version
 	} else {
 		create.Version = nil
@@ -2578,27 +2593,28 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 
 type ServerPropertiesForGeoRestore struct {
 	// +kubebuilder:validation:Required
-	CreateMode *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
+	// CreateMode: The mode to create a new server.
+	CreateMode *ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'.
-	PublicNetworkAccess *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SourceServerId: The source server id to restore from.
 	SourceServerId *string `json:"sourceServerId,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
 
-	// StorageProfile: Storage Profile properties of a server
+	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerPropertiesForCreate_ServerPropertiesForGeoRestore_Version `json:"version,omitempty"`
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForGeoRestore{}
@@ -2722,7 +2738,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForCreate_ServerPropertiesForGeoRestore_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForGeoRestore_CreateMode(*source.CreateMode)
 		restore.CreateMode = &createMode
 	} else {
 		restore.CreateMode = nil
@@ -2730,7 +2746,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := ServerPropertiesForCreate_ServerPropertiesForGeoRestore_MinimalTlsVersion(*source.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
 		restore.MinimalTlsVersion = &minimalTlsVersion
 	} else {
 		restore.MinimalTlsVersion = nil
@@ -2738,7 +2754,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerPropertiesForCreate_ServerPropertiesForGeoRestore_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
 		restore.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		restore.PublicNetworkAccess = nil
@@ -2749,7 +2765,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := ServerPropertiesForCreate_ServerPropertiesForGeoRestore_SslEnforcement(*source.SslEnforcement)
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
 		restore.SslEnforcement = &sslEnforcement
 	} else {
 		restore.SslEnforcement = nil
@@ -2769,7 +2785,7 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_From_ServerProper
 
 	// Version
 	if source.Version != nil {
-		version := ServerPropertiesForCreate_ServerPropertiesForGeoRestore_Version(*source.Version)
+		version := ServerVersion(*source.Version)
 		restore.Version = &version
 	} else {
 		restore.Version = nil
@@ -2852,27 +2868,28 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerProperti
 
 type ServerPropertiesForReplica struct {
 	// +kubebuilder:validation:Required
-	CreateMode *ServerPropertiesForCreate_ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
+	// CreateMode: The mode to create a new server.
+	CreateMode *ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *ServerPropertiesForCreate_ServerPropertiesForReplica_MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'.
-	PublicNetworkAccess *ServerPropertiesForCreate_ServerPropertiesForReplica_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SourceServerId: The master server id to create replica from.
 	SourceServerId *string `json:"sourceServerId,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForReplica_SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
 
-	// StorageProfile: Storage Profile properties of a server
+	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerPropertiesForCreate_ServerPropertiesForReplica_Version `json:"version,omitempty"`
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForReplica{}
@@ -2996,7 +3013,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForCreate_ServerPropertiesForReplica_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForReplica_CreateMode(*source.CreateMode)
 		replica.CreateMode = &createMode
 	} else {
 		replica.CreateMode = nil
@@ -3004,7 +3021,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := ServerPropertiesForCreate_ServerPropertiesForReplica_MinimalTlsVersion(*source.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
 		replica.MinimalTlsVersion = &minimalTlsVersion
 	} else {
 		replica.MinimalTlsVersion = nil
@@ -3012,7 +3029,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerPropertiesForCreate_ServerPropertiesForReplica_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
 		replica.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		replica.PublicNetworkAccess = nil
@@ -3023,7 +3040,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := ServerPropertiesForCreate_ServerPropertiesForReplica_SslEnforcement(*source.SslEnforcement)
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
 		replica.SslEnforcement = &sslEnforcement
 	} else {
 		replica.SslEnforcement = nil
@@ -3043,7 +3060,7 @@ func (replica *ServerPropertiesForReplica) AssignProperties_From_ServerPropertie
 
 	// Version
 	if source.Version != nil {
-		version := ServerPropertiesForCreate_ServerPropertiesForReplica_Version(*source.Version)
+		version := ServerVersion(*source.Version)
 		replica.Version = &version
 	} else {
 		replica.Version = nil
@@ -3126,14 +3143,15 @@ func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesF
 
 type ServerPropertiesForRestore struct {
 	// +kubebuilder:validation:Required
-	CreateMode *ServerPropertiesForCreate_ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
+	// CreateMode: The mode to create a new server.
+	CreateMode *ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *ServerPropertiesForCreate_ServerPropertiesForRestore_MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
+	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'.
-	PublicNetworkAccess *ServerPropertiesForCreate_ServerPropertiesForRestore_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// in, must be 'Enabled' or 'Disabled'
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
@@ -3144,13 +3162,13 @@ type ServerPropertiesForRestore struct {
 	SourceServerId *string `json:"sourceServerId,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *ServerPropertiesForCreate_ServerPropertiesForRestore_SslEnforcement `json:"sslEnforcement,omitempty"`
+	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
 
-	// StorageProfile: Storage Profile properties of a server
+	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
 
 	// Version: Server version.
-	Version *ServerPropertiesForCreate_ServerPropertiesForRestore_Version `json:"version,omitempty"`
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForRestore{}
@@ -3286,7 +3304,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesForCreate_ServerPropertiesForRestore_CreateMode(*source.CreateMode)
+		createMode := ServerPropertiesForRestore_CreateMode(*source.CreateMode)
 		restore.CreateMode = &createMode
 	} else {
 		restore.CreateMode = nil
@@ -3294,7 +3312,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// MinimalTlsVersion
 	if source.MinimalTlsVersion != nil {
-		minimalTlsVersion := ServerPropertiesForCreate_ServerPropertiesForRestore_MinimalTlsVersion(*source.MinimalTlsVersion)
+		minimalTlsVersion := MinimalTlsVersion(*source.MinimalTlsVersion)
 		restore.MinimalTlsVersion = &minimalTlsVersion
 	} else {
 		restore.MinimalTlsVersion = nil
@@ -3302,7 +3320,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := ServerPropertiesForCreate_ServerPropertiesForRestore_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
 		restore.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		restore.PublicNetworkAccess = nil
@@ -3321,7 +3339,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// SslEnforcement
 	if source.SslEnforcement != nil {
-		sslEnforcement := ServerPropertiesForCreate_ServerPropertiesForRestore_SslEnforcement(*source.SslEnforcement)
+		sslEnforcement := SslEnforcement(*source.SslEnforcement)
 		restore.SslEnforcement = &sslEnforcement
 	} else {
 		restore.SslEnforcement = nil
@@ -3341,7 +3359,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 
 	// Version
 	if source.Version != nil {
-		version := ServerPropertiesForCreate_ServerPropertiesForRestore_Version(*source.Version)
+		version := ServerVersion(*source.Version)
 		restore.Version = &version
 	} else {
 		restore.Version = nil
@@ -3620,7 +3638,7 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/StorageProfile
+// Storage Profile properties of a server
 type StorageProfile struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`

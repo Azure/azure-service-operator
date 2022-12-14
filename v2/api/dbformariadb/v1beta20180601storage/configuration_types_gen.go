@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20180601.Configuration
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers_configurations
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/configurations/{configurationName}
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Configuration_Spec `json:"spec,omitempty"`
-	Status            Configuration_STATUS       `json:"status,omitempty"`
+	Spec              Servers_Configuration_Spec   `json:"spec,omitempty"`
+	Status            Servers_Configuration_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Configuration{}
@@ -76,7 +78,7 @@ func (configuration *Configuration) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *Configuration) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Configuration_STATUS{}
+	return &Servers_Configuration_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (configuration *Configuration) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (configuration *Configuration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Configuration_STATUS); ok {
+	if st, ok := status.(*Servers_Configuration_STATUS); ok {
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Configuration_STATUS
+	var st Servers_Configuration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (configuration *Configuration) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20180601.Configuration
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers_configurations
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/configurations/{configurationName}
 type ConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -135,48 +139,12 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-06-01")
 
-// Storage version of v1beta20180601.Configuration_STATUS
-type Configuration_STATUS struct {
-	AllowedValues *string                `json:"allowedValues,omitempty"`
-	Conditions    []conditions.Condition `json:"conditions,omitempty"`
-	DataType      *string                `json:"dataType,omitempty"`
-	DefaultValue  *string                `json:"defaultValue,omitempty"`
-	Description   *string                `json:"description,omitempty"`
-	Id            *string                `json:"id,omitempty"`
-	Name          *string                `json:"name,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Source        *string                `json:"source,omitempty"`
-	Type          *string                `json:"type,omitempty"`
-	Value         *string                `json:"value,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Configuration_STATUS{}
-
-// ConvertStatusFrom populates our Configuration_STATUS from the provided source
-func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(configuration)
-}
-
-// ConvertStatusTo populates the provided destination from our Configuration_STATUS
-func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == configuration {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(configuration)
-}
-
 // Storage version of v1beta20180601.Servers_Configuration_Spec
 type Servers_Configuration_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -185,7 +153,6 @@ type Servers_Configuration_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"dbformariadb.azure.com" json:"owner,omitempty" kind:"Server"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Source      *string                            `json:"source,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
 	Value       *string                            `json:"value,omitempty"`
 }
 
@@ -207,6 +174,41 @@ func (configuration *Servers_Configuration_Spec) ConvertSpecTo(destination genru
 	}
 
 	return destination.ConvertSpecFrom(configuration)
+}
+
+// Storage version of v1beta20180601.Servers_Configuration_STATUS
+type Servers_Configuration_STATUS struct {
+	AllowedValues *string                `json:"allowedValues,omitempty"`
+	Conditions    []conditions.Condition `json:"conditions,omitempty"`
+	DataType      *string                `json:"dataType,omitempty"`
+	DefaultValue  *string                `json:"defaultValue,omitempty"`
+	Description   *string                `json:"description,omitempty"`
+	Id            *string                `json:"id,omitempty"`
+	Name          *string                `json:"name,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Source        *string                `json:"source,omitempty"`
+	Type          *string                `json:"type,omitempty"`
+	Value         *string                `json:"value,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Servers_Configuration_STATUS{}
+
+// ConvertStatusFrom populates our Servers_Configuration_STATUS from the provided source
+func (configuration *Servers_Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == configuration {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(configuration)
+}
+
+// ConvertStatusTo populates the provided destination from our Servers_Configuration_STATUS
+func (configuration *Servers_Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == configuration {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(configuration)
 }
 
 func init() {

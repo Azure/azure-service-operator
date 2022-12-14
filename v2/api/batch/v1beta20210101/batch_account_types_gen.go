@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
+// Generator information:
+// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +312,9 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
+// Generator information:
+// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -328,7 +332,7 @@ type BatchAccount_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -337,13 +341,13 @@ type BatchAccount_Spec struct {
 	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
 	Encryption *EncryptionProperties `json:"encryption,omitempty"`
 
-	// Identity: The identity of the Batch account, if configured. This is only used when the user specifies
-	// 'Microsoft.KeyVault' as their Batch account encryption configuration.
+	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity `json:"identity,omitempty"`
 
-	// KeyVaultReference: Identifies the Azure key vault associated with a Batch account.
+	// KeyVaultReference: A reference to the Azure key vault associated with the Batch account.
 	KeyVaultReference *KeyVaultReference `json:"keyVaultReference,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Location: The region in which to create the account.
 	Location *string `json:"location,omitempty"`
 
@@ -356,10 +360,10 @@ type BatchAccount_Spec struct {
 	// PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
 	// mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
 	// UserSubscription, clients must use Azure Active Directory. The default is BatchService.
-	PoolAllocationMode *BatchAccountCreateProperties_PoolAllocationMode `json:"poolAllocationMode,omitempty"`
+	PoolAllocationMode *PoolAllocationMode `json:"poolAllocationMode,omitempty"`
 
 	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *BatchAccountCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
 
 	// Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -668,7 +672,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
-		poolAllocationMode := BatchAccountCreateProperties_PoolAllocationMode(*source.PoolAllocationMode)
+		poolAllocationMode := PoolAllocationMode(*source.PoolAllocationMode)
 		account.PoolAllocationMode = &poolAllocationMode
 	} else {
 		account.PoolAllocationMode = nil
@@ -676,7 +680,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := BatchAccountCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := PublicNetworkAccessType(*source.PublicNetworkAccess)
 		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		account.PublicNetworkAccess = nil
@@ -797,11 +801,14 @@ func (account *BatchAccount_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (account *BatchAccount_Spec) SetAzureName(azureName string) { account.AzureName = azureName }
 
+// Contains information about an Azure Batch account.
 type BatchAccount_STATUS struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
-	AccountEndpoint              *string                       `json:"accountEndpoint,omitempty"`
-	ActiveJobAndJobScheduleQuota *int                          `json:"activeJobAndJobScheduleQuota,omitempty"`
-	AutoStorage                  *AutoStorageProperties_STATUS `json:"autoStorage,omitempty"`
+	AccountEndpoint              *string `json:"accountEndpoint,omitempty"`
+	ActiveJobAndJobScheduleQuota *int    `json:"activeJobAndJobScheduleQuota,omitempty"`
+
+	// AutoStorage: Contains information about the auto-storage account associated with a Batch account.
+	AutoStorage *AutoStorageProperties_STATUS `json:"autoStorage,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -830,8 +837,10 @@ type BatchAccount_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the Batch account.
-	Identity          *BatchAccountIdentity_STATUS `json:"identity,omitempty"`
-	KeyVaultReference *KeyVaultReference_STATUS    `json:"keyVaultReference,omitempty"`
+	Identity *BatchAccountIdentity_STATUS `json:"identity,omitempty"`
+
+	// KeyVaultReference: Identifies the Azure key vault associated with a Batch account.
+	KeyVaultReference *KeyVaultReference_STATUS `json:"keyVaultReference,omitempty"`
 
 	// Location: The location of the resource.
 	Location *string `json:"location,omitempty"`
@@ -841,7 +850,9 @@ type BatchAccount_STATUS struct {
 	LowPriorityCoreQuota *int `json:"lowPriorityCoreQuota,omitempty"`
 
 	// Name: The name of the resource.
-	Name               *string                    `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// PoolAllocationMode: The allocation mode for creating pools in the Batch account.
 	PoolAllocationMode *PoolAllocationMode_STATUS `json:"poolAllocationMode,omitempty"`
 	PoolQuota          *int                       `json:"poolQuota,omitempty"`
 
@@ -1444,7 +1455,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
+// The properties related to the auto-storage account.
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
 	// StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
@@ -1529,6 +1540,7 @@ func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBase
 	return nil
 }
 
+// Contains information about the auto-storage account associated with a Batch account.
 type AutoStorageProperties_STATUS struct {
 	// LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
 	LastKeySync *string `json:"lastKeySync,omitempty"`
@@ -1602,23 +1614,8 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageP
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"BatchService","UserSubscription"}
-type BatchAccountCreateProperties_PoolAllocationMode string
-
-const (
-	BatchAccountCreateProperties_PoolAllocationMode_BatchService     = BatchAccountCreateProperties_PoolAllocationMode("BatchService")
-	BatchAccountCreateProperties_PoolAllocationMode_UserSubscription = BatchAccountCreateProperties_PoolAllocationMode("UserSubscription")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type BatchAccountCreateProperties_PublicNetworkAccess string
-
-const (
-	BatchAccountCreateProperties_PublicNetworkAccess_Disabled = BatchAccountCreateProperties_PublicNetworkAccess("Disabled")
-	BatchAccountCreateProperties_PublicNetworkAccess_Enabled  = BatchAccountCreateProperties_PublicNetworkAccess("Enabled")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity struct {
 	// +kubebuilder:validation:Required
 	// Type: The type of identity used for the Batch account.
@@ -1703,6 +1700,8 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 	return nil
 }
 
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity_STATUS struct {
 	// PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -1867,12 +1866,13 @@ const (
 	BatchAccountProperties_ProvisioningState_STATUS_Succeeded = BatchAccountProperties_ProvisioningState_STATUS("Succeeded")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
 
-	// KeyVaultProperties: KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
+	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 }
 
@@ -1999,6 +1999,8 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
@@ -2105,7 +2107,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference struct {
 	// +kubebuilder:validation:Required
 	// Reference: The resource ID of the Azure key vault associated with the Batch account.
@@ -2212,6 +2214,7 @@ func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destin
 	return nil
 }
 
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference_STATUS struct {
 	// Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id *string `json:"id,omitempty"`
@@ -2285,6 +2288,16 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_To_KeyVaultReference
 	return nil
 }
 
+// The allocation mode for creating pools in the Batch account.
+// +kubebuilder:validation:Enum={"BatchService","UserSubscription"}
+type PoolAllocationMode string
+
+const (
+	PoolAllocationMode_BatchService     = PoolAllocationMode("BatchService")
+	PoolAllocationMode_UserSubscription = PoolAllocationMode("UserSubscription")
+)
+
+// The allocation mode for creating pools in the Batch account.
 type PoolAllocationMode_STATUS string
 
 const (
@@ -2292,21 +2305,10 @@ const (
 	PoolAllocationMode_STATUS_UserSubscription = PoolAllocationMode_STATUS("UserSubscription")
 )
 
+// Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS struct {
-	// Etag: The ETag of the resource, used for concurrency statements.
-	Etag *string `json:"etag,omitempty"`
-
 	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource.
-	Name                              *string                                                       `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_STATUS                                       `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS                     `json:"privateLinkServiceConnectionState,omitempty"`
-	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
@@ -2323,65 +2325,10 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_ARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		connection.Etag = &etag
-	}
-
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		connection.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		connection.Name = &name
-	}
-
-	// Set property ‘PrivateEndpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateEndpoint != nil {
-			var privateEndpoint1 PrivateEndpoint_STATUS
-			err := privateEndpoint1.PopulateFromARM(owner, *typedInput.Properties.PrivateEndpoint)
-			if err != nil {
-				return err
-			}
-			privateEndpoint := privateEndpoint1
-			connection.PrivateEndpoint = &privateEndpoint
-		}
-	}
-
-	// Set property ‘PrivateLinkServiceConnectionState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
-			var privateLinkServiceConnectionState1 PrivateLinkServiceConnectionState_STATUS
-			err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.Properties.PrivateLinkServiceConnectionState)
-			if err != nil {
-				return err
-			}
-			privateLinkServiceConnectionState := privateLinkServiceConnectionState1
-			connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			connection.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		connection.Type = &typeVar
 	}
 
 	// No error
@@ -2391,49 +2338,8 @@ func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genrun
 // AssignProperties_From_PrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
 func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_PrivateEndpointConnection_STATUS(source *v20210101s.PrivateEndpointConnection_STATUS) error {
 
-	// Etag
-	connection.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Id
 	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	connection.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint_STATUS
-		err := privateEndpoint.AssignProperties_From_PrivateEndpoint_STATUS(source.PrivateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
-		}
-		connection.PrivateEndpoint = &privateEndpoint
-	} else {
-		connection.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_STATUS
-		err := privateLinkServiceConnectionState.AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		connection.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointConnectionProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		connection.ProvisioningState = &provisioningState
-	} else {
-		connection.ProvisioningState = nil
-	}
-
-	// Type
-	connection.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -2444,49 +2350,8 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(connection.Etag)
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(connection.Name)
-
-	// PrivateEndpoint
-	if connection.PrivateEndpoint != nil {
-		var privateEndpoint v20210101s.PrivateEndpoint_STATUS
-		err := connection.PrivateEndpoint.AssignProperties_To_PrivateEndpoint_STATUS(&privateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateEndpoint_STATUS() to populate field PrivateEndpoint")
-		}
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if connection.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20210101s.PrivateLinkServiceConnectionState_STATUS
-		err := connection.PrivateLinkServiceConnectionState.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if connection.ProvisioningState != nil {
-		provisioningState := string(*connection.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(connection.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2499,6 +2364,16 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// The network access type for operating on the resources in the Batch account.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccessType string
+
+const (
+	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
+)
+
+// The network access type for operating on the resources in the Batch account.
 type PublicNetworkAccessType_STATUS string
 
 const (
@@ -2506,6 +2381,7 @@ const (
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
+// A VM Family and its associated core quota for the Batch account.
 type VirtualMachineFamilyCoreQuota_STATUS struct {
 	// CoreQuota: The core quota for the VM family for the Batch account.
 	CoreQuota *int `json:"coreQuota,omitempty"`
@@ -2667,7 +2543,7 @@ const (
 	EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
@@ -2746,6 +2622,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties_STATUS struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
@@ -2808,173 +2685,6 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	// No error
 	return nil
 }
-
-type PrivateEndpoint_STATUS struct {
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &PrivateEndpoint_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *PrivateEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpoint_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *PrivateEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpoint_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		endpoint.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateEndpoint_STATUS populates our PrivateEndpoint_STATUS from the provided source PrivateEndpoint_STATUS
-func (endpoint *PrivateEndpoint_STATUS) AssignProperties_From_PrivateEndpoint_STATUS(source *v20210101s.PrivateEndpoint_STATUS) error {
-
-	// Id
-	endpoint.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateEndpoint_STATUS populates the provided destination PrivateEndpoint_STATUS from our PrivateEndpoint_STATUS
-func (endpoint *PrivateEndpoint_STATUS) AssignProperties_To_PrivateEndpoint_STATUS(destination *v20210101s.PrivateEndpoint_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type PrivateEndpointConnectionProperties_ProvisioningState_STATUS string
-
-const (
-	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Failed    = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Failed")
-	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Succeeded = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Succeeded")
-	PrivateEndpointConnectionProperties_ProvisioningState_STATUS_Updating  = PrivateEndpointConnectionProperties_ProvisioningState_STATUS("Updating")
-)
-
-type PrivateLinkServiceConnectionState_STATUS struct {
-	ActionRequired *string                                    `json:"actionRequired,omitempty"`
-	Description    *string                                    `json:"description,omitempty"`
-	Status         *PrivateLinkServiceConnectionStatus_STATUS `json:"status,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &PrivateLinkServiceConnectionState_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (state *PrivateLinkServiceConnectionState_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkServiceConnectionState_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (state *PrivateLinkServiceConnectionState_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkServiceConnectionState_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionState_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ActionRequired’:
-	if typedInput.ActionRequired != nil {
-		actionRequired := *typedInput.ActionRequired
-		state.ActionRequired = &actionRequired
-	}
-
-	// Set property ‘Description’:
-	if typedInput.Description != nil {
-		description := *typedInput.Description
-		state.Description = &description
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		status := *typedInput.Status
-		state.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState_STATUS from the provided source PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_From_PrivateLinkServiceConnectionState_STATUS(source *v20210101s.PrivateLinkServiceConnectionState_STATUS) error {
-
-	// ActionRequired
-	state.ActionRequired = genruntime.ClonePointerToString(source.ActionRequired)
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	if source.Status != nil {
-		status := PrivateLinkServiceConnectionStatus_STATUS(*source.Status)
-		state.Status = &status
-	} else {
-		state.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_PrivateLinkServiceConnectionState_STATUS populates the provided destination PrivateLinkServiceConnectionState_STATUS from our PrivateLinkServiceConnectionState_STATUS
-func (state *PrivateLinkServiceConnectionState_STATUS) AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(destination *v20210101s.PrivateLinkServiceConnectionState_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ActionRequired
-	destination.ActionRequired = genruntime.ClonePointerToString(state.ActionRequired)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(state.Description)
-
-	// Status
-	if state.Status != nil {
-		status := string(*state.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type PrivateLinkServiceConnectionStatus_STATUS string
-
-const (
-	PrivateLinkServiceConnectionStatus_STATUS_Approved     = PrivateLinkServiceConnectionStatus_STATUS("Approved")
-	PrivateLinkServiceConnectionStatus_STATUS_Disconnected = PrivateLinkServiceConnectionStatus_STATUS("Disconnected")
-	PrivateLinkServiceConnectionStatus_STATUS_Pending      = PrivateLinkServiceConnectionStatus_STATUS("Pending")
-	PrivateLinkServiceConnectionStatus_STATUS_Rejected     = PrivateLinkServiceConnectionStatus_STATUS("Rejected")
-)
 
 func init() {
 	SchemeBuilder.Register(&BatchAccount{}, &BatchAccountList{})

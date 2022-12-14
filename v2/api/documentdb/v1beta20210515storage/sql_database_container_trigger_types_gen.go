@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.SqlDatabaseContainerTrigger
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec `json:"spec,omitempty"`
-	Status            SqlTriggerGetResults_STATUS                           `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -76,7 +78,7 @@ func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlTriggerGetResults_STATUS{}
+	return &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlTriggerGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
 		trigger.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlTriggerGetResults_STATUS
+	var st DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (trigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKi
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.SqlDatabaseContainerTrigger
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}
 type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,8 +172,8 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) ConvertSpe
 	return destination.ConvertSpecFrom(trigger)
 }
 
-// Storage version of v1beta20210515.SqlTriggerGetResults_STATUS
-type SqlTriggerGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
+type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS struct {
 	Conditions  []conditions.Condition                   `json:"conditions,omitempty"`
 	Id          *string                                  `json:"id,omitempty"`
 	Location    *string                                  `json:"location,omitempty"`
@@ -180,24 +184,24 @@ type SqlTriggerGetResults_STATUS struct {
 	Type        *string                                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlTriggerGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
 
-// ConvertStatusFrom populates our SqlTriggerGetResults_STATUS from the provided source
-func (results *SqlTriggerGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS from the provided source
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(trigger)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlTriggerGetResults_STATUS
-func (results *SqlTriggerGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS
+func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == trigger {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(trigger)
 }
 
 // Storage version of v1beta20210515.SqlTriggerGetProperties_Resource_STATUS
@@ -213,7 +217,7 @@ type SqlTriggerGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlTriggerResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlTriggerResource
+// Cosmos DB SQL trigger resource object
 type SqlTriggerResource struct {
 	Body             *string                `json:"body,omitempty"`
 	Id               *string                `json:"id,omitempty"`

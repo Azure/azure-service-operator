@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type RedisPatchSchedule_STATUS_ARM struct {
+type Redis_PatchSchedule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -21,11 +21,13 @@ type RedisPatchSchedule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// List of patch schedules for a Redis cache.
 type ScheduleEntries_STATUS_ARM struct {
 	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_STATUS_ARM `json:"scheduleEntries,omitempty"`
 }
 
+// Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_STATUS_ARM struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`

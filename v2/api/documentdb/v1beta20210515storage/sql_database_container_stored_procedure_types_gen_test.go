@@ -76,7 +76,7 @@ func SqlDatabaseContainerStoredProcedureGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_SpecGenerator()
-	gens["Status"] = SqlStoredProcedureGetResults_STATUSGenerator()
+	gens["Status"] = DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator()
 }
 
 func Test_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -158,20 +158,20 @@ func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_Sto
 	gens["Resource"] = gen.PtrOf(SqlStoredProcedureResourceGenerator())
 }
 
-func Test_SqlStoredProcedureGetResults_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SqlStoredProcedureGetResults_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS, SqlStoredProcedureGetResults_STATUSGenerator()))
+		"Round trip of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS, DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS runs a test to see if a specific instance of SqlStoredProcedureGetResults_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS(subject SqlStoredProcedureGetResults_STATUS) string {
+// RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS runs a test to see if a specific instance of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(subject DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -179,7 +179,7 @@ func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS(subject SqlS
 	}
 
 	// Deserialize back into memory
-	var actual SqlStoredProcedureGetResults_STATUS
+	var actual DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -197,34 +197,34 @@ func RunJSONSerializationTestForSqlStoredProcedureGetResults_STATUS(subject SqlS
 	return ""
 }
 
-// Generator of SqlStoredProcedureGetResults_STATUS instances for property testing - lazily instantiated by
-// SqlStoredProcedureGetResults_STATUSGenerator()
-var sqlStoredProcedureGetResults_STATUSGenerator gopter.Gen
+// Generator of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS instances for property testing - lazily
+// instantiated by DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator()
+var databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator gopter.Gen
 
-// SqlStoredProcedureGetResults_STATUSGenerator returns a generator of SqlStoredProcedureGetResults_STATUS instances for property testing.
-// We first initialize sqlStoredProcedureGetResults_STATUSGenerator with a simplified generator based on the
+// DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator returns a generator of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS instances for property testing.
+// We first initialize databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SqlStoredProcedureGetResults_STATUSGenerator() gopter.Gen {
-	if sqlStoredProcedureGetResults_STATUSGenerator != nil {
-		return sqlStoredProcedureGetResults_STATUSGenerator
+func DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator() gopter.Gen {
+	if databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator != nil {
+		return databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS(generators)
-	sqlStoredProcedureGetResults_STATUSGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetResults_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(generators)
+	databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS(generators)
-	sqlStoredProcedureGetResults_STATUSGenerator = gen.Struct(reflect.TypeOf(SqlStoredProcedureGetResults_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(generators)
+	databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator = gen.Struct(reflect.TypeOf(DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS{}), generators)
 
-	return sqlStoredProcedureGetResults_STATUSGenerator
+	return databaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -232,8 +232,8 @@ func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS(gens
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResults_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(SqlStoredProcedureGetProperties_Resource_STATUSGenerator())
 }
 

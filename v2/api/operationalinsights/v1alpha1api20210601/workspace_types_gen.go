@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -348,20 +347,22 @@ type Workspace_Spec struct {
 	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
-	Location         *string            `json:"location,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                           *genruntime.KnownResourceReference                   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	ProvisioningState               *WorkspaceProperties_ProvisioningState               `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *WorkspaceProperties_PublicNetworkAccessForQuery     `json:"publicNetworkAccessForQuery,omitempty"`
-	RetentionInDays                 *int                                                 `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku                                        `json:"sku,omitempty"`
-	Tags                            map[string]string                                    `json:"tags,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping                                    `json:"workspaceCapping,omitempty"`
+	Owner                           *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType               `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *PublicNetworkAccessType               `json:"publicNetworkAccessForQuery,omitempty"`
+	RetentionInDays                 *int                                   `json:"retentionInDays,omitempty"`
+	Sku                             *WorkspaceSku                          `json:"sku,omitempty"`
+	Tags                            map[string]string                      `json:"tags,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping                      `json:"workspaceCapping,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Workspace_Spec{}
@@ -683,7 +684,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *al
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
-		publicNetworkAccessForIngestion := WorkspaceProperties_PublicNetworkAccessForIngestion(*source.PublicNetworkAccessForIngestion)
+		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
 		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
 	} else {
 		workspace.PublicNetworkAccessForIngestion = nil
@@ -691,7 +692,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *al
 
 	// PublicNetworkAccessForQuery
 	if source.PublicNetworkAccessForQuery != nil {
-		publicNetworkAccessForQuery := WorkspaceProperties_PublicNetworkAccessForQuery(*source.PublicNetworkAccessForQuery)
+		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
 		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
 	} else {
 		workspace.PublicNetworkAccessForQuery = nil
@@ -1440,6 +1441,15 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 	return nil
 }
 
+// Deprecated version of PublicNetworkAccessType. Use v1beta20210601.PublicNetworkAccessType instead
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccessType string
+
+const (
+	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
+)
+
 // Deprecated version of PublicNetworkAccessType_STATUS. Use v1beta20210601.PublicNetworkAccessType_STATUS instead
 type PublicNetworkAccessType_STATUS string
 
@@ -1637,7 +1647,6 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STA
 
 // Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeatures struct {
-	AdditionalProperties                        map[string]v1.JSON            `json:"additionalProperties,omitempty"`
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool                         `json:"enableDataExport,omitempty"`
@@ -1653,14 +1662,6 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 		return nil, nil
 	}
 	result := &WorkspaceFeatures_ARM{}
-
-	// Set property ‘AdditionalProperties’:
-	if features.AdditionalProperties != nil {
-		result.AdditionalProperties = make(map[string]v1.JSON, len(features.AdditionalProperties))
-		for key, value := range features.AdditionalProperties {
-			result.AdditionalProperties[key] = *value.DeepCopy()
-		}
-	}
 
 	// Set property ‘ClusterResourceId’:
 	if features.ClusterResourceReference != nil {
@@ -1710,14 +1711,6 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected WorkspaceFeatures_ARM, got %T", armInput)
 	}
 
-	// Set property ‘AdditionalProperties’:
-	if typedInput.AdditionalProperties != nil {
-		features.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
-		for key, value := range typedInput.AdditionalProperties {
-			features.AdditionalProperties[key] = *value.DeepCopy()
-		}
-	}
-
 	// no assignment for property ‘ClusterResourceReference’
 
 	// Set property ‘DisableLocalAuth’:
@@ -1750,19 +1743,6 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 // AssignProperties_From_WorkspaceFeatures populates our WorkspaceFeatures from the provided source WorkspaceFeatures
 func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(source *alpha20210601s.WorkspaceFeatures) error {
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		features.AdditionalProperties = additionalPropertyMap
-	} else {
-		features.AdditionalProperties = nil
-	}
 
 	// ClusterResourceReference
 	if source.ClusterResourceReference != nil {
@@ -1812,19 +1792,6 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *alpha20210601s.WorkspaceFeatures) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalProperties
-	if features.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(features.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range features.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
 
 	// ClusterResourceReference
 	if features.ClusterResourceReference != nil {
@@ -2056,29 +2023,9 @@ const (
 	WorkspaceProperties_ProvisioningState_STATUS_Updating            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
 
-// Deprecated version of WorkspaceProperties_PublicNetworkAccessForIngestion. Use
-// v1beta20210601.WorkspaceProperties_PublicNetworkAccessForIngestion instead
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type WorkspaceProperties_PublicNetworkAccessForIngestion string
-
-const (
-	WorkspaceProperties_PublicNetworkAccessForIngestion_Disabled = WorkspaceProperties_PublicNetworkAccessForIngestion("Disabled")
-	WorkspaceProperties_PublicNetworkAccessForIngestion_Enabled  = WorkspaceProperties_PublicNetworkAccessForIngestion("Enabled")
-)
-
-// Deprecated version of WorkspaceProperties_PublicNetworkAccessForQuery. Use
-// v1beta20210601.WorkspaceProperties_PublicNetworkAccessForQuery instead
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type WorkspaceProperties_PublicNetworkAccessForQuery string
-
-const (
-	WorkspaceProperties_PublicNetworkAccessForQuery_Disabled = WorkspaceProperties_PublicNetworkAccessForQuery("Disabled")
-	WorkspaceProperties_PublicNetworkAccessForQuery_Enabled  = WorkspaceProperties_PublicNetworkAccessForQuery("Enabled")
-)
-
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
-	CapacityReservationLevel *int `json:"capacityReservationLevel,omitempty"`
+	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Name *WorkspaceSku_Name `json:"name,omitempty"`
@@ -2139,7 +2086,12 @@ func (workspaceSku *WorkspaceSku) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *alpha20210601s.WorkspaceSku) error {
 
 	// CapacityReservationLevel
-	workspaceSku.CapacityReservationLevel = genruntime.ClonePointerToInt(source.CapacityReservationLevel)
+	if source.CapacityReservationLevel != nil {
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel(*source.CapacityReservationLevel)
+		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
+	} else {
+		workspaceSku.CapacityReservationLevel = nil
+	}
 
 	// Name
 	if source.Name != nil {
@@ -2159,7 +2111,12 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CapacityReservationLevel
-	destination.CapacityReservationLevel = genruntime.ClonePointerToInt(workspaceSku.CapacityReservationLevel)
+	if workspaceSku.CapacityReservationLevel != nil {
+		capacityReservationLevel := int(*workspaceSku.CapacityReservationLevel)
+		destination.CapacityReservationLevel = &capacityReservationLevel
+	} else {
+		destination.CapacityReservationLevel = nil
+	}
 
 	// Name
 	if workspaceSku.Name != nil {
@@ -2295,6 +2252,22 @@ const (
 	WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota             = WorkspaceCapping_DataIngestionStatus_STATUS("OverQuota")
 	WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota          = WorkspaceCapping_DataIngestionStatus_STATUS("RespectQuota")
 	WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
+)
+
+// Deprecated version of WorkspaceSku_CapacityReservationLevel. Use v1beta20210601.WorkspaceSku_CapacityReservationLevel
+// instead
+// +kubebuilder:validation:Enum={100,1000,200,2000,300,400,500,5000}
+type WorkspaceSku_CapacityReservationLevel int
+
+const (
+	WorkspaceSku_CapacityReservationLevel_100  = WorkspaceSku_CapacityReservationLevel(100)
+	WorkspaceSku_CapacityReservationLevel_1000 = WorkspaceSku_CapacityReservationLevel(1000)
+	WorkspaceSku_CapacityReservationLevel_200  = WorkspaceSku_CapacityReservationLevel(200)
+	WorkspaceSku_CapacityReservationLevel_2000 = WorkspaceSku_CapacityReservationLevel(2000)
+	WorkspaceSku_CapacityReservationLevel_300  = WorkspaceSku_CapacityReservationLevel(300)
+	WorkspaceSku_CapacityReservationLevel_400  = WorkspaceSku_CapacityReservationLevel(400)
+	WorkspaceSku_CapacityReservationLevel_500  = WorkspaceSku_CapacityReservationLevel(500)
+	WorkspaceSku_CapacityReservationLevel_5000 = WorkspaceSku_CapacityReservationLevel(5000)
 )
 
 // Deprecated version of WorkspaceSku_CapacityReservationLevel_STATUS. Use

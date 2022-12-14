@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-type RedisFirewallRule_STATUS_ARM struct {
+type Redis_FirewallRule_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
@@ -18,6 +18,7 @@ type RedisFirewallRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Specifies a range of IP addresses permitted to connect to the cache
 type RedisFirewallRuleProperties_STATUS_ARM struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`

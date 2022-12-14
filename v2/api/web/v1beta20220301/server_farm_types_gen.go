@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
+// Generator information:
+// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Serverfarm_Spec       `json:"spec,omitempty"`
-	Status            AppServicePlan_STATUS `json:"status,omitempty"`
+	Spec              Serverfarm_Spec   `json:"spec,omitempty"`
+	Status            Serverfarm_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ServerFarm{}
@@ -123,7 +125,7 @@ func (farm *ServerFarm) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AppServicePlan_STATUS{}
+	return &Serverfarm_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (farm *ServerFarm) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AppServicePlan_STATUS); ok {
+	if st, ok := status.(*Serverfarm_STATUS); ok {
 		farm.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AppServicePlan_STATUS
+	var st Serverfarm_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +265,10 @@ func (farm *ServerFarm) AssignProperties_From_ServerFarm(source *v20220301s.Serv
 	farm.Spec = spec
 
 	// Status
-	var status AppServicePlan_STATUS
-	err = status.AssignProperties_From_AppServicePlan_STATUS(&source.Status)
+	var status Serverfarm_STATUS
+	err = status.AssignProperties_From_Serverfarm_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_AppServicePlan_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Serverfarm_STATUS() to populate field Status")
 	}
 	farm.Status = status
 
@@ -289,10 +291,10 @@ func (farm *ServerFarm) AssignProperties_To_ServerFarm(destination *v20220301s.S
 	destination.Spec = spec
 
 	// Status
-	var status v20220301s.AppServicePlan_STATUS
-	err = farm.Status.AssignProperties_To_AppServicePlan_STATUS(&status)
+	var status v20220301s.Serverfarm_STATUS
+	err = farm.Status.AssignProperties_To_Serverfarm_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_AppServicePlan_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Serverfarm_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,7 +312,9 @@ func (farm *ServerFarm) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/serverfarms
+// Generator information:
+// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
 type ServerFarmList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -321,827 +325,6 @@ type ServerFarmList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-03-01")
-
-type AppServicePlan_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
-	// ElasticPremium sku
-	ElasticScaleEnabled *bool                    `json:"elasticScaleEnabled,omitempty"`
-	ExtendedLocation    *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// FreeOfferExpirationTime: The time when the server farm free offer expires.
-	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
-
-	// GeoRegion: Geographical location for the App Service plan.
-	GeoRegion *string `json:"geoRegion,omitempty"`
-
-	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
-	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS `json:"hostingEnvironmentProfile,omitempty"`
-
-	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
-	HyperV *bool `json:"hyperV,omitempty"`
-
-	// Id: Resource Id.
-	Id *string `json:"id,omitempty"`
-
-	// IsSpot: If <code>true</code>, this App Service Plan owns spot instances.
-	IsSpot *bool `json:"isSpot,omitempty"`
-
-	// IsXenon: Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
-	IsXenon *bool `json:"isXenon,omitempty"`
-
-	// Kind: Kind of resource.
-	Kind *string `json:"kind,omitempty"`
-
-	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
-	KubeEnvironmentProfile *KubeEnvironmentProfile_STATUS `json:"kubeEnvironmentProfile,omitempty"`
-
-	// Location: Resource Location.
-	Location *string `json:"location,omitempty"`
-
-	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
-	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
-
-	// MaximumNumberOfWorkers: Maximum number of instances that can be assigned to this App Service plan.
-	MaximumNumberOfWorkers *int `json:"maximumNumberOfWorkers,omitempty"`
-
-	// Name: Resource Name.
-	Name *string `json:"name,omitempty"`
-
-	// NumberOfSites: Number of apps assigned to this App Service plan.
-	NumberOfSites *int `json:"numberOfSites,omitempty"`
-
-	// NumberOfWorkers: The number of instances that are assigned to this App Service plan.
-	NumberOfWorkers *int `json:"numberOfWorkers,omitempty"`
-
-	// PerSiteScaling: If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
-	// If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
-	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
-
-	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *AppServicePlan_Properties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
-	Reserved *bool `json:"reserved,omitempty"`
-
-	// ResourceGroup: Resource group of the App Service plan.
-	ResourceGroup *string                `json:"resourceGroup,omitempty"`
-	Sku           *SkuDescription_STATUS `json:"sku,omitempty"`
-
-	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
-	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
-
-	// Status: App Service plan status.
-	Status *AppServicePlan_Properties_Status_STATUS `json:"status,omitempty"`
-
-	// Subscription: App Service plan subscription.
-	Subscription *string `json:"subscription,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TargetWorkerCount: Scaling worker count.
-	TargetWorkerCount *int `json:"targetWorkerCount,omitempty"`
-
-	// TargetWorkerSizeId: Scaling worker size ID.
-	TargetWorkerSizeId *int `json:"targetWorkerSizeId,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// WorkerTierName: Target worker tier assigned to the App Service plan.
-	WorkerTierName *string `json:"workerTierName,omitempty"`
-
-	// ZoneRedundant: If <code>true</code>, this App Service Plan will perform availability zone balancing.
-	// If <code>false</code>, this App Service Plan will not perform availability zone balancing.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &AppServicePlan_STATUS{}
-
-// ConvertStatusFrom populates our AppServicePlan_STATUS from the provided source
-func (plan *AppServicePlan_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220301s.AppServicePlan_STATUS)
-	if ok {
-		// Populate our instance from source
-		return plan.AssignProperties_From_AppServicePlan_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20220301s.AppServicePlan_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = plan.AssignProperties_From_AppServicePlan_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our AppServicePlan_STATUS
-func (plan *AppServicePlan_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220301s.AppServicePlan_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return plan.AssignProperties_To_AppServicePlan_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20220301s.AppServicePlan_STATUS{}
-	err := plan.AssignProperties_To_AppServicePlan_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &AppServicePlan_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (plan *AppServicePlan_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AppServicePlan_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (plan *AppServicePlan_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AppServicePlan_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AppServicePlan_STATUS_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘ElasticScaleEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ElasticScaleEnabled != nil {
-			elasticScaleEnabled := *typedInput.Properties.ElasticScaleEnabled
-			plan.ElasticScaleEnabled = &elasticScaleEnabled
-		}
-	}
-
-	// Set property ‘ExtendedLocation’:
-	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation_STATUS
-		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
-		if err != nil {
-			return err
-		}
-		extendedLocation := extendedLocation1
-		plan.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘FreeOfferExpirationTime’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FreeOfferExpirationTime != nil {
-			freeOfferExpirationTime := *typedInput.Properties.FreeOfferExpirationTime
-			plan.FreeOfferExpirationTime = &freeOfferExpirationTime
-		}
-	}
-
-	// Set property ‘GeoRegion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.GeoRegion != nil {
-			geoRegion := *typedInput.Properties.GeoRegion
-			plan.GeoRegion = &geoRegion
-		}
-	}
-
-	// Set property ‘HostingEnvironmentProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostingEnvironmentProfile != nil {
-			var hostingEnvironmentProfile1 HostingEnvironmentProfile_STATUS
-			err := hostingEnvironmentProfile1.PopulateFromARM(owner, *typedInput.Properties.HostingEnvironmentProfile)
-			if err != nil {
-				return err
-			}
-			hostingEnvironmentProfile := hostingEnvironmentProfile1
-			plan.HostingEnvironmentProfile = &hostingEnvironmentProfile
-		}
-	}
-
-	// Set property ‘HyperV’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HyperV != nil {
-			hyperV := *typedInput.Properties.HyperV
-			plan.HyperV = &hyperV
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		plan.Id = &id
-	}
-
-	// Set property ‘IsSpot’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsSpot != nil {
-			isSpot := *typedInput.Properties.IsSpot
-			plan.IsSpot = &isSpot
-		}
-	}
-
-	// Set property ‘IsXenon’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsXenon != nil {
-			isXenon := *typedInput.Properties.IsXenon
-			plan.IsXenon = &isXenon
-		}
-	}
-
-	// Set property ‘Kind’:
-	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
-		plan.Kind = &kind
-	}
-
-	// Set property ‘KubeEnvironmentProfile’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.KubeEnvironmentProfile != nil {
-			var kubeEnvironmentProfile1 KubeEnvironmentProfile_STATUS
-			err := kubeEnvironmentProfile1.PopulateFromARM(owner, *typedInput.Properties.KubeEnvironmentProfile)
-			if err != nil {
-				return err
-			}
-			kubeEnvironmentProfile := kubeEnvironmentProfile1
-			plan.KubeEnvironmentProfile = &kubeEnvironmentProfile
-		}
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		plan.Location = &location
-	}
-
-	// Set property ‘MaximumElasticWorkerCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaximumElasticWorkerCount != nil {
-			maximumElasticWorkerCount := *typedInput.Properties.MaximumElasticWorkerCount
-			plan.MaximumElasticWorkerCount = &maximumElasticWorkerCount
-		}
-	}
-
-	// Set property ‘MaximumNumberOfWorkers’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaximumNumberOfWorkers != nil {
-			maximumNumberOfWorkers := *typedInput.Properties.MaximumNumberOfWorkers
-			plan.MaximumNumberOfWorkers = &maximumNumberOfWorkers
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		plan.Name = &name
-	}
-
-	// Set property ‘NumberOfSites’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NumberOfSites != nil {
-			numberOfSites := *typedInput.Properties.NumberOfSites
-			plan.NumberOfSites = &numberOfSites
-		}
-	}
-
-	// Set property ‘NumberOfWorkers’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NumberOfWorkers != nil {
-			numberOfWorkers := *typedInput.Properties.NumberOfWorkers
-			plan.NumberOfWorkers = &numberOfWorkers
-		}
-	}
-
-	// Set property ‘PerSiteScaling’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PerSiteScaling != nil {
-			perSiteScaling := *typedInput.Properties.PerSiteScaling
-			plan.PerSiteScaling = &perSiteScaling
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			plan.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘Reserved’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Reserved != nil {
-			reserved := *typedInput.Properties.Reserved
-			plan.Reserved = &reserved
-		}
-	}
-
-	// Set property ‘ResourceGroup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceGroup != nil {
-			resourceGroup := *typedInput.Properties.ResourceGroup
-			plan.ResourceGroup = &resourceGroup
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 SkuDescription_STATUS
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		plan.Sku = &sku
-	}
-
-	// Set property ‘SpotExpirationTime’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SpotExpirationTime != nil {
-			spotExpirationTime := *typedInput.Properties.SpotExpirationTime
-			plan.SpotExpirationTime = &spotExpirationTime
-		}
-	}
-
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			plan.Status = &status
-		}
-	}
-
-	// Set property ‘Subscription’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Subscription != nil {
-			subscription := *typedInput.Properties.Subscription
-			plan.Subscription = &subscription
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		plan.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			plan.Tags[key] = value
-		}
-	}
-
-	// Set property ‘TargetWorkerCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TargetWorkerCount != nil {
-			targetWorkerCount := *typedInput.Properties.TargetWorkerCount
-			plan.TargetWorkerCount = &targetWorkerCount
-		}
-	}
-
-	// Set property ‘TargetWorkerSizeId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TargetWorkerSizeId != nil {
-			targetWorkerSizeId := *typedInput.Properties.TargetWorkerSizeId
-			plan.TargetWorkerSizeId = &targetWorkerSizeId
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		plan.Type = &typeVar
-	}
-
-	// Set property ‘WorkerTierName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.WorkerTierName != nil {
-			workerTierName := *typedInput.Properties.WorkerTierName
-			plan.WorkerTierName = &workerTierName
-		}
-	}
-
-	// Set property ‘ZoneRedundant’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ZoneRedundant != nil {
-			zoneRedundant := *typedInput.Properties.ZoneRedundant
-			plan.ZoneRedundant = &zoneRedundant
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_AppServicePlan_STATUS populates our AppServicePlan_STATUS from the provided source AppServicePlan_STATUS
-func (plan *AppServicePlan_STATUS) AssignProperties_From_AppServicePlan_STATUS(source *v20220301s.AppServicePlan_STATUS) error {
-
-	// Conditions
-	plan.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// ElasticScaleEnabled
-	if source.ElasticScaleEnabled != nil {
-		elasticScaleEnabled := *source.ElasticScaleEnabled
-		plan.ElasticScaleEnabled = &elasticScaleEnabled
-	} else {
-		plan.ElasticScaleEnabled = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_STATUS
-		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		plan.ExtendedLocation = &extendedLocation
-	} else {
-		plan.ExtendedLocation = nil
-	}
-
-	// FreeOfferExpirationTime
-	plan.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
-
-	// GeoRegion
-	plan.GeoRegion = genruntime.ClonePointerToString(source.GeoRegion)
-
-	// HostingEnvironmentProfile
-	if source.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile HostingEnvironmentProfile_STATUS
-		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
-		}
-		plan.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	} else {
-		plan.HostingEnvironmentProfile = nil
-	}
-
-	// HyperV
-	if source.HyperV != nil {
-		hyperV := *source.HyperV
-		plan.HyperV = &hyperV
-	} else {
-		plan.HyperV = nil
-	}
-
-	// Id
-	plan.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IsSpot
-	if source.IsSpot != nil {
-		isSpot := *source.IsSpot
-		plan.IsSpot = &isSpot
-	} else {
-		plan.IsSpot = nil
-	}
-
-	// IsXenon
-	if source.IsXenon != nil {
-		isXenon := *source.IsXenon
-		plan.IsXenon = &isXenon
-	} else {
-		plan.IsXenon = nil
-	}
-
-	// Kind
-	plan.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// KubeEnvironmentProfile
-	if source.KubeEnvironmentProfile != nil {
-		var kubeEnvironmentProfile KubeEnvironmentProfile_STATUS
-		err := kubeEnvironmentProfile.AssignProperties_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
-		}
-		plan.KubeEnvironmentProfile = &kubeEnvironmentProfile
-	} else {
-		plan.KubeEnvironmentProfile = nil
-	}
-
-	// Location
-	plan.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaximumElasticWorkerCount
-	plan.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
-
-	// MaximumNumberOfWorkers
-	plan.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(source.MaximumNumberOfWorkers)
-
-	// Name
-	plan.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NumberOfSites
-	plan.NumberOfSites = genruntime.ClonePointerToInt(source.NumberOfSites)
-
-	// NumberOfWorkers
-	plan.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
-
-	// PerSiteScaling
-	if source.PerSiteScaling != nil {
-		perSiteScaling := *source.PerSiteScaling
-		plan.PerSiteScaling = &perSiteScaling
-	} else {
-		plan.PerSiteScaling = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := AppServicePlan_Properties_ProvisioningState_STATUS(*source.ProvisioningState)
-		plan.ProvisioningState = &provisioningState
-	} else {
-		plan.ProvisioningState = nil
-	}
-
-	// Reserved
-	if source.Reserved != nil {
-		reserved := *source.Reserved
-		plan.Reserved = &reserved
-	} else {
-		plan.Reserved = nil
-	}
-
-	// ResourceGroup
-	plan.ResourceGroup = genruntime.ClonePointerToString(source.ResourceGroup)
-
-	// Sku
-	if source.Sku != nil {
-		var sku SkuDescription_STATUS
-		err := sku.AssignProperties_From_SkuDescription_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription_STATUS() to populate field Sku")
-		}
-		plan.Sku = &sku
-	} else {
-		plan.Sku = nil
-	}
-
-	// SpotExpirationTime
-	plan.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
-
-	// Status
-	if source.Status != nil {
-		status := AppServicePlan_Properties_Status_STATUS(*source.Status)
-		plan.Status = &status
-	} else {
-		plan.Status = nil
-	}
-
-	// Subscription
-	plan.Subscription = genruntime.ClonePointerToString(source.Subscription)
-
-	// Tags
-	plan.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TargetWorkerCount
-	plan.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
-
-	// TargetWorkerSizeId
-	plan.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
-
-	// Type
-	plan.Type = genruntime.ClonePointerToString(source.Type)
-
-	// WorkerTierName
-	plan.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		plan.ZoneRedundant = &zoneRedundant
-	} else {
-		plan.ZoneRedundant = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_AppServicePlan_STATUS populates the provided destination AppServicePlan_STATUS from our AppServicePlan_STATUS
-func (plan *AppServicePlan_STATUS) AssignProperties_To_AppServicePlan_STATUS(destination *v20220301s.AppServicePlan_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(plan.Conditions)
-
-	// ElasticScaleEnabled
-	if plan.ElasticScaleEnabled != nil {
-		elasticScaleEnabled := *plan.ElasticScaleEnabled
-		destination.ElasticScaleEnabled = &elasticScaleEnabled
-	} else {
-		destination.ElasticScaleEnabled = nil
-	}
-
-	// ExtendedLocation
-	if plan.ExtendedLocation != nil {
-		var extendedLocation v20220301s.ExtendedLocation_STATUS
-		err := plan.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		destination.ExtendedLocation = &extendedLocation
-	} else {
-		destination.ExtendedLocation = nil
-	}
-
-	// FreeOfferExpirationTime
-	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(plan.FreeOfferExpirationTime)
-
-	// GeoRegion
-	destination.GeoRegion = genruntime.ClonePointerToString(plan.GeoRegion)
-
-	// HostingEnvironmentProfile
-	if plan.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile_STATUS
-		err := plan.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
-		}
-		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	} else {
-		destination.HostingEnvironmentProfile = nil
-	}
-
-	// HyperV
-	if plan.HyperV != nil {
-		hyperV := *plan.HyperV
-		destination.HyperV = &hyperV
-	} else {
-		destination.HyperV = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(plan.Id)
-
-	// IsSpot
-	if plan.IsSpot != nil {
-		isSpot := *plan.IsSpot
-		destination.IsSpot = &isSpot
-	} else {
-		destination.IsSpot = nil
-	}
-
-	// IsXenon
-	if plan.IsXenon != nil {
-		isXenon := *plan.IsXenon
-		destination.IsXenon = &isXenon
-	} else {
-		destination.IsXenon = nil
-	}
-
-	// Kind
-	destination.Kind = genruntime.ClonePointerToString(plan.Kind)
-
-	// KubeEnvironmentProfile
-	if plan.KubeEnvironmentProfile != nil {
-		var kubeEnvironmentProfile v20220301s.KubeEnvironmentProfile_STATUS
-		err := plan.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile_STATUS(&kubeEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
-		}
-		destination.KubeEnvironmentProfile = &kubeEnvironmentProfile
-	} else {
-		destination.KubeEnvironmentProfile = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(plan.Location)
-
-	// MaximumElasticWorkerCount
-	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(plan.MaximumElasticWorkerCount)
-
-	// MaximumNumberOfWorkers
-	destination.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(plan.MaximumNumberOfWorkers)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(plan.Name)
-
-	// NumberOfSites
-	destination.NumberOfSites = genruntime.ClonePointerToInt(plan.NumberOfSites)
-
-	// NumberOfWorkers
-	destination.NumberOfWorkers = genruntime.ClonePointerToInt(plan.NumberOfWorkers)
-
-	// PerSiteScaling
-	if plan.PerSiteScaling != nil {
-		perSiteScaling := *plan.PerSiteScaling
-		destination.PerSiteScaling = &perSiteScaling
-	} else {
-		destination.PerSiteScaling = nil
-	}
-
-	// ProvisioningState
-	if plan.ProvisioningState != nil {
-		provisioningState := string(*plan.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Reserved
-	if plan.Reserved != nil {
-		reserved := *plan.Reserved
-		destination.Reserved = &reserved
-	} else {
-		destination.Reserved = nil
-	}
-
-	// ResourceGroup
-	destination.ResourceGroup = genruntime.ClonePointerToString(plan.ResourceGroup)
-
-	// Sku
-	if plan.Sku != nil {
-		var sku v20220301s.SkuDescription_STATUS
-		err := plan.Sku.AssignProperties_To_SkuDescription_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription_STATUS() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// SpotExpirationTime
-	destination.SpotExpirationTime = genruntime.ClonePointerToString(plan.SpotExpirationTime)
-
-	// Status
-	if plan.Status != nil {
-		status := string(*plan.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Subscription
-	destination.Subscription = genruntime.ClonePointerToString(plan.Subscription)
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(plan.Tags)
-
-	// TargetWorkerCount
-	destination.TargetWorkerCount = genruntime.ClonePointerToInt(plan.TargetWorkerCount)
-
-	// TargetWorkerSizeId
-	destination.TargetWorkerSizeId = genruntime.ClonePointerToInt(plan.TargetWorkerSizeId)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(plan.Type)
-
-	// WorkerTierName
-	destination.WorkerTierName = genruntime.ClonePointerToString(plan.WorkerTierName)
-
-	// ZoneRedundant
-	if plan.ZoneRedundant != nil {
-		zoneRedundant := *plan.ZoneRedundant
-		destination.ZoneRedundant = &zoneRedundant
-	} else {
-		destination.ZoneRedundant = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type Serverfarm_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -1158,7 +341,7 @@ type Serverfarm_Spec struct {
 	// FreeOfferExpirationTime: The time when the server farm free offer expires.
 	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
 
-	// HostingEnvironmentProfile: Specification for an App Service Environment to use for this resource.
+	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
 	HostingEnvironmentProfile *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
@@ -1173,10 +356,11 @@ type Serverfarm_Spec struct {
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
-	// KubeEnvironmentProfile: Specification for a Kubernetes Environment to use for this resource.
+	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
 	KubeEnvironmentProfile *KubeEnvironmentProfile `json:"kubeEnvironmentProfile,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource Location.
 	Location *string `json:"location,omitempty"`
 
 	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
@@ -1201,7 +385,7 @@ type Serverfarm_Spec struct {
 	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
 	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// TargetWorkerCount: Scaling worker count.
@@ -1268,7 +452,7 @@ func (serverfarm *Serverfarm_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		serverfarm.TargetWorkerSizeId != nil ||
 		serverfarm.WorkerTierName != nil ||
 		serverfarm.ZoneRedundant != nil {
-		result.Properties = &AppServicePlanProperties_ARM{}
+		result.Properties = &Serverfarm_Properties_Spec_ARM{}
 	}
 	if serverfarm.ElasticScaleEnabled != nil {
 		elasticScaleEnabled := *serverfarm.ElasticScaleEnabled
@@ -1956,7 +1140,832 @@ func (serverfarm *Serverfarm_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (serverfarm *Serverfarm_Spec) SetAzureName(azureName string) { serverfarm.AzureName = azureName }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ExtendedLocation
+type Serverfarm_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
+	// ElasticPremium sku
+	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
+
+	// ExtendedLocation: Extended Location.
+	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
+
+	// FreeOfferExpirationTime: The time when the server farm free offer expires.
+	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
+
+	// GeoRegion: Geographical location for the App Service plan.
+	GeoRegion *string `json:"geoRegion,omitempty"`
+
+	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
+	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS `json:"hostingEnvironmentProfile,omitempty"`
+
+	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
+	HyperV *bool `json:"hyperV,omitempty"`
+
+	// Id: Resource Id.
+	Id *string `json:"id,omitempty"`
+
+	// IsSpot: If <code>true</code>, this App Service Plan owns spot instances.
+	IsSpot *bool `json:"isSpot,omitempty"`
+
+	// IsXenon: Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
+	IsXenon *bool `json:"isXenon,omitempty"`
+
+	// Kind: Kind of resource.
+	Kind *string `json:"kind,omitempty"`
+
+	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
+	KubeEnvironmentProfile *KubeEnvironmentProfile_STATUS `json:"kubeEnvironmentProfile,omitempty"`
+
+	// Location: Resource Location.
+	Location *string `json:"location,omitempty"`
+
+	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
+	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
+
+	// MaximumNumberOfWorkers: Maximum number of instances that can be assigned to this App Service plan.
+	MaximumNumberOfWorkers *int `json:"maximumNumberOfWorkers,omitempty"`
+
+	// Name: Resource Name.
+	Name *string `json:"name,omitempty"`
+
+	// NumberOfSites: Number of apps assigned to this App Service plan.
+	NumberOfSites *int `json:"numberOfSites,omitempty"`
+
+	// NumberOfWorkers: The number of instances that are assigned to this App Service plan.
+	NumberOfWorkers *int `json:"numberOfWorkers,omitempty"`
+
+	// PerSiteScaling: If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
+	// If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
+	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
+
+	// ProvisioningState: Provisioning state of the App Service Plan.
+	ProvisioningState *Serverfarm_Properties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
+	Reserved *bool `json:"reserved,omitempty"`
+
+	// ResourceGroup: Resource group of the App Service plan.
+	ResourceGroup *string `json:"resourceGroup,omitempty"`
+
+	// Sku: Description of a SKU for a scalable resource.
+	Sku *SkuDescription_STATUS `json:"sku,omitempty"`
+
+	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
+	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
+
+	// Status: App Service plan status.
+	Status *Serverfarm_Properties_Status_STATUS `json:"status,omitempty"`
+
+	// Subscription: App Service plan subscription.
+	Subscription *string `json:"subscription,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// TargetWorkerCount: Scaling worker count.
+	TargetWorkerCount *int `json:"targetWorkerCount,omitempty"`
+
+	// TargetWorkerSizeId: Scaling worker size ID.
+	TargetWorkerSizeId *int `json:"targetWorkerSizeId,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
+
+	// WorkerTierName: Target worker tier assigned to the App Service plan.
+	WorkerTierName *string `json:"workerTierName,omitempty"`
+
+	// ZoneRedundant: If <code>true</code>, this App Service Plan will perform availability zone balancing.
+	// If <code>false</code>, this App Service Plan will not perform availability zone balancing.
+	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Serverfarm_STATUS{}
+
+// ConvertStatusFrom populates our Serverfarm_STATUS from the provided source
+func (serverfarm *Serverfarm_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20220301s.Serverfarm_STATUS)
+	if ok {
+		// Populate our instance from source
+		return serverfarm.AssignProperties_From_Serverfarm_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20220301s.Serverfarm_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = serverfarm.AssignProperties_From_Serverfarm_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our Serverfarm_STATUS
+func (serverfarm *Serverfarm_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20220301s.Serverfarm_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return serverfarm.AssignProperties_To_Serverfarm_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20220301s.Serverfarm_STATUS{}
+	err := serverfarm.AssignProperties_To_Serverfarm_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &Serverfarm_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (serverfarm *Serverfarm_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Serverfarm_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (serverfarm *Serverfarm_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Serverfarm_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Serverfarm_STATUS_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘ElasticScaleEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ElasticScaleEnabled != nil {
+			elasticScaleEnabled := *typedInput.Properties.ElasticScaleEnabled
+			serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+		}
+	}
+
+	// Set property ‘ExtendedLocation’:
+	if typedInput.ExtendedLocation != nil {
+		var extendedLocation1 ExtendedLocation_STATUS
+		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
+		if err != nil {
+			return err
+		}
+		extendedLocation := extendedLocation1
+		serverfarm.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘FreeOfferExpirationTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FreeOfferExpirationTime != nil {
+			freeOfferExpirationTime := *typedInput.Properties.FreeOfferExpirationTime
+			serverfarm.FreeOfferExpirationTime = &freeOfferExpirationTime
+		}
+	}
+
+	// Set property ‘GeoRegion’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.GeoRegion != nil {
+			geoRegion := *typedInput.Properties.GeoRegion
+			serverfarm.GeoRegion = &geoRegion
+		}
+	}
+
+	// Set property ‘HostingEnvironmentProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostingEnvironmentProfile != nil {
+			var hostingEnvironmentProfile1 HostingEnvironmentProfile_STATUS
+			err := hostingEnvironmentProfile1.PopulateFromARM(owner, *typedInput.Properties.HostingEnvironmentProfile)
+			if err != nil {
+				return err
+			}
+			hostingEnvironmentProfile := hostingEnvironmentProfile1
+			serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+		}
+	}
+
+	// Set property ‘HyperV’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HyperV != nil {
+			hyperV := *typedInput.Properties.HyperV
+			serverfarm.HyperV = &hyperV
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		serverfarm.Id = &id
+	}
+
+	// Set property ‘IsSpot’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsSpot != nil {
+			isSpot := *typedInput.Properties.IsSpot
+			serverfarm.IsSpot = &isSpot
+		}
+	}
+
+	// Set property ‘IsXenon’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsXenon != nil {
+			isXenon := *typedInput.Properties.IsXenon
+			serverfarm.IsXenon = &isXenon
+		}
+	}
+
+	// Set property ‘Kind’:
+	if typedInput.Kind != nil {
+		kind := *typedInput.Kind
+		serverfarm.Kind = &kind
+	}
+
+	// Set property ‘KubeEnvironmentProfile’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.KubeEnvironmentProfile != nil {
+			var kubeEnvironmentProfile1 KubeEnvironmentProfile_STATUS
+			err := kubeEnvironmentProfile1.PopulateFromARM(owner, *typedInput.Properties.KubeEnvironmentProfile)
+			if err != nil {
+				return err
+			}
+			kubeEnvironmentProfile := kubeEnvironmentProfile1
+			serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+		}
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		serverfarm.Location = &location
+	}
+
+	// Set property ‘MaximumElasticWorkerCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaximumElasticWorkerCount != nil {
+			maximumElasticWorkerCount := *typedInput.Properties.MaximumElasticWorkerCount
+			serverfarm.MaximumElasticWorkerCount = &maximumElasticWorkerCount
+		}
+	}
+
+	// Set property ‘MaximumNumberOfWorkers’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaximumNumberOfWorkers != nil {
+			maximumNumberOfWorkers := *typedInput.Properties.MaximumNumberOfWorkers
+			serverfarm.MaximumNumberOfWorkers = &maximumNumberOfWorkers
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		serverfarm.Name = &name
+	}
+
+	// Set property ‘NumberOfSites’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NumberOfSites != nil {
+			numberOfSites := *typedInput.Properties.NumberOfSites
+			serverfarm.NumberOfSites = &numberOfSites
+		}
+	}
+
+	// Set property ‘NumberOfWorkers’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NumberOfWorkers != nil {
+			numberOfWorkers := *typedInput.Properties.NumberOfWorkers
+			serverfarm.NumberOfWorkers = &numberOfWorkers
+		}
+	}
+
+	// Set property ‘PerSiteScaling’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PerSiteScaling != nil {
+			perSiteScaling := *typedInput.Properties.PerSiteScaling
+			serverfarm.PerSiteScaling = &perSiteScaling
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			serverfarm.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘Reserved’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Reserved != nil {
+			reserved := *typedInput.Properties.Reserved
+			serverfarm.Reserved = &reserved
+		}
+	}
+
+	// Set property ‘ResourceGroup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceGroup != nil {
+			resourceGroup := *typedInput.Properties.ResourceGroup
+			serverfarm.ResourceGroup = &resourceGroup
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 SkuDescription_STATUS
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		serverfarm.Sku = &sku
+	}
+
+	// Set property ‘SpotExpirationTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SpotExpirationTime != nil {
+			spotExpirationTime := *typedInput.Properties.SpotExpirationTime
+			serverfarm.SpotExpirationTime = &spotExpirationTime
+		}
+	}
+
+	// Set property ‘Status’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Status != nil {
+			status := *typedInput.Properties.Status
+			serverfarm.Status = &status
+		}
+	}
+
+	// Set property ‘Subscription’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subscription != nil {
+			subscription := *typedInput.Properties.Subscription
+			serverfarm.Subscription = &subscription
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		serverfarm.Tags = make(map[string]string, len(typedInput.Tags))
+		for key, value := range typedInput.Tags {
+			serverfarm.Tags[key] = value
+		}
+	}
+
+	// Set property ‘TargetWorkerCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TargetWorkerCount != nil {
+			targetWorkerCount := *typedInput.Properties.TargetWorkerCount
+			serverfarm.TargetWorkerCount = &targetWorkerCount
+		}
+	}
+
+	// Set property ‘TargetWorkerSizeId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TargetWorkerSizeId != nil {
+			targetWorkerSizeId := *typedInput.Properties.TargetWorkerSizeId
+			serverfarm.TargetWorkerSizeId = &targetWorkerSizeId
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		serverfarm.Type = &typeVar
+	}
+
+	// Set property ‘WorkerTierName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.WorkerTierName != nil {
+			workerTierName := *typedInput.Properties.WorkerTierName
+			serverfarm.WorkerTierName = &workerTierName
+		}
+	}
+
+	// Set property ‘ZoneRedundant’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundant != nil {
+			zoneRedundant := *typedInput.Properties.ZoneRedundant
+			serverfarm.ZoneRedundant = &zoneRedundant
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_Serverfarm_STATUS populates our Serverfarm_STATUS from the provided source Serverfarm_STATUS
+func (serverfarm *Serverfarm_STATUS) AssignProperties_From_Serverfarm_STATUS(source *v20220301s.Serverfarm_STATUS) error {
+
+	// Conditions
+	serverfarm.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ElasticScaleEnabled
+	if source.ElasticScaleEnabled != nil {
+		elasticScaleEnabled := *source.ElasticScaleEnabled
+		serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+	} else {
+		serverfarm.ElasticScaleEnabled = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation_STATUS
+		err := extendedLocation.AssignProperties_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		serverfarm.ExtendedLocation = &extendedLocation
+	} else {
+		serverfarm.ExtendedLocation = nil
+	}
+
+	// FreeOfferExpirationTime
+	serverfarm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
+
+	// GeoRegion
+	serverfarm.GeoRegion = genruntime.ClonePointerToString(source.GeoRegion)
+
+	// HostingEnvironmentProfile
+	if source.HostingEnvironmentProfile != nil {
+		var hostingEnvironmentProfile HostingEnvironmentProfile_STATUS
+		err := hostingEnvironmentProfile.AssignProperties_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+		}
+		serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+	} else {
+		serverfarm.HostingEnvironmentProfile = nil
+	}
+
+	// HyperV
+	if source.HyperV != nil {
+		hyperV := *source.HyperV
+		serverfarm.HyperV = &hyperV
+	} else {
+		serverfarm.HyperV = nil
+	}
+
+	// Id
+	serverfarm.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsSpot
+	if source.IsSpot != nil {
+		isSpot := *source.IsSpot
+		serverfarm.IsSpot = &isSpot
+	} else {
+		serverfarm.IsSpot = nil
+	}
+
+	// IsXenon
+	if source.IsXenon != nil {
+		isXenon := *source.IsXenon
+		serverfarm.IsXenon = &isXenon
+	} else {
+		serverfarm.IsXenon = nil
+	}
+
+	// Kind
+	serverfarm.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// KubeEnvironmentProfile
+	if source.KubeEnvironmentProfile != nil {
+		var kubeEnvironmentProfile KubeEnvironmentProfile_STATUS
+		err := kubeEnvironmentProfile.AssignProperties_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
+		}
+		serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+	} else {
+		serverfarm.KubeEnvironmentProfile = nil
+	}
+
+	// Location
+	serverfarm.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaximumElasticWorkerCount
+	serverfarm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
+
+	// MaximumNumberOfWorkers
+	serverfarm.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(source.MaximumNumberOfWorkers)
+
+	// Name
+	serverfarm.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NumberOfSites
+	serverfarm.NumberOfSites = genruntime.ClonePointerToInt(source.NumberOfSites)
+
+	// NumberOfWorkers
+	serverfarm.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
+
+	// PerSiteScaling
+	if source.PerSiteScaling != nil {
+		perSiteScaling := *source.PerSiteScaling
+		serverfarm.PerSiteScaling = &perSiteScaling
+	} else {
+		serverfarm.PerSiteScaling = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := Serverfarm_Properties_ProvisioningState_STATUS(*source.ProvisioningState)
+		serverfarm.ProvisioningState = &provisioningState
+	} else {
+		serverfarm.ProvisioningState = nil
+	}
+
+	// Reserved
+	if source.Reserved != nil {
+		reserved := *source.Reserved
+		serverfarm.Reserved = &reserved
+	} else {
+		serverfarm.Reserved = nil
+	}
+
+	// ResourceGroup
+	serverfarm.ResourceGroup = genruntime.ClonePointerToString(source.ResourceGroup)
+
+	// Sku
+	if source.Sku != nil {
+		var sku SkuDescription_STATUS
+		err := sku.AssignProperties_From_SkuDescription_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SkuDescription_STATUS() to populate field Sku")
+		}
+		serverfarm.Sku = &sku
+	} else {
+		serverfarm.Sku = nil
+	}
+
+	// SpotExpirationTime
+	serverfarm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
+
+	// Status
+	if source.Status != nil {
+		status := Serverfarm_Properties_Status_STATUS(*source.Status)
+		serverfarm.Status = &status
+	} else {
+		serverfarm.Status = nil
+	}
+
+	// Subscription
+	serverfarm.Subscription = genruntime.ClonePointerToString(source.Subscription)
+
+	// Tags
+	serverfarm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TargetWorkerCount
+	serverfarm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
+
+	// TargetWorkerSizeId
+	serverfarm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
+
+	// Type
+	serverfarm.Type = genruntime.ClonePointerToString(source.Type)
+
+	// WorkerTierName
+	serverfarm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		serverfarm.ZoneRedundant = &zoneRedundant
+	} else {
+		serverfarm.ZoneRedundant = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Serverfarm_STATUS populates the provided destination Serverfarm_STATUS from our Serverfarm_STATUS
+func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(destination *v20220301s.Serverfarm_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(serverfarm.Conditions)
+
+	// ElasticScaleEnabled
+	if serverfarm.ElasticScaleEnabled != nil {
+		elasticScaleEnabled := *serverfarm.ElasticScaleEnabled
+		destination.ElasticScaleEnabled = &elasticScaleEnabled
+	} else {
+		destination.ElasticScaleEnabled = nil
+	}
+
+	// ExtendedLocation
+	if serverfarm.ExtendedLocation != nil {
+		var extendedLocation v20220301s.ExtendedLocation_STATUS
+		err := serverfarm.ExtendedLocation.AssignProperties_To_ExtendedLocation_STATUS(&extendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		destination.ExtendedLocation = &extendedLocation
+	} else {
+		destination.ExtendedLocation = nil
+	}
+
+	// FreeOfferExpirationTime
+	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(serverfarm.FreeOfferExpirationTime)
+
+	// GeoRegion
+	destination.GeoRegion = genruntime.ClonePointerToString(serverfarm.GeoRegion)
+
+	// HostingEnvironmentProfile
+	if serverfarm.HostingEnvironmentProfile != nil {
+		var hostingEnvironmentProfile v20220301s.HostingEnvironmentProfile_STATUS
+		err := serverfarm.HostingEnvironmentProfile.AssignProperties_To_HostingEnvironmentProfile_STATUS(&hostingEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+		}
+		destination.HostingEnvironmentProfile = &hostingEnvironmentProfile
+	} else {
+		destination.HostingEnvironmentProfile = nil
+	}
+
+	// HyperV
+	if serverfarm.HyperV != nil {
+		hyperV := *serverfarm.HyperV
+		destination.HyperV = &hyperV
+	} else {
+		destination.HyperV = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(serverfarm.Id)
+
+	// IsSpot
+	if serverfarm.IsSpot != nil {
+		isSpot := *serverfarm.IsSpot
+		destination.IsSpot = &isSpot
+	} else {
+		destination.IsSpot = nil
+	}
+
+	// IsXenon
+	if serverfarm.IsXenon != nil {
+		isXenon := *serverfarm.IsXenon
+		destination.IsXenon = &isXenon
+	} else {
+		destination.IsXenon = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(serverfarm.Kind)
+
+	// KubeEnvironmentProfile
+	if serverfarm.KubeEnvironmentProfile != nil {
+		var kubeEnvironmentProfile v20220301s.KubeEnvironmentProfile_STATUS
+		err := serverfarm.KubeEnvironmentProfile.AssignProperties_To_KubeEnvironmentProfile_STATUS(&kubeEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
+		}
+		destination.KubeEnvironmentProfile = &kubeEnvironmentProfile
+	} else {
+		destination.KubeEnvironmentProfile = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(serverfarm.Location)
+
+	// MaximumElasticWorkerCount
+	destination.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(serverfarm.MaximumElasticWorkerCount)
+
+	// MaximumNumberOfWorkers
+	destination.MaximumNumberOfWorkers = genruntime.ClonePointerToInt(serverfarm.MaximumNumberOfWorkers)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(serverfarm.Name)
+
+	// NumberOfSites
+	destination.NumberOfSites = genruntime.ClonePointerToInt(serverfarm.NumberOfSites)
+
+	// NumberOfWorkers
+	destination.NumberOfWorkers = genruntime.ClonePointerToInt(serverfarm.NumberOfWorkers)
+
+	// PerSiteScaling
+	if serverfarm.PerSiteScaling != nil {
+		perSiteScaling := *serverfarm.PerSiteScaling
+		destination.PerSiteScaling = &perSiteScaling
+	} else {
+		destination.PerSiteScaling = nil
+	}
+
+	// ProvisioningState
+	if serverfarm.ProvisioningState != nil {
+		provisioningState := string(*serverfarm.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Reserved
+	if serverfarm.Reserved != nil {
+		reserved := *serverfarm.Reserved
+		destination.Reserved = &reserved
+	} else {
+		destination.Reserved = nil
+	}
+
+	// ResourceGroup
+	destination.ResourceGroup = genruntime.ClonePointerToString(serverfarm.ResourceGroup)
+
+	// Sku
+	if serverfarm.Sku != nil {
+		var sku v20220301s.SkuDescription_STATUS
+		err := serverfarm.Sku.AssignProperties_To_SkuDescription_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SkuDescription_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SpotExpirationTime
+	destination.SpotExpirationTime = genruntime.ClonePointerToString(serverfarm.SpotExpirationTime)
+
+	// Status
+	if serverfarm.Status != nil {
+		status := string(*serverfarm.Status)
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// Subscription
+	destination.Subscription = genruntime.ClonePointerToString(serverfarm.Subscription)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(serverfarm.Tags)
+
+	// TargetWorkerCount
+	destination.TargetWorkerCount = genruntime.ClonePointerToInt(serverfarm.TargetWorkerCount)
+
+	// TargetWorkerSizeId
+	destination.TargetWorkerSizeId = genruntime.ClonePointerToInt(serverfarm.TargetWorkerSizeId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(serverfarm.Type)
+
+	// WorkerTierName
+	destination.WorkerTierName = genruntime.ClonePointerToString(serverfarm.WorkerTierName)
+
+	// ZoneRedundant
+	if serverfarm.ZoneRedundant != nil {
+		zoneRedundant := *serverfarm.ZoneRedundant
+		destination.ZoneRedundant = &zoneRedundant
+	} else {
+		destination.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Extended Location.
 type ExtendedLocation struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
@@ -2030,6 +2039,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// Extended Location.
 type ExtendedLocation_STATUS struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
@@ -2103,7 +2113,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HostingEnvironmentProfile
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile struct {
 	// Reference: Resource ID of the App Service Environment.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2187,6 +2197,7 @@ func (profile *HostingEnvironmentProfile) AssignProperties_To_HostingEnvironment
 	return nil
 }
 
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile_STATUS struct {
 	// Id: Resource ID of the App Service Environment.
 	Id *string `json:"id,omitempty"`
@@ -2275,7 +2286,7 @@ func (profile *HostingEnvironmentProfile_STATUS) AssignProperties_To_HostingEnvi
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/KubeEnvironmentProfile
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile struct {
 	// Reference: Resource ID of the Kubernetes Environment.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2359,6 +2370,7 @@ func (profile *KubeEnvironmentProfile) AssignProperties_To_KubeEnvironmentProfil
 	return nil
 }
 
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile_STATUS struct {
 	// Id: Resource ID of the Kubernetes Environment.
 	Id *string `json:"id,omitempty"`
@@ -2447,7 +2459,25 @@ func (profile *KubeEnvironmentProfile_STATUS) AssignProperties_To_KubeEnvironmen
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SkuDescription
+type Serverfarm_Properties_ProvisioningState_STATUS string
+
+const (
+	Serverfarm_Properties_ProvisioningState_STATUS_Canceled   = Serverfarm_Properties_ProvisioningState_STATUS("Canceled")
+	Serverfarm_Properties_ProvisioningState_STATUS_Deleting   = Serverfarm_Properties_ProvisioningState_STATUS("Deleting")
+	Serverfarm_Properties_ProvisioningState_STATUS_Failed     = Serverfarm_Properties_ProvisioningState_STATUS("Failed")
+	Serverfarm_Properties_ProvisioningState_STATUS_InProgress = Serverfarm_Properties_ProvisioningState_STATUS("InProgress")
+	Serverfarm_Properties_ProvisioningState_STATUS_Succeeded  = Serverfarm_Properties_ProvisioningState_STATUS("Succeeded")
+)
+
+type Serverfarm_Properties_Status_STATUS string
+
+const (
+	Serverfarm_Properties_Status_STATUS_Creating = Serverfarm_Properties_Status_STATUS("Creating")
+	Serverfarm_Properties_Status_STATUS_Pending  = Serverfarm_Properties_Status_STATUS("Pending")
+	Serverfarm_Properties_Status_STATUS_Ready    = Serverfarm_Properties_Status_STATUS("Ready")
+)
+
+// Description of a SKU for a scalable resource.
 type SkuDescription struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability `json:"capabilities,omitempty"`
@@ -2467,7 +2497,7 @@ type SkuDescription struct {
 	// Size: Size specifier of the resource SKU.
 	Size *string `json:"size,omitempty"`
 
-	// SkuCapacity: Description of the App Service plan scale options.
+	// SkuCapacity: Min, max, and default scale values of the SKU.
 	SkuCapacity *SkuCapacity `json:"skuCapacity,omitempty"`
 
 	// Tier: Service tier of the resource SKU.
@@ -2730,6 +2760,7 @@ func (description *SkuDescription) AssignProperties_To_SkuDescription(destinatio
 	return nil
 }
 
+// Description of a SKU for a scalable resource.
 type SkuDescription_STATUS struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability_STATUS `json:"capabilities,omitempty"`
@@ -2949,7 +2980,7 @@ func (description *SkuDescription_STATUS) AssignProperties_To_SkuDescription_STA
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/Capability
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -3065,6 +3096,7 @@ func (capability *Capability) AssignProperties_To_Capability(destination *v20220
 	return nil
 }
 
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability_STATUS struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -3153,7 +3185,7 @@ func (capability *Capability_STATUS) AssignProperties_To_Capability_STATUS(desti
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SkuCapacity
+// Description of the App Service plan scale options.
 type SkuCapacity struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`
@@ -3311,6 +3343,7 @@ func (capacity *SkuCapacity) AssignProperties_To_SkuCapacity(destination *v20220
 	return nil
 }
 
+// Description of the App Service plan scale options.
 type SkuCapacity_STATUS struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`

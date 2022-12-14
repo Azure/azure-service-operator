@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
+// A profile is a logical grouping of endpoints that share the same settings.
 type Profile_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -14,12 +15,16 @@ type Profile_STATUS_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: Resource name.
-	Name       *string                       `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: The JSON object that contains the properties required to create a profile.
 	Properties *ProfileProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
 	// profile.
-	Sku        *Sku_STATUS_ARM        `json:"sku,omitempty"`
+	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
+
+	// SystemData: Read only system data
 	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
@@ -29,6 +34,7 @@ type Profile_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The JSON object that contains the properties required to create a profile.
 type ProfileProperties_STATUS_ARM struct {
 	// FrontDoorId: The Id of the frontdoor.
 	FrontDoorId *string `json:"frontDoorId,omitempty"`
@@ -44,10 +50,65 @@ type ProfileProperties_STATUS_ARM struct {
 	ResourceState *ProfileProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
+// Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+// Premium_Verizon = The SKU name for a Premium Verizon
+// CDN profile.
+// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+// Standard_Akamai = The SKU name for an
+// Akamai CDN profile.
+// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using
+// GB based billing model.
+// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+// Standard_AzureFrontDoor
+// =  The SKU name for an Azure Front Door Standard profile.
+// Premium_AzureFrontDoor = The SKU name for an Azure Front Door
+// Premium profile.
+// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download
+// scenarios using 95-5 peak bandwidth billing model.
+// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile
+// for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
+// StandardPlus_ChinaCdn = The SKU
+// name for a China CDN profile for live-streaming using GB based billing model.
+// StandardPlus_955BandWidth_ChinaCdn = The
+// SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing
+// model.
+// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average
+// peak bandwidth billing model.
 type Sku_STATUS_ARM struct {
 	// Name: Name of the pricing tier.
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
+
+// Read only system data
+type SystemData_STATUS_ARM struct {
+	// CreatedAt: The timestamp of resource creation (UTC)
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: An identifier for the identity that created the resource
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource
+	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: An identifier for the identity that last modified the resource
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource
+	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+// The type of identity that creates/modifies resources
+type IdentityType_STATUS string
+
+const (
+	IdentityType_STATUS_Application     = IdentityType_STATUS("application")
+	IdentityType_STATUS_Key             = IdentityType_STATUS("key")
+	IdentityType_STATUS_ManagedIdentity = IdentityType_STATUS("managedIdentity")
+	IdentityType_STATUS_User            = IdentityType_STATUS("user")
+)
 
 type Sku_Name_STATUS string
 

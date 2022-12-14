@@ -11,6 +11,7 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
+	// Error: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Error
 	Error *Error `json:"error,omitempty"`
 }
 

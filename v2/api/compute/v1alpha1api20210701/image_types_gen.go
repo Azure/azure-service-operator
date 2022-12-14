@@ -340,10 +340,12 @@ const APIVersion_Value = APIVersion("2021-07-01")
 type Image_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName        string                            `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocation                 `json:"extendedLocation,omitempty"`
-	HyperVGeneration *ImageProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Location         *string                           `json:"location,omitempty"`
+	AzureName        string                `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation     `json:"extendedLocation,omitempty"`
+	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -574,7 +576,7 @@ func (image *Image_Spec) AssignProperties_From_Image_Spec(source *alpha20210701s
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := ImageProperties_HyperVGeneration(*source.HyperVGeneration)
+		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
 		image.HyperVGeneration = &hyperVGeneration
 	} else {
 		image.HyperVGeneration = nil
@@ -1040,8 +1042,8 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *alpha20
 
 // Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocation struct {
-	Name *string                `json:"name,omitempty"`
-	Type *ExtendedLocation_Type `json:"type,omitempty"`
+	Name *string               `json:"name,omitempty"`
+	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtendedLocation{}
@@ -1103,7 +1105,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocation_Type(*source.Type)
+		typeVar := ExtendedLocationType(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -1221,21 +1223,21 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Deprecated version of HyperVGenerationType. Use v1beta20210701.HyperVGenerationType instead
+// +kubebuilder:validation:Enum={"V1","V2"}
+type HyperVGenerationType string
+
+const (
+	HyperVGenerationType_V1 = HyperVGenerationType("V1")
+	HyperVGenerationType_V2 = HyperVGenerationType("V2")
+)
+
 // Deprecated version of HyperVGenerationType_STATUS. Use v1beta20210701.HyperVGenerationType_STATUS instead
 type HyperVGenerationType_STATUS string
 
 const (
 	HyperVGenerationType_STATUS_V1 = HyperVGenerationType_STATUS("V1")
 	HyperVGenerationType_STATUS_V2 = HyperVGenerationType_STATUS("V2")
-)
-
-// Deprecated version of ImageProperties_HyperVGeneration. Use v1beta20210701.ImageProperties_HyperVGeneration instead
-// +kubebuilder:validation:Enum={"V1","V2"}
-type ImageProperties_HyperVGeneration string
-
-const (
-	ImageProperties_HyperVGeneration_V1 = ImageProperties_HyperVGeneration("V1")
-	ImageProperties_HyperVGeneration_V2 = ImageProperties_HyperVGeneration("V2")
 )
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
@@ -1717,16 +1719,16 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 
 // Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk struct {
-	BlobUri           *string                      `json:"blobUri,omitempty"`
-	Caching           *ImageDataDisk_Caching       `json:"caching,omitempty"`
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB        *int                         `json:"diskSizeGB,omitempty"`
+	BlobUri           *string                `json:"blobUri,omitempty"`
+	Caching           *ImageDataDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB        *int                   `json:"diskSizeGB,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Lun                *int                              `json:"lun,omitempty"`
-	ManagedDisk        *SubResource                      `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource                      `json:"snapshot,omitempty"`
-	StorageAccountType *ImageDataDisk_StorageAccountType `json:"storageAccountType,omitempty"`
+	Lun                *int                `json:"lun,omitempty"`
+	ManagedDisk        *SubResource        `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource        `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageDataDisk{}
@@ -1756,7 +1758,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSet_ARM.(*DiskEncryptionSetParameters_ARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*SubResource_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -1826,7 +1828,7 @@ func (disk *ImageDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 DiskEncryptionSetParameters
+		var diskEncryptionSet1 SubResource
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -1895,10 +1897,10 @@ func (disk *ImageDataDisk) AssignProperties_From_ImageDataDisk(source *alpha2021
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err := diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource
+		err := diskEncryptionSet.AssignProperties_From_SubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DiskEncryptionSet")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -1937,7 +1939,7 @@ func (disk *ImageDataDisk) AssignProperties_From_ImageDataDisk(source *alpha2021
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := ImageDataDisk_StorageAccountType(*source.StorageAccountType)
+		storageAccountType := StorageAccountType(*source.StorageAccountType)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -1965,10 +1967,10 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *alpha2
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20210701s.DiskEncryptionSetParameters
-		err := disk.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet alpha20210701s.SubResource
+		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2264,19 +2266,19 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 
 // Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk struct {
-	BlobUri           *string                      `json:"blobUri,omitempty"`
-	Caching           *ImageOSDisk_Caching         `json:"caching,omitempty"`
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB        *int                         `json:"diskSizeGB,omitempty"`
-	ManagedDisk       *SubResource                 `json:"managedDisk,omitempty"`
+	BlobUri           *string              `json:"blobUri,omitempty"`
+	Caching           *ImageOSDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet *SubResource         `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB        *int                 `json:"diskSizeGB,omitempty"`
+	ManagedDisk       *SubResource         `json:"managedDisk,omitempty"`
 
 	// +kubebuilder:validation:Required
 	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required
-	OsType             *ImageOSDisk_OsType             `json:"osType,omitempty"`
-	Snapshot           *SubResource                    `json:"snapshot,omitempty"`
-	StorageAccountType *ImageOSDisk_StorageAccountType `json:"storageAccountType,omitempty"`
+	OsType             *ImageOSDisk_OsType `json:"osType,omitempty"`
+	Snapshot           *SubResource        `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageOSDisk{}
@@ -2306,7 +2308,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSet_ARM.(*DiskEncryptionSetParameters_ARM)
+		diskEncryptionSet := *diskEncryptionSet_ARM.(*SubResource_ARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -2382,7 +2384,7 @@ func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 DiskEncryptionSetParameters
+		var diskEncryptionSet1 SubResource
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -2457,10 +2459,10 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *alpha20210701
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err := diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource
+		err := diskEncryptionSet.AssignProperties_From_SubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DiskEncryptionSet")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2512,7 +2514,7 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *alpha20210701
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := ImageOSDisk_StorageAccountType(*source.StorageAccountType)
+		storageAccountType := StorageAccountType(*source.StorageAccountType)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -2540,10 +2542,10 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *alpha20210
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20210701s.DiskEncryptionSetParameters
-		err := disk.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet alpha20210701s.SubResource
+		err := disk.DiskEncryptionSet.AssignProperties_To_SubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2883,89 +2885,6 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 	return nil
 }
 
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters struct {
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DiskEncryptionSetParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &DiskEncryptionSetParameters_ARM{}
-
-	// Set property ‘Id’:
-	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*parameters.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *DiskEncryptionSetParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskEncryptionSetParameters_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *DiskEncryptionSetParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(DiskEncryptionSetParameters_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSetParameters_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_DiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_From_DiskEncryptionSetParameters(source *alpha20210701s.DiskEncryptionSetParameters) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_DiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_To_DiskEncryptionSetParameters(destination *alpha20210701s.DiskEncryptionSetParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ImageDataDisk_Caching. Use v1beta20210701.ImageDataDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageDataDisk_Caching string
@@ -2983,19 +2902,6 @@ const (
 	ImageDataDisk_Caching_STATUS_None      = ImageDataDisk_Caching_STATUS("None")
 	ImageDataDisk_Caching_STATUS_ReadOnly  = ImageDataDisk_Caching_STATUS("ReadOnly")
 	ImageDataDisk_Caching_STATUS_ReadWrite = ImageDataDisk_Caching_STATUS("ReadWrite")
-)
-
-// Deprecated version of ImageDataDisk_StorageAccountType. Use v1beta20210701.ImageDataDisk_StorageAccountType instead
-// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
-type ImageDataDisk_StorageAccountType string
-
-const (
-	ImageDataDisk_StorageAccountType_Premium_LRS     = ImageDataDisk_StorageAccountType("Premium_LRS")
-	ImageDataDisk_StorageAccountType_Premium_ZRS     = ImageDataDisk_StorageAccountType("Premium_ZRS")
-	ImageDataDisk_StorageAccountType_StandardSSD_LRS = ImageDataDisk_StorageAccountType("StandardSSD_LRS")
-	ImageDataDisk_StorageAccountType_StandardSSD_ZRS = ImageDataDisk_StorageAccountType("StandardSSD_ZRS")
-	ImageDataDisk_StorageAccountType_Standard_LRS    = ImageDataDisk_StorageAccountType("Standard_LRS")
-	ImageDataDisk_StorageAccountType_UltraSSD_LRS    = ImageDataDisk_StorageAccountType("UltraSSD_LRS")
 )
 
 // Deprecated version of ImageOSDisk_Caching. Use v1beta20210701.ImageOSDisk_Caching instead
@@ -3051,17 +2957,17 @@ const (
 	ImageOSDisk_OsType_STATUS_Windows = ImageOSDisk_OsType_STATUS("Windows")
 )
 
-// Deprecated version of ImageOSDisk_StorageAccountType. Use v1beta20210701.ImageOSDisk_StorageAccountType instead
+// Deprecated version of StorageAccountType. Use v1beta20210701.StorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
-type ImageOSDisk_StorageAccountType string
+type StorageAccountType string
 
 const (
-	ImageOSDisk_StorageAccountType_Premium_LRS     = ImageOSDisk_StorageAccountType("Premium_LRS")
-	ImageOSDisk_StorageAccountType_Premium_ZRS     = ImageOSDisk_StorageAccountType("Premium_ZRS")
-	ImageOSDisk_StorageAccountType_StandardSSD_LRS = ImageOSDisk_StorageAccountType("StandardSSD_LRS")
-	ImageOSDisk_StorageAccountType_StandardSSD_ZRS = ImageOSDisk_StorageAccountType("StandardSSD_ZRS")
-	ImageOSDisk_StorageAccountType_Standard_LRS    = ImageOSDisk_StorageAccountType("Standard_LRS")
-	ImageOSDisk_StorageAccountType_UltraSSD_LRS    = ImageOSDisk_StorageAccountType("UltraSSD_LRS")
+	StorageAccountType_Premium_LRS     = StorageAccountType("Premium_LRS")
+	StorageAccountType_Premium_ZRS     = StorageAccountType("Premium_ZRS")
+	StorageAccountType_StandardSSD_LRS = StorageAccountType("StandardSSD_LRS")
+	StorageAccountType_StandardSSD_ZRS = StorageAccountType("StandardSSD_ZRS")
+	StorageAccountType_Standard_LRS    = StorageAccountType("Standard_LRS")
+	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
 // Deprecated version of StorageAccountType_STATUS. Use v1beta20210701.StorageAccountType_STATUS instead

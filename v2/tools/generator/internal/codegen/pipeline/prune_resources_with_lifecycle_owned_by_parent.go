@@ -27,7 +27,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 
 			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
 			// the consumed bit
-			err := configuration.MarkIsResourceLifecycleOwnedByParentUnconsumed()
+			err := configuration.MarkResourceLifecycleOwnedByParentUnconsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -57,7 +57,7 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 				result.Add(updatedDef)
 			}
 
-			err = configuration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+			err = configuration.VerifyResourceLifecycleOwnedByParentConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -87,14 +87,16 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) astm
 func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	typeName := ctx.(astmodel.TypeName)
 	for _, prop := range it.Properties().Copy() {
-		isResourceLifecycleOwnedByParent, err := m.configuration.IsResourceLifecycleOwnedByParent(typeName, prop.PropertyName())
-		if err != nil && !config.IsNotConfiguredError(err) {
+		_, err := m.configuration.ResourceLifecycleOwnedByParent(typeName, prop.PropertyName())
+		if err != nil {
+			if config.IsNotConfiguredError(err) {
+				continue
+			}
 			// Unexpected error type
 			return nil, err
 		}
-		if isResourceLifecycleOwnedByParent {
-			it = it.WithoutProperty(prop.PropertyName())
-		}
+
+		it = it.WithoutProperty(prop.PropertyName())
 	}
 
 	return astmodel.IdentityVisitOfObjectType(this, it, ctx)

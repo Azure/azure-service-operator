@@ -8,13 +8,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +kubebuilder:rbac:groups=sql.azure.com,resources=servers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={servers/status,servers/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/Servers.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -23,7 +21,9 @@ type Server struct {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/Servers.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -112,49 +112,48 @@ type ServerParameters struct {
 	// AdministratorLoginPassword: The administrator login password (required for server creation).
 	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
 
-	// Administrators: Properties of a active directory administrator.
+	// Administrators: The Azure Active Directory identity of the server.
 	Administrators *ServerExternalAdministrator `json:"administrators,omitempty"`
 
-	// Identity: Azure Active Directory identity configuration for a resource.
+	// Identity: The Azure Active Directory identity of the server.
 	Identity *ResourceIdentity `json:"identity,omitempty"`
 
 	// KeyId: A CMK URI of the key to use for encryption.
 	KeyId *string `json:"keyId,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// MinimalTlsVersion: Minimal TLS version. Allowed values: '1.0', '1.1', '1.2'
 	MinimalTlsVersion *string `json:"minimalTlsVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: The name of the server.
-	Name string `json:"name,omitempty"`
+	Name              string  `json:"name,omitempty"`
 
 	// PrimaryUserAssignedIdentityId: The resource id of a user assigned identity to be used by default.
 	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'.
+	// in, must be 'Enabled' or 'Disabled'
 	PublicNetworkAccess       *ServerProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	ResourceGroupName         string                                `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference                   `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector                    `json:"resourceGroupNameSelector,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Version: The version of the server.
 	Version *string `json:"version,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/ResourceIdentity
+// Azure Active Directory identity configuration for a resource.
 type ResourceIdentity struct {
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
+// Azure Active Directory identity configuration for a resource.
 type ResourceIdentity_STATUS struct {
 	// PrincipalId: The Azure Active Directory principal id.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -170,7 +169,7 @@ type ResourceIdentity_STATUS struct {
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/ServerExternalAdministrator
+// Properties of a active directory administrator.
 type ServerExternalAdministrator struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *ServerExternalAdministrator_AdministratorType `json:"administratorType,omitempty"`
@@ -193,6 +192,7 @@ type ServerExternalAdministrator struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// Properties of a active directory administrator.
 type ServerExternalAdministrator_STATUS struct {
 	// AdministratorType: Type of the sever administrator.
 	AdministratorType *ServerExternalAdministrator_AdministratorType_STATUS `json:"administratorType,omitempty"`
@@ -213,6 +213,7 @@ type ServerExternalAdministrator_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -243,6 +244,7 @@ const (
 	ServerProperties_WorkspaceFeature_STATUS_Disconnected = ServerProperties_WorkspaceFeature_STATUS("Disconnected")
 )
 
+// Properties of a private endpoint connection.
 type PrivateEndpointConnectionProperties_STATUS struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_STATUS `json:"privateEndpoint,omitempty"`
@@ -299,6 +301,7 @@ const (
 	ServerExternalAdministrator_PrincipalType_STATUS_User        = ServerExternalAdministrator_PrincipalType_STATUS("User")
 )
 
+// Azure Active Directory identity configuration for a resource.
 type UserIdentity_STATUS struct {
 	// ClientId: The Azure Active Directory client id.
 	ClientId *string `json:"clientId,omitempty"`

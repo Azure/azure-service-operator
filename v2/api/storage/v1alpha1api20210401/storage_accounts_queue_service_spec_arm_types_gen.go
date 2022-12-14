@@ -7,10 +7,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of StorageAccounts_QueueService_Spec. Use v1beta20210401.StorageAccounts_QueueService_Spec instead
 type StorageAccounts_QueueService_Spec_ARM struct {
-	Location   *string                               `json:"location,omitempty"`
-	Name       string                                `json:"name,omitempty"`
-	Properties *QueueServicePropertiesProperties_ARM `json:"properties,omitempty"`
-	Tags       map[string]string                     `json:"tags,omitempty"`
+	Name       string                                            `json:"name,omitempty"`
+	Properties *StorageAccounts_QueueService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueService_Spec_ARM{}
@@ -30,7 +28,7 @@ func (service *StorageAccounts_QueueService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
-// Deprecated version of QueueServicePropertiesProperties. Use v1beta20210401.QueueServicePropertiesProperties instead
-type QueueServicePropertiesProperties_ARM struct {
+// Deprecated version of StorageAccounts_QueueService_Properties_Spec. Use v1beta20210401.StorageAccounts_QueueService_Properties_Spec instead
+type StorageAccounts_QueueService_Properties_Spec_ARM struct {
 	Cors *CorsRules_ARM `json:"cors,omitempty"`
 }

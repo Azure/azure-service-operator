@@ -162,7 +162,7 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestProperties_ARM(gens map[s
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["ResellerId"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Workload"] = gen.PtrOf(gen.OneConstOf(PutAliasRequestProperties_Workload_DevTest, PutAliasRequestProperties_Workload_Production))
+	gens["Workload"] = gen.PtrOf(gen.OneConstOf(Workload_DevTest, Workload_Production))
 }
 
 // AddRelatedPropertyGeneratorsForPutAliasRequestProperties_ARM is a factory method for creating gopter generators

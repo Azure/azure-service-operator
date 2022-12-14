@@ -338,7 +338,7 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_N
 
 // AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator())
 }
 
 func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -508,9 +508,6 @@ func RunJSONSerializationTestForPrivateEndpoint_STATUS_NetworkInterface_SubResou
 var privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator gopter.Gen
 
 // PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator returns a generator of PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() gopter.Gen {
 	if privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator != nil {
 		return privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
@@ -520,23 +517,12 @@ func PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() 
 	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
 	privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
-
 	return privateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
 }
 
 func Test_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -583,9 +569,6 @@ func RunJSONSerializationTestForPrivateLinkService_STATUS_NetworkInterface_SubRe
 var privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator gopter.Gen
 
 // PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator returns a generator of PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() gopter.Gen {
 	if privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator != nil {
 		return privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
@@ -595,23 +578,12 @@ func PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
 	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
 	privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
-
 	return privateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
 }
 
 func Test_SubResource_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -675,20 +647,20 @@ func AddIndependentPropertyGeneratorsForSubResource_STATUS_ARM(gens map[string]g
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM, NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator()))
+		"Round trip of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM, NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM runs a test to see if a specific instance of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(subject NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM) string {
+// RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM runs a test to see if a specific instance of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(subject NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -696,7 +668,7 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_
 	}
 
 	// Deserialize back into memory
-	var actual NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM
+	var actual NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -714,35 +686,34 @@ func RunJSONSerializationTestForNetworkInterfaceIPConfigurationPropertiesFormat_
 	return ""
 }
 
-// Generator of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM
-// instances for property testing - lazily instantiated by
-// NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator()
-var networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator gopter.Gen
+// Generator of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM instances for property testing - lazily
+// instantiated by NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator()
+var networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator gopter.Gen
 
-// NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator returns a generator of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
+// NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator returns a generator of NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM instances for property testing.
+// We first initialize networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator != nil {
-		return networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
+func NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
+	if networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator != nil {
+		return networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(generators)
+	networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(generators)
+	networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM{}), generators)
 
-	return networkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
+	return networkInterfaceIPConfigurationPropertiesFormat_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUS_IPv4, IPVersion_STATUS_IPv6))
@@ -754,8 +725,8 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertie
 		ProvisioningState_STATUS_Updating))
 }
 
-// AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator())
 	gens["ApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator())
 	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator())
@@ -811,9 +782,6 @@ func RunJSONSerializationTestForApplicationGatewayBackendAddressPool_STATUS_Netw
 var applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator gopter.Gen
 
 // ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator returns a generator of ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() gopter.Gen {
 	if applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator != nil {
 		return applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
@@ -823,26 +791,12 @@ func ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmb
 	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
 	applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
-
 	return applicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator())
 }
 
 func Test_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1135,9 +1089,6 @@ func RunJSONSerializationTestForPublicIPAddress_STATUS_NetworkInterface_SubResou
 var publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator gopter.Gen
 
 // PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator returns a generator of PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() gopter.Gen {
 	if publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator != nil {
 		return publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
@@ -1147,25 +1098,12 @@ func PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() 
 	AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
 	publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
-
 	return publicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUS_ARMGenerator())
-	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_STATUS_ARMGenerator())
 }
 
 func Test_Subnet_STATUS_NetworkInterface_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1288,146 +1226,4 @@ func VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator(
 // AddIndependentPropertyGeneratorsForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM, ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM runs a test to see if a specific instance of ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(subject ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM
-// instances for property testing - lazily instantiated by
-// ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator()
-var applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator gopter.Gen
-
-// ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator returns a generator of ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM instances for property testing.
-// We first initialize applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator != nil {
-		return applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(generators)
-	applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM{}), generators)
-
-	return applicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUS_Deleting,
-		ProvisioningState_STATUS_Failed,
-		ProvisioningState_STATUS_Succeeded,
-		ProvisioningState_STATUS_Updating))
-}
-
-// AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
-	gens["BackendAddresses"] = gen.SliceOf(ApplicationGatewayBackendAddress_STATUS_ARMGenerator())
-}
-
-func Test_ApplicationGatewayBackendAddress_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ApplicationGatewayBackendAddress_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApplicationGatewayBackendAddress_STATUS_ARM, ApplicationGatewayBackendAddress_STATUS_ARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForApplicationGatewayBackendAddress_STATUS_ARM runs a test to see if a specific instance of ApplicationGatewayBackendAddress_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForApplicationGatewayBackendAddress_STATUS_ARM(subject ApplicationGatewayBackendAddress_STATUS_ARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ApplicationGatewayBackendAddress_STATUS_ARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ApplicationGatewayBackendAddress_STATUS_ARM instances for property testing - lazily instantiated by
-// ApplicationGatewayBackendAddress_STATUS_ARMGenerator()
-var applicationGatewayBackendAddress_STATUS_ARMGenerator gopter.Gen
-
-// ApplicationGatewayBackendAddress_STATUS_ARMGenerator returns a generator of ApplicationGatewayBackendAddress_STATUS_ARM instances for property testing.
-func ApplicationGatewayBackendAddress_STATUS_ARMGenerator() gopter.Gen {
-	if applicationGatewayBackendAddress_STATUS_ARMGenerator != nil {
-		return applicationGatewayBackendAddress_STATUS_ARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress_STATUS_ARM(generators)
-	applicationGatewayBackendAddress_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayBackendAddress_STATUS_ARM{}), generators)
-
-	return applicationGatewayBackendAddress_STATUS_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddress_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 }

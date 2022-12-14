@@ -357,7 +357,6 @@ type RoleAssignment_Spec struct {
 	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string `json:"description,omitempty"`
-	Location                           *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -370,7 +369,6 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-	Tags                    map[string]string             `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -381,12 +379,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		return nil, nil
 	}
 	result := &RoleAssignment_Spec_ARM{}
-
-	// Set property ‘Location’:
-	if assignment.Location != nil {
-		location := *assignment.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -442,14 +434,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		roleDefinitionId := roleDefinitionIdARMID
 		result.Properties.RoleDefinitionId = &roleDefinitionId
 	}
-
-	// Set property ‘Tags’:
-	if assignment.Tags != nil {
-		result.Tags = make(map[string]string, len(assignment.Tags))
-		for key, value := range assignment.Tags {
-			result.Tags[key] = value
-		}
-	}
 	return result, nil
 }
 
@@ -504,12 +488,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		assignment.Location = &location
-	}
-
 	// Set property ‘Owner’:
 	assignment.Owner = &owner
 
@@ -534,14 +512,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// no assignment for property ‘RoleDefinitionReference’
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		assignment.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			assignment.Tags[key] = value
-		}
-	}
 
 	// No error
 	return nil
@@ -615,9 +585,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
-	// Location
-	assignment.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -653,9 +620,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 		assignment.RoleDefinitionReference = nil
 	}
 
-	// Tags
-	assignment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
 	// No error
 	return nil
 }
@@ -679,9 +643,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(assignment.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = assignment.OriginalVersion()
@@ -720,9 +681,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	} else {
 		destination.RoleDefinitionReference = nil
 	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(assignment.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

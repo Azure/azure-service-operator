@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210601.FlexibleServer
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
+// Generator information:
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/postgresql.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS       `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -76,7 +78,7 @@ func (server *FlexibleServer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_STATUS{}
+	return &FlexibleServer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_STATUS); ok {
+	if st, ok := status.(*FlexibleServer_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_STATUS
+	var st FlexibleServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210601.FlexibleServer
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
+// Generator information:
+// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/postgresql.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -190,8 +194,8 @@ func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(server)
 }
 
-// Storage version of v1beta20210601.Server_STATUS
-type Server_STATUS struct {
+// Storage version of v1beta20210601.FlexibleServer_STATUS
+type FlexibleServer_STATUS struct {
 	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
 	Backup                   *Backup_STATUS            `json:"backup,omitempty"`
@@ -217,10 +221,10 @@ type Server_STATUS struct {
 	Version                  *string                   `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Server_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
 
-// ConvertStatusFrom populates our Server_STATUS from the provided source
-func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
+func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -228,8 +232,8 @@ func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(server)
 }
 
-// ConvertStatusTo populates the provided destination from our Server_STATUS
-func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -238,7 +242,7 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 }
 
 // Storage version of v1beta20210601.Backup
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
+// Backup properties of a server
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -246,6 +250,7 @@ type Backup struct {
 }
 
 // Storage version of v1beta20210601.Backup_STATUS
+// Backup properties of a server
 type Backup_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -261,7 +266,7 @@ type FlexibleServerOperatorSpec struct {
 }
 
 // Storage version of v1beta20210601.HighAvailability
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability
+// High availability properties of a server
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -269,6 +274,7 @@ type HighAvailability struct {
 }
 
 // Storage version of v1beta20210601.HighAvailability_STATUS
+// High availability properties of a server
 type HighAvailability_STATUS struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -277,7 +283,7 @@ type HighAvailability_STATUS struct {
 }
 
 // Storage version of v1beta20210601.MaintenanceWindow
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow
+// Maintenance window properties of a server.
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -287,6 +293,7 @@ type MaintenanceWindow struct {
 }
 
 // Storage version of v1beta20210601.MaintenanceWindow_STATUS
+// Maintenance window properties of a server.
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -296,7 +303,7 @@ type MaintenanceWindow_STATUS struct {
 }
 
 // Storage version of v1beta20210601.Network
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network
+// Network properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: delegated subnet arm resource id.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -307,6 +314,7 @@ type Network struct {
 }
 
 // Storage version of v1beta20210601.Network_STATUS
+// Network properties of a server
 type Network_STATUS struct {
 	DelegatedSubnetResourceId   *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string                `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -315,7 +323,7 @@ type Network_STATUS struct {
 }
 
 // Storage version of v1beta20210601.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
+// Sku information related properties of a server.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -323,6 +331,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210601.Sku_STATUS
+// Sku information related properties of a server.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -330,19 +339,21 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210601.Storage
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage
+// Storage properties of a server
 type Storage struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }
 
 // Storage version of v1beta20210601.Storage_STATUS
+// Storage properties of a server
 type Storage_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }
 
 // Storage version of v1beta20210601.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210101preview.NamespacesTopic
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/topics.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topic_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS        `json:"status,omitempty"`
+	Spec              Namespaces_Topic_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -76,7 +78,7 @@ func (topic *NamespacesTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBTopic_STATUS{}
+	return &Namespaces_Topic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBTopic_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBTopic_STATUS
+	var st Namespaces_Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210101preview.NamespacesTopic
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/topics.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}
 type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -142,7 +146,6 @@ type Namespaces_Topic_Spec struct {
 	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
 	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
 	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	Location                            *string `json:"location,omitempty"`
 	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
 	OriginalVersion                     string  `json:"originalVersion,omitempty"`
 
@@ -154,7 +157,6 @@ type Namespaces_Topic_Spec struct {
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
 	SupportOrdering            *bool                              `json:"supportOrdering,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespaces_Topic_Spec{}
@@ -177,8 +179,8 @@ func (topic *Namespaces_Topic_Spec) ConvertSpecTo(destination genruntime.Convert
 	return destination.ConvertSpecFrom(topic)
 }
 
-// Storage version of v1beta20210101preview.SBTopic_STATUS
-type SBTopic_STATUS struct {
+// Storage version of v1beta20210101preview.Namespaces_Topic_STATUS
+type Namespaces_Topic_STATUS struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
@@ -203,10 +205,10 @@ type SBTopic_STATUS struct {
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBTopic_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topic_STATUS{}
 
-// ConvertStatusFrom populates our SBTopic_STATUS from the provided source
-func (topic *SBTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespaces_Topic_STATUS from the provided source
+func (topic *Namespaces_Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -214,8 +216,8 @@ func (topic *SBTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(topic)
 }
 
-// ConvertStatusTo populates the provided destination from our SBTopic_STATUS
-func (topic *SBTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespaces_Topic_STATUS
+func (topic *Namespaces_Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

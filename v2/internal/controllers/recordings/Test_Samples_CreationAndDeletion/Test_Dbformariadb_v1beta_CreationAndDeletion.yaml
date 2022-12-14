@@ -234,7 +234,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"query_cache_size","properties":{"value":"102400"}}'
+    body: '{"name":"query_cache_size","properties":{"value":"102400"}}'
     form: {}
     headers:
       Accept:
@@ -276,7 +276,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotestctpcct"}'
+    body: '{"name":"asotestctpcct"}'
     form: {}
     headers:
       Accept:

@@ -249,6 +249,9 @@ func RunJSONSerializationTestForTopic_Spec(subject Topic_Spec) string {
 var topic_SpecGenerator gopter.Gen
 
 // Topic_SpecGenerator returns a generator of Topic_Spec instances for property testing.
+// We first initialize topic_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func Topic_SpecGenerator() gopter.Gen {
 	if topic_SpecGenerator != nil {
 		return topic_SpecGenerator
@@ -258,14 +261,28 @@ func Topic_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForTopic_Spec(generators)
 	topic_SpecGenerator = gen.Struct(reflect.TypeOf(Topic_Spec{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForTopic_Spec(generators)
+	AddRelatedPropertyGeneratorsForTopic_Spec(generators)
+	topic_SpecGenerator = gen.Struct(reflect.TypeOf(Topic_Spec{}), generators)
+
 	return topic_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_CloudEventSchemaV1_0, TopicProperties_InputSchema_CustomEventSchema, TopicProperties_InputSchema_EventGridSchema))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_Disabled, TopicProperties_PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForTopic_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
+	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleGenerator())
+	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingGenerator())
 }
 
 func Test_Topic_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

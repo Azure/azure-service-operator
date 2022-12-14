@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/routeTables_routes
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteTables_Route_Spec `json:"spec,omitempty"`
-	Status            Route_STATUS           `json:"status,omitempty"`
+	Spec              RouteTables_Route_Spec   `json:"spec,omitempty"`
+	Status            RouteTables_Route_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTablesRoute{}
@@ -123,7 +125,7 @@ func (route *RouteTablesRoute) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (route *RouteTablesRoute) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Route_STATUS{}
+	return &RouteTables_Route_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (route *RouteTablesRoute) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (route *RouteTablesRoute) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Route_STATUS); ok {
+	if st, ok := status.(*RouteTables_Route_STATUS); ok {
 		route.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Route_STATUS
+	var st RouteTables_Route_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +265,10 @@ func (route *RouteTablesRoute) AssignProperties_From_RouteTablesRoute(source *v2
 	route.Spec = spec
 
 	// Status
-	var status Route_STATUS
-	err = status.AssignProperties_From_Route_STATUS(&source.Status)
+	var status RouteTables_Route_STATUS
+	err = status.AssignProperties_From_RouteTables_Route_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Route_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_RouteTables_Route_STATUS() to populate field Status")
 	}
 	route.Status = status
 
@@ -289,10 +291,10 @@ func (route *RouteTablesRoute) AssignProperties_To_RouteTablesRoute(destination 
 	destination.Spec = spec
 
 	// Status
-	var status v20201101s.Route_STATUS
-	err = route.Status.AssignProperties_To_Route_STATUS(&status)
+	var status v20201101s.RouteTables_Route_STATUS
+	err = route.Status.AssignProperties_To_RouteTables_Route_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Route_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_RouteTables_Route_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,300 +312,16 @@ func (route *RouteTablesRoute) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/routeTables_routes
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
 type RouteTablesRouteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTablesRoute `json:"items"`
 }
 
-type Route_STATUS struct {
-	// AddressPrefix: The destination CIDR to which the route applies.
-	AddressPrefix *string `json:"addressPrefix,omitempty"`
-
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
-	// next hop type is VirtualAppliance.
-	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
-
-	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType_STATUS `json:"nextHopType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the route resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Route_STATUS{}
-
-// ConvertStatusFrom populates our Route_STATUS from the provided source
-func (route *Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201101s.Route_STATUS)
-	if ok {
-		// Populate our instance from source
-		return route.AssignProperties_From_Route_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20201101s.Route_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = route.AssignProperties_From_Route_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our Route_STATUS
-func (route *Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201101s.Route_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return route.AssignProperties_To_Route_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20201101s.Route_STATUS{}
-	err := route.AssignProperties_To_Route_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &Route_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (route *Route_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Route_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (route *Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Route_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘AddressPrefix’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AddressPrefix != nil {
-			addressPrefix := *typedInput.Properties.AddressPrefix
-			route.AddressPrefix = &addressPrefix
-		}
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		route.Etag = &etag
-	}
-
-	// Set property ‘HasBgpOverride’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HasBgpOverride != nil {
-			hasBgpOverride := *typedInput.Properties.HasBgpOverride
-			route.HasBgpOverride = &hasBgpOverride
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		route.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		route.Name = &name
-	}
-
-	// Set property ‘NextHopIpAddress’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NextHopIpAddress != nil {
-			nextHopIpAddress := *typedInput.Properties.NextHopIpAddress
-			route.NextHopIpAddress = &nextHopIpAddress
-		}
-	}
-
-	// Set property ‘NextHopType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NextHopType != nil {
-			nextHopType := *typedInput.Properties.NextHopType
-			route.NextHopType = &nextHopType
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			route.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		route.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Route_STATUS populates our Route_STATUS from the provided source Route_STATUS
-func (route *Route_STATUS) AssignProperties_From_Route_STATUS(source *v20201101s.Route_STATUS) error {
-
-	// AddressPrefix
-	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
-
-	// Conditions
-	route.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Etag
-	route.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// HasBgpOverride
-	if source.HasBgpOverride != nil {
-		hasBgpOverride := *source.HasBgpOverride
-		route.HasBgpOverride = &hasBgpOverride
-	} else {
-		route.HasBgpOverride = nil
-	}
-
-	// Id
-	route.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	route.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NextHopIpAddress
-	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
-
-	// NextHopType
-	if source.NextHopType != nil {
-		nextHopType := RouteNextHopType_STATUS(*source.NextHopType)
-		route.NextHopType = &nextHopType
-	} else {
-		route.NextHopType = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
-		route.ProvisioningState = &provisioningState
-	} else {
-		route.ProvisioningState = nil
-	}
-
-	// Type
-	route.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Route_STATUS populates the provided destination Route_STATUS from our Route_STATUS
-func (route *Route_STATUS) AssignProperties_To_Route_STATUS(destination *v20201101s.Route_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AddressPrefix
-	destination.AddressPrefix = genruntime.ClonePointerToString(route.AddressPrefix)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(route.Conditions)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(route.Etag)
-
-	// HasBgpOverride
-	if route.HasBgpOverride != nil {
-		hasBgpOverride := *route.HasBgpOverride
-		destination.HasBgpOverride = &hasBgpOverride
-	} else {
-		destination.HasBgpOverride = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(route.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(route.Name)
-
-	// NextHopIpAddress
-	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
-
-	// NextHopType
-	if route.NextHopType != nil {
-		nextHopType := string(*route.NextHopType)
-		destination.NextHopType = &nextHopType
-	} else {
-		destination.NextHopType = nil
-	}
-
-	// ProvisioningState
-	if route.ProvisioningState != nil {
-		provisioningState := string(*route.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(route.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type RouteTables_Route_Spec struct {
-	// +kubebuilder:validation:Required
 	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
@@ -620,7 +338,7 @@ type RouteTables_Route_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RoutePropertiesFormat_NextHopType `json:"nextHopType,omitempty"`
+	NextHopType *RouteNextHopType `json:"nextHopType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -797,7 +515,7 @@ func (route *RouteTables_Route_Spec) AssignProperties_From_RouteTables_Route_Spe
 
 	// NextHopType
 	if source.NextHopType != nil {
-		nextHopType := RoutePropertiesFormat_NextHopType(*source.NextHopType)
+		nextHopType := RouteNextHopType(*source.NextHopType)
 		route.NextHopType = &nextHopType
 	} else {
 		route.NextHopType = nil
@@ -875,6 +593,304 @@ func (route *RouteTables_Route_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (route *RouteTables_Route_Spec) SetAzureName(azureName string) { route.AzureName = azureName }
 
+type RouteTables_Route_STATUS struct {
+	// AddressPrefix: The destination CIDR to which the route applies.
+	AddressPrefix *string `json:"addressPrefix,omitempty"`
+
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// Etag: A unique read-only string that changes whenever the resource is updated.
+	Etag *string `json:"etag,omitempty"`
+
+	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
+	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
+
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
+	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
+	// next hop type is VirtualAppliance.
+	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
+
+	// NextHopType: The type of Azure hop the packet should be sent to.
+	NextHopType *RouteNextHopType_STATUS `json:"nextHopType,omitempty"`
+
+	// ProvisioningState: The provisioning state of the route resource.
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Type: The type of the resource.
+	Type *string `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RouteTables_Route_STATUS{}
+
+// ConvertStatusFrom populates our RouteTables_Route_STATUS from the provided source
+func (route *RouteTables_Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201101s.RouteTables_Route_STATUS)
+	if ok {
+		// Populate our instance from source
+		return route.AssignProperties_From_RouteTables_Route_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20201101s.RouteTables_Route_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = route.AssignProperties_From_RouteTables_Route_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our RouteTables_Route_STATUS
+func (route *RouteTables_Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201101s.RouteTables_Route_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return route.AssignProperties_To_RouteTables_Route_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20201101s.RouteTables_Route_STATUS{}
+	err := route.AssignProperties_To_RouteTables_Route_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &RouteTables_Route_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (route *RouteTables_Route_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RouteTables_Route_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (route *RouteTables_Route_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RouteTables_Route_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteTables_Route_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘AddressPrefix’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AddressPrefix != nil {
+			addressPrefix := *typedInput.Properties.AddressPrefix
+			route.AddressPrefix = &addressPrefix
+		}
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		route.Etag = &etag
+	}
+
+	// Set property ‘HasBgpOverride’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HasBgpOverride != nil {
+			hasBgpOverride := *typedInput.Properties.HasBgpOverride
+			route.HasBgpOverride = &hasBgpOverride
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		route.Id = &id
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		route.Name = &name
+	}
+
+	// Set property ‘NextHopIpAddress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NextHopIpAddress != nil {
+			nextHopIpAddress := *typedInput.Properties.NextHopIpAddress
+			route.NextHopIpAddress = &nextHopIpAddress
+		}
+	}
+
+	// Set property ‘NextHopType’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NextHopType != nil {
+			nextHopType := *typedInput.Properties.NextHopType
+			route.NextHopType = &nextHopType
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			route.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		route.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_RouteTables_Route_STATUS populates our RouteTables_Route_STATUS from the provided source RouteTables_Route_STATUS
+func (route *RouteTables_Route_STATUS) AssignProperties_From_RouteTables_Route_STATUS(source *v20201101s.RouteTables_Route_STATUS) error {
+
+	// AddressPrefix
+	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
+
+	// Conditions
+	route.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Etag
+	route.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// HasBgpOverride
+	if source.HasBgpOverride != nil {
+		hasBgpOverride := *source.HasBgpOverride
+		route.HasBgpOverride = &hasBgpOverride
+	} else {
+		route.HasBgpOverride = nil
+	}
+
+	// Id
+	route.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	route.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NextHopIpAddress
+	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
+
+	// NextHopType
+	if source.NextHopType != nil {
+		nextHopType := RouteNextHopType_STATUS(*source.NextHopType)
+		route.NextHopType = &nextHopType
+	} else {
+		route.NextHopType = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := ProvisioningState_STATUS(*source.ProvisioningState)
+		route.ProvisioningState = &provisioningState
+	} else {
+		route.ProvisioningState = nil
+	}
+
+	// Type
+	route.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteTables_Route_STATUS populates the provided destination RouteTables_Route_STATUS from our RouteTables_Route_STATUS
+func (route *RouteTables_Route_STATUS) AssignProperties_To_RouteTables_Route_STATUS(destination *v20201101s.RouteTables_Route_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AddressPrefix
+	destination.AddressPrefix = genruntime.ClonePointerToString(route.AddressPrefix)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(route.Conditions)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(route.Etag)
+
+	// HasBgpOverride
+	if route.HasBgpOverride != nil {
+		hasBgpOverride := *route.HasBgpOverride
+		destination.HasBgpOverride = &hasBgpOverride
+	} else {
+		destination.HasBgpOverride = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(route.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(route.Name)
+
+	// NextHopIpAddress
+	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
+
+	// NextHopType
+	if route.NextHopType != nil {
+		nextHopType := string(*route.NextHopType)
+		destination.NextHopType = &nextHopType
+	} else {
+		destination.NextHopType = nil
+	}
+
+	// ProvisioningState
+	if route.ProvisioningState != nil {
+		provisioningState := string(*route.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(route.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// The type of Azure hop the packet should be sent to.
+// +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
+type RouteNextHopType string
+
+const (
+	RouteNextHopType_Internet              = RouteNextHopType("Internet")
+	RouteNextHopType_None                  = RouteNextHopType("None")
+	RouteNextHopType_VirtualAppliance      = RouteNextHopType("VirtualAppliance")
+	RouteNextHopType_VirtualNetworkGateway = RouteNextHopType("VirtualNetworkGateway")
+	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
+)
+
+// The type of Azure hop the packet should be sent to.
 type RouteNextHopType_STATUS string
 
 const (
@@ -883,17 +899,6 @@ const (
 	RouteNextHopType_STATUS_VirtualAppliance      = RouteNextHopType_STATUS("VirtualAppliance")
 	RouteNextHopType_STATUS_VirtualNetworkGateway = RouteNextHopType_STATUS("VirtualNetworkGateway")
 	RouteNextHopType_STATUS_VnetLocal             = RouteNextHopType_STATUS("VnetLocal")
-)
-
-// +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
-type RoutePropertiesFormat_NextHopType string
-
-const (
-	RoutePropertiesFormat_NextHopType_Internet              = RoutePropertiesFormat_NextHopType("Internet")
-	RoutePropertiesFormat_NextHopType_None                  = RoutePropertiesFormat_NextHopType("None")
-	RoutePropertiesFormat_NextHopType_VirtualAppliance      = RoutePropertiesFormat_NextHopType("VirtualAppliance")
-	RoutePropertiesFormat_NextHopType_VirtualNetworkGateway = RoutePropertiesFormat_NextHopType("VirtualNetworkGateway")
-	RoutePropertiesFormat_NextHopType_VnetLocal             = RoutePropertiesFormat_NextHopType("VnetLocal")
 )
 
 func init() {

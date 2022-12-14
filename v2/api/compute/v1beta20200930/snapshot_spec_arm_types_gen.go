@@ -6,24 +6,21 @@ package v1beta20200930
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Snapshot_Spec_ARM struct {
-	// ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported
-	// characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Snapshot resource properties.
 	Properties *SnapshotProperties_ARM `json:"properties,omitempty"`
 
 	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-	// incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 	Sku *SnapshotSku_ARM `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -44,9 +41,9 @@ func (snapshot *Snapshot_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/snapshots"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotProperties
+// Snapshot resource properties.
 type SnapshotProperties_ARM struct {
-	// CreationData: Data used when creating a disk.
+	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData_ARM `json:"creationData,omitempty"`
 	DiskAccessId *string           `json:"diskAccessId,omitempty"`
 
@@ -56,12 +53,13 @@ type SnapshotProperties_ARM struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the snapshot.
-	DiskState *SnapshotProperties_DiskState `json:"diskState,omitempty"`
+	DiskState *DiskState `json:"diskState,omitempty"`
 
-	// Encryption: Encryption at rest settings for disk or snapshot
+	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
-	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	// EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
+	// encryption settings per disk or snapshot.
 	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
@@ -69,17 +67,20 @@ type SnapshotProperties_ARM struct {
 
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
-	Incremental         *bool                                   `json:"incremental,omitempty"`
-	NetworkAccessPolicy *SnapshotProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	Incremental *bool `json:"incremental,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
+	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
 
-	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan_ARM `json:"purchasePlan,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_ARM struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`

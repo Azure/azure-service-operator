@@ -13,16 +13,14 @@ type Component_Spec_ARM struct {
 	// values should typically be one of the following: web, ios, other, store, java, phone.
 	Kind *string `json:"kind,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the Application Insights component resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties that define an Application Insights component resource.
 	Properties *ApplicationInsightsComponentProperties_ARM `json:"properties,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -43,7 +41,7 @@ func (component *Component_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/components"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/definitions/ApplicationInsightsComponentProperties
+// Properties that define an Application Insights component resource.
 type ApplicationInsightsComponentProperties_ARM struct {
 	// Application_Type: Type of application being monitored.
 	Application_Type *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
@@ -72,10 +70,10 @@ type ApplicationInsightsComponentProperties_ARM struct {
 	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode `json:"IngestionMode,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
-	PublicNetworkAccessForIngestion *ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Application Insights query.
-	PublicNetworkAccessForQuery *ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *PublicNetworkAccessType `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Request_Source: Describes what tool created this Application Insights component. Customers using this API should set
 	// this to the default 'rest'.

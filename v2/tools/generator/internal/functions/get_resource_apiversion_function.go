@@ -16,7 +16,7 @@ import (
 
 var GetAPIVersionFunctionName = "Get" + astmodel.APIVersionProperty
 
-// NewGetAPIVersionFunction returns a function that returns a static API Version enum value ('APIVersionValue')
+// NewGetAPIVersionFunction returns a function that returns a static API Version enum value ('APIVersion_Value')
 func NewGetAPIVersionFunction(
 	apiVersionTypeName astmodel.TypeName,
 	apiVersionEnumValue astmodel.EnumValue,

@@ -64,17 +64,9 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       ├── Location: *string
 │       ├── MetricId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: Object (3 properties)[]
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── SystemData: *Object (7 properties)
-│       │       ├── CreatedAt: *string
-│       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: *string
-│       │       ├── LastModifiedAt: *string
-│       │       ├── LastModifiedBy: *string
-│       │       ├── LastModifiedByType: *string
-│       │       └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── ServiceBusEndpoint: *string
@@ -98,7 +90,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       └── ZoneRedundant: *bool
 ├── NamespacesQueue: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview.Namespace
-│   ├── Spec: Object (20 properties)
+│   ├── Spec: Object (18 properties)
 │   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (1 rule)
 │   │   │   └── Rule 0: MinLength: 1
@@ -110,7 +102,6 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │   │   ├── EnablePartitioning: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── Location: *string
 │   │   ├── LockDuration: *string
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MaxSizeInMegabytes: *int
@@ -118,8 +109,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── RequiresDuplicateDetection: *bool
-│   │   ├── RequiresSession: *bool
-│   │   └── Tags: map[string]string
+│   │   └── RequiresSession: *bool
 │   └── Status: Object (27 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -163,7 +153,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
 │       └── UpdatedAt: *string
 └── NamespacesTopic: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview.Namespace
-    ├── Spec: Object (15 properties)
+    ├── Spec: Object (13 properties)
     │   ├── AutoDeleteOnIdle: *string
     │   ├── AzureName: Validated<string> (1 rule)
     │   │   └── Rule 0: MinLength: 1
@@ -172,14 +162,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101pre
     │   ├── EnableBatchedOperations: *bool
     │   ├── EnableExpress: *bool
     │   ├── EnablePartitioning: *bool
-    │   ├── Location: *string
     │   ├── MaxSizeInMegabytes: *int
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── RequiresDuplicateDetection: *bool
-    │   ├── SupportOrdering: *bool
-    │   └── Tags: map[string]string
+    │   └── SupportOrdering: *bool
     └── Status: Object (22 properties)
         ├── AccessedAt: *string
         ├── AutoDeleteOnIdle: *string

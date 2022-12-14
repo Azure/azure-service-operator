@@ -23,7 +23,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200930.Disk
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -123,7 +125,9 @@ func (disk *Disk) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200930.Disk
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type DiskList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -195,6 +199,7 @@ func (disk *Disk_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 }
 
 // Storage version of v1beta20200930.Disk_STATUS
+// Disk resource.
 type Disk_STATUS struct {
 	BurstingEnabled              *bool                                `json:"burstingEnabled,omitempty"`
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
@@ -253,7 +258,7 @@ func (disk *Disk_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 }
 
 // Storage version of v1beta20200930.CreationData
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/CreationData
+// Data used when creating a disk.
 type CreationData struct {
 	CreateOption          *string                `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReference    `json:"galleryImageReference,omitempty"`
@@ -269,6 +274,7 @@ type CreationData struct {
 }
 
 // Storage version of v1beta20200930.CreationData_STATUS
+// Data used when creating a disk.
 type CreationData_STATUS struct {
 	CreateOption          *string                    `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReference_STATUS `json:"galleryImageReference,omitempty"`
@@ -283,13 +289,14 @@ type CreationData_STATUS struct {
 }
 
 // Storage version of v1beta20200930.DiskSku
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskSku
+// The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200930.DiskSku_STATUS
+// The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -297,7 +304,7 @@ type DiskSku_STATUS struct {
 }
 
 // Storage version of v1beta20200930.Encryption
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
+// Encryption at rest settings for disk or snapshot
 type Encryption struct {
 	// DiskEncryptionSetReference: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
@@ -306,6 +313,7 @@ type Encryption struct {
 }
 
 // Storage version of v1beta20200930.Encryption_STATUS
+// Encryption at rest settings for disk or snapshot
 type Encryption_STATUS struct {
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -313,7 +321,7 @@ type Encryption_STATUS struct {
 }
 
 // Storage version of v1beta20200930.EncryptionSettingsCollection
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsCollection
+// Encryption settings for disk or snapshot
 type EncryptionSettingsCollection struct {
 	Enabled                   *bool                       `json:"enabled,omitempty"`
 	EncryptionSettings        []EncryptionSettingsElement `json:"encryptionSettings,omitempty"`
@@ -322,6 +330,7 @@ type EncryptionSettingsCollection struct {
 }
 
 // Storage version of v1beta20200930.EncryptionSettingsCollection_STATUS
+// Encryption settings for disk or snapshot
 type EncryptionSettingsCollection_STATUS struct {
 	Enabled                   *bool                              `json:"enabled,omitempty"`
 	EncryptionSettings        []EncryptionSettingsElement_STATUS `json:"encryptionSettings,omitempty"`
@@ -330,7 +339,7 @@ type EncryptionSettingsCollection_STATUS struct {
 }
 
 // Storage version of v1beta20200930.ExtendedLocation
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -382,6 +391,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 }
 
 // Storage version of v1beta20200930.ExtendedLocation_STATUS
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -433,7 +443,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 }
 
 // Storage version of v1beta20200930.PurchasePlan
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/PurchasePlan
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -443,6 +453,7 @@ type PurchasePlan struct {
 }
 
 // Storage version of v1beta20200930.PurchasePlan_STATUS
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -458,7 +469,7 @@ type ShareInfoElement_STATUS struct {
 }
 
 // Storage version of v1beta20200930.EncryptionSettingsElement
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/EncryptionSettingsElement
+// Encryption settings for one disk volume.
 type EncryptionSettingsElement struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReference    `json:"keyEncryptionKey,omitempty"`
@@ -466,6 +477,7 @@ type EncryptionSettingsElement struct {
 }
 
 // Storage version of v1beta20200930.EncryptionSettingsElement_STATUS
+// Encryption settings for one disk volume.
 type EncryptionSettingsElement_STATUS struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReference_STATUS    `json:"keyEncryptionKey,omitempty"`
@@ -473,7 +485,7 @@ type EncryptionSettingsElement_STATUS struct {
 }
 
 // Storage version of v1beta20200930.ImageDiskReference
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ImageDiskReference
+// The source image used for creating the disk.
 type ImageDiskReference struct {
 	Lun         *int                   `json:"lun,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -484,6 +496,7 @@ type ImageDiskReference struct {
 }
 
 // Storage version of v1beta20200930.ImageDiskReference_STATUS
+// The source image used for creating the disk.
 type ImageDiskReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Lun         *int                   `json:"lun,omitempty"`
@@ -491,7 +504,7 @@ type ImageDiskReference_STATUS struct {
 }
 
 // Storage version of v1beta20200930.KeyVaultAndKeyReference
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndKeyReference
+// Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -499,6 +512,7 @@ type KeyVaultAndKeyReference struct {
 }
 
 // Storage version of v1beta20200930.KeyVaultAndKeyReference_STATUS
+// Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -506,7 +520,7 @@ type KeyVaultAndKeyReference_STATUS struct {
 }
 
 // Storage version of v1beta20200930.KeyVaultAndSecretReference
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/KeyVaultAndSecretReference
+// Key Vault Secret Url and vault id of the encryption key
 type KeyVaultAndSecretReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -514,6 +528,7 @@ type KeyVaultAndSecretReference struct {
 }
 
 // Storage version of v1beta20200930.KeyVaultAndSecretReference_STATUS
+// Key Vault Secret Url and vault id of the encryption key
 type KeyVaultAndSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -521,7 +536,8 @@ type KeyVaultAndSecretReference_STATUS struct {
 }
 
 // Storage version of v1beta20200930.SourceVault
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SourceVault
+// The vault id is an Azure Resource Manager Resource id in the form
+// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -530,6 +546,8 @@ type SourceVault struct {
 }
 
 // Storage version of v1beta20200930.SourceVault_STATUS
+// The vault id is an Azure Resource Manager Resource id in the form
+// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

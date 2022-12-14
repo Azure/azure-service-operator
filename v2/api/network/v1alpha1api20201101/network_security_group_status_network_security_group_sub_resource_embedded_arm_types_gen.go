@@ -16,28 +16,27 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM st
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat_STATUS. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_STATUS instead
 type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
-	DefaultSecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM     `json:"defaultSecurityRules,omitempty"`
-	FlowLogs             []FlowLog_STATUS_SubResourceEmbedded_ARM                               `json:"flowLogs,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS_ARM                                              `json:"defaultSecurityRules,omitempty"`
+	FlowLogs             []FlowLog_STATUS_ARM                                                   `json:"flowLogs,omitempty"`
 	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
 	ProvisioningState    *ProvisioningState_STATUS                                              `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                                `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM     `json:"securityRules,omitempty"`
+	SecurityRules        []SecurityRule_STATUS_ARM                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM           `json:"subnets,omitempty"`
 }
 
-// Deprecated version of FlowLog_STATUS_SubResourceEmbedded. Use v1beta20201101.FlowLog_STATUS_SubResourceEmbedded instead
-type FlowLog_STATUS_SubResourceEmbedded_ARM struct {
+// Deprecated version of FlowLog_STATUS. Use v1beta20201101.FlowLog_STATUS instead
+type FlowLog_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
-	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
-	Id               *string                      `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
-// Deprecated version of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
-type SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
+// Deprecated version of SecurityRule_STATUS. Use v1beta20201101.SecurityRule_STATUS instead
+type SecurityRule_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 

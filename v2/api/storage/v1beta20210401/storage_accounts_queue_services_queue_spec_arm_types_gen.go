@@ -6,17 +6,10 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_QueueServices_Queue_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	Name string `json:"name,omitempty"`
 
-	// Name: A queue name must be unique within a storage account and must be between 3 and 63 characters.The name must
-	// comprise of lowercase alphanumeric and dash(-) characters only, it should begin and end with an alphanumeric character
-	// and it cannot have two consecutive dash(-) characters.
-	Name       string               `json:"name,omitempty"`
+	// Properties: Queue resource properties.
 	Properties *QueueProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_QueueServices_Queue_Spec_ARM{}
@@ -36,7 +29,6 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices/queues"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/QueueProperties
 type QueueProperties_ARM struct {
 	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`

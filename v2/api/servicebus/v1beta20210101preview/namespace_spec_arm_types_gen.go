@@ -6,22 +6,20 @@ package v1beta20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespace_Spec_ARM struct {
-	// Identity: Properties to configure User Assigned Identities for Bring your Own Keys
+	// Identity: Properties of BYOK Identity description
 	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the namespace.
-	Properties *Namespace_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *SBNamespaceProperties_ARM `json:"properties,omitempty"`
 
-	// Sku: SKU of the namespace.
+	// Sku: Properties of SKU
 	Sku *SBSku_ARM `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -42,21 +40,22 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-type Namespace_Properties_Spec_ARM struct {
-	// Encryption: Properties to configure Encryption
+// Properties of the namespace.
+type SBNamespaceProperties_ARM struct {
+	// Encryption: Properties of BYOK Encryption description
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
 
 	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
+// SKU of the namespace.
 type SBSku_ARM struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
@@ -68,9 +67,9 @@ type SBSku_ARM struct {
 	Tier *SBSku_Tier `json:"tier,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
+// Properties to configure Encryption
 type Encryption_ARM struct {
-	// KeySource: Enumerates the possible value of keySource for Encryption.
+	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
 
 	// KeyVaultProperties: Properties of KeyVault
@@ -108,7 +107,7 @@ const (
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
+// Properties to configure keyVault Properties
 type KeyVaultProperties_ARM struct {
 	Identity *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
 
@@ -122,7 +121,6 @@ type KeyVaultProperties_ARM struct {
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
 type UserAssignedIdentityProperties_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

@@ -11,7 +11,10 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Inner_Flat     *Inner `json:"inner_flat,omitempty"`
+	// Inner_Flat: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Inner
+	Inner_Flat *Inner `json:"inner_flat,omitempty"`
+
+	// Inner_Not_Flat: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Inner
 	Inner_Not_Flat *Inner `json:"inner_not_flat,omitempty"`
 }
 

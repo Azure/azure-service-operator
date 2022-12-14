@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200601.EventSubscription
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
+// - ARM URI: /{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,7 +123,9 @@ func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200601.EventSubscription
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/unknown_resourceDefinitions/eventSubscriptions
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
+// - ARM URI: /{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}
 type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -132,15 +136,14 @@ type EventSubscriptionList struct {
 type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName             string                            `json:"azureName,omitempty"`
-	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
-	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                           `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
-	Labels                []string                          `json:"labels,omitempty"`
-	Location              *string                           `json:"location,omitempty"`
-	OriginalVersion       string                            `json:"originalVersion,omitempty"`
+	AzureName             string                        `json:"azureName,omitempty"`
+	DeadLetterDestination *DeadLetterDestination        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination `json:"destination,omitempty"`
+	EventDeliverySchema   *string                       `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                       `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
+	Labels                []string                      `json:"labels,omitempty"`
+	OriginalVersion       string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -149,7 +152,6 @@ type EventSubscription_Spec struct {
 	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
-	Tags        map[string]string                   `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
@@ -173,6 +175,7 @@ func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime
 }
 
 // Storage version of v1beta20200601.EventSubscription_STATUS
+// Event Subscription
 type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
 	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
@@ -211,33 +214,44 @@ func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genrun
 	return destination.ConvertStatusFrom(subscription)
 }
 
+// Storage version of v1beta20200601.DeadLetterDestination
+type DeadLetterDestination struct {
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination `json:"storageBlob,omitempty"`
+}
+
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
 type DeadLetterDestination_STATUS struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	StorageBlob *StorageBlobDeadLetterDestination_STATUS `json:"storageBlob,omitempty"`
 }
 
 // Storage version of v1beta20200601.EventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionDestination
 type EventSubscriptionDestination struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHubEventSubscriptionDestination,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnection,omitempty"`
 	PropertyBag      genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueueEventSubscriptionDestination,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination          `json:"webHookEventSubscriptionDestination,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination          `json:"webHook,omitempty"`
 }
 
 // Storage version of v1beta20200601.EventSubscriptionDestination_STATUS
 type EventSubscriptionDestination_STATUS struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHub,omitempty"`
+	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS `json:"hybridConnection,omitempty"`
+	PropertyBag      genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_STATUS  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_STATUS  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_STATUS     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHook,omitempty"`
 }
 
 // Storage version of v1beta20200601.EventSubscriptionFilter
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventSubscriptionFilter
+// Filter for the Event Subscription.
 type EventSubscriptionFilter struct {
 	AdvancedFilters        []AdvancedFilter       `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string               `json:"includedEventTypes,omitempty"`
@@ -248,6 +262,7 @@ type EventSubscriptionFilter struct {
 }
 
 // Storage version of v1beta20200601.EventSubscriptionFilter_STATUS
+// Filter for the Event Subscription.
 type EventSubscriptionFilter_STATUS struct {
 	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
@@ -258,7 +273,7 @@ type EventSubscriptionFilter_STATUS struct {
 }
 
 // Storage version of v1beta20200601.RetryPolicy
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/RetryPolicy
+// Information about the retry policy for an event subscription.
 type RetryPolicy struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
@@ -266,210 +281,50 @@ type RetryPolicy struct {
 }
 
 // Storage version of v1beta20200601.RetryPolicy_STATUS
+// Information about the retry policy for an event subscription.
 type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.StorageBlobDeadLetterDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestination
-type StorageBlobDeadLetterDestination struct {
-	EndpointType *string                                     `json:"endpointType,omitempty"`
-	Properties   *StorageBlobDeadLetterDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20200601.AdvancedFilter
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AdvancedFilter
 type AdvancedFilter struct {
-	BoolEquals                *AdvancedFilter_BoolEquals                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *AdvancedFilter_NumberGreaterThan         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *AdvancedFilter_NumberIn                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *AdvancedFilter_NumberLessThan            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *AdvancedFilter_NumberLessThanOrEquals    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *AdvancedFilter_NumberNotIn               `json:"numberNotInAdvancedFilter,omitempty"`
-	PropertyBag               genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	StringBeginsWith          *AdvancedFilter_StringBeginsWith          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *AdvancedFilter_StringContains            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *AdvancedFilter_StringEndsWith            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *AdvancedFilter_StringIn                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *AdvancedFilter_StringNotIn               `json:"stringNotInAdvancedFilter,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter               `json:"numberNotIn,omitempty"`
+	PropertyBag               genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotIn,omitempty"`
 }
 
 // Storage version of v1beta20200601.AdvancedFilter_STATUS
 type AdvancedFilter_STATUS struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThan,omitempty"`
+	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS `json:"numberGreaterThanOrEquals,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter_STATUS                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter_STATUS            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_STATUS    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter_STATUS               `json:"numberNotIn,omitempty"`
+	PropertyBag               genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter_STATUS          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter_STATUS            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter_STATUS            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter_STATUS                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotIn,omitempty"`
 }
 
 // Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestination
 type AzureFunctionEventSubscriptionDestination struct {
-	EndpointType *string                                              `json:"endpointType,omitempty"`
-	Properties   *AzureFunctionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.EventHubEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestination
-type EventHubEventSubscriptionDestination struct {
-	EndpointType *string                                         `json:"endpointType,omitempty"`
-	Properties   *EventHubEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestination
-type HybridConnectionEventSubscriptionDestination struct {
-	EndpointType *string                                                 `json:"endpointType,omitempty"`
-	Properties   *HybridConnectionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestination
-type ServiceBusQueueEventSubscriptionDestination struct {
-	EndpointType *string                                                `json:"endpointType,omitempty"`
-	Properties   *ServiceBusQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestination
-type ServiceBusTopicEventSubscriptionDestination struct {
-	EndpointType *string                                                `json:"endpointType,omitempty"`
-	Properties   *ServiceBusTopicEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.StorageBlobDeadLetterDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageBlobDeadLetterDestinationProperties
-type StorageBlobDeadLetterDestinationProperties struct {
-	BlobContainerName *string                `json:"blobContainerName,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// Storage version of v1beta20200601.StorageQueueEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestination
-type StorageQueueEventSubscriptionDestination struct {
-	EndpointType *string                                             `json:"endpointType,omitempty"`
-	Properties   *StorageQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.WebHookEventSubscriptionDestination
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestination
-type WebHookEventSubscriptionDestination struct {
-	EndpointType *string                                        `json:"endpointType,omitempty"`
-	Properties   *WebHookEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                         `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_BoolEquals
-type AdvancedFilter_BoolEquals struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *bool                  `json:"value,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_NumberGreaterThan
-type AdvancedFilter_NumberGreaterThan struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals
-type AdvancedFilter_NumberGreaterThanOrEquals struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_NumberIn
-type AdvancedFilter_NumberIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []float64              `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_NumberLessThan
-type AdvancedFilter_NumberLessThan struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_NumberLessThanOrEquals
-type AdvancedFilter_NumberLessThanOrEquals struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_NumberNotIn
-type AdvancedFilter_NumberNotIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []float64              `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_StringBeginsWith
-type AdvancedFilter_StringBeginsWith struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_StringContains
-type AdvancedFilter_StringContains struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_StringEndsWith
-type AdvancedFilter_StringEndsWith struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_StringIn
-type AdvancedFilter_StringIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AdvancedFilter_StringNotIn
-type AdvancedFilter_StringNotIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/AzureFunctionEventSubscriptionDestinationProperties
-type AzureFunctionEventSubscriptionDestinationProperties struct {
+	EndpointType                  *string                `json:"endpointType,omitempty"`
 	MaxEventsPerBatch             *int                   `json:"maxEventsPerBatch,omitempty"`
 	PreferredBatchSizeInKilobytes *int                   `json:"preferredBatchSizeInKilobytes,omitempty"`
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -479,65 +334,331 @@ type AzureFunctionEventSubscriptionDestinationProperties struct {
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20200601.EventHubEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/EventHubEventSubscriptionDestinationProperties
-type EventHubEventSubscriptionDestinationProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestination_STATUS
+type AzureFunctionEventSubscriptionDestination_STATUS struct {
+	EndpointType                  *string                `json:"endpointType,omitempty"`
+	MaxEventsPerBatch             *int                   `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes *int                   `json:"preferredBatchSizeInKilobytes,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId                    *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.EventHubEventSubscriptionDestination
+type EventHubEventSubscriptionDestination struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
 	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/HybridConnectionEventSubscriptionDestinationProperties
-type HybridConnectionEventSubscriptionDestinationProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20200601.EventHubEventSubscriptionDestination_STATUS
+type EventHubEventSubscriptionDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId   *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestination
+type HybridConnectionEventSubscriptionDestination struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusQueueEventSubscriptionDestinationProperties
-type ServiceBusQueueEventSubscriptionDestinationProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestination_STATUS
+type HybridConnectionEventSubscriptionDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId   *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestination
+type ServiceBusQueueEventSubscriptionDestination struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
 	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/ServiceBusTopicEventSubscriptionDestinationProperties
-type ServiceBusTopicEventSubscriptionDestinationProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestination_STATUS
+type ServiceBusQueueEventSubscriptionDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId   *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestination
+type ServiceBusTopicEventSubscriptionDestination struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
 	// subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20200601.StorageQueueEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/StorageQueueEventSubscriptionDestinationProperties
-type StorageQueueEventSubscriptionDestinationProperties struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	QueueName   *string                `json:"queueName,omitempty"`
+// Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestination_STATUS
+type ServiceBusTopicEventSubscriptionDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId   *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.StorageBlobDeadLetterDestination
+type StorageBlobDeadLetterDestination struct {
+	BlobContainerName *string                `json:"blobContainerName,omitempty"`
+	EndpointType      *string                `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+// Storage version of v1beta20200601.StorageBlobDeadLetterDestination_STATUS
+type StorageBlobDeadLetterDestination_STATUS struct {
+	BlobContainerName *string                `json:"blobContainerName,omitempty"`
+	EndpointType      *string                `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId        *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.StorageQueueEventSubscriptionDestination
+type StorageQueueEventSubscriptionDestination struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	QueueName    *string                `json:"queueName,omitempty"`
 
 	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
 	// event subscription.
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
-// Storage version of v1beta20200601.WebHookEventSubscriptionDestinationProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/WebHookEventSubscriptionDestinationProperties
-type WebHookEventSubscriptionDestinationProperties struct {
+// Storage version of v1beta20200601.StorageQueueEventSubscriptionDestination_STATUS
+type StorageQueueEventSubscriptionDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	QueueName    *string                `json:"queueName,omitempty"`
+	ResourceId   *string                `json:"resourceId,omitempty"`
+}
+
+// Storage version of v1beta20200601.WebHookEventSubscriptionDestination
+type WebHookEventSubscriptionDestination struct {
+	AzureActiveDirectoryApplicationIdOrUri *string                     `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
+	AzureActiveDirectoryTenantId           *string                     `json:"azureActiveDirectoryTenantId,omitempty"`
+	EndpointType                           *string                     `json:"endpointType,omitempty"`
+	EndpointUrl                            *genruntime.SecretReference `json:"endpointUrl,omitempty"`
+	MaxEventsPerBatch                      *int                        `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes          *int                        `json:"preferredBatchSizeInKilobytes,omitempty"`
+	PropertyBag                            genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20200601.WebHookEventSubscriptionDestination_STATUS
+type WebHookEventSubscriptionDestination_STATUS struct {
 	AzureActiveDirectoryApplicationIdOrUri *string                `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 	AzureActiveDirectoryTenantId           *string                `json:"azureActiveDirectoryTenantId,omitempty"`
-	EndpointUrl                            *string                `json:"endpointUrl,omitempty"`
+	EndpointBaseUrl                        *string                `json:"endpointBaseUrl,omitempty"`
+	EndpointType                           *string                `json:"endpointType,omitempty"`
 	MaxEventsPerBatch                      *int                   `json:"maxEventsPerBatch,omitempty"`
 	PreferredBatchSizeInKilobytes          *int                   `json:"preferredBatchSizeInKilobytes,omitempty"`
 	PropertyBag                            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20200601.BoolEqualsAdvancedFilter
+type BoolEqualsAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *bool                  `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.BoolEqualsAdvancedFilter_STATUS
+type BoolEqualsAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *bool                  `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberGreaterThanAdvancedFilter
+type NumberGreaterThanAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberGreaterThanAdvancedFilter_STATUS
+type NumberGreaterThanAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberGreaterThanOrEqualsAdvancedFilter
+type NumberGreaterThanOrEqualsAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+type NumberGreaterThanOrEqualsAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberInAdvancedFilter
+type NumberInAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []float64              `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberInAdvancedFilter_STATUS
+type NumberInAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []float64              `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberLessThanAdvancedFilter
+type NumberLessThanAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberLessThanAdvancedFilter_STATUS
+type NumberLessThanAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberLessThanOrEqualsAdvancedFilter
+type NumberLessThanOrEqualsAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS
+type NumberLessThanOrEqualsAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Value        *float64               `json:"value,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberNotInAdvancedFilter
+type NumberNotInAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []float64              `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.NumberNotInAdvancedFilter_STATUS
+type NumberNotInAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []float64              `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringBeginsWithAdvancedFilter
+type StringBeginsWithAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringBeginsWithAdvancedFilter_STATUS
+type StringBeginsWithAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringContainsAdvancedFilter
+type StringContainsAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringContainsAdvancedFilter_STATUS
+type StringContainsAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringEndsWithAdvancedFilter
+type StringEndsWithAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringEndsWithAdvancedFilter_STATUS
+type StringEndsWithAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringInAdvancedFilter
+type StringInAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringInAdvancedFilter_STATUS
+type StringInAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringNotInAdvancedFilter
+type StringNotInAdvancedFilter struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
+}
+
+// Storage version of v1beta20200601.StringNotInAdvancedFilter_STATUS
+type StringNotInAdvancedFilter_STATUS struct {
+	Key          *string                `json:"key,omitempty"`
+	OperatorType *string                `json:"operatorType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Values       []string               `json:"values,omitempty"`
 }
 
 func init() {

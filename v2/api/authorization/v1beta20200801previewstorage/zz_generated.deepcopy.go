@@ -202,11 +202,6 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Location != nil {
-		in, out := &in.Location, &out.Location
-		*out = new(string)
-		**out = **in
-	}
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.ArbitraryOwnerReference)
@@ -238,13 +233,6 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 		in, out := &in.RoleDefinitionReference, &out.RoleDefinitionReference
 		*out = new(genruntime.ResourceReference)
 		**out = **in
-	}
-	if in.Tags != nil {
-		in, out := &in.Tags, &out.Tags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
 	}
 }
 

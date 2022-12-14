@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20180601.Server
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (server *Server) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20180601.Server
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -170,6 +174,7 @@ func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // Storage version of v1beta20180601.Server_STATUS
+// Represents a server.
 type Server_STATUS struct {
 	AdministratorLogin         *string                                  `json:"administratorLogin,omitempty"`
 	Conditions                 []conditions.Condition                   `json:"conditions,omitempty"`
@@ -222,6 +227,7 @@ type ServerOperatorSpec struct {
 }
 
 // Storage version of v1beta20180601.ServerPrivateEndpointConnection_STATUS
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS struct {
 	Id          *string                                           `json:"id,omitempty"`
 	Properties  *ServerPrivateEndpointConnectionProperties_STATUS `json:"properties,omitempty"`
@@ -229,17 +235,16 @@ type ServerPrivateEndpointConnection_STATUS struct {
 }
 
 // Storage version of v1beta20180601.ServerPropertiesForCreate
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/ServerPropertiesForCreate
 type ServerPropertiesForCreate struct {
-	PropertyBag                      genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate `json:"serverPropertiesForDefaultCreate,omitempty"`
-	ServerPropertiesForGeoRestore    *ServerPropertiesForGeoRestore    `json:"serverPropertiesForGeoRestore,omitempty"`
-	ServerPropertiesForReplica       *ServerPropertiesForReplica       `json:"serverPropertiesForReplica,omitempty"`
-	ServerPropertiesForRestore       *ServerPropertiesForRestore       `json:"serverPropertiesForRestore,omitempty"`
+	Default            *ServerPropertiesForDefaultCreate `json:"default,omitempty"`
+	GeoRestore         *ServerPropertiesForGeoRestore    `json:"geoRestore,omitempty"`
+	PointInTimeRestore *ServerPropertiesForRestore       `json:"pointInTimeRestore,omitempty"`
+	PropertyBag        genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Replica            *ServerPropertiesForReplica       `json:"replica,omitempty"`
 }
 
 // Storage version of v1beta20180601.Sku
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
+// Billing information related properties of a server.
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -250,6 +255,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20180601.Sku_STATUS
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -260,6 +266,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20180601.StorageProfile_STATUS
+// Storage Profile properties of a server
 type StorageProfile_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -275,6 +282,7 @@ type ServerOperatorSecrets struct {
 }
 
 // Storage version of v1beta20180601.ServerPrivateEndpointConnectionProperties_STATUS
+// Properties of a private endpoint connection.
 type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	PrivateEndpoint                   *PrivateEndpointProperty_STATUS                         `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
@@ -347,7 +355,7 @@ type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
 }
 
 // Storage version of v1beta20180601.StorageProfile
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/StorageProfile
+// Storage Profile properties of a server
 type StorageProfile struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`

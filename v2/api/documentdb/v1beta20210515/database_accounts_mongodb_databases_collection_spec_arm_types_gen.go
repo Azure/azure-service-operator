@@ -8,19 +8,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Cosmos DB collection name.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB MongoDB collection.
 	Properties *MongoDBCollectionCreateUpdateProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                            `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM{}
@@ -40,17 +32,17 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetType
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionCreateUpdateProperties
+// Properties to create and update Azure Cosmos DB MongoDB collection.
 type MongoDBCollectionCreateUpdateProperties_ARM struct {
-	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	// "If-None-Match", "Session-Token" and "Throughput"
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
 	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
 
-	// Resource: Cosmos DB MongoDB collection resource object
+	// Resource: The standard JSON format of a MongoDB collection
 	Resource *MongoDBCollectionResource_ARM `json:"resource,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
+// Cosmos DB MongoDB collection resource object
 type MongoDBCollectionResource_ARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -61,26 +53,26 @@ type MongoDBCollectionResource_ARM struct {
 	// Indexes: List of index keys
 	Indexes []MongoIndex_ARM `json:"indexes,omitempty"`
 
-	// ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
+	// ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
+// Cosmos DB MongoDB collection index key
 type MongoIndex_ARM struct {
-	// Key: Cosmos DB MongoDB collection resource object
+	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_ARM `json:"key,omitempty"`
 
-	// Options: Cosmos DB MongoDB collection index options
+	// Options: Cosmos DB MongoDB collection index key options
 	Options *MongoIndexOptions_ARM `json:"options,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_ARM struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions_ARM struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

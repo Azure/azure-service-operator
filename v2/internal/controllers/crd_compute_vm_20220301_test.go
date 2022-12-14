@@ -35,7 +35,7 @@ func newVirtualMachine20220301(
 			HardwareProfile: &compute2022.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute2022.VirtualMachine_Properties_OsProfile_Spec{
+			OsProfile: &compute2022.OSProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
@@ -50,8 +50,8 @@ func newVirtualMachine20220301(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute2022.VirtualMachine_Properties_NetworkProfile_Spec{
-				NetworkInterfaces: []compute2022.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec{{
+			NetworkProfile: &compute2022.NetworkProfile{
+				NetworkInterfaces: []compute2022.NetworkInterfaceReference{{
 					Reference: tc.MakeReferenceFromResource(networkInterface),
 				}},
 			},

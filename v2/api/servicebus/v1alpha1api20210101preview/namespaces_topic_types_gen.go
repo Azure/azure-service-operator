@@ -28,8 +28,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Topic_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS        `json:"status,omitempty"`
+	Spec              Namespaces_Topic_Spec   `json:"spec,omitempty"`
+	Status            Namespaces_Topic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -137,7 +137,7 @@ func (topic *NamespacesTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBTopic_STATUS{}
+	return &Namespaces_Topic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBTopic_STATUS); ok {
+	if st, ok := status.(*Namespaces_Topic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBTopic_STATUS
+	var st Namespaces_Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *alph
 	topic.Spec = spec
 
 	// Status
-	var status SBTopic_STATUS
-	err = status.AssignProperties_From_SBTopic_STATUS(&source.Status)
+	var status Namespaces_Topic_STATUS
+	err = status.AssignProperties_From_Namespaces_Topic_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SBTopic_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_Namespaces_Topic_STATUS() to populate field Status")
 	}
 	topic.Status = status
 
@@ -303,10 +303,10 @@ func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *a
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210101ps.SBTopic_STATUS
-	err = topic.Status.AssignProperties_To_SBTopic_STATUS(&status)
+	var status alpha20210101ps.Namespaces_Topic_STATUS
+	err = topic.Status.AssignProperties_To_Namespaces_Topic_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SBTopic_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_Namespaces_Topic_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -343,7 +343,6 @@ type Namespaces_Topic_Spec struct {
 	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
 	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
 	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	Location                            *string `json:"location,omitempty"`
 	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -353,7 +352,6 @@ type Namespaces_Topic_Spec struct {
 	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
 	SupportOrdering            *bool                              `json:"supportOrdering,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Topic_Spec{}
@@ -364,12 +362,6 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		return nil, nil
 	}
 	result := &Namespaces_Topic_Spec_ARM{}
-
-	// Set property ‘Location’:
-	if topic.Location != nil {
-		location := *topic.Location
-		result.Location = &location
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -421,14 +413,6 @@ func (topic *Namespaces_Topic_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if topic.SupportOrdering != nil {
 		supportOrdering := *topic.SupportOrdering
 		result.Properties.SupportOrdering = &supportOrdering
-	}
-
-	// Set property ‘Tags’:
-	if topic.Tags != nil {
-		result.Tags = make(map[string]string, len(topic.Tags))
-		for key, value := range topic.Tags {
-			result.Tags[key] = value
-		}
 	}
 	return result, nil
 }
@@ -502,12 +486,6 @@ func (topic *Namespaces_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		topic.Location = &location
-	}
-
 	// Set property ‘MaxSizeInMegabytes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -535,14 +513,6 @@ func (topic *Namespaces_Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		if typedInput.Properties.SupportOrdering != nil {
 			supportOrdering := *typedInput.Properties.SupportOrdering
 			topic.SupportOrdering = &supportOrdering
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		topic.Tags = make(map[string]string, len(typedInput.Tags))
-		for key, value := range typedInput.Tags {
-			topic.Tags[key] = value
 		}
 	}
 
@@ -654,9 +624,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.EnablePartitioning = nil
 	}
 
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
-
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -683,9 +650,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 	} else {
 		topic.SupportOrdering = nil
 	}
-
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -747,9 +711,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.EnablePartitioning = nil
 	}
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(topic.Location)
-
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
 
@@ -780,9 +741,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.SupportOrdering = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -802,8 +760,8 @@ func (topic *Namespaces_Topic_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topic *Namespaces_Topic_Spec) SetAzureName(azureName string) { topic.AzureName = azureName }
 
-// Deprecated version of SBTopic_STATUS. Use v1beta20210101preview.SBTopic_STATUS instead
-type SBTopic_STATUS struct {
+// Deprecated version of Namespaces_Topic_STATUS. Use v1beta20210101preview.Namespaces_Topic_STATUS instead
+type Namespaces_Topic_STATUS struct {
 	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
@@ -829,25 +787,25 @@ type SBTopic_STATUS struct {
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBTopic_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespaces_Topic_STATUS{}
 
-// ConvertStatusFrom populates our SBTopic_STATUS from the provided source
-func (topic *SBTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210101ps.SBTopic_STATUS)
+// ConvertStatusFrom populates our Namespaces_Topic_STATUS from the provided source
+func (topic *Namespaces_Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210101ps.Namespaces_Topic_STATUS)
 	if ok {
 		// Populate our instance from source
-		return topic.AssignProperties_From_SBTopic_STATUS(src)
+		return topic.AssignProperties_From_Namespaces_Topic_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210101ps.SBTopic_STATUS{}
+	src = &alpha20210101ps.Namespaces_Topic_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = topic.AssignProperties_From_SBTopic_STATUS(src)
+	err = topic.AssignProperties_From_Namespaces_Topic_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -855,17 +813,17 @@ func (topic *SBTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SBTopic_STATUS
-func (topic *SBTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210101ps.SBTopic_STATUS)
+// ConvertStatusTo populates the provided destination from our Namespaces_Topic_STATUS
+func (topic *Namespaces_Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210101ps.Namespaces_Topic_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return topic.AssignProperties_To_SBTopic_STATUS(dst)
+		return topic.AssignProperties_To_Namespaces_Topic_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210101ps.SBTopic_STATUS{}
-	err := topic.AssignProperties_To_SBTopic_STATUS(dst)
+	dst = &alpha20210101ps.Namespaces_Topic_STATUS{}
+	err := topic.AssignProperties_To_Namespaces_Topic_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -879,18 +837,18 @@ func (topic *SBTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SBTopic_STATUS{}
+var _ genruntime.FromARMConverter = &Namespaces_Topic_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (topic *SBTopic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBTopic_STATUS_ARM{}
+func (topic *Namespaces_Topic_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_Topic_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (topic *SBTopic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBTopic_STATUS_ARM)
+func (topic *Namespaces_Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_Topic_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_Topic_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AccessedAt’:
@@ -1077,8 +1035,8 @@ func (topic *SBTopic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignProperties_From_SBTopic_STATUS populates our SBTopic_STATUS from the provided source SBTopic_STATUS
-func (topic *SBTopic_STATUS) AssignProperties_From_SBTopic_STATUS(source *alpha20210101ps.SBTopic_STATUS) error {
+// AssignProperties_From_Namespaces_Topic_STATUS populates our Namespaces_Topic_STATUS from the provided source Namespaces_Topic_STATUS
+func (topic *Namespaces_Topic_STATUS) AssignProperties_From_Namespaces_Topic_STATUS(source *alpha20210101ps.Namespaces_Topic_STATUS) error {
 
 	// AccessedAt
 	topic.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
@@ -1195,8 +1153,8 @@ func (topic *SBTopic_STATUS) AssignProperties_From_SBTopic_STATUS(source *alpha2
 	return nil
 }
 
-// AssignProperties_To_SBTopic_STATUS populates the provided destination SBTopic_STATUS from our SBTopic_STATUS
-func (topic *SBTopic_STATUS) AssignProperties_To_SBTopic_STATUS(destination *alpha20210101ps.SBTopic_STATUS) error {
+// AssignProperties_To_Namespaces_Topic_STATUS populates the provided destination Namespaces_Topic_STATUS from our Namespaces_Topic_STATUS
+func (topic *Namespaces_Topic_STATUS) AssignProperties_To_Namespaces_Topic_STATUS(destination *alpha20210101ps.Namespaces_Topic_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

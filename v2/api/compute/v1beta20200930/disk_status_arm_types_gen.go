@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20200930
 
+// Disk resource.
 type Disk_STATUS_ARM struct {
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
@@ -21,9 +22,13 @@ type Disk_STATUS_ARM struct {
 	ManagedByExtended []string `json:"managedByExtended,omitempty"`
 
 	// Name: Resource name
-	Name       *string                    `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Disk resource properties.
 	Properties *DiskProperties_STATUS_ARM `json:"properties,omitempty"`
-	Sku        *DiskSku_STATUS_ARM        `json:"sku,omitempty"`
+
+	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+	Sku *DiskSku_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -35,6 +40,7 @@ type Disk_STATUS_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+// Disk resource properties.
 type DiskProperties_STATUS_ARM struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
 	// disabled by default. Does not apply to Ultra disks.
@@ -85,7 +91,9 @@ type DiskProperties_STATUS_ARM struct {
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
-	MaxShares           *int                        `json:"maxShares,omitempty"`
+	MaxShares *int `json:"maxShares,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -113,6 +121,7 @@ type DiskProperties_STATUS_ARM struct {
 	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
+// The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku_STATUS_ARM struct {
 	// Name: The sku name.
 	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
@@ -121,6 +130,7 @@ type DiskSku_STATUS_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -129,6 +139,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
+// Data used when creating a disk.
 type CreationData_STATUS_ARM struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
@@ -171,12 +182,16 @@ const (
 	DiskSku_Name_STATUS_UltraSSD_LRS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
+// Encryption at rest settings for disk or snapshot
 type Encryption_STATUS_ARM struct {
 	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_STATUS `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+
+	// Type: The type of key used to encrypt the data of the disk.
+	Type *EncryptionType_STATUS `json:"type,omitempty"`
 }
 
+// Encryption settings for disk or snapshot
 type EncryptionSettingsCollection_STATUS_ARM struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	// this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
@@ -191,10 +206,12 @@ type EncryptionSettingsCollection_STATUS_ARM struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
+// The type of extendedLocation.
 type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan_STATUS_ARM struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -215,6 +232,7 @@ type ShareInfoElement_STATUS_ARM struct {
 	VmUri *string `json:"vmUri,omitempty"`
 }
 
+// Encryption settings for one disk volume.
 type EncryptionSettingsElement_STATUS_ARM struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference_STATUS_ARM `json:"diskEncryptionKey,omitempty"`
@@ -224,6 +242,7 @@ type EncryptionSettingsElement_STATUS_ARM struct {
 	KeyEncryptionKey *KeyVaultAndKeyReference_STATUS_ARM `json:"keyEncryptionKey,omitempty"`
 }
 
+// The source image used for creating the disk.
 type ImageDiskReference_STATUS_ARM struct {
 	// Id: A relative uri containing either a Platform Image Repository or user image reference.
 	Id *string `json:"id,omitempty"`
@@ -233,6 +252,7 @@ type ImageDiskReference_STATUS_ARM struct {
 	Lun *int `json:"lun,omitempty"`
 }
 
+// Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference_STATUS_ARM struct {
 	// KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
@@ -241,6 +261,7 @@ type KeyVaultAndKeyReference_STATUS_ARM struct {
 	SourceVault *SourceVault_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
+// Key Vault Secret Url and vault id of the encryption key
 type KeyVaultAndSecretReference_STATUS_ARM struct {
 	// SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
@@ -249,6 +270,8 @@ type KeyVaultAndSecretReference_STATUS_ARM struct {
 	SourceVault *SourceVault_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
+// The vault id is an Azure Resource Manager Resource id in the form
+// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`

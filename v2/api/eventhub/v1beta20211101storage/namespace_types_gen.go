@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20211101.Namespace
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces
+// Generator information:
+// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/namespaces-preview.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespace_Spec     `json:"spec,omitempty"`
-	Status            EHNamespace_STATUS `json:"status,omitempty"`
+	Spec              Namespace_Spec   `json:"spec,omitempty"`
+	Status            Namespace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -76,7 +78,7 @@ func (namespace *Namespace) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EHNamespace_STATUS{}
+	return &Namespace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EHNamespace_STATUS); ok {
+	if st, ok := status.(*Namespace_STATUS); ok {
 		namespace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EHNamespace_STATUS
+	var st Namespace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20211101.Namespace
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces
+// Generator information:
+// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/namespaces-preview.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}
 type NamespaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -134,55 +138,6 @@ type NamespaceList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-11-01")
-
-// Storage version of v1beta20211101.EHNamespace_STATUS
-type EHNamespace_STATUS struct {
-	AlternateName              *string                                                `json:"alternateName,omitempty"`
-	ClusterArmId               *string                                                `json:"clusterArmId,omitempty"`
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreatedAt                  *string                                                `json:"createdAt,omitempty"`
-	DisableLocalAuth           *bool                                                  `json:"disableLocalAuth,omitempty"`
-	Encryption                 *Encryption_STATUS                                     `json:"encryption,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *Identity_STATUS                                       `json:"identity,omitempty"`
-	IsAutoInflateEnabled       *bool                                                  `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled               *bool                                                  `json:"kafkaEnabled,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	MaximumThroughputUnits     *int                                                   `json:"maximumThroughputUnits,omitempty"`
-	MetricId                   *string                                                `json:"metricId,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	ServiceBusEndpoint         *string                                                `json:"serviceBusEndpoint,omitempty"`
-	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
-	Status                     *string                                                `json:"status,omitempty"`
-	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
-	UpdatedAt                  *string                                                `json:"updatedAt,omitempty"`
-	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &EHNamespace_STATUS{}
-
-// ConvertStatusFrom populates our EHNamespace_STATUS from the provided source
-func (namespace *EHNamespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == namespace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(namespace)
-}
-
-// ConvertStatusTo populates the provided destination from our EHNamespace_STATUS
-func (namespace *EHNamespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == namespace {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(namespace)
-}
 
 // Storage version of v1beta20211101.Namespace_Spec
 type Namespace_Spec struct {
@@ -209,12 +164,11 @@ type Namespace_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []Namespace_Properties_PrivateEndpointConnections_Spec `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	Sku                        *Sku                                                   `json:"sku,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
+	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku           *Sku                               `json:"sku,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundant *bool                              `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Namespace_Spec{}
@@ -237,8 +191,57 @@ func (namespace *Namespace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(namespace)
 }
 
+// Storage version of v1beta20211101.Namespace_STATUS
+type Namespace_STATUS struct {
+	AlternateName              *string                            `json:"alternateName,omitempty"`
+	ClusterArmId               *string                            `json:"clusterArmId,omitempty"`
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	CreatedAt                  *string                            `json:"createdAt,omitempty"`
+	DisableLocalAuth           *bool                              `json:"disableLocalAuth,omitempty"`
+	Encryption                 *Encryption_STATUS                 `json:"encryption,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Identity                   *Identity_STATUS                   `json:"identity,omitempty"`
+	IsAutoInflateEnabled       *bool                              `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled               *bool                              `json:"kafkaEnabled,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	MaximumThroughputUnits     *int                               `json:"maximumThroughputUnits,omitempty"`
+	MetricId                   *string                            `json:"metricId,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	ServiceBusEndpoint         *string                            `json:"serviceBusEndpoint,omitempty"`
+	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
+	Status                     *string                            `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
+	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Namespace_STATUS{}
+
+// ConvertStatusFrom populates our Namespace_STATUS from the provided source
+func (namespace *Namespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == namespace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(namespace)
+}
+
+// ConvertStatusTo populates the provided destination from our Namespace_STATUS
+func (namespace *Namespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == namespace {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(namespace)
+}
+
 // Storage version of v1beta20211101.Encryption
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Encryption
+// Properties to configure Encryption
 type Encryption struct {
 	KeySource                       *string                `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties   `json:"keyVaultProperties,omitempty"`
@@ -247,6 +250,7 @@ type Encryption struct {
 }
 
 // Storage version of v1beta20211101.Encryption_STATUS
+// Properties to configure Encryption
 type Encryption_STATUS struct {
 	KeySource                       *string                     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -255,13 +259,14 @@ type Encryption_STATUS struct {
 }
 
 // Storage version of v1beta20211101.Identity
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Identity
+// Properties to configure Identity for Bring your Own Keys
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20211101.Identity_STATUS
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -270,21 +275,15 @@ type Identity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20211101.Namespace_Properties_PrivateEndpointConnections_Spec
-type Namespace_Properties_PrivateEndpointConnections_Spec struct {
-	PrivateEndpoint *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20211101.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+// Storage version of v1beta20211101.PrivateEndpointConnection_STATUS
+// Properties of the PrivateEndpointConnection.
+type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20211101.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/Sku
+// SKU parameters supplied to the create namespace operation
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -293,6 +292,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20211101.Sku_STATUS
+// SKU parameters supplied to the create namespace operation
 type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -301,6 +301,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20211101.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -312,7 +313,7 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20211101.KeyVaultProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/KeyVaultProperties
+// Properties to configure keyVault Properties
 type KeyVaultProperties struct {
 	Identity    *UserAssignedIdentityProperties `json:"identity,omitempty"`
 	KeyName     *string                         `json:"keyName,omitempty"`
@@ -322,6 +323,7 @@ type KeyVaultProperties struct {
 }
 
 // Storage version of v1beta20211101.KeyVaultProperties_STATUS
+// Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS struct {
 	Identity    *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
 	KeyName     *string                                `json:"keyName,omitempty"`
@@ -330,16 +332,8 @@ type KeyVaultProperties_STATUS struct {
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20211101.PrivateEndpoint
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/PrivateEndpoint
-type PrivateEndpoint struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: The ARM identifier for Private Endpoint.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
 // Storage version of v1beta20211101.UserAssignedIdentity_STATUS
+// Recognized Dictionary value.
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -347,7 +341,6 @@ type UserAssignedIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20211101.UserAssignedIdentityProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/UserAssignedIdentityProperties
 type UserAssignedIdentityProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 

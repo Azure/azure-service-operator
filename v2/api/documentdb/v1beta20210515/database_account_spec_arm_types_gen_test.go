@@ -163,8 +163,8 @@ func DatabaseAccountCreateUpdateProperties_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_ConnectorOffer_Small))
-	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_DatabaseAccountOfferType_Standard))
+	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_Small))
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_Standard))
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["EnableAnalyticalStorage"] = gen.PtrOf(gen.Bool())
@@ -174,9 +174,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_AR
 	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_NetworkAclBypass_AzureServices, DatabaseAccountCreateUpdateProperties_NetworkAclBypass_None))
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_AzureServices, NetworkAclBypass_None))
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountCreateUpdateProperties_PublicNetworkAccess_Disabled, DatabaseAccountCreateUpdateProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_ARM is a factory method for creating gopter generators
@@ -315,7 +315,7 @@ func AnalyticalStorageConfiguration_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_ARM(gens map[string]gopter.Gen) {
-	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageConfiguration_SchemaType_FullFidelity, AnalyticalStorageConfiguration_SchemaType_WellDefined))
+	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageSchemaType_FullFidelity, AnalyticalStorageSchemaType_WellDefined))
 }
 
 func Test_ApiProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

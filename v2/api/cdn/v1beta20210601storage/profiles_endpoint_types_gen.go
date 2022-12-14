@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210601.ProfilesEndpoint
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/resourceDefinitions/profiles_endpoints
+// Generator information:
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Endpoint_Spec `json:"spec,omitempty"`
-	Status            Endpoint_STATUS        `json:"status,omitempty"`
+	Spec              Profiles_Endpoint_Spec   `json:"spec,omitempty"`
+	Status            Profiles_Endpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -76,7 +78,7 @@ func (endpoint *ProfilesEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Endpoint_STATUS{}
+	return &Profiles_Endpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Endpoint_STATUS); ok {
+	if st, ok := status.(*Profiles_Endpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Endpoint_STATUS
+	var st Profiles_Endpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,15 +124,70 @@ func (endpoint *ProfilesEndpoint) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210601.ProfilesEndpoint
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/resourceDefinitions/profiles_endpoints
+// Generator information:
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}
 type ProfilesEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-// Storage version of v1beta20210601.Endpoint_STATUS
-type Endpoint_STATUS struct {
+// Storage version of v1beta20210601.Profiles_Endpoint_Spec
+type Profiles_Endpoint_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName              string                             `json:"azureName,omitempty"`
+	ContentTypesToCompress []string                           `json:"contentTypesToCompress,omitempty"`
+	DefaultOriginGroup     *ResourceReference                 `json:"defaultOriginGroup,omitempty"`
+	DeliveryPolicy         *EndpointProperties_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
+	GeoFilters             []GeoFilter                        `json:"geoFilters,omitempty"`
+	IsCompressionEnabled   *bool                              `json:"isCompressionEnabled,omitempty"`
+	IsHttpAllowed          *bool                              `json:"isHttpAllowed,omitempty"`
+	IsHttpsAllowed         *bool                              `json:"isHttpsAllowed,omitempty"`
+	Location               *string                            `json:"location,omitempty"`
+	OptimizationType       *string                            `json:"optimizationType,omitempty"`
+	OriginGroups           []DeepCreatedOriginGroup           `json:"originGroups,omitempty"`
+	OriginHostHeader       *string                            `json:"originHostHeader,omitempty"`
+	OriginPath             *string                            `json:"originPath,omitempty"`
+	OriginalVersion        string                             `json:"originalVersion,omitempty"`
+	Origins                []DeepCreatedOrigin                `json:"origins,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a cdn.azure.com/Profile resource
+	Owner                            *genruntime.KnownResourceReference                   `group:"cdn.azure.com" json:"owner,omitempty" kind:"Profile"`
+	ProbePath                        *string                                              `json:"probePath,omitempty"`
+	PropertyBag                      genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	QueryStringCachingBehavior       *string                                              `json:"queryStringCachingBehavior,omitempty"`
+	Tags                             map[string]string                                    `json:"tags,omitempty"`
+	UrlSigningKeys                   []UrlSigningKey                                      `json:"urlSigningKeys,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
+}
+
+var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
+
+// ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
+func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == endpoint {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(endpoint)
+}
+
+// ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
+func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == endpoint {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(endpoint)
+}
+
+// Storage version of v1beta20210601.Profiles_Endpoint_STATUS
+type Profiles_Endpoint_STATUS struct {
 	Conditions                       []conditions.Condition                                      `json:"conditions,omitempty"`
 	ContentTypesToCompress           []string                                                    `json:"contentTypesToCompress,omitempty"`
 	CustomDomains                    []DeepCreatedCustomDomain_STATUS                            `json:"customDomains,omitempty"`
@@ -161,10 +218,10 @@ type Endpoint_STATUS struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &Profiles_Endpoint_STATUS{}
 
-// ConvertStatusFrom populates our Endpoint_STATUS from the provided source
-func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Profiles_Endpoint_STATUS from the provided source
+func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -172,8 +229,8 @@ func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(endpoint)
 }
 
-// ConvertStatusTo populates the provided destination from our Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Profiles_Endpoint_STATUS
+func (endpoint *Profiles_Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -181,60 +238,8 @@ func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(endpoint)
 }
 
-// Storage version of v1beta20210601.Profiles_Endpoint_Spec
-type Profiles_Endpoint_Spec struct {
-	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	// doesn't have to be.
-	AzureName              string                                            `json:"azureName,omitempty"`
-	ContentTypesToCompress []string                                          `json:"contentTypesToCompress,omitempty"`
-	DefaultOriginGroup     *ResourceReference                                `json:"defaultOriginGroup,omitempty"`
-	DeliveryPolicy         *EndpointPropertiesUpdateParametersDeliveryPolicy `json:"deliveryPolicy,omitempty"`
-	GeoFilters             []GeoFilter                                       `json:"geoFilters,omitempty"`
-	IsCompressionEnabled   *bool                                             `json:"isCompressionEnabled,omitempty"`
-	IsHttpAllowed          *bool                                             `json:"isHttpAllowed,omitempty"`
-	IsHttpsAllowed         *bool                                             `json:"isHttpsAllowed,omitempty"`
-	Location               *string                                           `json:"location,omitempty"`
-	OptimizationType       *string                                           `json:"optimizationType,omitempty"`
-	OriginGroups           []Profiles_Endpoint_Properties_OriginGroups_Spec  `json:"originGroups,omitempty"`
-	OriginHostHeader       *string                                           `json:"originHostHeader,omitempty"`
-	OriginPath             *string                                           `json:"originPath,omitempty"`
-	OriginalVersion        string                                            `json:"originalVersion,omitempty"`
-	Origins                []Profiles_Endpoint_Properties_Origins_Spec       `json:"origins,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cdn.azure.com/Profile resource
-	Owner                            *genruntime.KnownResourceReference                                  `group:"cdn.azure.com" json:"owner,omitempty" kind:"Profile"`
-	ProbePath                        *string                                                             `json:"probePath,omitempty"`
-	PropertyBag                      genruntime.PropertyBag                                              `json:"$propertyBag,omitempty"`
-	QueryStringCachingBehavior       *string                                                             `json:"queryStringCachingBehavior,omitempty"`
-	Tags                             map[string]string                                                   `json:"tags,omitempty"`
-	UrlSigningKeys                   []UrlSigningKey                                                     `json:"urlSigningKeys,omitempty"`
-	WebApplicationFirewallPolicyLink *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Profiles_Endpoint_Spec{}
-
-// ConvertSpecFrom populates our Profiles_Endpoint_Spec from the provided source
-func (endpoint *Profiles_Endpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == endpoint {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return source.ConvertSpecTo(endpoint)
-}
-
-// ConvertSpecTo populates the provided destination from our Profiles_Endpoint_Spec
-func (endpoint *Profiles_Endpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == endpoint {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
-	}
-
-	return destination.ConvertSpecFrom(endpoint)
-}
-
 // Storage version of v1beta20210601.DeepCreatedCustomDomain_STATUS
+// Custom domains created on the CDN endpoint.
 type DeepCreatedCustomDomain_STATUS struct {
 	HostName       *string                `json:"hostName,omitempty"`
 	Name           *string                `json:"name,omitempty"`
@@ -242,93 +247,9 @@ type DeepCreatedCustomDomain_STATUS struct {
 	ValidationData *string                `json:"validationData,omitempty"`
 }
 
-// Storage version of v1beta20210601.DeepCreatedOrigin_STATUS
-type DeepCreatedOrigin_STATUS struct {
-	Enabled                    *bool                  `json:"enabled,omitempty"`
-	HostName                   *string                `json:"hostName,omitempty"`
-	HttpPort                   *int                   `json:"httpPort,omitempty"`
-	HttpsPort                  *int                   `json:"httpsPort,omitempty"`
-	Name                       *string                `json:"name,omitempty"`
-	OriginHostHeader           *string                `json:"originHostHeader,omitempty"`
-	Priority                   *int                   `json:"priority,omitempty"`
-	PrivateEndpointStatus      *string                `json:"privateEndpointStatus,omitempty"`
-	PrivateLinkAlias           *string                `json:"privateLinkAlias,omitempty"`
-	PrivateLinkApprovalMessage *string                `json:"privateLinkApprovalMessage,omitempty"`
-	PrivateLinkLocation        *string                `json:"privateLinkLocation,omitempty"`
-	PrivateLinkResourceId      *string                `json:"privateLinkResourceId,omitempty"`
-	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Weight                     *int                   `json:"weight,omitempty"`
-}
-
-// Storage version of v1beta20210601.DeepCreatedOriginGroup_STATUS
-type DeepCreatedOriginGroup_STATUS struct {
-	HealthProbeSettings                                   *HealthProbeParameters_STATUS                       `json:"healthProbeSettings,omitempty"`
-	Name                                                  *string                                             `json:"name,omitempty"`
-	Origins                                               []ResourceReference_STATUS                          `json:"origins,omitempty"`
-	PropertyBag                                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
-}
-
-// Storage version of v1beta20210601.EndpointProperties_DeliveryPolicy_STATUS
-type EndpointProperties_DeliveryPolicy_STATUS struct {
-	Description *string                `json:"description,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rules       []DeliveryRule_STATUS  `json:"rules,omitempty"`
-}
-
-// Storage version of v1beta20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
-type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210601.EndpointPropertiesUpdateParametersDeliveryPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/EndpointPropertiesUpdateParametersDeliveryPolicy
-type EndpointPropertiesUpdateParametersDeliveryPolicy struct {
-	Description *string                `json:"description,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rules       []DeliveryRule         `json:"rules,omitempty"`
-}
-
-// Storage version of v1beta20210601.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-type EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1beta20210601.GeoFilter
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/GeoFilter
-type GeoFilter struct {
-	Action       *string                `json:"action,omitempty"`
-	CountryCodes []string               `json:"countryCodes,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RelativePath *string                `json:"relativePath,omitempty"`
-}
-
-// Storage version of v1beta20210601.GeoFilter_STATUS
-type GeoFilter_STATUS struct {
-	Action       *string                `json:"action,omitempty"`
-	CountryCodes []string               `json:"countryCodes,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RelativePath *string                `json:"relativePath,omitempty"`
-}
-
-// Storage version of v1beta20210601.Profiles_Endpoint_Properties_OriginGroups_Spec
-type Profiles_Endpoint_Properties_OriginGroups_Spec struct {
-	HealthProbeSettings                                   *HealthProbeParameters                       `json:"healthProbeSettings,omitempty"`
-	Name                                                  *string                                      `json:"name,omitempty"`
-	Origins                                               []ResourceReference                          `json:"origins,omitempty"`
-	PropertyBag                                           genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
-	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                         `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
-}
-
-// Storage version of v1beta20210601.Profiles_Endpoint_Properties_Origins_Spec
-type Profiles_Endpoint_Properties_Origins_Spec struct {
+// Storage version of v1beta20210601.DeepCreatedOrigin
+// The main origin of CDN content which is added when creating a CDN endpoint.
+type DeepCreatedOrigin struct {
 	Enabled                    *bool   `json:"enabled,omitempty"`
 	HostName                   *string `json:"hostName,omitempty"`
 	HttpPort                   *int    `json:"httpPort,omitempty"`
@@ -350,8 +271,97 @@ type Profiles_Endpoint_Properties_Origins_Spec struct {
 	Weight                       *int                          `json:"weight,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeepCreatedOrigin_STATUS
+// The main origin of CDN content which is added when creating a CDN endpoint.
+type DeepCreatedOrigin_STATUS struct {
+	Enabled                    *bool                  `json:"enabled,omitempty"`
+	HostName                   *string                `json:"hostName,omitempty"`
+	HttpPort                   *int                   `json:"httpPort,omitempty"`
+	HttpsPort                  *int                   `json:"httpsPort,omitempty"`
+	Name                       *string                `json:"name,omitempty"`
+	OriginHostHeader           *string                `json:"originHostHeader,omitempty"`
+	Priority                   *int                   `json:"priority,omitempty"`
+	PrivateEndpointStatus      *string                `json:"privateEndpointStatus,omitempty"`
+	PrivateLinkAlias           *string                `json:"privateLinkAlias,omitempty"`
+	PrivateLinkApprovalMessage *string                `json:"privateLinkApprovalMessage,omitempty"`
+	PrivateLinkLocation        *string                `json:"privateLinkLocation,omitempty"`
+	PrivateLinkResourceId      *string                `json:"privateLinkResourceId,omitempty"`
+	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Weight                     *int                   `json:"weight,omitempty"`
+}
+
+// Storage version of v1beta20210601.DeepCreatedOriginGroup
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
+type DeepCreatedOriginGroup struct {
+	HealthProbeSettings                                   *HealthProbeParameters                       `json:"healthProbeSettings,omitempty"`
+	Name                                                  *string                                      `json:"name,omitempty"`
+	Origins                                               []ResourceReference                          `json:"origins,omitempty"`
+	PropertyBag                                           genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                         `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+// Storage version of v1beta20210601.DeepCreatedOriginGroup_STATUS
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
+type DeepCreatedOriginGroup_STATUS struct {
+	HealthProbeSettings                                   *HealthProbeParameters_STATUS                       `json:"healthProbeSettings,omitempty"`
+	Name                                                  *string                                             `json:"name,omitempty"`
+	Origins                                               []ResourceReference_STATUS                          `json:"origins,omitempty"`
+	PropertyBag                                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+// Storage version of v1beta20210601.EndpointProperties_DeliveryPolicy
+type EndpointProperties_DeliveryPolicy struct {
+	Description *string                `json:"description,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rules       []DeliveryRule         `json:"rules,omitempty"`
+}
+
+// Storage version of v1beta20210601.EndpointProperties_DeliveryPolicy_STATUS
+type EndpointProperties_DeliveryPolicy_STATUS struct {
+	Description *string                `json:"description,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rules       []DeliveryRule_STATUS  `json:"rules,omitempty"`
+}
+
+// Storage version of v1beta20210601.EndpointProperties_WebApplicationFirewallPolicyLink
+type EndpointProperties_WebApplicationFirewallPolicyLink struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// Storage version of v1beta20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210601.GeoFilter
+// Rules defining user's geo access within a CDN endpoint.
+type GeoFilter struct {
+	Action       *string                `json:"action,omitempty"`
+	CountryCodes []string               `json:"countryCodes,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RelativePath *string                `json:"relativePath,omitempty"`
+}
+
+// Storage version of v1beta20210601.GeoFilter_STATUS
+// Rules defining user's geo access within a CDN endpoint.
+type GeoFilter_STATUS struct {
+	Action       *string                `json:"action,omitempty"`
+	CountryCodes []string               `json:"countryCodes,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RelativePath *string                `json:"relativePath,omitempty"`
+}
+
 // Storage version of v1beta20210601.ResourceReference
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResourceReference
+// Reference to another resource.
 type ResourceReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -360,13 +370,14 @@ type ResourceReference struct {
 }
 
 // Storage version of v1beta20210601.ResourceReference_STATUS
+// Reference to another resource.
 type ResourceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.UrlSigningKey
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningKey
+// Url signing key
 type UrlSigningKey struct {
 	KeyId               *string                       `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters `json:"keySourceParameters,omitempty"`
@@ -374,6 +385,7 @@ type UrlSigningKey struct {
 }
 
 // Storage version of v1beta20210601.UrlSigningKey_STATUS
+// Url signing key
 type UrlSigningKey_STATUS struct {
 	KeyId               *string                              `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
@@ -381,9 +393,9 @@ type UrlSigningKey_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRule
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRule
+// A rule that specifies a set of actions and conditions
 type DeliveryRule struct {
-	Actions     []DeliveryRuleAction1   `json:"actions,omitempty"`
+	Actions     []DeliveryRuleAction    `json:"actions,omitempty"`
 	Conditions  []DeliveryRuleCondition `json:"conditions,omitempty"`
 	Name        *string                 `json:"name,omitempty"`
 	Order       *int                    `json:"order,omitempty"`
@@ -391,6 +403,7 @@ type DeliveryRule struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRule_STATUS
+// A rule that specifies a set of actions and conditions
 type DeliveryRule_STATUS struct {
 	Actions     []DeliveryRuleAction_STATUS    `json:"actions,omitempty"`
 	Conditions  []DeliveryRuleCondition_STATUS `json:"conditions,omitempty"`
@@ -400,7 +413,7 @@ type DeliveryRule_STATUS struct {
 }
 
 // Storage version of v1beta20210601.HealthProbeParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HealthProbeParameters
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters struct {
 	ProbeIntervalInSeconds *int                   `json:"probeIntervalInSeconds,omitempty"`
 	ProbePath              *string                `json:"probePath,omitempty"`
@@ -410,6 +423,7 @@ type HealthProbeParameters struct {
 }
 
 // Storage version of v1beta20210601.HealthProbeParameters_STATUS
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS struct {
 	ProbeIntervalInSeconds *int                   `json:"probeIntervalInSeconds,omitempty"`
 	ProbePath              *string                `json:"probePath,omitempty"`
@@ -419,7 +433,7 @@ type HealthProbeParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.KeyVaultSigningKeyParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/KeyVaultSigningKeyParameters
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceGroupName *string                `json:"resourceGroupName,omitempty"`
@@ -431,6 +445,7 @@ type KeyVaultSigningKeyParameters struct {
 }
 
 // Storage version of v1beta20210601.KeyVaultSigningKeyParameters_STATUS
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceGroupName *string                `json:"resourceGroupName,omitempty"`
@@ -442,7 +457,7 @@ type KeyVaultSigningKeyParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.ResponseBasedOriginErrorDetectionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResponseBasedOriginErrorDetectionParameters
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters struct {
 	HttpErrorRanges                          []HttpErrorRangeParameters `json:"httpErrorRanges,omitempty"`
 	PropertyBag                              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -451,6 +466,7 @@ type ResponseBasedOriginErrorDetectionParameters struct {
 }
 
 // Storage version of v1beta20210601.ResponseBasedOriginErrorDetectionParameters_STATUS
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	HttpErrorRanges                          []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
 	PropertyBag                              genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -458,60 +474,88 @@ type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	ResponseBasedFailoverThresholdPercentage *int                              `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-// Storage version of v1beta20210601.DeliveryRuleAction1
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleAction1
-type DeliveryRuleAction1 struct {
-	DeliveryRuleCacheExpiration            *DeliveryRuleCacheExpirationAction            `json:"deliveryRuleCacheExpirationAction,omitempty"`
-	DeliveryRuleCacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction        `json:"deliveryRuleCacheKeyQueryStringAction,omitempty"`
-	DeliveryRuleRequestHeader              *DeliveryRuleRequestHeaderAction              `json:"deliveryRuleRequestHeaderAction,omitempty"`
-	DeliveryRuleResponseHeader             *DeliveryRuleResponseHeaderAction             `json:"deliveryRuleResponseHeaderAction,omitempty"`
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"deliveryRuleRouteConfigurationOverrideAction,omitempty"`
-	OriginGroupOverride                    *OriginGroupOverrideAction                    `json:"originGroupOverrideAction,omitempty"`
-	PropertyBag                            genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	UrlRedirect                            *UrlRedirectAction                            `json:"urlRedirectAction,omitempty"`
-	UrlRewrite                             *UrlRewriteAction                             `json:"urlRewriteAction,omitempty"`
-	UrlSigning                             *UrlSigningAction                             `json:"urlSigningAction,omitempty"`
+// Storage version of v1beta20210601.DeliveryRuleAction
+// An action for the delivery rule.
+type DeliveryRuleAction struct {
+	CacheExpiration            *DeliveryRuleCacheExpirationAction            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction                    `json:"originGroupOverride,omitempty"`
+	PropertyBag                genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"routeConfigurationOverride,omitempty"`
+	UrlRedirect                *UrlRedirectAction                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction                             `json:"urlSigning,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRuleAction_STATUS
+// An action for the delivery rule.
 type DeliveryRuleAction_STATUS struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	CacheExpiration            *DeliveryRuleCacheExpirationAction_STATUS            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction_STATUS        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction_STATUS              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction_STATUS             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction_STATUS                    `json:"originGroupOverride,omitempty"`
+	PropertyBag                genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS `json:"routeConfigurationOverride,omitempty"`
+	UrlRedirect                *UrlRedirectAction_STATUS                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction_STATUS                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction_STATUS                             `json:"urlSigning,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCondition
+// A condition for the delivery rule.
 type DeliveryRuleCondition struct {
-	DeliveryRuleClientPort       *DeliveryRuleClientPortCondition       `json:"deliveryRuleClientPortCondition,omitempty"`
-	DeliveryRuleCookies          *DeliveryRuleCookiesCondition          `json:"deliveryRuleCookiesCondition,omitempty"`
-	DeliveryRuleHostName         *DeliveryRuleHostNameCondition         `json:"deliveryRuleHostNameCondition,omitempty"`
-	DeliveryRuleHttpVersion      *DeliveryRuleHttpVersionCondition      `json:"deliveryRuleHttpVersionCondition,omitempty"`
-	DeliveryRuleIsDevice         *DeliveryRuleIsDeviceCondition         `json:"deliveryRuleIsDeviceCondition,omitempty"`
-	DeliveryRulePostArgs         *DeliveryRulePostArgsCondition         `json:"deliveryRulePostArgsCondition,omitempty"`
-	DeliveryRuleQueryString      *DeliveryRuleQueryStringCondition      `json:"deliveryRuleQueryStringCondition,omitempty"`
-	DeliveryRuleRemoteAddress    *DeliveryRuleRemoteAddressCondition    `json:"deliveryRuleRemoteAddressCondition,omitempty"`
-	DeliveryRuleRequestBody      *DeliveryRuleRequestBodyCondition      `json:"deliveryRuleRequestBodyCondition,omitempty"`
-	DeliveryRuleRequestHeader    *DeliveryRuleRequestHeaderCondition    `json:"deliveryRuleRequestHeaderCondition,omitempty"`
-	DeliveryRuleRequestMethod    *DeliveryRuleRequestMethodCondition    `json:"deliveryRuleRequestMethodCondition,omitempty"`
-	DeliveryRuleRequestScheme    *DeliveryRuleRequestSchemeCondition    `json:"deliveryRuleRequestSchemeCondition,omitempty"`
-	DeliveryRuleRequestUri       *DeliveryRuleRequestUriCondition       `json:"deliveryRuleRequestUriCondition,omitempty"`
-	DeliveryRuleServerPort       *DeliveryRuleServerPortCondition       `json:"deliveryRuleServerPortCondition,omitempty"`
-	DeliveryRuleSocketAddr       *DeliveryRuleSocketAddrCondition       `json:"deliveryRuleSocketAddrCondition,omitempty"`
-	DeliveryRuleSslProtocol      *DeliveryRuleSslProtocolCondition      `json:"deliveryRuleSslProtocolCondition,omitempty"`
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"deliveryRuleUrlFileExtensionCondition,omitempty"`
-	DeliveryRuleUrlFileName      *DeliveryRuleUrlFileNameCondition      `json:"deliveryRuleUrlFileNameCondition,omitempty"`
-	DeliveryRuleUrlPath          *DeliveryRuleUrlPathCondition          `json:"deliveryRuleUrlPathCondition,omitempty"`
-	PropertyBag                  genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	ClientPort       *DeliveryRuleClientPortCondition       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition         `json:"postArgs,omitempty"`
+	PropertyBag      genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition      `json:"sslProtocol,omitempty"`
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"urlFileExtension,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition          `json:"urlPath,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCondition_STATUS
+// A condition for the delivery rule.
 type DeliveryRuleCondition_STATUS struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ClientPort       *DeliveryRuleClientPortCondition_STATUS       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition_STATUS          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition_STATUS         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition_STATUS      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition_STATUS         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition_STATUS         `json:"postArgs,omitempty"`
+	PropertyBag      genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition_STATUS      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition_STATUS    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition_STATUS      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition_STATUS    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition_STATUS    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition_STATUS    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition_STATUS       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition_STATUS       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition_STATUS       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition_STATUS      `json:"sslProtocol,omitempty"`
+	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS `json:"urlFileExtension,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition_STATUS      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition_STATUS          `json:"urlPath,omitempty"`
 }
 
 // Storage version of v1beta20210601.HttpErrorRangeParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters struct {
 	Begin       *int                   `json:"begin,omitempty"`
 	End         *int                   `json:"end,omitempty"`
@@ -519,6 +563,7 @@ type HttpErrorRangeParameters struct {
 }
 
 // Storage version of v1beta20210601.HttpErrorRangeParameters_STATUS
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_STATUS struct {
 	Begin       *int                   `json:"begin,omitempty"`
 	End         *int                   `json:"end,omitempty"`
@@ -526,231 +571,399 @@ type HttpErrorRangeParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210601.DeliveryRuleCacheExpirationAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction
 type DeliveryRuleCacheExpirationAction struct {
 	Name        *string                          `json:"name,omitempty"`
 	Parameters  *CacheExpirationActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleCacheExpirationAction_STATUS
+type DeliveryRuleCacheExpirationAction_STATUS struct {
+	Name        *string                                 `json:"name,omitempty"`
+	Parameters  *CacheExpirationActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleCacheKeyQueryStringAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheKeyQueryStringAction
 type DeliveryRuleCacheKeyQueryStringAction struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *CacheKeyQueryStringActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleCacheKeyQueryStringAction_STATUS
+type DeliveryRuleCacheKeyQueryStringAction_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *CacheKeyQueryStringActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleClientPortCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleClientPortCondition
 type DeliveryRuleClientPortCondition struct {
 	Name        *string                             `json:"name,omitempty"`
 	Parameters  *ClientPortMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleClientPortCondition_STATUS
+type DeliveryRuleClientPortCondition_STATUS struct {
+	Name        *string                                    `json:"name,omitempty"`
+	Parameters  *ClientPortMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleCookiesCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCookiesCondition
 type DeliveryRuleCookiesCondition struct {
 	Name        *string                          `json:"name,omitempty"`
 	Parameters  *CookiesMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleCookiesCondition_STATUS
+type DeliveryRuleCookiesCondition_STATUS struct {
+	Name        *string                                 `json:"name,omitempty"`
+	Parameters  *CookiesMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleHostNameCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHostNameCondition
 type DeliveryRuleHostNameCondition struct {
 	Name        *string                           `json:"name,omitempty"`
 	Parameters  *HostNameMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleHostNameCondition_STATUS
+type DeliveryRuleHostNameCondition_STATUS struct {
+	Name        *string                                  `json:"name,omitempty"`
+	Parameters  *HostNameMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleHttpVersionCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHttpVersionCondition
 type DeliveryRuleHttpVersionCondition struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *HttpVersionMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleHttpVersionCondition_STATUS
+type DeliveryRuleHttpVersionCondition_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *HttpVersionMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleIsDeviceCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleIsDeviceCondition
 type DeliveryRuleIsDeviceCondition struct {
 	Name        *string                           `json:"name,omitempty"`
 	Parameters  *IsDeviceMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleIsDeviceCondition_STATUS
+type DeliveryRuleIsDeviceCondition_STATUS struct {
+	Name        *string                                  `json:"name,omitempty"`
+	Parameters  *IsDeviceMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRulePostArgsCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRulePostArgsCondition
 type DeliveryRulePostArgsCondition struct {
 	Name        *string                           `json:"name,omitempty"`
 	Parameters  *PostArgsMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRulePostArgsCondition_STATUS
+type DeliveryRulePostArgsCondition_STATUS struct {
+	Name        *string                                  `json:"name,omitempty"`
+	Parameters  *PostArgsMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleQueryStringCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleQueryStringCondition
 type DeliveryRuleQueryStringCondition struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *QueryStringMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleQueryStringCondition_STATUS
+type DeliveryRuleQueryStringCondition_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *QueryStringMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRemoteAddressCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRemoteAddressCondition
 type DeliveryRuleRemoteAddressCondition struct {
 	Name        *string                                `json:"name,omitempty"`
 	Parameters  *RemoteAddressMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRemoteAddressCondition_STATUS
+type DeliveryRuleRemoteAddressCondition_STATUS struct {
+	Name        *string                                       `json:"name,omitempty"`
+	Parameters  *RemoteAddressMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRequestBodyCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestBodyCondition
 type DeliveryRuleRequestBodyCondition struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *RequestBodyMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRequestBodyCondition_STATUS
+type DeliveryRuleRequestBodyCondition_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *RequestBodyMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRequestHeaderAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderAction
 type DeliveryRuleRequestHeaderAction struct {
 	Name        *string                 `json:"name,omitempty"`
 	Parameters  *HeaderActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRequestHeaderAction_STATUS
+type DeliveryRuleRequestHeaderAction_STATUS struct {
+	Name        *string                        `json:"name,omitempty"`
+	Parameters  *HeaderActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRequestHeaderCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderCondition
 type DeliveryRuleRequestHeaderCondition struct {
 	Name        *string                                `json:"name,omitempty"`
 	Parameters  *RequestHeaderMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRequestHeaderCondition_STATUS
+type DeliveryRuleRequestHeaderCondition_STATUS struct {
+	Name        *string                                       `json:"name,omitempty"`
+	Parameters  *RequestHeaderMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRequestMethodCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestMethodCondition
 type DeliveryRuleRequestMethodCondition struct {
 	Name        *string                                `json:"name,omitempty"`
 	Parameters  *RequestMethodMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRequestMethodCondition_STATUS
+type DeliveryRuleRequestMethodCondition_STATUS struct {
+	Name        *string                                       `json:"name,omitempty"`
+	Parameters  *RequestMethodMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRequestSchemeCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestSchemeCondition
 type DeliveryRuleRequestSchemeCondition struct {
 	Name        *string                                `json:"name,omitempty"`
 	Parameters  *RequestSchemeMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRequestSchemeCondition_STATUS
+type DeliveryRuleRequestSchemeCondition_STATUS struct {
+	Name        *string                                       `json:"name,omitempty"`
+	Parameters  *RequestSchemeMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRequestUriCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestUriCondition
 type DeliveryRuleRequestUriCondition struct {
 	Name        *string                             `json:"name,omitempty"`
 	Parameters  *RequestUriMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRequestUriCondition_STATUS
+type DeliveryRuleRequestUriCondition_STATUS struct {
+	Name        *string                                    `json:"name,omitempty"`
+	Parameters  *RequestUriMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleResponseHeaderAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleResponseHeaderAction
 type DeliveryRuleResponseHeaderAction struct {
 	Name        *string                 `json:"name,omitempty"`
 	Parameters  *HeaderActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleResponseHeaderAction_STATUS
+type DeliveryRuleResponseHeaderAction_STATUS struct {
+	Name        *string                        `json:"name,omitempty"`
+	Parameters  *HeaderActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleRouteConfigurationOverrideAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRouteConfigurationOverrideAction
 type DeliveryRuleRouteConfigurationOverrideAction struct {
 	Name        *string                                     `json:"name,omitempty"`
 	Parameters  *RouteConfigurationOverrideActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleRouteConfigurationOverrideAction_STATUS
+type DeliveryRuleRouteConfigurationOverrideAction_STATUS struct {
+	Name        *string                                            `json:"name,omitempty"`
+	Parameters  *RouteConfigurationOverrideActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleServerPortCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleServerPortCondition
 type DeliveryRuleServerPortCondition struct {
 	Name        *string                             `json:"name,omitempty"`
 	Parameters  *ServerPortMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleServerPortCondition_STATUS
+type DeliveryRuleServerPortCondition_STATUS struct {
+	Name        *string                                    `json:"name,omitempty"`
+	Parameters  *ServerPortMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleSocketAddrCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSocketAddrCondition
 type DeliveryRuleSocketAddrCondition struct {
 	Name        *string                             `json:"name,omitempty"`
 	Parameters  *SocketAddrMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleSocketAddrCondition_STATUS
+type DeliveryRuleSocketAddrCondition_STATUS struct {
+	Name        *string                                    `json:"name,omitempty"`
+	Parameters  *SocketAddrMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleSslProtocolCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSslProtocolCondition
 type DeliveryRuleSslProtocolCondition struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *SslProtocolMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleSslProtocolCondition_STATUS
+type DeliveryRuleSslProtocolCondition_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *SslProtocolMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleUrlFileExtensionCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileExtensionCondition
 type DeliveryRuleUrlFileExtensionCondition struct {
 	Name        *string                                   `json:"name,omitempty"`
 	Parameters  *UrlFileExtensionMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleUrlFileExtensionCondition_STATUS
+type DeliveryRuleUrlFileExtensionCondition_STATUS struct {
+	Name        *string                                          `json:"name,omitempty"`
+	Parameters  *UrlFileExtensionMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleUrlFileNameCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileNameCondition
 type DeliveryRuleUrlFileNameCondition struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *UrlFileNameMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleUrlFileNameCondition_STATUS
+type DeliveryRuleUrlFileNameCondition_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *UrlFileNameMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.DeliveryRuleUrlPathCondition
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlPathCondition
 type DeliveryRuleUrlPathCondition struct {
 	Name        *string                          `json:"name,omitempty"`
 	Parameters  *UrlPathMatchConditionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.DeliveryRuleUrlPathCondition_STATUS
+type DeliveryRuleUrlPathCondition_STATUS struct {
+	Name        *string                                 `json:"name,omitempty"`
+	Parameters  *UrlPathMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.OriginGroupOverrideAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideAction
 type OriginGroupOverrideAction struct {
 	Name        *string                              `json:"name,omitempty"`
 	Parameters  *OriginGroupOverrideActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.OriginGroupOverrideAction_STATUS
+type OriginGroupOverrideAction_STATUS struct {
+	Name        *string                                     `json:"name,omitempty"`
+	Parameters  *OriginGroupOverrideActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlRedirectAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectAction
 type UrlRedirectAction struct {
 	Name        *string                      `json:"name,omitempty"`
 	Parameters  *UrlRedirectActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlRedirectAction_STATUS
+type UrlRedirectAction_STATUS struct {
+	Name        *string                             `json:"name,omitempty"`
+	Parameters  *UrlRedirectActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlRewriteAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteAction
 type UrlRewriteAction struct {
 	Name        *string                     `json:"name,omitempty"`
 	Parameters  *UrlRewriteActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlRewriteAction_STATUS
+type UrlRewriteAction_STATUS struct {
+	Name        *string                            `json:"name,omitempty"`
+	Parameters  *UrlRewriteActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlSigningAction
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningAction
 type UrlSigningAction struct {
 	Name        *string                     `json:"name,omitempty"`
 	Parameters  *UrlSigningActionParameters `json:"parameters,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlSigningAction_STATUS
+type UrlSigningAction_STATUS struct {
+	Name        *string                            `json:"name,omitempty"`
+	Parameters  *UrlSigningActionParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.CacheExpirationActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheExpirationActionParameters
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters struct {
 	CacheBehavior *string                `json:"cacheBehavior,omitempty"`
 	CacheDuration *string                `json:"cacheDuration,omitempty"`
@@ -759,8 +972,18 @@ type CacheExpirationActionParameters struct {
 	TypeName      *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.CacheExpirationActionParameters_STATUS
+// Defines the parameters for the cache expiration action.
+type CacheExpirationActionParameters_STATUS struct {
+	CacheBehavior *string                `json:"cacheBehavior,omitempty"`
+	CacheDuration *string                `json:"cacheDuration,omitempty"`
+	CacheType     *string                `json:"cacheType,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TypeName      *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.CacheKeyQueryStringActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheKeyQueryStringActionParameters
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	QueryParameters     *string                `json:"queryParameters,omitempty"`
@@ -768,8 +991,17 @@ type CacheKeyQueryStringActionParameters struct {
 	TypeName            *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.CacheKeyQueryStringActionParameters_STATUS
+// Defines the parameters for the cache-key query string action.
+type CacheKeyQueryStringActionParameters_STATUS struct {
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	QueryParameters     *string                `json:"queryParameters,omitempty"`
+	QueryStringBehavior *string                `json:"queryStringBehavior,omitempty"`
+	TypeName            *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.ClientPortMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ClientPortMatchConditionParameters
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -779,8 +1011,19 @@ type ClientPortMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.ClientPortMatchConditionParameters_STATUS
+// Defines the parameters for ClientPort match conditions
+type ClientPortMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.CookiesMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CookiesMatchConditionParameters
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -791,8 +1034,20 @@ type CookiesMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.CookiesMatchConditionParameters_STATUS
+// Defines the parameters for Cookies match conditions
+type CookiesMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Selector        *string                `json:"selector,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.HeaderActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HeaderActionParameters
+// Defines the parameters for the request header action.
 type HeaderActionParameters struct {
 	HeaderAction *string                `json:"headerAction,omitempty"`
 	HeaderName   *string                `json:"headerName,omitempty"`
@@ -801,8 +1056,18 @@ type HeaderActionParameters struct {
 	Value        *string                `json:"value,omitempty"`
 }
 
+// Storage version of v1beta20210601.HeaderActionParameters_STATUS
+// Defines the parameters for the request header action.
+type HeaderActionParameters_STATUS struct {
+	HeaderAction *string                `json:"headerAction,omitempty"`
+	HeaderName   *string                `json:"headerName,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TypeName     *string                `json:"typeName,omitempty"`
+	Value        *string                `json:"value,omitempty"`
+}
+
 // Storage version of v1beta20210601.HostNameMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HostNameMatchConditionParameters
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -812,8 +1077,19 @@ type HostNameMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.HostNameMatchConditionParameters_STATUS
+// Defines the parameters for HostName match conditions
+type HostNameMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.HttpVersionMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpVersionMatchConditionParameters
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -823,8 +1099,19 @@ type HttpVersionMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.HttpVersionMatchConditionParameters_STATUS
+// Defines the parameters for HttpVersion match conditions
+type HttpVersionMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.IsDeviceMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/IsDeviceMatchConditionParameters
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -834,16 +1121,35 @@ type IsDeviceMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.IsDeviceMatchConditionParameters_STATUS
+// Defines the parameters for IsDevice match conditions
+type IsDeviceMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.OriginGroupOverrideActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideActionParameters
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters struct {
 	OriginGroup *ResourceReference     `json:"originGroup,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TypeName    *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.OriginGroupOverrideActionParameters_STATUS
+// Defines the parameters for the origin group override action.
+type OriginGroupOverrideActionParameters_STATUS struct {
+	OriginGroup *ResourceReference_STATUS `json:"originGroup,omitempty"`
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	TypeName    *string                   `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.PostArgsMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/PostArgsMatchConditionParameters
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -854,8 +1160,20 @@ type PostArgsMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.PostArgsMatchConditionParameters_STATUS
+// Defines the parameters for PostArgs match conditions
+type PostArgsMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Selector        *string                `json:"selector,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.QueryStringMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/QueryStringMatchConditionParameters
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -865,8 +1183,19 @@ type QueryStringMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.QueryStringMatchConditionParameters_STATUS
+// Defines the parameters for QueryString match conditions
+type QueryStringMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RemoteAddressMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RemoteAddressMatchConditionParameters
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -876,8 +1205,19 @@ type RemoteAddressMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RemoteAddressMatchConditionParameters_STATUS
+// Defines the parameters for RemoteAddress match conditions
+type RemoteAddressMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RequestBodyMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestBodyMatchConditionParameters
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -887,8 +1227,19 @@ type RequestBodyMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RequestBodyMatchConditionParameters_STATUS
+// Defines the parameters for RequestBody match conditions
+type RequestBodyMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RequestHeaderMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestHeaderMatchConditionParameters
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -899,8 +1250,20 @@ type RequestHeaderMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RequestHeaderMatchConditionParameters_STATUS
+// Defines the parameters for RequestHeader match conditions
+type RequestHeaderMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Selector        *string                `json:"selector,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RequestMethodMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestMethodMatchConditionParameters
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -910,8 +1273,19 @@ type RequestMethodMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RequestMethodMatchConditionParameters_STATUS
+// Defines the parameters for RequestMethod match conditions
+type RequestMethodMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RequestSchemeMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestSchemeMatchConditionParameters
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -921,8 +1295,19 @@ type RequestSchemeMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RequestSchemeMatchConditionParameters_STATUS
+// Defines the parameters for RequestScheme match conditions
+type RequestSchemeMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RequestUriMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestUriMatchConditionParameters
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -932,8 +1317,19 @@ type RequestUriMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RequestUriMatchConditionParameters_STATUS
+// Defines the parameters for RequestUri match conditions
+type RequestUriMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.RouteConfigurationOverrideActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RouteConfigurationOverrideActionParameters
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters struct {
 	CacheConfiguration  *CacheConfiguration    `json:"cacheConfiguration,omitempty"`
 	OriginGroupOverride *OriginGroupOverride   `json:"originGroupOverride,omitempty"`
@@ -941,8 +1337,17 @@ type RouteConfigurationOverrideActionParameters struct {
 	TypeName            *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.RouteConfigurationOverrideActionParameters_STATUS
+// Defines the parameters for the route configuration override action.
+type RouteConfigurationOverrideActionParameters_STATUS struct {
+	CacheConfiguration  *CacheConfiguration_STATUS  `json:"cacheConfiguration,omitempty"`
+	OriginGroupOverride *OriginGroupOverride_STATUS `json:"originGroupOverride,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	TypeName            *string                     `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.ServerPortMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ServerPortMatchConditionParameters
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -952,8 +1357,19 @@ type ServerPortMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.ServerPortMatchConditionParameters_STATUS
+// Defines the parameters for ServerPort match conditions
+type ServerPortMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.SocketAddrMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SocketAddrMatchConditionParameters
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -963,8 +1379,19 @@ type SocketAddrMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.SocketAddrMatchConditionParameters_STATUS
+// Defines the parameters for SocketAddress match conditions
+type SocketAddrMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.SslProtocolMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SslProtocolMatchConditionParameters
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -974,8 +1401,19 @@ type SslProtocolMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.SslProtocolMatchConditionParameters_STATUS
+// Defines the parameters for SslProtocol match conditions
+type SslProtocolMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlFileExtensionMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlFileExtensionMatchConditionParameters
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -985,8 +1423,19 @@ type UrlFileExtensionMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlFileExtensionMatchConditionParameters_STATUS
+// Defines the parameters for UrlFileExtension match conditions
+type UrlFileExtensionMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlFileNameMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlFileNameMatchConditionParameters
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -996,8 +1445,19 @@ type UrlFileNameMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlFileNameMatchConditionParameters_STATUS
+// Defines the parameters for UrlFilename match conditions
+type UrlFileNameMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlPathMatchConditionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlPathMatchConditionParameters
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters struct {
 	MatchValues     []string               `json:"matchValues,omitempty"`
 	NegateCondition *bool                  `json:"negateCondition,omitempty"`
@@ -1007,8 +1467,19 @@ type UrlPathMatchConditionParameters struct {
 	TypeName        *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlPathMatchConditionParameters_STATUS
+// Defines the parameters for UrlPath match conditions
+type UrlPathMatchConditionParameters_STATUS struct {
+	MatchValues     []string               `json:"matchValues,omitempty"`
+	NegateCondition *bool                  `json:"negateCondition,omitempty"`
+	Operator        *string                `json:"operator,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Transforms      []string               `json:"transforms,omitempty"`
+	TypeName        *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlRedirectActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectActionParameters
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters struct {
 	CustomFragment      *string                `json:"customFragment,omitempty"`
 	CustomHostname      *string                `json:"customHostname,omitempty"`
@@ -1020,8 +1491,21 @@ type UrlRedirectActionParameters struct {
 	TypeName            *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlRedirectActionParameters_STATUS
+// Defines the parameters for the url redirect action.
+type UrlRedirectActionParameters_STATUS struct {
+	CustomFragment      *string                `json:"customFragment,omitempty"`
+	CustomHostname      *string                `json:"customHostname,omitempty"`
+	CustomPath          *string                `json:"customPath,omitempty"`
+	CustomQueryString   *string                `json:"customQueryString,omitempty"`
+	DestinationProtocol *string                `json:"destinationProtocol,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RedirectType        *string                `json:"redirectType,omitempty"`
+	TypeName            *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlRewriteActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteActionParameters
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters struct {
 	Destination           *string                `json:"destination,omitempty"`
 	PreserveUnmatchedPath *bool                  `json:"preserveUnmatchedPath,omitempty"`
@@ -1030,8 +1514,18 @@ type UrlRewriteActionParameters struct {
 	TypeName              *string                `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlRewriteActionParameters_STATUS
+// Defines the parameters for the url rewrite action.
+type UrlRewriteActionParameters_STATUS struct {
+	Destination           *string                `json:"destination,omitempty"`
+	PreserveUnmatchedPath *bool                  `json:"preserveUnmatchedPath,omitempty"`
+	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourcePattern         *string                `json:"sourcePattern,omitempty"`
+	TypeName              *string                `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlSigningActionParameters
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningActionParameters
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters struct {
 	Algorithm             *string                     `json:"algorithm,omitempty"`
 	ParameterNameOverride []UrlSigningParamIdentifier `json:"parameterNameOverride,omitempty"`
@@ -1039,8 +1533,17 @@ type UrlSigningActionParameters struct {
 	TypeName              *string                     `json:"typeName,omitempty"`
 }
 
+// Storage version of v1beta20210601.UrlSigningActionParameters_STATUS
+// Defines the parameters for the Url Signing action.
+type UrlSigningActionParameters_STATUS struct {
+	Algorithm             *string                            `json:"algorithm,omitempty"`
+	ParameterNameOverride []UrlSigningParamIdentifier_STATUS `json:"parameterNameOverride,omitempty"`
+	PropertyBag           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	TypeName              *string                            `json:"typeName,omitempty"`
+}
+
 // Storage version of v1beta20210601.CacheConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheConfiguration
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration struct {
 	CacheBehavior              *string                `json:"cacheBehavior,omitempty"`
 	CacheDuration              *string                `json:"cacheDuration,omitempty"`
@@ -1050,17 +1553,44 @@ type CacheConfiguration struct {
 	QueryStringCachingBehavior *string                `json:"queryStringCachingBehavior,omitempty"`
 }
 
+// Storage version of v1beta20210601.CacheConfiguration_STATUS
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+type CacheConfiguration_STATUS struct {
+	CacheBehavior              *string                `json:"cacheBehavior,omitempty"`
+	CacheDuration              *string                `json:"cacheDuration,omitempty"`
+	IsCompressionEnabled       *string                `json:"isCompressionEnabled,omitempty"`
+	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	QueryParameters            *string                `json:"queryParameters,omitempty"`
+	QueryStringCachingBehavior *string                `json:"queryStringCachingBehavior,omitempty"`
+}
+
 // Storage version of v1beta20210601.OriginGroupOverride
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverride
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride struct {
 	ForwardingProtocol *string                `json:"forwardingProtocol,omitempty"`
 	OriginGroup        *ResourceReference     `json:"originGroup,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210601.OriginGroupOverride_STATUS
+// Defines the parameters for the origin group override configuration.
+type OriginGroupOverride_STATUS struct {
+	ForwardingProtocol *string                   `json:"forwardingProtocol,omitempty"`
+	OriginGroup        *ResourceReference_STATUS `json:"originGroup,omitempty"`
+	PropertyBag        genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210601.UrlSigningParamIdentifier
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningParamIdentifier
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier struct {
+	ParamIndicator *string                `json:"paramIndicator,omitempty"`
+	ParamName      *string                `json:"paramName,omitempty"`
+	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210601.UrlSigningParamIdentifier_STATUS
+// Defines how to identify a parameter for a specific purpose e.g. expires
+type UrlSigningParamIdentifier_STATUS struct {
 	ParamIndicator *string                `json:"paramIndicator,omitempty"`
 	ParamName      *string                `json:"paramName,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`

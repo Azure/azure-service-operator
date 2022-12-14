@@ -8,12 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ServiceBus_Namespace_Basic_CRUD(t *testing.T) {
@@ -54,8 +54,7 @@ func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.Namespaces_Queue_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(sbNamespace),
+			Owner: testcommon.AsOwner(sbNamespace),
 		},
 	}
 

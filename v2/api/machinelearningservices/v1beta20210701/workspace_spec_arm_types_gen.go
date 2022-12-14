@@ -3,28 +3,23 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspace_Spec_ARM struct {
-	// Identity: Identity for the resource.
+	// Identity: The identity of the resource.
 	Identity *Identity_ARM `json:"identity,omitempty"`
 
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
-	// Name: Name of Azure Machine Learning workspace.
-	Name string `json:"name,omitempty"`
+	// Properties: The properties of the machine learning workspace.
+	Properties *WorkspaceProperties_ARM `json:"properties,omitempty"`
 
-	// Properties: The properties of a machine learning workspace.
-	Properties *Workspace_Properties_Spec_ARM `json:"properties,omitempty"`
-
-	// Sku: Sku of the resource
+	// Sku: The sku of the workspace.
 	Sku *Sku_ARM `json:"sku,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: System data
 	SystemData *SystemData_ARM `json:"systemData,omitempty"`
 
 	// Tags: Contains resource tags defined as key/value pairs.
@@ -48,16 +43,13 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Identity
+// Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: dictionary containing all the user assigned identities, with resourceId of the UAI as key.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/Sku
+// Sku of the resource
 type Sku_ARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -66,7 +58,7 @@ type Sku_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SystemData
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -87,7 +79,8 @@ type SystemData_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-type Workspace_Properties_Spec_ARM struct {
+// The properties of a machine learning workspace.
+type WorkspaceProperties_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
 	ApplicationInsights             *string `json:"applicationInsights,omitempty"`
@@ -97,8 +90,10 @@ type Workspace_Properties_Spec_ARM struct {
 	Description *string `json:"description,omitempty"`
 
 	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
-	DiscoveryUrl *string                 `json:"discoveryUrl,omitempty"`
-	Encryption   *EncryptionProperty_ARM `json:"encryption,omitempty"`
+	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
+
+	// Encryption: The encryption settings of Azure ML workspace.
+	Encryption *EncryptionProperty_ARM `json:"encryption,omitempty"`
 
 	// FriendlyName: The friendly name for this workspace. This name in mutable
 	FriendlyName *string `json:"friendlyName,omitempty"`
@@ -112,18 +107,21 @@ type Workspace_Properties_Spec_ARM struct {
 	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
 
 	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess             *Workspace_Properties_PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_ARM           `json:"serviceManagedResourcesSettings,omitempty"`
+	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	// ServiceManagedResourcesSettings: The service managed resource settings.
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_ARM `json:"serviceManagedResourcesSettings,omitempty"`
 
 	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []Workspace_Properties_SharedPrivateLinkResources_Spec_ARM `json:"sharedPrivateLinkResources,omitempty"`
-	StorageAccount             *string                                                    `json:"storageAccount,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource_ARM `json:"sharedPrivateLinkResources,omitempty"`
+	StorageAccount             *string                         `json:"storageAccount,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/EncryptionProperty
 type EncryptionProperty_ARM struct {
-	// Identity: Identity that will be used to access key vault for encryption at rest
-	Identity           *IdentityForCmk_ARM     `json:"identity,omitempty"`
+	// Identity: The identity that will be used to access the key vault for encryption at rest.
+	Identity *IdentityForCmk_ARM `json:"identity,omitempty"`
+
+	// KeyVaultProperties: Customer Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 
 	// Status: Indicates whether or not the encryption is enabled for the workspace.
@@ -140,9 +138,17 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/ServiceManagedResourcesSettings
 type ServiceManagedResourcesSettings_ARM struct {
+	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings_ARM `json:"cosmosDb,omitempty"`
+}
+
+type SharedPrivateLinkResource_ARM struct {
+	// Name: Unique name of the private link.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Resource properties.
+	Properties *SharedPrivateLinkResourceProperty_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
@@ -165,27 +171,17 @@ const (
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
-type Workspace_Properties_SharedPrivateLinkResources_Spec_ARM struct {
-	// Name: Unique name of the private link.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of a shared private link resource.
-	Properties *SharedPrivateLinkResourceProperty_ARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/CosmosDbSettings
 type CosmosDbSettings_ARM struct {
 	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/IdentityForCmk
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk_ARM struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/KeyVaultProperties
 type KeyVaultProperties_ARM struct {
 	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
@@ -197,7 +193,7 @@ type KeyVaultProperties_ARM struct {
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/SharedPrivateLinkResourceProperty
+// Properties of a shared private link resource.
 type SharedPrivateLinkResourceProperty_ARM struct {
 	// GroupId: The private link resource group id.
 	GroupId               *string `json:"groupId,omitempty"`
@@ -207,5 +203,5 @@ type SharedPrivateLinkResourceProperty_ARM struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 
 	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *SharedPrivateLinkResourceProperty_Status `json:"status,omitempty"`
+	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
 }

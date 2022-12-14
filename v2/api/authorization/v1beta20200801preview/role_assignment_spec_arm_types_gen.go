@@ -6,17 +6,10 @@ package v1beta20200801preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RoleAssignment_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the role assignment. It can be any valid GUID.
 	Name string `json:"name,omitempty"`
 
 	// Properties: Role assignment properties.
 	Properties *RoleAssignmentProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RoleAssignment_Spec_ARM{}
@@ -36,7 +29,7 @@ func (assignment *RoleAssignment_Spec_ARM) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties
+// Role assignment properties.
 type RoleAssignmentProperties_ARM struct {
 	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
 	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase

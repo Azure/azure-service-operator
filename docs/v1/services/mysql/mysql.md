@@ -12,6 +12,10 @@ The MySQL operator suite consists of the following operators.
 5. MySQL user - Deploys a user into the `Azure Database for MySQL server`.
 6. MySQL AAD User - Deploys an AAD user into the `Azure Database for MySQL server`.
 
+> **Deprecation notice**: Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server).  
+> Existing instances can be migrated to Azure Database for MySQL - Flexible Server using the Azure Database migration Service.  
+> Azure Database for MySQL - Flexible Server is [fully supported in ASO v2](https://azure.github.io/azure-service-operator/reference/#dbformysql).
+
 ### MySQL server
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlserver.yaml) for the MySQL server.

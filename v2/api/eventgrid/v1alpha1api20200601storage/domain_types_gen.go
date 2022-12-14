@@ -210,12 +210,12 @@ const APIVersion_Value = APIVersion("2020-06-01")
 type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName          string                  `json:"azureName,omitempty"`
-	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                 `json:"inputSchema,omitempty"`
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-	Location           *string                 `json:"location,omitempty"`
-	OriginalVersion    string                  `json:"originalVersion,omitempty"`
+	AzureName          string              `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string             `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string             `json:"location,omitempty"`
+	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -308,10 +308,10 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping JsonInputSchemaMapping
-		err := inputSchemaMapping.AssignProperties_From_JsonInputSchemaMapping(source.InputSchemaMapping)
+		var inputSchemaMapping InputSchemaMapping
+		err := inputSchemaMapping.AssignProperties_From_InputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_From_InputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		domain.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -380,10 +380,10 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *v2020060
 
 	// InputSchemaMapping
 	if domain.InputSchemaMapping != nil {
-		var inputSchemaMapping v20200601s.JsonInputSchemaMapping
-		err := domain.InputSchemaMapping.AssignProperties_To_JsonInputSchemaMapping(&inputSchemaMapping)
+		var inputSchemaMapping v20200601s.InputSchemaMapping
+		err := domain.InputSchemaMapping.AssignProperties_To_InputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignProperties_To_InputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -814,11 +814,74 @@ func (rule *InboundIpRule_STATUS) AssignProperties_To_InboundIpRule_STATUS(desti
 	return nil
 }
 
+// Storage version of v1alpha1api20200601.InputSchemaMapping
+// Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
+type InputSchemaMapping struct {
+	Json        *JsonInputSchemaMapping `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_InputSchemaMapping populates our InputSchemaMapping from the provided source InputSchemaMapping
+func (mapping *InputSchemaMapping) AssignProperties_From_InputSchemaMapping(source *v20200601s.InputSchemaMapping) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping
+		err := json.AssignProperties_From_JsonInputSchemaMapping(source.Json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping() to populate field Json")
+		}
+		mapping.Json = &json
+	} else {
+		mapping.Json = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		mapping.PropertyBag = propertyBag
+	} else {
+		mapping.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_InputSchemaMapping populates the provided destination InputSchemaMapping from our InputSchemaMapping
+func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destination *v20200601s.InputSchemaMapping) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
+
+	// Json
+	if mapping.Json != nil {
+		var json v20200601s.JsonInputSchemaMapping
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping(&json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping() to populate field Json")
+		}
+		destination.Json = &json
+	} else {
+		destination.Json = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20200601.InputSchemaMapping_STATUS
 // Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
 type InputSchemaMapping_STATUS struct {
-	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Json        *JsonInputSchemaMapping_STATUS `json:"json,omitempty"`
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_InputSchemaMapping_STATUS populates our InputSchemaMapping_STATUS from the provided source InputSchemaMapping_STATUS
@@ -826,8 +889,17 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_From_InputSchemaMappi
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// InputSchemaMappingType
-	mapping.InputSchemaMappingType = genruntime.ClonePointerToString(source.InputSchemaMappingType)
+	// Json
+	if source.Json != nil {
+		var json JsonInputSchemaMapping_STATUS
+		err := json.AssignProperties_From_JsonInputSchemaMapping_STATUS(source.Json)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMapping_STATUS() to populate field Json")
+		}
+		mapping.Json = &json
+	} else {
+		mapping.Json = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -845,77 +917,16 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_To_InputSchemaMapping
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
 
-	// InputSchemaMappingType
-	destination.InputSchemaMappingType = genruntime.ClonePointerToString(mapping.InputSchemaMappingType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.JsonInputSchemaMapping
-// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
-type JsonInputSchemaMapping struct {
-	InputSchemaMappingType *string                           `json:"inputSchemaMappingType,omitempty"`
-	Properties             *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
-	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_JsonInputSchemaMapping populates our JsonInputSchemaMapping from the provided source JsonInputSchemaMapping
-func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapping(source *v20200601s.JsonInputSchemaMapping) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// InputSchemaMappingType
-	mapping.InputSchemaMappingType = genruntime.ClonePointerToString(source.InputSchemaMappingType)
-
-	// Properties
-	if source.Properties != nil {
-		var property JsonInputSchemaMappingProperties
-		err := property.AssignProperties_From_JsonInputSchemaMappingProperties(source.Properties)
+	// Json
+	if mapping.Json != nil {
+		var json v20200601s.JsonInputSchemaMapping_STATUS
+		err := mapping.Json.AssignProperties_To_JsonInputSchemaMapping_STATUS(&json)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_JsonInputSchemaMappingProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMapping_STATUS() to populate field Json")
 		}
-		mapping.Properties = &property
+		destination.Json = &json
 	} else {
-		mapping.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		mapping.PropertyBag = propertyBag
-	} else {
-		mapping.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_JsonInputSchemaMapping populates the provided destination JsonInputSchemaMapping from our JsonInputSchemaMapping
-func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMapping(destination *v20200601s.JsonInputSchemaMapping) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
-
-	// InputSchemaMappingType
-	destination.InputSchemaMappingType = genruntime.ClonePointerToString(mapping.InputSchemaMappingType)
-
-	// Properties
-	if mapping.Properties != nil {
-		var property v20200601s.JsonInputSchemaMappingProperties
-		err := mapping.Properties.AssignProperties_To_JsonInputSchemaMappingProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_JsonInputSchemaMappingProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
+		destination.Json = nil
 	}
 
 	// Update the property bag
@@ -1054,20 +1065,21 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.JsonInputSchemaMappingProperties
-// Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
-type JsonInputSchemaMappingProperties struct {
-	DataVersion *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
-	EventTime   *JsonField             `json:"eventTime,omitempty"`
-	EventType   *JsonFieldWithDefault  `json:"eventType,omitempty"`
-	Id          *JsonField             `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *JsonFieldWithDefault  `json:"subject,omitempty"`
-	Topic       *JsonField             `json:"topic,omitempty"`
+// Storage version of v1alpha1api20200601.JsonInputSchemaMapping
+// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
+type JsonInputSchemaMapping struct {
+	DataVersion            *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
+	EventTime              *JsonField             `json:"eventTime,omitempty"`
+	EventType              *JsonFieldWithDefault  `json:"eventType,omitempty"`
+	Id                     *JsonField             `json:"id,omitempty"`
+	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Subject                *JsonFieldWithDefault  `json:"subject,omitempty"`
+	Topic                  *JsonField             `json:"topic,omitempty"`
 }
 
-// AssignProperties_From_JsonInputSchemaMappingProperties populates our JsonInputSchemaMappingProperties from the provided source JsonInputSchemaMappingProperties
-func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonInputSchemaMappingProperties(source *v20200601s.JsonInputSchemaMappingProperties) error {
+// AssignProperties_From_JsonInputSchemaMapping populates our JsonInputSchemaMapping from the provided source JsonInputSchemaMapping
+func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapping(source *v20200601s.JsonInputSchemaMapping) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1078,9 +1090,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault() to populate field DataVersion")
 		}
-		properties.DataVersion = &dataVersion
+		mapping.DataVersion = &dataVersion
 	} else {
-		properties.DataVersion = nil
+		mapping.DataVersion = nil
 	}
 
 	// EventTime
@@ -1090,9 +1102,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_JsonField() to populate field EventTime")
 		}
-		properties.EventTime = &eventTime
+		mapping.EventTime = &eventTime
 	} else {
-		properties.EventTime = nil
+		mapping.EventTime = nil
 	}
 
 	// EventType
@@ -1102,9 +1114,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault() to populate field EventType")
 		}
-		properties.EventType = &eventType
+		mapping.EventType = &eventType
 	} else {
-		properties.EventType = nil
+		mapping.EventType = nil
 	}
 
 	// Id
@@ -1114,10 +1126,13 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_JsonField() to populate field Id")
 		}
-		properties.Id = &id
+		mapping.Id = &id
 	} else {
-		properties.Id = nil
+		mapping.Id = nil
 	}
+
+	// InputSchemaMappingType
+	mapping.InputSchemaMappingType = genruntime.ClonePointerToString(source.InputSchemaMappingType)
 
 	// Subject
 	if source.Subject != nil {
@@ -1126,9 +1141,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault() to populate field Subject")
 		}
-		properties.Subject = &subject
+		mapping.Subject = &subject
 	} else {
-		properties.Subject = nil
+		mapping.Subject = nil
 	}
 
 	// Topic
@@ -1138,31 +1153,31 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_From_JsonIn
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_JsonField() to populate field Topic")
 		}
-		properties.Topic = &topic
+		mapping.Topic = &topic
 	} else {
-		properties.Topic = nil
+		mapping.Topic = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
+		mapping.PropertyBag = propertyBag
 	} else {
-		properties.PropertyBag = nil
+		mapping.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_JsonInputSchemaMappingProperties populates the provided destination JsonInputSchemaMappingProperties from our JsonInputSchemaMappingProperties
-func (properties *JsonInputSchemaMappingProperties) AssignProperties_To_JsonInputSchemaMappingProperties(destination *v20200601s.JsonInputSchemaMappingProperties) error {
+// AssignProperties_To_JsonInputSchemaMapping populates the provided destination JsonInputSchemaMapping from our JsonInputSchemaMapping
+func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMapping(destination *v20200601s.JsonInputSchemaMapping) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
 
 	// DataVersion
-	if properties.DataVersion != nil {
+	if mapping.DataVersion != nil {
 		var dataVersion v20200601s.JsonFieldWithDefault
-		err := properties.DataVersion.AssignProperties_To_JsonFieldWithDefault(&dataVersion)
+		err := mapping.DataVersion.AssignProperties_To_JsonFieldWithDefault(&dataVersion)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault() to populate field DataVersion")
 		}
@@ -1172,9 +1187,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_To_JsonInpu
 	}
 
 	// EventTime
-	if properties.EventTime != nil {
+	if mapping.EventTime != nil {
 		var eventTime v20200601s.JsonField
-		err := properties.EventTime.AssignProperties_To_JsonField(&eventTime)
+		err := mapping.EventTime.AssignProperties_To_JsonField(&eventTime)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_JsonField() to populate field EventTime")
 		}
@@ -1184,9 +1199,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_To_JsonInpu
 	}
 
 	// EventType
-	if properties.EventType != nil {
+	if mapping.EventType != nil {
 		var eventType v20200601s.JsonFieldWithDefault
-		err := properties.EventType.AssignProperties_To_JsonFieldWithDefault(&eventType)
+		err := mapping.EventType.AssignProperties_To_JsonFieldWithDefault(&eventType)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault() to populate field EventType")
 		}
@@ -1196,9 +1211,9 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_To_JsonInpu
 	}
 
 	// Id
-	if properties.Id != nil {
+	if mapping.Id != nil {
 		var id v20200601s.JsonField
-		err := properties.Id.AssignProperties_To_JsonField(&id)
+		err := mapping.Id.AssignProperties_To_JsonField(&id)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_JsonField() to populate field Id")
 		}
@@ -1207,10 +1222,13 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_To_JsonInpu
 		destination.Id = nil
 	}
 
+	// InputSchemaMappingType
+	destination.InputSchemaMappingType = genruntime.ClonePointerToString(mapping.InputSchemaMappingType)
+
 	// Subject
-	if properties.Subject != nil {
+	if mapping.Subject != nil {
 		var subject v20200601s.JsonFieldWithDefault
-		err := properties.Subject.AssignProperties_To_JsonFieldWithDefault(&subject)
+		err := mapping.Subject.AssignProperties_To_JsonFieldWithDefault(&subject)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault() to populate field Subject")
 		}
@@ -1220,11 +1238,206 @@ func (properties *JsonInputSchemaMappingProperties) AssignProperties_To_JsonInpu
 	}
 
 	// Topic
-	if properties.Topic != nil {
+	if mapping.Topic != nil {
 		var topic v20200601s.JsonField
-		err := properties.Topic.AssignProperties_To_JsonField(&topic)
+		err := mapping.Topic.AssignProperties_To_JsonField(&topic)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_JsonField() to populate field Topic")
+		}
+		destination.Topic = &topic
+	} else {
+		destination.Topic = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20200601.JsonInputSchemaMapping_STATUS
+// Deprecated version of JsonInputSchemaMapping_STATUS. Use v1beta20200601.JsonInputSchemaMapping_STATUS instead
+type JsonInputSchemaMapping_STATUS struct {
+	DataVersion            *JsonFieldWithDefault_STATUS `json:"dataVersion,omitempty"`
+	EventTime              *JsonField_STATUS            `json:"eventTime,omitempty"`
+	EventType              *JsonFieldWithDefault_STATUS `json:"eventType,omitempty"`
+	Id                     *JsonField_STATUS            `json:"id,omitempty"`
+	InputSchemaMappingType *string                      `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Subject                *JsonFieldWithDefault_STATUS `json:"subject,omitempty"`
+	Topic                  *JsonField_STATUS            `json:"topic,omitempty"`
+}
+
+// AssignProperties_From_JsonInputSchemaMapping_STATUS populates our JsonInputSchemaMapping_STATUS from the provided source JsonInputSchemaMapping_STATUS
+func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_From_JsonInputSchemaMapping_STATUS(source *v20200601s.JsonInputSchemaMapping_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DataVersion
+	if source.DataVersion != nil {
+		var dataVersion JsonFieldWithDefault_STATUS
+		err := dataVersion.AssignProperties_From_JsonFieldWithDefault_STATUS(source.DataVersion)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault_STATUS() to populate field DataVersion")
+		}
+		mapping.DataVersion = &dataVersion
+	} else {
+		mapping.DataVersion = nil
+	}
+
+	// EventTime
+	if source.EventTime != nil {
+		var eventTime JsonField_STATUS
+		err := eventTime.AssignProperties_From_JsonField_STATUS(source.EventTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField_STATUS() to populate field EventTime")
+		}
+		mapping.EventTime = &eventTime
+	} else {
+		mapping.EventTime = nil
+	}
+
+	// EventType
+	if source.EventType != nil {
+		var eventType JsonFieldWithDefault_STATUS
+		err := eventType.AssignProperties_From_JsonFieldWithDefault_STATUS(source.EventType)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault_STATUS() to populate field EventType")
+		}
+		mapping.EventType = &eventType
+	} else {
+		mapping.EventType = nil
+	}
+
+	// Id
+	if source.Id != nil {
+		var id JsonField_STATUS
+		err := id.AssignProperties_From_JsonField_STATUS(source.Id)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField_STATUS() to populate field Id")
+		}
+		mapping.Id = &id
+	} else {
+		mapping.Id = nil
+	}
+
+	// InputSchemaMappingType
+	mapping.InputSchemaMappingType = genruntime.ClonePointerToString(source.InputSchemaMappingType)
+
+	// Subject
+	if source.Subject != nil {
+		var subject JsonFieldWithDefault_STATUS
+		err := subject.AssignProperties_From_JsonFieldWithDefault_STATUS(source.Subject)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonFieldWithDefault_STATUS() to populate field Subject")
+		}
+		mapping.Subject = &subject
+	} else {
+		mapping.Subject = nil
+	}
+
+	// Topic
+	if source.Topic != nil {
+		var topic JsonField_STATUS
+		err := topic.AssignProperties_From_JsonField_STATUS(source.Topic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_JsonField_STATUS() to populate field Topic")
+		}
+		mapping.Topic = &topic
+	} else {
+		mapping.Topic = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		mapping.PropertyBag = propertyBag
+	} else {
+		mapping.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonInputSchemaMapping_STATUS populates the provided destination JsonInputSchemaMapping_STATUS from our JsonInputSchemaMapping_STATUS
+func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchemaMapping_STATUS(destination *v20200601s.JsonInputSchemaMapping_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
+
+	// DataVersion
+	if mapping.DataVersion != nil {
+		var dataVersion v20200601s.JsonFieldWithDefault_STATUS
+		err := mapping.DataVersion.AssignProperties_To_JsonFieldWithDefault_STATUS(&dataVersion)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault_STATUS() to populate field DataVersion")
+		}
+		destination.DataVersion = &dataVersion
+	} else {
+		destination.DataVersion = nil
+	}
+
+	// EventTime
+	if mapping.EventTime != nil {
+		var eventTime v20200601s.JsonField_STATUS
+		err := mapping.EventTime.AssignProperties_To_JsonField_STATUS(&eventTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField_STATUS() to populate field EventTime")
+		}
+		destination.EventTime = &eventTime
+	} else {
+		destination.EventTime = nil
+	}
+
+	// EventType
+	if mapping.EventType != nil {
+		var eventType v20200601s.JsonFieldWithDefault_STATUS
+		err := mapping.EventType.AssignProperties_To_JsonFieldWithDefault_STATUS(&eventType)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault_STATUS() to populate field EventType")
+		}
+		destination.EventType = &eventType
+	} else {
+		destination.EventType = nil
+	}
+
+	// Id
+	if mapping.Id != nil {
+		var id v20200601s.JsonField_STATUS
+		err := mapping.Id.AssignProperties_To_JsonField_STATUS(&id)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField_STATUS() to populate field Id")
+		}
+		destination.Id = &id
+	} else {
+		destination.Id = nil
+	}
+
+	// InputSchemaMappingType
+	destination.InputSchemaMappingType = genruntime.ClonePointerToString(mapping.InputSchemaMappingType)
+
+	// Subject
+	if mapping.Subject != nil {
+		var subject v20200601s.JsonFieldWithDefault_STATUS
+		err := mapping.Subject.AssignProperties_To_JsonFieldWithDefault_STATUS(&subject)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonFieldWithDefault_STATUS() to populate field Subject")
+		}
+		destination.Subject = &subject
+	} else {
+		destination.Subject = nil
+	}
+
+	// Topic
+	if mapping.Topic != nil {
+		var topic v20200601s.JsonField_STATUS
+		err := mapping.Topic.AssignProperties_To_JsonField_STATUS(&topic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_JsonField_STATUS() to populate field Topic")
 		}
 		destination.Topic = &topic
 	} else {
@@ -1287,6 +1500,51 @@ func (field *JsonField) AssignProperties_To_JsonField(destination *v20200601s.Js
 	return nil
 }
 
+// Storage version of v1alpha1api20200601.JsonField_STATUS
+// Deprecated version of JsonField_STATUS. Use v1beta20200601.JsonField_STATUS instead
+type JsonField_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourceField *string                `json:"sourceField,omitempty"`
+}
+
+// AssignProperties_From_JsonField_STATUS populates our JsonField_STATUS from the provided source JsonField_STATUS
+func (field *JsonField_STATUS) AssignProperties_From_JsonField_STATUS(source *v20200601s.JsonField_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// SourceField
+	field.SourceField = genruntime.ClonePointerToString(source.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		field.PropertyBag = propertyBag
+	} else {
+		field.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonField_STATUS populates the provided destination JsonField_STATUS from our JsonField_STATUS
+func (field *JsonField_STATUS) AssignProperties_To_JsonField_STATUS(destination *v20200601s.JsonField_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
+
+	// SourceField
+	destination.SourceField = genruntime.ClonePointerToString(field.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20200601.JsonFieldWithDefault
 // Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
 type JsonFieldWithDefault struct {
@@ -1319,6 +1577,58 @@ func (withDefault *JsonFieldWithDefault) AssignProperties_From_JsonFieldWithDefa
 
 // AssignProperties_To_JsonFieldWithDefault populates the provided destination JsonFieldWithDefault from our JsonFieldWithDefault
 func (withDefault *JsonFieldWithDefault) AssignProperties_To_JsonFieldWithDefault(destination *v20200601s.JsonFieldWithDefault) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(withDefault.PropertyBag)
+
+	// DefaultValue
+	destination.DefaultValue = genruntime.ClonePointerToString(withDefault.DefaultValue)
+
+	// SourceField
+	destination.SourceField = genruntime.ClonePointerToString(withDefault.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20200601.JsonFieldWithDefault_STATUS
+// Deprecated version of JsonFieldWithDefault_STATUS. Use v1beta20200601.JsonFieldWithDefault_STATUS instead
+type JsonFieldWithDefault_STATUS struct {
+	DefaultValue *string                `json:"defaultValue,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SourceField  *string                `json:"sourceField,omitempty"`
+}
+
+// AssignProperties_From_JsonFieldWithDefault_STATUS populates our JsonFieldWithDefault_STATUS from the provided source JsonFieldWithDefault_STATUS
+func (withDefault *JsonFieldWithDefault_STATUS) AssignProperties_From_JsonFieldWithDefault_STATUS(source *v20200601s.JsonFieldWithDefault_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DefaultValue
+	withDefault.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
+
+	// SourceField
+	withDefault.SourceField = genruntime.ClonePointerToString(source.SourceField)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		withDefault.PropertyBag = propertyBag
+	} else {
+		withDefault.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_JsonFieldWithDefault_STATUS populates the provided destination JsonFieldWithDefault_STATUS from our JsonFieldWithDefault_STATUS
+func (withDefault *JsonFieldWithDefault_STATUS) AssignProperties_To_JsonFieldWithDefault_STATUS(destination *v20200601s.JsonFieldWithDefault_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(withDefault.PropertyBag)
 

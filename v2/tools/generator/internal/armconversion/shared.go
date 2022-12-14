@@ -75,7 +75,7 @@ func initializeAzureName(idFactory astmodel.IdentifierFactory) {
 		" the name of the resource in Kubernetes but it doesn't have to be."
 	azureNameProperty = astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(astmodel.AzureNameProperty, astmodel.Exported),
-		idFactory.CreateIdentifier(astmodel.AzureNameProperty, astmodel.NotExported),
+		idFactory.CreateStringIdentifier(astmodel.AzureNameProperty, astmodel.NotExported),
 		astmodel.StringType).WithDescription(azureNameFieldDescription)
 }
 

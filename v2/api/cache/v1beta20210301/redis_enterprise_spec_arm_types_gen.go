@@ -8,17 +8,15 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type RedisEnterprise_Spec_ARM struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
-	// Name: The name of the RedisEnterprise cluster.
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
+	// Properties: Other properties of the cluster.
 	Properties *ClusterProperties_ARM `json:"properties,omitempty"`
 
-	// Sku: SKU parameters supplied to the create RedisEnterprise operation.
+	// Sku: The SKU to create, which affects price, performance, and features.
 	Sku *Sku_ARM `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: The Availability Zones where this cluster will be deployed.
@@ -42,19 +40,19 @@ func (enterprise *RedisEnterprise_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties
+// Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
 type ClusterProperties_ARM struct {
-	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
+	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku_ARM struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
+	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
 	Name *Sku_Name `json:"name,omitempty"`
 }
 

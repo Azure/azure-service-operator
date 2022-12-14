@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20220301
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Site_Spec_ARM struct {
 	// ExtendedLocation: Extended Location.
@@ -18,16 +15,14 @@ type Site_Spec_ARM struct {
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource Location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Unique name of the app to create or update. To create or update a deployment slot, use the {slot} parameter.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Site resource specific properties
 	Properties *Site_Properties_Spec_ARM `json:"properties,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -48,15 +43,10 @@ func (site *Site_Spec_ARM) GetType() string {
 	return "Microsoft.Web/sites"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ManagedServiceIdentity
+// Managed service identity.
 type ManagedServiceIdentity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 type Site_Properties_Spec_ARM struct {
@@ -77,7 +67,7 @@ type Site_Properties_Spec_ARM struct {
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
 	ClientCertMode *Site_Properties_ClientCertMode_Spec `json:"clientCertMode,omitempty"`
 
-	// CloningInfo: Information needed for cloning operation.
+	// CloningInfo: If specified during app creation, the app is cloned from a source app.
 	CloningInfo *CloningInfo_ARM `json:"cloningInfo,omitempty"`
 
 	// ContainerSize: Size of the function container.
@@ -101,7 +91,7 @@ type Site_Properties_Spec_ARM struct {
 	// If <code>true</code>, the app is only accessible via API management process.
 	HostNamesDisabled *bool `json:"hostNamesDisabled,omitempty"`
 
-	// HostingEnvironmentProfile: Specification for an App Service Environment to use for this resource.
+	// HostingEnvironmentProfile: App Service Environment to use for the app.
 	HostingEnvironmentProfile *HostingEnvironmentProfile_ARM `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HttpsOnly: HttpsOnly: configures a web site to accept only https requests. Issues redirect for
@@ -121,7 +111,7 @@ type Site_Properties_Spec_ARM struct {
 	// string.
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
-	// RedundancyMode: Site redundancy mode.
+	// RedundancyMode: Site redundancy mode
 	RedundancyMode *Site_Properties_RedundancyMode_Spec `json:"redundancyMode,omitempty"`
 
 	// Reserved: <code>true</code> if reserved; otherwise, <code>false</code>.
@@ -132,8 +122,8 @@ type Site_Properties_Spec_ARM struct {
 	ScmSiteAlsoStopped *bool   `json:"scmSiteAlsoStopped,omitempty"`
 	ServerFarmId       *string `json:"serverFarmId,omitempty"`
 
-	// SiteConfig: Configuration of an App Service app.
-	SiteConfig *Site_Properties_SiteConfig_Spec_ARM `json:"siteConfig,omitempty"`
+	// SiteConfig: Configuration of the app.
+	SiteConfig *SiteConfig_ARM `json:"siteConfig,omitempty"`
 
 	// StorageAccountRequired: Checks if Customer provided storage account is required
 	StorageAccountRequired *bool   `json:"storageAccountRequired,omitempty"`
@@ -150,7 +140,7 @@ type Site_Properties_Spec_ARM struct {
 	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/CloningInfo
+// Information needed for cloning operation.
 type CloningInfo_ARM struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -186,7 +176,7 @@ type CloningInfo_ARM struct {
 	TrafficManagerProfileName *string `json:"trafficManagerProfileName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HostNameSslState
+// SSL-enabled hostname.
 type HostNameSslState_ARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType `json:"hostType,omitempty"`
@@ -217,7 +207,8 @@ const (
 	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
 
-type Site_Properties_SiteConfig_Spec_ARM struct {
+// Configuration of an App Service app.
+type SiteConfig_ARM struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
 
@@ -230,7 +221,7 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	// ApiDefinition: Information about the formal API definition for the app.
 	ApiDefinition *ApiDefinitionInfo_ARM `json:"apiDefinition,omitempty"`
 
-	// ApiManagementConfig: Azure API management (APIM) configuration linked to the app.
+	// ApiManagementConfig: Azure API management settings linked to the app.
 	ApiManagementConfig *ApiManagementConfig_ARM `json:"apiManagementConfig,omitempty"`
 
 	// AppCommandLine: App command line to launch.
@@ -242,19 +233,19 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	// AutoHealEnabled: <code>true</code> if Auto Heal is enabled; otherwise, <code>false</code>.
 	AutoHealEnabled *bool `json:"autoHealEnabled,omitempty"`
 
-	// AutoHealRules: Rules that can be defined for auto-heal.
+	// AutoHealRules: Auto Heal rules.
 	AutoHealRules *AutoHealRules_ARM `json:"autoHealRules,omitempty"`
 
 	// AutoSwapSlotName: Auto-swap slot name.
 	AutoSwapSlotName *string `json:"autoSwapSlotName,omitempty"`
 
 	// AzureStorageAccounts: List of Azure Storage Accounts.
-	AzureStorageAccounts map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM `json:"azureStorageAccounts,omitempty"`
+	AzureStorageAccounts map[string]AzureStorageInfoValue_ARM `json:"azureStorageAccounts,omitempty"`
 
 	// ConnectionStrings: Connection strings.
 	ConnectionStrings []ConnStringInfo_ARM `json:"connectionStrings,omitempty"`
 
-	// Cors: Cross-Origin Resource Sharing (CORS) settings for the app.
+	// Cors: Cross-Origin Resource Sharing (CORS) settings.
 	Cors *CorsSettings_ARM `json:"cors,omitempty"`
 
 	// DefaultDocuments: Default documents.
@@ -266,11 +257,11 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	// DocumentRoot: Document root.
 	DocumentRoot *string `json:"documentRoot,omitempty"`
 
-	// Experiments: Routing rules in production experiments.
+	// Experiments: This is work around for polymorphic types.
 	Experiments *Experiments_ARM `json:"experiments,omitempty"`
 
-	// FtpsState: State of FTP / FTPS service.
-	FtpsState *Site_Properties_SiteConfig_FtpsState_Spec `json:"ftpsState,omitempty"`
+	// FtpsState: State of FTP / FTPS service
+	FtpsState *SiteConfig_FtpsState `json:"ftpsState,omitempty"`
 
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
 	// This setting only applies to the Consumption and Elastic Premium Plans
@@ -309,14 +300,14 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	// KeyVaultReferenceIdentity: Identity to use for Key Vault Reference authentication.
 	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
 
-	// Limits: Metric limits set on an app.
+	// Limits: Site limits.
 	Limits *SiteLimits_ARM `json:"limits,omitempty"`
 
 	// LinuxFxVersion: Linux App Framework and version
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *Site_Properties_SiteConfig_LoadBalancing_Spec `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_LoadBalancing `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -325,13 +316,13 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *Site_Properties_SiteConfig_ManagedPipelineMode_Spec `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
-	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests.
-	MinTlsVersion *Site_Properties_SiteConfig_MinTlsVersion_Spec `json:"minTlsVersion,omitempty"`
+	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
+	MinTlsVersion *SiteConfig_MinTlsVersion `json:"minTlsVersion,omitempty"`
 
 	// MinimumElasticInstanceCount: Number of minimum instance count for a site
 	// This setting only applies to the Elastic Plans
@@ -362,8 +353,8 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	// PublishingUsername: Publishing user name.
 	PublishingUsername *string `json:"publishingUsername,omitempty"`
 
-	// Push: Push settings for the App.
-	Push *Site_Properties_SiteConfig_Push_Spec_ARM `json:"push,omitempty"`
+	// Push: Push endpoint settings.
+	Push *PushSettings_ARM `json:"push,omitempty"`
 
 	// PythonVersion: Version of Python.
 	PythonVersion *string `json:"pythonVersion,omitempty"`
@@ -386,11 +377,11 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	// ScmIpSecurityRestrictionsUseMain: IP security restrictions for scm to use main.
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
-	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site.
-	ScmMinTlsVersion *Site_Properties_SiteConfig_ScmMinTlsVersion_Spec `json:"scmMinTlsVersion,omitempty"`
+	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
+	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *Site_Properties_SiteConfig_ScmType_Spec `json:"scmType,omitempty"`
+	ScmType *SiteConfig_ScmType `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -428,27 +419,45 @@ type Site_Properties_SiteConfig_Spec_ARM struct {
 	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ApiDefinitionInfo
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo_ARM struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ApiManagementConfig
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealRules
+// Rules that can be defined for auto-heal.
 type AutoHealRules_ARM struct {
-	// Actions: Actions which to take by the auto-heal module when a rule is triggered.
+	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions_ARM `json:"actions,omitempty"`
 
-	// Triggers: Triggers for auto-heal.
+	// Triggers: Conditions that describe when to execute the auto-heal actions.
 	Triggers *AutoHealTriggers_ARM `json:"triggers,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ConnStringInfo
+// Azure Files or Blob Storage access information value for dictionary storage.
+type AzureStorageInfoValue_ARM struct {
+	// AccessKey: Access key for the storage account.
+	AccessKey *string `json:"accessKey,omitempty"`
+
+	// AccountName: Name of the storage account.
+	AccountName *string `json:"accountName,omitempty"`
+
+	// MountPath: Path to mount the storage within the site's runtime environment.
+	MountPath *string `json:"mountPath,omitempty"`
+
+	// ShareName: Name of the file share (container name, for Blob storage).
+	ShareName *string `json:"shareName,omitempty"`
+
+	// Type: Type of storage.
+	Type *AzureStorageInfoValue_Type `json:"type,omitempty"`
+}
+
+// Database connection string information.
 type ConnStringInfo_ARM struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -460,7 +469,7 @@ type ConnStringInfo_ARM struct {
 	Type *ConnStringInfo_Type `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/CorsSettings
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings_ARM struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -472,13 +481,15 @@ type CorsSettings_ARM struct {
 	SupportCredentials *bool `json:"supportCredentials,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/Experiments
+// Routing rules in production experiments.
 type Experiments_ARM struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule_ARM `json:"rampUpRules,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HandlerMapping
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping_ARM struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -490,7 +501,7 @@ type HandlerMapping_ARM struct {
 	ScriptProcessor *string `json:"scriptProcessor,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/IpSecurityRestriction
+// IP security restriction on an app.
 type IpSecurityRestriction_ARM struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -541,7 +552,7 @@ type IpSecurityRestriction_ARM struct {
 	VnetTrafficTag *int `json:"vnetTrafficTag,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/NameValuePair
+// Name value pair.
 type NameValuePair_ARM struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -550,32 +561,16 @@ type NameValuePair_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM struct {
-	// AccessKey: Access key for the storage account.
-	AccessKey *string `json:"accessKey,omitempty"`
-
-	// AccountName: Name of the storage account.
-	AccountName *string `json:"accountName,omitempty"`
-
-	// MountPath: Path to mount the storage within the site's runtime environment.
-	MountPath *string `json:"mountPath,omitempty"`
-
-	// ShareName: Name of the file share (container name, for Blob storage).
-	ShareName *string `json:"shareName,omitempty"`
-
-	// Type: Type of storage.
-	Type *Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec `json:"type,omitempty"`
-}
-
-type Site_Properties_SiteConfig_Push_Spec_ARM struct {
+// Push settings for the App.
+type PushSettings_ARM struct {
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
 	// Properties: PushSettings resource specific properties
-	Properties *PushSettingsProperties_ARM `json:"properties,omitempty"`
+	Properties *PushSettings_Properties_ARM `json:"properties,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SiteLimits
+// Metric limits set on an app.
 type SiteLimits_ARM struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -587,7 +582,7 @@ type SiteLimits_ARM struct {
 	MaxPercentageCpu *float64 `json:"maxPercentageCpu,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/VirtualApplication
+// Virtual application in an app.
 type VirtualApplication_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -602,13 +597,12 @@ type VirtualApplication_ARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealActions
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_ARM struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType `json:"actionType,omitempty"`
 
-	// CustomAction: Custom action to be executed
-	// when an auto heal rule is triggered.
+	// CustomAction: Custom action to be taken.
 	CustomAction *AutoHealCustomAction_ARM `json:"customAction,omitempty"`
 
 	// MinProcessExecutionTime: Minimum time the process must execute
@@ -616,15 +610,15 @@ type AutoHealActions_ARM struct {
 	MinProcessExecutionTime *string `json:"minProcessExecutionTime,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealTriggers
+// Triggers for auto-heal.
 type AutoHealTriggers_ARM struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
 
-	// Requests: Trigger based on total requests.
+	// Requests: A rule based on total requests.
 	Requests *RequestsBasedTrigger_ARM `json:"requests,omitempty"`
 
-	// SlowRequests: Trigger based on request execution time.
+	// SlowRequests: A rule based on request execution time.
 	SlowRequests *SlowRequestsBasedTrigger_ARM `json:"slowRequests,omitempty"`
 
 	// SlowRequestsWithPath: A rule based on multiple Slow Requests Rule with path
@@ -637,8 +631,7 @@ type AutoHealTriggers_ARM struct {
 	StatusCodesRange []StatusCodesRangeBasedTrigger_ARM `json:"statusCodesRange,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/PushSettingsProperties
-type PushSettingsProperties_ARM struct {
+type PushSettings_Properties_ARM struct {
 	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
 	// the push registration endpoint.
 	DynamicTagsJson *string `json:"dynamicTagsJson,omitempty"`
@@ -658,7 +651,8 @@ type PushSettingsProperties_ARM struct {
 	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/RampUpRule
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule_ARM struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -693,7 +687,7 @@ type RampUpRule_ARM struct {
 	ReroutePercentage *float64 `json:"reroutePercentage,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/VirtualDirectory
+// Directory for virtual application.
 type VirtualDirectory_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -702,7 +696,8 @@ type VirtualDirectory_ARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealCustomAction
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction_ARM struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -711,7 +706,7 @@ type AutoHealCustomAction_ARM struct {
 	Parameters *string `json:"parameters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/RequestsBasedTrigger
+// Trigger based on total requests.
 type RequestsBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -720,7 +715,7 @@ type RequestsBasedTrigger_ARM struct {
 	TimeInterval *string `json:"timeInterval,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SlowRequestsBasedTrigger
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -735,7 +730,7 @@ type SlowRequestsBasedTrigger_ARM struct {
 	TimeTaken *string `json:"timeTaken,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/StatusCodesBasedTrigger
+// Trigger based on status code.
 type StatusCodesBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -756,7 +751,7 @@ type StatusCodesBasedTrigger_ARM struct {
 	Win32Status *int `json:"win32Status,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/StatusCodesRangeBasedTrigger
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`

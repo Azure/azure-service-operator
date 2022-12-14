@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabases_Collection_Spec `json:"spec,omitempty"`
-	Status            MongoDBCollectionGetResults_STATUS                `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabases_Collection_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_MongodbDatabases_Collection_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -123,7 +125,7 @@ func (collection *MongodbDatabaseCollection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (collection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBCollectionGetResults_STATUS{}
+	return &DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (collection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBCollectionGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_MongodbDatabases_Collection_STATUS); ok {
 		collection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBCollectionGetResults_STATUS
+	var st DatabaseAccounts_MongodbDatabases_Collection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +265,10 @@ func (collection *MongodbDatabaseCollection) AssignProperties_From_MongodbDataba
 	collection.Spec = spec
 
 	// Status
-	var status MongoDBCollectionGetResults_STATUS
-	err = status.AssignProperties_From_MongoDBCollectionGetResults_STATUS(&source.Status)
+	var status DatabaseAccounts_MongodbDatabases_Collection_STATUS
+	err = status.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_MongoDBCollectionGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS() to populate field Status")
 	}
 	collection.Status = status
 
@@ -289,10 +291,10 @@ func (collection *MongodbDatabaseCollection) AssignProperties_To_MongodbDatabase
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.MongoDBCollectionGetResults_STATUS
-	err = collection.Status.AssignProperties_To_MongoDBCollectionGetResults_STATUS(&status)
+	var status v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS
+	err = collection.Status.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_MongoDBCollectionGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,7 +312,9 @@ func (collection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}
 type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -325,8 +329,8 @@ type DatabaseAccounts_MongodbDatabases_Collection_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	// "If-None-Match", "Session-Token" and "Throughput"
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -336,15 +340,9 @@ type DatabaseAccounts_MongodbDatabases_Collection_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
-	// Resource: Cosmos DB MongoDB collection resource object
+	// Resource: The standard JSON format of a MongoDB collection
 	Resource *MongoDBCollectionResource `json:"resource,omitempty"`
-
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccounts_MongodbDatabases_Collection_Spec{}
@@ -628,7 +626,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) SetAzureNam
 	collection.AzureName = azureName
 }
 
-type MongoDBCollectionGetResults_STATUS struct {
+type DatabaseAccounts_MongodbDatabases_Collection_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -639,7 +637,9 @@ type MongoDBCollectionGetResults_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                         `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                               `json:"tags,omitempty"`
@@ -648,25 +648,25 @@ type MongoDBCollectionGetResults_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &MongoDBCollectionGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
 
-// ConvertStatusFrom populates our MongoDBCollectionGetResults_STATUS from the provided source
-func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.MongoDBCollectionGetResults_STATUS)
+// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabases_Collection_STATUS from the provided source
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignProperties_From_MongoDBCollectionGetResults_STATUS(src)
+		return collection.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.MongoDBCollectionGetResults_STATUS{}
+	src = &v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignProperties_From_MongoDBCollectionGetResults_STATUS(src)
+	err = collection.AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -674,17 +674,17 @@ func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusFrom(source genr
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our MongoDBCollectionGetResults_STATUS
-func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.MongoDBCollectionGetResults_STATUS)
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collection_STATUS
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignProperties_To_MongoDBCollectionGetResults_STATUS(dst)
+		return collection.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.MongoDBCollectionGetResults_STATUS{}
-	err := results.AssignProperties_To_MongoDBCollectionGetResults_STATUS(dst)
+	dst = &v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
+	err := collection.AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -698,18 +698,18 @@ func (results *MongoDBCollectionGetResults_STATUS) ConvertStatusTo(destination g
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &MongoDBCollectionGetResults_STATUS{}
+var _ genruntime.FromARMConverter = &DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *MongoDBCollectionGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBCollectionGetResults_STATUS_ARM{}
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *MongoDBCollectionGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBCollectionGetResults_STATUS_ARM)
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBCollectionGetResults_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -717,19 +717,19 @@ func (results *MongoDBCollectionGetResults_STATUS) PopulateFromARM(owner genrunt
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		collection.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		results.Location = &location
+		collection.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		collection.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -742,7 +742,7 @@ func (results *MongoDBCollectionGetResults_STATUS) PopulateFromARM(owner genrunt
 				return err
 			}
 			options := options1
-			results.Options = &options
+			collection.Options = &options
 		}
 	}
 
@@ -756,42 +756,42 @@ func (results *MongoDBCollectionGetResults_STATUS) PopulateFromARM(owner genrunt
 				return err
 			}
 			resource := resource1
-			results.Resource = &resource
+			collection.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string, len(typedInput.Tags))
+		collection.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			results.Tags[key] = value
+			collection.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		collection.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_MongoDBCollectionGetResults_STATUS populates our MongoDBCollectionGetResults_STATUS from the provided source MongoDBCollectionGetResults_STATUS
-func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_From_MongoDBCollectionGetResults_STATUS(source *v20210515s.MongoDBCollectionGetResults_STATUS) error {
+// AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS populates our DatabaseAccounts_MongodbDatabases_Collection_STATUS from the provided source DatabaseAccounts_MongodbDatabases_Collection_STATUS
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) AssignProperties_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS(source *v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS) error {
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	collection.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	collection.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	collection.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	collection.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -800,9 +800,9 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_From_MongoDB
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
 		}
-		results.Options = &option
+		collection.Options = &option
 	} else {
-		results.Options = nil
+		collection.Options = nil
 	}
 
 	// Resource
@@ -812,42 +812,42 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_From_MongoDB
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_MongoDBCollectionGetProperties_Resource_STATUS() to populate field Resource")
 		}
-		results.Resource = &resource
+		collection.Resource = &resource
 	} else {
-		results.Resource = nil
+		collection.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	collection.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	collection.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_MongoDBCollectionGetResults_STATUS populates the provided destination MongoDBCollectionGetResults_STATUS from our MongoDBCollectionGetResults_STATUS
-func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_To_MongoDBCollectionGetResults_STATUS(destination *v20210515s.MongoDBCollectionGetResults_STATUS) error {
+// AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_STATUS populates the provided destination DatabaseAccounts_MongodbDatabases_Collection_STATUS from our DatabaseAccounts_MongodbDatabases_Collection_STATUS
+func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) AssignProperties_To_DatabaseAccounts_MongodbDatabases_Collection_STATUS(destination *v20210515s.DatabaseAccounts_MongodbDatabases_Collection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(collection.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(collection.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(collection.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(collection.Name)
 
 	// Options
-	if results.Options != nil {
+	if collection.Options != nil {
 		var option v20210515s.OptionsResource_STATUS
-		err := results.Options.AssignProperties_To_OptionsResource_STATUS(&option)
+		err := collection.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
 		}
@@ -857,9 +857,9 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_To_MongoDBCo
 	}
 
 	// Resource
-	if results.Resource != nil {
+	if collection.Resource != nil {
 		var resource v20210515s.MongoDBCollectionGetProperties_Resource_STATUS
-		err := results.Resource.AssignProperties_To_MongoDBCollectionGetProperties_Resource_STATUS(&resource)
+		err := collection.Resource.AssignProperties_To_MongoDBCollectionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_MongoDBCollectionGetProperties_Resource_STATUS() to populate field Resource")
 		}
@@ -869,10 +869,10 @@ func (results *MongoDBCollectionGetResults_STATUS) AssignProperties_To_MongoDBCo
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(collection.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(collection.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1079,7 +1079,7 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignProperties
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionResource
+// Cosmos DB MongoDB collection resource object
 type MongoDBCollectionResource struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -1091,7 +1091,7 @@ type MongoDBCollectionResource struct {
 	// Indexes: List of index keys
 	Indexes []MongoIndex `json:"indexes,omitempty"`
 
-	// ShardKey: The shard key and partition kind pair, only support "Hash" partition kind
+	// ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
@@ -1258,12 +1258,12 @@ func (resource *MongoDBCollectionResource) AssignProperties_To_MongoDBCollection
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndex
+// Cosmos DB MongoDB collection index key
 type MongoIndex struct {
-	// Key: Cosmos DB MongoDB collection resource object
+	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys `json:"key,omitempty"`
 
-	// Options: Cosmos DB MongoDB collection index options
+	// Options: Cosmos DB MongoDB collection index key options
 	Options *MongoIndexOptions `json:"options,omitempty"`
 }
 
@@ -1407,6 +1407,7 @@ func (index *MongoIndex) AssignProperties_To_MongoIndex(destination *v20210515s.
 	return nil
 }
 
+// Cosmos DB MongoDB collection index key
 type MongoIndex_STATUS struct {
 	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_STATUS `json:"key,omitempty"`
@@ -1526,7 +1527,7 @@ func (index *MongoIndex_STATUS) AssignProperties_To_MongoIndex_STATUS(destinatio
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexKeys
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
@@ -1598,6 +1599,7 @@ func (keys *MongoIndexKeys) AssignProperties_To_MongoIndexKeys(destination *v202
 	return nil
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_STATUS struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
@@ -1655,7 +1657,7 @@ func (keys *MongoIndexKeys_STATUS) AssignProperties_To_MongoIndexKeys_STATUS(des
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoIndexOptions
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
@@ -1760,6 +1762,7 @@ func (options *MongoIndexOptions) AssignProperties_To_MongoIndexOptions(destinat
 	return nil
 }
 
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions_STATUS struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

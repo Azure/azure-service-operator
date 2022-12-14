@@ -364,7 +364,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"eastus","name":"asotestalhzfe","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
+    body: '{"name":"asotestalhzfe","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
     form: {}
     headers:
       Accept:

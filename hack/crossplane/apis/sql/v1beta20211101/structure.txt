@@ -1,0 +1,115 @@
+github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20211101
+├── APIVersion: Enum (1 value)
+│   └── "2021-11-01"
+└── Server: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/hack/crossplane/apis/resources/v1betav20191001.ResourceGroup
+    ├── Spec: Object (1 property)
+    │   └── ForProvider: Object (17 properties)
+    │       ├── AdministratorLogin: *string
+    │       ├── AdministratorLoginPassword: *string
+    │       ├── Administrators: *Object (6 properties)
+    │       │   ├── AdministratorType: *Enum (1 value)
+    │       │   │   └── "ActiveDirectory"
+    │       │   ├── AzureADOnlyAuthentication: *bool
+    │       │   ├── Login: *string
+    │       │   ├── PrincipalType: *Enum (3 values)
+    │       │   │   ├── "Application"
+    │       │   │   ├── "Group"
+    │       │   │   └── "User"
+    │       │   ├── Sid: Validated<*string> (1 rule)
+    │       │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+    │       │   └── TenantId: Validated<*string> (1 rule)
+    │       │       └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+    │       ├── FederatedClientId: Validated<*string> (1 rule)
+    │       │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+    │       ├── Identity: *Object (1 property)
+    │       │   └── Type: *Enum (4 values)
+    │       │       ├── "None"
+    │       │       ├── "SystemAssigned"
+    │       │       ├── "SystemAssigned,UserAssigned"
+    │       │       └── "UserAssigned"
+    │       ├── KeyId: *string
+    │       ├── Location: *string
+    │       ├── MinimalTlsVersion: *string
+    │       ├── Name: string
+    │       ├── PrimaryUserAssignedIdentityId: *string
+    │       ├── PublicNetworkAccess: *Enum (2 values)
+    │       │   ├── "Disabled"
+    │       │   └── "Enabled"
+    │       ├── ResourceGroupName: string
+    │       ├── ResourceGroupNameRef: *v1alpha1.Reference
+    │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+    │       ├── RestrictOutboundNetworkAccess: *Enum (2 values)
+    │       │   ├── "Disabled"
+    │       │   └── "Enabled"
+    │       ├── Tags: map[string]string
+    │       └── Version: *string
+    └── Status: Object (1 property)
+        └── AtProvider: Object (21 properties)
+            ├── AdministratorLogin: *string
+            ├── AdministratorLoginPassword: *string
+            ├── Administrators: *Object (6 properties)
+            │   ├── AdministratorType: *Enum (1 value)
+            │   │   └── "ActiveDirectory"
+            │   ├── AzureADOnlyAuthentication: *bool
+            │   ├── Login: *string
+            │   ├── PrincipalType: *Enum (3 values)
+            │   │   ├── "Application"
+            │   │   ├── "Group"
+            │   │   └── "User"
+            │   ├── Sid: *string
+            │   └── TenantId: *string
+            ├── FederatedClientId: *string
+            ├── FullyQualifiedDomainName: *string
+            ├── Id: *string
+            ├── Identity: *Object (4 properties)
+            │   ├── PrincipalId: *string
+            │   ├── TenantId: *string
+            │   ├── Type: *Enum (4 values)
+            │   │   ├── "None"
+            │   │   ├── "SystemAssigned"
+            │   │   ├── "SystemAssigned,UserAssigned"
+            │   │   └── "UserAssigned"
+            │   └── UserAssignedIdentities: map[string]Object (2 properties)
+            │       ├── ClientId: *string
+            │       └── PrincipalId: *string
+            ├── KeyId: *string
+            ├── Kind: *string
+            ├── Location: *string
+            ├── MinimalTlsVersion: *string
+            ├── Name: *string
+            ├── PrimaryUserAssignedIdentityId: *string
+            ├── PrivateEndpointConnections: Object (2 properties)[]
+            │   ├── Id: *string
+            │   └── Properties: *Object (4 properties)
+            │       ├── GroupIds: string[]
+            │       ├── PrivateEndpoint: *Object (1 property)
+            │       │   └── Id: *string
+            │       ├── PrivateLinkServiceConnectionState: *Object (3 properties)
+            │       │   ├── ActionsRequired: *Enum (1 value)
+            │       │   │   └── "None"
+            │       │   ├── Description: *string
+            │       │   └── Status: *Enum (4 values)
+            │       │       ├── "Approved"
+            │       │       ├── "Disconnected"
+            │       │       ├── "Pending"
+            │       │       └── "Rejected"
+            │       └── ProvisioningState: *Enum (5 values)
+            │           ├── "Approving"
+            │           ├── "Dropping"
+            │           ├── "Failed"
+            │           ├── "Ready"
+            │           └── "Rejecting"
+            ├── PublicNetworkAccess: *Enum (2 values)
+            │   ├── "Disabled"
+            │   └── "Enabled"
+            ├── RestrictOutboundNetworkAccess: *Enum (2 values)
+            │   ├── "Disabled"
+            │   └── "Enabled"
+            ├── State: *string
+            ├── Tags: map[string]string
+            ├── Type: *string
+            ├── Version: *string
+            └── WorkspaceFeature: *Enum (2 values)
+                ├── "Connected"
+                └── "Disconnected"

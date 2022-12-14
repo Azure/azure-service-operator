@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -23,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200202.Component
-// Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/resourceDefinitions/components
+// Generator information:
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/components_API.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Component_Spec                      `json:"spec,omitempty"`
-	Status            ApplicationInsightsComponent_STATUS `json:"status,omitempty"`
+	Spec              Component_Spec   `json:"spec,omitempty"`
+	Status            Component_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Component{}
@@ -77,7 +78,7 @@ func (component *Component) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ApplicationInsightsComponent_STATUS{}
+	return &Component_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +94,13 @@ func (component *Component) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ApplicationInsightsComponent_STATUS); ok {
+	if st, ok := status.(*Component_STATUS); ok {
 		component.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ApplicationInsightsComponent_STATUS
+	var st Component_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -123,7 +124,9 @@ func (component *Component) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200202.Component
-// Generated from: https://schema.management.azure.com/schemas/2020-02-02/Microsoft.Insights.Application.json#/resourceDefinitions/components
+// Generator information:
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/components_API.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}
 type ComponentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -135,64 +138,6 @@ type ComponentList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-02-02")
-
-// Storage version of v1beta20200202.ApplicationInsightsComponent_STATUS
-type ApplicationInsightsComponent_STATUS struct {
-	AppId                           *string                            `json:"AppId,omitempty"`
-	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
-	Application_Type                *string                            `json:"Application_Type,omitempty"`
-	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
-	ConnectionString                *string                            `json:"ConnectionString,omitempty"`
-	CreationDate                    *string                            `json:"CreationDate,omitempty"`
-	DisableIpMasking                *bool                              `json:"DisableIpMasking,omitempty"`
-	DisableLocalAuth                *bool                              `json:"DisableLocalAuth,omitempty"`
-	Etag                            *string                            `json:"etag,omitempty"`
-	Flow_Type                       *string                            `json:"Flow_Type,omitempty"`
-	ForceCustomerStorageForProfiler *bool                              `json:"ForceCustomerStorageForProfiler,omitempty"`
-	HockeyAppId                     *string                            `json:"HockeyAppId,omitempty"`
-	HockeyAppToken                  *string                            `json:"HockeyAppToken,omitempty"`
-	Id                              *string                            `json:"id,omitempty"`
-	ImmediatePurgeDataOn30Days      *bool                              `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *string                            `json:"IngestionMode,omitempty"`
-	InstrumentationKey              *string                            `json:"InstrumentationKey,omitempty"`
-	Kind                            *string                            `json:"kind,omitempty"`
-	LaMigrationDate                 *string                            `json:"LaMigrationDate,omitempty"`
-	Location                        *string                            `json:"location,omitempty"`
-	Name                            *string                            `json:"name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"PrivateLinkScopedResources,omitempty"`
-	PropertiesName                  *string                            `json:"properties_name,omitempty"`
-	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
-	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
-	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
-	Request_Source                  *string                            `json:"Request_Source,omitempty"`
-	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
-	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
-	Tags                            *v1.JSON                           `json:"tags,omitempty"`
-	TenantId                        *string                            `json:"TenantId,omitempty"`
-	Type                            *string                            `json:"type,omitempty"`
-	WorkspaceResourceId             *string                            `json:"WorkspaceResourceId,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_STATUS{}
-
-// ConvertStatusFrom populates our ApplicationInsightsComponent_STATUS from the provided source
-func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == component {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(component)
-}
-
-// ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_STATUS
-func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == component {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(component)
-}
 
 // Storage version of v1beta20200202.Component_Spec
 type Component_Spec struct {
@@ -251,7 +196,66 @@ func (component *Component_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(component)
 }
 
+// Storage version of v1beta20200202.Component_STATUS
+type Component_STATUS struct {
+	AppId                           *string                            `json:"AppId,omitempty"`
+	ApplicationId                   *string                            `json:"ApplicationId,omitempty"`
+	Application_Type                *string                            `json:"Application_Type,omitempty"`
+	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
+	ConnectionString                *string                            `json:"ConnectionString,omitempty"`
+	CreationDate                    *string                            `json:"CreationDate,omitempty"`
+	DisableIpMasking                *bool                              `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                              `json:"DisableLocalAuth,omitempty"`
+	Etag                            *string                            `json:"etag,omitempty"`
+	Flow_Type                       *string                            `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                              `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                            `json:"HockeyAppId,omitempty"`
+	HockeyAppToken                  *string                            `json:"HockeyAppToken,omitempty"`
+	Id                              *string                            `json:"id,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                              `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *string                            `json:"IngestionMode,omitempty"`
+	InstrumentationKey              *string                            `json:"InstrumentationKey,omitempty"`
+	Kind                            *string                            `json:"kind,omitempty"`
+	LaMigrationDate                 *string                            `json:"LaMigrationDate,omitempty"`
+	Location                        *string                            `json:"location,omitempty"`
+	Name                            *string                            `json:"name,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"PrivateLinkScopedResources,omitempty"`
+	PropertiesName                  *string                            `json:"properties_name,omitempty"`
+	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
+	Request_Source                  *string                            `json:"Request_Source,omitempty"`
+	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
+	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
+	Tags                            map[string]string                  `json:"tags,omitempty"`
+	TenantId                        *string                            `json:"TenantId,omitempty"`
+	Type                            *string                            `json:"type,omitempty"`
+	WorkspaceResourceId             *string                            `json:"WorkspaceResourceId,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Component_STATUS{}
+
+// ConvertStatusFrom populates our Component_STATUS from the provided source
+func (component *Component_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == component {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(component)
+}
+
+// ConvertStatusTo populates the provided destination from our Component_STATUS
+func (component *Component_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == component {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(component)
+}
+
 // Storage version of v1beta20200202.PrivateLinkScopedResource_STATUS
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"ResourceId,omitempty"`

@@ -8,6 +8,8 @@ import (
 	alpha20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601storage"
 	v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
 	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
+	v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *FlexibleServersDatabaseExtension) GetExtendedResources() []genr
 		&alpha20210601.FlexibleServersDatabase{},
 		&alpha20210601s.FlexibleServersDatabase{},
 		&v20210601.FlexibleServersDatabase{},
-		&v20210601s.FlexibleServersDatabase{}}
+		&v20210601s.FlexibleServersDatabase{},
+		&v20220120p.FlexibleServersDatabase{},
+		&v20220120ps.FlexibleServersDatabase{}}
 }

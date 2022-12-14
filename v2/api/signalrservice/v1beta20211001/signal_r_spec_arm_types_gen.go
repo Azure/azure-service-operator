@@ -3,21 +3,18 @@
 // Licensed under the MIT license.
 package v1beta20211001
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type SignalR_Spec_ARM struct {
 	// Identity: A class represent managed identities used for request and response
 	Identity *ManagedIdentity_ARM `json:"identity,omitempty"`
-	Kind     *SignalR_Kind_Spec   `json:"kind,omitempty"`
+
+	// Kind: The kind of the service, it can be SignalR or RawWebSockets
+	Kind *ServiceKind `json:"kind,omitempty"`
 
 	// Location: The GEO location of the resource. e.g. West US | East US | North Central US | South Central US.
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: A class that describes the properties of the resource
 	Properties *SignalRProperties_ARM `json:"properties,omitempty"`
@@ -46,15 +43,13 @@ func (signalR *SignalR_Spec_ARM) GetType() string {
 	return "Microsoft.SignalRService/signalR"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity
+// A class represent managed identities used for request and response
 type ManagedIdentity_ARM struct {
-	Type *ManagedIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Get or set the user assigned identities
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+	// Type: Represents the identity type: systemAssigned, userAssigned, None
+	Type *ManagedIdentityType `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceSku
+// The billing information of the resource.
 type ResourceSku_ARM struct {
 	// Capacity: Optional, integer. The unit count of the resource. 1 by default.
 	// If present, following values are allowed:
@@ -64,19 +59,23 @@ type ResourceSku_ARM struct {
 
 	// Name: The name of the SKU. Required.
 	// Allowed values: Standard_S1, Free_F1
-	Name *string           `json:"name,omitempty"`
-	Tier *ResourceSku_Tier `json:"tier,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
+	// `Basic` is deprecated, use `Standard` instead.
+	Tier *SignalRSkuTier `json:"tier,omitempty"`
 }
 
+// The kind of the service, it can be SignalR or RawWebSockets
 // +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
-type SignalR_Kind_Spec string
+type ServiceKind string
 
 const (
-	SignalR_Kind_Spec_RawWebSockets = SignalR_Kind_Spec("RawWebSockets")
-	SignalR_Kind_Spec_SignalR       = SignalR_Kind_Spec("SignalR")
+	ServiceKind_RawWebSockets = ServiceKind("RawWebSockets")
+	ServiceKind_SignalR       = ServiceKind("SignalR")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRProperties
+// A class that describes the properties of the resource
 type SignalRProperties_ARM struct {
 	// Cors: Cross-Origin Resource Sharing (CORS) settings.
 	Cors *SignalRCorsSettings_ARM `json:"cors,omitempty"`
@@ -116,47 +115,48 @@ type SignalRProperties_ARM struct {
 	Upstream *ServerlessUpstreamSettings_ARM `json:"upstream,omitempty"`
 }
 
+// Represents the identity type: systemAssigned, userAssigned, None
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type ManagedIdentity_Type string
+type ManagedIdentityType string
 
 const (
-	ManagedIdentity_Type_None           = ManagedIdentity_Type("None")
-	ManagedIdentity_Type_SystemAssigned = ManagedIdentity_Type("SystemAssigned")
-	ManagedIdentity_Type_UserAssigned   = ManagedIdentity_Type("UserAssigned")
+	ManagedIdentityType_None           = ManagedIdentityType("None")
+	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
+	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogConfiguration
+// Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration_ARM struct {
 	// Categories: Gets or sets the list of category configurations.
 	Categories []ResourceLogCategory_ARM `json:"categories,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
-type ResourceSku_Tier string
-
-const (
-	ResourceSku_Tier_Basic    = ResourceSku_Tier("Basic")
-	ResourceSku_Tier_Free     = ResourceSku_Tier("Free")
-	ResourceSku_Tier_Premium  = ResourceSku_Tier("Premium")
-	ResourceSku_Tier_Standard = ResourceSku_Tier("Standard")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ServerlessUpstreamSettings
+// The settings for the Upstream when the service is in server-less mode.
 type ServerlessUpstreamSettings_ARM struct {
 	// Templates: Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects.
 	Templates []UpstreamTemplate_ARM `json:"templates,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRCorsSettings
+// Cross-Origin Resource Sharing (CORS) settings.
 type SignalRCorsSettings_ARM struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin calls (for example:
 	// http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature
+// Feature of a resource, which controls the runtime behavior.
 type SignalRFeature_ARM struct {
-	Flag *SignalRFeature_Flag `json:"flag,omitempty"`
+	// Flag: FeatureFlags is the supported features of Azure SignalR service.
+	// - ServiceMode: Flag for backend server for SignalR  service. Values allowed: "Default": have your own backend server;
+	// "Serverless": your application doesn't have a backend  server; "Classic": for backward compatibility. Support both
+	// Default and Serverless mode but not recommended;  "PredefinedOnly": for future use.
+	// - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log  category respectively.
+	// - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category  respectively.
+	// - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will  give you live
+	// traces in real time, it will be helpful when you developing your own Azure SignalR based web application  or
+	// self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged.
+	// Values allowed: "true"/"false", to enable/disable live trace feature.
+	Flag *FeatureFlags `json:"flag,omitempty"`
 
 	// Properties: Optional properties related to this feature.
 	Properties map[string]string `json:"properties,omitempty"`
@@ -166,9 +166,10 @@ type SignalRFeature_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs
+// Network ACLs for the resource
 type SignalRNetworkACLs_ARM struct {
-	DefaultAction *SignalRNetworkACLs_DefaultAction `json:"defaultAction,omitempty"`
+	// DefaultAction: Azure Networking ACL Action.
+	DefaultAction *ACLAction `json:"defaultAction,omitempty"`
 
 	// PrivateEndpoints: ACLs for requests from private endpoints
 	PrivateEndpoints []PrivateEndpointACL_ARM `json:"privateEndpoints,omitempty"`
@@ -177,34 +178,46 @@ type SignalRNetworkACLs_ARM struct {
 	PublicNetwork *NetworkACL_ARM `json:"publicNetwork,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRTlsSettings
+// Optional tier of this particular SKU. 'Standard' or 'Free'.
+// `Basic` is deprecated, use `Standard` instead.
+// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
+type SignalRSkuTier string
+
+const (
+	SignalRSkuTier_Basic    = SignalRSkuTier("Basic")
+	SignalRSkuTier_Free     = SignalRSkuTier("Free")
+	SignalRSkuTier_Premium  = SignalRSkuTier("Premium")
+	SignalRSkuTier_Standard = SignalRSkuTier("Standard")
+)
+
+// TLS settings for the resource
 type SignalRTlsSettings_ARM struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/NetworkACL
+// Network ACL
 type NetworkACL_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Allow []NetworkACL_Allow `json:"allow,omitempty"`
+	Allow []SignalRRequestType `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []NetworkACL_Deny `json:"deny,omitempty"`
+	Deny []SignalRRequestType `json:"deny,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/PrivateEndpointACL
+// ACL for a private endpoint
 type PrivateEndpointACL_ARM struct {
 	// Allow: Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Allow []PrivateEndpointACL_Allow `json:"allow,omitempty"`
+	Allow []SignalRRequestType `json:"allow,omitempty"`
 
 	// Deny: Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI.
-	Deny []PrivateEndpointACL_Deny `json:"deny,omitempty"`
+	Deny []SignalRRequestType `json:"deny,omitempty"`
 
 	// Name: Name of the private endpoint connection
 	Name *string `json:"name,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ResourceLogCategory
+// Resource log category configuration of a Microsoft.SignalRService resource.
 type ResourceLogCategory_ARM struct {
 	// Enabled: Indicates whether or the resource log category is enabled.
 	// Available values: true, false.
@@ -217,7 +230,9 @@ type ResourceLogCategory_ARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate
+// Upstream template item settings. It defines the Upstream URL of the incoming requests.
+// The template defines the pattern
+// of the event, the hub or the category of the incoming request that matches current URL template.
 type UpstreamTemplate_ARM struct {
 	// Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettings_ARM `json:"auth,omitempty"`
@@ -251,14 +266,16 @@ type UpstreamTemplate_ARM struct {
 	UrlTemplate *string `json:"urlTemplate,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings
+// Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings_ARM struct {
 	// ManagedIdentity: Managed identity settings for upstream.
 	ManagedIdentity *ManagedIdentitySettings_ARM `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthSettings_Type   `json:"type,omitempty"`
+
+	// Type: Upstream auth type enum.
+	Type *UpstreamAuthType `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings
+// Managed identity settings for upstream.
 type ManagedIdentitySettings_ARM struct {
 	// Resource: The Resource indicating the App ID URI of the target resource.
 	// It also appears in the aud (audience) claim of the issued token.

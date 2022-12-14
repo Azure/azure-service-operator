@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
+// Virtual Network resource.
 type VirtualNetwork_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -29,6 +30,7 @@ type VirtualNetwork_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the virtual network.
 type VirtualNetworkPropertiesFormat_STATUS_ARM struct {
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace_STATUS_ARM `json:"addressSpace,omitempty"`
@@ -59,7 +61,18 @@ type VirtualNetworkPropertiesFormat_STATUS_ARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions_STATUS_ARM struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
+}
+
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+type VirtualNetworkBgpCommunities_STATUS_ARM struct {
+	// RegionalCommunity: The BGP community associated with the region of the virtual network.
+	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
+
+	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
+	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }

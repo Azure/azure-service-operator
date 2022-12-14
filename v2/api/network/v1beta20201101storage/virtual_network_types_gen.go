@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201101.VirtualNetwork
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (network *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201101.VirtualNetwork
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
 type VirtualNetworkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -176,6 +180,7 @@ func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // Storage version of v1beta20201101.VirtualNetwork_STATUS
+// Virtual Network resource.
 type VirtualNetwork_STATUS struct {
 	AddressSpace         *AddressSpace_STATUS                 `json:"addressSpace,omitempty"`
 	BgpCommunities       *VirtualNetworkBgpCommunities_STATUS `json:"bgpCommunities,omitempty"`
@@ -218,39 +223,44 @@ func (network *VirtualNetwork_STATUS) ConvertStatusTo(destination genruntime.Con
 }
 
 // Storage version of v1beta20201101.AddressSpace
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.AddressSpace_STATUS
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace_STATUS struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.DhcpOptions
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.DhcpOptions_STATUS
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions_STATUS struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.VirtualNetworkBgpCommunities
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
 }
 
 // Storage version of v1beta20201101.VirtualNetworkBgpCommunities_STATUS
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities_STATUS struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`

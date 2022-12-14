@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200930.Snapshot
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200930.Snapshot
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -182,6 +186,7 @@ func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // Storage version of v1beta20200930.Snapshot_STATUS
+// Snapshot resource.
 type Snapshot_STATUS struct {
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
 	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
@@ -231,13 +236,16 @@ func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.Converti
 }
 
 // Storage version of v1beta20200930.SnapshotSku
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20200930.SnapshotSku_STATUS
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

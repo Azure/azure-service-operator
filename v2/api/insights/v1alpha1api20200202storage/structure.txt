@@ -60,7 +60,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202stora
         ├── Request_Source: *string
         ├── RetentionInDays: *int
         ├── SamplingPercentage: *float64
-        ├── Tags: *v1.JSON
+        ├── Tags: map[string]string
         ├── TenantId: *string
         ├── Type: *string
         └── WorkspaceResourceId: *string

@@ -32,3 +32,9 @@ type VirtualNetworkPropertiesFormat_STATUS_ARM struct {
 type DhcpOptions_STATUS_ARM struct {
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
+
+// Deprecated version of VirtualNetworkBgpCommunities_STATUS. Use v1beta20201101.VirtualNetworkBgpCommunities_STATUS instead
+type VirtualNetworkBgpCommunities_STATUS_ARM struct {
+	RegionalCommunity       *string `json:"regionalCommunity,omitempty"`
+	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
+}

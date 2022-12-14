@@ -8,17 +8,15 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type FlexibleServer_Spec_ARM struct {
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
-	// Name: The name of the server.
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a server.
+	// Properties: Properties of the server.
 	Properties *ServerProperties_ARM `json:"properties,omitempty"`
 
-	// Sku: Sku information related properties of a server.
+	// Sku: The SKU (pricing tier) of the server.
 	Sku *Sku_ARM `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -39,7 +37,7 @@ func (server *FlexibleServer_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ServerProperties
+// The properties of a server.
 type ServerProperties_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -51,19 +49,19 @@ type ServerProperties_ARM struct {
 	// AvailabilityZone: availability zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
-	// Backup: Backup properties of a server
+	// Backup: Backup properties of a server.
 	Backup *Backup_ARM `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new PostgreSQL server.
 	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
 
-	// HighAvailability: High availability properties of a server
+	// HighAvailability: High availability properties of a server.
 	HighAvailability *HighAvailability_ARM `json:"highAvailability,omitempty"`
 
 	// MaintenanceWindow: Maintenance window properties of a server.
 	MaintenanceWindow *MaintenanceWindow_ARM `json:"maintenanceWindow,omitempty"`
 
-	// Network: Network properties of a server
+	// Network: Network properties of a server.
 	Network *Network_ARM `json:"network,omitempty"`
 
 	// PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
@@ -71,14 +69,14 @@ type ServerProperties_ARM struct {
 	PointInTimeUTC         *string `json:"pointInTimeUTC,omitempty"`
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
-	// Storage: Storage properties of a server
+	// Storage: Storage properties of a server.
 	Storage *Storage_ARM `json:"storage,omitempty"`
 
 	// Version: PostgreSQL Server version.
-	Version *ServerProperties_Version `json:"version,omitempty"`
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
+// Sku information related properties of a server.
 type Sku_ARM struct {
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
@@ -87,7 +85,7 @@ type Sku_ARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
+// Backup properties of a server
 type Backup_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -96,7 +94,7 @@ type Backup_ARM struct {
 	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability
+// High availability properties of a server
 type HighAvailability_ARM struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
@@ -105,7 +103,7 @@ type HighAvailability_ARM struct {
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow
+// Maintenance window properties of a server.
 type MaintenanceWindow_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -120,7 +118,7 @@ type MaintenanceWindow_ARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network
+// Network properties of a server
 type Network_ARM struct {
 	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -135,7 +133,7 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage
+// Storage properties of a server
 type Storage_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`

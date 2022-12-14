@@ -6,17 +6,10 @@ package v1beta20180601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Servers_Database_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the database.
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of a database.
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Servers_Database_Spec_ARM{}
@@ -36,7 +29,7 @@ func (database *Servers_Database_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers/databases"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/DatabaseProperties
+// The properties of a database.
 type DatabaseProperties_ARM struct {
 	// Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`

@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.MongodbDatabaseCollectionThroughputSetting
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_STATUS                                  `json:"status,omitempty"`
+	Spec              DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -76,7 +78,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_STATUS{}
+	return &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_STATUS
+	var st DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.MongodbDatabaseCollectionThroughputSetting
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -164,8 +168,8 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 	return destination.ConvertSpecFrom(setting)
 }
 
-// Storage version of v1beta20210515.ThroughputSettingsGetResults_STATUS
-type ThroughputSettingsGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
@@ -176,24 +180,24 @@ type ThroughputSettingsGetResults_STATUS struct {
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS{}
 
-// ConvertStatusFrom populates our ThroughputSettingsGetResults_STATUS from the provided source
-func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(setting)
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_STATUS
-func (results *ThroughputSettingsGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(setting)
 }
 
 // Storage version of v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS
@@ -209,7 +213,7 @@ type ThroughputSettingsGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.ThroughputSettingsResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
+// Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both.
 type ThroughputSettingsResource struct {
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -217,7 +221,7 @@ type ThroughputSettingsResource struct {
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
@@ -225,6 +229,7 @@ type AutoscaleSettingsResource struct {
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource_STATUS
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource_STATUS struct {
 	AutoUpgradePolicy   *AutoUpgradePolicyResource_STATUS `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
@@ -233,20 +238,21 @@ type AutoscaleSettingsResource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.AutoUpgradePolicyResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource struct {
 	PropertyBag      genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoUpgradePolicyResource_STATUS
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS struct {
 	PropertyBag      genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource_STATUS `json:"throughputPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.ThroughputPolicyResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
@@ -254,6 +260,7 @@ type ThroughputPolicyResource struct {
 }
 
 // Storage version of v1beta20210515.ThroughputPolicyResource_STATUS
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource_STATUS struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`

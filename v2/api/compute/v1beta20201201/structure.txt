@@ -1030,15 +1030,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
 │   │   │   ├── ExtensionProfile: *Object (2 properties)
-│   │   │   │   ├── Extensions: Object (5 properties)[]
+│   │   │   │   ├── Extensions: Object (10 properties)[]
+│   │   │   │   │   ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   ├── Publisher: Validated<*string> (1 rule)
-│   │   │   │   │   │   └── Rule 0: MinLength: 1
+│   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │   ├── ProvisionAfterExtensions: string[]
+│   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
-│   │   │   │   │   ├── Type: Validated<*string> (1 rule)
-│   │   │   │   │   │   └── Rule 0: MinLength: 1
-│   │   │   │   │   └── TypeHandlerVersion: Validated<*string> (1 rule)
-│   │   │   │   │       └── Rule 0: MinLength: 1
+│   │   │   │   │   ├── Type: *string
+│   │   │   │   │   └── TypeHandlerVersion: *string
 │   │   │   │   └── ExtensionsTimeBudget: *string
 │   │   │   ├── LicenseType: *string
 │   │   │   ├── NetworkProfile: *Object (2 properties)
@@ -1050,13 +1052,11 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │       ├── EnableAcceleratedNetworking: *bool
 │   │   │   │       ├── EnableFpga: *bool
 │   │   │   │       ├── EnableIPForwarding: *bool
-│   │   │   │       ├── Id: *string
 │   │   │   │       ├── IpConfigurations: Object (10 properties)[]
 │   │   │   │       │   ├── ApplicationGatewayBackendAddressPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
-│   │   │   │       │   ├── Id: *string
 │   │   │   │       │   ├── LoadBalancerBackendAddressPools: Object (1 property)[]
 │   │   │   │       │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │       │   ├── LoadBalancerInboundNatPools: Object (1 property)[]
@@ -1079,12 +1079,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   │       │   │   │   └── "IPv6"
 │   │   │   │       │   │   └── PublicIPPrefix: *Object (1 property)
 │   │   │   │       │   │       └── Reference: *genruntime.ResourceReference
+│   │   │   │       │   ├── Reference: *genruntime.ResourceReference
 │   │   │   │       │   └── Subnet: *Object (1 property)
 │   │   │   │       │       └── Reference: *genruntime.ResourceReference
 │   │   │   │       ├── Name: *string
 │   │   │   │       ├── NetworkSecurityGroup: *Object (1 property)
 │   │   │   │       │   └── Reference: *genruntime.ResourceReference
-│   │   │   │       └── Primary: *bool
+│   │   │   │       ├── Primary: *bool
+│   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   ├── OsProfile: *Object (7 properties)
 │   │   │   │   ├── AdminPassword: *genruntime.SecretReference
 │   │   │   │   ├── AdminUsername: *string
@@ -1821,7 +1823,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201
 │   │   │   ├── ExtensionProfile: *Object (2 properties)
 │   │   │   │   ├── Extensions: Object (2 properties)[]
 │   │   │   │   │   ├── Name: *string
-│   │   │   │   │   └── Properties: *Object (4 properties)
+│   │   │   │   │   └── Properties: *Object (9 properties)
+│   │   │   │   │       ├── AutoUpgradeMinorVersion: *bool
+│   │   │   │   │       ├── EnableAutomaticUpgrade: *bool
+│   │   │   │   │       ├── ForceUpdateTag: *string
+│   │   │   │   │       ├── ProtectedSettings: map[string]v1.JSON
+│   │   │   │   │       ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │       ├── Publisher: *string
 │   │   │   │   │       ├── Settings: map[string]v1.JSON
 │   │   │   │   │       ├── Type: *string

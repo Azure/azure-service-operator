@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210101.BatchAccount
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
+// Generator information:
+// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210101.BatchAccount
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
+// Generator information:
+// - Generated from: /batch/resource-manager/Microsoft.Batch/stable/2021-01-01/BatchManagement.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}
 type BatchAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -141,7 +145,7 @@ type BatchAccount_Spec struct {
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]+$"
+	// +kubebuilder:validation:Pattern="^[a-z0-9]+$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string                `json:"azureName,omitempty"`
@@ -183,6 +187,7 @@ func (account *BatchAccount_Spec) ConvertSpecTo(destination genruntime.Convertib
 }
 
 // Storage version of v1beta20210101.BatchAccount_STATUS
+// Contains information about an Azure Batch account.
 type BatchAccount_STATUS struct {
 	AccountEndpoint                       *string                                `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota          *int                                   `json:"activeJobAndJobScheduleQuota,omitempty"`
@@ -229,7 +234,7 @@ func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.Conve
 }
 
 // Storage version of v1beta20210101.AutoStorageBaseProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
+// The properties related to the auto-storage account.
 type AutoStorageBaseProperties struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -239,6 +244,7 @@ type AutoStorageBaseProperties struct {
 }
 
 // Storage version of v1beta20210101.AutoStorageProperties_STATUS
+// Contains information about the auto-storage account associated with a Batch account.
 type AutoStorageProperties_STATUS struct {
 	LastKeySync      *string                `json:"lastKeySync,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -246,13 +252,16 @@ type AutoStorageProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210101.BatchAccountIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountIdentity
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210101.BatchAccountIdentity_STATUS
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity_STATUS struct {
 	PrincipalId            *string                                                       `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
@@ -262,7 +271,8 @@ type BatchAccountIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20210101.EncryptionProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/EncryptionProperties
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties struct {
 	KeySource          *string                `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
@@ -270,6 +280,8 @@ type EncryptionProperties struct {
 }
 
 // Storage version of v1beta20210101.EncryptionProperties_STATUS
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS struct {
 	KeySource          *string                    `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -277,7 +289,7 @@ type EncryptionProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210101.KeyVaultReference
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultReference
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -288,6 +300,7 @@ type KeyVaultReference struct {
 }
 
 // Storage version of v1beta20210101.KeyVaultReference_STATUS
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -295,18 +308,14 @@ type KeyVaultReference_STATUS struct {
 }
 
 // Storage version of v1beta20210101.PrivateEndpointConnection_STATUS
+// Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS struct {
-	Etag                              *string                                   `json:"etag,omitempty"`
-	Id                                *string                                   `json:"id,omitempty"`
-	Name                              *string                                   `json:"name,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint_STATUS                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                   `json:"provisioningState,omitempty"`
-	Type                              *string                                   `json:"type,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210101.VirtualMachineFamilyCoreQuota_STATUS
+// A VM Family and its associated core quota for the Batch account.
 type VirtualMachineFamilyCoreQuota_STATUS struct {
 	CoreQuota   *int                   `json:"coreQuota,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -321,30 +330,17 @@ type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
 }
 
 // Storage version of v1beta20210101.KeyVaultProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/KeyVaultProperties
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210101.KeyVaultProperties_STATUS
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties_STATUS struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210101.PrivateEndpoint_STATUS
-type PrivateEndpoint_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210101.PrivateLinkServiceConnectionState_STATUS
-type PrivateLinkServiceConnectionState_STATUS struct {
-	ActionRequired *string                `json:"actionRequired,omitempty"`
-	Description    *string                `json:"description,omitempty"`
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status         *string                `json:"status,omitempty"`
 }
 
 func init() {

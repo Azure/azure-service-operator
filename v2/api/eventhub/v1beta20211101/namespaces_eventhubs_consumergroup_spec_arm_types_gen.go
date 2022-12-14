@@ -6,17 +6,10 @@ package v1beta20211101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Namespaces_Eventhubs_Consumergroup_Spec_ARM struct {
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
-	// Name: The consumer group name
 	Name string `json:"name,omitempty"`
 
 	// Properties: Single item in List or Get Consumer group operation
-	Properties *ConsumerGroupProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Properties *Namespaces_Eventhubs_Consumergroup_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespaces_Eventhubs_Consumergroup_Spec_ARM{}
@@ -36,8 +29,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec_ARM) GetType() stri
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/definitions/ConsumerGroupProperties
-type ConsumerGroupProperties_ARM struct {
+type Namespaces_Eventhubs_Consumergroup_Properties_Spec_ARM struct {
 	// UserMetadata: User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be
 	// used to store descriptive data, such as list of teams and their contact information also user-defined configuration
 	// settings can be stored.

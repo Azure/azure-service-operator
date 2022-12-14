@@ -248,6 +248,75 @@ func AddRelatedPropertyGeneratorsForIdentity_STATUS_ARM(gens map[string]gopter.G
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUS_ARMGenerator())
 }
 
+func Test_Sku_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Sku_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSku_STATUS_ARM, Sku_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSku_STATUS_ARM runs a test to see if a specific instance of Sku_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_STATUS_ARM(subject Sku_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Sku_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Sku_STATUS_ARM instances for property testing - lazily instantiated by Sku_STATUS_ARMGenerator()
+var sku_STATUS_ARMGenerator gopter.Gen
+
+// Sku_STATUS_ARMGenerator returns a generator of Sku_STATUS_ARM instances for property testing.
+func Sku_STATUS_ARMGenerator() gopter.Gen {
+	if sku_STATUS_ARMGenerator != nil {
+		return sku_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSku_STATUS_ARM(generators)
+	sku_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS_ARM{}), generators)
+
+	return sku_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSku_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		SkuName_STATUS_Premium_LRS,
+		SkuName_STATUS_Premium_ZRS,
+		SkuName_STATUS_Standard_GRS,
+		SkuName_STATUS_Standard_GZRS,
+		SkuName_STATUS_Standard_LRS,
+		SkuName_STATUS_Standard_RAGRS,
+		SkuName_STATUS_Standard_RAGZRS,
+		SkuName_STATUS_Standard_ZRS))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_STATUS_Premium, Tier_STATUS_Standard))
+}
+
 func Test_StorageAccountProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -345,7 +414,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountProperties_STATUS_ARM(gens map
 	gens["KeyPolicy"] = gen.PtrOf(KeyPolicy_STATUS_ARMGenerator())
 	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSet_STATUS_ARMGenerator())
 	gens["PrimaryEndpoints"] = gen.PtrOf(Endpoints_STATUS_ARMGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_STATUS_ARMGenerator())
 	gens["RoutingPreference"] = gen.PtrOf(RoutingPreference_STATUS_ARMGenerator())
 	gens["SasPolicy"] = gen.PtrOf(SasPolicy_STATUS_ARMGenerator())
 	gens["SecondaryEndpoints"] = gen.PtrOf(Endpoints_STATUS_ARMGenerator())
@@ -998,20 +1067,20 @@ func AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUS_ARM(gens map[string]go
 	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRule_STATUS_ARMGenerator())
 }
 
-func Test_PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateEndpointConnection_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM, PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator()))
+		"Round trip of PrivateEndpointConnection_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_STATUS_ARM, PrivateEndpointConnection_STATUS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM(subject PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM) string {
+// RunJSONSerializationTestForPrivateEndpointConnection_STATUS_ARM runs a test to see if a specific instance of PrivateEndpointConnection_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_ARM(subject PrivateEndpointConnection_STATUS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1019,7 +1088,7 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbe
 	}
 
 	// Deserialize back into memory
-	var actual PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM
+	var actual PrivateEndpointConnection_STATUS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1037,25 +1106,25 @@ func RunJSONSerializationTestForPrivateEndpointConnection_STATUS_SubResourceEmbe
 	return ""
 }
 
-// Generator of PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM instances for property testing - lazily
-// instantiated by PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator()
-var privateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator gopter.Gen
+// Generator of PrivateEndpointConnection_STATUS_ARM instances for property testing - lazily instantiated by
+// PrivateEndpointConnection_STATUS_ARMGenerator()
+var privateEndpointConnection_STATUS_ARMGenerator gopter.Gen
 
-// PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator returns a generator of PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM instances for property testing.
-func PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator() gopter.Gen {
-	if privateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator != nil {
-		return privateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator
+// PrivateEndpointConnection_STATUS_ARMGenerator returns a generator of PrivateEndpointConnection_STATUS_ARM instances for property testing.
+func PrivateEndpointConnection_STATUS_ARMGenerator() gopter.Gen {
+	if privateEndpointConnection_STATUS_ARMGenerator != nil {
+		return privateEndpointConnection_STATUS_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM(generators)
-	privateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(generators)
+	privateEndpointConnection_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_STATUS_ARM{}), generators)
 
-	return privateEndpointConnection_STATUS_SubResourceEmbedded_ARMGenerator
+	return privateEndpointConnection_STATUS_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 

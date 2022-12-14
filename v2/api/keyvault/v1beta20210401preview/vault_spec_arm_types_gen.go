@@ -8,9 +8,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Vault_Spec_ARM struct {
 	// Location: The supported Azure location where the key vault should be created.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the vault
 	Properties *VaultProperties_ARM `json:"properties,omitempty"`
@@ -36,7 +34,7 @@ func (vault *Vault_Spec_ARM) GetType() string {
 	return "Microsoft.KeyVault/vaults"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/VaultProperties
+// Properties of the vault
 type VaultProperties_ARM struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
 	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
@@ -76,7 +74,7 @@ type VaultProperties_ARM struct {
 	// the key vault.
 	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
 
-	// NetworkAcls: A set of rules governing the network accessibility of a vault.
+	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
 	NetworkAcls *NetworkRuleSet_ARM `json:"networkAcls,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
@@ -95,7 +93,8 @@ type VaultProperties_ARM struct {
 	VaultUri *string `json:"vaultUri,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/AccessPolicyEntry
+// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+// vault's tenant ID.
 type AccessPolicyEntry_ARM struct {
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
 	ApplicationId *string `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
@@ -104,14 +103,14 @@ type AccessPolicyEntry_ARM struct {
 	// vault. The object ID must be unique for the list of access policies.
 	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 
-	// Permissions: Permissions the identity has for keys, secrets, certificates and storage.
+	// Permissions: Permissions the identity has for keys, secrets and certificates.
 	Permissions *Permissions_ARM `json:"permissions,omitempty"`
 
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
 	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/NetworkRuleSet
+// A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet_ARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
@@ -128,7 +127,7 @@ type NetworkRuleSet_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/Sku
+// SKU details
 type Sku_ARM struct {
 	// Family: SKU family name
 	Family *Sku_Family `json:"family,omitempty"`
@@ -153,7 +152,7 @@ const (
 	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/IPRule
+// A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_ARM struct {
 	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
 	// addresses that start with 124.56.78).
@@ -176,7 +175,7 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/Permissions
+// Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_ARM struct {
 	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates `json:"certificates,omitempty"`
@@ -204,7 +203,7 @@ const (
 	Sku_Name_Standard = Sku_Name("standard")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/VirtualNetworkRule
+// A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_ARM struct {
 	Id *string `json:"id,omitempty"`
 

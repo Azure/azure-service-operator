@@ -6,14 +6,10 @@ package v1beta20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_ManagementPolicy_Spec_ARM struct {
-	// Name: The name of the Storage Account Management Policy. It should always be 'default'
 	Name string `json:"name,omitempty"`
 
-	// Properties: The Storage Account ManagementPolicy properties.
+	// Properties: Returns the Storage Account Data Policies Rules.
 	Properties *ManagementPolicyProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_ManagementPolicy_Spec_ARM{}
@@ -33,23 +29,24 @@ func (policy *StorageAccounts_ManagementPolicy_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/managementPolicies"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyProperties
+// The Storage Account ManagementPolicy properties.
 type ManagementPolicyProperties_ARM struct {
-	// Policy: The Storage Account ManagementPolicies Rules. See more details in:
+	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
 	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Policy *ManagementPolicySchema_ARM `json:"policy,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema
+// The Storage Account ManagementPolicies Rules. See more details in:
+// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema_ARM struct {
 	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
 	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule_ARM `json:"rules,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule
+// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule_ARM struct {
-	// Definition: An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
+	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_ARM `json:"definition,omitempty"`
 
 	// Enabled: Rule is enabled if set to true.
@@ -63,29 +60,29 @@ type ManagementPolicyRule_ARM struct {
 	Type *ManagementPolicyRule_Type `json:"type,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition
+// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition_ARM struct {
-	// Actions: Actions are applied to the filtered blobs when the execution condition is met.
+	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_ARM `json:"actions,omitempty"`
 
-	// Filters: Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a
-	// logical AND is performed on all filters.
+	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_ARM `json:"filters,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction
+// Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction_ARM struct {
-	// BaseBlob: Management policy action for base blob.
+	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_ARM `json:"baseBlob,omitempty"`
 
-	// Snapshot: Management policy action for snapshot.
+	// Snapshot: The management policy action for snapshot
 	Snapshot *ManagementPolicySnapShot_ARM `json:"snapshot,omitempty"`
 
-	// Version: Management policy action for blob version.
+	// Version: The management policy action for version
 	Version *ManagementPolicyVersion_ARM `json:"version,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter
+// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
+// AND is performed on all filters.
 type ManagementPolicyFilter_ARM struct {
 	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch,omitempty"`
@@ -98,50 +95,47 @@ type ManagementPolicyFilter_ARM struct {
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob
+// Management policy action for base blob.
 type ManagementPolicyBaseBlob_ARM struct {
-	// Delete: Object to define the number of days after object last modification Or last access. Properties
-	// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+	// Delete: The function to delete the blob
 	Delete *DateAfterModification_ARM `json:"delete,omitempty"`
 
 	// EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
 	// property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
 	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
 
-	// TierToArchive: Object to define the number of days after object last modification Or last access. Properties
-	// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+	// TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
 	TierToArchive *DateAfterModification_ARM `json:"tierToArchive,omitempty"`
 
-	// TierToCool: Object to define the number of days after object last modification Or last access. Properties
-	// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+	// TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier
 	TierToCool *DateAfterModification_ARM `json:"tierToCool,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot
+// Management policy action for snapshot.
 type ManagementPolicySnapShot_ARM struct {
-	// Delete: Object to define the number of days after creation.
+	// Delete: The function to delete the blob snapshot
 	Delete *DateAfterCreation_ARM `json:"delete,omitempty"`
 
-	// TierToArchive: Object to define the number of days after creation.
+	// TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
 	TierToArchive *DateAfterCreation_ARM `json:"tierToArchive,omitempty"`
 
-	// TierToCool: Object to define the number of days after creation.
+	// TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
 	TierToCool *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion
+// Management policy action for blob version.
 type ManagementPolicyVersion_ARM struct {
-	// Delete: Object to define the number of days after creation.
+	// Delete: The function to delete the blob version
 	Delete *DateAfterCreation_ARM `json:"delete,omitempty"`
 
-	// TierToArchive: Object to define the number of days after creation.
+	// TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
 	TierToArchive *DateAfterCreation_ARM `json:"tierToArchive,omitempty"`
 
-	// TierToCool: Object to define the number of days after creation.
+	// TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier
 	TierToCool *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter
+// Blob index tag based filtering for blob objects
 type TagFilter_ARM struct {
 	// Name: This is the filter tag name, it can have 1 - 128 characters
 	Name *string `json:"name,omitempty"`
@@ -154,13 +148,14 @@ type TagFilter_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation
+// Object to define the number of days after creation.
 type DateAfterCreation_ARM struct {
 	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification
+// Object to define the number of days after object last modification Or last access. Properties
+// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
 type DateAfterModification_ARM struct {
 	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
 	// used in conjunction with last access time tracking policy

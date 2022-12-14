@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +312,9 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -323,7 +327,7 @@ type Snapshot_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreationData: Data used when creating a disk.
+	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationData `json:"creationData,omitempty"`
 
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
@@ -335,15 +339,16 @@ type Snapshot_Spec struct {
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
 	// DiskState: The state of the snapshot.
-	DiskState *SnapshotProperties_DiskState `json:"diskState,omitempty"`
+	DiskState *DiskState `json:"diskState,omitempty"`
 
-	// Encryption: Encryption at rest settings for disk or snapshot
+	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
 	Encryption *Encryption `json:"encryption,omitempty"`
 
-	// EncryptionSettingsCollection: Encryption settings for disk or snapshot
+	// EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
+	// encryption settings per disk or snapshot.
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 
-	// ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
@@ -353,9 +358,12 @@ type Snapshot_Spec struct {
 	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
-	// Location: Location to deploy resource to
-	Location            *string                                 `json:"location,omitempty"`
-	NetworkAccessPolicy *SnapshotProperties_NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
+	// +kubebuilder:validation:Required
+	// Location: Resource location
+	Location *string `json:"location,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
+	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
@@ -366,14 +374,14 @@ type Snapshot_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PurchasePlan: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
 
 	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-	// incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 	Sku *SnapshotSku `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -755,7 +763,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// DiskState
 	if source.DiskState != nil {
-		diskState := SnapshotProperties_DiskState(*source.DiskState)
+		diskState := DiskState(*source.DiskState)
 		snapshot.DiskState = &diskState
 	} else {
 		snapshot.DiskState = nil
@@ -818,7 +826,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := SnapshotProperties_NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
 		snapshot.NetworkAccessPolicy = &networkAccessPolicy
 	} else {
 		snapshot.NetworkAccessPolicy = nil
@@ -1038,6 +1046,7 @@ func (snapshot *Snapshot_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (snapshot *Snapshot_Spec) SetAzureName(azureName string) { snapshot.AzureName = azureName }
 
+// Snapshot resource.
 type Snapshot_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1086,7 +1095,9 @@ type Snapshot_STATUS struct {
 	ManagedBy *string `json:"managedBy,omitempty"`
 
 	// Name: Resource name
-	Name                *string                     `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -1097,7 +1108,10 @@ type Snapshot_STATUS struct {
 
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan_STATUS `json:"purchasePlan,omitempty"`
-	Sku          *SnapshotSku_STATUS  `json:"sku,omitempty"`
+
+	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	Sku *SnapshotSku_STATUS `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1722,16 +1736,17 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 	return nil
 }
 
+// This enumerates the possible state of the disk.
 // +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
-type SnapshotProperties_DiskState string
+type DiskState string
 
 const (
-	SnapshotProperties_DiskState_ActiveSAS     = SnapshotProperties_DiskState("ActiveSAS")
-	SnapshotProperties_DiskState_ActiveUpload  = SnapshotProperties_DiskState("ActiveUpload")
-	SnapshotProperties_DiskState_Attached      = SnapshotProperties_DiskState("Attached")
-	SnapshotProperties_DiskState_ReadyToUpload = SnapshotProperties_DiskState("ReadyToUpload")
-	SnapshotProperties_DiskState_Reserved      = SnapshotProperties_DiskState("Reserved")
-	SnapshotProperties_DiskState_Unattached    = SnapshotProperties_DiskState("Unattached")
+	DiskState_ActiveSAS     = DiskState("ActiveSAS")
+	DiskState_ActiveUpload  = DiskState("ActiveUpload")
+	DiskState_Attached      = DiskState("Attached")
+	DiskState_ReadyToUpload = DiskState("ReadyToUpload")
+	DiskState_Reserved      = DiskState("Reserved")
+	DiskState_Unattached    = DiskState("Unattached")
 )
 
 // +kubebuilder:validation:Enum={"V1","V2"}
@@ -1749,15 +1764,6 @@ const (
 	SnapshotProperties_HyperVGeneration_STATUS_V2 = SnapshotProperties_HyperVGeneration_STATUS("V2")
 )
 
-// +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
-type SnapshotProperties_NetworkAccessPolicy string
-
-const (
-	SnapshotProperties_NetworkAccessPolicy_AllowAll     = SnapshotProperties_NetworkAccessPolicy("AllowAll")
-	SnapshotProperties_NetworkAccessPolicy_AllowPrivate = SnapshotProperties_NetworkAccessPolicy("AllowPrivate")
-	SnapshotProperties_NetworkAccessPolicy_DenyAll      = SnapshotProperties_NetworkAccessPolicy("DenyAll")
-)
-
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type SnapshotProperties_OsType string
 
@@ -1773,7 +1779,8 @@ const (
 	SnapshotProperties_OsType_STATUS_Windows = SnapshotProperties_OsType_STATUS("Windows")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`
@@ -1857,6 +1864,8 @@ func (snapshotSku *SnapshotSku) AssignProperties_To_SnapshotSku(destination *v20
 	return nil
 }
 
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_STATUS struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`

@@ -6,17 +6,15 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualMachine_Spec_ARM struct {
-	// ExtendedLocation: The complex type of the extended location.
+	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
-	// Identity: Identity for the virtual machine.
+	// Identity: The identity of the virtual machine, if configured.
 	Identity *VirtualMachineIdentity_ARM `json:"identity,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the virtual machine.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -25,9 +23,9 @@ type VirtualMachine_Spec_ARM struct {
 	Plan *Plan_ARM `json:"plan,omitempty"`
 
 	// Properties: Describes the properties of a Virtual Machine.
-	Properties *VirtualMachine_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *VirtualMachineProperties_ARM `json:"properties,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: The virtual machine zones.
@@ -51,19 +49,40 @@ func (machine *VirtualMachine_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
-type VirtualMachine_Properties_Spec_ARM struct {
-	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
+// Identity for the virtual machine.
+type VirtualMachineIdentity_ARM struct {
+	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
+	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
+	// virtual machine.
+	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
+}
+
+// Describes the properties of a Virtual Machine.
+type VirtualMachineProperties_ARM struct {
+	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
 	AdditionalCapabilities *AdditionalCapabilities_ARM `json:"additionalCapabilities,omitempty"`
 
-	// ApplicationProfile: Contains the list of gallery applications that should be made available to the VM/VMSS
+	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
 	ApplicationProfile *ApplicationProfile_ARM `json:"applicationProfile,omitempty"`
-	AvailabilitySet    *SubResource_ARM        `json:"availabilitySet,omitempty"`
 
-	// BillingProfile: Specifies the billing related details of a Azure Spot VM or VMSS.
+	// AvailabilitySet: Specifies information about the availability set that the virtual machine should be assigned to.
+	// Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For
+	// more information about availability sets, see [Availability sets
+	// overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview).
+	// For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in
+	// Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates)
+	// Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being
+	// added should be under the same resource group as the availability set resource. An existing VM cannot be added to an
+	// availability set.
+	// This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+	AvailabilitySet *SubResource_ARM `json:"availabilitySet,omitempty"`
+
+	// BillingProfile: Specifies the billing related details of a Azure Spot virtual machine.
 	// Minimum api-version: 2019-03-01.
 	BillingProfile *BillingProfile_ARM `json:"billingProfile,omitempty"`
 
-	// CapacityReservation: The parameters of a capacity reservation Profile.
+	// CapacityReservation: Specifies information about the capacity reservation that is used to allocate virtual machine.
+	// Minimum api-version: 2021-04-01.
 	CapacityReservation *CapacityReservationProfile_ARM `json:"capacityReservation,omitempty"`
 
 	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
@@ -74,7 +93,7 @@ type VirtualMachine_Properties_Spec_ARM struct {
 	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
 	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
 	// 2017-10-30-preview.
-	EvictionPolicy *VirtualMachine_Properties_EvictionPolicy_Spec `json:"evictionPolicy,omitempty"`
+	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
 
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
@@ -84,8 +103,15 @@ type VirtualMachine_Properties_Spec_ARM struct {
 
 	// HardwareProfile: Specifies the hardware settings for the virtual machine.
 	HardwareProfile *HardwareProfile_ARM `json:"hardwareProfile,omitempty"`
-	Host            *SubResource_ARM     `json:"host,omitempty"`
-	HostGroup       *SubResource_ARM     `json:"hostGroup,omitempty"`
+
+	// Host: Specifies information about the dedicated host that the virtual machine resides in.
+	// Minimum api-version: 2018-10-01.
+	Host *SubResource_ARM `json:"host,omitempty"`
+
+	// HostGroup: Specifies information about the dedicated host group that the virtual machine resides in.
+	// Minimum api-version: 2020-06-01.
+	// NOTE: User cannot specify both host and hostGroup properties.
+	HostGroup *SubResource_ARM `json:"hostGroup,omitempty"`
 
 	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
 	// Possible values for Windows Server operating system are:
@@ -101,12 +127,12 @@ type VirtualMachine_Properties_Spec_ARM struct {
 	// Minimum api-version: 2015-06-15
 	LicenseType *string `json:"licenseType,omitempty"`
 
-	// NetworkProfile: Specifies the network interfaces or the networking configuration of the virtual machine.
-	NetworkProfile *VirtualMachine_Properties_NetworkProfile_Spec_ARM `json:"networkProfile,omitempty"`
+	// NetworkProfile: Specifies the network interfaces of the virtual machine.
+	NetworkProfile *NetworkProfile_ARM `json:"networkProfile,omitempty"`
 
-	// OsProfile: Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once
-	// VM is provisioned.
-	OsProfile *VirtualMachine_Properties_OsProfile_Spec_ARM `json:"osProfile,omitempty"`
+	// OsProfile: Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot
+	// be changed once VM is provisioned.
+	OsProfile *OSProfile_ARM `json:"osProfile,omitempty"`
 
 	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
 	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
@@ -118,12 +144,18 @@ type VirtualMachine_Properties_Spec_ARM struct {
 	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
 
 	// Priority: Specifies the priority for the virtual machine.
-	// Minimum api-version: 2019-03-01.
-	Priority                *VirtualMachine_Properties_Priority_Spec `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResource_ARM                         `json:"proximityPlacementGroup,omitempty"`
-	ScheduledEventsProfile  *ScheduledEventsProfile_ARM              `json:"scheduledEventsProfile,omitempty"`
+	// Minimum api-version: 2019-03-01
+	Priority *Priority `json:"priority,omitempty"`
 
-	// SecurityProfile: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
+	// assigned to.
+	// Minimum api-version: 2018-04-01.
+	ProximityPlacementGroup *SubResource_ARM `json:"proximityPlacementGroup,omitempty"`
+
+	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
+	ScheduledEventsProfile *ScheduledEventsProfile_ARM `json:"scheduledEventsProfile,omitempty"`
+
+	// SecurityProfile: Specifies the Security related profile settings for the virtual machine.
 	SecurityProfile *SecurityProfile_ARM `json:"securityProfile,omitempty"`
 
 	// StorageProfile: Specifies the storage settings for the virtual machine disks.
@@ -131,25 +163,25 @@ type VirtualMachine_Properties_Spec_ARM struct {
 
 	// UserData: UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here.
 	// Minimum api-version: 2021-03-01
-	UserData               *string          `json:"userData,omitempty"`
+	UserData *string `json:"userData,omitempty"`
+
+	// VirtualMachineScaleSet: Specifies information about the virtual machine scale set that the virtual machine should be
+	// assigned to. Virtual machines specified in the same virtual machine scale set are allocated to different nodes to
+	// maximize availability. Currently, a VM can only be added to virtual machine scale set at creation time. An existing VM
+	// cannot be added to a virtual machine scale set.
+	// This property cannot exist along with a non-null properties.availabilitySet reference.
+	// Minimum api‐version: 2019‐03‐01
 	VirtualMachineScaleSet *SubResource_ARM `json:"virtualMachineScaleSet,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineIdentity
-type VirtualMachineIdentity_ARM struct {
-	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// virtual machine.
-	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ApplicationProfile
+// Contains the list of gallery applications that should be made available to the VM/VMSS
 type ApplicationProfile_ARM struct {
 	// GalleryApplications: Specifies the gallery applications that should be made available to the VM/VMSS
 	GalleryApplications []VMGalleryApplication_ARM `json:"galleryApplications,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/BillingProfile
+// Specifies the billing related details of a Azure Spot VM or VMSS.
+// Minimum api-version: 2019-03-01.
 type BillingProfile_ARM struct {
 	// MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars.
 	// This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time
@@ -166,21 +198,27 @@ type BillingProfile_ARM struct {
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/CapacityReservationProfile
+// The parameters of a capacity reservation Profile.
 type CapacityReservationProfile_ARM struct {
+	// CapacityReservationGroup: Specifies the capacity reservation group resource id that should be used for allocating the
+	// virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to
+	// https://aka.ms/CapacityReservation for more details.
 	CapacityReservationGroup *SubResource_ARM `json:"capacityReservationGroup,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/DiagnosticsProfile
+// Specifies the boot diagnostic settings state.
+// Minimum api-version: 2015-06-15.
 type DiagnosticsProfile_ARM struct {
 	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
 	// diagnose VM status.
+	// NOTE: If storageUri is being specified then ensure that the storage account is in the same region and subscription as
+	// the VM.
 	// You can easily view the output of your console log.
 	// Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnostics_ARM `json:"bootDiagnostics,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/HardwareProfile
+// Specifies the hardware settings for the virtual machine.
 type HardwareProfile_ARM struct {
 	// VmSize: Specifies the size of the virtual machine.
 	// The enum data type is currently deprecated and will be removed by December 23rd 2023.
@@ -194,66 +232,30 @@ type HardwareProfile_ARM struct {
 	// The available VM sizes depend on region and availability set.
 	VmSize *HardwareProfile_VmSize `json:"vmSize,omitempty"`
 
-	// VmSizeProperties: Specifies VM Size Property settings on the virtual machine.
+	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
+	// 2021-07-01.
+	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet.
+	// Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.
 	VmSizeProperties *VMSizeProperties_ARM `json:"vmSizeProperties,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ScheduledEventsProfile
-type ScheduledEventsProfile_ARM struct {
-	TerminateNotificationProfile *TerminateNotificationProfile_ARM `json:"terminateNotificationProfile,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/SecurityProfile
-type SecurityProfile_ARM struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
-	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
-	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
-
-	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
-	// UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_SecurityType `json:"securityType,omitempty"`
-
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
-	UefiSettings *UefiSettings_ARM `json:"uefiSettings,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/StorageProfile
-type StorageProfile_ARM struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []DataDisk_ARM `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference
-	// publisher and offer can only be set when you create the scale set.
-	ImageReference *ImageReference_ARM `json:"imageReference,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *OSDisk_ARM `json:"osDisk,omitempty"`
-}
-
-type VirtualMachine_Properties_NetworkProfile_Spec_ARM struct {
+// Specifies the network interfaces or the networking configuration of the virtual machine.
+type NetworkProfile_ARM struct {
 	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
-	// Interface Configurations.
-	NetworkApiVersion *VirtualMachine_Properties_NetworkProfile_NetworkApiVersion_Spec `json:"networkApiVersion,omitempty"`
+	// Interface Configurations
+	NetworkApiVersion *NetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
 
 	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
 	// networking resources.
-	NetworkInterfaceConfigurations []VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM `json:"networkInterfaceConfigurations,omitempty"`
+	NetworkInterfaceConfigurations []VirtualMachineNetworkInterfaceConfiguration_ARM `json:"networkInterfaceConfigurations,omitempty"`
 
 	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM `json:"networkInterfaces,omitempty"`
+	NetworkInterfaces []NetworkInterfaceReference_ARM `json:"networkInterfaces,omitempty"`
 }
 
-type VirtualMachine_Properties_OsProfile_Spec_ARM struct {
+// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
+// provisioned.
+type OSProfile_ARM struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
 	// Minimum-length (Linux): 6 characters
@@ -323,6 +325,47 @@ type VirtualMachine_Properties_OsProfile_Spec_ARM struct {
 	WindowsConfiguration *WindowsConfiguration_ARM `json:"windowsConfiguration,omitempty"`
 }
 
+type ScheduledEventsProfile_ARM struct {
+	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
+	TerminateNotificationProfile *TerminateNotificationProfile_ARM `json:"terminateNotificationProfile,omitempty"`
+}
+
+// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+type SecurityProfile_ARM struct {
+	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
+	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
+	// disk at host itself.
+	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
+	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
+
+	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
+	// UefiSettings.
+	// Default: UefiSettings will not be enabled unless this property is set.
+	SecurityType *SecurityProfile_SecurityType `json:"securityType,omitempty"`
+
+	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+	// Minimum api-version: 2020-12-01
+	UefiSettings *UefiSettings_ARM `json:"uefiSettings,omitempty"`
+}
+
+// Specifies the storage settings for the virtual machine disks.
+type StorageProfile_ARM struct {
+	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
+	// For more information about disks, see [About disks and VHDs for Azure virtual
+	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
+	DataDisks []DataDisk_ARM `json:"dataDisks,omitempty"`
+
+	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
+	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
+	// marketplace image, or virtual machine image, but is not used in other creation operations.
+	ImageReference *ImageReference_ARM `json:"imageReference,omitempty"`
+
+	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
+	// For more information about disks, see [About disks and VHDs for Azure virtual
+	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
+	OsDisk *OSDisk_ARM `json:"osDisk,omitempty"`
+}
+
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type VirtualMachineIdentity_Type string
 
@@ -333,7 +376,10 @@ const (
 	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/BootDiagnostics
+// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
+// You can easily view the output of your console log.
+// Azure also enables you to see a screenshot of the
+// VM from the hypervisor.
 type BootDiagnostics_ARM struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -343,15 +389,15 @@ type BootDiagnostics_ARM struct {
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/DataDisk
+// Describes a data disk.
 type DataDisk_ARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
 	// None
 	// ReadOnly
 	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *DataDisk_Caching `json:"caching,omitempty"`
+	// Default: None for Standard storage. ReadOnly for Premium storage
+	Caching *Caching `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -359,14 +405,14 @@ type DataDisk_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *DataDisk_CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether data disk should be deleted or detached upon VM deletion.
 	// Possible values:
 	// Delete If this value is used, the data disk is deleted when VM is deleted.
 	// Detach If this value is used, the data disk is retained after VM is deleted.
-	// The default value is set to detach.
-	DeleteOption *DataDisk_DeleteOption `json:"deleteOption,omitempty"`
+	// The default value is set to detach
+	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
 
 	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
 	// detachment from the virtual machine. Supported values: ForceDetach.
@@ -376,21 +422,22 @@ type DataDisk_ARM struct {
 	// when using this detach behavior.
 	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
 	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DataDisk_DetachOption `json:"detachOption,omitempty"`
+	DetachOption *DetachOption `json:"detachOption,omitempty"`
 
 	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
 	// disk in a virtual machine image.
 	// This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// Image: Describes the uri of a disk.
+	// Image: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the
+	// virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 	Image *VirtualHardDisk_ARM `json:"image,omitempty"`
 
 	// Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
 	// therefore must be unique for each data disk attached to a VM.
 	Lun *int `json:"lun,omitempty"`
 
-	// ManagedDisk: The parameters of a managed disk.
+	// ManagedDisk: The managed disk parameters.
 	ManagedDisk *ManagedDiskParameters_ARM `json:"managedDisk,omitempty"`
 
 	// Name: The disk name.
@@ -399,14 +446,17 @@ type DataDisk_ARM struct {
 	// ToBeDetached: Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset
 	ToBeDetached *bool `json:"toBeDetached,omitempty"`
 
-	// Vhd: Describes the uri of a disk.
+	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_ARM `json:"vhd,omitempty"`
 
 	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ImageReference
+// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
+// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
+// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
+// when you create the scale set.
 type ImageReference_ARM struct {
 	// CommunityGalleryImageId: Specified the community gallery image unique id for vm deployment. This can be fetched from
 	// community gallery image GET call.
@@ -437,12 +487,15 @@ type ImageReference_ARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/LinuxConfiguration
+// Specifies the Linux operating system settings on the virtual machine.
+// For a list of supported Linux
+// distributions, see [Linux on Azure-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
 type LinuxConfiguration_ARM struct {
 	// DisablePasswordAuthentication: Specifies whether password authentication should be disabled.
 	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
 
-	// PatchSettings: Specifies settings related to VM Guest Patching on Linux.
+	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
 	PatchSettings *LinuxPatchSettings_ARM `json:"patchSettings,omitempty"`
 
 	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned on the virtual machine.
@@ -450,11 +503,22 @@ type LinuxConfiguration_ARM struct {
 	// VM Agent is installed on the VM so that extensions can be added to the VM later.
 	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
 
-	// Ssh: SSH configuration for Linux based VMs running on Azure
+	// Ssh: Specifies the ssh key configuration for a Linux OS.
 	Ssh *SshConfiguration_ARM `json:"ssh,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/OSDisk
+// Describes a network interface reference.
+type NetworkInterfaceReference_ARM struct {
+	Id *string `json:"id,omitempty"`
+
+	// Properties: Describes a network interface reference properties.
+	Properties *NetworkInterfaceReferenceProperties_ARM `json:"properties,omitempty"`
+}
+
+// Specifies information about the operating system disk used by the virtual machine.
+// For more information about
+// disks, see [About disks and VHDs for Azure virtual
+// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
 type OSDisk_ARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -462,7 +526,7 @@ type OSDisk_ARM struct {
 	// ReadOnly
 	// ReadWrite
 	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *OSDisk_Caching `json:"caching,omitempty"`
+	Caching *Caching `json:"caching,omitempty"`
 
 	// CreateOption: Specifies how the virtual machine should be created.
 	// Possible values are:
@@ -470,7 +534,7 @@ type OSDisk_ARM struct {
 	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
 	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
 	// use the plan element previously described.
-	CreateOption *OSDisk_CreateOption `json:"createOption,omitempty"`
+	CreateOption *CreateOption `json:"createOption,omitempty"`
 
 	// DeleteOption: Specifies whether OS Disk should be deleted or detached upon VM deletion.
 	// Possible values:
@@ -478,10 +542,9 @@ type OSDisk_ARM struct {
 	// Detach If this value is used, the os disk is retained after VM is deleted.
 	// The default value is set to detach. For an ephemeral OS Disk, the default value is set to Delete. User cannot change the
 	// delete option for ephemeral OS Disk.
-	DeleteOption *OSDisk_DeleteOption `json:"deleteOption,omitempty"`
+	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
 
-	// DiffDiskSettings: Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
-	// NOTE: The ephemeral disk settings can only be specified for managed disk.
+	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
 	DiffDiskSettings *DiffDiskSettings_ARM `json:"diffDiskSettings,omitempty"`
 
 	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
@@ -489,13 +552,15 @@ type OSDisk_ARM struct {
 	// This value cannot be larger than 1023 GB
 	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
 
-	// EncryptionSettings: Describes a Encryption Settings for a Disk
+	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
+	// Minimum api-version: 2015-06-15
 	EncryptionSettings *DiskEncryptionSettings_ARM `json:"encryptionSettings,omitempty"`
 
-	// Image: Describes the uri of a disk.
+	// Image: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the
+	// virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 	Image *VirtualHardDisk_ARM `json:"image,omitempty"`
 
-	// ManagedDisk: The parameters of a managed disk.
+	// ManagedDisk: The managed disk parameters.
 	ManagedDisk *ManagedDiskParameters_ARM `json:"managedDisk,omitempty"`
 
 	// Name: The disk name.
@@ -505,17 +570,16 @@ type OSDisk_ARM struct {
 	// user-image or a specialized VHD.
 	// Possible values are:
 	// Windows
-	// Linux.
+	// Linux
 	OsType *OSDisk_OsType `json:"osType,omitempty"`
 
-	// Vhd: Describes the uri of a disk.
+	// Vhd: The virtual hard disk.
 	Vhd *VirtualHardDisk_ARM `json:"vhd,omitempty"`
 
 	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/TerminateNotificationProfile
 type TerminateNotificationProfile_ARM struct {
 	// Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
 	Enable *bool `json:"enable,omitempty"`
@@ -526,7 +590,9 @@ type TerminateNotificationProfile_ARM struct {
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/UefiSettings
+// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+// Minimum
+// api-version: 2020-12-01
 type UefiSettings_ARM struct {
 	// SecureBootEnabled: Specifies whether secure boot should be enabled on the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -537,30 +603,25 @@ type UefiSettings_ARM struct {
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
+// Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup_ARM struct {
+	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 
 	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
 	VaultCertificates []VaultCertificate_ARM `json:"vaultCertificates,omitempty"`
 }
 
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec_ARM struct {
+// Describes a virtual machine network interface configurations.
+type VirtualMachineNetworkInterfaceConfiguration_ARM struct {
 	// Name: The network interface configuration name.
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Describes a virtual machine network profile's IP configuration.
-	Properties *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_Spec_ARM `json:"properties,omitempty"`
+	Properties *VirtualMachineNetworkInterfaceConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Describes a network interface reference properties.
-	Properties *NetworkInterfaceReferenceProperties_ARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMGalleryApplication
+// Specifies the required information to reference a compute gallery application version
 type VMGalleryApplication_ARM struct {
 	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
 	// package if provided
@@ -582,7 +643,7 @@ type VMGalleryApplication_ARM struct {
 	TreatFailureAsDeploymentFailure *bool `json:"treatFailureAsDeploymentFailure,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMSizeProperties
+// Specifies VM Size Property settings on the virtual machine.
 type VMSizeProperties_ARM struct {
 	// VCPUsAvailable: Specifies the number of vCPUs available for the VM.
 	// When this property is not specified in the request body the default behavior is to set it to the value of vCPUs
@@ -598,7 +659,7 @@ type VMSizeProperties_ARM struct {
 	VCPUsPerCore *int `json:"vCPUsPerCore,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
+// Specifies Windows operating system settings on the virtual machine.
 type WindowsConfiguration_ARM struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -609,7 +670,7 @@ type WindowsConfiguration_ARM struct {
 	// For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
 	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty"`
 
-	// PatchSettings: Specifies settings related to VM Guest Patching on Windows.
+	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
 	PatchSettings *PatchSettings_ARM `json:"patchSettings,omitempty"`
 
 	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned on the virtual machine.
@@ -624,11 +685,12 @@ type WindowsConfiguration_ARM struct {
 	// [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
 	TimeZone *string `json:"timeZone,omitempty"`
 
-	// WinRM: Describes Windows Remote Management configuration of the VM
+	// WinRM: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
 	WinRM *WinRMConfiguration_ARM `json:"winRM,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/AdditionalUnattendContent
+// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
+// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_ARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContent_ComponentName `json:"componentName,omitempty"`
@@ -646,10 +708,12 @@ type AdditionalUnattendContent_ARM struct {
 	SettingName *AdditionalUnattendContent_SettingName `json:"settingName,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/DiffDiskSettings
+// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
+// NOTE: The
+// ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_ARM struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskSettings_Option `json:"option,omitempty"`
+	Option *DiffDiskOption `json:"option,omitempty"`
 
 	// Placement: Specifies the ephemeral disk placement for operating system disk.
 	// Possible values are:
@@ -658,22 +722,22 @@ type DiffDiskSettings_ARM struct {
 	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk is used.
 	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and
 	// Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.
-	Placement *DiffDiskSettings_Placement `json:"placement,omitempty"`
+	Placement *DiffDiskPlacement `json:"placement,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/DiskEncryptionSettings
+// Describes a Encryption Settings for a Disk
 type DiskEncryptionSettings_ARM struct {
-	// DiskEncryptionKey: Describes a reference to Key Vault Secret
+	// DiskEncryptionKey: Specifies the location of the disk encryption key, which is a Key Vault Secret.
 	DiskEncryptionKey *KeyVaultSecretReference_ARM `json:"diskEncryptionKey,omitempty"`
 
 	// Enabled: Specifies whether disk encryption should be enabled on the virtual machine.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// KeyEncryptionKey: Describes a reference to Key Vault Key
+	// KeyEncryptionKey: Specifies the location of the key encryption key in Key Vault.
 	KeyEncryptionKey *KeyVaultKeyReference_ARM `json:"keyEncryptionKey,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/LinuxPatchSettings
+// Specifies settings related to VM Guest Patching on Linux.
 type LinuxPatchSettings_ARM struct {
 	// AssessmentMode: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.
 	// Possible values are:
@@ -681,8 +745,8 @@ type LinuxPatchSettings_ARM struct {
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
 	AssessmentMode *LinuxPatchSettings_AssessmentMode `json:"assessmentMode,omitempty"`
 
-	// AutomaticByPlatformSettings: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected
-	// in Linux patch settings.
+	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
+	// Linux.
 	AutomaticByPlatformSettings *LinuxVMGuestPatchAutomaticByPlatformSettings_ARM `json:"automaticByPlatformSettings,omitempty"`
 
 	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual
@@ -690,38 +754,34 @@ type LinuxPatchSettings_ARM struct {
 	// Possible values are:
 	// ImageDefault - The virtual machine's default patching configuration is used.
 	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
-	// must be true.
+	// must be true
 	PatchMode *LinuxPatchSettings_PatchMode `json:"patchMode,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/ManagedDiskParameters
+// The parameters of a managed disk.
 type ManagedDiskParameters_ARM struct {
-	// DiskEncryptionSet: Describes the parameter of customer managed disk encryption set resource id that can be specified for
-	// disk.
-	// NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer
-	// https://aka.ms/mdssewithcmkoverview for more details.
-	DiskEncryptionSet *DiskEncryptionSetParameters_ARM `json:"diskEncryptionSet,omitempty"`
-	Id                *string                          `json:"id,omitempty"`
+	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
+	DiskEncryptionSet *SubResource_ARM `json:"diskEncryptionSet,omitempty"`
+	Id                *string          `json:"id,omitempty"`
 
-	// SecurityProfile: Specifies the security profile settings for the managed disk.
-	// NOTE: It can only be set for Confidential VMs
+	// SecurityProfile: Specifies the security profile for the managed disk.
 	SecurityProfile *VMDiskSecurityProfile_ARM `json:"securityProfile,omitempty"`
 
 	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
 	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *ManagedDiskParameters_StorageAccountType `json:"storageAccountType,omitempty"`
+	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/NetworkInterfaceReferenceProperties
+// Describes a network interface reference properties.
 type NetworkInterfaceReferenceProperties_ARM struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
+	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption `json:"deleteOption,omitempty"`
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/PatchSettings
+// Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings_ARM struct {
 	// AssessmentMode: Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.
 	// Possible values are:
@@ -729,8 +789,8 @@ type PatchSettings_ARM struct {
 	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
 	AssessmentMode *PatchSettings_AssessmentMode `json:"assessmentMode,omitempty"`
 
-	// AutomaticByPlatformSettings: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected
-	// in Windows patch settings.
+	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
+	// Windows.
 	AutomaticByPlatformSettings *WindowsVMGuestPatchAutomaticByPlatformSettings_ARM `json:"automaticByPlatformSettings,omitempty"`
 
 	// EnableHotpatching: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the
@@ -746,17 +806,17 @@ type PatchSettings_ARM struct {
 	// AutomaticByOS - The virtual machine will automatically be updated by the OS. The property
 	// WindowsConfiguration.enableAutomaticUpdates must be true.
 	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
-	// and WindowsConfiguration.enableAutomaticUpdates must be true.
+	// and WindowsConfiguration.enableAutomaticUpdates must be true
 	PatchMode *PatchSettings_PatchMode `json:"patchMode,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/SshConfiguration
+// SSH configuration for Linux based VMs running on Azure
 type SshConfiguration_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with linux based VMs.
-	PublicKeys []SshPublicKey_ARM `json:"publicKeys,omitempty"`
+	PublicKeys []SshPublicKeySpec_ARM `json:"publicKeys,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VaultCertificate
+// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
 type VaultCertificate_ARM struct {
 	// CertificateStore: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate
 	// should be added. The specified certificate store is implicitly in the LocalMachine account.
@@ -780,17 +840,18 @@ type VaultCertificate_ARM struct {
 	CertificateUrl *string `json:"certificateUrl,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualHardDisk
+// Describes the uri of a disk.
 type VirtualHardDisk_ARM struct {
 	// Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_Spec_ARM struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted.
-	DeleteOption *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_DeleteOption_Spec `json:"deleteOption,omitempty"`
+// Describes a virtual machine network profile's IP configuration.
+type VirtualMachineNetworkInterfaceConfigurationProperties_ARM struct {
+	// DeleteOption: Specify what happens to the network interface when the VM is deleted
+	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
 
-	// DnsSettings: Describes a virtual machines network configuration's DNS settings.
+	// DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM `json:"dnsSettings,omitempty"`
 	DscpConfiguration *SubResource_ARM                                            `json:"dscpConfiguration,omitempty"`
 
@@ -804,41 +865,47 @@ type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Pro
 	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
 
 	// IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations     []VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM `json:"ipConfigurations,omitempty"`
-	NetworkSecurityGroup *SubResource_ARM                                                                                               `json:"networkSecurityGroup,omitempty"`
+	IpConfigurations []VirtualMachineNetworkInterfaceIPConfiguration_ARM `json:"ipConfigurations,omitempty"`
+
+	// NetworkSecurityGroup: The network security group.
+	NetworkSecurityGroup *SubResource_ARM `json:"networkSecurityGroup,omitempty"`
 
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WinRMConfiguration
+// Describes Windows Remote Management configuration of the VM
 type WinRMConfiguration_ARM struct {
 	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_ARM `json:"listeners,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/KeyVaultKeyReference
+// Describes a reference to Key Vault Key
 type KeyVaultKeyReference_ARM struct {
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
-	KeyUrl      *string          `json:"keyUrl,omitempty"`
+	KeyUrl *string `json:"keyUrl,omitempty"`
+
+	// SourceVault: The relative URL of the Key Vault containing the key.
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/KeyVaultSecretReference
+// Describes a reference to Key Vault Secret
 type KeyVaultSecretReference_ARM struct {
 	// SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl   *string          `json:"secretUrl,omitempty"`
+	SecretUrl *string `json:"secretUrl,omitempty"`
+
+	// SourceVault: The relative URL of the Key Vault containing the secret.
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/LinuxVMGuestPatchAutomaticByPlatformSettings
+// Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
 type LinuxVMGuestPatchAutomaticByPlatformSettings_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/SshPublicKey
-type SshPublicKey_ARM struct {
+// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+type SshPublicKeySpec_ARM struct {
 	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
 	// and in ssh-rsa format.
 	// For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
@@ -850,27 +917,27 @@ type SshPublicKey_ARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec_ARM struct {
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Describes a virtual machine network interface IP configuration properties.
-	Properties *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_Spec_ARM `json:"properties,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+// Describes a virtual machines network configuration's DNS settings.
 type VirtualMachineNetworkInterfaceDnsSettingsConfiguration_ARM struct {
 	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VMDiskSecurityProfile
+// Describes a virtual machine network profile's IP configuration.
+type VirtualMachineNetworkInterfaceIPConfiguration_ARM struct {
+	// Name: The IP configuration name.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes a virtual machine network interface IP configuration properties.
+	Properties *VirtualMachineNetworkInterfaceIPConfigurationProperties_ARM `json:"properties,omitempty"`
+}
+
+// Specifies the security profile settings for the managed disk.
+// NOTE: It can only be set for Confidential VMs
 type VMDiskSecurityProfile_ARM struct {
-	// DiskEncryptionSet: Describes the parameter of customer managed disk encryption set resource id that can be specified for
-	// disk.
-	// NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer
-	// https://aka.ms/mdssewithcmkoverview for more details.
-	DiskEncryptionSet *DiskEncryptionSetParameters_ARM `json:"diskEncryptionSet,omitempty"`
+	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk that is used for
+	// Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
+	DiskEncryptionSet *SubResource_ARM `json:"diskEncryptionSet,omitempty"`
 
 	// SecurityEncryptionType: Specifies the EncryptionType of the managed disk.
 	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
@@ -879,13 +946,13 @@ type VMDiskSecurityProfile_ARM struct {
 	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType `json:"securityEncryptionType,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WindowsVMGuestPatchAutomaticByPlatformSettings
+// Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
 type WindowsVMGuestPatchAutomaticByPlatformSettings_ARM struct {
 	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/WinRMListener
+// Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener_ARM struct {
 	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
 	// the Key Vault, see [Add a key or secret to the key
@@ -904,11 +971,12 @@ type WinRMListener_ARM struct {
 	// Protocol: Specifies the protocol of WinRM listener.
 	// Possible values are:
 	// http
-	// https.
+	// https
 	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
 }
 
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_Spec_ARM struct {
+// Describes a virtual machine network interface IP configuration properties.
+type VirtualMachineNetworkInterfaceIPConfigurationProperties_ARM struct {
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
 	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
 	// machines cannot use the same application gateway.
@@ -927,14 +995,17 @@ type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Pro
 
 	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PrivateIPAddressVersion_Spec `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 
-	// PublicIPAddressConfiguration: Describes a virtual machines IP Configuration's PublicIPAddress configuration
-	PublicIPAddressConfiguration *VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM `json:"publicIPAddressConfiguration,omitempty"`
-	Subnet                       *SubResource_ARM                                                                                                                                      `json:"subnet,omitempty"`
+	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
+	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_ARM `json:"publicIPAddressConfiguration,omitempty"`
+
+	// Subnet: Specifies the identifier of the subnet.
+	Subnet *SubResource_ARM `json:"subnet,omitempty"`
 }
 
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_Spec_ARM struct {
+// Describes a virtual machines IP Configuration's PublicIPAddress configuration
+type VirtualMachinePublicIPAddressConfiguration_ARM struct {
 	// Name: The publicIP address configuration name.
 	Name *string `json:"name,omitempty"`
 
@@ -945,21 +1016,21 @@ type VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Pro
 	Sku *PublicIPAddressSku_ARM `json:"sku,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/PublicIPAddressSku
+// Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
 type PublicIPAddressSku_ARM struct {
-	// Name: Specify public IP sku name.
+	// Name: Specify public IP sku name
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
 
-	// Tier: Specify public IP sku tier.
+	// Tier: Specify public IP sku tier
 	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachinePublicIPAddressConfigurationProperties
+// Describes a virtual machines IP Configuration's PublicIPAddress configuration
 type VirtualMachinePublicIPAddressConfigurationProperties_ARM struct {
-	// DeleteOption: Specify what happens to the public IP address when the VM is deleted.
+	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
 	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
 
-	// DnsSettings: Describes a virtual machines network configuration's DNS settings.
+	// DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM `json:"dnsSettings,omitempty"`
 
 	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
@@ -972,12 +1043,14 @@ type VirtualMachinePublicIPAddressConfigurationProperties_ARM struct {
 	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
 	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
 
-	// PublicIPAllocationMethod: Specify the public IP allocation type.
+	// PublicIPAllocationMethod: Specify the public IP allocation type
 	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResource_ARM                                                               `json:"publicIPPrefix,omitempty"`
+
+	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
+	PublicIPPrefix *SubResource_ARM `json:"publicIPPrefix,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachineIpTag
+// Contains the IP tag associated with the public IP address.
 type VirtualMachineIpTag_ARM struct {
 	// IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -986,7 +1059,7 @@ type VirtualMachineIpTag_ARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Compute.json#/definitions/VirtualMachinePublicIPAddressDnsSettingsConfiguration
+// Describes a virtual machines network configuration's DNS settings.
 type VirtualMachinePublicIPAddressDnsSettingsConfiguration_ARM struct {
 	// DomainNameLabel: The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name
 	// label is the concatenation of the domain name label and vm network profile unique ID.

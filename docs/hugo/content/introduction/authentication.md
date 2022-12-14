@@ -48,7 +48,6 @@ EOF
 ### Prerequisites
 1. An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.
 2. The [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli).
-3. The [Azure Workload Identity](https://github.com/Azure/azure-workload-identity) webhook installed into your cluster. See [Azure Workload Identity installation](https://azure.github.io/azure-workload-identity/docs/installation.html). Note that setup involves two steps, getting your clusters OIDC issuer URL and installing the [Azure Workload Identity mutating webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html).
 
 Use the following Bash script to set the environment variables required for the below commands:
 ```bash
@@ -129,25 +128,15 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
 
 #### Kubectl
 
-If you installed ASO manually, you can update the existing `ServiceAccount` to use Workload Identity.
+##### Updating an existing deployment
 
-Update the ASO service account to use Workload Identity
-```bash
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  annotations:
-    azure.workload.identity/client-id: ${AZURE_CLIENT_ID}
-  labels:
-    azure.workload.identity/use: "true"
-  name: azureserviceoperator-default
-  namespace: azureserviceoperator-system
-EOF
-```
+If you installed ASO manually, you can update the existing `Secret` to use Workload Identity authentication.
 
-Update the existing ASO deployment and ensure that the controller pod has the following annotation:
-`azure.workload.identity/inject-proxy-sidecar: "true"`
+Update the `aso-controller-settings` secret to have string data `USE_WORKLOAD_IDENTITY_AUTH: "true"`
+
+Ensure that the `aso-controller-settings` secret has the key `USE_WORKLOAD_IDENTITY_AUTH` set to `true` and restart the ASO pod. 
+
+##### New Deployment
 
 Create the `aso-controller-settings` secret:
 ```bash
@@ -161,6 +150,7 @@ stringData:
  AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
  AZURE_TENANT_ID: "$AZURE_TENANT_ID"
  AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ USE_WORKLOAD_IDENTITY_AUTH: "true"
 EOF
 ```
 

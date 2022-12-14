@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210401preview.Vault
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/resourceDefinitions/vaults
+// Generator information:
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (vault *Vault) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210401preview.Vault
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/resourceDefinitions/vaults
+// Generator information:
+// - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type VaultList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -175,6 +179,7 @@ func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 }
 
 // Storage version of v1beta20210401preview.Vault_STATUS
+// Resource information with extended details.
 type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
 	Id          *string                 `json:"id,omitempty"`
@@ -208,6 +213,7 @@ func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 }
 
 // Storage version of v1beta20210401preview.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the key vault resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -219,7 +225,7 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.VaultProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/VaultProperties
+// Properties of the vault
 type VaultProperties struct {
 	AccessPolicies               []AccessPolicyEntry    `json:"accessPolicies,omitempty"`
 	CreateMode                   *string                `json:"createMode,omitempty"`
@@ -239,6 +245,7 @@ type VaultProperties struct {
 }
 
 // Storage version of v1beta20210401preview.VaultProperties_STATUS
+// Properties of the vault
 type VaultProperties_STATUS struct {
 	AccessPolicies               []AccessPolicyEntry_STATUS             `json:"accessPolicies,omitempty"`
 	CreateMode                   *string                                `json:"createMode,omitempty"`
@@ -260,7 +267,8 @@ type VaultProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.AccessPolicyEntry
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/AccessPolicyEntry
+// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+// vault's tenant ID.
 type AccessPolicyEntry struct {
 	ApplicationId           *string                        `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
 	ApplicationIdFromConfig *genruntime.ConfigMapReference `json:"applicationIdFromConfig,omitempty" optionalConfigMapPair:"ApplicationId"`
@@ -273,6 +281,8 @@ type AccessPolicyEntry struct {
 }
 
 // Storage version of v1beta20210401preview.AccessPolicyEntry_STATUS
+// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+// vault's tenant ID.
 type AccessPolicyEntry_STATUS struct {
 	ApplicationId *string                `json:"applicationId,omitempty"`
 	ObjectId      *string                `json:"objectId,omitempty"`
@@ -282,7 +292,7 @@ type AccessPolicyEntry_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.NetworkRuleSet
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/NetworkRuleSet
+// A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet struct {
 	Bypass              *string                `json:"bypass,omitempty"`
 	DefaultAction       *string                `json:"defaultAction,omitempty"`
@@ -292,6 +302,7 @@ type NetworkRuleSet struct {
 }
 
 // Storage version of v1beta20210401preview.NetworkRuleSet_STATUS
+// A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet_STATUS struct {
 	Bypass              *string                     `json:"bypass,omitempty"`
 	DefaultAction       *string                     `json:"defaultAction,omitempty"`
@@ -301,6 +312,7 @@ type NetworkRuleSet_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.PrivateEndpointConnectionItem_STATUS
+// Private endpoint connection item.
 type PrivateEndpointConnectionItem_STATUS struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
 	Id                                *string                                   `json:"id,omitempty"`
@@ -311,7 +323,7 @@ type PrivateEndpointConnectionItem_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/Sku
+// SKU details
 type Sku struct {
 	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -319,6 +331,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210401preview.Sku_STATUS
+// SKU details
 type Sku_STATUS struct {
 	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -326,20 +339,21 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.IPRule
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/IPRule
+// A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
 // Storage version of v1beta20210401preview.IPRule_STATUS
+// A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Value       *string                `json:"value,omitempty"`
 }
 
 // Storage version of v1beta20210401preview.Permissions
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/Permissions
+// Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions struct {
 	Certificates []string               `json:"certificates,omitempty"`
 	Keys         []string               `json:"keys,omitempty"`
@@ -349,6 +363,7 @@ type Permissions struct {
 }
 
 // Storage version of v1beta20210401preview.Permissions_STATUS
+// Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_STATUS struct {
 	Certificates []string               `json:"certificates,omitempty"`
 	Keys         []string               `json:"keys,omitempty"`
@@ -358,12 +373,14 @@ type Permissions_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.PrivateEndpoint_STATUS
+// Private endpoint object properties.
 type PrivateEndpoint_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401preview.PrivateLinkServiceConnectionState_STATUS
+// An object that represents the approval state of the private link connection.
 type PrivateLinkServiceConnectionState_STATUS struct {
 	ActionsRequired *string                `json:"actionsRequired,omitempty"`
 	Description     *string                `json:"description,omitempty"`
@@ -372,7 +389,7 @@ type PrivateLinkServiceConnectionState_STATUS struct {
 }
 
 // Storage version of v1beta20210401preview.VirtualNetworkRule
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01-preview/Microsoft.KeyVault.json#/definitions/VirtualNetworkRule
+// A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule struct {
 	IgnoreMissingVnetServiceEndpoint *bool                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -384,6 +401,7 @@ type VirtualNetworkRule struct {
 }
 
 // Storage version of v1beta20210401preview.VirtualNetworkRule_STATUS
+// A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_STATUS struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVnetServiceEndpoint *bool                  `json:"ignoreMissingVnetServiceEndpoint,omitempty"`

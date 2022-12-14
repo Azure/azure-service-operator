@@ -51,7 +51,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	//tc.Expect(mi.Status.TenantId).ToNot(BeNil())
 	//tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
-	workload := subscription.PutAliasRequestProperties_Workload_Production
+	workload := subscription.Workload_Production
 	sub := &subscription.Alias{
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: subscription.Alias_Spec{
@@ -73,8 +73,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
-			Location: tc.AzureRegion,
-			Owner:    tc.AsExtensionOwner(sub),
+			Owner: tc.AsExtensionOwner(sub),
 			//PrincipalId: mi.Status.PrincipalId,
 			PrincipalId: to.StringPtr("1605884e-16c3-4fc0-bf09-4220deecef02"), // 1605884e-16c3-4fc0-bf09-4220deecef02 == my user in PPE
 			RoleDefinitionReference: &genruntime.ResourceReference{

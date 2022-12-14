@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec `json:"spec,omitempty"`
-	Status            SqlStoredProcedureGetResults_STATUS                           `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -76,7 +78,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlStoredProcedureGetResults_STATUS{}
+	return &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlStoredProcedureGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS); ok {
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlStoredProcedureGetResults_STATUS
+	var st DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (procedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.Grou
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}
 type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,8 +172,8 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	return destination.ConvertSpecFrom(procedure)
 }
 
-// Storage version of v1beta20210515.SqlStoredProcedureGetResults_STATUS
-type SqlStoredProcedureGetResults_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
+type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
 	Location    *string                                          `json:"location,omitempty"`
@@ -180,24 +184,24 @@ type SqlStoredProcedureGetResults_STATUS struct {
 	Type        *string                                          `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS{}
 
-// ConvertStatusFrom populates our SqlStoredProcedureGetResults_STATUS from the provided source
-func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS from the provided source
+func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(procedure)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_STATUS
-func (results *SqlStoredProcedureGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
+func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(procedure)
 }
 
 // Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS
@@ -211,7 +215,7 @@ type SqlStoredProcedureGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlStoredProcedureResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
+// Cosmos DB SQL storedProcedure resource object
 type SqlStoredProcedureResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`

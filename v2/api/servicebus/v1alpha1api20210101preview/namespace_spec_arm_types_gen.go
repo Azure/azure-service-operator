@@ -7,12 +7,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Namespace_Spec. Use v1beta20210101preview.Namespace_Spec instead
 type Namespace_Spec_ARM struct {
-	Identity   *Identity_ARM                  `json:"identity,omitempty"`
-	Location   *string                        `json:"location,omitempty"`
-	Name       string                         `json:"name,omitempty"`
-	Properties *Namespace_Properties_Spec_ARM `json:"properties,omitempty"`
-	Sku        *SBSku_ARM                     `json:"sku,omitempty"`
-	Tags       map[string]string              `json:"tags,omitempty"`
+	Identity   *Identity_ARM              `json:"identity,omitempty"`
+	Location   *string                    `json:"location,omitempty"`
+	Name       string                     `json:"name,omitempty"`
+	Properties *SBNamespaceProperties_ARM `json:"properties,omitempty"`
+	Sku        *SBSku_ARM                 `json:"sku,omitempty"`
+	Tags       map[string]string          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_Spec_ARM{}
@@ -37,8 +37,8 @@ type Identity_ARM struct {
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-// Deprecated version of Namespace_Properties_Spec. Use v1beta20210101preview.Namespace_Properties_Spec instead
-type Namespace_Properties_Spec_ARM struct {
+// Deprecated version of SBNamespaceProperties. Use v1beta20210101preview.SBNamespaceProperties instead
+type SBNamespaceProperties_ARM struct {
 	Encryption    *Encryption_ARM `json:"encryption,omitempty"`
 	ZoneRedundant *bool           `json:"zoneRedundant,omitempty"`
 }

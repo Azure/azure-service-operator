@@ -25,12 +25,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Generator information:
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/mysql.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS       `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -124,7 +126,7 @@ func (server *FlexibleServer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_STATUS{}
+	return &FlexibleServer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +142,13 @@ func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_STATUS); ok {
+	if st, ok := status.(*FlexibleServer_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_STATUS
+	var st FlexibleServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -282,10 +284,10 @@ func (server *FlexibleServer) AssignProperties_From_FlexibleServer(source *v2021
 	server.Spec = spec
 
 	// Status
-	var status Server_STATUS
-	err = status.AssignProperties_From_Server_STATUS(&source.Status)
+	var status FlexibleServer_STATUS
+	err = status.AssignProperties_From_FlexibleServer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_Server_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_FlexibleServer_STATUS() to populate field Status")
 	}
 	server.Status = status
 
@@ -308,10 +310,10 @@ func (server *FlexibleServer) AssignProperties_To_FlexibleServer(destination *v2
 	destination.Spec = spec
 
 	// Status
-	var status v20210501s.Server_STATUS
-	err = server.Status.AssignProperties_To_Server_STATUS(&status)
+	var status v20210501s.FlexibleServer_STATUS
+	err = server.Status.AssignProperties_To_FlexibleServer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_Server_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_FlexibleServer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,7 +331,9 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Generator information:
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/mysql.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -356,28 +360,29 @@ type FlexibleServer_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Backup: Storage Profile properties of a server
+	// Backup: Backup related properties of a server.
 	Backup *Backup `json:"backup,omitempty"`
 
 	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
 
-	// DataEncryption: The date encryption for cmk.
+	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption `json:"dataEncryption,omitempty"`
 
-	// HighAvailability: Network related properties of a server
+	// HighAvailability: High availability related properties of a server.
 	HighAvailability *HighAvailability `json:"highAvailability,omitempty"`
 
-	// Identity: Properties to configure Identity for Bring your Own Keys
+	// Identity: The cmk identity for the server.
 	Identity *Identity `json:"identity,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// MaintenanceWindow: Maintenance window of a server.
 	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
 
-	// Network: Network related properties of a server
+	// Network: Network related properties of a server.
 	Network *Network `json:"network,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -391,25 +396,25 @@ type FlexibleServer_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// ReplicationRole: The replication role.
-	ReplicationRole *ServerProperties_ReplicationRole `json:"replicationRole,omitempty"`
+	ReplicationRole *ReplicationRole `json:"replicationRole,omitempty"`
 
 	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
-	// Sku: Billing information related properties of a server.
+	// Sku: The SKU (pricing tier) of the server.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// SourceServerResourceId: The source MySQL server id.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
-	// Storage: Storage Profile properties of a server
+	// Storage: Storage related properties of a server.
 	Storage *Storage `json:"storage,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// Version: Server version.
-	Version *ServerProperties_Version `json:"version,omitempty"`
+	Version *ServerVersion `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServer_Spec{}
@@ -946,7 +951,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// ReplicationRole
 	if source.ReplicationRole != nil {
-		replicationRole := ServerProperties_ReplicationRole(*source.ReplicationRole)
+		replicationRole := ReplicationRole(*source.ReplicationRole)
 		server.ReplicationRole = &replicationRole
 	} else {
 		server.ReplicationRole = nil
@@ -992,7 +997,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// Version
 	if source.Version != nil {
-		version := ServerProperties_Version(*source.Version)
+		version := ServerVersion(*source.Version)
 		server.Version = &version
 	} else {
 		server.Version = nil
@@ -1203,7 +1208,7 @@ func (server *FlexibleServer_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (server *FlexibleServer_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
-type Server_STATUS struct {
+type FlexibleServer_STATUS struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -1282,25 +1287,25 @@ type Server_STATUS struct {
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Server_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
 
-// ConvertStatusFrom populates our Server_STATUS from the provided source
-func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.Server_STATUS)
+// ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
+func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.FlexibleServer_STATUS)
 	if ok {
 		// Populate our instance from source
-		return server.AssignProperties_From_Server_STATUS(src)
+		return server.AssignProperties_From_FlexibleServer_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210501s.Server_STATUS{}
+	src = &v20210501s.FlexibleServer_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = server.AssignProperties_From_Server_STATUS(src)
+	err = server.AssignProperties_From_FlexibleServer_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -1308,17 +1313,17 @@ func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Server_STATUS
-func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.Server_STATUS)
+// ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.FlexibleServer_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return server.AssignProperties_To_Server_STATUS(dst)
+		return server.AssignProperties_To_FlexibleServer_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210501s.Server_STATUS{}
-	err := server.AssignProperties_To_Server_STATUS(dst)
+	dst = &v20210501s.FlexibleServer_STATUS{}
+	err := server.AssignProperties_To_FlexibleServer_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -1332,18 +1337,18 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Server_STATUS{}
+var _ genruntime.FromARMConverter = &FlexibleServer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (server *Server_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_STATUS_ARM{}
+func (server *FlexibleServer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServer_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_STATUS_ARM)
+func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServer_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_STATUS_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AdministratorLogin’:
@@ -1591,8 +1596,8 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	return nil
 }
 
-// AssignProperties_From_Server_STATUS populates our Server_STATUS from the provided source Server_STATUS
-func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v20210501s.Server_STATUS) error {
+// AssignProperties_From_FlexibleServer_STATUS populates our FlexibleServer_STATUS from the provided source FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS(source *v20210501s.FlexibleServer_STATUS) error {
 
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
@@ -1774,8 +1779,8 @@ func (server *Server_STATUS) AssignProperties_From_Server_STATUS(source *v202105
 	return nil
 }
 
-// AssignProperties_To_Server_STATUS populates the provided destination Server_STATUS from our Server_STATUS
-func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v20210501s.Server_STATUS) error {
+// AssignProperties_To_FlexibleServer_STATUS populates the provided destination FlexibleServer_STATUS from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(destination *v20210501s.FlexibleServer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1966,13 +1971,13 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v202
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
+// Storage Profile properties of a server
 type Backup struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
-	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *EnableStatusEnum `json:"geoRedundantBackup,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Backup{}
@@ -2034,7 +2039,7 @@ func (backup *Backup) AssignProperties_From_Backup(source *v20210501s.Backup) er
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := Backup_GeoRedundantBackup(*source.GeoRedundantBackup)
+		geoRedundantBackup := EnableStatusEnum(*source.GeoRedundantBackup)
 		backup.GeoRedundantBackup = &geoRedundantBackup
 	} else {
 		backup.GeoRedundantBackup = nil
@@ -2071,6 +2076,7 @@ func (backup *Backup) AssignProperties_To_Backup(destination *v20210501s.Backup)
 	return nil
 }
 
+// Storage Profile properties of a server
 type Backup_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -2169,7 +2175,7 @@ func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *v202
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption
+// The date encryption for cmk.
 type DataEncryption struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
@@ -2358,6 +2364,7 @@ func (encryption *DataEncryption) AssignProperties_To_DataEncryption(destination
 	return nil
 }
 
+// The date encryption for cmk.
 type DataEncryption_STATUS struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
@@ -2540,7 +2547,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
+// Network related properties of a server
 type HighAvailability struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
@@ -2645,6 +2652,7 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 	return nil
 }
 
+// Network related properties of a server
 type HighAvailability_STATUS struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
@@ -2753,7 +2761,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailabilit
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity
+// Properties to configure Identity for Bring your Own Keys
 type Identity struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
@@ -2837,6 +2845,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210501s.I
 	return nil
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2972,7 +2981,7 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
+// Maintenance window of a server.
 type MaintenanceWindow struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -3109,6 +3118,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	return nil
 }
 
+// Maintenance window of a server.
 type MaintenanceWindow_STATUS struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -3212,7 +3222,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
+// Network related properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -3327,6 +3337,7 @@ func (network *Network) AssignProperties_To_Network(destination *v20210501s.Netw
 	return nil
 }
 
+// Network related properties of a server
 type Network_STATUS struct {
 	// DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -3426,6 +3437,17 @@ func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *v
 	return nil
 }
 
+// The replication role.
+// +kubebuilder:validation:Enum={"None","Replica","Source"}
+type ReplicationRole string
+
+const (
+	ReplicationRole_None    = ReplicationRole("None")
+	ReplicationRole_Replica = ReplicationRole("Replica")
+	ReplicationRole_Source  = ReplicationRole("Source")
+)
+
+// The replication role.
 type ReplicationRole_STATUS string
 
 const (
@@ -3453,15 +3475,6 @@ const (
 	ServerProperties_CreateMode_STATUS_Replica            = ServerProperties_CreateMode_STATUS("Replica")
 )
 
-// +kubebuilder:validation:Enum={"None","Replica","Source"}
-type ServerProperties_ReplicationRole string
-
-const (
-	ServerProperties_ReplicationRole_None    = ServerProperties_ReplicationRole("None")
-	ServerProperties_ReplicationRole_Replica = ServerProperties_ReplicationRole("Replica")
-	ServerProperties_ReplicationRole_Source  = ServerProperties_ReplicationRole("Source")
-)
-
 type ServerProperties_State_STATUS string
 
 const (
@@ -3474,14 +3487,16 @@ const (
 	ServerProperties_State_STATUS_Updating = ServerProperties_State_STATUS("Updating")
 )
 
+// The version of a server.
 // +kubebuilder:validation:Enum={"5.7","8.0.21"}
-type ServerProperties_Version string
+type ServerVersion string
 
 const (
-	ServerProperties_Version_57   = ServerProperties_Version("5.7")
-	ServerProperties_Version_8021 = ServerProperties_Version("8.0.21")
+	ServerVersion_57   = ServerVersion("5.7")
+	ServerVersion_8021 = ServerVersion("8.0.21")
 )
 
+// The version of a server.
 type ServerVersion_STATUS string
 
 const (
@@ -3489,7 +3504,7 @@ const (
 	ServerVersion_STATUS_8021 = ServerVersion_STATUS("8.0.21")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
+// Billing information related properties of a server.
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
@@ -3596,6 +3611,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210501s.Sku) error {
 	return nil
 }
 
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
@@ -3679,10 +3695,10 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210501s.Sk
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
+// Storage Profile properties of a server
 type Storage struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
-	AutoGrow *Storage_AutoGrow `json:"autoGrow,omitempty"`
+	AutoGrow *EnableStatusEnum `json:"autoGrow,omitempty"`
 
 	// Iops: Storage IOPS for a server.
 	Iops *int `json:"iops,omitempty"`
@@ -3759,7 +3775,7 @@ func (storage *Storage) AssignProperties_From_Storage(source *v20210501s.Storage
 
 	// AutoGrow
 	if source.AutoGrow != nil {
-		autoGrow := Storage_AutoGrow(*source.AutoGrow)
+		autoGrow := EnableStatusEnum(*source.AutoGrow)
 		storage.AutoGrow = &autoGrow
 	} else {
 		storage.AutoGrow = nil
@@ -3805,6 +3821,7 @@ func (storage *Storage) AssignProperties_To_Storage(destination *v20210501s.Stor
 	return nil
 }
 
+// Storage Profile properties of a server
 type Storage_STATUS struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum_STATUS `json:"autoGrow,omitempty"`
@@ -3918,6 +3935,7 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *v
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -4071,14 +4089,6 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Backup_GeoRedundantBackup string
-
-const (
-	Backup_GeoRedundantBackup_Disabled = Backup_GeoRedundantBackup("Disabled")
-	Backup_GeoRedundantBackup_Enabled  = Backup_GeoRedundantBackup("Enabled")
-)
-
 // +kubebuilder:validation:Enum={"AzureKeyVault","SystemManaged"}
 type DataEncryption_Type string
 
@@ -4094,6 +4104,16 @@ const (
 	DataEncryption_Type_STATUS_SystemManaged = DataEncryption_Type_STATUS("SystemManaged")
 )
 
+// Enum to indicate whether value is 'Enabled' or 'Disabled'
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type EnableStatusEnum string
+
+const (
+	EnableStatusEnum_Disabled = EnableStatusEnum("Disabled")
+	EnableStatusEnum_Enabled  = EnableStatusEnum("Enabled")
+)
+
+// Enum to indicate whether value is 'Enabled' or 'Disabled'
 type EnableStatusEnum_STATUS string
 
 const (
@@ -4171,14 +4191,6 @@ const (
 	HighAvailability_State_STATUS_Healthy         = HighAvailability_State_STATUS("Healthy")
 	HighAvailability_State_STATUS_NotEnabled      = HighAvailability_State_STATUS("NotEnabled")
 	HighAvailability_State_STATUS_RemovingStandby = HighAvailability_State_STATUS("RemovingStandby")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type Storage_AutoGrow string
-
-const (
-	Storage_AutoGrow_Disabled = Storage_AutoGrow("Disabled")
-	Storage_AutoGrow_Enabled  = Storage_AutoGrow("Enabled")
 )
 
 func init() {

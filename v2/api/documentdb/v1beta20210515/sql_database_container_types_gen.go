@@ -24,12 +24,14 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_SqlDatabases_Container_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_STATUS                `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SqlDatabases_Container_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccounts_SqlDatabases_Container_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -123,7 +125,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerGetResults_STATUS{}
+	return &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +141,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerGetResults_STATUS); ok {
+	if st, ok := status.(*DatabaseAccounts_SqlDatabases_Container_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerGetResults_STATUS
+	var st DatabaseAccounts_SqlDatabases_Container_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -263,10 +265,10 @@ func (container *SqlDatabaseContainer) AssignProperties_From_SqlDatabaseContaine
 	container.Spec = spec
 
 	// Status
-	var status SqlContainerGetResults_STATUS
-	err = status.AssignProperties_From_SqlContainerGetResults_STATUS(&source.Status)
+	var status DatabaseAccounts_SqlDatabases_Container_STATUS
+	err = status.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -289,10 +291,10 @@ func (container *SqlDatabaseContainer) AssignProperties_To_SqlDatabaseContainer(
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlContainerGetResults_STATUS
-	err = container.Status.AssignProperties_To_SqlContainerGetResults_STATUS(&status)
+	var status v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS
+	err = container.Status.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetResults_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,7 +312,9 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -325,8 +329,8 @@ type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	// "If-None-Match", "Session-Token" and "Throughput"
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -336,15 +340,9 @@ type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
-	// Resource: Cosmos DB SQL container resource object
+	// Resource: The standard JSON format of a container
 	Resource *SqlContainerResource `json:"resource,omitempty"`
-
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags     map[string]string     `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlDatabases_Container_Spec{}
@@ -628,7 +626,7 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) SetAzureName(azur
 	container.AzureName = azureName
 }
 
-type SqlContainerGetResults_STATUS struct {
+type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -639,7 +637,9 @@ type SqlContainerGetResults_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                    `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS                    `json:"options,omitempty"`
 	Resource *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                          `json:"tags,omitempty"`
@@ -648,25 +648,25 @@ type SqlContainerGetResults_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 
-// ConvertStatusFrom populates our SqlContainerGetResults_STATUS from the provided source
-func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlContainerGetResults_STATUS)
+// ConvertStatusFrom populates our DatabaseAccounts_SqlDatabases_Container_STATUS from the provided source
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignProperties_From_SqlContainerGetResults_STATUS(src)
+		return container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.SqlContainerGetResults_STATUS{}
+	src = &v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignProperties_From_SqlContainerGetResults_STATUS(src)
+	err = container.AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -674,17 +674,17 @@ func (results *SqlContainerGetResults_STATUS) ConvertStatusFrom(source genruntim
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlContainerGetResults_STATUS)
+// ConvertStatusTo populates the provided destination from our DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignProperties_To_SqlContainerGetResults_STATUS(dst)
+		return container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.SqlContainerGetResults_STATUS{}
-	err := results.AssignProperties_To_SqlContainerGetResults_STATUS(dst)
+	dst = &v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS{}
+	err := container.AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -698,18 +698,18 @@ func (results *SqlContainerGetResults_STATUS) ConvertStatusTo(destination genrun
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlContainerGetResults_STATUS{}
+var _ genruntime.FromARMConverter = &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *SqlContainerGetResults_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerGetResults_STATUS_ARM{}
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_SqlDatabases_Container_STATUS_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerGetResults_STATUS_ARM)
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_SqlDatabases_Container_STATUS_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetResults_STATUS_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SqlDatabases_Container_STATUS_ARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -717,19 +717,19 @@ func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.A
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		container.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		results.Location = &location
+		container.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		container.Name = &name
 	}
 
 	// Set property ‘Options’:
@@ -742,7 +742,7 @@ func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.A
 				return err
 			}
 			options := options1
-			results.Options = &options
+			container.Options = &options
 		}
 	}
 
@@ -756,42 +756,42 @@ func (results *SqlContainerGetResults_STATUS) PopulateFromARM(owner genruntime.A
 				return err
 			}
 			resource := resource1
-			results.Resource = &resource
+			container.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string, len(typedInput.Tags))
+		container.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			results.Tags[key] = value
+			container.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		container.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_SqlContainerGetResults_STATUS populates our SqlContainerGetResults_STATUS from the provided source SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainerGetResults_STATUS(source *v20210515s.SqlContainerGetResults_STATUS) error {
+// AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS populates our DatabaseAccounts_SqlDatabases_Container_STATUS from the provided source DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) AssignProperties_From_DatabaseAccounts_SqlDatabases_Container_STATUS(source *v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS) error {
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	container.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	container.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	container.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -800,9 +800,9 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainer
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_OptionsResource_STATUS() to populate field Options")
 		}
-		results.Options = &option
+		container.Options = &option
 	} else {
-		results.Options = nil
+		container.Options = nil
 	}
 
 	// Resource
@@ -812,42 +812,42 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_From_SqlContainer
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
-		results.Resource = &resource
+		container.Resource = &resource
 	} else {
-		results.Resource = nil
+		container.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	container.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SqlContainerGetResults_STATUS populates the provided destination SqlContainerGetResults_STATUS from our SqlContainerGetResults_STATUS
-func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGetResults_STATUS(destination *v20210515s.SqlContainerGetResults_STATUS) error {
+// AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS populates the provided destination DatabaseAccounts_SqlDatabases_Container_STATUS from our DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) AssignProperties_To_DatabaseAccounts_SqlDatabases_Container_STATUS(destination *v20210515s.DatabaseAccounts_SqlDatabases_Container_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(container.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(container.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(container.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(container.Name)
 
 	// Options
-	if results.Options != nil {
+	if container.Options != nil {
 		var option v20210515s.OptionsResource_STATUS
-		err := results.Options.AssignProperties_To_OptionsResource_STATUS(&option)
+		err := container.Options.AssignProperties_To_OptionsResource_STATUS(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_OptionsResource_STATUS() to populate field Options")
 		}
@@ -857,9 +857,9 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 	}
 
 	// Resource
-	if results.Resource != nil {
+	if container.Resource != nil {
 		var resource v20210515s.SqlContainerGetProperties_Resource_STATUS
-		err := results.Resource.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&resource)
+		err := container.Resource.AssignProperties_To_SqlContainerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
@@ -869,10 +869,10 @@ func (results *SqlContainerGetResults_STATUS) AssignProperties_To_SqlContainerGe
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(container.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1182,7 +1182,7 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_To_S
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
+// Cosmos DB SQL container resource object
 type SqlContainerResource struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -1197,7 +1197,8 @@ type SqlContainerResource struct {
 	// Id: Name of the Cosmos DB SQL container
 	Id *string `json:"id,omitempty"`
 
-	// IndexingPolicy: Cosmos DB indexing policy
+	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
+	// within the container
 	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
 
 	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
@@ -1492,7 +1493,7 @@ func (resource *SqlContainerResource) AssignProperties_To_SqlContainerResource(d
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
+// The conflict resolution policy for the container.
 type ConflictResolutionPolicy struct {
 	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
@@ -1618,6 +1619,7 @@ func (policy *ConflictResolutionPolicy) AssignProperties_To_ConflictResolutionPo
 	return nil
 }
 
+// The conflict resolution policy for the container.
 type ConflictResolutionPolicy_STATUS struct {
 	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
@@ -1716,10 +1718,10 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignProperties_To_ConflictResol
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
+// The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	// are supported for container create.
+	// are supported for container create
 	Kind *ContainerPartitionKey_Kind `json:"kind,omitempty"`
 
 	// Paths: List of paths using which data within the container can be partitioned
@@ -1853,6 +1855,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 	return nil
 }
 
+// The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey_STATUS struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
@@ -1976,7 +1979,7 @@ func (partitionKey *ContainerPartitionKey_STATUS) AssignProperties_To_ContainerP
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
+// Cosmos DB indexing policy
 type IndexingPolicy struct {
 	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
@@ -2351,6 +2354,7 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *v2
 	return nil
 }
 
+// Cosmos DB indexing policy
 type IndexingPolicy_STATUS struct {
 	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
@@ -2664,7 +2668,8 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
+// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
+// Cosmos DB service.
 type UniqueKeyPolicy struct {
 	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
 	// Cosmos DB service.
@@ -2776,6 +2781,8 @@ func (policy *UniqueKeyPolicy) AssignProperties_To_UniqueKeyPolicy(destination *
 	return nil
 }
 
+// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
+// Cosmos DB service.
 type UniqueKeyPolicy_STATUS struct {
 	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
 	// Cosmos DB service.
@@ -2869,7 +2876,6 @@ func (policy *UniqueKeyPolicy_STATUS) AssignProperties_To_UniqueKeyPolicy_STATUS
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
 type CompositePath struct {
 	// Order: Sort order for composite paths.
 	Order *CompositePath_Order `json:"order,omitempty"`
@@ -3059,7 +3065,6 @@ func (path *CompositePath_STATUS) AssignProperties_To_CompositePath_STATUS(desti
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
 type ExcludedPath struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
@@ -3193,7 +3198,7 @@ func (path *ExcludedPath_STATUS) AssignProperties_To_ExcludedPath_STATUS(destina
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
+// The paths that are included in indexing
 type IncludedPath struct {
 	// Indexes: List of indexes for this path
 	Indexes []Indexes `json:"indexes,omitempty"`
@@ -3326,6 +3331,7 @@ func (path *IncludedPath) AssignProperties_To_IncludedPath(destination *v2021051
 	return nil
 }
 
+// The paths that are included in indexing
 type IncludedPath_STATUS struct {
 	// Indexes: List of indexes for this path
 	Indexes []Indexes_STATUS `json:"indexes,omitempty"`
@@ -3434,14 +3440,13 @@ func (path *IncludedPath_STATUS) AssignProperties_To_IncludedPath_STATUS(destina
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
 type SpatialSpec struct {
 	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
 	// (/path/*)
 	Path *string `json:"path,omitempty"`
 
 	// Types: List of path's spatial type
-	Types []SpatialSpec_Types `json:"types,omitempty"`
+	Types []SpatialType `json:"types,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SpatialSpec{}
@@ -3501,11 +3506,11 @@ func (spatial *SpatialSpec) AssignProperties_From_SpatialSpec(source *v20210515s
 
 	// Types
 	if source.Types != nil {
-		typeList := make([]SpatialSpec_Types, len(source.Types))
+		typeList := make([]SpatialType, len(source.Types))
 		for typeIndex, typeItem := range source.Types {
 			// Shadow the loop variable to avoid aliasing
 			typeItem := typeItem
-			typeList[typeIndex] = SpatialSpec_Types(typeItem)
+			typeList[typeIndex] = SpatialType(typeItem)
 		}
 		spatial.Types = typeList
 	} else {
@@ -3641,7 +3646,7 @@ func (spatial *SpatialSpec_STATUS) AssignProperties_To_SpatialSpec_STATUS(destin
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
+// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
 type UniqueKey struct {
 	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
@@ -3713,6 +3718,7 @@ func (uniqueKey *UniqueKey) AssignProperties_To_UniqueKey(destination *v20210515
 	return nil
 }
 
+// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
 type UniqueKey_STATUS struct {
 	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
@@ -3770,7 +3776,7 @@ func (uniqueKey *UniqueKey_STATUS) AssignProperties_To_UniqueKey_STATUS(destinat
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
+// The indexes for the path.
 type Indexes struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *Indexes_DataType `json:"dataType,omitempty"`
@@ -3906,6 +3912,7 @@ func (indexes *Indexes) AssignProperties_To_Indexes(destination *v20210515s.Inde
 	return nil
 }
 
+// The indexes for the path.
 type Indexes_STATUS struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`

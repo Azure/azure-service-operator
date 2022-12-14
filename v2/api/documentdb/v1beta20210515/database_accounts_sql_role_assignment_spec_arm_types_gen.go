@@ -6,10 +6,9 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccounts_SqlRoleAssignment_Spec_ARM struct {
-	// Name: The GUID for the Role Assignment.
 	Name string `json:"name,omitempty"`
 
-	// Properties: Azure Cosmos DB SQL Role Assignment resource object.
+	// Properties: Properties to create and update an Azure Cosmos DB SQL Role Assignment.
 	Properties *SqlRoleAssignmentResource_ARM `json:"properties,omitempty"`
 }
 
@@ -30,7 +29,7 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec_ARM) GetType() string 
 	return "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlRoleAssignmentResource
+// Azure Cosmos DB SQL Role Assignment resource object.
 type SqlRoleAssignmentResource_ARM struct {
 	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
 	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.

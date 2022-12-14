@@ -3,9 +3,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   └── "2020-11-01"
 ├── LoadBalancer: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-│   ├── Spec: Object (14 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AzureName: string
-│   │   ├── BackendAddressPools: Object (4 properties)[]
+│   │   ├── BackendAddressPools: Object (3 properties)[]
 │   │   │   ├── LoadBalancerBackendAddresses: Object (6 properties)[]
 │   │   │   │   ├── IpAddress: *string
 │   │   │   │   ├── LoadBalancerFrontendIPConfiguration: *Object (2 properties)
@@ -19,7 +19,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   │   │   └── VirtualNetwork: *Object (2 properties)
 │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │       └── Reference: *genruntime.ResourceReference
-│   │   │   ├── Location: *string
 │   │   │   ├── Name: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── ExtendedLocation: *Object (3 properties)
@@ -51,6 +50,18 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── FrontendPortRangeEnd: *int
 │   │   │   ├── FrontendPortRangeStart: *int
+│   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Protocol: *string
+│   │   ├── InboundNatRules: Object (9 properties)[]
+│   │   │   ├── BackendPort: *int
+│   │   │   ├── EnableFloatingIP: *bool
+│   │   │   ├── EnableTcpReset: *bool
+│   │   │   ├── FrontendIPConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendPort: *int
 │   │   │   ├── IdleTimeoutInMinutes: *int
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -106,9 +117,41 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   │   └── Tier: *string
 │   │   └── Tags: map[string]string
 │   └── Status: Object (19 properties)
-│       ├── BackendAddressPools: Object (2 properties)[]
+│       ├── BackendAddressPools: Object (11 properties)[]
+│       │   ├── BackendIPConfigurations: Object (2 properties)[]
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Etag: *string
 │       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── LoadBalancerBackendAddresses: Object (7 properties)[]
+│       │   │   ├── IpAddress: *string
+│       │   │   ├── LoadBalancerFrontendIPConfiguration: *Object (2 properties)
+│       │   │   │   ├── Id: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Name: *string
+│       │   │   ├── NetworkInterfaceIPConfiguration: *Object (2 properties)
+│       │   │   │   ├── Id: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── Subnet: *Object (2 properties)
+│       │   │   │   ├── Id: *string
+│       │   │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   │   └── VirtualNetwork: *Object (2 properties)
+│       │   │       ├── Id: *string
+│       │   │       └── PropertyBag: genruntime.PropertyBag
+│       │   ├── LoadBalancingRules: Object (2 properties)[]
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── Name: *string
+│       │   ├── OutboundRule: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── OutboundRules: Object (2 properties)[]
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
 │       ├── Conditions: conditions.Condition[]
 │       ├── Etag: *string
 │       ├── ExtendedLocation: *Object (3 properties)
@@ -136,18 +179,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       │   ├── PrivateIPAllocationMethod: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── ProvisioningState: *string
-│       │   ├── PublicIPAddress: *Object (5 properties)
-│       │   │   ├── ExtendedLocation: *Object (3 properties)
-│       │   │   │   ├── Name: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Type: *string
+│       │   ├── PublicIPAddress: *Object (2 properties)
 │       │   │   ├── Id: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Sku: *Object (3 properties)
-│       │   │   │   ├── Name: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Tier: *string
-│       │   │   └── Zones: string[]
+│       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── PublicIPPrefix: *Object (2 properties)
 │       │   │   ├── Id: *string
 │       │   │   └── PropertyBag: genruntime.PropertyBag
@@ -174,9 +208,25 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       │   ├── Protocol: *string
 │       │   ├── ProvisioningState: *string
 │       │   └── Type: *string
-│       ├── InboundNatRules: Object (2 properties)[]
+│       ├── InboundNatRules: Object (14 properties)[]
+│       │   ├── BackendIPConfiguration: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── BackendPort: *int
+│       │   ├── EnableFloatingIP: *bool
+│       │   ├── EnableTcpReset: *bool
+│       │   ├── Etag: *string
+│       │   ├── FrontendIPConfiguration: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── FrontendPort: *int
 │       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── IdleTimeoutInMinutes: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Protocol: *string
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
 │       ├── LoadBalancingRules: Object (17 properties)[]
 │       │   ├── BackendAddressPool: *Object (2 properties)
 │       │   │   ├── Id: *string
@@ -246,7 +296,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       └── Type: *string
 ├── NetworkInterface: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (14 properties)
 │   │   ├── AzureName: string
 │   │   ├── DnsSettings: *Object (3 properties)
 │   │   │   ├── DnsServers: string[]
@@ -290,8 +340,12 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   ├── NetworkSecurityGroup: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── NicType: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateLinkService: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Tags: map[string]string
 │   └── Status: Object (26 properties)
@@ -316,17 +370,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       ├── HostedWorkloads: string[]
 │       ├── Id: *string
 │       ├── IpConfigurations: Object (18 properties)[]
-│       │   ├── ApplicationGatewayBackendAddressPools: Object (7 properties)[]
-│       │   │   ├── BackendAddresses: Object (3 properties)[]
-│       │   │   │   ├── Fqdn: *string
-│       │   │   │   ├── IpAddress: *string
-│       │   │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Etag: *string
+│       │   ├── ApplicationGatewayBackendAddressPools: Object (2 properties)[]
 │       │   │   ├── Id: *string
-│       │   │   ├── Name: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── ProvisioningState: *string
-│       │   │   └── Type: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── ApplicationSecurityGroups: Object (2 properties)[]
 │       │   │   ├── Id: *string
 │       │   │   └── PropertyBag: genruntime.PropertyBag
@@ -350,18 +396,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       │   │   └── RequiredMemberName: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── ProvisioningState: *string
-│       │   ├── PublicIPAddress: *Object (5 properties)
-│       │   │   ├── ExtendedLocation: *Object (3 properties)
-│       │   │   │   ├── Name: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Type: *string
+│       │   ├── PublicIPAddress: *Object (2 properties)
 │       │   │   ├── Id: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   ├── Sku: *Object (3 properties)
-│       │   │   │   ├── Name: *string
-│       │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   │   └── Tier: *string
-│       │   │   └── Zones: string[]
+│       │   │   └── PropertyBag: genruntime.PropertyBag
 │       │   ├── Subnet: *Object (2 properties)
 │       │   │   ├── Id: *string
 │       │   │   └── PropertyBag: genruntime.PropertyBag
@@ -378,18 +415,10 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── NicType: *string
 │       ├── Primary: *bool
-│       ├── PrivateEndpoint: *Object (3 properties)
-│       │   ├── ExtendedLocation: *Object (3 properties)
-│       │   │   ├── Name: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── Type: *string
+│       ├── PrivateEndpoint: *Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── PrivateLinkService: *Object (3 properties)
-│       │   ├── ExtendedLocation: *Object (3 properties)
-│       │   │   ├── Name: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── Type: *string
+│       ├── PrivateLinkService: *Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
@@ -424,11 +453,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       ├── Id: *string
 │       ├── Location: *string
 │       ├── Name: *string
-│       ├── NetworkInterfaces: Object (3 properties)[]
-│       │   ├── ExtendedLocation: *Object (3 properties)
-│       │   │   ├── Name: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── Type: *string
+│       ├── NetworkInterfaces: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
@@ -444,7 +469,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       └── Type: *string
 ├── NetworkSecurityGroupsSecurityRule: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101.NetworkSecurityGroup
-│   ├── Spec: Object (21 properties)
+│   ├── Spec: Object (19 properties)
 │   │   ├── Access: *string
 │   │   ├── AzureName: string
 │   │   ├── Description: *string
@@ -456,7 +481,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   ├── DestinationPortRange: *string
 │   │   ├── DestinationPortRanges: string[]
 │   │   ├── Direction: *string
-│   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Priority: *int
@@ -468,8 +492,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── SourcePortRange: *string
-│   │   ├── SourcePortRanges: string[]
-│   │   └── Tags: map[string]string
+│   │   └── SourcePortRanges: string[]
 │   └── Status: Object (22 properties)
 │       ├── Access: *string
 │       ├── Conditions: conditions.Condition[]
@@ -499,7 +522,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       └── Type: *string
 ├── PublicIPAddress: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-│   ├── Spec: Object (17 properties)
+│   ├── Spec: Object (20 properties)
 │   │   ├── AzureName: string
 │   │   ├── DdosSettings: *Object (4 properties)
 │   │   │   ├── DdosCustomPolicy: *Object (2 properties)
@@ -523,13 +546,22 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   │   ├── IpTagType: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Tag: *string
+│   │   ├── LinkedPublicIPAddress: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
+│   │   ├── NatGateway: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── PublicIPAddressVersion: *string
 │   │   ├── PublicIPAllocationMethod: *string
 │   │   ├── PublicIPPrefix: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── ServicePublicIPAddress: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Sku: *Object (3 properties)
@@ -560,17 +592,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       ├── Id: *string
 │       ├── IdleTimeoutInMinutes: *int
 │       ├── IpAddress: *string
-│       ├── IpConfiguration: *Object (8 properties)
-│       │   ├── Etag: *string
+│       ├── IpConfiguration: *Object (2 properties)
 │       │   ├── Id: *string
-│       │   ├── Name: *string
-│       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAllocationMethod: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   └── Subnet: *Object (2 properties)
-│       │       ├── Id: *string
-│       │       └── PropertyBag: genruntime.PropertyBag
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── IpTags: Object (3 properties)[]
 │       │   ├── IpTagType: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
@@ -578,13 +602,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       ├── Location: *string
 │       ├── MigrationPhase: *string
 │       ├── Name: *string
-│       ├── NatGateway: *Object (4 properties)
+│       ├── NatGateway: *Object (2 properties)
 │       │   ├── Id: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── Sku: *Object (2 properties)
-│       │   │   ├── Name: *string
-│       │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   └── Zones: string[]
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── PublicIPAddressVersion: *string
@@ -728,6 +748,10 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   ├── EnableBgp: *bool
 │   │   ├── EnableDnsForwarding: *bool
 │   │   ├── EnablePrivateIpAddress: *bool
+│   │   ├── ExtendedLocation: *Object (3 properties)
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
 │   │   ├── GatewayDefaultSite: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
@@ -752,10 +776,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   │   │   └── Tier: *string
 │   │   ├── Tags: map[string]string
 │   │   ├── VNetExtendedLocationResourceReference: *genruntime.ResourceReference
-│   │   ├── VirtualNetworkExtendedLocation: *Object (3 properties)
-│   │   │   ├── Name: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
 │   │   ├── VpnClientConfiguration: *Object (13 properties)
 │   │   │   ├── AadAudience: *string
 │   │   │   ├── AadIssuer: *string
@@ -896,9 +916,12 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       └── VpnType: *string
 ├── VirtualNetworksSubnet: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101.VirtualNetwork
-│   ├── Spec: Object (15 properties)
+│   ├── Spec: Object (16 properties)
 │   │   ├── AddressPrefix: *string
 │   │   ├── AddressPrefixes: string[]
+│   │   ├── ApplicationGatewayIpConfigurations: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
 │   │   ├── Delegations: Object (3 properties)[]
 │   │   │   ├── Name: *string
@@ -931,16 +954,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │   └── Status: Object (25 properties)
 │       ├── AddressPrefix: *string
 │       ├── AddressPrefixes: string[]
-│       ├── ApplicationGatewayIpConfigurations: Object (7 properties)[]
-│       │   ├── Etag: *string
+│       ├── ApplicationGatewayIpConfigurations: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── Name: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   ├── Subnet: *Object (2 properties)
-│       │   │   ├── Id: *string
-│       │   │   └── PropertyBag: genruntime.PropertyBag
-│       │   └── Type: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Conditions: conditions.Condition[]
 │       ├── Delegations: Object (8 properties)[]
 │       │   ├── Actions: string[]
@@ -956,33 +972,12 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       ├── IpAllocations: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── IpConfigurationProfiles: Object (6 properties)[]
-│       │   ├── Etag: *string
+│       ├── IpConfigurationProfiles: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── Name: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   └── Type: *string
-│       ├── IpConfigurations: Object (8 properties)[]
-│       │   ├── Etag: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── IpConfigurations: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── Name: *string
-│       │   ├── PrivateIPAddress: *string
-│       │   ├── PrivateIPAllocationMethod: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   └── PublicIPAddress: *Object (5 properties)
-│       │       ├── ExtendedLocation: *Object (3 properties)
-│       │       │   ├── Name: *string
-│       │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │       │   └── Type: *string
-│       │       ├── Id: *string
-│       │       ├── PropertyBag: genruntime.PropertyBag
-│       │       ├── Sku: *Object (3 properties)
-│       │       │   ├── Name: *string
-│       │       │   ├── PropertyBag: genruntime.PropertyBag
-│       │       │   └── Tier: *string
-│       │       └── Zones: string[]
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Name: *string
 │       ├── NatGateway: *Object (2 properties)
 │       │   ├── Id: *string
@@ -991,43 +986,24 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PrivateEndpointNetworkPolicies: *string
-│       ├── PrivateEndpoints: Object (3 properties)[]
-│       │   ├── ExtendedLocation: *Object (3 properties)
-│       │   │   ├── Name: *string
-│       │   │   ├── PropertyBag: genruntime.PropertyBag
-│       │   │   └── Type: *string
+│       ├── PrivateEndpoints: Object (2 properties)[]
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── PrivateLinkServiceNetworkPolicies: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       ├── ProvisioningState: *string
 │       ├── Purpose: *string
-│       ├── ResourceNavigationLinks: Object (8 properties)[]
-│       │   ├── Etag: *string
+│       ├── ResourceNavigationLinks: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── Link: *string
-│       │   ├── LinkedResourceType: *string
-│       │   ├── Name: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   └── Type: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── RouteTable: *Object (2 properties)
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── ServiceAssociationLinks: Object (10 properties)[]
-│       │   ├── AllowDelete: *bool
-│       │   ├── Etag: *string
+│       ├── ServiceAssociationLinks: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── Link: *string
-│       │   ├── LinkedResourceType: *string
-│       │   ├── Locations: string[]
-│       │   ├── Name: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   ├── ProvisioningState: *string
-│       │   └── Type: *string
-│       ├── ServiceEndpointPolicies: Object (3 properties)[]
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ServiceEndpointPolicies: Object (2 properties)[]
 │       │   ├── Id: *string
-│       │   ├── Kind: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── ServiceEndpoints: Object (4 properties)[]
 │       │   ├── Locations: string[]
@@ -1037,12 +1013,12 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       └── Type: *string
 └── VirtualNetworksVirtualNetworkPeering: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101.VirtualNetwork
-    ├── Spec: Object (14 properties)
+    ├── Spec: Object (13 properties)
     │   ├── AllowForwardedTraffic: *bool
     │   ├── AllowGatewayTransit: *bool
     │   ├── AllowVirtualNetworkAccess: *bool
     │   ├── AzureName: string
-    │   ├── Location: *string
+    │   ├── DoNotVerifyRemoteGateways: *bool
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PeeringState: *string
@@ -1056,7 +1032,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
     │   ├── RemoteVirtualNetwork: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
-    │   ├── Tags: map[string]string
     │   └── UseRemoteGateways: *bool
     └── Status: Object (17 properties)
         ├── AllowForwardedTraffic: *bool

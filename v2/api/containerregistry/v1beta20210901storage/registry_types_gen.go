@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210901.Registry
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+// Generator information:
+// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210901.Registry
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/resourceDefinitions/registries
+// Generator information:
+// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -187,31 +191,32 @@ func (registry *Registry_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // Storage version of v1beta20210901.Registry_STATUS
+// An object that represents a container registry.
 type Registry_STATUS struct {
-	AdminUserEnabled           *bool                                                  `json:"adminUserEnabled,omitempty"`
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreationDate               *string                                                `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                                                  `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                                               `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_STATUS                             `json:"encryption,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *IdentityProperties_STATUS                             `json:"identity,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	LoginServer                *string                                                `json:"loginServer,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	NetworkRuleBypassOptions   *string                                                `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_STATUS                                 `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_STATUS                                       `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
-	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
-	Status                     *Status_STATUS                                         `json:"status,omitempty"`
-	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
-	ZoneRedundancy             *string                                                `json:"zoneRedundancy,omitempty"`
+	AdminUserEnabled           *bool                              `json:"adminUserEnabled,omitempty"`
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	CreationDate               *string                            `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                              `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                           `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_STATUS         `json:"encryption,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Identity                   *IdentityProperties_STATUS         `json:"identity,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	LoginServer                *string                            `json:"loginServer,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
+	NetworkRuleBypassOptions   *string                            `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUS             `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUS                   `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                            `json:"publicNetworkAccess,omitempty"`
+	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
+	Status                     *Status_STATUS                     `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	ZoneRedundancy             *string                            `json:"zoneRedundancy,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
@@ -235,7 +240,6 @@ func (registry *Registry_STATUS) ConvertStatusTo(destination genruntime.Converti
 }
 
 // Storage version of v1beta20210901.EncryptionProperty
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/EncryptionProperty
 type EncryptionProperty struct {
 	KeyVaultProperties *KeyVaultProperties    `json:"keyVaultProperties,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -250,7 +254,7 @@ type EncryptionProperty_STATUS struct {
 }
 
 // Storage version of v1beta20210901.IdentityProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IdentityProperties
+// Managed identity for the resource.
 type IdentityProperties struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -260,6 +264,7 @@ type IdentityProperties struct {
 }
 
 // Storage version of v1beta20210901.IdentityProperties_STATUS
+// Managed identity for the resource.
 type IdentityProperties_STATUS struct {
 	PrincipalId            *string                                  `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
@@ -269,7 +274,7 @@ type IdentityProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210901.NetworkRuleSet
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/NetworkRuleSet
+// The network rule set for a container registry.
 type NetworkRuleSet struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
 	IpRules       []IPRule               `json:"ipRules,omitempty"`
@@ -277,6 +282,7 @@ type NetworkRuleSet struct {
 }
 
 // Storage version of v1beta20210901.NetworkRuleSet_STATUS
+// The network rule set for a container registry.
 type NetworkRuleSet_STATUS struct {
 	DefaultAction *string                `json:"defaultAction,omitempty"`
 	IpRules       []IPRule_STATUS        `json:"ipRules,omitempty"`
@@ -284,7 +290,7 @@ type NetworkRuleSet_STATUS struct {
 }
 
 // Storage version of v1beta20210901.Policies
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Policies
+// The policies for a container registry.
 type Policies struct {
 	ExportPolicy     *ExportPolicy          `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -294,6 +300,7 @@ type Policies struct {
 }
 
 // Storage version of v1beta20210901.Policies_STATUS
+// The policies for a container registry.
 type Policies_STATUS struct {
 	ExportPolicy     *ExportPolicy_STATUS     `json:"exportPolicy,omitempty"`
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
@@ -302,21 +309,22 @@ type Policies_STATUS struct {
 	TrustPolicy      *TrustPolicy_STATUS      `json:"trustPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+// Storage version of v1beta20210901.PrivateEndpointConnection_STATUS
+// An object that represents a private endpoint connection for a container registry.
+type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20210901.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/Sku
+// The SKU of a container registry.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210901.Sku_STATUS
+// The SKU of a container registry.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -324,6 +332,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210901.Status_STATUS
+// The status of an Azure resource at the time the operation was called.
 type Status_STATUS struct {
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Message       *string                `json:"message,omitempty"`
@@ -332,6 +341,7 @@ type Status_STATUS struct {
 }
 
 // Storage version of v1beta20210901.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -343,20 +353,21 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20210901.ExportPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/ExportPolicy
+// The export policy for a container registry.
 type ExportPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.ExportPolicy_STATUS
+// The export policy for a container registry.
 type ExportPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.IPRule
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/IPRule
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -364,6 +375,7 @@ type IPRule struct {
 }
 
 // Storage version of v1beta20210901.IPRule_STATUS
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -371,7 +383,6 @@ type IPRule_STATUS struct {
 }
 
 // Storage version of v1beta20210901.KeyVaultProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/KeyVaultProperties
 type KeyVaultProperties struct {
 	Identity      *string                `json:"identity,omitempty"`
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
@@ -389,20 +400,21 @@ type KeyVaultProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210901.QuarantinePolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/QuarantinePolicy
+// The quarantine policy for a container registry.
 type QuarantinePolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.QuarantinePolicy_STATUS
+// The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.RetentionPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/RetentionPolicy
+// The retention policy for a container registry.
 type RetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -410,6 +422,7 @@ type RetentionPolicy struct {
 }
 
 // Storage version of v1beta20210901.RetentionPolicy_STATUS
+// The retention policy for a container registry.
 type RetentionPolicy_STATUS struct {
 	Days            *int                   `json:"days,omitempty"`
 	LastUpdatedTime *string                `json:"lastUpdatedTime,omitempty"`
@@ -418,7 +431,7 @@ type RetentionPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210901.TrustPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/TrustPolicy
+// The content trust policy for a container registry.
 type TrustPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
@@ -426,6 +439,7 @@ type TrustPolicy struct {
 }
 
 // Storage version of v1beta20210901.TrustPolicy_STATUS
+// The content trust policy for a container registry.
 type TrustPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
@@ -433,7 +447,6 @@ type TrustPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210901.UserIdentityProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-09-01/Microsoft.ContainerRegistry.json#/definitions/UserIdentityProperties
 type UserIdentityProperties struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`

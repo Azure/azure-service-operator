@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210901
 
+// An object that represents a container registry.
 type Registry_STATUS_ARM struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
@@ -32,6 +33,7 @@ type Registry_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Managed identity for the resource.
 type IdentityProperties_STATUS_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -49,6 +51,7 @@ type IdentityProperties_STATUS_ARM struct {
 	UserAssignedIdentities map[string]UserIdentityProperties_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// The properties of a container registry.
 type RegistryProperties_STATUS_ARM struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
@@ -78,7 +81,7 @@ type RegistryProperties_STATUS_ARM struct {
 	Policies *Policies_STATUS_ARM `json:"policies,omitempty"`
 
 	// PrivateEndpointConnections: List of private endpoint connections for a container registry.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
 	ProvisioningState *RegistryProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
@@ -93,6 +96,7 @@ type RegistryProperties_STATUS_ARM struct {
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy_STATUS `json:"zoneRedundancy,omitempty"`
 }
 
+// The SKU of a container registry.
 type Sku_STATUS_ARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
@@ -101,6 +105,7 @@ type Sku_STATUS_ARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -138,6 +143,7 @@ const (
 	IdentityProperties_Type_STATUS_UserAssigned               = IdentityProperties_Type_STATUS("UserAssigned")
 )
 
+// The network rule set for a container registry.
 type NetworkRuleSet_STATUS_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
@@ -146,6 +152,7 @@ type NetworkRuleSet_STATUS_ARM struct {
 	IpRules []IPRule_STATUS_ARM `json:"ipRules,omitempty"`
 }
 
+// The policies for a container registry.
 type Policies_STATUS_ARM struct {
 	// ExportPolicy: The export policy for a container registry.
 	ExportPolicy *ExportPolicy_STATUS_ARM `json:"exportPolicy,omitempty"`
@@ -160,12 +167,10 @@ type Policies_STATUS_ARM struct {
 	TrustPolicy *TrustPolicy_STATUS_ARM `json:"trustPolicy,omitempty"`
 }
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded_ARM struct {
+// An object that represents a private endpoint connection for a container registry.
+type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 }
 
 type Sku_Name_STATUS string
@@ -186,6 +191,7 @@ const (
 	Sku_Tier_STATUS_Standard = Sku_Tier_STATUS("Standard")
 )
 
+// The status of an Azure resource at the time the operation was called.
 type Status_STATUS_ARM struct {
 	// DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
@@ -223,11 +229,13 @@ type UserIdentityProperties_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// The export policy for a container registry.
 type ExportPolicy_STATUS_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
 }
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS_ARM struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
@@ -254,11 +262,13 @@ type KeyVaultProperties_STATUS_ARM struct {
 	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
+// The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
 }
 
+// The retention policy for a container registry.
 type RetentionPolicy_STATUS_ARM struct {
 	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
@@ -270,6 +280,7 @@ type RetentionPolicy_STATUS_ARM struct {
 	Status *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
 }
 
+// The content trust policy for a container registry.
 type TrustPolicy_STATUS_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`

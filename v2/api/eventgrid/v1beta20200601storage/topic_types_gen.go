@@ -22,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200601.Topic
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -122,7 +124,9 @@ func (topic *Topic) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200601.Topic
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}
 type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -133,17 +137,21 @@ type TopicList struct {
 type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName          string              `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string             `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string             `json:"location,omitempty"`
+	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Topic_Spec{}
@@ -167,6 +175,7 @@ func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 }
 
 // Storage version of v1beta20200601.Topic_STATUS
+// EventGrid Topic
 type Topic_STATUS struct {
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`

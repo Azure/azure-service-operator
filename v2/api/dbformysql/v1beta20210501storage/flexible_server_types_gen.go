@@ -23,12 +23,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210501.FlexibleServer
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Generator information:
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/mysql.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS       `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -77,7 +79,7 @@ func (server *FlexibleServer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_STATUS{}
+	return &FlexibleServer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +95,13 @@ func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_STATUS); ok {
+	if st, ok := status.(*FlexibleServer_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_STATUS
+	var st FlexibleServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -123,7 +125,9 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210501.FlexibleServer
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers
+// Generator information:
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/mysql.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -191,8 +195,8 @@ func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(server)
 }
 
-// Storage version of v1beta20210501.Server_STATUS
-type Server_STATUS struct {
+// Storage version of v1beta20210501.FlexibleServer_STATUS
+type FlexibleServer_STATUS struct {
 	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
 	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
 	Backup                   *Backup_STATUS            `json:"backup,omitempty"`
@@ -221,10 +225,10 @@ type Server_STATUS struct {
 	Version                  *string                   `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Server_STATUS{}
+var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
 
-// ConvertStatusFrom populates our Server_STATUS from the provided source
-func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
+func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -232,8 +236,8 @@ func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(server)
 }
 
-// ConvertStatusTo populates the provided destination from our Server_STATUS
-func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -242,7 +246,7 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 }
 
 // Storage version of v1beta20210501.Backup
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
+// Storage Profile properties of a server
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -250,6 +254,7 @@ type Backup struct {
 }
 
 // Storage version of v1beta20210501.Backup_STATUS
+// Storage Profile properties of a server
 type Backup_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -258,7 +263,7 @@ type Backup_STATUS struct {
 }
 
 // Storage version of v1beta20210501.DataEncryption
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption
+// The date encryption for cmk.
 type DataEncryption struct {
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
 
@@ -274,6 +279,7 @@ type DataEncryption struct {
 }
 
 // Storage version of v1beta20210501.DataEncryption_STATUS
+// The date encryption for cmk.
 type DataEncryption_STATUS struct {
 	GeoBackupKeyURI                 *string                `json:"geoBackupKeyURI,omitempty"`
 	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
@@ -291,7 +297,7 @@ type FlexibleServerOperatorSpec struct {
 }
 
 // Storage version of v1beta20210501.HighAvailability
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
+// Network related properties of a server
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -299,6 +305,7 @@ type HighAvailability struct {
 }
 
 // Storage version of v1beta20210501.HighAvailability_STATUS
+// Network related properties of a server
 type HighAvailability_STATUS struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -307,13 +314,14 @@ type HighAvailability_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Identity
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity
+// Properties to configure Identity for Bring your Own Keys
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210501.Identity_STATUS
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	PrincipalId            *string                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -323,7 +331,7 @@ type Identity_STATUS struct {
 }
 
 // Storage version of v1beta20210501.MaintenanceWindow
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
+// Maintenance window of a server.
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -333,6 +341,7 @@ type MaintenanceWindow struct {
 }
 
 // Storage version of v1beta20210501.MaintenanceWindow_STATUS
+// Maintenance window of a server.
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -342,7 +351,7 @@ type MaintenanceWindow_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Network
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network
+// Network related properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -353,6 +362,7 @@ type Network struct {
 }
 
 // Storage version of v1beta20210501.Network_STATUS
+// Network related properties of a server
 type Network_STATUS struct {
 	DelegatedSubnetResourceId *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                `json:"privateDnsZoneResourceId,omitempty"`
@@ -361,7 +371,7 @@ type Network_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku
+// Billing information related properties of a server.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -369,6 +379,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210501.Sku_STATUS
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -376,7 +387,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Storage
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage
+// Storage Profile properties of a server
 type Storage struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -385,6 +396,7 @@ type Storage struct {
 }
 
 // Storage version of v1beta20210501.Storage_STATUS
+// Storage Profile properties of a server
 type Storage_STATUS struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -394,6 +406,7 @@ type Storage_STATUS struct {
 }
 
 // Storage version of v1beta20210501.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

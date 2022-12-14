@@ -162,7 +162,7 @@ func NamespacesTopicsSubscriptionGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscription(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Topics_Subscription_SpecGenerator()
-	gens["Status"] = SBSubscription_STATUSGenerator()
+	gens["Status"] = Namespaces_Topics_Subscription_STATUSGenerator()
 }
 
 func Test_Namespaces_Topics_Subscription_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -274,39 +274,37 @@ func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_Spec(gens
 	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
 	gens["ForwardDeadLetteredMessagesTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardTo"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-func Test_SBSubscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Namespaces_Topics_Subscription_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SBSubscription_STATUS to SBSubscription_STATUS via AssignProperties_To_SBSubscription_STATUS & AssignProperties_From_SBSubscription_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSBSubscription_STATUS, SBSubscription_STATUSGenerator()))
+		"Round trip from Namespaces_Topics_Subscription_STATUS to Namespaces_Topics_Subscription_STATUS via AssignProperties_To_Namespaces_Topics_Subscription_STATUS & AssignProperties_From_Namespaces_Topics_Subscription_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS, Namespaces_Topics_Subscription_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSBSubscription_STATUS tests if a specific instance of SBSubscription_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForSBSubscription_STATUS(subject SBSubscription_STATUS) string {
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS tests if a specific instance of Namespaces_Topics_Subscription_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topics_Subscription_STATUS(subject Namespaces_Topics_Subscription_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.SBSubscription_STATUS
-	err := copied.AssignProperties_To_SBSubscription_STATUS(&other)
+	var other v20210101ps.Namespaces_Topics_Subscription_STATUS
+	err := copied.AssignProperties_To_Namespaces_Topics_Subscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SBSubscription_STATUS
-	err = actual.AssignProperties_From_SBSubscription_STATUS(&other)
+	var actual Namespaces_Topics_Subscription_STATUS
+	err = actual.AssignProperties_From_Namespaces_Topics_Subscription_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -323,20 +321,20 @@ func RunPropertyAssignmentTestForSBSubscription_STATUS(subject SBSubscription_ST
 	return ""
 }
 
-func Test_SBSubscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Namespaces_Topics_Subscription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SBSubscription_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBSubscription_STATUS, SBSubscription_STATUSGenerator()))
+		"Round trip of Namespaces_Topics_Subscription_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespaces_Topics_Subscription_STATUS, Namespaces_Topics_Subscription_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBSubscription_STATUS runs a test to see if a specific instance of SBSubscription_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBSubscription_STATUS(subject SBSubscription_STATUS) string {
+// RunJSONSerializationTestForNamespaces_Topics_Subscription_STATUS runs a test to see if a specific instance of Namespaces_Topics_Subscription_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespaces_Topics_Subscription_STATUS(subject Namespaces_Topics_Subscription_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -344,7 +342,7 @@ func RunJSONSerializationTestForSBSubscription_STATUS(subject SBSubscription_STA
 	}
 
 	// Deserialize back into memory
-	var actual SBSubscription_STATUS
+	var actual Namespaces_Topics_Subscription_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -362,34 +360,34 @@ func RunJSONSerializationTestForSBSubscription_STATUS(subject SBSubscription_STA
 	return ""
 }
 
-// Generator of SBSubscription_STATUS instances for property testing - lazily instantiated by
-// SBSubscription_STATUSGenerator()
-var sbSubscription_STATUSGenerator gopter.Gen
+// Generator of Namespaces_Topics_Subscription_STATUS instances for property testing - lazily instantiated by
+// Namespaces_Topics_Subscription_STATUSGenerator()
+var namespaces_Topics_Subscription_STATUSGenerator gopter.Gen
 
-// SBSubscription_STATUSGenerator returns a generator of SBSubscription_STATUS instances for property testing.
-// We first initialize sbSubscription_STATUSGenerator with a simplified generator based on the
+// Namespaces_Topics_Subscription_STATUSGenerator returns a generator of Namespaces_Topics_Subscription_STATUS instances for property testing.
+// We first initialize namespaces_Topics_Subscription_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBSubscription_STATUSGenerator() gopter.Gen {
-	if sbSubscription_STATUSGenerator != nil {
-		return sbSubscription_STATUSGenerator
+func Namespaces_Topics_Subscription_STATUSGenerator() gopter.Gen {
+	if namespaces_Topics_Subscription_STATUSGenerator != nil {
+		return namespaces_Topics_Subscription_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBSubscription_STATUS(generators)
-	sbSubscription_STATUSGenerator = gen.Struct(reflect.TypeOf(SBSubscription_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS(generators)
+	namespaces_Topics_Subscription_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBSubscription_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSBSubscription_STATUS(generators)
-	sbSubscription_STATUSGenerator = gen.Struct(reflect.TypeOf(SBSubscription_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS(generators)
+	namespaces_Topics_Subscription_STATUSGenerator = gen.Struct(reflect.TypeOf(Namespaces_Topics_Subscription_STATUS{}), generators)
 
-	return sbSubscription_STATUSGenerator
+	return namespaces_Topics_Subscription_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBSubscription_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBSubscription_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS(gens map[string]gopter.Gen) {
 	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -420,8 +418,8 @@ func AddIndependentPropertyGeneratorsForSBSubscription_STATUS(gens map[string]go
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBSubscription_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBSubscription_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscription_STATUS(gens map[string]gopter.Gen) {
 	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }

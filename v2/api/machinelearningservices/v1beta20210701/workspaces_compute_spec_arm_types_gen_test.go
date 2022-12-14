@@ -160,49 +160,52 @@ func Compute_ARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForCompute_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCompute_ARM(gens map[string]gopter.Gen) {
-	gens["AKS"] = Compute_AKS_ARMGenerator().Map(func(it Compute_AKS_ARM) *Compute_AKS_ARM {
+	gens["AKS"] = AKS_ARMGenerator().Map(func(it AKS_ARM) *AKS_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["AmlCompute"] = Compute_AmlCompute_ARMGenerator().Map(func(it Compute_AmlCompute_ARM) *Compute_AmlCompute_ARM {
+	gens["AmlCompute"] = AmlCompute_ARMGenerator().Map(func(it AmlCompute_ARM) *AmlCompute_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["ComputeInstance"] = Compute_ComputeInstance_ARMGenerator().Map(func(it Compute_ComputeInstance_ARM) *Compute_ComputeInstance_ARM {
+	gens["ComputeInstance"] = ComputeInstance_ARMGenerator().Map(func(it ComputeInstance_ARM) *ComputeInstance_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DataFactory"] = Compute_DataFactory_ARMGenerator().Map(func(it Compute_DataFactory_ARM) *Compute_DataFactory_ARM {
+	gens["DataFactory"] = DataFactory_ARMGenerator().Map(func(it DataFactory_ARM) *DataFactory_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["DataLakeAnalytics"] = Compute_DataLakeAnalytics_ARMGenerator().Map(func(it Compute_DataLakeAnalytics_ARM) *Compute_DataLakeAnalytics_ARM {
+	gens["DataLakeAnalytics"] = DataLakeAnalytics_ARMGenerator().Map(func(it DataLakeAnalytics_ARM) *DataLakeAnalytics_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["Databricks"] = Compute_Databricks_ARMGenerator().Map(func(it Compute_Databricks_ARM) *Compute_Databricks_ARM {
+	gens["Databricks"] = Databricks_ARMGenerator().Map(func(it Databricks_ARM) *Databricks_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["HDInsight"] = Compute_HDInsight_ARMGenerator().Map(func(it Compute_HDInsight_ARM) *Compute_HDInsight_ARM {
+	gens["HDInsight"] = HDInsight_ARMGenerator().Map(func(it HDInsight_ARM) *HDInsight_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["SynapseSpark"] = Compute_SynapseSpark_ARMGenerator().Map(func(it Compute_SynapseSpark_ARM) *Compute_SynapseSpark_ARM {
+	gens["Kubernetes"] = Kubernetes_ARMGenerator().Map(func(it Kubernetes_ARM) *Kubernetes_ARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["VirtualMachine"] = Compute_VirtualMachine_ARMGenerator().Map(func(it Compute_VirtualMachine_ARM) *Compute_VirtualMachine_ARM {
+	gens["SynapseSpark"] = SynapseSpark_ARMGenerator().Map(func(it SynapseSpark_ARM) *SynapseSpark_ARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["VirtualMachine"] = VirtualMachine_ARMGenerator().Map(func(it VirtualMachine_ARM) *VirtualMachine_ARM {
 		return &it
 	}) // generate one case for OneOf type
 }
 
-func Test_Compute_AKS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AKS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_AKS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_AKS_ARM, Compute_AKS_ARMGenerator()))
+		"Round trip of AKS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAKS_ARM, AKS_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_AKS_ARM runs a test to see if a specific instance of Compute_AKS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_AKS_ARM(subject Compute_AKS_ARM) string {
+// RunJSONSerializationTestForAKS_ARM runs a test to see if a specific instance of AKS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAKS_ARM(subject AKS_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -210,7 +213,7 @@ func RunJSONSerializationTestForCompute_AKS_ARM(subject Compute_AKS_ARM) string 
 	}
 
 	// Deserialize back into memory
-	var actual Compute_AKS_ARM
+	var actual AKS_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -228,59 +231,59 @@ func RunJSONSerializationTestForCompute_AKS_ARM(subject Compute_AKS_ARM) string 
 	return ""
 }
 
-// Generator of Compute_AKS_ARM instances for property testing - lazily instantiated by Compute_AKS_ARMGenerator()
-var compute_AKS_ARMGenerator gopter.Gen
+// Generator of AKS_ARM instances for property testing - lazily instantiated by AKS_ARMGenerator()
+var aks_ARMGenerator gopter.Gen
 
-// Compute_AKS_ARMGenerator returns a generator of Compute_AKS_ARM instances for property testing.
-// We first initialize compute_AKS_ARMGenerator with a simplified generator based on the
+// AKS_ARMGenerator returns a generator of AKS_ARM instances for property testing.
+// We first initialize aks_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_AKS_ARMGenerator() gopter.Gen {
-	if compute_AKS_ARMGenerator != nil {
-		return compute_AKS_ARMGenerator
+func AKS_ARMGenerator() gopter.Gen {
+	if aks_ARMGenerator != nil {
+		return aks_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_AKS_ARM(generators)
-	compute_AKS_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_AKS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAKS_ARM(generators)
+	aks_ARMGenerator = gen.Struct(reflect.TypeOf(AKS_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_AKS_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_AKS_ARM(generators)
-	compute_AKS_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_AKS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAKS_ARM(generators)
+	AddRelatedPropertyGeneratorsForAKS_ARM(generators)
+	aks_ARMGenerator = gen.Struct(reflect.TypeOf(AKS_ARM{}), generators)
 
-	return compute_AKS_ARMGenerator
+	return aks_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_AKS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_AKS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAKS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAKS_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_AKS_ComputeType_AKS)
+	gens["ComputeType"] = gen.OneConstOf(AKS_ComputeType_AKS)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_AKS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_AKS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AKSProperties_ARMGenerator())
+// AddRelatedPropertyGeneratorsForAKS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAKS_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(AKS_Properties_ARMGenerator())
 }
 
-func Test_Compute_AmlCompute_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AmlCompute_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_AmlCompute_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_AmlCompute_ARM, Compute_AmlCompute_ARMGenerator()))
+		"Round trip of AmlCompute_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAmlCompute_ARM, AmlCompute_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_AmlCompute_ARM runs a test to see if a specific instance of Compute_AmlCompute_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_AmlCompute_ARM(subject Compute_AmlCompute_ARM) string {
+// RunJSONSerializationTestForAmlCompute_ARM runs a test to see if a specific instance of AmlCompute_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAmlCompute_ARM(subject AmlCompute_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -288,7 +291,7 @@ func RunJSONSerializationTestForCompute_AmlCompute_ARM(subject Compute_AmlComput
 	}
 
 	// Deserialize back into memory
-	var actual Compute_AmlCompute_ARM
+	var actual AmlCompute_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -306,60 +309,59 @@ func RunJSONSerializationTestForCompute_AmlCompute_ARM(subject Compute_AmlComput
 	return ""
 }
 
-// Generator of Compute_AmlCompute_ARM instances for property testing - lazily instantiated by
-// Compute_AmlCompute_ARMGenerator()
-var compute_AmlCompute_ARMGenerator gopter.Gen
+// Generator of AmlCompute_ARM instances for property testing - lazily instantiated by AmlCompute_ARMGenerator()
+var amlCompute_ARMGenerator gopter.Gen
 
-// Compute_AmlCompute_ARMGenerator returns a generator of Compute_AmlCompute_ARM instances for property testing.
-// We first initialize compute_AmlCompute_ARMGenerator with a simplified generator based on the
+// AmlCompute_ARMGenerator returns a generator of AmlCompute_ARM instances for property testing.
+// We first initialize amlCompute_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_AmlCompute_ARMGenerator() gopter.Gen {
-	if compute_AmlCompute_ARMGenerator != nil {
-		return compute_AmlCompute_ARMGenerator
+func AmlCompute_ARMGenerator() gopter.Gen {
+	if amlCompute_ARMGenerator != nil {
+		return amlCompute_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_AmlCompute_ARM(generators)
-	compute_AmlCompute_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_AmlCompute_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAmlCompute_ARM(generators)
+	amlCompute_ARMGenerator = gen.Struct(reflect.TypeOf(AmlCompute_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_AmlCompute_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_AmlCompute_ARM(generators)
-	compute_AmlCompute_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_AmlCompute_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForAmlCompute_ARM(generators)
+	AddRelatedPropertyGeneratorsForAmlCompute_ARM(generators)
+	amlCompute_ARMGenerator = gen.Struct(reflect.TypeOf(AmlCompute_ARM{}), generators)
 
-	return compute_AmlCompute_ARMGenerator
+	return amlCompute_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_AmlCompute_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_AmlCompute_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAmlCompute_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAmlCompute_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_AmlCompute_ComputeType_AmlCompute)
+	gens["ComputeType"] = gen.OneConstOf(AmlCompute_ComputeType_AmlCompute)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_AmlCompute_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_AmlCompute_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAmlCompute_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAmlCompute_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(AmlComputeProperties_ARMGenerator())
 }
 
-func Test_Compute_ComputeInstance_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ComputeInstance_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_ComputeInstance_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_ComputeInstance_ARM, Compute_ComputeInstance_ARMGenerator()))
+		"Round trip of ComputeInstance_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComputeInstance_ARM, ComputeInstance_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_ComputeInstance_ARM runs a test to see if a specific instance of Compute_ComputeInstance_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_ComputeInstance_ARM(subject Compute_ComputeInstance_ARM) string {
+// RunJSONSerializationTestForComputeInstance_ARM runs a test to see if a specific instance of ComputeInstance_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForComputeInstance_ARM(subject ComputeInstance_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -367,7 +369,7 @@ func RunJSONSerializationTestForCompute_ComputeInstance_ARM(subject Compute_Comp
 	}
 
 	// Deserialize back into memory
-	var actual Compute_ComputeInstance_ARM
+	var actual ComputeInstance_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -385,60 +387,60 @@ func RunJSONSerializationTestForCompute_ComputeInstance_ARM(subject Compute_Comp
 	return ""
 }
 
-// Generator of Compute_ComputeInstance_ARM instances for property testing - lazily instantiated by
-// Compute_ComputeInstance_ARMGenerator()
-var compute_ComputeInstance_ARMGenerator gopter.Gen
+// Generator of ComputeInstance_ARM instances for property testing - lazily instantiated by
+// ComputeInstance_ARMGenerator()
+var computeInstance_ARMGenerator gopter.Gen
 
-// Compute_ComputeInstance_ARMGenerator returns a generator of Compute_ComputeInstance_ARM instances for property testing.
-// We first initialize compute_ComputeInstance_ARMGenerator with a simplified generator based on the
+// ComputeInstance_ARMGenerator returns a generator of ComputeInstance_ARM instances for property testing.
+// We first initialize computeInstance_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_ComputeInstance_ARMGenerator() gopter.Gen {
-	if compute_ComputeInstance_ARMGenerator != nil {
-		return compute_ComputeInstance_ARMGenerator
+func ComputeInstance_ARMGenerator() gopter.Gen {
+	if computeInstance_ARMGenerator != nil {
+		return computeInstance_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_ComputeInstance_ARM(generators)
-	compute_ComputeInstance_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_ComputeInstance_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForComputeInstance_ARM(generators)
+	computeInstance_ARMGenerator = gen.Struct(reflect.TypeOf(ComputeInstance_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_ComputeInstance_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_ComputeInstance_ARM(generators)
-	compute_ComputeInstance_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_ComputeInstance_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForComputeInstance_ARM(generators)
+	AddRelatedPropertyGeneratorsForComputeInstance_ARM(generators)
+	computeInstance_ARMGenerator = gen.Struct(reflect.TypeOf(ComputeInstance_ARM{}), generators)
 
-	return compute_ComputeInstance_ARMGenerator
+	return computeInstance_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_ComputeInstance_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_ComputeInstance_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForComputeInstance_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComputeInstance_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_ComputeInstance_ComputeType_ComputeInstance)
+	gens["ComputeType"] = gen.OneConstOf(ComputeInstance_ComputeType_ComputeInstance)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_ComputeInstance_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_ComputeInstance_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForComputeInstance_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForComputeInstance_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ComputeInstanceProperties_ARMGenerator())
 }
 
-func Test_Compute_Databricks_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Databricks_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_Databricks_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_Databricks_ARM, Compute_Databricks_ARMGenerator()))
+		"Round trip of Databricks_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabricks_ARM, Databricks_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_Databricks_ARM runs a test to see if a specific instance of Compute_Databricks_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_Databricks_ARM(subject Compute_Databricks_ARM) string {
+// RunJSONSerializationTestForDatabricks_ARM runs a test to see if a specific instance of Databricks_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabricks_ARM(subject Databricks_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -446,7 +448,7 @@ func RunJSONSerializationTestForCompute_Databricks_ARM(subject Compute_Databrick
 	}
 
 	// Deserialize back into memory
-	var actual Compute_Databricks_ARM
+	var actual Databricks_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -464,60 +466,59 @@ func RunJSONSerializationTestForCompute_Databricks_ARM(subject Compute_Databrick
 	return ""
 }
 
-// Generator of Compute_Databricks_ARM instances for property testing - lazily instantiated by
-// Compute_Databricks_ARMGenerator()
-var compute_Databricks_ARMGenerator gopter.Gen
+// Generator of Databricks_ARM instances for property testing - lazily instantiated by Databricks_ARMGenerator()
+var databricks_ARMGenerator gopter.Gen
 
-// Compute_Databricks_ARMGenerator returns a generator of Compute_Databricks_ARM instances for property testing.
-// We first initialize compute_Databricks_ARMGenerator with a simplified generator based on the
+// Databricks_ARMGenerator returns a generator of Databricks_ARM instances for property testing.
+// We first initialize databricks_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_Databricks_ARMGenerator() gopter.Gen {
-	if compute_Databricks_ARMGenerator != nil {
-		return compute_Databricks_ARMGenerator
+func Databricks_ARMGenerator() gopter.Gen {
+	if databricks_ARMGenerator != nil {
+		return databricks_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_Databricks_ARM(generators)
-	compute_Databricks_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_Databricks_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabricks_ARM(generators)
+	databricks_ARMGenerator = gen.Struct(reflect.TypeOf(Databricks_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_Databricks_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_Databricks_ARM(generators)
-	compute_Databricks_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_Databricks_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDatabricks_ARM(generators)
+	AddRelatedPropertyGeneratorsForDatabricks_ARM(generators)
+	databricks_ARMGenerator = gen.Struct(reflect.TypeOf(Databricks_ARM{}), generators)
 
-	return compute_Databricks_ARMGenerator
+	return databricks_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_Databricks_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_Databricks_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabricks_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabricks_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_Databricks_ComputeType_Databricks)
+	gens["ComputeType"] = gen.OneConstOf(Databricks_ComputeType_Databricks)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_Databricks_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_Databricks_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabricks_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabricks_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DatabricksProperties_ARMGenerator())
 }
 
-func Test_Compute_DataFactory_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DataFactory_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_DataFactory_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_DataFactory_ARM, Compute_DataFactory_ARMGenerator()))
+		"Round trip of DataFactory_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataFactory_ARM, DataFactory_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_DataFactory_ARM runs a test to see if a specific instance of Compute_DataFactory_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_DataFactory_ARM(subject Compute_DataFactory_ARM) string {
+// RunJSONSerializationTestForDataFactory_ARM runs a test to see if a specific instance of DataFactory_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataFactory_ARM(subject DataFactory_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -525,7 +526,7 @@ func RunJSONSerializationTestForCompute_DataFactory_ARM(subject Compute_DataFact
 	}
 
 	// Deserialize back into memory
-	var actual Compute_DataFactory_ARM
+	var actual DataFactory_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -543,46 +544,45 @@ func RunJSONSerializationTestForCompute_DataFactory_ARM(subject Compute_DataFact
 	return ""
 }
 
-// Generator of Compute_DataFactory_ARM instances for property testing - lazily instantiated by
-// Compute_DataFactory_ARMGenerator()
-var compute_DataFactory_ARMGenerator gopter.Gen
+// Generator of DataFactory_ARM instances for property testing - lazily instantiated by DataFactory_ARMGenerator()
+var dataFactory_ARMGenerator gopter.Gen
 
-// Compute_DataFactory_ARMGenerator returns a generator of Compute_DataFactory_ARM instances for property testing.
-func Compute_DataFactory_ARMGenerator() gopter.Gen {
-	if compute_DataFactory_ARMGenerator != nil {
-		return compute_DataFactory_ARMGenerator
+// DataFactory_ARMGenerator returns a generator of DataFactory_ARM instances for property testing.
+func DataFactory_ARMGenerator() gopter.Gen {
+	if dataFactory_ARMGenerator != nil {
+		return dataFactory_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_DataFactory_ARM(generators)
-	compute_DataFactory_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_DataFactory_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDataFactory_ARM(generators)
+	dataFactory_ARMGenerator = gen.Struct(reflect.TypeOf(DataFactory_ARM{}), generators)
 
-	return compute_DataFactory_ARMGenerator
+	return dataFactory_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_DataFactory_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_DataFactory_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDataFactory_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataFactory_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_DataFactory_ComputeType_DataFactory)
+	gens["ComputeType"] = gen.OneConstOf(DataFactory_ComputeType_DataFactory)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Compute_DataLakeAnalytics_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DataLakeAnalytics_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_DataLakeAnalytics_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_DataLakeAnalytics_ARM, Compute_DataLakeAnalytics_ARMGenerator()))
+		"Round trip of DataLakeAnalytics_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataLakeAnalytics_ARM, DataLakeAnalytics_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_DataLakeAnalytics_ARM runs a test to see if a specific instance of Compute_DataLakeAnalytics_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_DataLakeAnalytics_ARM(subject Compute_DataLakeAnalytics_ARM) string {
+// RunJSONSerializationTestForDataLakeAnalytics_ARM runs a test to see if a specific instance of DataLakeAnalytics_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataLakeAnalytics_ARM(subject DataLakeAnalytics_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -590,7 +590,7 @@ func RunJSONSerializationTestForCompute_DataLakeAnalytics_ARM(subject Compute_Da
 	}
 
 	// Deserialize back into memory
-	var actual Compute_DataLakeAnalytics_ARM
+	var actual DataLakeAnalytics_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -608,60 +608,60 @@ func RunJSONSerializationTestForCompute_DataLakeAnalytics_ARM(subject Compute_Da
 	return ""
 }
 
-// Generator of Compute_DataLakeAnalytics_ARM instances for property testing - lazily instantiated by
-// Compute_DataLakeAnalytics_ARMGenerator()
-var compute_DataLakeAnalytics_ARMGenerator gopter.Gen
+// Generator of DataLakeAnalytics_ARM instances for property testing - lazily instantiated by
+// DataLakeAnalytics_ARMGenerator()
+var dataLakeAnalytics_ARMGenerator gopter.Gen
 
-// Compute_DataLakeAnalytics_ARMGenerator returns a generator of Compute_DataLakeAnalytics_ARM instances for property testing.
-// We first initialize compute_DataLakeAnalytics_ARMGenerator with a simplified generator based on the
+// DataLakeAnalytics_ARMGenerator returns a generator of DataLakeAnalytics_ARM instances for property testing.
+// We first initialize dataLakeAnalytics_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_DataLakeAnalytics_ARMGenerator() gopter.Gen {
-	if compute_DataLakeAnalytics_ARMGenerator != nil {
-		return compute_DataLakeAnalytics_ARMGenerator
+func DataLakeAnalytics_ARMGenerator() gopter.Gen {
+	if dataLakeAnalytics_ARMGenerator != nil {
+		return dataLakeAnalytics_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_DataLakeAnalytics_ARM(generators)
-	compute_DataLakeAnalytics_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_DataLakeAnalytics_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDataLakeAnalytics_ARM(generators)
+	dataLakeAnalytics_ARMGenerator = gen.Struct(reflect.TypeOf(DataLakeAnalytics_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_DataLakeAnalytics_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_DataLakeAnalytics_ARM(generators)
-	compute_DataLakeAnalytics_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_DataLakeAnalytics_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDataLakeAnalytics_ARM(generators)
+	AddRelatedPropertyGeneratorsForDataLakeAnalytics_ARM(generators)
+	dataLakeAnalytics_ARMGenerator = gen.Struct(reflect.TypeOf(DataLakeAnalytics_ARM{}), generators)
 
-	return compute_DataLakeAnalytics_ARMGenerator
+	return dataLakeAnalytics_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_DataLakeAnalytics_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_DataLakeAnalytics_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDataLakeAnalytics_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataLakeAnalytics_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_DataLakeAnalytics_ComputeType_DataLakeAnalytics)
+	gens["ComputeType"] = gen.OneConstOf(DataLakeAnalytics_ComputeType_DataLakeAnalytics)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_DataLakeAnalytics_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_DataLakeAnalytics_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(DataLakeAnalyticsProperties_ARMGenerator())
+// AddRelatedPropertyGeneratorsForDataLakeAnalytics_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDataLakeAnalytics_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(DataLakeAnalytics_Properties_ARMGenerator())
 }
 
-func Test_Compute_HDInsight_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_HDInsight_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_HDInsight_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_HDInsight_ARM, Compute_HDInsight_ARMGenerator()))
+		"Round trip of HDInsight_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForHDInsight_ARM, HDInsight_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_HDInsight_ARM runs a test to see if a specific instance of Compute_HDInsight_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_HDInsight_ARM(subject Compute_HDInsight_ARM) string {
+// RunJSONSerializationTestForHDInsight_ARM runs a test to see if a specific instance of HDInsight_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForHDInsight_ARM(subject HDInsight_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -669,7 +669,7 @@ func RunJSONSerializationTestForCompute_HDInsight_ARM(subject Compute_HDInsight_
 	}
 
 	// Deserialize back into memory
-	var actual Compute_HDInsight_ARM
+	var actual HDInsight_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -687,60 +687,59 @@ func RunJSONSerializationTestForCompute_HDInsight_ARM(subject Compute_HDInsight_
 	return ""
 }
 
-// Generator of Compute_HDInsight_ARM instances for property testing - lazily instantiated by
-// Compute_HDInsight_ARMGenerator()
-var compute_HDInsight_ARMGenerator gopter.Gen
+// Generator of HDInsight_ARM instances for property testing - lazily instantiated by HDInsight_ARMGenerator()
+var hdInsight_ARMGenerator gopter.Gen
 
-// Compute_HDInsight_ARMGenerator returns a generator of Compute_HDInsight_ARM instances for property testing.
-// We first initialize compute_HDInsight_ARMGenerator with a simplified generator based on the
+// HDInsight_ARMGenerator returns a generator of HDInsight_ARM instances for property testing.
+// We first initialize hdInsight_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_HDInsight_ARMGenerator() gopter.Gen {
-	if compute_HDInsight_ARMGenerator != nil {
-		return compute_HDInsight_ARMGenerator
+func HDInsight_ARMGenerator() gopter.Gen {
+	if hdInsight_ARMGenerator != nil {
+		return hdInsight_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_HDInsight_ARM(generators)
-	compute_HDInsight_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_HDInsight_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForHDInsight_ARM(generators)
+	hdInsight_ARMGenerator = gen.Struct(reflect.TypeOf(HDInsight_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_HDInsight_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_HDInsight_ARM(generators)
-	compute_HDInsight_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_HDInsight_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForHDInsight_ARM(generators)
+	AddRelatedPropertyGeneratorsForHDInsight_ARM(generators)
+	hdInsight_ARMGenerator = gen.Struct(reflect.TypeOf(HDInsight_ARM{}), generators)
 
-	return compute_HDInsight_ARMGenerator
+	return hdInsight_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_HDInsight_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_HDInsight_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForHDInsight_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForHDInsight_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_HDInsight_ComputeType_HDInsight)
+	gens["ComputeType"] = gen.OneConstOf(HDInsight_ComputeType_HDInsight)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_HDInsight_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_HDInsight_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForHDInsight_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForHDInsight_ARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(HDInsightProperties_ARMGenerator())
 }
 
-func Test_Compute_SynapseSpark_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Kubernetes_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_SynapseSpark_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_SynapseSpark_ARM, Compute_SynapseSpark_ARMGenerator()))
+		"Round trip of Kubernetes_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKubernetes_ARM, Kubernetes_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_SynapseSpark_ARM runs a test to see if a specific instance of Compute_SynapseSpark_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_SynapseSpark_ARM(subject Compute_SynapseSpark_ARM) string {
+// RunJSONSerializationTestForKubernetes_ARM runs a test to see if a specific instance of Kubernetes_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForKubernetes_ARM(subject Kubernetes_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -748,7 +747,7 @@ func RunJSONSerializationTestForCompute_SynapseSpark_ARM(subject Compute_Synapse
 	}
 
 	// Deserialize back into memory
-	var actual Compute_SynapseSpark_ARM
+	var actual Kubernetes_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -766,60 +765,59 @@ func RunJSONSerializationTestForCompute_SynapseSpark_ARM(subject Compute_Synapse
 	return ""
 }
 
-// Generator of Compute_SynapseSpark_ARM instances for property testing - lazily instantiated by
-// Compute_SynapseSpark_ARMGenerator()
-var compute_SynapseSpark_ARMGenerator gopter.Gen
+// Generator of Kubernetes_ARM instances for property testing - lazily instantiated by Kubernetes_ARMGenerator()
+var kubernetes_ARMGenerator gopter.Gen
 
-// Compute_SynapseSpark_ARMGenerator returns a generator of Compute_SynapseSpark_ARM instances for property testing.
-// We first initialize compute_SynapseSpark_ARMGenerator with a simplified generator based on the
+// Kubernetes_ARMGenerator returns a generator of Kubernetes_ARM instances for property testing.
+// We first initialize kubernetes_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_SynapseSpark_ARMGenerator() gopter.Gen {
-	if compute_SynapseSpark_ARMGenerator != nil {
-		return compute_SynapseSpark_ARMGenerator
+func Kubernetes_ARMGenerator() gopter.Gen {
+	if kubernetes_ARMGenerator != nil {
+		return kubernetes_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_SynapseSpark_ARM(generators)
-	compute_SynapseSpark_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_SynapseSpark_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForKubernetes_ARM(generators)
+	kubernetes_ARMGenerator = gen.Struct(reflect.TypeOf(Kubernetes_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_SynapseSpark_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_SynapseSpark_ARM(generators)
-	compute_SynapseSpark_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_SynapseSpark_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForKubernetes_ARM(generators)
+	AddRelatedPropertyGeneratorsForKubernetes_ARM(generators)
+	kubernetes_ARMGenerator = gen.Struct(reflect.TypeOf(Kubernetes_ARM{}), generators)
 
-	return compute_SynapseSpark_ARMGenerator
+	return kubernetes_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_SynapseSpark_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_SynapseSpark_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKubernetes_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKubernetes_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_SynapseSpark_ComputeType_SynapseSpark)
+	gens["ComputeType"] = gen.OneConstOf(Kubernetes_ComputeType_Kubernetes)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_SynapseSpark_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_SynapseSpark_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(SynapseSparkProperties_ARMGenerator())
+// AddRelatedPropertyGeneratorsForKubernetes_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForKubernetes_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(KubernetesProperties_ARMGenerator())
 }
 
-func Test_Compute_VirtualMachine_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SynapseSpark_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Compute_VirtualMachine_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCompute_VirtualMachine_ARM, Compute_VirtualMachine_ARMGenerator()))
+		"Round trip of SynapseSpark_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSynapseSpark_ARM, SynapseSpark_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCompute_VirtualMachine_ARM runs a test to see if a specific instance of Compute_VirtualMachine_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCompute_VirtualMachine_ARM(subject Compute_VirtualMachine_ARM) string {
+// RunJSONSerializationTestForSynapseSpark_ARM runs a test to see if a specific instance of SynapseSpark_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSynapseSpark_ARM(subject SynapseSpark_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -827,7 +825,7 @@ func RunJSONSerializationTestForCompute_VirtualMachine_ARM(subject Compute_Virtu
 	}
 
 	// Deserialize back into memory
-	var actual Compute_VirtualMachine_ARM
+	var actual SynapseSpark_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -845,60 +843,59 @@ func RunJSONSerializationTestForCompute_VirtualMachine_ARM(subject Compute_Virtu
 	return ""
 }
 
-// Generator of Compute_VirtualMachine_ARM instances for property testing - lazily instantiated by
-// Compute_VirtualMachine_ARMGenerator()
-var compute_VirtualMachine_ARMGenerator gopter.Gen
+// Generator of SynapseSpark_ARM instances for property testing - lazily instantiated by SynapseSpark_ARMGenerator()
+var synapseSpark_ARMGenerator gopter.Gen
 
-// Compute_VirtualMachine_ARMGenerator returns a generator of Compute_VirtualMachine_ARM instances for property testing.
-// We first initialize compute_VirtualMachine_ARMGenerator with a simplified generator based on the
+// SynapseSpark_ARMGenerator returns a generator of SynapseSpark_ARM instances for property testing.
+// We first initialize synapseSpark_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Compute_VirtualMachine_ARMGenerator() gopter.Gen {
-	if compute_VirtualMachine_ARMGenerator != nil {
-		return compute_VirtualMachine_ARMGenerator
+func SynapseSpark_ARMGenerator() gopter.Gen {
+	if synapseSpark_ARMGenerator != nil {
+		return synapseSpark_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_VirtualMachine_ARM(generators)
-	compute_VirtualMachine_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_VirtualMachine_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForSynapseSpark_ARM(generators)
+	synapseSpark_ARMGenerator = gen.Struct(reflect.TypeOf(SynapseSpark_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCompute_VirtualMachine_ARM(generators)
-	AddRelatedPropertyGeneratorsForCompute_VirtualMachine_ARM(generators)
-	compute_VirtualMachine_ARMGenerator = gen.Struct(reflect.TypeOf(Compute_VirtualMachine_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForSynapseSpark_ARM(generators)
+	AddRelatedPropertyGeneratorsForSynapseSpark_ARM(generators)
+	synapseSpark_ARMGenerator = gen.Struct(reflect.TypeOf(SynapseSpark_ARM{}), generators)
 
-	return compute_VirtualMachine_ARMGenerator
+	return synapseSpark_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCompute_VirtualMachine_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCompute_VirtualMachine_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSynapseSpark_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSynapseSpark_ARM(gens map[string]gopter.Gen) {
 	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputeType"] = gen.OneConstOf(Compute_VirtualMachine_ComputeType_VirtualMachine)
+	gens["ComputeType"] = gen.OneConstOf(SynapseSpark_ComputeType_SynapseSpark)
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCompute_VirtualMachine_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCompute_VirtualMachine_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(VirtualMachineProperties_ARMGenerator())
+// AddRelatedPropertyGeneratorsForSynapseSpark_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSynapseSpark_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(SynapseSpark_Properties_ARMGenerator())
 }
 
-func Test_AKSProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachine_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AKSProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAKSProperties_ARM, AKSProperties_ARMGenerator()))
+		"Round trip of VirtualMachine_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_ARM, VirtualMachine_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAKSProperties_ARM runs a test to see if a specific instance of AKSProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForAKSProperties_ARM(subject AKSProperties_ARM) string {
+// RunJSONSerializationTestForVirtualMachine_ARM runs a test to see if a specific instance of VirtualMachine_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_ARM(subject VirtualMachine_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -906,7 +903,7 @@ func RunJSONSerializationTestForAKSProperties_ARM(subject AKSProperties_ARM) str
 	}
 
 	// Deserialize back into memory
-	var actual AKSProperties_ARM
+	var actual VirtualMachine_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -924,43 +921,121 @@ func RunJSONSerializationTestForAKSProperties_ARM(subject AKSProperties_ARM) str
 	return ""
 }
 
-// Generator of AKSProperties_ARM instances for property testing - lazily instantiated by AKSProperties_ARMGenerator()
-var aksProperties_ARMGenerator gopter.Gen
+// Generator of VirtualMachine_ARM instances for property testing - lazily instantiated by VirtualMachine_ARMGenerator()
+var virtualMachine_ARMGenerator gopter.Gen
 
-// AKSProperties_ARMGenerator returns a generator of AKSProperties_ARM instances for property testing.
-// We first initialize aksProperties_ARMGenerator with a simplified generator based on the
+// VirtualMachine_ARMGenerator returns a generator of VirtualMachine_ARM instances for property testing.
+// We first initialize virtualMachine_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AKSProperties_ARMGenerator() gopter.Gen {
-	if aksProperties_ARMGenerator != nil {
-		return aksProperties_ARMGenerator
+func VirtualMachine_ARMGenerator() gopter.Gen {
+	if virtualMachine_ARMGenerator != nil {
+		return virtualMachine_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAKSProperties_ARM(generators)
-	aksProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AKSProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_ARM(generators)
+	virtualMachine_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAKSProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForAKSProperties_ARM(generators)
-	aksProperties_ARMGenerator = gen.Struct(reflect.TypeOf(AKSProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_ARM(generators)
+	virtualMachine_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_ARM{}), generators)
 
-	return aksProperties_ARMGenerator
+	return virtualMachine_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAKSProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAKSProperties_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachine_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_ARM(gens map[string]gopter.Gen) {
+	gens["ComputeLocation"] = gen.PtrOf(gen.AlphaString())
+	gens["ComputeType"] = gen.OneConstOf(VirtualMachine_ComputeType_VirtualMachine)
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
+	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachine_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_ARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(VirtualMachine_Properties_ARMGenerator())
+}
+
+func Test_AKS_Properties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of AKS_Properties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAKS_Properties_ARM, AKS_Properties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForAKS_Properties_ARM runs a test to see if a specific instance of AKS_Properties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForAKS_Properties_ARM(subject AKS_Properties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual AKS_Properties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of AKS_Properties_ARM instances for property testing - lazily instantiated by AKS_Properties_ARMGenerator()
+var aks_Properties_ARMGenerator gopter.Gen
+
+// AKS_Properties_ARMGenerator returns a generator of AKS_Properties_ARM instances for property testing.
+// We first initialize aks_Properties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func AKS_Properties_ARMGenerator() gopter.Gen {
+	if aks_Properties_ARMGenerator != nil {
+		return aks_Properties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAKS_Properties_ARM(generators)
+	aks_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(AKS_Properties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForAKS_Properties_ARM(generators)
+	AddRelatedPropertyGeneratorsForAKS_Properties_ARM(generators)
+	aks_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(AKS_Properties_ARM{}), generators)
+
+	return aks_Properties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForAKS_Properties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAKS_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["AgentCount"] = gen.PtrOf(gen.Int())
 	gens["AgentVmSize"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterFqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKSProperties_ClusterPurpose_DenseProd, AKSProperties_ClusterPurpose_DevTest, AKSProperties_ClusterPurpose_FastProd))
+	gens["ClusterPurpose"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_ClusterPurpose_DenseProd, AKS_Properties_ClusterPurpose_DevTest, AKS_Properties_ClusterPurpose_FastProd))
 	gens["LoadBalancerSubnet"] = gen.PtrOf(gen.AlphaString())
-	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKSProperties_LoadBalancerType_InternalLoadBalancer, AKSProperties_LoadBalancerType_PublicIp))
+	gens["LoadBalancerType"] = gen.PtrOf(gen.OneConstOf(AKS_Properties_LoadBalancerType_InternalLoadBalancer, AKS_Properties_LoadBalancerType_PublicIp))
 }
 
-// AddRelatedPropertyGeneratorsForAKSProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAKSProperties_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForAKS_Properties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForAKS_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["AksNetworkingConfiguration"] = gen.PtrOf(AksNetworkingConfiguration_ARMGenerator())
 	gens["SslConfiguration"] = gen.PtrOf(SslConfiguration_ARMGenerator())
 }
@@ -1190,20 +1265,20 @@ func AddIndependentPropertyGeneratorsForDatabricksProperties_ARM(gens map[string
 	gens["WorkspaceUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_DataLakeAnalyticsProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DataLakeAnalytics_Properties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DataLakeAnalyticsProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDataLakeAnalyticsProperties_ARM, DataLakeAnalyticsProperties_ARMGenerator()))
+		"Round trip of DataLakeAnalytics_Properties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataLakeAnalytics_Properties_ARM, DataLakeAnalytics_Properties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDataLakeAnalyticsProperties_ARM runs a test to see if a specific instance of DataLakeAnalyticsProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForDataLakeAnalyticsProperties_ARM(subject DataLakeAnalyticsProperties_ARM) string {
+// RunJSONSerializationTestForDataLakeAnalytics_Properties_ARM runs a test to see if a specific instance of DataLakeAnalytics_Properties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataLakeAnalytics_Properties_ARM(subject DataLakeAnalytics_Properties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1211,7 +1286,7 @@ func RunJSONSerializationTestForDataLakeAnalyticsProperties_ARM(subject DataLake
 	}
 
 	// Deserialize back into memory
-	var actual DataLakeAnalyticsProperties_ARM
+	var actual DataLakeAnalytics_Properties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1229,25 +1304,25 @@ func RunJSONSerializationTestForDataLakeAnalyticsProperties_ARM(subject DataLake
 	return ""
 }
 
-// Generator of DataLakeAnalyticsProperties_ARM instances for property testing - lazily instantiated by
-// DataLakeAnalyticsProperties_ARMGenerator()
-var dataLakeAnalyticsProperties_ARMGenerator gopter.Gen
+// Generator of DataLakeAnalytics_Properties_ARM instances for property testing - lazily instantiated by
+// DataLakeAnalytics_Properties_ARMGenerator()
+var dataLakeAnalytics_Properties_ARMGenerator gopter.Gen
 
-// DataLakeAnalyticsProperties_ARMGenerator returns a generator of DataLakeAnalyticsProperties_ARM instances for property testing.
-func DataLakeAnalyticsProperties_ARMGenerator() gopter.Gen {
-	if dataLakeAnalyticsProperties_ARMGenerator != nil {
-		return dataLakeAnalyticsProperties_ARMGenerator
+// DataLakeAnalytics_Properties_ARMGenerator returns a generator of DataLakeAnalytics_Properties_ARM instances for property testing.
+func DataLakeAnalytics_Properties_ARMGenerator() gopter.Gen {
+	if dataLakeAnalytics_Properties_ARMGenerator != nil {
+		return dataLakeAnalytics_Properties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDataLakeAnalyticsProperties_ARM(generators)
-	dataLakeAnalyticsProperties_ARMGenerator = gen.Struct(reflect.TypeOf(DataLakeAnalyticsProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForDataLakeAnalytics_Properties_ARM(generators)
+	dataLakeAnalytics_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(DataLakeAnalytics_Properties_ARM{}), generators)
 
-	return dataLakeAnalyticsProperties_ARMGenerator
+	return dataLakeAnalytics_Properties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDataLakeAnalyticsProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDataLakeAnalyticsProperties_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDataLakeAnalytics_Properties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataLakeAnalytics_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["DataLakeStoreAccountName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1327,20 +1402,20 @@ func AddRelatedPropertyGeneratorsForHDInsightProperties_ARM(gens map[string]gopt
 	gens["AdministratorAccount"] = gen.PtrOf(VirtualMachineSshCredentials_ARMGenerator())
 }
 
-func Test_SynapseSparkProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_KubernetesProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SynapseSparkProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSynapseSparkProperties_ARM, SynapseSparkProperties_ARMGenerator()))
+		"Round trip of KubernetesProperties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKubernetesProperties_ARM, KubernetesProperties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSynapseSparkProperties_ARM runs a test to see if a specific instance of SynapseSparkProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSynapseSparkProperties_ARM(subject SynapseSparkProperties_ARM) string {
+// RunJSONSerializationTestForKubernetesProperties_ARM runs a test to see if a specific instance of KubernetesProperties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForKubernetesProperties_ARM(subject KubernetesProperties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1348,7 +1423,7 @@ func RunJSONSerializationTestForSynapseSparkProperties_ARM(subject SynapseSparkP
 	}
 
 	// Deserialize back into memory
-	var actual SynapseSparkProperties_ARM
+	var actual KubernetesProperties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1366,34 +1441,115 @@ func RunJSONSerializationTestForSynapseSparkProperties_ARM(subject SynapseSparkP
 	return ""
 }
 
-// Generator of SynapseSparkProperties_ARM instances for property testing - lazily instantiated by
-// SynapseSparkProperties_ARMGenerator()
-var synapseSparkProperties_ARMGenerator gopter.Gen
+// Generator of KubernetesProperties_ARM instances for property testing - lazily instantiated by
+// KubernetesProperties_ARMGenerator()
+var kubernetesProperties_ARMGenerator gopter.Gen
 
-// SynapseSparkProperties_ARMGenerator returns a generator of SynapseSparkProperties_ARM instances for property testing.
-// We first initialize synapseSparkProperties_ARMGenerator with a simplified generator based on the
+// KubernetesProperties_ARMGenerator returns a generator of KubernetesProperties_ARM instances for property testing.
+// We first initialize kubernetesProperties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SynapseSparkProperties_ARMGenerator() gopter.Gen {
-	if synapseSparkProperties_ARMGenerator != nil {
-		return synapseSparkProperties_ARMGenerator
+func KubernetesProperties_ARMGenerator() gopter.Gen {
+	if kubernetesProperties_ARMGenerator != nil {
+		return kubernetesProperties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSynapseSparkProperties_ARM(generators)
-	synapseSparkProperties_ARMGenerator = gen.Struct(reflect.TypeOf(SynapseSparkProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForKubernetesProperties_ARM(generators)
+	kubernetesProperties_ARMGenerator = gen.Struct(reflect.TypeOf(KubernetesProperties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSynapseSparkProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForSynapseSparkProperties_ARM(generators)
-	synapseSparkProperties_ARMGenerator = gen.Struct(reflect.TypeOf(SynapseSparkProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForKubernetesProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForKubernetesProperties_ARM(generators)
+	kubernetesProperties_ARMGenerator = gen.Struct(reflect.TypeOf(KubernetesProperties_ARM{}), generators)
 
-	return synapseSparkProperties_ARMGenerator
+	return kubernetesProperties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSynapseSparkProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSynapseSparkProperties_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKubernetesProperties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKubernetesProperties_ARM(gens map[string]gopter.Gen) {
+	gens["DefaultInstanceType"] = gen.PtrOf(gen.AlphaString())
+	gens["ExtensionInstanceReleaseTrain"] = gen.PtrOf(gen.AlphaString())
+	gens["ExtensionPrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
+	gens["RelayConnectionString"] = gen.PtrOf(gen.AlphaString())
+	gens["ServiceBusConnectionString"] = gen.PtrOf(gen.AlphaString())
+	gens["VcName"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForKubernetesProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForKubernetesProperties_ARM(gens map[string]gopter.Gen) {
+	gens["InstanceTypes"] = gen.MapOf(gen.AlphaString(), InstanceTypeSchema_ARMGenerator())
+}
+
+func Test_SynapseSpark_Properties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SynapseSpark_Properties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSynapseSpark_Properties_ARM, SynapseSpark_Properties_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSynapseSpark_Properties_ARM runs a test to see if a specific instance of SynapseSpark_Properties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForSynapseSpark_Properties_ARM(subject SynapseSpark_Properties_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SynapseSpark_Properties_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SynapseSpark_Properties_ARM instances for property testing - lazily instantiated by
+// SynapseSpark_Properties_ARMGenerator()
+var synapseSpark_Properties_ARMGenerator gopter.Gen
+
+// SynapseSpark_Properties_ARMGenerator returns a generator of SynapseSpark_Properties_ARM instances for property testing.
+// We first initialize synapseSpark_Properties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func SynapseSpark_Properties_ARMGenerator() gopter.Gen {
+	if synapseSpark_Properties_ARMGenerator != nil {
+		return synapseSpark_Properties_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSynapseSpark_Properties_ARM(generators)
+	synapseSpark_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(SynapseSpark_Properties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSynapseSpark_Properties_ARM(generators)
+	AddRelatedPropertyGeneratorsForSynapseSpark_Properties_ARM(generators)
+	synapseSpark_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(SynapseSpark_Properties_ARM{}), generators)
+
+	return synapseSpark_Properties_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSynapseSpark_Properties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSynapseSpark_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["NodeCount"] = gen.PtrOf(gen.Int())
 	gens["NodeSize"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeSizeFamily"] = gen.PtrOf(gen.AlphaString())
@@ -1404,26 +1560,26 @@ func AddIndependentPropertyGeneratorsForSynapseSparkProperties_ARM(gens map[stri
 	gens["WorkspaceName"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSynapseSparkProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSynapseSparkProperties_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSynapseSpark_Properties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSynapseSpark_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["AutoPauseProperties"] = gen.PtrOf(AutoPauseProperties_ARMGenerator())
 	gens["AutoScaleProperties"] = gen.PtrOf(AutoScaleProperties_ARMGenerator())
 }
 
-func Test_VirtualMachineProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachine_Properties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineProperties_ARM, VirtualMachineProperties_ARMGenerator()))
+		"Round trip of VirtualMachine_Properties_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachine_Properties_ARM, VirtualMachine_Properties_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineProperties_ARM runs a test to see if a specific instance of VirtualMachineProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineProperties_ARM(subject VirtualMachineProperties_ARM) string {
+// RunJSONSerializationTestForVirtualMachine_Properties_ARM runs a test to see if a specific instance of VirtualMachine_Properties_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachine_Properties_ARM(subject VirtualMachine_Properties_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1431,7 +1587,7 @@ func RunJSONSerializationTestForVirtualMachineProperties_ARM(subject VirtualMach
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineProperties_ARM
+	var actual VirtualMachine_Properties_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1449,42 +1605,42 @@ func RunJSONSerializationTestForVirtualMachineProperties_ARM(subject VirtualMach
 	return ""
 }
 
-// Generator of VirtualMachineProperties_ARM instances for property testing - lazily instantiated by
-// VirtualMachineProperties_ARMGenerator()
-var virtualMachineProperties_ARMGenerator gopter.Gen
+// Generator of VirtualMachine_Properties_ARM instances for property testing - lazily instantiated by
+// VirtualMachine_Properties_ARMGenerator()
+var virtualMachine_Properties_ARMGenerator gopter.Gen
 
-// VirtualMachineProperties_ARMGenerator returns a generator of VirtualMachineProperties_ARM instances for property testing.
-// We first initialize virtualMachineProperties_ARMGenerator with a simplified generator based on the
+// VirtualMachine_Properties_ARMGenerator returns a generator of VirtualMachine_Properties_ARM instances for property testing.
+// We first initialize virtualMachine_Properties_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineProperties_ARMGenerator() gopter.Gen {
-	if virtualMachineProperties_ARMGenerator != nil {
-		return virtualMachineProperties_ARMGenerator
+func VirtualMachine_Properties_ARMGenerator() gopter.Gen {
+	if virtualMachine_Properties_ARMGenerator != nil {
+		return virtualMachine_Properties_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineProperties_ARM(generators)
-	virtualMachineProperties_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Properties_ARM(generators)
+	virtualMachine_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Properties_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineProperties_ARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineProperties_ARM(generators)
-	virtualMachineProperties_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineProperties_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachine_Properties_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachine_Properties_ARM(generators)
+	virtualMachine_Properties_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachine_Properties_ARM{}), generators)
 
-	return virtualMachineProperties_ARMGenerator
+	return virtualMachine_Properties_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineProperties_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachine_Properties_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachine_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["Address"] = gen.PtrOf(gen.AlphaString())
 	gens["IsNotebookInstanceCompute"] = gen.PtrOf(gen.Bool())
 	gens["SshPort"] = gen.PtrOf(gen.Int())
 	gens["VirtualMachineSize"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineProperties_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineProperties_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachine_Properties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachine_Properties_ARM(gens map[string]gopter.Gen) {
 	gens["AdministratorAccount"] = gen.PtrOf(VirtualMachineSshCredentials_ARMGenerator())
 }
 
@@ -1737,6 +1893,81 @@ func ComputeInstanceSshSettings_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForComputeInstanceSshSettings_ARM(gens map[string]gopter.Gen) {
 	gens["AdminPublicKey"] = gen.PtrOf(gen.AlphaString())
 	gens["SshPublicAccess"] = gen.PtrOf(gen.OneConstOf(ComputeInstanceSshSettings_SshPublicAccess_Disabled, ComputeInstanceSshSettings_SshPublicAccess_Enabled))
+}
+
+func Test_InstanceTypeSchema_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InstanceTypeSchema_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInstanceTypeSchema_ARM, InstanceTypeSchema_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInstanceTypeSchema_ARM runs a test to see if a specific instance of InstanceTypeSchema_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInstanceTypeSchema_ARM(subject InstanceTypeSchema_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InstanceTypeSchema_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InstanceTypeSchema_ARM instances for property testing - lazily instantiated by
+// InstanceTypeSchema_ARMGenerator()
+var instanceTypeSchema_ARMGenerator gopter.Gen
+
+// InstanceTypeSchema_ARMGenerator returns a generator of InstanceTypeSchema_ARM instances for property testing.
+// We first initialize instanceTypeSchema_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func InstanceTypeSchema_ARMGenerator() gopter.Gen {
+	if instanceTypeSchema_ARMGenerator != nil {
+		return instanceTypeSchema_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInstanceTypeSchema_ARM(generators)
+	instanceTypeSchema_ARMGenerator = gen.Struct(reflect.TypeOf(InstanceTypeSchema_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInstanceTypeSchema_ARM(generators)
+	AddRelatedPropertyGeneratorsForInstanceTypeSchema_ARM(generators)
+	instanceTypeSchema_ARMGenerator = gen.Struct(reflect.TypeOf(InstanceTypeSchema_ARM{}), generators)
+
+	return instanceTypeSchema_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInstanceTypeSchema_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInstanceTypeSchema_ARM(gens map[string]gopter.Gen) {
+	gens["NodeSelector"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForInstanceTypeSchema_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInstanceTypeSchema_ARM(gens map[string]gopter.Gen) {
+	gens["Resources"] = gen.PtrOf(InstanceTypeSchema_Resources_ARMGenerator())
 }
 
 func Test_PersonalComputeInstanceSettings_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2295,6 +2526,68 @@ func AssignedUser_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAssignedUser_ARM(gens map[string]gopter.Gen) {
 	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_InstanceTypeSchema_Resources_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InstanceTypeSchema_Resources_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInstanceTypeSchema_Resources_ARM, InstanceTypeSchema_Resources_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInstanceTypeSchema_Resources_ARM runs a test to see if a specific instance of InstanceTypeSchema_Resources_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInstanceTypeSchema_Resources_ARM(subject InstanceTypeSchema_Resources_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InstanceTypeSchema_Resources_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InstanceTypeSchema_Resources_ARM instances for property testing - lazily instantiated by
+// InstanceTypeSchema_Resources_ARMGenerator()
+var instanceTypeSchema_Resources_ARMGenerator gopter.Gen
+
+// InstanceTypeSchema_Resources_ARMGenerator returns a generator of InstanceTypeSchema_Resources_ARM instances for property testing.
+func InstanceTypeSchema_Resources_ARMGenerator() gopter.Gen {
+	if instanceTypeSchema_Resources_ARMGenerator != nil {
+		return instanceTypeSchema_Resources_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_ARM(generators)
+	instanceTypeSchema_Resources_ARMGenerator = gen.Struct(reflect.TypeOf(InstanceTypeSchema_Resources_ARM{}), generators)
+
+	return instanceTypeSchema_Resources_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInstanceTypeSchema_Resources_ARM(gens map[string]gopter.Gen) {
+	gens["Limits"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Requests"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_ScriptsToExecute_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

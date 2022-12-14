@@ -27,7 +27,7 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 	// Create a storage account with an invalid key expiration period
 	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 	kind := storage.StorageAccount_Kind_Spec_BlobStorage
-	sku := storage.Sku_Name_Standard_LRS
+	sku := storage.SkuName_Standard_LRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
 		Spec: storage.StorageAccount_Spec{
@@ -62,7 +62,7 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_Spec{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("this publisher"),
@@ -71,15 +71,15 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_OsProfile_Spec{
+				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_Spec{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Spec{
+				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name: to.StringPtr("mynicconfig"),
-							IpConfigurations: []compute.VirtualMachineScaleSet_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Spec{
+							IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
 								{
 									Name: to.StringPtr("test"),
 								},

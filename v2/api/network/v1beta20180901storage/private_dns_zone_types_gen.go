@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20180901.PrivateDnsZone
-// Generated from: https://schema.management.azure.com/schemas/2018-09-01/Microsoft.Network.json#/resourceDefinitions/privateDnsZones
+// Generator information:
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PrivateDnsZone_Spec `json:"spec,omitempty"`
-	Status            PrivateZone_STATUS  `json:"status,omitempty"`
+	Spec              PrivateDnsZone_Spec   `json:"spec,omitempty"`
+	Status            PrivateDnsZone_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &PrivateDnsZone{}
@@ -76,7 +78,7 @@ func (zone *PrivateDnsZone) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (zone *PrivateDnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &PrivateZone_STATUS{}
+	return &PrivateDnsZone_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (zone *PrivateDnsZone) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (zone *PrivateDnsZone) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*PrivateZone_STATUS); ok {
+	if st, ok := status.(*PrivateDnsZone_STATUS); ok {
 		zone.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st PrivateZone_STATUS
+	var st PrivateDnsZone_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +124,9 @@ func (zone *PrivateDnsZone) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20180901.PrivateDnsZone
-// Generated from: https://schema.management.azure.com/schemas/2018-09-01/Microsoft.Network.json#/resourceDefinitions/privateDnsZones
+// Generator information:
+// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}
 type PrivateDnsZoneList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -173,24 +177,29 @@ func (zone *PrivateDnsZone_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(zone)
 }
 
-// Storage version of v1beta20180901.PrivateZone_STATUS
-type PrivateZone_STATUS struct {
+// Storage version of v1beta20180901.PrivateDnsZone_STATUS
+type PrivateDnsZone_STATUS struct {
 	Conditions                                     []conditions.Condition `json:"conditions,omitempty"`
 	Etag                                           *string                `json:"etag,omitempty"`
+	Id                                             *string                `json:"id,omitempty"`
+	Location                                       *string                `json:"location,omitempty"`
 	MaxNumberOfRecordSets                          *int                   `json:"maxNumberOfRecordSets,omitempty"`
 	MaxNumberOfVirtualNetworkLinks                 *int                   `json:"maxNumberOfVirtualNetworkLinks,omitempty"`
 	MaxNumberOfVirtualNetworkLinksWithRegistration *int                   `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
+	Name                                           *string                `json:"name,omitempty"`
 	NumberOfRecordSets                             *int                   `json:"numberOfRecordSets,omitempty"`
 	NumberOfVirtualNetworkLinks                    *int                   `json:"numberOfVirtualNetworkLinks,omitempty"`
 	NumberOfVirtualNetworkLinksWithRegistration    *int                   `json:"numberOfVirtualNetworkLinksWithRegistration,omitempty"`
 	PropertyBag                                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState                              *string                `json:"provisioningState,omitempty"`
+	Tags                                           map[string]string      `json:"tags,omitempty"`
+	Type                                           *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &PrivateZone_STATUS{}
+var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
 
-// ConvertStatusFrom populates our PrivateZone_STATUS from the provided source
-func (zone *PrivateZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our PrivateDnsZone_STATUS from the provided source
+func (zone *PrivateDnsZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -198,8 +207,8 @@ func (zone *PrivateZone_STATUS) ConvertStatusFrom(source genruntime.ConvertibleS
 	return source.ConvertStatusTo(zone)
 }
 
-// ConvertStatusTo populates the provided destination from our PrivateZone_STATUS
-func (zone *PrivateZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our PrivateDnsZone_STATUS
+func (zone *PrivateDnsZone_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == zone {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

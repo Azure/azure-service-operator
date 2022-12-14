@@ -66,23 +66,8 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── Location: *string
 │       ├── MetricId: *string
 │       ├── Name: *string
-│       ├── PrivateEndpointConnections: Object (2 properties)[]
-│       │   ├── Id: *string
-│       │   └── SystemData: *Object (6 properties)
-│       │       ├── CreatedAt: *string
-│       │       ├── CreatedBy: *string
-│       │       ├── CreatedByType: *Enum (4 values)
-│       │       │   ├── "Application"
-│       │       │   ├── "Key"
-│       │       │   ├── "ManagedIdentity"
-│       │       │   └── "User"
-│       │       ├── LastModifiedAt: *string
-│       │       ├── LastModifiedBy: *string
-│       │       └── LastModifiedByType: *Enum (4 values)
-│       │           ├── "Application"
-│       │           ├── "Key"
-│       │           ├── "ManagedIdentity"
-│       │           └── "User"
+│       ├── PrivateEndpointConnections: Object (1 property)[]
+│       │   └── Id: *string
 │       ├── ProvisioningState: *string
 │       ├── ServiceBusEndpoint: *string
 │       ├── Sku: *Object (3 properties)
@@ -115,6 +100,68 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       ├── Type: *string
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
+├── Namespace_STATUS_ARM: Object (9 properties)
+│   ├── Id: *string
+│   ├── Identity: *Object (4 properties)
+│   │   ├── PrincipalId: *string
+│   │   ├── TenantId: *string
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (9 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── Encryption: *Object (3 properties)
+│   │   │   ├── KeySource: *Enum (1 value)
+│   │   │   │   └── "Microsoft.KeyVault"
+│   │   │   ├── KeyVaultProperties: Object (4 properties)[]
+│   │   │   │   ├── Identity: *Object (1 property)
+│   │   │   │   │   └── UserAssignedIdentity: *string
+│   │   │   │   ├── KeyName: *string
+│   │   │   │   ├── KeyVaultUri: *string
+│   │   │   │   └── KeyVersion: *string
+│   │   │   └── RequireInfrastructureEncryption: *bool
+│   │   ├── MetricId: *string
+│   │   ├── PrivateEndpointConnections: Object (1 property)[]
+│   │   │   └── Id: *string
+│   │   ├── ProvisioningState: *string
+│   │   ├── ServiceBusEndpoint: *string
+│   │   ├── Status: *string
+│   │   ├── UpdatedAt: *string
+│   │   └── ZoneRedundant: *bool
+│   ├── Sku: *Object (3 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Name: *Enum (3 values)
+│   │   │   ├── "Basic"
+│   │   │   ├── "Premium"
+│   │   │   └── "Standard"
+│   │   └── Tier: *Enum (3 values)
+│   │       ├── "Basic"
+│   │       ├── "Premium"
+│   │       └── "Standard"
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   ├── Tags: map[string]string
+│   └── Type: *string
 ├── Namespace_Spec_ARM: Object (6 properties)
 │   ├── Identity: *Object (1 property)
 │   │   └── Type: *Enum (4 values)
@@ -149,7 +196,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   └── Tags: map[string]string
 ├── NamespacesQueue: Resource
 │   ├── Owner: Namespace
-│   ├── Spec: Object (18 properties)
+│   ├── Spec: Object (16 properties)
 │   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
 │   │   ├── AzureName: Validated<string> (1 rule)
 │   │   │   └── Rule 0: MinLength: 1
@@ -161,14 +208,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── EnablePartitioning: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── Location: *string
 │   │   ├── LockDuration: Validated<*string> (0 rules)
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── RequiresDuplicateDetection: *bool
-│   │   ├── RequiresSession: *bool
-│   │   └── Tags: map[string]string
+│   │   └── RequiresSession: *bool
 │   └── Status: Object (26 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -226,7 +271,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── UpdatedAt: *string
 ├── NamespacesTopic: Resource
 │   ├── Owner: Namespace
-│   ├── Spec: Object (13 properties)
+│   ├── Spec: Object (11 properties)
 │   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
 │   │   ├── AzureName: Validated<string> (1 rule)
 │   │   │   └── Rule 0: MinLength: 1
@@ -235,12 +280,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
-│   │   ├── Location: *string
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── RequiresDuplicateDetection: *bool
-│   │   ├── SupportOrdering: *bool
-│   │   └── Tags: map[string]string
+│   │   └── SupportOrdering: *bool
 │   └── Status: Object (21 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -293,7 +336,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscription: Resource
 │   ├── Owner: NamespacesTopic
-│   ├── Spec: Object (15 properties)
+│   ├── Spec: Object (13 properties)
 │   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
 │   │   ├── AzureName: Validated<string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 50
@@ -305,12 +348,10 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── Location: *string
 │   │   ├── LockDuration: Validated<*string> (0 rules)
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── RequiresSession: *bool
-│   │   └── Tags: map[string]string
+│   │   └── RequiresSession: *bool
 │   └── Status: Object (22 properties)
 │       ├── AccessedAt: *string
 │       ├── AutoDeleteOnIdle: *string
@@ -364,7 +405,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       └── UpdatedAt: *string
 ├── NamespacesTopicsSubscriptionsRule: Resource
 │   ├── Owner: NamespacesTopicsSubscription
-│   ├── Spec: Object (8 properties)
+│   ├── Spec: Object (6 properties)
 │   │   ├── Action: *Object (3 properties)
 │   │   │   ├── CompatibilityLevel: *int
 │   │   │   ├── RequiresPreprocessing: *bool
@@ -386,15 +427,13 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │   ├── FilterType: *Enum (2 values)
 │   │   │   ├── "CorrelationFilter"
 │   │   │   └── "SqlFilter"
-│   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── SqlFilter: *Object (3 properties)
-│   │   │   ├── CompatibilityLevel: Validated<*int> (2 rules)
-│   │   │   │   ├── Rule 0: Maximum: 20
-│   │   │   │   └── Rule 1: Minimum: 20
-│   │   │   ├── RequiresPreprocessing: *bool
-│   │   │   └── SqlExpression: *string
-│   │   └── Tags: map[string]string
+│   │   └── SqlFilter: *Object (3 properties)
+│   │       ├── CompatibilityLevel: Validated<*int> (2 rules)
+│   │       │   ├── Rule 0: Maximum: 20
+│   │       │   └── Rule 1: Minimum: 20
+│   │       ├── RequiresPreprocessing: *bool
+│   │       └── SqlExpression: *string
 │   └── Status: Object (9 properties)
 │       ├── Action: *Object (3 properties)
 │       │   ├── CompatibilityLevel: *int
@@ -437,202 +476,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │       │       ├── "ManagedIdentity"
 │       │       └── "User"
 │       └── Type: *string
-├── Namespaces_Queue_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: *Object (14 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
-│   │   ├── EnableBatchedOperations: *bool
-│   │   ├── EnableExpress: *bool
-│   │   ├── EnablePartitioning: *bool
-│   │   ├── ForwardDeadLetteredMessagesTo: *string
-│   │   ├── ForwardTo: *string
-│   │   ├── LockDuration: *string
-│   │   ├── MaxDeliveryCount: *int
-│   │   ├── MaxSizeInMegabytes: *int
-│   │   ├── RequiresDuplicateDetection: *bool
-│   │   └── RequiresSession: *bool
-│   └── Tags: map[string]string
-├── Namespaces_Topic_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: *Object (9 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
-│   │   ├── EnableBatchedOperations: *bool
-│   │   ├── EnableExpress: *bool
-│   │   ├── EnablePartitioning: *bool
-│   │   ├── MaxSizeInMegabytes: *int
-│   │   ├── RequiresDuplicateDetection: *bool
-│   │   └── SupportOrdering: *bool
-│   └── Tags: map[string]string
-├── Namespaces_Topics_Subscription_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: *Object (11 properties)
-│   │   ├── AutoDeleteOnIdle: *string
-│   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
-│   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: *string
-│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
-│   │   ├── EnableBatchedOperations: *bool
-│   │   ├── ForwardDeadLetteredMessagesTo: *string
-│   │   ├── ForwardTo: *string
-│   │   ├── LockDuration: *string
-│   │   ├── MaxDeliveryCount: *int
-│   │   └── RequiresSession: *bool
-│   └── Tags: map[string]string
-├── Namespaces_Topics_Subscriptions_Rule_Spec_ARM: Object (4 properties)
-│   ├── Location: *string
-│   ├── Name: string
-│   ├── Properties: *Object (4 properties)
-│   │   ├── Action: *Object (3 properties)
-│   │   │   ├── CompatibilityLevel: *int
-│   │   │   ├── RequiresPreprocessing: *bool
-│   │   │   └── SqlExpression: *string
-│   │   ├── CorrelationFilter: *Object (10 properties)
-│   │   │   ├── ContentType: *string
-│   │   │   ├── CorrelationId: *string
-│   │   │   ├── Label: *string
-│   │   │   ├── MessageId: *string
-│   │   │   ├── Properties: map[string]string
-│   │   │   ├── ReplyTo: *string
-│   │   │   ├── ReplyToSessionId: *string
-│   │   │   ├── RequiresPreprocessing: *bool
-│   │   │   ├── SessionId: *string
-│   │   │   └── To: *string
-│   │   ├── FilterType: *Enum (2 values)
-│   │   │   ├── "CorrelationFilter"
-│   │   │   └── "SqlFilter"
-│   │   └── SqlFilter: *Object (3 properties)
-│   │       ├── CompatibilityLevel: *int
-│   │       ├── RequiresPreprocessing: *bool
-│   │       └── SqlExpression: *string
-│   └── Tags: map[string]string
-├── Rule_STATUS_ARM: Object (5 properties)
-│   ├── Id: *string
-│   ├── Name: *string
-│   ├── Properties: *Object (4 properties)
-│   │   ├── Action: *Object (3 properties)
-│   │   │   ├── CompatibilityLevel: *int
-│   │   │   ├── RequiresPreprocessing: *bool
-│   │   │   └── SqlExpression: *string
-│   │   ├── CorrelationFilter: *Object (10 properties)
-│   │   │   ├── ContentType: *string
-│   │   │   ├── CorrelationId: *string
-│   │   │   ├── Label: *string
-│   │   │   ├── MessageId: *string
-│   │   │   ├── Properties: map[string]string
-│   │   │   ├── ReplyTo: *string
-│   │   │   ├── ReplyToSessionId: *string
-│   │   │   ├── RequiresPreprocessing: *bool
-│   │   │   ├── SessionId: *string
-│   │   │   └── To: *string
-│   │   ├── FilterType: *Enum (2 values)
-│   │   │   ├── "CorrelationFilter"
-│   │   │   └── "SqlFilter"
-│   │   └── SqlFilter: *Object (3 properties)
-│   │       ├── CompatibilityLevel: *int
-│   │       ├── RequiresPreprocessing: *bool
-│   │       └── SqlExpression: *string
-│   ├── SystemData: *Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: *Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: *Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
-│   └── Type: *string
-├── SBNamespace_STATUS_ARM: Object (9 properties)
-│   ├── Id: *string
-│   ├── Identity: *Object (4 properties)
-│   │   ├── PrincipalId: *string
-│   │   ├── TenantId: *string
-│   │   ├── Type: *Enum (4 values)
-│   │   │   ├── "None"
-│   │   │   ├── "SystemAssigned"
-│   │   │   ├── "SystemAssigned, UserAssigned"
-│   │   │   └── "UserAssigned"
-│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
-│   │       ├── ClientId: *string
-│   │       └── PrincipalId: *string
-│   ├── Location: *string
-│   ├── Name: *string
-│   ├── Properties: *Object (9 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── Encryption: *Object (3 properties)
-│   │   │   ├── KeySource: *Enum (1 value)
-│   │   │   │   └── "Microsoft.KeyVault"
-│   │   │   ├── KeyVaultProperties: Object (4 properties)[]
-│   │   │   │   ├── Identity: *Object (1 property)
-│   │   │   │   │   └── UserAssignedIdentity: *string
-│   │   │   │   ├── KeyName: *string
-│   │   │   │   ├── KeyVaultUri: *string
-│   │   │   │   └── KeyVersion: *string
-│   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── MetricId: *string
-│   │   ├── PrivateEndpointConnections: Object (2 properties)[]
-│   │   │   ├── Id: *string
-│   │   │   └── SystemData: *Object (6 properties)
-│   │   │       ├── CreatedAt: *string
-│   │   │       ├── CreatedBy: *string
-│   │   │       ├── CreatedByType: *Enum (4 values)
-│   │   │       │   ├── "Application"
-│   │   │       │   ├── "Key"
-│   │   │       │   ├── "ManagedIdentity"
-│   │   │       │   └── "User"
-│   │   │       ├── LastModifiedAt: *string
-│   │   │       ├── LastModifiedBy: *string
-│   │   │       └── LastModifiedByType: *Enum (4 values)
-│   │   │           ├── "Application"
-│   │   │           ├── "Key"
-│   │   │           ├── "ManagedIdentity"
-│   │   │           └── "User"
-│   │   ├── ProvisioningState: *string
-│   │   ├── ServiceBusEndpoint: *string
-│   │   ├── Status: *string
-│   │   ├── UpdatedAt: *string
-│   │   └── ZoneRedundant: *bool
-│   ├── Sku: *Object (3 properties)
-│   │   ├── Capacity: *int
-│   │   ├── Name: *Enum (3 values)
-│   │   │   ├── "Basic"
-│   │   │   ├── "Premium"
-│   │   │   └── "Standard"
-│   │   └── Tier: *Enum (3 values)
-│   │       ├── "Basic"
-│   │       ├── "Premium"
-│   │       └── "Standard"
-│   ├── SystemData: *Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: *Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: *Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
-│   ├── Tags: map[string]string
-│   └── Type: *string
-├── SBQueue_STATUS_ARM: Object (5 properties)
+├── Namespaces_Queue_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
 │   ├── Properties: *Object (21 properties)
@@ -687,7 +531,86 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-├── SBSubscription_STATUS_ARM: Object (5 properties)
+├── Namespaces_Queue_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (14 properties)
+│       ├── AutoDeleteOnIdle: *string
+│       ├── DeadLetteringOnMessageExpiration: *bool
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── EnableExpress: *bool
+│       ├── EnablePartitioning: *bool
+│       ├── ForwardDeadLetteredMessagesTo: *string
+│       ├── ForwardTo: *string
+│       ├── LockDuration: *string
+│       ├── MaxDeliveryCount: *int
+│       ├── MaxSizeInMegabytes: *int
+│       ├── RequiresDuplicateDetection: *bool
+│       └── RequiresSession: *bool
+├── Namespaces_Topic_STATUS_ARM: Object (5 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (16 properties)
+│   │   ├── AccessedAt: *string
+│   │   ├── AutoDeleteOnIdle: *string
+│   │   ├── CountDetails: *Object (5 properties)
+│   │   │   ├── ActiveMessageCount: *int
+│   │   │   ├── DeadLetterMessageCount: *int
+│   │   │   ├── ScheduledMessageCount: *int
+│   │   │   ├── TransferDeadLetterMessageCount: *int
+│   │   │   └── TransferMessageCount: *int
+│   │   ├── CreatedAt: *string
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
+│   │   ├── EnableBatchedOperations: *bool
+│   │   ├── EnableExpress: *bool
+│   │   ├── EnablePartitioning: *bool
+│   │   ├── MaxSizeInMegabytes: *int
+│   │   ├── RequiresDuplicateDetection: *bool
+│   │   ├── SizeInBytes: *int
+│   │   ├── Status: *Enum (9 values)
+│   │   │   ├── "Active"
+│   │   │   ├── "Creating"
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Disabled"
+│   │   │   ├── "ReceiveDisabled"
+│   │   │   ├── "Renaming"
+│   │   │   ├── "Restoring"
+│   │   │   ├── "SendDisabled"
+│   │   │   └── "Unknown"
+│   │   ├── SubscriptionCount: *int
+│   │   ├── SupportOrdering: *bool
+│   │   └── UpdatedAt: *string
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+├── Namespaces_Topic_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (9 properties)
+│       ├── AutoDeleteOnIdle: *string
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── EnableExpress: *bool
+│       ├── EnablePartitioning: *bool
+│       ├── MaxSizeInMegabytes: *int
+│       ├── RequiresDuplicateDetection: *bool
+│       └── SupportOrdering: *bool
+├── Namespaces_Topics_Subscription_STATUS_ARM: Object (5 properties)
 │   ├── Id: *string
 │   ├── Name: *string
 │   ├── Properties: *Object (17 properties)
@@ -738,53 +661,84 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 │   │       ├── "ManagedIdentity"
 │   │       └── "User"
 │   └── Type: *string
-└── SBTopic_STATUS_ARM: Object (5 properties)
-    ├── Id: *string
-    ├── Name: *string
-    ├── Properties: *Object (16 properties)
-    │   ├── AccessedAt: *string
-    │   ├── AutoDeleteOnIdle: *string
-    │   ├── CountDetails: *Object (5 properties)
-    │   │   ├── ActiveMessageCount: *int
-    │   │   ├── DeadLetterMessageCount: *int
-    │   │   ├── ScheduledMessageCount: *int
-    │   │   ├── TransferDeadLetterMessageCount: *int
-    │   │   └── TransferMessageCount: *int
-    │   ├── CreatedAt: *string
-    │   ├── DefaultMessageTimeToLive: *string
-    │   ├── DuplicateDetectionHistoryTimeWindow: *string
-    │   ├── EnableBatchedOperations: *bool
-    │   ├── EnableExpress: *bool
-    │   ├── EnablePartitioning: *bool
-    │   ├── MaxSizeInMegabytes: *int
-    │   ├── RequiresDuplicateDetection: *bool
-    │   ├── SizeInBytes: *int
-    │   ├── Status: *Enum (9 values)
-    │   │   ├── "Active"
-    │   │   ├── "Creating"
-    │   │   ├── "Deleting"
-    │   │   ├── "Disabled"
-    │   │   ├── "ReceiveDisabled"
-    │   │   ├── "Renaming"
-    │   │   ├── "Restoring"
-    │   │   ├── "SendDisabled"
-    │   │   └── "Unknown"
-    │   ├── SubscriptionCount: *int
-    │   ├── SupportOrdering: *bool
-    │   └── UpdatedAt: *string
-    ├── SystemData: *Object (6 properties)
-    │   ├── CreatedAt: *string
-    │   ├── CreatedBy: *string
-    │   ├── CreatedByType: *Enum (4 values)
-    │   │   ├── "Application"
-    │   │   ├── "Key"
-    │   │   ├── "ManagedIdentity"
-    │   │   └── "User"
-    │   ├── LastModifiedAt: *string
-    │   ├── LastModifiedBy: *string
-    │   └── LastModifiedByType: *Enum (4 values)
-    │       ├── "Application"
-    │       ├── "Key"
-    │       ├── "ManagedIdentity"
-    │       └── "User"
-    └── Type: *string
+├── Namespaces_Topics_Subscription_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (11 properties)
+│       ├── AutoDeleteOnIdle: *string
+│       ├── DeadLetteringOnFilterEvaluationExceptions: *bool
+│       ├── DeadLetteringOnMessageExpiration: *bool
+│       ├── DefaultMessageTimeToLive: *string
+│       ├── DuplicateDetectionHistoryTimeWindow: *string
+│       ├── EnableBatchedOperations: *bool
+│       ├── ForwardDeadLetteredMessagesTo: *string
+│       ├── ForwardTo: *string
+│       ├── LockDuration: *string
+│       ├── MaxDeliveryCount: *int
+│       └── RequiresSession: *bool
+├── Namespaces_Topics_Subscriptions_Rule_STATUS_ARM: Object (5 properties)
+│   ├── Id: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (4 properties)
+│   │   ├── Action: *Object (3 properties)
+│   │   │   ├── CompatibilityLevel: *int
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   └── SqlExpression: *string
+│   │   ├── CorrelationFilter: *Object (10 properties)
+│   │   │   ├── ContentType: *string
+│   │   │   ├── CorrelationId: *string
+│   │   │   ├── Label: *string
+│   │   │   ├── MessageId: *string
+│   │   │   ├── Properties: map[string]string
+│   │   │   ├── ReplyTo: *string
+│   │   │   ├── ReplyToSessionId: *string
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   ├── SessionId: *string
+│   │   │   └── To: *string
+│   │   ├── FilterType: *Enum (2 values)
+│   │   │   ├── "CorrelationFilter"
+│   │   │   └── "SqlFilter"
+│   │   └── SqlFilter: *Object (3 properties)
+│   │       ├── CompatibilityLevel: *int
+│   │       ├── RequiresPreprocessing: *bool
+│   │       └── SqlExpression: *string
+│   ├── SystemData: *Object (6 properties)
+│   │   ├── CreatedAt: *string
+│   │   ├── CreatedBy: *string
+│   │   ├── CreatedByType: *Enum (4 values)
+│   │   │   ├── "Application"
+│   │   │   ├── "Key"
+│   │   │   ├── "ManagedIdentity"
+│   │   │   └── "User"
+│   │   ├── LastModifiedAt: *string
+│   │   ├── LastModifiedBy: *string
+│   │   └── LastModifiedByType: *Enum (4 values)
+│   │       ├── "Application"
+│   │       ├── "Key"
+│   │       ├── "ManagedIdentity"
+│   │       └── "User"
+│   └── Type: *string
+└── Namespaces_Topics_Subscriptions_Rule_Spec_ARM: Object (2 properties)
+    ├── Name: string
+    └── Properties: *Object (4 properties)
+        ├── Action: *Object (3 properties)
+        │   ├── CompatibilityLevel: *int
+        │   ├── RequiresPreprocessing: *bool
+        │   └── SqlExpression: *string
+        ├── CorrelationFilter: *Object (10 properties)
+        │   ├── ContentType: *string
+        │   ├── CorrelationId: *string
+        │   ├── Label: *string
+        │   ├── MessageId: *string
+        │   ├── Properties: map[string]string
+        │   ├── ReplyTo: *string
+        │   ├── ReplyToSessionId: *string
+        │   ├── RequiresPreprocessing: *bool
+        │   ├── SessionId: *string
+        │   └── To: *string
+        ├── FilterType: *Enum (2 values)
+        │   ├── "CorrelationFilter"
+        │   └── "SqlFilter"
+        └── SqlFilter: *Object (3 properties)
+            ├── CompatibilityLevel: *int
+            ├── RequiresPreprocessing: *bool
+            └── SqlExpression: *string

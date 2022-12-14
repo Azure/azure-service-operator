@@ -23,7 +23,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201201.VirtualMachine
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachines
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -194,7 +196,9 @@ func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201201.VirtualMachine
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachines
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
 type VirtualMachineList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -214,21 +218,21 @@ type VirtualMachine_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                                         `json:"azureName,omitempty"`
-	BillingProfile       *BillingProfile                                `json:"billingProfile,omitempty"`
-	DiagnosticsProfile   *DiagnosticsProfile                            `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *string                                        `json:"evictionPolicy,omitempty"`
-	ExtendedLocation     *ExtendedLocation                              `json:"extendedLocation,omitempty"`
-	ExtensionsTimeBudget *string                                        `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile      *HardwareProfile                               `json:"hardwareProfile,omitempty"`
-	Host                 *SubResource                                   `json:"host,omitempty"`
-	HostGroup            *SubResource                                   `json:"hostGroup,omitempty"`
-	Identity             *VirtualMachineIdentity                        `json:"identity,omitempty"`
-	LicenseType          *string                                        `json:"licenseType,omitempty"`
-	Location             *string                                        `json:"location,omitempty"`
-	NetworkProfile       *VirtualMachine_Properties_NetworkProfile_Spec `json:"networkProfile,omitempty"`
-	OriginalVersion      string                                         `json:"originalVersion,omitempty"`
-	OsProfile            *VirtualMachine_Properties_OsProfile_Spec      `json:"osProfile,omitempty"`
+	AzureName            string                  `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile         `json:"billingProfile,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *string                 `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation       `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                 `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile        `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource            `json:"host,omitempty"`
+	HostGroup            *SubResource            `json:"hostGroup,omitempty"`
+	Identity             *VirtualMachineIdentity `json:"identity,omitempty"`
+	LicenseType          *string                 `json:"licenseType,omitempty"`
+	Location             *string                 `json:"location,omitempty"`
+	NetworkProfile       *NetworkProfile         `json:"networkProfile,omitempty"`
+	OriginalVersion      string                  `json:"originalVersion,omitempty"`
+	OsProfile            *OSProfile              `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -461,10 +465,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachine_Properties_NetworkProfile_Spec
-		err := networkProfile.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source.NetworkProfile)
+		var networkProfile NetworkProfile
+		err := networkProfile.AssignProperties_From_NetworkProfile(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_NetworkProfile() to populate field NetworkProfile")
 		}
 		machine.NetworkProfile = &networkProfile
 	} else {
@@ -476,10 +480,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_From_VirtualMachine_Spec(so
 
 	// OsProfile
 	if source.OsProfile != nil {
-		var osProfile VirtualMachine_Properties_OsProfile_Spec
-		err := osProfile.AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source.OsProfile)
+		var osProfile OSProfile
+		err := osProfile.AssignProperties_From_OSProfile(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_From_OSProfile() to populate field OsProfile")
 		}
 		machine.OsProfile = &osProfile
 	} else {
@@ -777,10 +781,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 
 	// NetworkProfile
 	if machine.NetworkProfile != nil {
-		var networkProfile v20220301s.VirtualMachine_Properties_NetworkProfile_Spec
-		err := machine.NetworkProfile.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(&networkProfile)
+		var networkProfile v20220301s.NetworkProfile
+		err := machine.NetworkProfile.AssignProperties_To_NetworkProfile(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_NetworkProfile() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -792,10 +796,10 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 
 	// OsProfile
 	if machine.OsProfile != nil {
-		var osProfile v20220301s.VirtualMachine_Properties_OsProfile_Spec
-		err := machine.OsProfile.AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(&osProfile)
+		var osProfile v20220301s.OSProfile
+		err := machine.OsProfile.AssignProperties_To_OSProfile(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignProperties_To_OSProfile() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -930,6 +934,7 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 }
 
 // Storage version of v1beta20201201.VirtualMachine_STATUS
+// Describes a Virtual Machine.
 type VirtualMachine_STATUS struct {
 	AdditionalCapabilities  *AdditionalCapabilities_STATUS     `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet         *SubResource_STATUS                `json:"availabilitySet,omitempty"`
@@ -1737,7 +1742,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 }
 
 // Storage version of v1beta20201201.AdditionalCapabilities
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
+// Enables or disables a capability on the virtual machine or virtual machine scale set.
 type AdditionalCapabilities struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
@@ -1812,6 +1817,7 @@ func (capabilities *AdditionalCapabilities) AssignProperties_To_AdditionalCapabi
 }
 
 // Storage version of v1beta20201201.AdditionalCapabilities_STATUS
+// Enables or disables a capability on the virtual machine or virtual machine scale set.
 type AdditionalCapabilities_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
@@ -1886,7 +1892,8 @@ func (capabilities *AdditionalCapabilities_STATUS) AssignProperties_To_Additiona
 }
 
 // Storage version of v1beta20201201.BillingProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BillingProfile
+// Specifies the billing related details of a Azure Spot VM or VMSS.
+// Minimum api-version: 2019-03-01.
 type BillingProfile struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1941,6 +1948,8 @@ func (profile *BillingProfile) AssignProperties_To_BillingProfile(destination *v
 }
 
 // Storage version of v1beta20201201.BillingProfile_STATUS
+// Specifies the billing related details of a Azure Spot VM or VMSS.
+// Minimum api-version: 2019-03-01.
 type BillingProfile_STATUS struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1995,7 +2004,8 @@ func (profile *BillingProfile_STATUS) AssignProperties_To_BillingProfile_STATUS(
 }
 
 // Storage version of v1beta20201201.DiagnosticsProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiagnosticsProfile
+// Specifies the boot diagnostic settings state.
+// Minimum api-version: 2015-06-15.
 type DiagnosticsProfile struct {
 	BootDiagnostics *BootDiagnostics       `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2058,6 +2068,8 @@ func (profile *DiagnosticsProfile) AssignProperties_To_DiagnosticsProfile(destin
 }
 
 // Storage version of v1beta20201201.DiagnosticsProfile_STATUS
+// Specifies the boot diagnostic settings state.
+// Minimum api-version: 2015-06-15.
 type DiagnosticsProfile_STATUS struct {
 	BootDiagnostics *BootDiagnostics_STATUS `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -2120,7 +2132,7 @@ func (profile *DiagnosticsProfile_STATUS) AssignProperties_To_DiagnosticsProfile
 }
 
 // Storage version of v1beta20201201.ExtendedLocation
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ExtendedLocation
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2172,6 +2184,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 }
 
 // Storage version of v1beta20201201.ExtendedLocation_STATUS
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2223,7 +2236,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 }
 
 // Storage version of v1beta20201201.HardwareProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/HardwareProfile
+// Specifies the hardware settings for the virtual machine.
 type HardwareProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
@@ -2288,6 +2301,7 @@ func (profile *HardwareProfile) AssignProperties_To_HardwareProfile(destination 
 }
 
 // Storage version of v1beta20201201.HardwareProfile_STATUS
+// Specifies the hardware settings for the virtual machine.
 type HardwareProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
@@ -2351,7 +2365,123 @@ func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATU
 	return nil
 }
 
+// Storage version of v1beta20201201.NetworkProfile
+// Specifies the network interfaces of the virtual machine.
+type NetworkProfile struct {
+	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
+	PropertyBag       genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_NetworkProfile populates our NetworkProfile from the provided source NetworkProfile
+func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *v20220301s.NetworkProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// NetworkApiVersion
+	if source.NetworkApiVersion != nil {
+		propertyBag.Add("NetworkApiVersion", *source.NetworkApiVersion)
+	} else {
+		propertyBag.Remove("NetworkApiVersion")
+	}
+
+	// NetworkInterfaceConfigurations
+	if len(source.NetworkInterfaceConfigurations) > 0 {
+		propertyBag.Add("NetworkInterfaceConfigurations", source.NetworkInterfaceConfigurations)
+	} else {
+		propertyBag.Remove("NetworkInterfaceConfigurations")
+	}
+
+	// NetworkInterfaces
+	if source.NetworkInterfaces != nil {
+		networkInterfaceList := make([]NetworkInterfaceReference, len(source.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface NetworkInterfaceReference
+			err := networkInterface.AssignProperties_From_NetworkInterfaceReference(&networkInterfaceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceReference() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		profile.NetworkInterfaces = networkInterfaceList
+	} else {
+		profile.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkProfile populates the provided destination NetworkProfile from our NetworkProfile
+func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v20220301s.NetworkProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// NetworkApiVersion
+	if propertyBag.Contains("NetworkApiVersion") {
+		var networkApiVersion string
+		err := propertyBag.Pull("NetworkApiVersion", &networkApiVersion)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'NetworkApiVersion' from propertyBag")
+		}
+
+		destination.NetworkApiVersion = &networkApiVersion
+	} else {
+		destination.NetworkApiVersion = nil
+	}
+
+	// NetworkInterfaceConfigurations
+	if propertyBag.Contains("NetworkInterfaceConfigurations") {
+		var networkInterfaceConfiguration []v20220301s.VirtualMachineNetworkInterfaceConfiguration
+		err := propertyBag.Pull("NetworkInterfaceConfigurations", &networkInterfaceConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'NetworkInterfaceConfigurations' from propertyBag")
+		}
+
+		destination.NetworkInterfaceConfigurations = networkInterfaceConfiguration
+	} else {
+		destination.NetworkInterfaceConfigurations = nil
+	}
+
+	// NetworkInterfaces
+	if profile.NetworkInterfaces != nil {
+		networkInterfaceList := make([]v20220301s.NetworkInterfaceReference, len(profile.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface v20220301s.NetworkInterfaceReference
+			err := networkInterfaceItem.AssignProperties_To_NetworkInterfaceReference(&networkInterface)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceReference() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		destination.NetworkInterfaces = networkInterfaceList
+	} else {
+		destination.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.NetworkProfile_STATUS
+// Specifies the network interfaces of the virtual machine.
 type NetworkProfile_STATUS struct {
 	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -2465,7 +2595,207 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 	return nil
 }
 
+// Storage version of v1beta20201201.OSProfile
+// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
+// provisioned.
+type OSProfile struct {
+	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername               *string                     `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                     `json:"computerName,omitempty"`
+	CustomData                  *string                     `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
+}
+
+// AssignProperties_From_OSProfile populates our OSProfile from the provided source OSProfile
+func (profile *OSProfile) AssignProperties_From_OSProfile(source *v20220301s.OSProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		allowExtensionOperation := *source.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		profile.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if source.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		profile.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_OSProfile populates the provided destination OSProfile from our OSProfile
+func (profile *OSProfile) AssignProperties_To_OSProfile(destination *v20220301s.OSProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperation := *profile.AllowExtensionOperations
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20220301s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		destination.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20220301s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20220301s.VaultSecretGroup
+			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20220301s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.OSProfile_STATUS
+// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
+// provisioned.
 type OSProfile_STATUS struct {
 	AdminUsername               *string                      `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                        `json:"allowExtensionOperations,omitempty"`
@@ -2645,7 +2975,10 @@ func (profile *OSProfile_STATUS) AssignProperties_To_OSProfile_STATUS(destinatio
 }
 
 // Storage version of v1beta20201201.Plan
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Plan
+// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
+// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
+// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
+// Get Started ->. Enter any required information and then click Save.
 type Plan struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -2711,6 +3044,10 @@ func (plan *Plan) AssignProperties_To_Plan(destination *v20220301s.Plan) error {
 }
 
 // Storage version of v1beta20201201.Plan_STATUS
+// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
+// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
+// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
+// Get Started ->. Enter any required information and then click Save.
 type Plan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -2776,7 +3113,7 @@ func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *v20220301s
 }
 
 // Storage version of v1beta20201201.SecurityProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
+// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2863,6 +3200,7 @@ func (profile *SecurityProfile) AssignProperties_To_SecurityProfile(destination 
 }
 
 // Storage version of v1beta20201201.SecurityProfile_STATUS
+// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile_STATUS struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2949,7 +3287,7 @@ func (profile *SecurityProfile_STATUS) AssignProperties_To_SecurityProfile_STATU
 }
 
 // Storage version of v1beta20201201.StorageProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/StorageProfile
+// Specifies the storage settings for the virtual machine disks.
 type StorageProfile struct {
 	DataDisks      []DataDisk             `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference        `json:"imageReference,omitempty"`
@@ -3074,6 +3412,7 @@ func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v
 }
 
 // Storage version of v1beta20201201.StorageProfile_STATUS
+// Specifies the storage settings for the virtual machine disks.
 type StorageProfile_STATUS struct {
 	DataDisks      []DataDisk_STATUS      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_STATUS `json:"imageReference,omitempty"`
@@ -3198,7 +3537,6 @@ func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(
 }
 
 // Storage version of v1beta20201201.SubResource
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SubResource
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -3298,317 +3636,8 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
-// Storage version of v1beta20201201.VirtualMachine_Properties_NetworkProfile_Spec
-type VirtualMachine_Properties_NetworkProfile_Spec struct {
-	NetworkInterfaces []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec `json:"networkInterfaces,omitempty"`
-	PropertyBag       genruntime.PropertyBag                                            `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec populates our VirtualMachine_Properties_NetworkProfile_Spec from the provided source VirtualMachine_Properties_NetworkProfile_Spec
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// NetworkApiVersion
-	if source.NetworkApiVersion != nil {
-		propertyBag.Add("NetworkApiVersion", *source.NetworkApiVersion)
-	} else {
-		propertyBag.Remove("NetworkApiVersion")
-	}
-
-	// NetworkInterfaceConfigurations
-	if len(source.NetworkInterfaceConfigurations) > 0 {
-		propertyBag.Add("NetworkInterfaceConfigurations", source.NetworkInterfaceConfigurations)
-	} else {
-		propertyBag.Remove("NetworkInterfaceConfigurations")
-	}
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-			err := networkInterface.AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		profile.NetworkInterfaces = networkInterfaceList
-	} else {
-		profile.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		profile.PropertyBag = propertyBag
-	} else {
-		profile.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_Spec from our VirtualMachine_Properties_NetworkProfile_Spec
-func (profile *VirtualMachine_Properties_NetworkProfile_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// NetworkApiVersion
-	if propertyBag.Contains("NetworkApiVersion") {
-		var networkApiVersion string
-		err := propertyBag.Pull("NetworkApiVersion", &networkApiVersion)
-		if err != nil {
-			return errors.Wrap(err, "pulling 'NetworkApiVersion' from propertyBag")
-		}
-
-		destination.NetworkApiVersion = &networkApiVersion
-	} else {
-		destination.NetworkApiVersion = nil
-	}
-
-	// NetworkInterfaceConfigurations
-	if propertyBag.Contains("NetworkInterfaceConfigurations") {
-		var networkInterfaceConfiguration []v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaceConfigurations_Spec
-		err := propertyBag.Pull("NetworkInterfaceConfigurations", &networkInterfaceConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "pulling 'NetworkInterfaceConfigurations' from propertyBag")
-		}
-
-		destination.NetworkInterfaceConfigurations = networkInterfaceConfiguration
-	} else {
-		destination.NetworkInterfaceConfigurations = nil
-	}
-
-	// NetworkInterfaces
-	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec, len(profile.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-			err := networkInterfaceItem.AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1beta20201201.VirtualMachine_Properties_OsProfile_Spec
-type VirtualMachine_Properties_OsProfile_Spec struct {
-	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
-	AdminUsername               *string                     `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                     `json:"computerName,omitempty"`
-	CustomData                  *string                     `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
-	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
-}
-
-// AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec populates our VirtualMachine_Properties_OsProfile_Spec from the provided source VirtualMachine_Properties_OsProfile_Spec
-func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_From_VirtualMachine_Properties_OsProfile_Spec(source *v20220301s.VirtualMachine_Properties_OsProfile_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := source.AdminPassword.Copy()
-		profile.AdminPassword = &adminPassword
-	} else {
-		profile.AdminPassword = nil
-	}
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignProperties_From_LinuxConfiguration(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if source.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		profile.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.AssignProperties_From_VaultSecretGroup(&secretItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignProperties_From_WindowsConfiguration(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		profile.PropertyBag = propertyBag
-	} else {
-		profile.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec populates the provided destination VirtualMachine_Properties_OsProfile_Spec from our VirtualMachine_Properties_OsProfile_Spec
-func (profile *VirtualMachine_Properties_OsProfile_Spec) AssignProperties_To_VirtualMachine_Properties_OsProfile_Spec(destination *v20220301s.VirtualMachine_Properties_OsProfile_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// AdminPassword
-	if profile.AdminPassword != nil {
-		adminPassword := profile.AdminPassword.Copy()
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
-
-	// AdminUsername
-	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
-
-	// AllowExtensionOperations
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperation := *profile.AllowExtensionOperations
-		destination.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		destination.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
-
-	// CustomData
-	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
-
-	// LinuxConfiguration
-	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration v20220301s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignProperties_To_LinuxConfiguration(&linuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_LinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		destination.LinuxConfiguration = &linuxConfiguration
-	} else {
-		destination.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		destination.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if profile.Secrets != nil {
-		secretList := make([]v20220301s.VaultSecretGroup, len(profile.Secrets))
-		for secretIndex, secretItem := range profile.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret v20220301s.VaultSecretGroup
-			err := secretItem.AssignProperties_To_VaultSecretGroup(&secret)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_VaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		destination.Secrets = secretList
-	} else {
-		destination.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration v20220301s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignProperties_To_WindowsConfiguration(&windowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		destination.WindowsConfiguration = &windowsConfiguration
-	} else {
-		destination.WindowsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1beta20201201.VirtualMachineExtension_STATUS
+// Describes a Virtual Machine Extension.
 type VirtualMachineExtension_STATUS struct {
 	AutoUpgradeMinorVersion *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
 	EnableAutomaticUpgrade  *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
@@ -3869,7 +3898,7 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 }
 
 // Storage version of v1beta20201201.VirtualMachineIdentity
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineIdentity
+// Identity for the virtual machine.
 type VirtualMachineIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -3914,6 +3943,7 @@ func (identity *VirtualMachineIdentity) AssignProperties_To_VirtualMachineIdenti
 }
 
 // Storage version of v1beta20201201.VirtualMachineIdentity_STATUS
+// Identity for the virtual machine.
 type VirtualMachineIdentity_STATUS struct {
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3972,6 +4002,7 @@ func (identity *VirtualMachineIdentity_STATUS) AssignProperties_To_VirtualMachin
 }
 
 // Storage version of v1beta20201201.VirtualMachineInstanceView_STATUS
+// The instance view of a virtual machine.
 type VirtualMachineInstanceView_STATUS struct {
 	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
 	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS          `json:"bootDiagnostics,omitempty"`
@@ -4301,7 +4332,10 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_To_VirtualMachin
 }
 
 // Storage version of v1beta20201201.BootDiagnostics
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BootDiagnostics
+// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
+// You can easily view the output of your console log.
+// Azure also enables you to see a screenshot of the
+// VM from the hypervisor.
 type BootDiagnostics struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4363,6 +4397,10 @@ func (diagnostics *BootDiagnostics) AssignProperties_To_BootDiagnostics(destinat
 }
 
 // Storage version of v1beta20201201.BootDiagnostics_STATUS
+// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
+// You can easily view the output of your console log.
+// Azure also enables you to see a screenshot of the
+// VM from the hypervisor.
 type BootDiagnostics_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4424,6 +4462,7 @@ func (diagnostics *BootDiagnostics_STATUS) AssignProperties_To_BootDiagnostics_S
 }
 
 // Storage version of v1beta20201201.BootDiagnosticsInstanceView_STATUS
+// The instance view of a virtual machine boot diagnostics.
 type BootDiagnosticsInstanceView_STATUS struct {
 	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
 	PropertyBag              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -4500,7 +4539,7 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_To_BootDiagnost
 }
 
 // Storage version of v1beta20201201.DataDisk
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DataDisk
+// Describes a data disk.
 type DataDisk struct {
 	Caching                 *string                `json:"caching,omitempty"`
 	CreateOption            *string                `json:"createOption,omitempty"`
@@ -4709,6 +4748,7 @@ func (disk *DataDisk) AssignProperties_To_DataDisk(destination *v20220301s.DataD
 }
 
 // Storage version of v1beta20201201.DataDisk_STATUS
+// Describes a data disk.
 type DataDisk_STATUS struct {
 	Caching                 *string                       `json:"caching,omitempty"`
 	CreateOption            *string                       `json:"createOption,omitempty"`
@@ -4931,6 +4971,7 @@ func (disk *DataDisk_STATUS) AssignProperties_To_DataDisk_STATUS(destination *v2
 }
 
 // Storage version of v1beta20201201.DiskInstanceView_STATUS
+// The instance view of the disk.
 type DiskInstanceView_STATUS struct {
 	EncryptionSettings []DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
 	Name               *string                         `json:"name,omitempty"`
@@ -5049,7 +5090,10 @@ func (view *DiskInstanceView_STATUS) AssignProperties_To_DiskInstanceView_STATUS
 }
 
 // Storage version of v1beta20201201.ImageReference
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ImageReference
+// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
+// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
+// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
+// when you create the scale set.
 type ImageReference struct {
 	Offer       *string                `json:"offer,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -5174,6 +5218,10 @@ func (reference *ImageReference) AssignProperties_To_ImageReference(destination 
 }
 
 // Storage version of v1beta20201201.ImageReference_STATUS
+// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
+// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
+// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
+// when you create the scale set.
 type ImageReference_STATUS struct {
 	ExactVersion *string                `json:"exactVersion,omitempty"`
 	Id           *string                `json:"id,omitempty"`
@@ -5293,6 +5341,7 @@ func (reference *ImageReference_STATUS) AssignProperties_To_ImageReference_STATU
 }
 
 // Storage version of v1beta20201201.InstanceViewStatus_STATUS
+// Instance view status.
 type InstanceViewStatus_STATUS struct {
 	Code          *string                `json:"code,omitempty"`
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
@@ -5365,7 +5414,12 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_
 }
 
 // Storage version of v1beta20201201.LinuxConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxConfiguration
+// Specifies the Linux operating system settings on the virtual machine.
+// For a list of supported Linux
+// distributions, see [Linux on Azure-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+// For running non-endorsed distributions, see [Information for Non-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 type LinuxConfiguration struct {
 	DisablePasswordAuthentication *bool                  `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings    `json:"patchSettings,omitempty"`
@@ -5487,6 +5541,12 @@ func (configuration *LinuxConfiguration) AssignProperties_To_LinuxConfiguration(
 }
 
 // Storage version of v1beta20201201.LinuxConfiguration_STATUS
+// Specifies the Linux operating system settings on the virtual machine.
+// For a list of supported Linux
+// distributions, see [Linux on Azure-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+// For running non-endorsed distributions, see [Information for Non-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 type LinuxConfiguration_STATUS struct {
 	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings_STATUS `json:"patchSettings,omitempty"`
@@ -5608,6 +5668,7 @@ func (configuration *LinuxConfiguration_STATUS) AssignProperties_To_LinuxConfigu
 }
 
 // Storage version of v1beta20201201.MaintenanceRedeployStatus_STATUS
+// Maintenance Operation Status.
 type MaintenanceRedeployStatus_STATUS struct {
 	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
 	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
@@ -5703,7 +5764,102 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceR
 	return nil
 }
 
+// Storage version of v1beta20201201.NetworkInterfaceReference
+// Describes a network interface reference.
+type NetworkInterfaceReference struct {
+	Primary     *bool                  `json:"primary,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource Id
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_NetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
+func (reference *NetworkInterfaceReference) AssignProperties_From_NetworkInterfaceReference(source *v20220301s.NetworkInterfaceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DeleteOption
+	if source.DeleteOption != nil {
+		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
+	}
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		reference.Primary = &primary
+	} else {
+		reference.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NetworkInterfaceReference populates the provided destination NetworkInterfaceReference from our NetworkInterfaceReference
+func (reference *NetworkInterfaceReference) AssignProperties_To_NetworkInterfaceReference(destination *v20220301s.NetworkInterfaceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// DeleteOption
+	if propertyBag.Contains("DeleteOption") {
+		var deleteOption string
+		err := propertyBag.Pull("DeleteOption", &deleteOption)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
+		}
+
+		destination.DeleteOption = &deleteOption
+	} else {
+		destination.DeleteOption = nil
+	}
+
+	// Primary
+	if reference.Primary != nil {
+		primary := *reference.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.NetworkInterfaceReference_STATUS
+// Describes a network interface reference.
 type NetworkInterfaceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Primary     *bool                  `json:"primary,omitempty"`
@@ -5785,7 +5941,10 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkIn
 }
 
 // Storage version of v1beta20201201.OSDisk
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/OSDisk
+// Specifies information about the operating system disk used by the virtual machine.
+// For more information about
+// disks, see [About disks and VHDs for Azure virtual
+// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 type OSDisk struct {
 	Caching                 *string                 `json:"caching,omitempty"`
 	CreateOption            *string                 `json:"createOption,omitempty"`
@@ -6020,6 +6179,10 @@ func (disk *OSDisk) AssignProperties_To_OSDisk(destination *v20220301s.OSDisk) e
 }
 
 // Storage version of v1beta20201201.OSDisk_STATUS
+// Specifies information about the operating system disk used by the virtual machine.
+// For more information about
+// disks, see [About disks and VHDs for Azure virtual
+// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 type OSDisk_STATUS struct {
 	Caching                 *string                        `json:"caching,omitempty"`
 	CreateOption            *string                        `json:"createOption,omitempty"`
@@ -6254,7 +6417,9 @@ func (disk *OSDisk_STATUS) AssignProperties_To_OSDisk_STATUS(destination *v20220
 }
 
 // Storage version of v1beta20201201.UefiSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UefiSettings
+// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+// Minimum
+// api-version: 2020-12-01
 type UefiSettings struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
@@ -6326,6 +6491,9 @@ func (settings *UefiSettings) AssignProperties_To_UefiSettings(destination *v202
 }
 
 // Storage version of v1beta20201201.UefiSettings_STATUS
+// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+// Minimum
+// api-version: 2020-12-01
 type UefiSettings_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
@@ -6397,7 +6565,7 @@ func (settings *UefiSettings_STATUS) AssignProperties_To_UefiSettings_STATUS(des
 }
 
 // Storage version of v1beta20201201.VaultSecretGroup
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
+// Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource           `json:"sourceVault,omitempty"`
@@ -6507,6 +6675,7 @@ func (group *VaultSecretGroup) AssignProperties_To_VaultSecretGroup(destination 
 }
 
 // Storage version of v1beta20201201.VaultSecretGroup_STATUS
+// Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup_STATUS struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource_STATUS       `json:"sourceVault,omitempty"`
@@ -6615,100 +6784,8 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 	return nil
 }
 
-// Storage version of v1beta20201201.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec struct {
-	Primary     *bool                  `json:"primary,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from the provided source VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_From_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(source *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		propertyBag.Add("DeleteOption", *source.DeleteOption)
-	} else {
-		propertyBag.Remove("DeleteOption")
-	}
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		interfaces.Primary = &primary
-	} else {
-		interfaces.Primary = nil
-	}
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		interfaces.Reference = &reference
-	} else {
-		interfaces.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		interfaces.PropertyBag = propertyBag
-	} else {
-		interfaces.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec populates the provided destination VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec from our VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec
-func (interfaces *VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) AssignProperties_To_VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec(destination *v20220301s.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(interfaces.PropertyBag)
-
-	// DeleteOption
-	if propertyBag.Contains("DeleteOption") {
-		var deleteOption string
-		err := propertyBag.Pull("DeleteOption", &deleteOption)
-		if err != nil {
-			return errors.Wrap(err, "pulling 'DeleteOption' from propertyBag")
-		}
-
-		destination.DeleteOption = &deleteOption
-	} else {
-		destination.DeleteOption = nil
-	}
-
-	// Primary
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		destination.Primary = &primary
-	} else {
-		destination.Primary = nil
-	}
-
-	// Reference
-	if interfaces.Reference != nil {
-		reference := interfaces.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1beta20201201.VirtualMachineAgentInstanceView_STATUS
+// The instance view of the VM Agent running on the virtual machine.
 type VirtualMachineAgentInstanceView_STATUS struct {
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
 	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
@@ -6827,6 +6904,7 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_To_VirtualM
 }
 
 // Storage version of v1beta20201201.VirtualMachineExtensionInstanceView_STATUS
+// The instance view of a virtual machine extension.
 type VirtualMachineExtensionInstanceView_STATUS struct {
 	Name               *string                     `json:"name,omitempty"`
 	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
@@ -6959,6 +7037,7 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_Virt
 }
 
 // Storage version of v1beta20201201.VirtualMachineHealthStatus_STATUS
+// The health status of the VM.
 type VirtualMachineHealthStatus_STATUS struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status      *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -7021,6 +7100,7 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_To_VirtualMach
 }
 
 // Storage version of v1beta20201201.VirtualMachinePatchStatus_STATUS
+// The status of virtual machine patch operations.
 type VirtualMachinePatchStatus_STATUS struct {
 	AvailablePatchSummary        *AvailablePatchSummary_STATUS        `json:"availablePatchSummary,omitempty"`
 	ConfigurationStatuses        []InstanceViewStatus_STATUS          `json:"configurationStatuses,omitempty"`
@@ -7145,7 +7225,7 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachi
 }
 
 // Storage version of v1beta20201201.WindowsConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
+// Specifies Windows operating system settings on the virtual machine.
 type WindowsConfiguration struct {
 	AdditionalUnattendContent []AdditionalUnattendContent `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                       `json:"enableAutomaticUpdates,omitempty"`
@@ -7311,6 +7391,7 @@ func (configuration *WindowsConfiguration) AssignProperties_To_WindowsConfigurat
 }
 
 // Storage version of v1beta20201201.WindowsConfiguration_STATUS
+// Specifies Windows operating system settings on the virtual machine.
 type WindowsConfiguration_STATUS struct {
 	AdditionalUnattendContent []AdditionalUnattendContent_STATUS `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                              `json:"enableAutomaticUpdates,omitempty"`
@@ -7476,7 +7557,8 @@ func (configuration *WindowsConfiguration_STATUS) AssignProperties_To_WindowsCon
 }
 
 // Storage version of v1beta20201201.AdditionalUnattendContent
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalUnattendContent
+// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
+// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -7542,6 +7624,8 @@ func (content *AdditionalUnattendContent) AssignProperties_To_AdditionalUnattend
 }
 
 // Storage version of v1beta20201201.AdditionalUnattendContent_STATUS
+// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
+// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_STATUS struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -7607,6 +7691,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_To_AdditionalU
 }
 
 // Storage version of v1beta20201201.AvailablePatchSummary_STATUS
+// Describes the properties of an virtual machine instance view for available patch summary.
 type AvailablePatchSummary_STATUS struct {
 	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
 	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
@@ -7728,7 +7813,9 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_To_AvailablePatchS
 }
 
 // Storage version of v1beta20201201.DiffDiskSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiffDiskSettings
+// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
+// NOTE: The
+// ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
@@ -7780,6 +7867,9 @@ func (settings *DiffDiskSettings) AssignProperties_To_DiffDiskSettings(destinati
 }
 
 // Storage version of v1beta20201201.DiffDiskSettings_STATUS
+// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
+// NOTE: The
+// ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_STATUS struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
@@ -7831,7 +7921,7 @@ func (settings *DiffDiskSettings_STATUS) AssignProperties_To_DiffDiskSettings_ST
 }
 
 // Storage version of v1beta20201201.DiskEncryptionSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiskEncryptionSettings
+// Describes a Encryption Settings for a Disk
 type DiskEncryptionSettings struct {
 	DiskEncryptionKey *KeyVaultSecretReference `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                    `json:"enabled,omitempty"`
@@ -7936,6 +8026,7 @@ func (settings *DiskEncryptionSettings) AssignProperties_To_DiskEncryptionSettin
 }
 
 // Storage version of v1beta20201201.DiskEncryptionSettings_STATUS
+// Describes a Encryption Settings for a Disk
 type DiskEncryptionSettings_STATUS struct {
 	DiskEncryptionKey *KeyVaultSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                           `json:"enabled,omitempty"`
@@ -8040,6 +8131,7 @@ func (settings *DiskEncryptionSettings_STATUS) AssignProperties_To_DiskEncryptio
 }
 
 // Storage version of v1beta20201201.LastPatchInstallationSummary_STATUS
+// Describes the properties of the last installed patch summary.
 type LastPatchInstallationSummary_STATUS struct {
 	Error                     *ApiError_STATUS       `json:"error,omitempty"`
 	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
@@ -8182,7 +8274,7 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_To_LastPatc
 }
 
 // Storage version of v1beta20201201.LinuxPatchSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxPatchSettings
+// Specifies settings related to VM Guest Patching on Linux.
 type LinuxPatchSettings struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -8267,6 +8359,7 @@ func (settings *LinuxPatchSettings) AssignProperties_To_LinuxPatchSettings(desti
 }
 
 // Storage version of v1beta20201201.LinuxPatchSettings_STATUS
+// Specifies settings related to VM Guest Patching on Linux.
 type LinuxPatchSettings_STATUS struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -8351,10 +8444,10 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_To_LinuxPatchSetting
 }
 
 // Storage version of v1beta20201201.ManagedDiskParameters
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ManagedDiskParameters
+// The parameters of a managed disk.
 type ManagedDiskParameters struct {
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	PropertyBag       genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource Id
 	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -8368,15 +8461,15 @@ func (parameters *ManagedDiskParameters) AssignProperties_From_ManagedDiskParame
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v20210701s.DiskEncryptionSetParameters
-		err := diskEncryptionSetParametersStash.AssignProperties_From_DiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var subResourceStash v20210701s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err = diskEncryptionSet.AssignProperties_From_DiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var diskEncryptionSet SubResource
+		err = diskEncryptionSet.AssignProperties_From_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_DiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -8419,15 +8512,15 @@ func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParamete
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash v20210701s.DiskEncryptionSetParameters
-		err := parameters.DiskEncryptionSet.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var subResourceStash v20210701s.SubResource
+		err := parameters.DiskEncryptionSet.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v20220301s.DiskEncryptionSetParameters
-		err = diskEncryptionSetParametersStash.AssignProperties_To_DiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet v20220301s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_DiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -8470,6 +8563,7 @@ func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParamete
 }
 
 // Storage version of v1beta20201201.ManagedDiskParameters_STATUS
+// The parameters of a managed disk.
 type ManagedDiskParameters_STATUS struct {
 	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -8576,7 +8670,7 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_To_ManagedDiskP
 }
 
 // Storage version of v1beta20201201.PatchSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/PatchSettings
+// Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
@@ -8678,6 +8772,7 @@ func (settings *PatchSettings) AssignProperties_To_PatchSettings(destination *v2
 }
 
 // Storage version of v1beta20201201.PatchSettings_STATUS
+// Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings_STATUS struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
@@ -8779,10 +8874,10 @@ func (settings *PatchSettings_STATUS) AssignProperties_To_PatchSettings_STATUS(d
 }
 
 // Storage version of v1beta20201201.SshConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshConfiguration
+// SSH configuration for Linux based VMs running on Azure
 type SshConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeys  []SshPublicKey         `json:"publicKeys,omitempty"`
+	PublicKeys  []SshPublicKeySpec     `json:"publicKeys,omitempty"`
 }
 
 // AssignProperties_From_SshConfiguration populates our SshConfiguration from the provided source SshConfiguration
@@ -8792,14 +8887,14 @@ func (configuration *SshConfiguration) AssignProperties_From_SshConfiguration(so
 
 	// PublicKeys
 	if source.PublicKeys != nil {
-		publicKeyList := make([]SshPublicKey, len(source.PublicKeys))
+		publicKeyList := make([]SshPublicKeySpec, len(source.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey SshPublicKey
-			err := publicKey.AssignProperties_From_SshPublicKey(&publicKeyItem)
+			var publicKey SshPublicKeySpec
+			err := publicKey.AssignProperties_From_SshPublicKeySpec(&publicKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_From_SshPublicKeySpec() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -8826,14 +8921,14 @@ func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(dest
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]v20220301s.SshPublicKey, len(configuration.PublicKeys))
+		publicKeyList := make([]v20220301s.SshPublicKeySpec, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey v20220301s.SshPublicKey
-			err := publicKeyItem.AssignProperties_To_SshPublicKey(&publicKey)
+			var publicKey v20220301s.SshPublicKeySpec
+			err := publicKeyItem.AssignProperties_To_SshPublicKeySpec(&publicKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignProperties_To_SshPublicKeySpec() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -8854,6 +8949,7 @@ func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(dest
 }
 
 // Storage version of v1beta20201201.SshConfiguration_STATUS
+// SSH configuration for Linux based VMs running on Azure
 type SshConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeys  []SshPublicKey_STATUS  `json:"publicKeys,omitempty"`
@@ -8928,7 +9024,7 @@ func (configuration *SshConfiguration_STATUS) AssignProperties_To_SshConfigurati
 }
 
 // Storage version of v1beta20201201.VaultCertificate
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultCertificate
+// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
 type VaultCertificate struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
@@ -8980,6 +9076,7 @@ func (certificate *VaultCertificate) AssignProperties_To_VaultCertificate(destin
 }
 
 // Storage version of v1beta20201201.VaultCertificate_STATUS
+// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
 type VaultCertificate_STATUS struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
@@ -9031,7 +9128,7 @@ func (certificate *VaultCertificate_STATUS) AssignProperties_To_VaultCertificate
 }
 
 // Storage version of v1beta20201201.VirtualHardDisk
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualHardDisk
+// Describes the uri of a disk.
 type VirtualHardDisk struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
@@ -9076,6 +9173,7 @@ func (disk *VirtualHardDisk) AssignProperties_To_VirtualHardDisk(destination *v2
 }
 
 // Storage version of v1beta20201201.VirtualHardDisk_STATUS
+// Describes the uri of a disk.
 type VirtualHardDisk_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
@@ -9120,6 +9218,7 @@ func (disk *VirtualHardDisk_STATUS) AssignProperties_To_VirtualHardDisk_STATUS(d
 }
 
 // Storage version of v1beta20201201.VirtualMachineExtensionHandlerInstanceView_STATUS
+// The instance view of a virtual machine extension handler.
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status             *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -9196,7 +9295,7 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_
 }
 
 // Storage version of v1beta20201201.WinRMConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMConfiguration
+// Describes Windows Remote Management configuration of the VM
 type WinRMConfiguration struct {
 	Listeners   []WinRMListener        `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9271,6 +9370,7 @@ func (configuration *WinRMConfiguration) AssignProperties_To_WinRMConfiguration(
 }
 
 // Storage version of v1beta20201201.WinRMConfiguration_STATUS
+// Describes Windows Remote Management configuration of the VM
 type WinRMConfiguration_STATUS struct {
 	Listeners   []WinRMListener_STATUS `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9345,6 +9445,7 @@ func (configuration *WinRMConfiguration_STATUS) AssignProperties_To_WinRMConfigu
 }
 
 // Storage version of v1beta20201201.ApiError_STATUS
+// Api error.
 type ApiError_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
 	Details     []ApiErrorBase_STATUS  `json:"details,omitempty"`
@@ -9464,65 +9565,8 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v
 	return nil
 }
 
-// Storage version of v1beta20201201.DiskEncryptionSetParameters
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
-type DiskEncryptionSetParameters struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// AssignProperties_From_DiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_From_DiskEncryptionSetParameters(source *v20210701s.DiskEncryptionSetParameters) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
-	} else {
-		parameters.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_DiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignProperties_To_DiskEncryptionSetParameters(destination *v20210701s.DiskEncryptionSetParameters) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
-
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1beta20201201.KeyVaultKeyReference
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/KeyVaultKeyReference
+// Describes a reference to Key Vault Key
 type KeyVaultKeyReference struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9602,6 +9646,7 @@ func (reference *KeyVaultKeyReference) AssignProperties_To_KeyVaultKeyReference(
 }
 
 // Storage version of v1beta20201201.KeyVaultKeyReference_STATUS
+// Describes a reference to Key Vault Key
 type KeyVaultKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9681,7 +9726,7 @@ func (reference *KeyVaultKeyReference_STATUS) AssignProperties_To_KeyVaultKeyRef
 }
 
 // Storage version of v1beta20201201.KeyVaultSecretReference
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/KeyVaultSecretReference
+// Describes a reference to Key Vault Secret
 type KeyVaultSecretReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -9761,6 +9806,7 @@ func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretRefe
 }
 
 // Storage version of v1beta20201201.KeyVaultSecretReference_STATUS
+// Describes a reference to Key Vault Secret
 type KeyVaultSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -9839,59 +9885,8 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSec
 	return nil
 }
 
-// Storage version of v1beta20201201.SshPublicKey
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshPublicKey
-type SshPublicKey struct {
-	KeyData     *string                `json:"keyData,omitempty"`
-	Path        *string                `json:"path,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignProperties_From_SshPublicKey populates our SshPublicKey from the provided source SshPublicKey
-func (publicKey *SshPublicKey) AssignProperties_From_SshPublicKey(source *v20220301s.SshPublicKey) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// KeyData
-	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
-
-	// Path
-	publicKey.Path = genruntime.ClonePointerToString(source.Path)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		publicKey.PropertyBag = propertyBag
-	} else {
-		publicKey.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SshPublicKey populates the provided destination SshPublicKey from our SshPublicKey
-func (publicKey *SshPublicKey) AssignProperties_To_SshPublicKey(destination *v20220301s.SshPublicKey) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(publicKey.PropertyBag)
-
-	// KeyData
-	destination.KeyData = genruntime.ClonePointerToString(publicKey.KeyData)
-
-	// Path
-	destination.Path = genruntime.ClonePointerToString(publicKey.Path)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1beta20201201.SshPublicKey_STATUS
+// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
 type SshPublicKey_STATUS struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -9942,8 +9937,60 @@ func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(de
 	return nil
 }
 
+// Storage version of v1beta20201201.SshPublicKeySpec
+// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+type SshPublicKeySpec struct {
+	KeyData     *string                `json:"keyData,omitempty"`
+	Path        *string                `json:"path,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SshPublicKeySpec populates our SshPublicKeySpec from the provided source SshPublicKeySpec
+func (publicKey *SshPublicKeySpec) AssignProperties_From_SshPublicKeySpec(source *v20220301s.SshPublicKeySpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// KeyData
+	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
+
+	// Path
+	publicKey.Path = genruntime.ClonePointerToString(source.Path)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		publicKey.PropertyBag = propertyBag
+	} else {
+		publicKey.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SshPublicKeySpec populates the provided destination SshPublicKeySpec from our SshPublicKeySpec
+func (publicKey *SshPublicKeySpec) AssignProperties_To_SshPublicKeySpec(destination *v20220301s.SshPublicKeySpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(publicKey.PropertyBag)
+
+	// KeyData
+	destination.KeyData = genruntime.ClonePointerToString(publicKey.KeyData)
+
+	// Path
+	destination.Path = genruntime.ClonePointerToString(publicKey.Path)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20201201.WinRMListener
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMListener
+// Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9995,6 +10042,7 @@ func (listener *WinRMListener) AssignProperties_To_WinRMListener(destination *v2
 }
 
 // Storage version of v1beta20201201.WinRMListener_STATUS
+// Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener_STATUS struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -10046,6 +10094,7 @@ func (listener *WinRMListener_STATUS) AssignProperties_To_WinRMListener_STATUS(d
 }
 
 // Storage version of v1beta20201201.ApiErrorBase_STATUS
+// Api error base.
 type ApiErrorBase_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
@@ -10104,6 +10153,7 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 }
 
 // Storage version of v1beta20201201.InnerError_STATUS
+// Inner error details.
 type InnerError_STATUS struct {
 	Errordetail   *string                `json:"errordetail,omitempty"`
 	Exceptiontype *string                `json:"exceptiontype,omitempty"`

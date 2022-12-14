@@ -22,12 +22,14 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210301.RedisEnterpriseDatabase
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
+// Generator information:
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisEnterprise_Database_Spec `json:"spec,omitempty"`
-	Status            Database_STATUS               `json:"status,omitempty"`
+	Spec              RedisEnterprise_Database_Spec   `json:"spec,omitempty"`
+	Status            RedisEnterprise_Database_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterpriseDatabase{}
@@ -76,7 +78,7 @@ func (database *RedisEnterpriseDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *RedisEnterpriseDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Database_STATUS{}
+	return &RedisEnterprise_Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +94,13 @@ func (database *RedisEnterpriseDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *RedisEnterpriseDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Database_STATUS); ok {
+	if st, ok := status.(*RedisEnterprise_Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Database_STATUS
+	var st RedisEnterprise_Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,48 +124,13 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210301.RedisEnterpriseDatabase
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise_databases
+// Generator information:
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabase `json:"items"`
-}
-
-// Storage version of v1beta20210301.Database_STATUS
-type Database_STATUS struct {
-	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
-	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
-	Conditions        []conditions.Condition `json:"conditions,omitempty"`
-	EvictionPolicy    *string                `json:"evictionPolicy,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Modules           []Module_STATUS        `json:"modules,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	Persistence       *Persistence_STATUS    `json:"persistence,omitempty"`
-	Port              *int                   `json:"port,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	ResourceState     *string                `json:"resourceState,omitempty"`
-	Type              *string                `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Database_STATUS{}
-
-// ConvertStatusFrom populates our Database_STATUS from the provided source
-func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(database)
-}
-
-// ConvertStatusTo populates the provided destination from our Database_STATUS
-func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == database {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(database)
 }
 
 // Storage version of v1beta20210301.RedisEnterprise_Database_Spec
@@ -174,7 +141,6 @@ type RedisEnterprise_Database_Spec struct {
 	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
 	EvictionPolicy   *string  `json:"evictionPolicy,omitempty"`
-	Location         *string  `json:"location,omitempty"`
 	Modules          []Module `json:"modules,omitempty"`
 	OriginalVersion  string   `json:"originalVersion,omitempty"`
 
@@ -186,7 +152,6 @@ type RedisEnterprise_Database_Spec struct {
 	Persistence *Persistence                       `json:"persistence,omitempty"`
 	Port        *int                               `json:"port,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisEnterprise_Database_Spec{}
@@ -209,8 +174,45 @@ func (database *RedisEnterprise_Database_Spec) ConvertSpecTo(destination genrunt
 	return destination.ConvertSpecFrom(database)
 }
 
+// Storage version of v1beta20210301.RedisEnterprise_Database_STATUS
+type RedisEnterprise_Database_STATUS struct {
+	ClientProtocol    *string                `json:"clientProtocol,omitempty"`
+	ClusteringPolicy  *string                `json:"clusteringPolicy,omitempty"`
+	Conditions        []conditions.Condition `json:"conditions,omitempty"`
+	EvictionPolicy    *string                `json:"evictionPolicy,omitempty"`
+	Id                *string                `json:"id,omitempty"`
+	Modules           []Module_STATUS        `json:"modules,omitempty"`
+	Name              *string                `json:"name,omitempty"`
+	Persistence       *Persistence_STATUS    `json:"persistence,omitempty"`
+	Port              *int                   `json:"port,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                `json:"provisioningState,omitempty"`
+	ResourceState     *string                `json:"resourceState,omitempty"`
+	Type              *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &RedisEnterprise_Database_STATUS{}
+
+// ConvertStatusFrom populates our RedisEnterprise_Database_STATUS from the provided source
+func (database *RedisEnterprise_Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == database {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(database)
+}
+
+// ConvertStatusTo populates the provided destination from our RedisEnterprise_Database_STATUS
+func (database *RedisEnterprise_Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == database {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(database)
+}
+
 // Storage version of v1beta20210301.Module
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Module
+// Specifies configuration of a redis module
 type Module struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -218,6 +220,7 @@ type Module struct {
 }
 
 // Storage version of v1beta20210301.Module_STATUS
+// Specifies configuration of a redis module
 type Module_STATUS struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -226,7 +229,7 @@ type Module_STATUS struct {
 }
 
 // Storage version of v1beta20210301.Persistence
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Persistence
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`
@@ -236,6 +239,7 @@ type Persistence struct {
 }
 
 // Storage version of v1beta20210301.Persistence_STATUS
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence_STATUS struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`

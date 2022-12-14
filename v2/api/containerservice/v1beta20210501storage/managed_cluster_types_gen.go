@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -23,7 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210501.ManagedCluster
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
+// Generator information:
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/stable/2021-05-01/managedClusters.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}
 type ManagedCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -123,7 +124,9 @@ func (cluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210501.ManagedCluster
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters
+// Generator information:
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/stable/2021-05-01/managedClusters.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}
 type ManagedClusterList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -138,12 +141,12 @@ const APIVersion_Value = APIVersion("2021-05-01")
 
 // Storage version of v1beta20210501.ManagedCluster_Spec
 type ManagedCluster_Spec struct {
-	AadProfile             *ManagedClusterAADProfile                  `json:"aadProfile,omitempty"`
-	AddonProfiles          map[string]ManagedClusterAddonProfile      `json:"addonProfiles,omitempty"`
-	AgentPoolProfiles      []ManagedClusterAgentPoolProfile           `json:"agentPoolProfiles,omitempty"`
-	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile      `json:"apiServerAccessProfile,omitempty"`
-	AutoScalerProfile      *ManagedClusterPropertiesAutoScalerProfile `json:"autoScalerProfile,omitempty"`
-	AutoUpgradeProfile     *ManagedClusterAutoUpgradeProfile          `json:"autoUpgradeProfile,omitempty"`
+	AadProfile             *ManagedClusterAADProfile                   `json:"aadProfile,omitempty"`
+	AddonProfiles          map[string]ManagedClusterAddonProfile       `json:"addonProfiles,omitempty"`
+	AgentPoolProfiles      []ManagedClusterAgentPoolProfile            `json:"agentPoolProfiles,omitempty"`
+	ApiServerAccessProfile *ManagedClusterAPIServerAccessProfile       `json:"apiServerAccessProfile,omitempty"`
+	AutoScalerProfile      *ManagedClusterProperties_AutoScalerProfile `json:"autoScalerProfile,omitempty"`
+	AutoUpgradeProfile     *ManagedClusterAutoUpgradeProfile           `json:"autoUpgradeProfile,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=1
@@ -155,22 +158,22 @@ type ManagedCluster_Spec struct {
 
 	// DiskEncryptionSetIDReference: This is of the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
-	DiskEncryptionSetIDReference *genruntime.ResourceReference                                                                           `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
-	DnsPrefix                    *string                                                                                                 `json:"dnsPrefix,omitempty"`
-	EnablePodSecurityPolicy      *bool                                                                                                   `json:"enablePodSecurityPolicy,omitempty"`
-	EnableRBAC                   *bool                                                                                                   `json:"enableRBAC,omitempty"`
-	ExtendedLocation             *ExtendedLocation                                                                                       `json:"extendedLocation,omitempty"`
-	FqdnSubdomain                *string                                                                                                 `json:"fqdnSubdomain,omitempty"`
-	HttpProxyConfig              *ManagedClusterHTTPProxyConfig                                                                          `json:"httpProxyConfig,omitempty"`
-	Identity                     *ManagedClusterIdentity                                                                                 `json:"identity,omitempty"`
-	IdentityProfile              map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties `json:"identityProfile,omitempty"`
-	KubernetesVersion            *string                                                                                                 `json:"kubernetesVersion,omitempty"`
-	LinuxProfile                 *ContainerServiceLinuxProfile                                                                           `json:"linuxProfile,omitempty"`
-	Location                     *string                                                                                                 `json:"location,omitempty"`
-	NetworkProfile               *ContainerServiceNetworkProfile                                                                         `json:"networkProfile,omitempty"`
-	NodeResourceGroup            *string                                                                                                 `json:"nodeResourceGroup,omitempty"`
-	OperatorSpec                 *ManagedClusterOperatorSpec                                                                             `json:"operatorSpec,omitempty"`
-	OriginalVersion              string                                                                                                  `json:"originalVersion,omitempty"`
+	DiskEncryptionSetIDReference *genruntime.ResourceReference   `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
+	DnsPrefix                    *string                         `json:"dnsPrefix,omitempty"`
+	EnablePodSecurityPolicy      *bool                           `json:"enablePodSecurityPolicy,omitempty"`
+	EnableRBAC                   *bool                           `json:"enableRBAC,omitempty"`
+	ExtendedLocation             *ExtendedLocation               `json:"extendedLocation,omitempty"`
+	FqdnSubdomain                *string                         `json:"fqdnSubdomain,omitempty"`
+	HttpProxyConfig              *ManagedClusterHTTPProxyConfig  `json:"httpProxyConfig,omitempty"`
+	Identity                     *ManagedClusterIdentity         `json:"identity,omitempty"`
+	IdentityProfile              map[string]UserAssignedIdentity `json:"identityProfile,omitempty"`
+	KubernetesVersion            *string                         `json:"kubernetesVersion,omitempty"`
+	LinuxProfile                 *ContainerServiceLinuxProfile   `json:"linuxProfile,omitempty"`
+	Location                     *string                         `json:"location,omitempty"`
+	NetworkProfile               *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
+	NodeResourceGroup            *string                         `json:"nodeResourceGroup,omitempty"`
+	OperatorSpec                 *ManagedClusterOperatorSpec     `json:"operatorSpec,omitempty"`
+	OriginalVersion              string                          `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -207,9 +210,10 @@ func (cluster *ManagedCluster_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // Storage version of v1beta20210501.ManagedCluster_STATUS
+// Managed cluster.
 type ManagedCluster_STATUS struct {
 	AadProfile              *ManagedClusterAADProfile_STATUS                   `json:"aadProfile,omitempty"`
-	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
+	AddonProfiles           map[string]ManagedClusterAddonProfile_STATUS       `json:"addonProfiles,omitempty"`
 	AgentPoolProfiles       []ManagedClusterAgentPoolProfile_STATUS            `json:"agentPoolProfiles,omitempty"`
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfile_STATUS       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfile_STATUS `json:"autoScalerProfile,omitempty"`
@@ -227,7 +231,7 @@ type ManagedCluster_STATUS struct {
 	HttpProxyConfig         *ManagedClusterHTTPProxyConfig_STATUS              `json:"httpProxyConfig,omitempty"`
 	Id                      *string                                            `json:"id,omitempty"`
 	Identity                *ManagedClusterIdentity_STATUS                     `json:"identity,omitempty"`
-	IdentityProfile         *v1.JSON                                           `json:"identityProfile,omitempty"`
+	IdentityProfile         map[string]UserAssignedIdentity_STATUS             `json:"identityProfile,omitempty"`
 	KubernetesVersion       *string                                            `json:"kubernetesVersion,omitempty"`
 	LinuxProfile            *ContainerServiceLinuxProfile_STATUS               `json:"linuxProfile,omitempty"`
 	Location                *string                                            `json:"location,omitempty"`
@@ -268,19 +272,8 @@ func (cluster *ManagedCluster_STATUS) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(cluster)
 }
 
-// Storage version of v1beta20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/Componentsqit0etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-type Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
 // Storage version of v1beta20210501.ContainerServiceLinuxProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceLinuxProfile
+// Profile for Linux VMs in the container service cluster.
 type ContainerServiceLinuxProfile struct {
 	AdminUsername *string                           `json:"adminUsername,omitempty"`
 	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -288,6 +281,7 @@ type ContainerServiceLinuxProfile struct {
 }
 
 // Storage version of v1beta20210501.ContainerServiceLinuxProfile_STATUS
+// Profile for Linux VMs in the container service cluster.
 type ContainerServiceLinuxProfile_STATUS struct {
 	AdminUsername *string                                  `json:"adminUsername,omitempty"`
 	PropertyBag   genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
@@ -295,7 +289,7 @@ type ContainerServiceLinuxProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ContainerServiceNetworkProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceNetworkProfile
+// Profile of network configuration.
 type ContainerServiceNetworkProfile struct {
 	DnsServiceIP        *string                            `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                            `json:"dockerBridgeCidr,omitempty"`
@@ -311,6 +305,7 @@ type ContainerServiceNetworkProfile struct {
 }
 
 // Storage version of v1beta20210501.ContainerServiceNetworkProfile_STATUS
+// Profile of network configuration.
 type ContainerServiceNetworkProfile_STATUS struct {
 	DnsServiceIP        *string                                   `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                                   `json:"dockerBridgeCidr,omitempty"`
@@ -326,7 +321,7 @@ type ContainerServiceNetworkProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ExtendedLocation
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ExtendedLocation
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -334,6 +329,7 @@ type ExtendedLocation struct {
 }
 
 // Storage version of v1beta20210501.ExtendedLocation_STATUS
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -341,7 +337,7 @@ type ExtendedLocation_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAADProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAADProfile
+// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile struct {
 	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string                `json:"clientAppID,omitempty"`
@@ -354,6 +350,7 @@ type ManagedClusterAADProfile struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAADProfile_STATUS
+// For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile_STATUS struct {
 	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string                `json:"clientAppID,omitempty"`
@@ -366,15 +363,24 @@ type ManagedClusterAADProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAddonProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAddonProfile
+// A Kubernetes add-on profile for a managed cluster.
 type ManagedClusterAddonProfile struct {
 	Config      map[string]string      `json:"config,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210501.ManagedClusterAddonProfile_STATUS
+// A Kubernetes add-on profile for a managed cluster.
+type ManagedClusterAddonProfile_STATUS struct {
+	Config      map[string]string            `json:"config,omitempty"`
+	Enabled     *bool                        `json:"enabled,omitempty"`
+	Identity    *UserAssignedIdentity_STATUS `json:"identity,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210501.ManagedClusterAgentPoolProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAgentPoolProfile
+// Profile for the container service agent pool.
 type ManagedClusterAgentPoolProfile struct {
 	AvailabilityZones      []string          `json:"availabilityZones,omitempty"`
 	Count                  *int              `json:"count,omitempty"`
@@ -425,6 +431,7 @@ type ManagedClusterAgentPoolProfile struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAgentPoolProfile_STATUS
+// Profile for the container service agent pool.
 type ManagedClusterAgentPoolProfile_STATUS struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
@@ -467,7 +474,7 @@ type ManagedClusterAgentPoolProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAPIServerAccessProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAPIServerAccessProfile
+// Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfile struct {
 	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
@@ -477,6 +484,7 @@ type ManagedClusterAPIServerAccessProfile struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAPIServerAccessProfile_STATUS
+// Access profile for managed cluster API server.
 type ManagedClusterAPIServerAccessProfile_STATUS struct {
 	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
@@ -486,20 +494,21 @@ type ManagedClusterAPIServerAccessProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterAutoUpgradeProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterAutoUpgradeProfile
+// Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfile struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UpgradeChannel *string                `json:"upgradeChannel,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterAutoUpgradeProfile_STATUS
+// Auto upgrade profile for a managed cluster.
 type ManagedClusterAutoUpgradeProfile_STATUS struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UpgradeChannel *string                `json:"upgradeChannel,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterHTTPProxyConfig
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterHTTPProxyConfig
+// Cluster HTTP proxy configuration.
 type ManagedClusterHTTPProxyConfig struct {
 	HttpProxy   *string                `json:"httpProxy,omitempty"`
 	HttpsProxy  *string                `json:"httpsProxy,omitempty"`
@@ -509,6 +518,7 @@ type ManagedClusterHTTPProxyConfig struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterHTTPProxyConfig_STATUS
+// Cluster HTTP proxy configuration.
 type ManagedClusterHTTPProxyConfig_STATUS struct {
 	HttpProxy   *string                `json:"httpProxy,omitempty"`
 	HttpsProxy  *string                `json:"httpsProxy,omitempty"`
@@ -518,14 +528,14 @@ type ManagedClusterHTTPProxyConfig_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterIdentity
+// Identity for the managed cluster.
 type ManagedClusterIdentity struct {
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                   *string                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterIdentity_STATUS
+// Identity for the managed cluster.
 type ManagedClusterIdentity_STATUS struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -542,7 +552,8 @@ type ManagedClusterOperatorSpec struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
+// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod
+// identity integration.
 type ManagedClusterPodIdentityProfile struct {
 	AllowNetworkPluginKubenet      *bool                                `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                `json:"enabled,omitempty"`
@@ -552,12 +563,36 @@ type ManagedClusterPodIdentityProfile struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProfile_STATUS
+// See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod
+// identity integration.
 type ManagedClusterPodIdentityProfile_STATUS struct {
 	AllowNetworkPluginKubenet      *bool                                       `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                       `json:"enabled,omitempty"`
 	PropertyBag                    genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
 	UserAssignedIdentities         []ManagedClusterPodIdentity_STATUS          `json:"userAssignedIdentities,omitempty"`
 	UserAssignedIdentityExceptions []ManagedClusterPodIdentityException_STATUS `json:"userAssignedIdentityExceptions,omitempty"`
+}
+
+// Storage version of v1beta20210501.ManagedClusterProperties_AutoScalerProfile
+type ManagedClusterProperties_AutoScalerProfile struct {
+	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
+	Expander                      *string                `json:"expander,omitempty"`
+	MaxEmptyBulkDelete            *string                `json:"max-empty-bulk-delete,omitempty"`
+	MaxGracefulTerminationSec     *string                `json:"max-graceful-termination-sec,omitempty"`
+	MaxNodeProvisionTime          *string                `json:"max-node-provision-time,omitempty"`
+	MaxTotalUnreadyPercentage     *string                `json:"max-total-unready-percentage,omitempty"`
+	NewPodScaleUpDelay            *string                `json:"new-pod-scale-up-delay,omitempty"`
+	OkTotalUnreadyCount           *string                `json:"ok-total-unready-count,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ScaleDownDelayAfterAdd        *string                `json:"scale-down-delay-after-add,omitempty"`
+	ScaleDownDelayAfterDelete     *string                `json:"scale-down-delay-after-delete,omitempty"`
+	ScaleDownDelayAfterFailure    *string                `json:"scale-down-delay-after-failure,omitempty"`
+	ScaleDownUnneededTime         *string                `json:"scale-down-unneeded-time,omitempty"`
+	ScaleDownUnreadyTime          *string                `json:"scale-down-unready-time,omitempty"`
+	ScaleDownUtilizationThreshold *string                `json:"scale-down-utilization-threshold,omitempty"`
+	ScanInterval                  *string                `json:"scan-interval,omitempty"`
+	SkipNodesWithLocalStorage     *string                `json:"skip-nodes-with-local-storage,omitempty"`
+	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterProperties_AutoScalerProfile_STATUS
@@ -582,31 +617,8 @@ type ManagedClusterProperties_AutoScalerProfile_STATUS struct {
 	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
 }
 
-// Storage version of v1beta20210501.ManagedClusterPropertiesAutoScalerProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPropertiesAutoScalerProfile
-type ManagedClusterPropertiesAutoScalerProfile struct {
-	BalanceSimilarNodeGroups      *string                `json:"balance-similar-node-groups,omitempty"`
-	Expander                      *string                `json:"expander,omitempty"`
-	MaxEmptyBulkDelete            *string                `json:"max-empty-bulk-delete,omitempty"`
-	MaxGracefulTerminationSec     *string                `json:"max-graceful-termination-sec,omitempty"`
-	MaxNodeProvisionTime          *string                `json:"max-node-provision-time,omitempty"`
-	MaxTotalUnreadyPercentage     *string                `json:"max-total-unready-percentage,omitempty"`
-	NewPodScaleUpDelay            *string                `json:"new-pod-scale-up-delay,omitempty"`
-	OkTotalUnreadyCount           *string                `json:"ok-total-unready-count,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ScaleDownDelayAfterAdd        *string                `json:"scale-down-delay-after-add,omitempty"`
-	ScaleDownDelayAfterDelete     *string                `json:"scale-down-delay-after-delete,omitempty"`
-	ScaleDownDelayAfterFailure    *string                `json:"scale-down-delay-after-failure,omitempty"`
-	ScaleDownUnneededTime         *string                `json:"scale-down-unneeded-time,omitempty"`
-	ScaleDownUnreadyTime          *string                `json:"scale-down-unready-time,omitempty"`
-	ScaleDownUtilizationThreshold *string                `json:"scale-down-utilization-threshold,omitempty"`
-	ScanInterval                  *string                `json:"scan-interval,omitempty"`
-	SkipNodesWithLocalStorage     *string                `json:"skip-nodes-with-local-storage,omitempty"`
-	SkipNodesWithSystemPods       *string                `json:"skip-nodes-with-system-pods,omitempty"`
-}
-
 // Storage version of v1beta20210501.ManagedClusterServicePrincipalProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterServicePrincipalProfile
+// Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 type ManagedClusterServicePrincipalProfile struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -614,6 +626,7 @@ type ManagedClusterServicePrincipalProfile struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterServicePrincipalProfile_STATUS
+// Information about a service principal identity for the cluster to use for manipulating Azure APIs.
 type ManagedClusterServicePrincipalProfile_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -621,7 +634,7 @@ type ManagedClusterServicePrincipalProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterSKU
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterSKU
+// The SKU of a Managed Cluster.
 type ManagedClusterSKU struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -629,6 +642,7 @@ type ManagedClusterSKU struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterSKU_STATUS
+// The SKU of a Managed Cluster.
 type ManagedClusterSKU_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -636,7 +650,7 @@ type ManagedClusterSKU_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterWindowsProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterWindowsProfile
+// Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile struct {
 	AdminPassword  *string                `json:"adminPassword,omitempty"`
 	AdminUsername  *string                `json:"adminUsername,omitempty"`
@@ -646,6 +660,7 @@ type ManagedClusterWindowsProfile struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterWindowsProfile_STATUS
+// Profile for Windows VMs in the managed cluster.
 type ManagedClusterWindowsProfile_STATUS struct {
 	AdminPassword  *string                `json:"adminPassword,omitempty"`
 	AdminUsername  *string                `json:"adminUsername,omitempty"`
@@ -655,13 +670,14 @@ type ManagedClusterWindowsProfile_STATUS struct {
 }
 
 // Storage version of v1beta20210501.PowerState_STATUS
+// Describes the Power State of the cluster
 type PowerState_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.PrivateLinkResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/PrivateLinkResource
+// A private link resource
 type PrivateLinkResource struct {
 	GroupId     *string                `json:"groupId,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -674,6 +690,7 @@ type PrivateLinkResource struct {
 }
 
 // Storage version of v1beta20210501.PrivateLinkResource_STATUS
+// A private link resource
 type PrivateLinkResource_STATUS struct {
 	GroupId              *string                `json:"groupId,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
@@ -684,14 +701,35 @@ type PrivateLinkResource_STATUS struct {
 	Type                 *string                `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20210501.UserAssignedIdentity
+// Details about a user assigned identity.
+type UserAssignedIdentity struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	ObjectId    *string                `json:"objectId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// ResourceReference: The resource ID of the user assigned identity.
+	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+// Storage version of v1beta20210501.UserAssignedIdentity_STATUS
+// Details about a user assigned identity.
+type UserAssignedIdentity_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	ObjectId    *string                `json:"objectId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId  *string                `json:"resourceId,omitempty"`
+}
+
 // Storage version of v1beta20210501.ContainerServiceSshConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshConfiguration
+// SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration struct {
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	PublicKeys  []ContainerServiceSshPublicKey `json:"publicKeys,omitempty"`
 }
 
 // Storage version of v1beta20210501.ContainerServiceSshConfiguration_STATUS
+// SSH configuration for Linux-based VMs running on Azure.
 type ContainerServiceSshConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	PublicKeys  []ContainerServiceSshPublicKey_STATUS `json:"publicKeys,omitempty"`
@@ -705,18 +743,19 @@ type ManagedClusterIdentity_UserAssignedIdentities_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfile
+// Profile of the managed cluster load balancer.
 type ManagedClusterLoadBalancerProfile struct {
-	AllocatedOutboundPorts *int                                                 `json:"allocatedOutboundPorts,omitempty"`
-	EffectiveOutboundIPs   []ResourceReference                                  `json:"effectiveOutboundIPs,omitempty"`
-	IdleTimeoutInMinutes   *int                                                 `json:"idleTimeoutInMinutes,omitempty"`
-	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfileManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
-	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfileOutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
-	OutboundIPs            *ManagedClusterLoadBalancerProfileOutboundIPs        `json:"outboundIPs,omitempty"`
-	PropertyBag            genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	AllocatedOutboundPorts *int                                                  `json:"allocatedOutboundPorts,omitempty"`
+	EffectiveOutboundIPs   []ResourceReference                                   `json:"effectiveOutboundIPs,omitempty"`
+	IdleTimeoutInMinutes   *int                                                  `json:"idleTimeoutInMinutes,omitempty"`
+	ManagedOutboundIPs     *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs `json:"managedOutboundIPs,omitempty"`
+	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
+	OutboundIPs            *ManagedClusterLoadBalancerProfile_OutboundIPs        `json:"outboundIPs,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_STATUS
+// Profile of the managed cluster load balancer.
 type ManagedClusterLoadBalancerProfile_STATUS struct {
 	AllocatedOutboundPorts *int                                                         `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference_STATUS                                   `json:"effectiveOutboundIPs,omitempty"`
@@ -735,7 +774,7 @@ type ManagedClusterOperatorSecrets struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentity
+// Details about the pod identity assigned to the Managed Cluster.
 type ManagedClusterPodIdentity struct {
 	BindingSelector *string                `json:"bindingSelector,omitempty"`
 	Identity        *UserAssignedIdentity  `json:"identity,omitempty"`
@@ -745,6 +784,7 @@ type ManagedClusterPodIdentity struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity_STATUS
+// Details about the pod identity assigned to the Managed Cluster.
 type ManagedClusterPodIdentity_STATUS struct {
 	BindingSelector   *string                                            `json:"bindingSelector,omitempty"`
 	Identity          *UserAssignedIdentity_STATUS                       `json:"identity,omitempty"`
@@ -756,7 +796,8 @@ type ManagedClusterPodIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityException
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityException
+// See [disable AAD Pod Identity for a specific
+// Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityException struct {
 	Name        *string                `json:"name,omitempty"`
 	Namespace   *string                `json:"namespace,omitempty"`
@@ -765,6 +806,8 @@ type ManagedClusterPodIdentityException struct {
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityException_STATUS
+// See [disable AAD Pod Identity for a specific
+// Pod/Application](https://azure.github.io/aad-pod-identity/docs/configure/application_exception/) for more details.
 type ManagedClusterPodIdentityException_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	Namespace   *string                `json:"namespace,omitempty"`
@@ -773,15 +816,22 @@ type ManagedClusterPodIdentityException_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ContainerServiceSshPublicKey
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ContainerServiceSshPublicKey
+// Contains information about SSH certificate public key data.
 type ContainerServiceSshPublicKey struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.ContainerServiceSshPublicKey_STATUS
+// Contains information about SSH certificate public key data.
 type ContainerServiceSshPublicKey_STATUS struct {
 	KeyData     *string                `json:"keyData,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs struct {
+	Count       *int                   `json:"count,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -791,37 +841,28 @@ type ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes struct {
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicIPPrefixes []ResourceReference    `json:"publicIPPrefixes,omitempty"`
+}
+
 // Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 type ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS struct {
 	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	PublicIPPrefixes []ResourceReference_STATUS `json:"publicIPPrefixes,omitempty"`
 }
 
+// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPs
+type ManagedClusterLoadBalancerProfile_OutboundIPs struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicIPs   []ResourceReference    `json:"publicIPs,omitempty"`
+}
+
 // Storage version of v1beta20210501.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	PublicIPs   []ResourceReference_STATUS `json:"publicIPs,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfileManagedOutboundIPs
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileManagedOutboundIPs
-type ManagedClusterLoadBalancerProfileManagedOutboundIPs struct {
-	Count       *int                   `json:"count,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPPrefixes
-type ManagedClusterLoadBalancerProfileOutboundIPPrefixes struct {
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicIPPrefixes []ResourceReference    `json:"publicIPPrefixes,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterLoadBalancerProfileOutboundIPs
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterLoadBalancerProfileOutboundIPs
-type ManagedClusterLoadBalancerProfileOutboundIPs struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicIPs   []ResourceReference    `json:"publicIPs,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
@@ -831,7 +872,7 @@ type ManagedClusterPodIdentity_ProvisioningInfo_STATUS struct {
 }
 
 // Storage version of v1beta20210501.ResourceReference
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ResourceReference
+// A reference to an Azure resource.
 type ResourceReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -840,37 +881,21 @@ type ResourceReference struct {
 }
 
 // Storage version of v1beta20210501.ResourceReference_STATUS
+// A reference to an Azure resource.
 type ResourceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210501.UserAssignedIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/UserAssignedIdentity
-type UserAssignedIdentity struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// ResourceReference: The resource ID of the user assigned identity.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// Storage version of v1beta20210501.UserAssignedIdentity_STATUS
-type UserAssignedIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ResourceId  *string                `json:"resourceId,omitempty"`
-}
-
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningError_STATUS
+// An error response from the pod identity provisioning.
 type ManagedClusterPodIdentityProvisioningError_STATUS struct {
 	Error       *ManagedClusterPodIdentityProvisioningErrorBody_STATUS `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
+// An error response from the pod identity provisioning.
 type ManagedClusterPodIdentityProvisioningErrorBody_STATUS struct {
 	Code        *string                                                          `json:"code,omitempty"`
 	Details     []ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled `json:"details,omitempty"`

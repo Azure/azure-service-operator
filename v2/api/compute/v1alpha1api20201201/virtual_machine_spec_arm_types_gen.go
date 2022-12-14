@@ -7,14 +7,14 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of VirtualMachine_Spec. Use v1beta20201201.VirtualMachine_Spec instead
 type VirtualMachine_Spec_ARM struct {
-	ExtendedLocation *ExtendedLocation_ARM               `json:"extendedLocation,omitempty"`
-	Identity         *VirtualMachineIdentity_ARM         `json:"identity,omitempty"`
-	Location         *string                             `json:"location,omitempty"`
-	Name             string                              `json:"name,omitempty"`
-	Plan             *Plan_ARM                           `json:"plan,omitempty"`
-	Properties       *VirtualMachine_Properties_Spec_ARM `json:"properties,omitempty"`
-	Tags             map[string]string                   `json:"tags,omitempty"`
-	Zones            []string                            `json:"zones,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM         `json:"extendedLocation,omitempty"`
+	Identity         *VirtualMachineIdentity_ARM   `json:"identity,omitempty"`
+	Location         *string                       `json:"location,omitempty"`
+	Name             string                        `json:"name,omitempty"`
+	Plan             *Plan_ARM                     `json:"plan,omitempty"`
+	Properties       *VirtualMachineProperties_ARM `json:"properties,omitempty"`
+	Tags             map[string]string             `json:"tags,omitempty"`
+	Zones            []string                      `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualMachine_Spec_ARM{}
@@ -34,31 +34,31 @@ func (machine *VirtualMachine_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
-// Deprecated version of VirtualMachine_Properties_Spec. Use v1beta20201201.VirtualMachine_Properties_Spec instead
-type VirtualMachine_Properties_Spec_ARM struct {
-	AdditionalCapabilities  *AdditionalCapabilities_ARM                        `json:"additionalCapabilities,omitempty"`
-	AvailabilitySet         *SubResource_ARM                                   `json:"availabilitySet,omitempty"`
-	BillingProfile          *BillingProfile_ARM                                `json:"billingProfile,omitempty"`
-	DiagnosticsProfile      *DiagnosticsProfile_ARM                            `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy          *VirtualMachine_Properties_EvictionPolicy_Spec     `json:"evictionPolicy,omitempty"`
-	ExtensionsTimeBudget    *string                                            `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile         *HardwareProfile_ARM                               `json:"hardwareProfile,omitempty"`
-	Host                    *SubResource_ARM                                   `json:"host,omitempty"`
-	HostGroup               *SubResource_ARM                                   `json:"hostGroup,omitempty"`
-	LicenseType             *string                                            `json:"licenseType,omitempty"`
-	NetworkProfile          *VirtualMachine_Properties_NetworkProfile_Spec_ARM `json:"networkProfile,omitempty"`
-	OsProfile               *VirtualMachine_Properties_OsProfile_Spec_ARM      `json:"osProfile,omitempty"`
-	PlatformFaultDomain     *int                                               `json:"platformFaultDomain,omitempty"`
-	Priority                *VirtualMachine_Properties_Priority_Spec           `json:"priority,omitempty"`
-	ProximityPlacementGroup *SubResource_ARM                                   `json:"proximityPlacementGroup,omitempty"`
-	SecurityProfile         *SecurityProfile_ARM                               `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfile_ARM                                `json:"storageProfile,omitempty"`
-	VirtualMachineScaleSet  *SubResource_ARM                                   `json:"virtualMachineScaleSet,omitempty"`
-}
-
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity_ARM struct {
 	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
+}
+
+// Deprecated version of VirtualMachineProperties. Use v1beta20201201.VirtualMachineProperties instead
+type VirtualMachineProperties_ARM struct {
+	AdditionalCapabilities  *AdditionalCapabilities_ARM `json:"additionalCapabilities,omitempty"`
+	AvailabilitySet         *SubResource_ARM            `json:"availabilitySet,omitempty"`
+	BillingProfile          *BillingProfile_ARM         `json:"billingProfile,omitempty"`
+	DiagnosticsProfile      *DiagnosticsProfile_ARM     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy          *EvictionPolicy             `json:"evictionPolicy,omitempty"`
+	ExtensionsTimeBudget    *string                     `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile         *HardwareProfile_ARM        `json:"hardwareProfile,omitempty"`
+	Host                    *SubResource_ARM            `json:"host,omitempty"`
+	HostGroup               *SubResource_ARM            `json:"hostGroup,omitempty"`
+	LicenseType             *string                     `json:"licenseType,omitempty"`
+	NetworkProfile          *NetworkProfile_ARM         `json:"networkProfile,omitempty"`
+	OsProfile               *OSProfile_ARM              `json:"osProfile,omitempty"`
+	PlatformFaultDomain     *int                        `json:"platformFaultDomain,omitempty"`
+	Priority                *Priority                   `json:"priority,omitempty"`
+	ProximityPlacementGroup *SubResource_ARM            `json:"proximityPlacementGroup,omitempty"`
+	SecurityProfile         *SecurityProfile_ARM        `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile_ARM         `json:"storageProfile,omitempty"`
+	VirtualMachineScaleSet  *SubResource_ARM            `json:"virtualMachineScaleSet,omitempty"`
 }
 
 // Deprecated version of BillingProfile. Use v1beta20201201.BillingProfile instead
@@ -76,6 +76,24 @@ type HardwareProfile_ARM struct {
 	VmSize *HardwareProfile_VmSize `json:"vmSize,omitempty"`
 }
 
+// Deprecated version of NetworkProfile. Use v1beta20201201.NetworkProfile instead
+type NetworkProfile_ARM struct {
+	NetworkInterfaces []NetworkInterfaceReference_ARM `json:"networkInterfaces,omitempty"`
+}
+
+// Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
+type OSProfile_ARM struct {
+	AdminPassword               *string                   `json:"adminPassword,omitempty"`
+	AdminUsername               *string                   `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                     `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                   `json:"computerName,omitempty"`
+	CustomData                  *string                   `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration_ARM   `json:"linuxConfiguration,omitempty"`
+	RequireGuestProvisionSignal *bool                     `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup_ARM    `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration_ARM `json:"windowsConfiguration,omitempty"`
+}
+
 // Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
 type SecurityProfile_ARM struct {
 	EncryptionAtHost *bool                         `json:"encryptionAtHost,omitempty"`
@@ -88,24 +106,6 @@ type StorageProfile_ARM struct {
 	DataDisks      []DataDisk_ARM      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_ARM `json:"imageReference,omitempty"`
 	OsDisk         *OSDisk_ARM         `json:"osDisk,omitempty"`
-}
-
-// Deprecated version of VirtualMachine_Properties_NetworkProfile_Spec. Use v1beta20201201.VirtualMachine_Properties_NetworkProfile_Spec instead
-type VirtualMachine_Properties_NetworkProfile_Spec_ARM struct {
-	NetworkInterfaces []VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM `json:"networkInterfaces,omitempty"`
-}
-
-// Deprecated version of VirtualMachine_Properties_OsProfile_Spec. Use v1beta20201201.VirtualMachine_Properties_OsProfile_Spec instead
-type VirtualMachine_Properties_OsProfile_Spec_ARM struct {
-	AdminPassword               *string                   `json:"adminPassword,omitempty"`
-	AdminUsername               *string                   `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                     `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                   `json:"computerName,omitempty"`
-	CustomData                  *string                   `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration_ARM   `json:"linuxConfiguration,omitempty"`
-	RequireGuestProvisionSignal *bool                     `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup_ARM    `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration_ARM `json:"windowsConfiguration,omitempty"`
 }
 
 // Deprecated version of VirtualMachineIdentity_Type. Use v1beta20201201.VirtualMachineIdentity_Type instead
@@ -127,9 +127,9 @@ type BootDiagnostics_ARM struct {
 
 // Deprecated version of DataDisk. Use v1beta20201201.DataDisk instead
 type DataDisk_ARM struct {
-	Caching                 *DataDisk_Caching          `json:"caching,omitempty"`
-	CreateOption            *DataDisk_CreateOption     `json:"createOption,omitempty"`
-	DetachOption            *DataDisk_DetachOption     `json:"detachOption,omitempty"`
+	Caching                 *Caching                   `json:"caching,omitempty"`
+	CreateOption            *CreateOption              `json:"createOption,omitempty"`
+	DetachOption            *DetachOption              `json:"detachOption,omitempty"`
 	DiskSizeGB              *int                       `json:"diskSizeGB,omitempty"`
 	Image                   *VirtualHardDisk_ARM       `json:"image,omitempty"`
 	Lun                     *int                       `json:"lun,omitempty"`
@@ -157,10 +157,16 @@ type LinuxConfiguration_ARM struct {
 	Ssh                           *SshConfiguration_ARM   `json:"ssh,omitempty"`
 }
 
+// Deprecated version of NetworkInterfaceReference. Use v1beta20201201.NetworkInterfaceReference instead
+type NetworkInterfaceReference_ARM struct {
+	Id         *string                                  `json:"id,omitempty"`
+	Properties *NetworkInterfaceReferenceProperties_ARM `json:"properties,omitempty"`
+}
+
 // Deprecated version of OSDisk. Use v1beta20201201.OSDisk instead
 type OSDisk_ARM struct {
-	Caching                 *OSDisk_Caching             `json:"caching,omitempty"`
-	CreateOption            *OSDisk_CreateOption        `json:"createOption,omitempty"`
+	Caching                 *Caching                    `json:"caching,omitempty"`
+	CreateOption            *CreateOption               `json:"createOption,omitempty"`
 	DiffDiskSettings        *DiffDiskSettings_ARM       `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                        `json:"diskSizeGB,omitempty"`
 	EncryptionSettings      *DiskEncryptionSettings_ARM `json:"encryptionSettings,omitempty"`
@@ -184,12 +190,6 @@ type VaultSecretGroup_ARM struct {
 	VaultCertificates []VaultCertificate_ARM `json:"vaultCertificates,omitempty"`
 }
 
-// Deprecated version of VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec. Use v1beta20201201.VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec instead
-type VirtualMachine_Properties_NetworkProfile_NetworkInterfaces_Spec_ARM struct {
-	Id         *string                                  `json:"id,omitempty"`
-	Properties *NetworkInterfaceReferenceProperties_ARM `json:"properties,omitempty"`
-}
-
 // Deprecated version of WindowsConfiguration. Use v1beta20201201.WindowsConfiguration instead
 type WindowsConfiguration_ARM struct {
 	AdditionalUnattendContent []AdditionalUnattendContent_ARM `json:"additionalUnattendContent,omitempty"`
@@ -210,8 +210,8 @@ type AdditionalUnattendContent_ARM struct {
 
 // Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
 type DiffDiskSettings_ARM struct {
-	Option    *DiffDiskSettings_Option    `json:"option,omitempty"`
-	Placement *DiffDiskSettings_Placement `json:"placement,omitempty"`
+	Option    *DiffDiskOption    `json:"option,omitempty"`
+	Placement *DiffDiskPlacement `json:"placement,omitempty"`
 }
 
 // Deprecated version of DiskEncryptionSettings. Use v1beta20201201.DiskEncryptionSettings instead
@@ -228,9 +228,9 @@ type LinuxPatchSettings_ARM struct {
 
 // Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
 type ManagedDiskParameters_ARM struct {
-	DiskEncryptionSet  *DiskEncryptionSetParameters_ARM          `json:"diskEncryptionSet,omitempty"`
-	Id                 *string                                   `json:"id,omitempty"`
-	StorageAccountType *ManagedDiskParameters_StorageAccountType `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM    `json:"diskEncryptionSet,omitempty"`
+	Id                 *string             `json:"id,omitempty"`
+	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
 // Deprecated version of NetworkInterfaceReferenceProperties. Use v1beta20201201.NetworkInterfaceReferenceProperties instead
@@ -246,7 +246,7 @@ type PatchSettings_ARM struct {
 
 // Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
 type SshConfiguration_ARM struct {
-	PublicKeys []SshPublicKey_ARM `json:"publicKeys,omitempty"`
+	PublicKeys []SshPublicKeySpec_ARM `json:"publicKeys,omitempty"`
 }
 
 // Deprecated version of VaultCertificate. Use v1beta20201201.VaultCertificate instead
@@ -265,11 +265,6 @@ type WinRMConfiguration_ARM struct {
 	Listeners []WinRMListener_ARM `json:"listeners,omitempty"`
 }
 
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters_ARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
 // Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
 type KeyVaultKeyReference_ARM struct {
 	KeyUrl      *string          `json:"keyUrl,omitempty"`
@@ -282,8 +277,8 @@ type KeyVaultSecretReference_ARM struct {
 	SourceVault *SubResource_ARM `json:"sourceVault,omitempty"`
 }
 
-// Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
-type SshPublicKey_ARM struct {
+// Deprecated version of SshPublicKeySpec. Use v1beta20201201.SshPublicKeySpec instead
+type SshPublicKeySpec_ARM struct {
 	KeyData *string `json:"keyData,omitempty"`
 	Path    *string `json:"path,omitempty"`
 }

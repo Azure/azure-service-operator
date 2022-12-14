@@ -24,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -310,7 +312,9 @@ func (network *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}
 type VirtualNetworkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -318,7 +322,6 @@ type VirtualNetworkList struct {
 }
 
 type VirtualNetwork_Spec struct {
-	// +kubebuilder:validation:Required
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
@@ -348,7 +351,7 @@ type VirtualNetwork_Spec struct {
 	// IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -357,7 +360,7 @@ type VirtualNetwork_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -397,7 +400,7 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		network.EnableDdosProtection != nil ||
 		network.EnableVmProtection != nil ||
 		network.IpAllocations != nil {
-		result.Properties = &VirtualNetwork_Properties_Spec_ARM{}
+		result.Properties = &VirtualNetworkPropertiesFormat_ARM{}
 	}
 	if network.AddressSpace != nil {
 		addressSpace_ARM, err := (*network.AddressSpace).ConvertToARM(resolved)
@@ -897,6 +900,7 @@ func (network *VirtualNetwork_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (network *VirtualNetwork_Spec) SetAzureName(azureName string) { network.AzureName = azureName }
 
+// Virtual Network resource.
 type VirtualNetwork_STATUS struct {
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace_STATUS `json:"addressSpace,omitempty"`
@@ -1450,9 +1454,8 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace struct {
-	// +kubebuilder:validation:Required
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
@@ -1523,6 +1526,7 @@ func (space *AddressSpace) AssignProperties_To_AddressSpace(destination *v202011
 	return nil
 }
 
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace_STATUS struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
@@ -1580,9 +1584,9 @@ func (space *AddressSpace_STATUS) AssignProperties_To_AddressSpace_STATUS(destin
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions struct {
-	// +kubebuilder:validation:Required
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
@@ -1653,6 +1657,8 @@ func (options *DhcpOptions) AssignProperties_To_DhcpOptions(destination *v202011
 	return nil
 }
 
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions_STATUS struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -1710,7 +1716,7 @@ func (options *DhcpOptions_STATUS) AssignProperties_To_DhcpOptions_STATUS(destin
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities struct {
 	// +kubebuilder:validation:Required
 	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
@@ -1785,6 +1791,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignProperties_To_VirtualNetw
 	return nil
 }
 
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities_STATUS struct {
 	// RegionalCommunity: The BGP community associated with the region of the virtual network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`

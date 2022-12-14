@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,7 +24,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/sites
+// Generator information:
+// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/WebApps.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}
 type Site struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -311,7 +312,9 @@ func (site *Site) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/resourceDefinitions/sites
+// Generator information:
+// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/WebApps.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}
 type SiteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -340,7 +343,7 @@ type Site_Spec struct {
 	// - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or accepted.
 	ClientCertMode *Site_Properties_ClientCertMode_Spec `json:"clientCertMode,omitempty"`
 
-	// CloningInfo: Information needed for cloning operation.
+	// CloningInfo: If specified during app creation, the app is cloned from a source app.
 	CloningInfo *CloningInfo `json:"cloningInfo,omitempty"`
 
 	// ContainerSize: Size of the function container.
@@ -367,7 +370,7 @@ type Site_Spec struct {
 	// If <code>true</code>, the app is only accessible via API management process.
 	HostNamesDisabled *bool `json:"hostNamesDisabled,omitempty"`
 
-	// HostingEnvironmentProfile: Specification for an App Service Environment to use for this resource.
+	// HostingEnvironmentProfile: App Service Environment to use for the app.
 	HostingEnvironmentProfile *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
 
 	// HttpsOnly: HttpsOnly: configures a web site to accept only https requests. Issues redirect for
@@ -389,7 +392,8 @@ type Site_Spec struct {
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource Location.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -402,7 +406,7 @@ type Site_Spec struct {
 	// string.
 	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
 
-	// RedundancyMode: Site redundancy mode.
+	// RedundancyMode: Site redundancy mode
 	RedundancyMode *Site_Properties_RedundancyMode_Spec `json:"redundancyMode,omitempty"`
 
 	// Reserved: <code>true</code> if reserved; otherwise, <code>false</code>.
@@ -416,13 +420,13 @@ type Site_Spec struct {
 	// "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}".
 	ServerFarmReference *genruntime.ResourceReference `armReference:"ServerFarmId" json:"serverFarmReference,omitempty"`
 
-	// SiteConfig: Configuration of an App Service app.
-	SiteConfig *Site_Properties_SiteConfig_Spec `json:"siteConfig,omitempty"`
+	// SiteConfig: Configuration of the app.
+	SiteConfig *SiteConfig `json:"siteConfig,omitempty"`
 
 	// StorageAccountRequired: Checks if Customer provided storage account is required
 	StorageAccountRequired *bool `json:"storageAccountRequired,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// VirtualNetworkSubnetReference: Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET
@@ -620,7 +624,7 @@ func (site *Site_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		if err != nil {
 			return nil, err
 		}
-		siteConfig := *siteConfig_ARM.(*Site_Properties_SiteConfig_Spec_ARM)
+		siteConfig := *siteConfig_ARM.(*SiteConfig_ARM)
 		result.Properties.SiteConfig = &siteConfig
 	}
 	if site.StorageAccountRequired != nil {
@@ -910,7 +914,7 @@ func (site *Site_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SiteConfig != nil {
-			var siteConfig1 Site_Properties_SiteConfig_Spec
+			var siteConfig1 SiteConfig
 			err := siteConfig1.PopulateFromARM(owner, *typedInput.Properties.SiteConfig)
 			if err != nil {
 				return err
@@ -1222,10 +1226,10 @@ func (site *Site_Spec) AssignProperties_From_Site_Spec(source *v20220301s.Site_S
 
 	// SiteConfig
 	if source.SiteConfig != nil {
-		var siteConfig Site_Properties_SiteConfig_Spec
-		err := siteConfig.AssignProperties_From_Site_Properties_SiteConfig_Spec(source.SiteConfig)
+		var siteConfig SiteConfig
+		err := siteConfig.AssignProperties_From_SiteConfig(source.SiteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Site_Properties_SiteConfig_Spec() to populate field SiteConfig")
+			return errors.Wrap(err, "calling AssignProperties_From_SiteConfig() to populate field SiteConfig")
 		}
 		site.SiteConfig = &siteConfig
 	} else {
@@ -1486,10 +1490,10 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 
 	// SiteConfig
 	if site.SiteConfig != nil {
-		var siteConfig v20220301s.Site_Properties_SiteConfig_Spec
-		err := site.SiteConfig.AssignProperties_To_Site_Properties_SiteConfig_Spec(&siteConfig)
+		var siteConfig v20220301s.SiteConfig
+		err := site.SiteConfig.AssignProperties_To_SiteConfig(&siteConfig)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Site_Properties_SiteConfig_Spec() to populate field SiteConfig")
+			return errors.Wrap(err, "calling AssignProperties_To_SiteConfig() to populate field SiteConfig")
 		}
 		destination.SiteConfig = &siteConfig
 	} else {
@@ -1558,6 +1562,7 @@ func (site *Site_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (site *Site_Spec) SetAzureName(azureName string) { site.AzureName = azureName }
 
+// A web app, a mobile app backend, or an API app.
 type Site_STATUS struct {
 	// AvailabilityState: Management information availability state for the app.
 	AvailabilityState *Site_Properties_AvailabilityState_STATUS `json:"availabilityState,omitempty"`
@@ -1604,7 +1609,9 @@ type Site_STATUS struct {
 
 	// EnabledHostNames: Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
 	// the app is not served on those hostnames.
-	EnabledHostNames []string                 `json:"enabledHostNames,omitempty"`
+	EnabledHostNames []string `json:"enabledHostNames,omitempty"`
+
+	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
 	// HostNameSslStates: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
@@ -1628,7 +1635,9 @@ type Site_STATUS struct {
 	HyperV *bool `json:"hyperV,omitempty"`
 
 	// Id: Resource Id.
-	Id       *string                        `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Identity: Managed service identity.
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// InProgressOperationId: Specifies an operation id if this site has a pending operation.
@@ -2959,7 +2968,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/CloningInfo
+// Information needed for cloning operation.
 type CloningInfo struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -3329,6 +3338,7 @@ func (info *CloningInfo) AssignProperties_To_CloningInfo(destination *v20220301s
 	return nil
 }
 
+// Information needed for cloning operation.
 type CloningInfo_STATUS struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -3589,7 +3599,7 @@ func (info *CloningInfo_STATUS) AssignProperties_To_CloningInfo_STATUS(destinati
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HostNameSslState
+// SSL-enabled hostname.
 type HostNameSslState struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType `json:"hostType,omitempty"`
@@ -3798,6 +3808,7 @@ func (state *HostNameSslState) AssignProperties_To_HostNameSslState(destination 
 	return nil
 }
 
+// SSL-enabled hostname.
 type HostNameSslState_STATUS struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
@@ -3961,15 +3972,10 @@ func (state *HostNameSslState_STATUS) AssignProperties_To_HostNameSslState_STATU
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ManagedServiceIdentity
+// Managed service identity.
 type ManagedServiceIdentity struct {
 	// Type: Type of managed service identity.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedServiceIdentity{}
@@ -3985,14 +3991,6 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for key, value := range identity.UserAssignedIdentities {
-			result.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
 	}
 	return result, nil
 }
@@ -4015,14 +4013,6 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 		identity.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
-		for key, value := range typedInput.UserAssignedIdentities {
-			identity.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-
 	// No error
 	return nil
 }
@@ -4036,19 +4026,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_From_ManagedServiceIden
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -4068,19 +4045,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.Type = nil
 	}
 
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -4092,6 +4056,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
+// Managed service identity.
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: Principal Id of managed service identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4290,7 +4255,15 @@ const (
 	Site_Properties_RedundancyMode_STATUS_None         = Site_Properties_RedundancyMode_STATUS("None")
 )
 
-type Site_Properties_SiteConfig_Spec struct {
+type Site_Properties_UsageState_STATUS string
+
+const (
+	Site_Properties_UsageState_STATUS_Exceeded = Site_Properties_UsageState_STATUS("Exceeded")
+	Site_Properties_UsageState_STATUS_Normal   = Site_Properties_UsageState_STATUS("Normal")
+)
+
+// Configuration of an App Service app.
+type SiteConfig struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
 
@@ -4303,7 +4276,7 @@ type Site_Properties_SiteConfig_Spec struct {
 	// ApiDefinition: Information about the formal API definition for the app.
 	ApiDefinition *ApiDefinitionInfo `json:"apiDefinition,omitempty"`
 
-	// ApiManagementConfig: Azure API management (APIM) configuration linked to the app.
+	// ApiManagementConfig: Azure API management settings linked to the app.
 	ApiManagementConfig *ApiManagementConfig `json:"apiManagementConfig,omitempty"`
 
 	// AppCommandLine: App command line to launch.
@@ -4315,19 +4288,19 @@ type Site_Properties_SiteConfig_Spec struct {
 	// AutoHealEnabled: <code>true</code> if Auto Heal is enabled; otherwise, <code>false</code>.
 	AutoHealEnabled *bool `json:"autoHealEnabled,omitempty"`
 
-	// AutoHealRules: Rules that can be defined for auto-heal.
+	// AutoHealRules: Auto Heal rules.
 	AutoHealRules *AutoHealRules `json:"autoHealRules,omitempty"`
 
 	// AutoSwapSlotName: Auto-swap slot name.
 	AutoSwapSlotName *string `json:"autoSwapSlotName,omitempty"`
 
 	// AzureStorageAccounts: List of Azure Storage Accounts.
-	AzureStorageAccounts map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec `json:"azureStorageAccounts,omitempty"`
+	AzureStorageAccounts map[string]AzureStorageInfoValue `json:"azureStorageAccounts,omitempty"`
 
 	// ConnectionStrings: Connection strings.
 	ConnectionStrings []ConnStringInfo `json:"connectionStrings,omitempty"`
 
-	// Cors: Cross-Origin Resource Sharing (CORS) settings for the app.
+	// Cors: Cross-Origin Resource Sharing (CORS) settings.
 	Cors *CorsSettings `json:"cors,omitempty"`
 
 	// DefaultDocuments: Default documents.
@@ -4339,11 +4312,11 @@ type Site_Properties_SiteConfig_Spec struct {
 	// DocumentRoot: Document root.
 	DocumentRoot *string `json:"documentRoot,omitempty"`
 
-	// Experiments: Routing rules in production experiments.
+	// Experiments: This is work around for polymorphic types.
 	Experiments *Experiments `json:"experiments,omitempty"`
 
-	// FtpsState: State of FTP / FTPS service.
-	FtpsState *Site_Properties_SiteConfig_FtpsState_Spec `json:"ftpsState,omitempty"`
+	// FtpsState: State of FTP / FTPS service
+	FtpsState *SiteConfig_FtpsState `json:"ftpsState,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
 	// FunctionAppScaleLimit: Maximum number of workers that a site can scale out to.
@@ -4383,14 +4356,14 @@ type Site_Properties_SiteConfig_Spec struct {
 	// KeyVaultReferenceIdentity: Identity to use for Key Vault Reference authentication.
 	KeyVaultReferenceIdentity *string `json:"keyVaultReferenceIdentity,omitempty"`
 
-	// Limits: Metric limits set on an app.
+	// Limits: Site limits.
 	Limits *SiteLimits `json:"limits,omitempty"`
 
 	// LinuxFxVersion: Linux App Framework and version
 	LinuxFxVersion *string `json:"linuxFxVersion,omitempty"`
 
 	// LoadBalancing: Site load balancing.
-	LoadBalancing *Site_Properties_SiteConfig_LoadBalancing_Spec `json:"loadBalancing,omitempty"`
+	LoadBalancing *SiteConfig_LoadBalancing `json:"loadBalancing,omitempty"`
 
 	// LocalMySqlEnabled: <code>true</code> to enable local MySQL; otherwise, <code>false</code>.
 	LocalMySqlEnabled *bool `json:"localMySqlEnabled,omitempty"`
@@ -4399,13 +4372,13 @@ type Site_Properties_SiteConfig_Spec struct {
 	LogsDirectorySizeLimit *int `json:"logsDirectorySizeLimit,omitempty"`
 
 	// ManagedPipelineMode: Managed pipeline mode.
-	ManagedPipelineMode *Site_Properties_SiteConfig_ManagedPipelineMode_Spec `json:"managedPipelineMode,omitempty"`
+	ManagedPipelineMode *SiteConfig_ManagedPipelineMode `json:"managedPipelineMode,omitempty"`
 
 	// ManagedServiceIdentityId: Managed Service Identity Id
 	ManagedServiceIdentityId *int `json:"managedServiceIdentityId,omitempty"`
 
-	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests.
-	MinTlsVersion *Site_Properties_SiteConfig_MinTlsVersion_Spec `json:"minTlsVersion,omitempty"`
+	// MinTlsVersion: MinTlsVersion: configures the minimum version of TLS required for SSL requests
+	MinTlsVersion *SiteConfig_MinTlsVersion `json:"minTlsVersion,omitempty"`
 
 	// +kubebuilder:validation:Maximum=20
 	// +kubebuilder:validation:Minimum=0
@@ -4440,8 +4413,8 @@ type Site_Properties_SiteConfig_Spec struct {
 	// PublishingUsername: Publishing user name.
 	PublishingUsername *string `json:"publishingUsername,omitempty"`
 
-	// Push: Push settings for the App.
-	Push *Site_Properties_SiteConfig_Push_Spec `json:"push,omitempty"`
+	// Push: Push endpoint settings.
+	Push *PushSettings `json:"push,omitempty"`
 
 	// PythonVersion: Version of Python.
 	PythonVersion *string `json:"pythonVersion,omitempty"`
@@ -4464,11 +4437,11 @@ type Site_Properties_SiteConfig_Spec struct {
 	// ScmIpSecurityRestrictionsUseMain: IP security restrictions for scm to use main.
 	ScmIpSecurityRestrictionsUseMain *bool `json:"scmIpSecurityRestrictionsUseMain,omitempty"`
 
-	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site.
-	ScmMinTlsVersion *Site_Properties_SiteConfig_ScmMinTlsVersion_Spec `json:"scmMinTlsVersion,omitempty"`
+	// ScmMinTlsVersion: ScmMinTlsVersion: configures the minimum version of TLS required for SSL requests for SCM site
+	ScmMinTlsVersion *SiteConfig_ScmMinTlsVersion `json:"scmMinTlsVersion,omitempty"`
 
 	// ScmType: SCM type.
-	ScmType *Site_Properties_SiteConfig_ScmType_Spec `json:"scmType,omitempty"`
+	ScmType *SiteConfig_ScmType `json:"scmType,omitempty"`
 
 	// TracingOptions: Tracing options.
 	TracingOptions *string `json:"tracingOptions,omitempty"`
@@ -4506,14 +4479,14 @@ type Site_Properties_SiteConfig_Spec struct {
 	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Site_Properties_SiteConfig_Spec{}
+var _ genruntime.ARMTransformer = &SiteConfig{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (config *Site_Properties_SiteConfig_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (config *SiteConfig) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if config == nil {
 		return nil, nil
 	}
-	result := &Site_Properties_SiteConfig_Spec_ARM{}
+	result := &SiteConfig_ARM{}
 
 	// Set property ‘AcrUseManagedIdentityCreds’:
 	if config.AcrUseManagedIdentityCreds != nil {
@@ -4592,13 +4565,13 @@ func (config *Site_Properties_SiteConfig_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘AzureStorageAccounts’:
 	if config.AzureStorageAccounts != nil {
-		result.AzureStorageAccounts = make(map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM, len(config.AzureStorageAccounts))
+		result.AzureStorageAccounts = make(map[string]AzureStorageInfoValue_ARM, len(config.AzureStorageAccounts))
 		for key, value := range config.AzureStorageAccounts {
 			value_ARM, err := value.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			result.AzureStorageAccounts[key] = *value_ARM.(*Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM)
+			result.AzureStorageAccounts[key] = *value_ARM.(*AzureStorageInfoValue_ARM)
 		}
 	}
 
@@ -4838,7 +4811,7 @@ func (config *Site_Properties_SiteConfig_Spec) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		push := *push_ARM.(*Site_Properties_SiteConfig_Push_Spec_ARM)
+		push := *push_ARM.(*PushSettings_ARM)
 		result.Push = &push
 	}
 
@@ -4965,15 +4938,15 @@ func (config *Site_Properties_SiteConfig_Spec) ConvertToARM(resolved genruntime.
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (config *Site_Properties_SiteConfig_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Site_Properties_SiteConfig_Spec_ARM{}
+func (config *SiteConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SiteConfig_ARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (config *Site_Properties_SiteConfig_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Site_Properties_SiteConfig_Spec_ARM)
+func (config *SiteConfig) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SiteConfig_ARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Properties_SiteConfig_Spec_ARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SiteConfig_ARM, got %T", armInput)
 	}
 
 	// Set property ‘AcrUseManagedIdentityCreds’:
@@ -5057,9 +5030,9 @@ func (config *Site_Properties_SiteConfig_Spec) PopulateFromARM(owner genruntime.
 
 	// Set property ‘AzureStorageAccounts’:
 	if typedInput.AzureStorageAccounts != nil {
-		config.AzureStorageAccounts = make(map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec, len(typedInput.AzureStorageAccounts))
+		config.AzureStorageAccounts = make(map[string]AzureStorageInfoValue, len(typedInput.AzureStorageAccounts))
 		for key, value := range typedInput.AzureStorageAccounts {
-			var value1 Site_Properties_SiteConfig_AzureStorageAccounts_Spec
+			var value1 AzureStorageInfoValue
 			err := value1.PopulateFromARM(owner, value)
 			if err != nil {
 				return err
@@ -5306,7 +5279,7 @@ func (config *Site_Properties_SiteConfig_Spec) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Push’:
 	if typedInput.Push != nil {
-		var push1 Site_Properties_SiteConfig_Push_Spec
+		var push1 PushSettings
 		err := push1.PopulateFromARM(owner, *typedInput.Push)
 		if err != nil {
 			return err
@@ -5441,8 +5414,8 @@ func (config *Site_Properties_SiteConfig_Spec) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignProperties_From_Site_Properties_SiteConfig_Spec populates our Site_Properties_SiteConfig_Spec from the provided source Site_Properties_SiteConfig_Spec
-func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Properties_SiteConfig_Spec(source *v20220301s.Site_Properties_SiteConfig_Spec) error {
+// AssignProperties_From_SiteConfig populates our SiteConfig from the provided source SiteConfig
+func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.SiteConfig) error {
 
 	// AcrUseManagedIdentityCreds
 	if source.AcrUseManagedIdentityCreds != nil {
@@ -5533,14 +5506,14 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// AzureStorageAccounts
 	if source.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]Site_Properties_SiteConfig_AzureStorageAccounts_Spec, len(source.AzureStorageAccounts))
+		azureStorageAccountMap := make(map[string]AzureStorageInfoValue, len(source.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
 			// Shadow the loop variable to avoid aliasing
 			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount Site_Properties_SiteConfig_AzureStorageAccounts_Spec
-			err := azureStorageAccount.AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(&azureStorageAccountValue)
+			var azureStorageAccount AzureStorageInfoValue
+			err := azureStorageAccount.AssignProperties_From_AzureStorageInfoValue(&azureStorageAccountValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec() to populate field AzureStorageAccounts")
+				return errors.Wrap(err, "calling AssignProperties_From_AzureStorageInfoValue() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -5607,7 +5580,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// FtpsState
 	if source.FtpsState != nil {
-		ftpsState := Site_Properties_SiteConfig_FtpsState_Spec(*source.FtpsState)
+		ftpsState := SiteConfig_FtpsState(*source.FtpsState)
 		config.FtpsState = &ftpsState
 	} else {
 		config.FtpsState = nil
@@ -5713,7 +5686,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// LoadBalancing
 	if source.LoadBalancing != nil {
-		loadBalancing := Site_Properties_SiteConfig_LoadBalancing_Spec(*source.LoadBalancing)
+		loadBalancing := SiteConfig_LoadBalancing(*source.LoadBalancing)
 		config.LoadBalancing = &loadBalancing
 	} else {
 		config.LoadBalancing = nil
@@ -5732,7 +5705,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// ManagedPipelineMode
 	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := Site_Properties_SiteConfig_ManagedPipelineMode_Spec(*source.ManagedPipelineMode)
+		managedPipelineMode := SiteConfig_ManagedPipelineMode(*source.ManagedPipelineMode)
 		config.ManagedPipelineMode = &managedPipelineMode
 	} else {
 		config.ManagedPipelineMode = nil
@@ -5743,7 +5716,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// MinTlsVersion
 	if source.MinTlsVersion != nil {
-		minTlsVersion := Site_Properties_SiteConfig_MinTlsVersion_Spec(*source.MinTlsVersion)
+		minTlsVersion := SiteConfig_MinTlsVersion(*source.MinTlsVersion)
 		config.MinTlsVersion = &minTlsVersion
 	} else {
 		config.MinTlsVersion = nil
@@ -5788,10 +5761,10 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// Push
 	if source.Push != nil {
-		var push Site_Properties_SiteConfig_Push_Spec
-		err := push.AssignProperties_From_Site_Properties_SiteConfig_Push_Spec(source.Push)
+		var push PushSettings
+		err := push.AssignProperties_From_PushSettings(source.Push)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_Site_Properties_SiteConfig_Push_Spec() to populate field Push")
+			return errors.Wrap(err, "calling AssignProperties_From_PushSettings() to populate field Push")
 		}
 		config.Push = &push
 	} else {
@@ -5856,7 +5829,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// ScmMinTlsVersion
 	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := Site_Properties_SiteConfig_ScmMinTlsVersion_Spec(*source.ScmMinTlsVersion)
+		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion(*source.ScmMinTlsVersion)
 		config.ScmMinTlsVersion = &scmMinTlsVersion
 	} else {
 		config.ScmMinTlsVersion = nil
@@ -5864,7 +5837,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 
 	// ScmType
 	if source.ScmType != nil {
-		scmType := Site_Properties_SiteConfig_ScmType_Spec(*source.ScmType)
+		scmType := SiteConfig_ScmType(*source.ScmType)
 		config.ScmType = &scmType
 	} else {
 		config.ScmType = nil
@@ -5934,8 +5907,8 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_From_Site_Proper
 	return nil
 }
 
-// AssignProperties_To_Site_Properties_SiteConfig_Spec populates the provided destination Site_Properties_SiteConfig_Spec from our Site_Properties_SiteConfig_Spec
-func (config *Site_Properties_SiteConfig_Spec) AssignProperties_To_Site_Properties_SiteConfig_Spec(destination *v20220301s.Site_Properties_SiteConfig_Spec) error {
+// AssignProperties_To_SiteConfig populates the provided destination SiteConfig from our SiteConfig
+func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s.SiteConfig) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6028,14 +6001,14 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_To_Site_Properti
 
 	// AzureStorageAccounts
 	if config.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec, len(config.AzureStorageAccounts))
+		azureStorageAccountMap := make(map[string]v20220301s.AzureStorageInfoValue, len(config.AzureStorageAccounts))
 		for azureStorageAccountKey, azureStorageAccountValue := range config.AzureStorageAccounts {
 			// Shadow the loop variable to avoid aliasing
 			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec
-			err := azureStorageAccountValue.AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(&azureStorageAccount)
+			var azureStorageAccount v20220301s.AzureStorageInfoValue
+			err := azureStorageAccountValue.AssignProperties_To_AzureStorageInfoValue(&azureStorageAccount)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec() to populate field AzureStorageAccounts")
+				return errors.Wrap(err, "calling AssignProperties_To_AzureStorageInfoValue() to populate field AzureStorageAccounts")
 			}
 			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
 		}
@@ -6283,10 +6256,10 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_To_Site_Properti
 
 	// Push
 	if config.Push != nil {
-		var push v20220301s.Site_Properties_SiteConfig_Push_Spec
-		err := config.Push.AssignProperties_To_Site_Properties_SiteConfig_Push_Spec(&push)
+		var push v20220301s.PushSettings
+		err := config.Push.AssignProperties_To_PushSettings(&push)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_Site_Properties_SiteConfig_Push_Spec() to populate field Push")
+			return errors.Wrap(err, "calling AssignProperties_To_PushSettings() to populate field Push")
 		}
 		destination.Push = &push
 	} else {
@@ -6436,13 +6409,7 @@ func (config *Site_Properties_SiteConfig_Spec) AssignProperties_To_Site_Properti
 	return nil
 }
 
-type Site_Properties_UsageState_STATUS string
-
-const (
-	Site_Properties_UsageState_STATUS_Exceeded = Site_Properties_UsageState_STATUS("Exceeded")
-	Site_Properties_UsageState_STATUS_Normal   = Site_Properties_UsageState_STATUS("Normal")
-)
-
+// Configuration of an App Service app.
 type SiteConfig_STATUS struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -8126,6 +8093,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	return nil
 }
 
+// The status of the last successful slot swap operation.
 type SlotSwapStatus_STATUS struct {
 	// DestinationSlotName: The destination slot of the last swap operation.
 	DestinationSlotName *string `json:"destinationSlotName,omitempty"`
@@ -8214,7 +8182,7 @@ func (status *SlotSwapStatus_STATUS) AssignProperties_To_SlotSwapStatus_STATUS(d
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ApiDefinitionInfo
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
@@ -8288,6 +8256,7 @@ func (info *ApiDefinitionInfo) AssignProperties_To_ApiDefinitionInfo(destination
 	return nil
 }
 
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo_STATUS struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
@@ -8346,7 +8315,7 @@ func (info *ApiDefinitionInfo_STATUS) AssignProperties_To_ApiDefinitionInfo_STAT
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ApiManagementConfig
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig struct {
 	// Reference: APIM-Api Identifier.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -8430,6 +8399,7 @@ func (config *ApiManagementConfig) AssignProperties_To_ApiManagementConfig(desti
 	return nil
 }
 
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig_STATUS struct {
 	// Id: APIM-Api Identifier.
 	Id *string `json:"id,omitempty"`
@@ -8488,12 +8458,12 @@ func (config *ApiManagementConfig_STATUS) AssignProperties_To_ApiManagementConfi
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealRules
+// Rules that can be defined for auto-heal.
 type AutoHealRules struct {
-	// Actions: Actions which to take by the auto-heal module when a rule is triggered.
+	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions `json:"actions,omitempty"`
 
-	// Triggers: Triggers for auto-heal.
+	// Triggers: Conditions that describe when to execute the auto-heal actions.
 	Triggers *AutoHealTriggers `json:"triggers,omitempty"`
 }
 
@@ -8637,6 +8607,7 @@ func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *v2022
 	return nil
 }
 
+// Rules that can be defined for auto-heal.
 type AutoHealRules_STATUS struct {
 	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions_STATUS `json:"actions,omitempty"`
@@ -8756,6 +8727,185 @@ func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(dest
 	return nil
 }
 
+// Azure Files or Blob Storage access information value for dictionary storage.
+type AzureStorageInfoValue struct {
+	// AccessKey: Access key for the storage account.
+	AccessKey *genruntime.SecretReference `json:"accessKey,omitempty"`
+
+	// AccountName: Name of the storage account.
+	AccountName *string `json:"accountName,omitempty"`
+
+	// MountPath: Path to mount the storage within the site's runtime environment.
+	MountPath *string `json:"mountPath,omitempty"`
+
+	// ShareName: Name of the file share (container name, for Blob storage).
+	ShareName *string `json:"shareName,omitempty"`
+
+	// Type: Type of storage.
+	Type *AzureStorageInfoValue_Type `json:"type,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &AzureStorageInfoValue{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (value *AzureStorageInfoValue) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if value == nil {
+		return nil, nil
+	}
+	result := &AzureStorageInfoValue_ARM{}
+
+	// Set property ‘AccessKey’:
+	if value.AccessKey != nil {
+		accessKeySecret, err := resolved.ResolvedSecrets.Lookup(*value.AccessKey)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
+		}
+		accessKey := accessKeySecret
+		result.AccessKey = &accessKey
+	}
+
+	// Set property ‘AccountName’:
+	if value.AccountName != nil {
+		accountName := *value.AccountName
+		result.AccountName = &accountName
+	}
+
+	// Set property ‘MountPath’:
+	if value.MountPath != nil {
+		mountPath := *value.MountPath
+		result.MountPath = &mountPath
+	}
+
+	// Set property ‘ShareName’:
+	if value.ShareName != nil {
+		shareName := *value.ShareName
+		result.ShareName = &shareName
+	}
+
+	// Set property ‘Type’:
+	if value.Type != nil {
+		typeVar := *value.Type
+		result.Type = &typeVar
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (value *AzureStorageInfoValue) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AzureStorageInfoValue_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (value *AzureStorageInfoValue) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AzureStorageInfoValue_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AzureStorageInfoValue_ARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘AccessKey’
+
+	// Set property ‘AccountName’:
+	if typedInput.AccountName != nil {
+		accountName := *typedInput.AccountName
+		value.AccountName = &accountName
+	}
+
+	// Set property ‘MountPath’:
+	if typedInput.MountPath != nil {
+		mountPath := *typedInput.MountPath
+		value.MountPath = &mountPath
+	}
+
+	// Set property ‘ShareName’:
+	if typedInput.ShareName != nil {
+		shareName := *typedInput.ShareName
+		value.ShareName = &shareName
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		value.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_AzureStorageInfoValue populates our AzureStorageInfoValue from the provided source AzureStorageInfoValue
+func (value *AzureStorageInfoValue) AssignProperties_From_AzureStorageInfoValue(source *v20220301s.AzureStorageInfoValue) error {
+
+	// AccessKey
+	if source.AccessKey != nil {
+		accessKey := source.AccessKey.Copy()
+		value.AccessKey = &accessKey
+	} else {
+		value.AccessKey = nil
+	}
+
+	// AccountName
+	value.AccountName = genruntime.ClonePointerToString(source.AccountName)
+
+	// MountPath
+	value.MountPath = genruntime.ClonePointerToString(source.MountPath)
+
+	// ShareName
+	value.ShareName = genruntime.ClonePointerToString(source.ShareName)
+
+	// Type
+	if source.Type != nil {
+		typeVar := AzureStorageInfoValue_Type(*source.Type)
+		value.Type = &typeVar
+	} else {
+		value.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AzureStorageInfoValue populates the provided destination AzureStorageInfoValue from our AzureStorageInfoValue
+func (value *AzureStorageInfoValue) AssignProperties_To_AzureStorageInfoValue(destination *v20220301s.AzureStorageInfoValue) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AccessKey
+	if value.AccessKey != nil {
+		accessKey := value.AccessKey.Copy()
+		destination.AccessKey = &accessKey
+	} else {
+		destination.AccessKey = nil
+	}
+
+	// AccountName
+	destination.AccountName = genruntime.ClonePointerToString(value.AccountName)
+
+	// MountPath
+	destination.MountPath = genruntime.ClonePointerToString(value.MountPath)
+
+	// ShareName
+	destination.ShareName = genruntime.ClonePointerToString(value.ShareName)
+
+	// Type
+	if value.Type != nil {
+		typeVar := string(*value.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue_STATUS struct {
 	// AccountName: Name of the storage account.
 	AccountName *string `json:"accountName,omitempty"`
@@ -8894,7 +9044,7 @@ func (value *AzureStorageInfoValue_STATUS) AssignProperties_To_AzureStorageInfoV
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/ConnStringInfo
+// Database connection string information.
 type ConnStringInfo struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -9020,6 +9170,7 @@ func (info *ConnStringInfo) AssignProperties_To_ConnStringInfo(destination *v202
 	return nil
 }
 
+// Database connection string information.
 type ConnStringInfo_STATUS struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -9118,7 +9269,7 @@ func (info *ConnStringInfo_STATUS) AssignProperties_To_ConnStringInfo_STATUS(des
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/CorsSettings
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -9224,6 +9375,7 @@ func (settings *CorsSettings) AssignProperties_To_CorsSettings(destination *v202
 	return nil
 }
 
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings_STATUS struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -9309,7 +9461,7 @@ func (settings *CorsSettings_STATUS) AssignProperties_To_CorsSettings_STATUS(des
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/Experiments
+// Routing rules in production experiments.
 type Experiments struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule `json:"rampUpRules,omitempty"`
@@ -9420,6 +9572,7 @@ func (experiments *Experiments) AssignProperties_To_Experiments(destination *v20
 	return nil
 }
 
+// Routing rules in production experiments.
 type Experiments_STATUS struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule_STATUS `json:"rampUpRules,omitempty"`
@@ -9512,7 +9665,9 @@ func (experiments *Experiments_STATUS) AssignProperties_To_Experiments_STATUS(de
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/HandlerMapping
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -9628,6 +9783,9 @@ func (mapping *HandlerMapping) AssignProperties_To_HandlerMapping(destination *v
 	return nil
 }
 
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping_STATUS struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -9748,7 +9906,7 @@ const (
 	HostNameSslState_SslState_STATUS_SniEnabled     = HostNameSslState_SslState_STATUS("SniEnabled")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/IpSecurityRestriction
+// IP security restriction on an app.
 type IpSecurityRestriction struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -10101,6 +10259,7 @@ func (restriction *IpSecurityRestriction) AssignProperties_To_IpSecurityRestrict
 	return nil
 }
 
+// IP security restriction on an app.
 type IpSecurityRestriction_STATUS struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -10362,7 +10521,7 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_To_IpSecurityR
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/NameValuePair
+// Name value pair.
 type NameValuePair struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -10457,6 +10616,7 @@ func (pair *NameValuePair) AssignProperties_To_NameValuePair(destination *v20220
 	return nil
 }
 
+// Name value pair.
 type NameValuePair_STATUS struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -10530,6 +10690,194 @@ func (pair *NameValuePair_STATUS) AssignProperties_To_NameValuePair_STATUS(desti
 	return nil
 }
 
+// Push settings for the App.
+type PushSettings struct {
+	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
+	// the push registration endpoint.
+	DynamicTagsJson *string `json:"dynamicTagsJson,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// IsPushEnabled: Gets or sets a flag indicating whether the Push endpoint is enabled.
+	IsPushEnabled *bool `json:"isPushEnabled,omitempty"`
+
+	// Kind: Kind of resource.
+	Kind *string `json:"kind,omitempty"`
+
+	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
+	// registration endpoint.
+	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
+
+	// TagsRequiringAuth: Gets or sets a JSON string containing a list of tags that require user authentication to be used in
+	// the push registration endpoint.
+	// Tags can consist of alphanumeric characters and the following:
+	// '_', '@', '#', '.', ':', '-'.
+	// Validation should be performed at the PushRequestHandler.
+	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PushSettings{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (settings *PushSettings) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if settings == nil {
+		return nil, nil
+	}
+	result := &PushSettings_ARM{}
+
+	// Set property ‘Kind’:
+	if settings.Kind != nil {
+		kind := *settings.Kind
+		result.Kind = &kind
+	}
+
+	// Set property ‘Properties’:
+	if settings.DynamicTagsJson != nil ||
+		settings.IsPushEnabled != nil ||
+		settings.TagWhitelistJson != nil ||
+		settings.TagsRequiringAuth != nil {
+		result.Properties = &PushSettings_Properties_ARM{}
+	}
+	if settings.DynamicTagsJson != nil {
+		dynamicTagsJson := *settings.DynamicTagsJson
+		result.Properties.DynamicTagsJson = &dynamicTagsJson
+	}
+	if settings.IsPushEnabled != nil {
+		isPushEnabled := *settings.IsPushEnabled
+		result.Properties.IsPushEnabled = &isPushEnabled
+	}
+	if settings.TagWhitelistJson != nil {
+		tagWhitelistJson := *settings.TagWhitelistJson
+		result.Properties.TagWhitelistJson = &tagWhitelistJson
+	}
+	if settings.TagsRequiringAuth != nil {
+		tagsRequiringAuth := *settings.TagsRequiringAuth
+		result.Properties.TagsRequiringAuth = &tagsRequiringAuth
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (settings *PushSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PushSettings_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (settings *PushSettings) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PushSettings_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PushSettings_ARM, got %T", armInput)
+	}
+
+	// Set property ‘DynamicTagsJson’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DynamicTagsJson != nil {
+			dynamicTagsJson := *typedInput.Properties.DynamicTagsJson
+			settings.DynamicTagsJson = &dynamicTagsJson
+		}
+	}
+
+	// Set property ‘IsPushEnabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsPushEnabled != nil {
+			isPushEnabled := *typedInput.Properties.IsPushEnabled
+			settings.IsPushEnabled = &isPushEnabled
+		}
+	}
+
+	// Set property ‘Kind’:
+	if typedInput.Kind != nil {
+		kind := *typedInput.Kind
+		settings.Kind = &kind
+	}
+
+	// Set property ‘TagWhitelistJson’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TagWhitelistJson != nil {
+			tagWhitelistJson := *typedInput.Properties.TagWhitelistJson
+			settings.TagWhitelistJson = &tagWhitelistJson
+		}
+	}
+
+	// Set property ‘TagsRequiringAuth’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TagsRequiringAuth != nil {
+			tagsRequiringAuth := *typedInput.Properties.TagsRequiringAuth
+			settings.TagsRequiringAuth = &tagsRequiringAuth
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_PushSettings populates our PushSettings from the provided source PushSettings
+func (settings *PushSettings) AssignProperties_From_PushSettings(source *v20220301s.PushSettings) error {
+
+	// DynamicTagsJson
+	settings.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
+
+	// IsPushEnabled
+	if source.IsPushEnabled != nil {
+		isPushEnabled := *source.IsPushEnabled
+		settings.IsPushEnabled = &isPushEnabled
+	} else {
+		settings.IsPushEnabled = nil
+	}
+
+	// Kind
+	settings.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// TagWhitelistJson
+	settings.TagWhitelistJson = genruntime.ClonePointerToString(source.TagWhitelistJson)
+
+	// TagsRequiringAuth
+	settings.TagsRequiringAuth = genruntime.ClonePointerToString(source.TagsRequiringAuth)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PushSettings populates the provided destination PushSettings from our PushSettings
+func (settings *PushSettings) AssignProperties_To_PushSettings(destination *v20220301s.PushSettings) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// DynamicTagsJson
+	destination.DynamicTagsJson = genruntime.ClonePointerToString(settings.DynamicTagsJson)
+
+	// IsPushEnabled
+	if settings.IsPushEnabled != nil {
+		isPushEnabled := *settings.IsPushEnabled
+		destination.IsPushEnabled = &isPushEnabled
+	} else {
+		destination.IsPushEnabled = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(settings.Kind)
+
+	// TagWhitelistJson
+	destination.TagWhitelistJson = genruntime.ClonePointerToString(settings.TagWhitelistJson)
+
+	// TagsRequiringAuth
+	destination.TagsRequiringAuth = genruntime.ClonePointerToString(settings.TagsRequiringAuth)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Push settings for the App.
 type PushSettings_STATUS struct {
 	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
 	// the push registration endpoint.
@@ -10721,434 +11069,13 @@ func (settings *PushSettings_STATUS) AssignProperties_To_PushSettings_STATUS(des
 	return nil
 }
 
-type Site_Properties_SiteConfig_AzureStorageAccounts_Spec struct {
-	// AccessKey: Access key for the storage account.
-	AccessKey *genruntime.SecretReference `json:"accessKey,omitempty"`
-
-	// AccountName: Name of the storage account.
-	AccountName *string `json:"accountName,omitempty"`
-
-	// MountPath: Path to mount the storage within the site's runtime environment.
-	MountPath *string `json:"mountPath,omitempty"`
-
-	// ShareName: Name of the file share (container name, for Blob storage).
-	ShareName *string `json:"shareName,omitempty"`
-
-	// Type: Type of storage.
-	Type *Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec `json:"type,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Site_Properties_SiteConfig_AzureStorageAccounts_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if accounts == nil {
-		return nil, nil
-	}
-	result := &Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM{}
-
-	// Set property ‘AccessKey’:
-	if accounts.AccessKey != nil {
-		accessKeySecret, err := resolved.ResolvedSecrets.Lookup(*accounts.AccessKey)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AccessKey")
-		}
-		accessKey := accessKeySecret
-		result.AccessKey = &accessKey
-	}
-
-	// Set property ‘AccountName’:
-	if accounts.AccountName != nil {
-		accountName := *accounts.AccountName
-		result.AccountName = &accountName
-	}
-
-	// Set property ‘MountPath’:
-	if accounts.MountPath != nil {
-		mountPath := *accounts.MountPath
-		result.MountPath = &mountPath
-	}
-
-	// Set property ‘ShareName’:
-	if accounts.ShareName != nil {
-		shareName := *accounts.ShareName
-		result.ShareName = &shareName
-	}
-
-	// Set property ‘Type’:
-	if accounts.Type != nil {
-		typeVar := *accounts.Type
-		result.Type = &typeVar
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Properties_SiteConfig_AzureStorageAccounts_Spec_ARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘AccessKey’
-
-	// Set property ‘AccountName’:
-	if typedInput.AccountName != nil {
-		accountName := *typedInput.AccountName
-		accounts.AccountName = &accountName
-	}
-
-	// Set property ‘MountPath’:
-	if typedInput.MountPath != nil {
-		mountPath := *typedInput.MountPath
-		accounts.MountPath = &mountPath
-	}
-
-	// Set property ‘ShareName’:
-	if typedInput.ShareName != nil {
-		shareName := *typedInput.ShareName
-		accounts.ShareName = &shareName
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		accounts.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec populates our Site_Properties_SiteConfig_AzureStorageAccounts_Spec from the provided source Site_Properties_SiteConfig_AzureStorageAccounts_Spec
-func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) AssignProperties_From_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(source *v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec) error {
-
-	// AccessKey
-	if source.AccessKey != nil {
-		accessKey := source.AccessKey.Copy()
-		accounts.AccessKey = &accessKey
-	} else {
-		accounts.AccessKey = nil
-	}
-
-	// AccountName
-	accounts.AccountName = genruntime.ClonePointerToString(source.AccountName)
-
-	// MountPath
-	accounts.MountPath = genruntime.ClonePointerToString(source.MountPath)
-
-	// ShareName
-	accounts.ShareName = genruntime.ClonePointerToString(source.ShareName)
-
-	// Type
-	if source.Type != nil {
-		typeVar := Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec(*source.Type)
-		accounts.Type = &typeVar
-	} else {
-		accounts.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec populates the provided destination Site_Properties_SiteConfig_AzureStorageAccounts_Spec from our Site_Properties_SiteConfig_AzureStorageAccounts_Spec
-func (accounts *Site_Properties_SiteConfig_AzureStorageAccounts_Spec) AssignProperties_To_Site_Properties_SiteConfig_AzureStorageAccounts_Spec(destination *v20220301s.Site_Properties_SiteConfig_AzureStorageAccounts_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AccessKey
-	if accounts.AccessKey != nil {
-		accessKey := accounts.AccessKey.Copy()
-		destination.AccessKey = &accessKey
-	} else {
-		destination.AccessKey = nil
-	}
-
-	// AccountName
-	destination.AccountName = genruntime.ClonePointerToString(accounts.AccountName)
-
-	// MountPath
-	destination.MountPath = genruntime.ClonePointerToString(accounts.MountPath)
-
-	// ShareName
-	destination.ShareName = genruntime.ClonePointerToString(accounts.ShareName)
-
-	// Type
-	if accounts.Type != nil {
-		typeVar := string(*accounts.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"AllAllowed","Disabled","FtpsOnly"}
-type Site_Properties_SiteConfig_FtpsState_Spec string
+type SiteConfig_FtpsState string
 
 const (
-	Site_Properties_SiteConfig_FtpsState_Spec_AllAllowed = Site_Properties_SiteConfig_FtpsState_Spec("AllAllowed")
-	Site_Properties_SiteConfig_FtpsState_Spec_Disabled   = Site_Properties_SiteConfig_FtpsState_Spec("Disabled")
-	Site_Properties_SiteConfig_FtpsState_Spec_FtpsOnly   = Site_Properties_SiteConfig_FtpsState_Spec("FtpsOnly")
-)
-
-// +kubebuilder:validation:Enum={"LeastRequests","LeastResponseTime","PerSiteRoundRobin","RequestHash","WeightedRoundRobin","WeightedTotalTraffic"}
-type Site_Properties_SiteConfig_LoadBalancing_Spec string
-
-const (
-	Site_Properties_SiteConfig_LoadBalancing_Spec_LeastRequests        = Site_Properties_SiteConfig_LoadBalancing_Spec("LeastRequests")
-	Site_Properties_SiteConfig_LoadBalancing_Spec_LeastResponseTime    = Site_Properties_SiteConfig_LoadBalancing_Spec("LeastResponseTime")
-	Site_Properties_SiteConfig_LoadBalancing_Spec_PerSiteRoundRobin    = Site_Properties_SiteConfig_LoadBalancing_Spec("PerSiteRoundRobin")
-	Site_Properties_SiteConfig_LoadBalancing_Spec_RequestHash          = Site_Properties_SiteConfig_LoadBalancing_Spec("RequestHash")
-	Site_Properties_SiteConfig_LoadBalancing_Spec_WeightedRoundRobin   = Site_Properties_SiteConfig_LoadBalancing_Spec("WeightedRoundRobin")
-	Site_Properties_SiteConfig_LoadBalancing_Spec_WeightedTotalTraffic = Site_Properties_SiteConfig_LoadBalancing_Spec("WeightedTotalTraffic")
-)
-
-// +kubebuilder:validation:Enum={"Classic","Integrated"}
-type Site_Properties_SiteConfig_ManagedPipelineMode_Spec string
-
-const (
-	Site_Properties_SiteConfig_ManagedPipelineMode_Spec_Classic    = Site_Properties_SiteConfig_ManagedPipelineMode_Spec("Classic")
-	Site_Properties_SiteConfig_ManagedPipelineMode_Spec_Integrated = Site_Properties_SiteConfig_ManagedPipelineMode_Spec("Integrated")
-)
-
-// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type Site_Properties_SiteConfig_MinTlsVersion_Spec string
-
-const (
-	Site_Properties_SiteConfig_MinTlsVersion_Spec_10 = Site_Properties_SiteConfig_MinTlsVersion_Spec("1.0")
-	Site_Properties_SiteConfig_MinTlsVersion_Spec_11 = Site_Properties_SiteConfig_MinTlsVersion_Spec("1.1")
-	Site_Properties_SiteConfig_MinTlsVersion_Spec_12 = Site_Properties_SiteConfig_MinTlsVersion_Spec("1.2")
-)
-
-type Site_Properties_SiteConfig_Push_Spec struct {
-	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
-	// the push registration endpoint.
-	DynamicTagsJson *string `json:"dynamicTagsJson,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// IsPushEnabled: Gets or sets a flag indicating whether the Push endpoint is enabled.
-	IsPushEnabled *bool `json:"isPushEnabled,omitempty"`
-
-	// Kind: Kind of resource.
-	Kind *string `json:"kind,omitempty"`
-
-	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
-	// registration endpoint.
-	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
-
-	// TagsRequiringAuth: Gets or sets a JSON string containing a list of tags that require user authentication to be used in
-	// the push registration endpoint.
-	// Tags can consist of alphanumeric characters and the following:
-	// '_', '@', '#', '.', ':', '-'.
-	// Validation should be performed at the PushRequestHandler.
-	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Site_Properties_SiteConfig_Push_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (push *Site_Properties_SiteConfig_Push_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if push == nil {
-		return nil, nil
-	}
-	result := &Site_Properties_SiteConfig_Push_Spec_ARM{}
-
-	// Set property ‘Kind’:
-	if push.Kind != nil {
-		kind := *push.Kind
-		result.Kind = &kind
-	}
-
-	// Set property ‘Properties’:
-	if push.DynamicTagsJson != nil ||
-		push.IsPushEnabled != nil ||
-		push.TagWhitelistJson != nil ||
-		push.TagsRequiringAuth != nil {
-		result.Properties = &PushSettingsProperties_ARM{}
-	}
-	if push.DynamicTagsJson != nil {
-		dynamicTagsJson := *push.DynamicTagsJson
-		result.Properties.DynamicTagsJson = &dynamicTagsJson
-	}
-	if push.IsPushEnabled != nil {
-		isPushEnabled := *push.IsPushEnabled
-		result.Properties.IsPushEnabled = &isPushEnabled
-	}
-	if push.TagWhitelistJson != nil {
-		tagWhitelistJson := *push.TagWhitelistJson
-		result.Properties.TagWhitelistJson = &tagWhitelistJson
-	}
-	if push.TagsRequiringAuth != nil {
-		tagsRequiringAuth := *push.TagsRequiringAuth
-		result.Properties.TagsRequiringAuth = &tagsRequiringAuth
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (push *Site_Properties_SiteConfig_Push_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Site_Properties_SiteConfig_Push_Spec_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (push *Site_Properties_SiteConfig_Push_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Site_Properties_SiteConfig_Push_Spec_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Site_Properties_SiteConfig_Push_Spec_ARM, got %T", armInput)
-	}
-
-	// Set property ‘DynamicTagsJson’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DynamicTagsJson != nil {
-			dynamicTagsJson := *typedInput.Properties.DynamicTagsJson
-			push.DynamicTagsJson = &dynamicTagsJson
-		}
-	}
-
-	// Set property ‘IsPushEnabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsPushEnabled != nil {
-			isPushEnabled := *typedInput.Properties.IsPushEnabled
-			push.IsPushEnabled = &isPushEnabled
-		}
-	}
-
-	// Set property ‘Kind’:
-	if typedInput.Kind != nil {
-		kind := *typedInput.Kind
-		push.Kind = &kind
-	}
-
-	// Set property ‘TagWhitelistJson’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TagWhitelistJson != nil {
-			tagWhitelistJson := *typedInput.Properties.TagWhitelistJson
-			push.TagWhitelistJson = &tagWhitelistJson
-		}
-	}
-
-	// Set property ‘TagsRequiringAuth’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TagsRequiringAuth != nil {
-			tagsRequiringAuth := *typedInput.Properties.TagsRequiringAuth
-			push.TagsRequiringAuth = &tagsRequiringAuth
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Site_Properties_SiteConfig_Push_Spec populates our Site_Properties_SiteConfig_Push_Spec from the provided source Site_Properties_SiteConfig_Push_Spec
-func (push *Site_Properties_SiteConfig_Push_Spec) AssignProperties_From_Site_Properties_SiteConfig_Push_Spec(source *v20220301s.Site_Properties_SiteConfig_Push_Spec) error {
-
-	// DynamicTagsJson
-	push.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
-
-	// IsPushEnabled
-	if source.IsPushEnabled != nil {
-		isPushEnabled := *source.IsPushEnabled
-		push.IsPushEnabled = &isPushEnabled
-	} else {
-		push.IsPushEnabled = nil
-	}
-
-	// Kind
-	push.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// TagWhitelistJson
-	push.TagWhitelistJson = genruntime.ClonePointerToString(source.TagWhitelistJson)
-
-	// TagsRequiringAuth
-	push.TagsRequiringAuth = genruntime.ClonePointerToString(source.TagsRequiringAuth)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Site_Properties_SiteConfig_Push_Spec populates the provided destination Site_Properties_SiteConfig_Push_Spec from our Site_Properties_SiteConfig_Push_Spec
-func (push *Site_Properties_SiteConfig_Push_Spec) AssignProperties_To_Site_Properties_SiteConfig_Push_Spec(destination *v20220301s.Site_Properties_SiteConfig_Push_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DynamicTagsJson
-	destination.DynamicTagsJson = genruntime.ClonePointerToString(push.DynamicTagsJson)
-
-	// IsPushEnabled
-	if push.IsPushEnabled != nil {
-		isPushEnabled := *push.IsPushEnabled
-		destination.IsPushEnabled = &isPushEnabled
-	} else {
-		destination.IsPushEnabled = nil
-	}
-
-	// Kind
-	destination.Kind = genruntime.ClonePointerToString(push.Kind)
-
-	// TagWhitelistJson
-	destination.TagWhitelistJson = genruntime.ClonePointerToString(push.TagWhitelistJson)
-
-	// TagsRequiringAuth
-	destination.TagsRequiringAuth = genruntime.ClonePointerToString(push.TagsRequiringAuth)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type Site_Properties_SiteConfig_ScmMinTlsVersion_Spec string
-
-const (
-	Site_Properties_SiteConfig_ScmMinTlsVersion_Spec_10 = Site_Properties_SiteConfig_ScmMinTlsVersion_Spec("1.0")
-	Site_Properties_SiteConfig_ScmMinTlsVersion_Spec_11 = Site_Properties_SiteConfig_ScmMinTlsVersion_Spec("1.1")
-	Site_Properties_SiteConfig_ScmMinTlsVersion_Spec_12 = Site_Properties_SiteConfig_ScmMinTlsVersion_Spec("1.2")
-)
-
-// +kubebuilder:validation:Enum={"BitbucketGit","BitbucketHg","CodePlexGit","CodePlexHg","Dropbox","ExternalGit","ExternalHg","GitHub","LocalGit","None","OneDrive","Tfs","VSO","VSTSRM"}
-type Site_Properties_SiteConfig_ScmType_Spec string
-
-const (
-	Site_Properties_SiteConfig_ScmType_Spec_BitbucketGit = Site_Properties_SiteConfig_ScmType_Spec("BitbucketGit")
-	Site_Properties_SiteConfig_ScmType_Spec_BitbucketHg  = Site_Properties_SiteConfig_ScmType_Spec("BitbucketHg")
-	Site_Properties_SiteConfig_ScmType_Spec_CodePlexGit  = Site_Properties_SiteConfig_ScmType_Spec("CodePlexGit")
-	Site_Properties_SiteConfig_ScmType_Spec_CodePlexHg   = Site_Properties_SiteConfig_ScmType_Spec("CodePlexHg")
-	Site_Properties_SiteConfig_ScmType_Spec_Dropbox      = Site_Properties_SiteConfig_ScmType_Spec("Dropbox")
-	Site_Properties_SiteConfig_ScmType_Spec_ExternalGit  = Site_Properties_SiteConfig_ScmType_Spec("ExternalGit")
-	Site_Properties_SiteConfig_ScmType_Spec_ExternalHg   = Site_Properties_SiteConfig_ScmType_Spec("ExternalHg")
-	Site_Properties_SiteConfig_ScmType_Spec_GitHub       = Site_Properties_SiteConfig_ScmType_Spec("GitHub")
-	Site_Properties_SiteConfig_ScmType_Spec_LocalGit     = Site_Properties_SiteConfig_ScmType_Spec("LocalGit")
-	Site_Properties_SiteConfig_ScmType_Spec_None         = Site_Properties_SiteConfig_ScmType_Spec("None")
-	Site_Properties_SiteConfig_ScmType_Spec_OneDrive     = Site_Properties_SiteConfig_ScmType_Spec("OneDrive")
-	Site_Properties_SiteConfig_ScmType_Spec_Tfs          = Site_Properties_SiteConfig_ScmType_Spec("Tfs")
-	Site_Properties_SiteConfig_ScmType_Spec_VSO          = Site_Properties_SiteConfig_ScmType_Spec("VSO")
-	Site_Properties_SiteConfig_ScmType_Spec_VSTSRM       = Site_Properties_SiteConfig_ScmType_Spec("VSTSRM")
+	SiteConfig_FtpsState_AllAllowed = SiteConfig_FtpsState("AllAllowed")
+	SiteConfig_FtpsState_Disabled   = SiteConfig_FtpsState("Disabled")
+	SiteConfig_FtpsState_FtpsOnly   = SiteConfig_FtpsState("FtpsOnly")
 )
 
 type SiteConfig_FtpsState_STATUS string
@@ -11157,6 +11084,18 @@ const (
 	SiteConfig_FtpsState_STATUS_AllAllowed = SiteConfig_FtpsState_STATUS("AllAllowed")
 	SiteConfig_FtpsState_STATUS_Disabled   = SiteConfig_FtpsState_STATUS("Disabled")
 	SiteConfig_FtpsState_STATUS_FtpsOnly   = SiteConfig_FtpsState_STATUS("FtpsOnly")
+)
+
+// +kubebuilder:validation:Enum={"LeastRequests","LeastResponseTime","PerSiteRoundRobin","RequestHash","WeightedRoundRobin","WeightedTotalTraffic"}
+type SiteConfig_LoadBalancing string
+
+const (
+	SiteConfig_LoadBalancing_LeastRequests        = SiteConfig_LoadBalancing("LeastRequests")
+	SiteConfig_LoadBalancing_LeastResponseTime    = SiteConfig_LoadBalancing("LeastResponseTime")
+	SiteConfig_LoadBalancing_PerSiteRoundRobin    = SiteConfig_LoadBalancing("PerSiteRoundRobin")
+	SiteConfig_LoadBalancing_RequestHash          = SiteConfig_LoadBalancing("RequestHash")
+	SiteConfig_LoadBalancing_WeightedRoundRobin   = SiteConfig_LoadBalancing("WeightedRoundRobin")
+	SiteConfig_LoadBalancing_WeightedTotalTraffic = SiteConfig_LoadBalancing("WeightedTotalTraffic")
 )
 
 type SiteConfig_LoadBalancing_STATUS string
@@ -11170,11 +11109,28 @@ const (
 	SiteConfig_LoadBalancing_STATUS_WeightedTotalTraffic = SiteConfig_LoadBalancing_STATUS("WeightedTotalTraffic")
 )
 
+// +kubebuilder:validation:Enum={"Classic","Integrated"}
+type SiteConfig_ManagedPipelineMode string
+
+const (
+	SiteConfig_ManagedPipelineMode_Classic    = SiteConfig_ManagedPipelineMode("Classic")
+	SiteConfig_ManagedPipelineMode_Integrated = SiteConfig_ManagedPipelineMode("Integrated")
+)
+
 type SiteConfig_ManagedPipelineMode_STATUS string
 
 const (
 	SiteConfig_ManagedPipelineMode_STATUS_Classic    = SiteConfig_ManagedPipelineMode_STATUS("Classic")
 	SiteConfig_ManagedPipelineMode_STATUS_Integrated = SiteConfig_ManagedPipelineMode_STATUS("Integrated")
+)
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type SiteConfig_MinTlsVersion string
+
+const (
+	SiteConfig_MinTlsVersion_10 = SiteConfig_MinTlsVersion("1.0")
+	SiteConfig_MinTlsVersion_11 = SiteConfig_MinTlsVersion("1.1")
+	SiteConfig_MinTlsVersion_12 = SiteConfig_MinTlsVersion("1.2")
 )
 
 type SiteConfig_MinTlsVersion_STATUS string
@@ -11185,12 +11141,41 @@ const (
 	SiteConfig_MinTlsVersion_STATUS_12 = SiteConfig_MinTlsVersion_STATUS("1.2")
 )
 
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type SiteConfig_ScmMinTlsVersion string
+
+const (
+	SiteConfig_ScmMinTlsVersion_10 = SiteConfig_ScmMinTlsVersion("1.0")
+	SiteConfig_ScmMinTlsVersion_11 = SiteConfig_ScmMinTlsVersion("1.1")
+	SiteConfig_ScmMinTlsVersion_12 = SiteConfig_ScmMinTlsVersion("1.2")
+)
+
 type SiteConfig_ScmMinTlsVersion_STATUS string
 
 const (
 	SiteConfig_ScmMinTlsVersion_STATUS_10 = SiteConfig_ScmMinTlsVersion_STATUS("1.0")
 	SiteConfig_ScmMinTlsVersion_STATUS_11 = SiteConfig_ScmMinTlsVersion_STATUS("1.1")
 	SiteConfig_ScmMinTlsVersion_STATUS_12 = SiteConfig_ScmMinTlsVersion_STATUS("1.2")
+)
+
+// +kubebuilder:validation:Enum={"BitbucketGit","BitbucketHg","CodePlexGit","CodePlexHg","Dropbox","ExternalGit","ExternalHg","GitHub","LocalGit","None","OneDrive","Tfs","VSO","VSTSRM"}
+type SiteConfig_ScmType string
+
+const (
+	SiteConfig_ScmType_BitbucketGit = SiteConfig_ScmType("BitbucketGit")
+	SiteConfig_ScmType_BitbucketHg  = SiteConfig_ScmType("BitbucketHg")
+	SiteConfig_ScmType_CodePlexGit  = SiteConfig_ScmType("CodePlexGit")
+	SiteConfig_ScmType_CodePlexHg   = SiteConfig_ScmType("CodePlexHg")
+	SiteConfig_ScmType_Dropbox      = SiteConfig_ScmType("Dropbox")
+	SiteConfig_ScmType_ExternalGit  = SiteConfig_ScmType("ExternalGit")
+	SiteConfig_ScmType_ExternalHg   = SiteConfig_ScmType("ExternalHg")
+	SiteConfig_ScmType_GitHub       = SiteConfig_ScmType("GitHub")
+	SiteConfig_ScmType_LocalGit     = SiteConfig_ScmType("LocalGit")
+	SiteConfig_ScmType_None         = SiteConfig_ScmType("None")
+	SiteConfig_ScmType_OneDrive     = SiteConfig_ScmType("OneDrive")
+	SiteConfig_ScmType_Tfs          = SiteConfig_ScmType("Tfs")
+	SiteConfig_ScmType_VSO          = SiteConfig_ScmType("VSO")
+	SiteConfig_ScmType_VSTSRM       = SiteConfig_ScmType("VSTSRM")
 )
 
 type SiteConfig_ScmType_STATUS string
@@ -11212,7 +11197,7 @@ const (
 	SiteConfig_ScmType_STATUS_VSTSRM       = SiteConfig_ScmType_STATUS("VSTSRM")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SiteLimits
+// Metric limits set on an app.
 type SiteLimits struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -11338,6 +11323,7 @@ func (limits *SiteLimits) AssignProperties_To_SiteLimits(destination *v20220301s
 	return nil
 }
 
+// Metric limits set on an app.
 type SiteLimits_STATUS struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -11436,6 +11422,7 @@ func (limits *SiteLimits_STATUS) AssignProperties_To_SiteLimits_STATUS(destinati
 	return nil
 }
 
+// MachineKey of an app.
 type SiteMachineKey_STATUS struct {
 	// Decryption: Algorithm used for decryption.
 	Decryption *string `json:"decryption,omitempty"`
@@ -11539,6 +11526,7 @@ func (machineKey *SiteMachineKey_STATUS) AssignProperties_To_SiteMachineKey_STAT
 	return nil
 }
 
+// User Assigned identity.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -11612,7 +11600,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/VirtualApplication
+// Virtual application in an app.
 type VirtualApplication struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -11796,6 +11784,7 @@ func (application *VirtualApplication) AssignProperties_To_VirtualApplication(de
 	return nil
 }
 
+// Virtual application in an app.
 type VirtualApplication_STATUS struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -11943,13 +11932,12 @@ func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplica
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealActions
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType `json:"actionType,omitempty"`
 
-	// CustomAction: Custom action to be executed
-	// when an auto heal rule is triggered.
+	// CustomAction: Custom action to be taken.
 	CustomAction *AutoHealCustomAction `json:"customAction,omitempty"`
 
 	// MinProcessExecutionTime: Minimum time the process must execute
@@ -12098,6 +12086,7 @@ func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination 
 	return nil
 }
 
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_STATUS struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType_STATUS `json:"actionType,omitempty"`
@@ -12220,15 +12209,15 @@ func (actions *AutoHealActions_STATUS) AssignProperties_To_AutoHealActions_STATU
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealTriggers
+// Triggers for auto-heal.
 type AutoHealTriggers struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
 
-	// Requests: Trigger based on total requests.
+	// Requests: A rule based on total requests.
 	Requests *RequestsBasedTrigger `json:"requests,omitempty"`
 
-	// SlowRequests: Trigger based on request execution time.
+	// SlowRequests: A rule based on request execution time.
 	SlowRequests *SlowRequestsBasedTrigger `json:"slowRequests,omitempty"`
 
 	// SlowRequestsWithPath: A rule based on multiple Slow Requests Rule with path
@@ -12564,6 +12553,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 	return nil
 }
 
+// Triggers for auto-heal.
 type AutoHealTriggers_STATUS struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
@@ -12854,6 +12844,14 @@ const (
 	AzureStorageInfoValue_State_STATUS_Ok                 = AzureStorageInfoValue_State_STATUS("Ok")
 )
 
+// +kubebuilder:validation:Enum={"AzureBlob","AzureFiles"}
+type AzureStorageInfoValue_Type string
+
+const (
+	AzureStorageInfoValue_Type_AzureBlob  = AzureStorageInfoValue_Type("AzureBlob")
+	AzureStorageInfoValue_Type_AzureFiles = AzureStorageInfoValue_Type("AzureFiles")
+)
+
 type AzureStorageInfoValue_Type_STATUS string
 
 const (
@@ -12911,7 +12909,8 @@ const (
 	IpSecurityRestriction_Tag_STATUS_XffProxy   = IpSecurityRestriction_Tag_STATUS("XffProxy")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/RampUpRule
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -13180,6 +13179,8 @@ func (rule *RampUpRule) AssignProperties_To_RampUpRule(destination *v20220301s.R
 	return nil
 }
 
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule_STATUS struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -13391,15 +13392,7 @@ func (rule *RampUpRule_STATUS) AssignProperties_To_RampUpRule_STATUS(destination
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"AzureBlob","AzureFiles"}
-type Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec string
-
-const (
-	Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec_AzureBlob  = Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec("AzureBlob")
-	Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec_AzureFiles = Site_Properties_SiteConfig_AzureStorageAccounts_Type_Spec("AzureFiles")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/VirtualDirectory
+// Directory for virtual application.
 type VirtualDirectory struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -13494,6 +13487,7 @@ func (directory *VirtualDirectory) AssignProperties_To_VirtualDirectory(destinat
 	return nil
 }
 
+// Directory for virtual application.
 type VirtualDirectory_STATUS struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -13584,7 +13578,8 @@ const (
 	AutoHealActions_ActionType_STATUS_Recycle      = AutoHealActions_ActionType_STATUS("Recycle")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/AutoHealCustomAction
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -13679,6 +13674,8 @@ func (action *AutoHealCustomAction) AssignProperties_To_AutoHealCustomAction(des
 	return nil
 }
 
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction_STATUS struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -13752,7 +13749,7 @@ func (action *AutoHealCustomAction_STATUS) AssignProperties_To_AutoHealCustomAct
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/RequestsBasedTrigger
+// Trigger based on total requests.
 type RequestsBasedTrigger struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -13847,6 +13844,7 @@ func (trigger *RequestsBasedTrigger) AssignProperties_To_RequestsBasedTrigger(de
 	return nil
 }
 
+// Trigger based on total requests.
 type RequestsBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -13920,7 +13918,7 @@ func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_To_RequestsBasedTri
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/SlowRequestsBasedTrigger
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14057,6 +14055,7 @@ func (trigger *SlowRequestsBasedTrigger) AssignProperties_To_SlowRequestsBasedTr
 	return nil
 }
 
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14160,7 +14159,7 @@ func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_To_SlowRequests
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/StatusCodesBasedTrigger
+// Trigger based on status code.
 type StatusCodesBasedTrigger struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14339,6 +14338,7 @@ func (trigger *StatusCodesBasedTrigger) AssignProperties_To_StatusCodesBasedTrig
 	return nil
 }
 
+// Trigger based on status code.
 type StatusCodesBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14472,7 +14472,7 @@ func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_To_StatusCodesBa
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2022-03-01/Microsoft.Web.json#/definitions/StatusCodesRangeBasedTrigger
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`
@@ -14607,6 +14607,7 @@ func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_To_StatusCodesRang
 	return nil
 }
 
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`

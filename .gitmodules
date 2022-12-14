@@ -1,6 +1,3 @@
 [submodule "hack/generator/specs/azure-rest-api-specs"]
 	path = v2/specs/azure-rest-api-specs
 	url = https://github.com/Azure/azure-rest-api-specs
-[submodule "hack/generator/specs/azure-resource-manager-schemas"]
-	path = v2/specs/azure-resource-manager-schemas
-	url = https://github.com/Azure/azure-resource-manager-schemas
