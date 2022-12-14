@@ -1,0 +1,22 @@
+graph {
+    nodesep="1"
+    rankdir = LR;
+
+    node [shape=rect, penwidth=2]
+    arm [label="Azure\nResource Manager"]
+
+    rsrc_arm [label="«arm»\nResource"]
+    
+    rsrc_spec [label="«spec»\nResource"]
+    rsrc_status [label="«status»\nResource"]
+    rsrc_yaml [label="«yaml»\nResource"]
+
+    edge [arrowhead=vee, arrowtail=vee, dir=forward]
+
+    arm -- rsrc_arm  [label="GET", arrowhead=vee]
+    rsrc_arm -- rsrc_status [label="Conversion", arrowhead=vee]
+    rsrc_spec -- rsrc_yaml [label="Export", arrowhead=vee]
+    
+    edge [style=dashed, color=gray]
+    rsrc_status -- rsrc_spec [label="Populate", arrowhead=vee]
+}
