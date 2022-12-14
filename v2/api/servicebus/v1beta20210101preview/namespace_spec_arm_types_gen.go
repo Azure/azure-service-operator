@@ -40,11 +40,13 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
+// Properties of the namespace.
 type SBNamespaceProperties_ARM struct {
 	// Encryption: Properties of BYOK Encryption description
 	Encryption *Encryption_ARM `json:"encryption,omitempty"`
@@ -53,6 +55,7 @@ type SBNamespaceProperties_ARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
+// SKU of the namespace.
 type SBSku_ARM struct {
 	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
@@ -64,6 +67,7 @@ type SBSku_ARM struct {
 	Tier *SBSku_Tier `json:"tier,omitempty"`
 }
 
+// Properties to configure Encryption
 type Encryption_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
@@ -103,6 +107,7 @@ const (
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties_ARM struct {
 	Identity *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
 

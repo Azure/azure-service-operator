@@ -3630,8 +3630,10 @@ type Databricks struct {
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                 `json:"disableLocalAuth,omitempty"`
-	Properties       *DatabricksProperties `json:"properties,omitempty"`
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// Properties: Properties of Databricks
+	Properties *DatabricksProperties `json:"properties,omitempty"`
 
 	// ResourceReference: ARM resource id of the underlying compute
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -3870,7 +3872,9 @@ type Databricks_STATUS struct {
 	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
 
 	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                      `json:"modifiedOn,omitempty"`
+	ModifiedOn *string `json:"modifiedOn,omitempty"`
+
+	// Properties: Properties of Databricks
 	Properties *DatabricksProperties_STATUS `json:"properties,omitempty"`
 
 	// ProvisioningErrors: Errors during provisioning
@@ -5150,8 +5154,10 @@ type HDInsight struct {
 
 	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
 	// authentication.
-	DisableLocalAuth *bool                `json:"disableLocalAuth,omitempty"`
-	Properties       *HDInsightProperties `json:"properties,omitempty"`
+	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
+
+	// Properties: HDInsight compute properties
+	Properties *HDInsightProperties `json:"properties,omitempty"`
 
 	// ResourceReference: ARM resource id of the underlying compute
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -5390,7 +5396,9 @@ type HDInsight_STATUS struct {
 	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
 
 	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                     `json:"modifiedOn,omitempty"`
+	ModifiedOn *string `json:"modifiedOn,omitempty"`
+
+	// Properties: HDInsight compute properties
 	Properties *HDInsightProperties_STATUS `json:"properties,omitempty"`
 
 	// ProvisioningErrors: Errors during provisioning
@@ -7860,6 +7868,7 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 	return nil
 }
 
+// AML Compute properties
 type AmlComputeProperties struct {
 	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
 	// true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will
@@ -8286,6 +8295,7 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 	return nil
 }
 
+// AML Compute properties
 type AmlComputeProperties_STATUS struct {
 	// AllocationState: Allocation state of the compute. Possible values are: steady - Indicates that the compute is not
 	// resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state
@@ -8789,6 +8799,7 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 	return nil
 }
 
+// Compute Instance properties
 type ComputeInstanceProperties struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
 	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
@@ -9118,6 +9129,7 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 	return nil
 }
 
+// Compute Instance properties
 type ComputeInstanceProperties_STATUS struct {
 	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
 	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
@@ -9617,6 +9629,7 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	return nil
 }
 
+// Properties of Databricks
 type DatabricksProperties struct {
 	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
@@ -9711,6 +9724,7 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	return nil
 }
 
+// Properties of Databricks
 type DatabricksProperties_STATUS struct {
 	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
@@ -9915,6 +9929,8 @@ func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_To_DataL
 	return nil
 }
 
+// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
+// follows the OData error response format.).
 type ErrorResponse_STATUS struct {
 	// Error: The error object.
 	Error *ErrorDetail_STATUS `json:"error,omitempty"`
@@ -9996,6 +10012,7 @@ func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(d
 	return nil
 }
 
+// HDInsight compute properties
 type HDInsightProperties struct {
 	// Address: Public IP address of the master node of the cluster.
 	Address *string `json:"address,omitempty"`
@@ -10138,6 +10155,7 @@ func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(d
 	return nil
 }
 
+// HDInsight compute properties
 type HDInsightProperties_STATUS struct {
 	// Address: Public IP address of the master node of the cluster.
 	Address *string `json:"address,omitempty"`
@@ -10249,6 +10267,7 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightPrope
 	return nil
 }
 
+// Kubernetes properties
 type KubernetesProperties struct {
 	// DefaultInstanceType: Default instance type
 	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
@@ -10532,6 +10551,7 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 	return nil
 }
 
+// Kubernetes properties
 type KubernetesProperties_STATUS struct {
 	// DefaultInstanceType: Default instance type
 	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
@@ -11602,6 +11622,7 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualM
 	return nil
 }
 
+// Advance configuration for AKS networking
 type AksNetworkingConfiguration struct {
 	// +kubebuilder:validation:Pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
@@ -11784,6 +11805,7 @@ func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworki
 	return nil
 }
 
+// Advance configuration for AKS networking
 type AksNetworkingConfiguration_STATUS struct {
 	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
 	// range specified in serviceCidr.
@@ -11890,6 +11912,7 @@ func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_To_AksN
 	return nil
 }
 
+// Auto pause properties
 type AutoPauseProperties struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
@@ -11991,6 +12014,7 @@ func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(d
 	return nil
 }
 
+// Auto pause properties
 type AutoPauseProperties_STATUS struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
@@ -12071,6 +12095,7 @@ func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPausePrope
 	return nil
 }
 
+// Auto scale properties
 type AutoScaleProperties struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
@@ -12191,6 +12216,7 @@ func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(d
 	return nil
 }
 
+// Auto scale properties
 type AutoScaleProperties_STATUS struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
@@ -12284,6 +12310,7 @@ func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScalePrope
 	return nil
 }
 
+// Defines an Aml Instance application and its connectivity endpoint URI.
 type ComputeInstanceApplication_STATUS struct {
 	// DisplayName: Name of the ComputeInstance application.
 	DisplayName *string `json:"displayName,omitempty"`
@@ -12357,6 +12384,7 @@ func (application *ComputeInstanceApplication_STATUS) AssignProperties_To_Comput
 	return nil
 }
 
+// Defines all connectivity endpoints and properties for an ComputeInstance.
 type ComputeInstanceConnectivityEndpoints_STATUS struct {
 	// PrivateIpAddress: Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is
 	// deployed).
@@ -12431,6 +12459,7 @@ func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_T
 	return nil
 }
 
+// Describes information on user who created this ComputeInstance.
 type ComputeInstanceCreatedBy_STATUS struct {
 	// UserId: Uniquely identifies the user within his/her organization.
 	UserId *string `json:"userId,omitempty"`
@@ -12519,6 +12548,7 @@ func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_To_ComputeIns
 	return nil
 }
 
+// The last operation on ComputeInstance.
 type ComputeInstanceLastOperation_STATUS struct {
 	// OperationName: Name of the last operation.
 	OperationName *ComputeInstanceLastOperation_OperationName_STATUS `json:"operationName,omitempty"`
@@ -12627,6 +12657,7 @@ func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_To_Comput
 	return nil
 }
 
+// Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings struct {
 	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
 	// key pairs.
@@ -12734,6 +12765,7 @@ func (settings *ComputeInstanceSshSettings) AssignProperties_To_ComputeInstanceS
 	return nil
 }
 
+// Specifies policy and settings for SSH access.
 type ComputeInstanceSshSettings_STATUS struct {
 	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
 	// key pairs.
@@ -12850,6 +12882,7 @@ func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_To_ComputeIn
 	return nil
 }
 
+// The error detail.
 type ErrorDetail_STATUS struct {
 	// AdditionalInfo: The error additional info.
 	AdditionalInfo []ErrorAdditionalInfo_STATUS `json:"additionalInfo,omitempty"`
@@ -13036,6 +13069,7 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	return nil
 }
 
+// Instance type schema.
 type InstanceTypeSchema struct {
 	// NodeSelector: Node Selector
 	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
@@ -13161,6 +13195,7 @@ func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destina
 	return nil
 }
 
+// Instance type schema.
 type InstanceTypeSchema_STATUS struct {
 	// NodeSelector: Node Selector
 	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
@@ -13259,6 +13294,7 @@ func (schema *InstanceTypeSchema_STATUS) AssignProperties_To_InstanceTypeSchema_
 	return nil
 }
 
+// Counts of various compute node states on the amlCompute.
 type NodeStateCounts_STATUS struct {
 	// IdleNodeCount: Number of compute nodes in idle state.
 	IdleNodeCount *int `json:"idleNodeCount,omitempty"`
@@ -13392,6 +13428,7 @@ func (counts *NodeStateCounts_STATUS) AssignProperties_To_NodeStateCounts_STATUS
 	return nil
 }
 
+// Settings for a personal compute instance.
 type PersonalComputeInstanceSettings struct {
 	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser `json:"assignedUser,omitempty"`
@@ -13492,6 +13529,7 @@ func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalCom
 	return nil
 }
 
+// Settings for a personal compute instance.
 type PersonalComputeInstanceSettings_STATUS struct {
 	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser_STATUS `json:"assignedUser,omitempty"`
@@ -13573,6 +13611,7 @@ func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_To_Pers
 	return nil
 }
 
+// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 type ResourceId struct {
 	// +kubebuilder:validation:Required
 	// Reference: The ID of the resource
@@ -13657,6 +13696,7 @@ func (resourceId *ResourceId) AssignProperties_To_ResourceId(destination *v20210
 	return nil
 }
 
+// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 type ResourceId_STATUS struct {
 	// Id: The ID of the resource
 	Id *string `json:"id,omitempty"`
@@ -13715,6 +13755,7 @@ func (resourceId *ResourceId_STATUS) AssignProperties_To_ResourceId_STATUS(desti
 	return nil
 }
 
+// scale settings for AML Compute
 type ScaleSettings struct {
 	// +kubebuilder:validation:Required
 	// MaxNodeCount: Max number of nodes to use
@@ -13841,6 +13882,7 @@ func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v2
 	return nil
 }
 
+// scale settings for AML Compute
 type ScaleSettings_STATUS struct {
 	// MaxNodeCount: Max number of nodes to use
 	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
@@ -13929,6 +13971,7 @@ func (settings *ScaleSettings_STATUS) AssignProperties_To_ScaleSettings_STATUS(d
 	return nil
 }
 
+// Details of customized scripts to execute for setting up the cluster.
 type SetupScripts struct {
 	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute `json:"scripts,omitempty"`
@@ -14029,6 +14072,7 @@ func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *v2021
 	return nil
 }
 
+// Details of customized scripts to execute for setting up the cluster.
 type SetupScripts_STATUS struct {
 	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute_STATUS `json:"scripts,omitempty"`
@@ -14110,6 +14154,7 @@ func (scripts *SetupScripts_STATUS) AssignProperties_To_SetupScripts_STATUS(dest
 	return nil
 }
 
+// The ssl configuration for scoring
 type SslConfiguration struct {
 	// Cert: Cert data
 	Cert *string `json:"cert,omitempty"`
@@ -14308,6 +14353,7 @@ func (configuration *SslConfiguration) AssignProperties_To_SslConfiguration(dest
 	return nil
 }
 
+// The ssl configuration for scoring
 type SslConfiguration_STATUS struct {
 	// Cert: Cert data
 	Cert *string `json:"cert,omitempty"`
@@ -14461,6 +14507,7 @@ func (configuration *SslConfiguration_STATUS) AssignProperties_To_SslConfigurati
 	return nil
 }
 
+// A system service running on a compute.
 type SystemService_STATUS struct {
 	// PublicIpAddress: Public IP address
 	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
@@ -14549,6 +14596,7 @@ func (service *SystemService_STATUS) AssignProperties_To_SystemService_STATUS(de
 	return nil
 }
 
+// Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials struct {
 	// +kubebuilder:validation:Required
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
@@ -14685,6 +14733,7 @@ func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCreden
 	return nil
 }
 
+// Settings for user account that gets created on each on the nodes of a compute.
 type UserAccountCredentials_STATUS struct {
 	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
 	AdminUserName *string `json:"adminUserName,omitempty"`
@@ -14773,6 +14822,7 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_To_UserAccoun
 	return nil
 }
 
+// Virtual Machine image for Windows AML Compute
 type VirtualMachineImage struct {
 	// +kubebuilder:validation:Required
 	// Reference: Virtual Machine image path
@@ -14857,6 +14907,7 @@ func (image *VirtualMachineImage) AssignProperties_To_VirtualMachineImage(destin
 	return nil
 }
 
+// Virtual Machine image for Windows AML Compute
 type VirtualMachineImage_STATUS struct {
 	// Id: Virtual Machine image path
 	Id *string `json:"id,omitempty"`
@@ -14915,6 +14966,7 @@ func (image *VirtualMachineImage_STATUS) AssignProperties_To_VirtualMachineImage
 	return nil
 }
 
+// Admin credentials for virtual machine
 type VirtualMachineSshCredentials struct {
 	// Password: Password of admin account
 	Password *genruntime.SecretReference `json:"password,omitempty"`
@@ -15061,6 +15113,7 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 	return nil
 }
 
+// Admin credentials for virtual machine
 type VirtualMachineSshCredentials_STATUS struct {
 	// Password: Password of admin account
 	Password *string `json:"password,omitempty"`
@@ -15164,6 +15217,7 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_Virt
 	return nil
 }
 
+// A user that can be assigned to a compute instance.
 type AssignedUser struct {
 	// +kubebuilder:validation:Required
 	// ObjectId: User’s AAD Object Id.
@@ -15260,6 +15314,7 @@ func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *v2021070
 	return nil
 }
 
+// A user that can be assigned to a compute instance.
 type AssignedUser_STATUS struct {
 	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
@@ -15333,6 +15388,7 @@ func (user *AssignedUser_STATUS) AssignProperties_To_AssignedUser_STATUS(destina
 	return nil
 }
 
+// The resource management error additional info.
 type ErrorAdditionalInfo_STATUS struct {
 	// Info: The additional info.
 	Info map[string]v1.JSON `json:"info,omitempty"`
@@ -15744,6 +15800,7 @@ func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_To_Instan
 	return nil
 }
 
+// Customized setup scripts
 type ScriptsToExecute struct {
 	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference `json:"creationScript,omitempty"`
@@ -15892,6 +15949,7 @@ func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destinatio
 	return nil
 }
 
+// Customized setup scripts
 type ScriptsToExecute_STATUS struct {
 	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference_STATUS `json:"creationScript,omitempty"`
@@ -16011,6 +16069,7 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 	return nil
 }
 
+// Script reference
 type ScriptReference struct {
 	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`
@@ -16147,6 +16206,7 @@ func (reference *ScriptReference) AssignProperties_To_ScriptReference(destinatio
 	return nil
 }
 
+// Script reference
 type ScriptReference_STATUS struct {
 	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`

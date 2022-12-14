@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20180601
 
+// Represents a server.
 type Server_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -27,6 +28,7 @@ type Server_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a server.
 type ServerProperties_STATUS_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -70,6 +72,7 @@ type ServerProperties_STATUS_ARM struct {
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
+// Billing information related properties of a server.
 type Sku_STATUS_ARM struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
@@ -87,6 +90,7 @@ type Sku_STATUS_ARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Resource Id of the private endpoint connection.
 	Id *string `json:"id,omitempty"`
@@ -103,6 +107,7 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
+// Storage Profile properties of a server
 type StorageProfile_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -117,6 +122,7 @@ type StorageProfile_STATUS_ARM struct {
 	StorageMB *int `json:"storageMB,omitempty"`
 }
 
+// Properties of a private endpoint connection.
 type ServerPrivateEndpointConnectionProperties_STATUS_ARM struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_STATUS_ARM `json:"privateEndpoint,omitempty"`

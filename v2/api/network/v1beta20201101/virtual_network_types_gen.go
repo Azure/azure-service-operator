@@ -900,6 +900,7 @@ func (network *VirtualNetwork_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (network *VirtualNetwork_Spec) SetAzureName(azureName string) { network.AzureName = azureName }
 
+// Virtual Network resource.
 type VirtualNetwork_STATUS struct {
 	// AddressSpace: The AddressSpace that contains an array of IP address ranges that can be used by subnets.
 	AddressSpace *AddressSpace_STATUS `json:"addressSpace,omitempty"`
@@ -1453,6 +1454,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 	return nil
 }
 
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
@@ -1524,6 +1526,7 @@ func (space *AddressSpace) AssignProperties_To_AddressSpace(destination *v202011
 	return nil
 }
 
+// AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace_STATUS struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
@@ -1581,6 +1584,8 @@ func (space *AddressSpace_STATUS) AssignProperties_To_AddressSpace_STATUS(destin
 	return nil
 }
 
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -1652,6 +1657,8 @@ func (options *DhcpOptions) AssignProperties_To_DhcpOptions(destination *v202011
 	return nil
 }
 
+// DhcpOptions contains an array of DNS servers available to VMs deployed in the virtual network. Standard DHCP option for
+// a subnet overrides VNET DHCP options.
 type DhcpOptions_STATUS struct {
 	// DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -1709,6 +1716,7 @@ func (options *DhcpOptions_STATUS) AssignProperties_To_DhcpOptions_STATUS(destin
 	return nil
 }
 
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities struct {
 	// +kubebuilder:validation:Required
 	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
@@ -1783,6 +1791,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignProperties_To_VirtualNetw
 	return nil
 }
 
+// Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
 type VirtualNetworkBgpCommunities_STATUS struct {
 	// RegionalCommunity: The BGP community associated with the region of the virtual network.
 	RegionalCommunity *string `json:"regionalCommunity,omitempty"`

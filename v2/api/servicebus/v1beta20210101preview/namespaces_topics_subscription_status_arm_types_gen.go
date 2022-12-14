@@ -20,6 +20,7 @@ type Namespaces_Topics_Subscription_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Description of Subscription Resource.
 type SBSubscriptionProperties_STATUS_ARM struct {
 	// AccessedAt: Last time there was a receive request to this subscription.
 	AccessedAt *string `json:"accessedAt,omitempty"`

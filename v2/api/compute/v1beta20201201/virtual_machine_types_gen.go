@@ -1543,6 +1543,7 @@ func (machine *VirtualMachine_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (machine *VirtualMachine_Spec) SetAzureName(azureName string) { machine.AzureName = azureName }
 
+// Describes a Virtual Machine.
 type VirtualMachine_STATUS struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
 	AdditionalCapabilities *AdditionalCapabilities_STATUS `json:"additionalCapabilities,omitempty"`
@@ -2671,6 +2672,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	return nil
 }
 
+// Enables or disables a capability on the virtual machine or virtual machine scale set.
 type AdditionalCapabilities struct {
 	// UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS
 	// storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual
@@ -2756,6 +2758,7 @@ func (capabilities *AdditionalCapabilities) AssignProperties_To_AdditionalCapabi
 	return nil
 }
 
+// Enables or disables a capability on the virtual machine or virtual machine scale set.
 type AdditionalCapabilities_STATUS struct {
 	// UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS
 	// storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual
@@ -2826,6 +2829,8 @@ func (capabilities *AdditionalCapabilities_STATUS) AssignProperties_To_Additiona
 	return nil
 }
 
+// Specifies the billing related details of a Azure Spot VM or VMSS.
+// Minimum api-version: 2019-03-01.
 type BillingProfile struct {
 	// MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars.
 	// This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time
@@ -2920,6 +2925,8 @@ func (profile *BillingProfile) AssignProperties_To_BillingProfile(destination *v
 	return nil
 }
 
+// Specifies the billing related details of a Azure Spot VM or VMSS.
+// Minimum api-version: 2019-03-01.
 type BillingProfile_STATUS struct {
 	// MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars.
 	// This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time
@@ -2999,6 +3006,8 @@ func (profile *BillingProfile_STATUS) AssignProperties_To_BillingProfile_STATUS(
 	return nil
 }
 
+// Specifies the boot diagnostic settings state.
+// Minimum api-version: 2015-06-15.
 type DiagnosticsProfile struct {
 	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
 	// diagnose VM status.
@@ -3102,6 +3111,8 @@ func (profile *DiagnosticsProfile) AssignProperties_To_DiagnosticsProfile(destin
 	return nil
 }
 
+// Specifies the boot diagnostic settings state.
+// Minimum api-version: 2015-06-15.
 type DiagnosticsProfile_STATUS struct {
 	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
 	// diagnose VM status.
@@ -3186,6 +3197,7 @@ func (profile *DiagnosticsProfile_STATUS) AssignProperties_To_DiagnosticsProfile
 	return nil
 }
 
+// Specifies the eviction policy for the Azure Spot VM/VMSS
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type EvictionPolicy string
 
@@ -3194,6 +3206,7 @@ const (
 	EvictionPolicy_Delete     = EvictionPolicy("Delete")
 )
 
+// Specifies the eviction policy for the Azure Spot VM/VMSS
 type EvictionPolicy_STATUS string
 
 const (
@@ -3201,6 +3214,7 @@ const (
 	EvictionPolicy_STATUS_Delete     = EvictionPolicy_STATUS("Delete")
 )
 
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -3305,6 +3319,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -3388,6 +3403,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Specifies the hardware settings for the virtual machine.
 type HardwareProfile struct {
 	// VmSize: Specifies the size of the virtual machine.
 	// The enum data type is currently deprecated and will be removed by December 23rd 2023.
@@ -3481,6 +3497,7 @@ func (profile *HardwareProfile) AssignProperties_To_HardwareProfile(destination 
 	return nil
 }
 
+// Specifies the hardware settings for the virtual machine.
 type HardwareProfile_STATUS struct {
 	// VmSize: Specifies the size of the virtual machine.
 	// The enum data type is currently deprecated and will be removed by December 23rd 2023.
@@ -3559,6 +3576,7 @@ func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATU
 	return nil
 }
 
+// Specifies the network interfaces of the virtual machine.
 type NetworkProfile struct {
 	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
 	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
@@ -3669,6 +3687,7 @@ func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v
 	return nil
 }
 
+// Specifies the network interfaces of the virtual machine.
 type NetworkProfile_STATUS struct {
 	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
 	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
@@ -3761,6 +3780,8 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 	return nil
 }
 
+// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
+// provisioned.
 type OSProfile struct {
 	// AdminPassword: Specifies the password of the administrator account.
 	// Minimum-length (Windows): 8 characters
@@ -4169,6 +4190,8 @@ func (profile *OSProfile) AssignProperties_To_OSProfile(destination *v20201201s.
 	return nil
 }
 
+// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
+// provisioned.
 type OSProfile_STATUS struct {
 	// AdminUsername: Specifies the name of the administrator account.
 	// This property cannot be updated after the VM is created.
@@ -4463,6 +4486,10 @@ func (profile *OSProfile_STATUS) AssignProperties_To_OSProfile_STATUS(destinatio
 	return nil
 }
 
+// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
+// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
+// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
+// Get Started ->. Enter any required information and then click Save.
 type Plan struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -4600,6 +4627,10 @@ func (plan *Plan) AssignProperties_To_Plan(destination *v20201201s.Plan) error {
 	return nil
 }
 
+// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
+// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
+// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
+// Get Started ->. Enter any required information and then click Save.
 type Plan_STATUS struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -4704,6 +4735,9 @@ func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *v20201201s
 	return nil
 }
 
+// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
+// 'Low' enum
+// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
 // +kubebuilder:validation:Enum={"Low","Regular","Spot"}
 type Priority string
 
@@ -4713,6 +4747,9 @@ const (
 	Priority_Spot    = Priority("Spot")
 )
 
+// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
+// 'Low' enum
+// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
 type Priority_STATUS string
 
 const (
@@ -4721,6 +4758,7 @@ const (
 	Priority_STATUS_Spot    = Priority_STATUS("Spot")
 )
 
+// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile struct {
 	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
 	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
@@ -4888,6 +4926,7 @@ func (profile *SecurityProfile) AssignProperties_To_SecurityProfile(destination 
 	return nil
 }
 
+// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile_STATUS struct {
 	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
 	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
@@ -5024,6 +5063,7 @@ func (profile *SecurityProfile_STATUS) AssignProperties_To_SecurityProfile_STATU
 	return nil
 }
 
+// Specifies the storage settings for the virtual machine disks.
 type StorageProfile struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -5236,6 +5276,7 @@ func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v
 	return nil
 }
 
+// Specifies the storage settings for the virtual machine disks.
 type StorageProfile_STATUS struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -5551,6 +5592,7 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
+// Describes a Virtual Machine Extension.
 type VirtualMachineExtension_STATUS struct {
 	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
 	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
@@ -5942,6 +5984,7 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
+// Identity for the virtual machine.
 type VirtualMachineIdentity struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
@@ -6027,6 +6070,7 @@ func (identity *VirtualMachineIdentity) AssignProperties_To_VirtualMachineIdenti
 	return nil
 }
 
+// Identity for the virtual machine.
 type VirtualMachineIdentity_STATUS struct {
 	// PrincipalId: The principal id of virtual machine identity. This property will only be provided for a system assigned
 	// identity.
@@ -6129,6 +6173,7 @@ func (identity *VirtualMachineIdentity_STATUS) AssignProperties_To_VirtualMachin
 	return nil
 }
 
+// The instance view of a virtual machine.
 type VirtualMachineInstanceView_STATUS struct {
 	// AssignedHost: Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement,
 	// when the virtual machine is associated with a dedicated host group that has automatic placement enabled.
@@ -6644,6 +6689,10 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_To_VirtualMachin
 	return nil
 }
 
+// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
+// You can easily view the output of your console log.
+// Azure also enables you to see a screenshot of the
+// VM from the hypervisor.
 type BootDiagnostics struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -6749,6 +6798,10 @@ func (diagnostics *BootDiagnostics) AssignProperties_To_BootDiagnostics(destinat
 	return nil
 }
 
+// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
+// You can easily view the output of your console log.
+// Azure also enables you to see a screenshot of the
+// VM from the hypervisor.
 type BootDiagnostics_STATUS struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -6833,6 +6886,7 @@ func (diagnostics *BootDiagnostics_STATUS) AssignProperties_To_BootDiagnostics_S
 	return nil
 }
 
+// The instance view of a virtual machine boot diagnostics.
 type BootDiagnosticsInstanceView_STATUS struct {
 	// ConsoleScreenshotBlobUri: The console screenshot blob URI.
 	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
@@ -6947,6 +7001,7 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_To_BootDiagnost
 	return nil
 }
 
+// Describes a data disk.
 type DataDisk struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -7384,6 +7439,7 @@ func (disk *DataDisk) AssignProperties_To_DataDisk(destination *v20201201s.DataD
 	return nil
 }
 
+// Describes a data disk.
 type DataDisk_STATUS struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -7765,6 +7821,7 @@ func (disk *DataDisk_STATUS) AssignProperties_To_DataDisk_STATUS(destination *v2
 	return nil
 }
 
+// The instance view of the disk.
 type DiskInstanceView_STATUS struct {
 	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
 	// Minimum api-version: 2015-06-15
@@ -8265,6 +8322,10 @@ const (
 	HardwareProfile_VmSize_STATUS_Standard_NV6       = HardwareProfile_VmSize_STATUS("Standard_NV6")
 )
 
+// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
+// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
+// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
+// when you create the scale set.
 type ImageReference struct {
 	// Offer: Specifies the offer of the platform image or marketplace image used to create the virtual machine.
 	Offer *string `json:"offer,omitempty"`
@@ -8435,6 +8496,10 @@ func (reference *ImageReference) AssignProperties_To_ImageReference(destination 
 	return nil
 }
 
+// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
+// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
+// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
+// when you create the scale set.
 type ImageReference_STATUS struct {
 	// ExactVersion: Specifies in decimal numbers, the version of platform image or marketplace image used to create the
 	// virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
@@ -8572,6 +8637,7 @@ func (reference *ImageReference_STATUS) AssignProperties_To_ImageReference_STATU
 	return nil
 }
 
+// Instance view status.
 type InstanceViewStatus_STATUS struct {
 	// Code: The status code.
 	Code *string `json:"code,omitempty"`
@@ -8700,6 +8766,12 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_
 	return nil
 }
 
+// Specifies the Linux operating system settings on the virtual machine.
+// For a list of supported Linux
+// distributions, see [Linux on Azure-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+// For running non-endorsed distributions, see [Information for Non-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 type LinuxConfiguration struct {
 	// DisablePasswordAuthentication: Specifies whether password authentication should be disabled.
 	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
@@ -8912,6 +8984,12 @@ func (configuration *LinuxConfiguration) AssignProperties_To_LinuxConfiguration(
 	return nil
 }
 
+// Specifies the Linux operating system settings on the virtual machine.
+// For a list of supported Linux
+// distributions, see [Linux on Azure-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+// For running non-endorsed distributions, see [Information for Non-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 type LinuxConfiguration_STATUS struct {
 	// DisablePasswordAuthentication: Specifies whether password authentication should be disabled.
 	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
@@ -9083,6 +9161,7 @@ func (configuration *LinuxConfiguration_STATUS) AssignProperties_To_LinuxConfigu
 	return nil
 }
 
+// Maintenance Operation Status.
 type MaintenanceRedeployStatus_STATUS struct {
 	// IsCustomerInitiatedMaintenanceAllowed: True, if customer is allowed to perform Maintenance.
 	IsCustomerInitiatedMaintenanceAllowed *bool `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
@@ -9251,6 +9330,7 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceR
 	return nil
 }
 
+// Describes a network interface reference.
 type NetworkInterfaceReference struct {
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
@@ -9371,6 +9451,7 @@ func (reference *NetworkInterfaceReference) AssignProperties_To_NetworkInterface
 	return nil
 }
 
+// Describes a network interface reference.
 type NetworkInterfaceReference_STATUS struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -9457,6 +9538,10 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkIn
 	return nil
 }
 
+// Specifies information about the operating system disk used by the virtual machine.
+// For more information about
+// disks, see [About disks and VHDs for Azure virtual
+// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 type OSDisk struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -9934,6 +10019,10 @@ func (disk *OSDisk) AssignProperties_To_OSDisk(destination *v20201201s.OSDisk) e
 	return nil
 }
 
+// Specifies information about the operating system disk used by the virtual machine.
+// For more information about
+// disks, see [About disks and VHDs for Azure virtual
+// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 type OSDisk_STATUS struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -10324,6 +10413,9 @@ type SecurityProfile_SecurityType_STATUS string
 
 const SecurityProfile_SecurityType_STATUS_TrustedLaunch = SecurityProfile_SecurityType_STATUS("TrustedLaunch")
 
+// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+// Minimum
+// api-version: 2020-12-01
 type UefiSettings struct {
 	// SecureBootEnabled: Specifies whether secure boot should be enabled on the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -10440,6 +10532,9 @@ func (settings *UefiSettings) AssignProperties_To_UefiSettings(destination *v202
 	return nil
 }
 
+// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+// Minimum
+// api-version: 2020-12-01
 type UefiSettings_STATUS struct {
 	// SecureBootEnabled: Specifies whether secure boot should be enabled on the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -10535,6 +10630,7 @@ func (settings *UefiSettings_STATUS) AssignProperties_To_UefiSettings_STATUS(des
 	return nil
 }
 
+// Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup struct {
 	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
 	SourceVault *SubResource `json:"sourceVault,omitempty"`
@@ -10693,6 +10789,7 @@ func (group *VaultSecretGroup) AssignProperties_To_VaultSecretGroup(destination 
 	return nil
 }
 
+// Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup_STATUS struct {
 	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
 	SourceVault *SubResource_STATUS `json:"sourceVault,omitempty"`
@@ -10823,6 +10920,7 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 	return nil
 }
 
+// The instance view of the VM Agent running on the virtual machine.
 type VirtualMachineAgentInstanceView_STATUS struct {
 	// ExtensionHandlers: The virtual machine extension handler instance view.
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
@@ -10979,6 +11077,7 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_To_VirtualM
 	return nil
 }
 
+// The instance view of a virtual machine extension.
 type VirtualMachineExtensionInstanceView_STATUS struct {
 	// Name: The virtual machine extension name.
 	Name *string `json:"name,omitempty"`
@@ -11165,6 +11264,7 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_Virt
 	return nil
 }
 
+// The health status of the VM.
 type VirtualMachineHealthStatus_STATUS struct {
 	// Status: The health status information for the VM.
 	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -11253,6 +11353,7 @@ const (
 	VirtualMachineInstanceView_HyperVGeneration_STATUS_V2 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
 )
 
+// The status of virtual machine patch operations.
 type VirtualMachinePatchStatus_STATUS struct {
 	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
 	AvailablePatchSummary *AvailablePatchSummary_STATUS `json:"availablePatchSummary,omitempty"`
@@ -11421,6 +11522,7 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachi
 	return nil
 }
 
+// Specifies Windows operating system settings on the virtual machine.
 type WindowsConfiguration struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -11719,6 +11821,7 @@ func (configuration *WindowsConfiguration) AssignProperties_To_WindowsConfigurat
 	return nil
 }
 
+// Specifies Windows operating system settings on the virtual machine.
 type WindowsConfiguration_STATUS struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -11961,6 +12064,8 @@ func (configuration *WindowsConfiguration_STATUS) AssignProperties_To_WindowsCon
 	return nil
 }
 
+// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
+// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContent_ComponentName `json:"componentName,omitempty"`
@@ -12130,6 +12235,8 @@ func (content *AdditionalUnattendContent) AssignProperties_To_AdditionalUnattend
 	return nil
 }
 
+// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
+// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_STATUS struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
@@ -12266,6 +12373,7 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_To_AdditionalU
 	return nil
 }
 
+// Describes the properties of an virtual machine instance view for available patch summary.
 type AvailablePatchSummary_STATUS struct {
 	// AssessmentActivityId: The activity ID of the operation that produced this result. It is used to correlate across CRP and
 	// extension logs.
@@ -12476,6 +12584,12 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_To_AvailablePatchS
 	return nil
 }
 
+// Specifies the caching requirements.
+// Possible values are:
+// None
+// ReadOnly
+// ReadWrite
+// Default: None for Standard storage. ReadOnly for Premium storage
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type Caching string
 
@@ -12485,6 +12599,12 @@ const (
 	Caching_ReadWrite = Caching("ReadWrite")
 )
 
+// Specifies the caching requirements.
+// Possible values are:
+// None
+// ReadOnly
+// ReadWrite
+// Default: None for Standard storage. ReadOnly for Premium storage
 type Caching_STATUS string
 
 const (
@@ -12493,6 +12613,14 @@ const (
 	Caching_STATUS_ReadWrite = Caching_STATUS("ReadWrite")
 )
 
+// Specifies how the virtual machine should be created.
+// Possible values are:
+// Attach \u2013 This value
+// is used when you are using a specialized disk to create the virtual machine.
+// FromImage \u2013 This value is
+// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
+// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
+// described.
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
 type CreateOption string
 
@@ -12502,6 +12630,14 @@ const (
 	CreateOption_FromImage = CreateOption("FromImage")
 )
 
+// Specifies how the virtual machine should be created.
+// Possible values are:
+// Attach \u2013 This value
+// is used when you are using a specialized disk to create the virtual machine.
+// FromImage \u2013 This value is
+// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
+// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
+// described.
 type CreateOption_STATUS string
 
 const (
@@ -12510,15 +12646,36 @@ const (
 	CreateOption_STATUS_FromImage = CreateOption_STATUS("FromImage")
 )
 
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
+// the virtual machine. Supported values: ForceDetach.
+// detachOption: ForceDetach is applicable only for
+// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
+// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
+// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
+// This feature is
+// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
+// to 'true' along with setting detachOption: 'ForceDetach'.
 // +kubebuilder:validation:Enum={"ForceDetach"}
 type DetachOption string
 
 const DetachOption_ForceDetach = DetachOption("ForceDetach")
 
+// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
+// the virtual machine. Supported values: ForceDetach.
+// detachOption: ForceDetach is applicable only for
+// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
+// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
+// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
+// This feature is
+// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
+// to 'true' along with setting detachOption: 'ForceDetach'.
 type DetachOption_STATUS string
 
 const DetachOption_STATUS_ForceDetach = DetachOption_STATUS("ForceDetach")
 
+// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
+// NOTE: The
+// ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption `json:"option,omitempty"`
@@ -12640,6 +12797,9 @@ func (settings *DiffDiskSettings) AssignProperties_To_DiffDiskSettings(destinati
 	return nil
 }
 
+// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
+// NOTE: The
+// ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_STATUS struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption_STATUS `json:"option,omitempty"`
@@ -12740,6 +12900,7 @@ func (settings *DiffDiskSettings_STATUS) AssignProperties_To_DiffDiskSettings_ST
 	return nil
 }
 
+// Describes a Encryption Settings for a Disk
 type DiskEncryptionSettings struct {
 	// DiskEncryptionKey: Specifies the location of the disk encryption key, which is a Key Vault Secret.
 	DiskEncryptionKey *KeyVaultSecretReference `json:"diskEncryptionKey,omitempty"`
@@ -12919,6 +13080,7 @@ func (settings *DiskEncryptionSettings) AssignProperties_To_DiskEncryptionSettin
 	return nil
 }
 
+// Describes a Encryption Settings for a Disk
 type DiskEncryptionSettings_STATUS struct {
 	// DiskEncryptionKey: Specifies the location of the disk encryption key, which is a Key Vault Secret.
 	DiskEncryptionKey *KeyVaultSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
@@ -13071,6 +13233,7 @@ const (
 	InstanceViewStatus_Level_STATUS_Warning = InstanceViewStatus_Level_STATUS("Warning")
 )
 
+// Describes the properties of the last installed patch summary.
 type LastPatchInstallationSummary_STATUS struct {
 	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
 	Error *ApiError_STATUS `json:"error,omitempty"`
@@ -13327,6 +13490,7 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_To_LastPatc
 	return nil
 }
 
+// Specifies settings related to VM Guest Patching on Linux.
 type LinuxPatchSettings struct {
 	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
 	// Possible values are:
@@ -13414,6 +13578,7 @@ func (settings *LinuxPatchSettings) AssignProperties_To_LinuxPatchSettings(desti
 	return nil
 }
 
+// Specifies settings related to VM Guest Patching on Linux.
 type LinuxPatchSettings_STATUS struct {
 	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
 	// Possible values are:
@@ -13495,6 +13660,7 @@ const (
 	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("RetryLater")
 )
 
+// The parameters of a managed disk.
 type ManagedDiskParameters struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
@@ -13659,6 +13825,7 @@ func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParamete
 	return nil
 }
 
+// The parameters of a managed disk.
 type ManagedDiskParameters_STATUS struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResource_STATUS `json:"diskEncryptionSet,omitempty"`
@@ -13797,6 +13964,7 @@ const (
 	OSDisk_OsType_STATUS_Windows = OSDisk_OsType_STATUS("Windows")
 )
 
+// Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings struct {
 	// EnableHotpatching: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the
 	// 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
@@ -13920,6 +14088,7 @@ func (settings *PatchSettings) AssignProperties_To_PatchSettings(destination *v2
 	return nil
 }
 
+// Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings_STATUS struct {
 	// EnableHotpatching: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the
 	// 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
@@ -14022,6 +14191,7 @@ func (settings *PatchSettings_STATUS) AssignProperties_To_PatchSettings_STATUS(d
 	return nil
 }
 
+// SSH configuration for Linux based VMs running on Azure
 type SshConfiguration struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with linux based VMs.
 	PublicKeys []SshPublicKeySpec `json:"publicKeys,omitempty"`
@@ -14132,6 +14302,7 @@ func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(dest
 	return nil
 }
 
+// SSH configuration for Linux based VMs running on Azure
 type SshConfiguration_STATUS struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with linux based VMs.
 	PublicKeys []SshPublicKey_STATUS `json:"publicKeys,omitempty"`
@@ -14224,6 +14395,7 @@ func (configuration *SshConfiguration_STATUS) AssignProperties_To_SshConfigurati
 	return nil
 }
 
+// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
 type VaultCertificate struct {
 	// CertificateStore: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate
 	// should be added. The specified certificate store is implicitly in the LocalMachine account.
@@ -14330,6 +14502,7 @@ func (certificate *VaultCertificate) AssignProperties_To_VaultCertificate(destin
 	return nil
 }
 
+// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
 type VaultCertificate_STATUS struct {
 	// CertificateStore: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate
 	// should be added. The specified certificate store is implicitly in the LocalMachine account.
@@ -14415,6 +14588,7 @@ func (certificate *VaultCertificate_STATUS) AssignProperties_To_VaultCertificate
 	return nil
 }
 
+// Describes the uri of a disk.
 type VirtualHardDisk struct {
 	// Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
@@ -14488,6 +14662,7 @@ func (disk *VirtualHardDisk) AssignProperties_To_VirtualHardDisk(destination *v2
 	return nil
 }
 
+// Describes the uri of a disk.
 type VirtualHardDisk_STATUS struct {
 	// Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
@@ -14546,6 +14721,7 @@ func (disk *VirtualHardDisk_STATUS) AssignProperties_To_VirtualHardDisk_STATUS(d
 	return nil
 }
 
+// The instance view of a virtual machine extension handler.
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
 	// Status: The extension handler status.
 	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -14657,6 +14833,7 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_
 	return nil
 }
 
+// Describes Windows Remote Management configuration of the VM
 type WinRMConfiguration struct {
 	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener `json:"listeners,omitempty"`
@@ -14767,6 +14944,7 @@ func (configuration *WinRMConfiguration) AssignProperties_To_WinRMConfiguration(
 	return nil
 }
 
+// Describes Windows Remote Management configuration of the VM
 type WinRMConfiguration_STATUS struct {
 	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_STATUS `json:"listeners,omitempty"`
@@ -14892,6 +15070,7 @@ const (
 	AdditionalUnattendContent_SettingName_STATUS_FirstLogonCommands = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
 )
 
+// Api error.
 type ApiError_STATUS struct {
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
@@ -15077,15 +15256,22 @@ const (
 	AvailablePatchSummary_Status_STATUS_Unknown               = AvailablePatchSummary_Status_STATUS("Unknown")
 )
 
+// Specifies the ephemeral disk option for operating system disk.
 // +kubebuilder:validation:Enum={"Local"}
 type DiffDiskOption string
 
 const DiffDiskOption_Local = DiffDiskOption("Local")
 
+// Specifies the ephemeral disk option for operating system disk.
 type DiffDiskOption_STATUS string
 
 const DiffDiskOption_STATUS_Local = DiffDiskOption_STATUS("Local")
 
+// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
+// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
+// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
+// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
+// https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
 // +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
 type DiffDiskPlacement string
 
@@ -15094,6 +15280,11 @@ const (
 	DiffDiskPlacement_ResourceDisk = DiffDiskPlacement("ResourceDisk")
 )
 
+// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
+// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
+// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
+// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
+// https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
 type DiffDiskPlacement_STATUS string
 
 const (
@@ -15101,6 +15292,7 @@ const (
 	DiffDiskPlacement_STATUS_ResourceDisk = DiffDiskPlacement_STATUS("ResourceDisk")
 )
 
+// Describes a reference to Key Vault Key
 type KeyVaultKeyReference struct {
 	// +kubebuilder:validation:Required
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
@@ -15224,6 +15416,7 @@ func (reference *KeyVaultKeyReference) AssignProperties_To_KeyVaultKeyReference(
 	return nil
 }
 
+// Describes a reference to Key Vault Key
 type KeyVaultKeyReference_STATUS struct {
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
 	KeyUrl *string `json:"keyUrl,omitempty"`
@@ -15320,6 +15513,7 @@ func (reference *KeyVaultKeyReference_STATUS) AssignProperties_To_KeyVaultKeyRef
 	return nil
 }
 
+// Describes a reference to Key Vault Secret
 type KeyVaultSecretReference struct {
 	// +kubebuilder:validation:Required
 	// SecretUrl: The URL referencing a secret in a Key Vault.
@@ -15443,6 +15637,7 @@ func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretRefe
 	return nil
 }
 
+// Describes a reference to Key Vault Secret
 type KeyVaultSecretReference_STATUS struct {
 	// SecretUrl: The URL referencing a secret in a Key Vault.
 	SecretUrl *string `json:"secretUrl,omitempty"`
@@ -15581,6 +15776,7 @@ const (
 	PatchSettings_PatchMode_STATUS_Manual              = PatchSettings_PatchMode_STATUS("Manual")
 )
 
+// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
 type SshPublicKey_STATUS struct {
 	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
 	// and in ssh-rsa format.
@@ -15658,6 +15854,7 @@ func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(de
 	return nil
 }
 
+// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
 type SshPublicKeySpec struct {
 	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
 	// and in ssh-rsa format.
@@ -15756,6 +15953,12 @@ func (publicKey *SshPublicKeySpec) AssignProperties_To_SshPublicKeySpec(destinat
 	return nil
 }
 
+// Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks. It cannot
+// be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD.
+// UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD
+// zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to
+// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
+// https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
 type StorageAccountType string
 
@@ -15768,6 +15971,12 @@ const (
 	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
+// Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks. It cannot
+// be used with OS Disk. Standard_LRS uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD.
+// UltraSSD_LRS uses Ultra disk. Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD
+// zone redundant storage. For more information regarding disks supported for Windows Virtual Machines, refer to
+// https://docs.microsoft.com/en-us/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
+// https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disks-types
 type StorageAccountType_STATUS string
 
 const (
@@ -15779,6 +15988,7 @@ const (
 	StorageAccountType_STATUS_UltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
 
+// Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener struct {
 	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
 	// the Key Vault, see [Add a key or secret to the key
@@ -15894,6 +16104,7 @@ func (listener *WinRMListener) AssignProperties_To_WinRMListener(destination *v2
 	return nil
 }
 
+// Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener_STATUS struct {
 	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
 	// the Key Vault, see [Add a key or secret to the key
@@ -15988,6 +16199,7 @@ func (listener *WinRMListener_STATUS) AssignProperties_To_WinRMListener_STATUS(d
 	return nil
 }
 
+// Api error base.
 type ApiErrorBase_STATUS struct {
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
@@ -16076,6 +16288,7 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 	return nil
 }
 
+// Inner error details.
 type InnerError_STATUS struct {
 	// Errordetail: The internal error message or exception dump.
 	Errordetail *string `json:"errordetail,omitempty"`

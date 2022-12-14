@@ -6,8 +6,11 @@ package v1beta20220301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Site_Spec_ARM struct {
-	ExtendedLocation *ExtendedLocation_ARM       `json:"extendedLocation,omitempty"`
-	Identity         *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
+	// ExtendedLocation: Extended Location.
+	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
+
+	// Identity: Managed service identity.
+	Identity *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
@@ -40,6 +43,7 @@ func (site *Site_Spec_ARM) GetType() string {
 	return "Microsoft.Web/sites"
 }
 
+// Managed service identity.
 type ManagedServiceIdentity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
@@ -136,6 +140,7 @@ type Site_Properties_Spec_ARM struct {
 	VnetRouteAllEnabled *bool `json:"vnetRouteAllEnabled,omitempty"`
 }
 
+// Information needed for cloning operation.
 type CloningInfo_ARM struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -171,6 +176,7 @@ type CloningInfo_ARM struct {
 	TrafficManagerProfileName *string `json:"trafficManagerProfileName,omitempty"`
 }
 
+// SSL-enabled hostname.
 type HostNameSslState_ARM struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType `json:"hostType,omitempty"`
@@ -201,6 +207,7 @@ const (
 	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
 
+// Configuration of an App Service app.
 type SiteConfig_ARM struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -412,15 +419,18 @@ type SiteConfig_ARM struct {
 	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
 }
 
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo_ARM struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
 }
 
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Rules that can be defined for auto-heal.
 type AutoHealRules_ARM struct {
 	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions_ARM `json:"actions,omitempty"`
@@ -429,6 +439,7 @@ type AutoHealRules_ARM struct {
 	Triggers *AutoHealTriggers_ARM `json:"triggers,omitempty"`
 }
 
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue_ARM struct {
 	// AccessKey: Access key for the storage account.
 	AccessKey *string `json:"accessKey,omitempty"`
@@ -446,6 +457,7 @@ type AzureStorageInfoValue_ARM struct {
 	Type *AzureStorageInfoValue_Type `json:"type,omitempty"`
 }
 
+// Database connection string information.
 type ConnStringInfo_ARM struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -457,6 +469,7 @@ type ConnStringInfo_ARM struct {
 	Type *ConnStringInfo_Type `json:"type,omitempty"`
 }
 
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings_ARM struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -468,11 +481,15 @@ type CorsSettings_ARM struct {
 	SupportCredentials *bool `json:"supportCredentials,omitempty"`
 }
 
+// Routing rules in production experiments.
 type Experiments_ARM struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule_ARM `json:"rampUpRules,omitempty"`
 }
 
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping_ARM struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -484,6 +501,7 @@ type HandlerMapping_ARM struct {
 	ScriptProcessor *string `json:"scriptProcessor,omitempty"`
 }
 
+// IP security restriction on an app.
 type IpSecurityRestriction_ARM struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -534,6 +552,7 @@ type IpSecurityRestriction_ARM struct {
 	VnetTrafficTag *int `json:"vnetTrafficTag,omitempty"`
 }
 
+// Name value pair.
 type NameValuePair_ARM struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -542,6 +561,7 @@ type NameValuePair_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Push settings for the App.
 type PushSettings_ARM struct {
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
@@ -550,6 +570,7 @@ type PushSettings_ARM struct {
 	Properties *PushSettings_Properties_ARM `json:"properties,omitempty"`
 }
 
+// Metric limits set on an app.
 type SiteLimits_ARM struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -561,6 +582,7 @@ type SiteLimits_ARM struct {
 	MaxPercentageCpu *float64 `json:"maxPercentageCpu,omitempty"`
 }
 
+// Virtual application in an app.
 type VirtualApplication_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -575,6 +597,7 @@ type VirtualApplication_ARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_ARM struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType `json:"actionType,omitempty"`
@@ -587,6 +610,7 @@ type AutoHealActions_ARM struct {
 	MinProcessExecutionTime *string `json:"minProcessExecutionTime,omitempty"`
 }
 
+// Triggers for auto-heal.
 type AutoHealTriggers_ARM struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
@@ -627,6 +651,8 @@ type PushSettings_Properties_ARM struct {
 	TagsRequiringAuth *string `json:"tagsRequiringAuth,omitempty"`
 }
 
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule_ARM struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -661,6 +687,7 @@ type RampUpRule_ARM struct {
 	ReroutePercentage *float64 `json:"reroutePercentage,omitempty"`
 }
 
+// Directory for virtual application.
 type VirtualDirectory_ARM struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -669,6 +696,8 @@ type VirtualDirectory_ARM struct {
 	VirtualPath *string `json:"virtualPath,omitempty"`
 }
 
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction_ARM struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -677,6 +706,7 @@ type AutoHealCustomAction_ARM struct {
 	Parameters *string `json:"parameters,omitempty"`
 }
 
+// Trigger based on total requests.
 type RequestsBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -685,6 +715,7 @@ type RequestsBasedTrigger_ARM struct {
 	TimeInterval *string `json:"timeInterval,omitempty"`
 }
 
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -699,6 +730,7 @@ type SlowRequestsBasedTrigger_ARM struct {
 	TimeTaken *string `json:"timeTaken,omitempty"`
 }
 
+// Trigger based on status code.
 type StatusCodesBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -719,6 +751,7 @@ type StatusCodesBasedTrigger_ARM struct {
 	Win32Status *int `json:"win32Status,omitempty"`
 }
 
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger_ARM struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`

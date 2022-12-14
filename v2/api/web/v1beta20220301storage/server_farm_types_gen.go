@@ -252,12 +252,14 @@ func (serverfarm *Serverfarm_STATUS) ConvertStatusTo(destination genruntime.Conv
 }
 
 // Storage version of v1beta20220301.ExtendedLocation
+// Extended Location.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220301.ExtendedLocation_STATUS
+// Extended Location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -265,6 +267,7 @@ type ExtendedLocation_STATUS struct {
 }
 
 // Storage version of v1beta20220301.HostingEnvironmentProfile
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -273,6 +276,7 @@ type HostingEnvironmentProfile struct {
 }
 
 // Storage version of v1beta20220301.HostingEnvironmentProfile_STATUS
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -281,6 +285,7 @@ type HostingEnvironmentProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.KubeEnvironmentProfile
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -289,6 +294,7 @@ type KubeEnvironmentProfile struct {
 }
 
 // Storage version of v1beta20220301.KubeEnvironmentProfile_STATUS
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -297,6 +303,7 @@ type KubeEnvironmentProfile_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SkuDescription
+// Description of a SKU for a scalable resource.
 type SkuDescription struct {
 	Capabilities []Capability           `json:"capabilities,omitempty"`
 	Capacity     *int                   `json:"capacity,omitempty"`
@@ -310,6 +317,7 @@ type SkuDescription struct {
 }
 
 // Storage version of v1beta20220301.SkuDescription_STATUS
+// Description of a SKU for a scalable resource.
 type SkuDescription_STATUS struct {
 	Capabilities []Capability_STATUS    `json:"capabilities,omitempty"`
 	Capacity     *int                   `json:"capacity,omitempty"`
@@ -323,6 +331,7 @@ type SkuDescription_STATUS struct {
 }
 
 // Storage version of v1beta20220301.Capability
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -331,6 +340,7 @@ type Capability struct {
 }
 
 // Storage version of v1beta20220301.Capability_STATUS
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -339,6 +349,7 @@ type Capability_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SkuCapacity
+// Description of the App Service plan scale options.
 type SkuCapacity struct {
 	Default        *int                   `json:"default,omitempty"`
 	ElasticMaximum *int                   `json:"elasticMaximum,omitempty"`
@@ -349,6 +360,7 @@ type SkuCapacity struct {
 }
 
 // Storage version of v1beta20220301.SkuCapacity_STATUS
+// Description of the App Service plan scale options.
 type SkuCapacity_STATUS struct {
 	Default        *int                   `json:"default,omitempty"`
 	ElasticMaximum *int                   `json:"elasticMaximum,omitempty"`

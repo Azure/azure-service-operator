@@ -29,6 +29,7 @@ func (server *Redis_LinkedServer_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 
+// Create properties for a linked server
 type RedisLinkedServerCreateProperties_ARM struct {
 	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
 

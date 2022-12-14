@@ -24,6 +24,7 @@ type UserAssignedIdentity_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties associated with the user assigned identity.
 type UserAssignedIdentityProperties_STATUS_ARM struct {
 	// ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
 	ClientId *string `json:"clientId,omitempty"`

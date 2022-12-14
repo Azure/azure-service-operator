@@ -214,6 +214,7 @@ func (service *StorageAccounts_BlobService_STATUS) ConvertStatusTo(destination g
 }
 
 // Storage version of v1beta20210401.ChangeFeed
+// The blob service properties for change feed events.
 type ChangeFeed struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -221,6 +222,7 @@ type ChangeFeed struct {
 }
 
 // Storage version of v1beta20210401.ChangeFeed_STATUS
+// The blob service properties for change feed events.
 type ChangeFeed_STATUS struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -228,18 +230,21 @@ type ChangeFeed_STATUS struct {
 }
 
 // Storage version of v1beta20210401.CorsRules
+// Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules struct {
 	CorsRules   []CorsRule             `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.CorsRules_STATUS
+// Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules_STATUS struct {
 	CorsRules   []CorsRule_STATUS      `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.DeleteRetentionPolicy
+// The service properties for soft delete.
 type DeleteRetentionPolicy struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -247,6 +252,7 @@ type DeleteRetentionPolicy struct {
 }
 
 // Storage version of v1beta20210401.DeleteRetentionPolicy_STATUS
+// The service properties for soft delete.
 type DeleteRetentionPolicy_STATUS struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -254,6 +260,7 @@ type DeleteRetentionPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210401.LastAccessTimeTrackingPolicy
+// The blob service properties for Last access time based tracking policy.
 type LastAccessTimeTrackingPolicy struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
@@ -263,6 +270,7 @@ type LastAccessTimeTrackingPolicy struct {
 }
 
 // Storage version of v1beta20210401.LastAccessTimeTrackingPolicy_STATUS
+// The blob service properties for Last access time based tracking policy.
 type LastAccessTimeTrackingPolicy_STATUS struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
@@ -272,6 +280,7 @@ type LastAccessTimeTrackingPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210401.RestorePolicyProperties
+// The blob service properties for blob restore policy
 type RestorePolicyProperties struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -279,6 +288,7 @@ type RestorePolicyProperties struct {
 }
 
 // Storage version of v1beta20210401.RestorePolicyProperties_STATUS
+// The blob service properties for blob restore policy
 type RestorePolicyProperties_STATUS struct {
 	Days            *int                   `json:"days,omitempty"`
 	Enabled         *bool                  `json:"enabled,omitempty"`
@@ -288,6 +298,7 @@ type RestorePolicyProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401.CorsRule
+// Specifies a CORS rule for the Blob service.
 type CorsRule struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
@@ -298,6 +309,7 @@ type CorsRule struct {
 }
 
 // Storage version of v1beta20210401.CorsRule_STATUS
+// Specifies a CORS rule for the Blob service.
 type CorsRule_STATUS struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`

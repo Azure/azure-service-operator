@@ -32,6 +32,7 @@ func (database *DatabaseAccounts_SqlDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
+// Properties to create and update Azure Cosmos DB SQL database.
 type SqlDatabaseCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -41,6 +42,7 @@ type SqlDatabaseCreateUpdateProperties_ARM struct {
 	Resource *SqlDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
+// Cosmos DB SQL database resource object
 type SqlDatabaseResource_ARM struct {
 	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`

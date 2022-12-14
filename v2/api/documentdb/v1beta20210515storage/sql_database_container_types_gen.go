@@ -221,6 +221,7 @@ type SqlContainerGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlContainerResource
+// Cosmos DB SQL container resource object
 type SqlContainerResource struct {
 	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
@@ -233,6 +234,7 @@ type SqlContainerResource struct {
 }
 
 // Storage version of v1beta20210515.ConflictResolutionPolicy
+// The conflict resolution policy for the container.
 type ConflictResolutionPolicy struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
@@ -241,6 +243,7 @@ type ConflictResolutionPolicy struct {
 }
 
 // Storage version of v1beta20210515.ConflictResolutionPolicy_STATUS
+// The conflict resolution policy for the container.
 type ConflictResolutionPolicy_STATUS struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
@@ -249,6 +252,7 @@ type ConflictResolutionPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.ContainerPartitionKey
+// The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
@@ -257,6 +261,7 @@ type ContainerPartitionKey struct {
 }
 
 // Storage version of v1beta20210515.ContainerPartitionKey_STATUS
+// The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey_STATUS struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
@@ -266,6 +271,7 @@ type ContainerPartitionKey_STATUS struct {
 }
 
 // Storage version of v1beta20210515.IndexingPolicy
+// Cosmos DB indexing policy
 type IndexingPolicy struct {
 	Automatic        *bool                  `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath      `json:"compositeIndexes,omitempty"`
@@ -277,6 +283,7 @@ type IndexingPolicy struct {
 }
 
 // Storage version of v1beta20210515.IndexingPolicy_STATUS
+// Cosmos DB indexing policy
 type IndexingPolicy_STATUS struct {
 	Automatic        *bool                    `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath_STATUS `json:"compositeIndexes,omitempty"`
@@ -288,12 +295,16 @@ type IndexingPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.UniqueKeyPolicy
+// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
+// Cosmos DB service.
 type UniqueKeyPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UniqueKeys  []UniqueKey            `json:"uniqueKeys,omitempty"`
 }
 
 // Storage version of v1beta20210515.UniqueKeyPolicy_STATUS
+// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
+// Cosmos DB service.
 type UniqueKeyPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UniqueKeys  []UniqueKey_STATUS     `json:"uniqueKeys,omitempty"`
@@ -326,6 +337,7 @@ type ExcludedPath_STATUS struct {
 }
 
 // Storage version of v1beta20210515.IncludedPath
+// The paths that are included in indexing
 type IncludedPath struct {
 	Indexes     []Indexes              `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -333,6 +345,7 @@ type IncludedPath struct {
 }
 
 // Storage version of v1beta20210515.IncludedPath_STATUS
+// The paths that are included in indexing
 type IncludedPath_STATUS struct {
 	Indexes     []Indexes_STATUS       `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -354,18 +367,21 @@ type SpatialSpec_STATUS struct {
 }
 
 // Storage version of v1beta20210515.UniqueKey
+// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
 type UniqueKey struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.UniqueKey_STATUS
+// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
 type UniqueKey_STATUS struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.Indexes
+// The indexes for the path.
 type Indexes struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`
@@ -374,6 +390,7 @@ type Indexes struct {
 }
 
 // Storage version of v1beta20210515.Indexes_STATUS
+// The indexes for the path.
 type Indexes_STATUS struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`

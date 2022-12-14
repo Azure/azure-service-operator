@@ -382,7 +382,9 @@ type Disk_Spec struct {
 
 	// MaxShares: The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a
 	// disk that can be mounted on multiple VMs at the same time.
-	MaxShares           *int                 `json:"maxShares,omitempty"`
+	MaxShares *int `json:"maxShares,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -397,7 +399,9 @@ type Disk_Spec struct {
 	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
 	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
-	Sku          *DiskSku      `json:"sku,omitempty"`
+
+	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+	Sku *DiskSku `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1177,6 +1181,7 @@ func (disk *Disk_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (disk *Disk_Spec) SetAzureName(azureName string) { disk.AzureName = azureName }
 
+// Disk resource.
 type Disk_STATUS struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
 	// disabled by default. Does not apply to Ultra disks.
@@ -1249,7 +1254,9 @@ type Disk_STATUS struct {
 	MaxShares *int `json:"maxShares,omitempty"`
 
 	// Name: Resource name
-	Name                *string                     `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -1265,7 +1272,9 @@ type Disk_STATUS struct {
 	// ShareInfo: Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than
 	// one for disks to allow attaching them to multiple VMs.
 	ShareInfo []ShareInfoElement_STATUS `json:"shareInfo,omitempty"`
-	Sku       *DiskSku_STATUS           `json:"sku,omitempty"`
+
+	// Sku: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+	Sku *DiskSku_STATUS `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -2058,6 +2067,7 @@ func (disk *Disk_STATUS) AssignProperties_To_Disk_STATUS(destination *v20200930s
 	return nil
 }
 
+// Data used when creating a disk.
 type CreationData struct {
 	// +kubebuilder:validation:Required
 	// CreateOption: This enumerates the possible sources of a disk's creation.
@@ -2357,6 +2367,7 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *v2020093
 	return nil
 }
 
+// Data used when creating a disk.
 type CreationData_STATUS struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption *CreationData_CreateOption_STATUS `json:"createOption,omitempty"`
@@ -2625,6 +2636,7 @@ const (
 	DiskProperties_OsType_STATUS_Windows = DiskProperties_OsType_STATUS("Windows")
 )
 
+// The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku struct {
 	// Name: The sku name.
 	Name *DiskSku_Name `json:"name,omitempty"`
@@ -2708,6 +2720,7 @@ func (diskSku *DiskSku) AssignProperties_To_DiskSku(destination *v20200930s.Disk
 	return nil
 }
 
+// The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
 type DiskSku_STATUS struct {
 	// Name: The sku name.
 	Name *DiskSku_Name_STATUS `json:"name,omitempty"`
@@ -2791,6 +2804,7 @@ func (diskSku *DiskSku_STATUS) AssignProperties_To_DiskSku_STATUS(destination *v
 	return nil
 }
 
+// This enumerates the possible state of the disk.
 type DiskState_STATUS string
 
 const (
@@ -2802,10 +2816,13 @@ const (
 	DiskState_STATUS_Unattached    = DiskState_STATUS("Unattached")
 )
 
+// Encryption at rest settings for disk or snapshot
 type Encryption struct {
 	// DiskEncryptionSetReference: ResourceId of the disk encryption set to use for enabling encryption at rest.
 	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
-	Type                       *EncryptionType               `json:"type,omitempty"`
+
+	// Type: The type of key used to encrypt the data of the disk.
+	Type *EncryptionType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -2914,10 +2931,13 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20200
 	return nil
 }
 
+// Encryption at rest settings for disk or snapshot
 type Encryption_STATUS struct {
 	// DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling encryption at rest.
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType_STATUS `json:"type,omitempty"`
+	DiskEncryptionSetId *string `json:"diskEncryptionSetId,omitempty"`
+
+	// Type: The type of key used to encrypt the data of the disk.
+	Type *EncryptionType_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Encryption_STATUS{}
@@ -2995,6 +3015,7 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
+// Encryption settings for disk or snapshot
 type EncryptionSettingsCollection struct {
 	// +kubebuilder:validation:Required
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
@@ -3161,6 +3182,7 @@ func (collection *EncryptionSettingsCollection) AssignProperties_To_EncryptionSe
 	return nil
 }
 
+// Encryption settings for disk or snapshot
 type EncryptionSettingsCollection_STATUS struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
 	// this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is
@@ -3296,6 +3318,7 @@ func (collection *EncryptionSettingsCollection_STATUS) AssignProperties_To_Encry
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -3400,6 +3423,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -3483,6 +3507,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Policy for accessing the disk via network.
 // +kubebuilder:validation:Enum={"AllowAll","AllowPrivate","DenyAll"}
 type NetworkAccessPolicy string
 
@@ -3492,6 +3517,7 @@ const (
 	NetworkAccessPolicy_DenyAll      = NetworkAccessPolicy("DenyAll")
 )
 
+// Policy for accessing the disk via network.
 type NetworkAccessPolicy_STATUS string
 
 const (
@@ -3500,6 +3526,7 @@ const (
 	NetworkAccessPolicy_STATUS_DenyAll      = NetworkAccessPolicy_STATUS("DenyAll")
 )
 
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan struct {
 	// +kubebuilder:validation:Required
 	// Name: The plan ID.
@@ -3640,6 +3667,7 @@ func (plan *PurchasePlan) AssignProperties_To_PurchasePlan(destination *v2020093
 	return nil
 }
 
+// Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type PurchasePlan_STATUS struct {
 	// Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -3827,6 +3855,7 @@ const (
 	CreationData_CreateOption_STATUS_Upload    = CreationData_CreateOption_STATUS("Upload")
 )
 
+// Encryption settings for one disk volume.
 type EncryptionSettingsElement struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference `json:"diskEncryptionKey,omitempty"`
@@ -3976,6 +4005,7 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 	return nil
 }
 
+// Encryption settings for one disk volume.
 type EncryptionSettingsElement_STATUS struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
@@ -4096,6 +4126,7 @@ func (element *EncryptionSettingsElement_STATUS) AssignProperties_To_EncryptionS
 	return nil
 }
 
+// The type of key used to encrypt the data of the disk.
 // +kubebuilder:validation:Enum={"EncryptionAtRestWithCustomerKey","EncryptionAtRestWithPlatformAndCustomerKeys","EncryptionAtRestWithPlatformKey"}
 type EncryptionType string
 
@@ -4105,6 +4136,7 @@ const (
 	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
+// The type of key used to encrypt the data of the disk.
 type EncryptionType_STATUS string
 
 const (
@@ -4113,6 +4145,7 @@ const (
 	EncryptionType_STATUS_EncryptionAtRestWithPlatformKey             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
 )
 
+// The source image used for creating the disk.
 type ImageDiskReference struct {
 	// Lun: If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the
 	// image to use. For OS disks, this field is null.
@@ -4219,6 +4252,7 @@ func (reference *ImageDiskReference) AssignProperties_To_ImageDiskReference(dest
 	return nil
 }
 
+// The source image used for creating the disk.
 type ImageDiskReference_STATUS struct {
 	// Id: A relative uri containing either a Platform Image Repository or user image reference.
 	Id *string `json:"id,omitempty"`
@@ -4293,6 +4327,7 @@ func (reference *ImageDiskReference_STATUS) AssignProperties_To_ImageDiskReferen
 	return nil
 }
 
+// Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference struct {
 	// +kubebuilder:validation:Required
 	// KeyUrl: Url pointing to a key or secret in KeyVault
@@ -4416,6 +4451,7 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_To_KeyVaultAndKeyRefe
 	return nil
 }
 
+// Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference_STATUS struct {
 	// KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl *string `json:"keyUrl,omitempty"`
@@ -4512,6 +4548,7 @@ func (reference *KeyVaultAndKeyReference_STATUS) AssignProperties_To_KeyVaultAnd
 	return nil
 }
 
+// Key Vault Secret Url and vault id of the encryption key
 type KeyVaultAndSecretReference struct {
 	// +kubebuilder:validation:Required
 	// SecretUrl: Url pointing to a key or secret in KeyVault
@@ -4635,6 +4672,7 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_To_KeyVaultAndSecr
 	return nil
 }
 
+// Key Vault Secret Url and vault id of the encryption key
 type KeyVaultAndSecretReference_STATUS struct {
 	// SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl *string `json:"secretUrl,omitempty"`
@@ -4731,6 +4769,8 @@ func (reference *KeyVaultAndSecretReference_STATUS) AssignProperties_To_KeyVault
 	return nil
 }
 
+// The vault id is an Azure Resource Manager Resource id in the form
+// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault struct {
 	// Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -4814,6 +4854,8 @@ func (vault *SourceVault) AssignProperties_To_SourceVault(destination *v20200930
 	return nil
 }
 
+// The vault id is an Azure Resource Manager Resource id in the form
+// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
 type SourceVault_STATUS struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`

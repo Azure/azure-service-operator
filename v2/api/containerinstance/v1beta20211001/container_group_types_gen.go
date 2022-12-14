@@ -1202,6 +1202,7 @@ func (group *ContainerGroup_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (group *ContainerGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
+// A container group.
 type ContainerGroup_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -2005,6 +2006,7 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	return nil
 }
 
+// A container instance.
 type Container struct {
 	// Command: The commands to execute within the container instance in exec form.
 	Command []string `json:"command,omitempty"`
@@ -2459,6 +2461,7 @@ func (container *Container) AssignProperties_To_Container(destination *v20211001
 	return nil
 }
 
+// A container instance.
 type Container_STATUS struct {
 	// Command: The commands to execute within the container instance in exec form.
 	Command []string `json:"command,omitempty"`
@@ -3011,6 +3014,7 @@ const (
 	ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure = ContainerGroup_Properties_RestartPolicy_STATUS("OnFailure")
 )
 
+// Container group diagnostic information.
 type ContainerGroupDiagnostics struct {
 	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics `json:"logAnalytics,omitempty"`
@@ -3111,6 +3115,7 @@ func (diagnostics *ContainerGroupDiagnostics) AssignProperties_To_ContainerGroup
 	return nil
 }
 
+// Container group diagnostic information.
 type ContainerGroupDiagnostics_STATUS struct {
 	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics_STATUS `json:"logAnalytics,omitempty"`
@@ -3192,6 +3197,7 @@ func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignProperties_To_Contain
 	return nil
 }
 
+// Identity for the container group.
 type ContainerGroupIdentity struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
@@ -3277,6 +3283,7 @@ func (identity *ContainerGroupIdentity) AssignProperties_To_ContainerGroupIdenti
 	return nil
 }
 
+// Identity for the container group.
 type ContainerGroupIdentity_STATUS struct {
 	// PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
 	// identity.
@@ -3431,6 +3438,7 @@ func (identity *ContainerGroupIdentity_STATUS) AssignProperties_To_ContainerGrou
 	return nil
 }
 
+// The container group SKU.
 // +kubebuilder:validation:Enum={"Dedicated","Standard"}
 type ContainerGroupSku string
 
@@ -3439,6 +3447,7 @@ const (
 	ContainerGroupSku_Standard  = ContainerGroupSku("Standard")
 )
 
+// The container group SKU.
 type ContainerGroupSku_STATUS string
 
 const (
@@ -3446,6 +3455,7 @@ const (
 	ContainerGroupSku_STATUS_Standard  = ContainerGroupSku_STATUS("Standard")
 )
 
+// Container group subnet information.
 type ContainerGroupSubnetId struct {
 	// Name: Friendly name for the subnet.
 	Name *string `json:"name,omitempty"`
@@ -3551,6 +3561,7 @@ func (subnetId *ContainerGroupSubnetId) AssignProperties_To_ContainerGroupSubnet
 	return nil
 }
 
+// Container group subnet information.
 type ContainerGroupSubnetId_STATUS struct {
 	// Id: Resource ID of virtual network and subnet.
 	Id *string `json:"id,omitempty"`
@@ -3624,6 +3635,7 @@ func (subnetId *ContainerGroupSubnetId_STATUS) AssignProperties_To_ContainerGrou
 	return nil
 }
 
+// DNS configuration for the container group.
 type DnsConfiguration struct {
 	// +kubebuilder:validation:Required
 	// NameServers: The DNS servers for the container group.
@@ -3738,6 +3750,7 @@ func (configuration *DnsConfiguration) AssignProperties_To_DnsConfiguration(dest
 	return nil
 }
 
+// DNS configuration for the container group.
 type DnsConfiguration_STATUS struct {
 	// NameServers: The DNS servers for the container group.
 	NameServers []string `json:"nameServers,omitempty"`
@@ -3825,6 +3838,7 @@ func (configuration *DnsConfiguration_STATUS) AssignProperties_To_DnsConfigurati
 	return nil
 }
 
+// The container group encryption properties.
 type EncryptionProperties struct {
 	// +kubebuilder:validation:Required
 	// KeyName: The encryption key name.
@@ -3943,6 +3957,7 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
+// The container group encryption properties.
 type EncryptionProperties_STATUS struct {
 	// KeyName: The encryption key name.
 	KeyName *string `json:"keyName,omitempty"`
@@ -4031,6 +4046,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
+// Image registry credential.
 type ImageRegistryCredential struct {
 	// Identity: The identity for the private registry.
 	Identity *string `json:"identity,omitempty"`
@@ -4199,6 +4215,7 @@ func (credential *ImageRegistryCredential) AssignProperties_To_ImageRegistryCred
 	return nil
 }
 
+// Image registry credential.
 type ImageRegistryCredential_STATUS struct {
 	// Identity: The identity for the private registry.
 	Identity *string `json:"identity,omitempty"`
@@ -4302,6 +4319,7 @@ func (credential *ImageRegistryCredential_STATUS) AssignProperties_To_ImageRegis
 	return nil
 }
 
+// The init container definition.
 type InitContainerDefinition struct {
 	// Command: The command to execute within the init container in exec form.
 	Command []string `json:"command,omitempty"`
@@ -4544,6 +4562,7 @@ func (definition *InitContainerDefinition) AssignProperties_To_InitContainerDefi
 	return nil
 }
 
+// The init container definition.
 type InitContainerDefinition_STATUS struct {
 	// Command: The command to execute within the init container in exec form.
 	Command []string `json:"command,omitempty"`
@@ -4782,6 +4801,7 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_To_InitContai
 	return nil
 }
 
+// IP address for the container group.
 type IpAddress struct {
 	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
 	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
@@ -5004,6 +5024,7 @@ func (address *IpAddress) AssignProperties_To_IpAddress(destination *v20211001s.
 	return nil
 }
 
+// IP address for the container group.
 type IpAddress_STATUS struct {
 	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
 	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
@@ -5197,6 +5218,7 @@ func (address *IpAddress_STATUS) AssignProperties_To_IpAddress_STATUS(destinatio
 	return nil
 }
 
+// The properties of the volume.
 type Volume struct {
 	// AzureFile: The Azure File volume.
 	AzureFile *AzureFileVolume `json:"azureFile,omitempty"`
@@ -5437,6 +5459,7 @@ func (volume *Volume) AssignProperties_To_Volume(destination *v20211001s.Volume)
 	return nil
 }
 
+// The properties of the volume.
 type Volume_STATUS struct {
 	// AzureFile: The Azure File volume.
 	AzureFile *AzureFileVolume_STATUS `json:"azureFile,omitempty"`
@@ -5625,6 +5648,7 @@ func (volume *Volume_STATUS) AssignProperties_To_Volume_STATUS(destination *v202
 	return nil
 }
 
+// The properties of the Azure File volume. Azure File shares are mounted as volumes.
 type AzureFileVolume struct {
 	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
 	ReadOnly *bool `json:"readOnly,omitempty"`
@@ -5773,6 +5797,7 @@ func (volume *AzureFileVolume) AssignProperties_To_AzureFileVolume(destination *
 	return nil
 }
 
+// The properties of the Azure File volume. Azure File shares are mounted as volumes.
 type AzureFileVolume_STATUS struct {
 	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
 	ReadOnly *bool `json:"readOnly,omitempty"`
@@ -5886,6 +5911,7 @@ func (volume *AzureFileVolume_STATUS) AssignProperties_To_AzureFileVolume_STATUS
 	return nil
 }
 
+// The port exposed on the container instance.
 type ContainerPort struct {
 	// +kubebuilder:validation:Required
 	// Port: The port number exposed within the container group.
@@ -5991,6 +6017,7 @@ func (port *ContainerPort) AssignProperties_To_ContainerPort(destination *v20211
 	return nil
 }
 
+// The port exposed on the container instance.
 type ContainerPort_STATUS struct {
 	// Port: The port number exposed within the container group.
 	Port *int `json:"port,omitempty"`
@@ -6074,6 +6101,7 @@ func (port *ContainerPort_STATUS) AssignProperties_To_ContainerPort_STATUS(desti
 	return nil
 }
 
+// The container probe, for liveness or readiness
 type ContainerProbe struct {
 	// Exec: The execution command to probe
 	Exec *ContainerExec `json:"exec,omitempty"`
@@ -6327,6 +6355,7 @@ func (probe *ContainerProbe) AssignProperties_To_ContainerProbe(destination *v20
 	return nil
 }
 
+// The container probe, for liveness or readiness
 type ContainerProbe_STATUS struct {
 	// Exec: The execution command to probe
 	Exec *ContainerExec_STATUS `json:"exec,omitempty"`
@@ -6704,6 +6733,7 @@ func (view *ContainerProperties_InstanceView_STATUS) AssignProperties_To_Contain
 	return nil
 }
 
+// The environment variable to set within the container instance.
 type EnvironmentVariable struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the environment variable.
@@ -6830,6 +6860,7 @@ func (variable *EnvironmentVariable) AssignProperties_To_EnvironmentVariable(des
 	return nil
 }
 
+// The environment variable to set within the container instance.
 type EnvironmentVariable_STATUS struct {
 	// Name: The name of the environment variable.
 	Name *string `json:"name,omitempty"`
@@ -6903,6 +6934,7 @@ func (variable *EnvironmentVariable_STATUS) AssignProperties_To_EnvironmentVaria
 	return nil
 }
 
+// A container group or container instance event.
 type Event_STATUS struct {
 	// Count: The count of the event.
 	Count *int `json:"count,omitempty"`
@@ -7036,6 +7068,7 @@ func (event *Event_STATUS) AssignProperties_To_Event_STATUS(destination *v202110
 	return nil
 }
 
+// Represents a volume that is populated with the contents of a git repository
 type GitRepoVolume struct {
 	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
 	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
@@ -7154,6 +7187,7 @@ func (volume *GitRepoVolume) AssignProperties_To_GitRepoVolume(destination *v202
 	return nil
 }
 
+// Represents a volume that is populated with the contents of a git repository
 type GitRepoVolume_STATUS struct {
 	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
 	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
@@ -7463,6 +7497,7 @@ const (
 	IpAddress_Type_STATUS_Public  = IpAddress_Type_STATUS("Public")
 )
 
+// Container group log analytics information.
 type LogAnalytics struct {
 	// LogType: The log type to be used.
 	LogType *LogAnalytics_LogType `json:"logType,omitempty"`
@@ -7648,6 +7683,7 @@ func (analytics *LogAnalytics) AssignProperties_To_LogAnalytics(destination *v20
 	return nil
 }
 
+// Container group log analytics information.
 type LogAnalytics_STATUS struct {
 	// LogType: The log type to be used.
 	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
@@ -7748,6 +7784,7 @@ func (analytics *LogAnalytics_STATUS) AssignProperties_To_LogAnalytics_STATUS(de
 	return nil
 }
 
+// The port exposed on the container group.
 type Port struct {
 	// +kubebuilder:validation:Required
 	// Port: The port number.
@@ -7853,6 +7890,7 @@ func (port *Port) AssignProperties_To_Port(destination *v20211001s.Port) error {
 	return nil
 }
 
+// The port exposed on the container group.
 type Port_STATUS struct {
 	// Port: The port number.
 	Port *int `json:"port,omitempty"`
@@ -7936,6 +7974,7 @@ func (port *Port_STATUS) AssignProperties_To_Port_STATUS(destination *v20211001s
 	return nil
 }
 
+// The resource requirements.
 type ResourceRequirements struct {
 	// Limits: The resource limits of this container instance.
 	Limits *ResourceLimits `json:"limits,omitempty"`
@@ -8085,6 +8124,7 @@ func (requirements *ResourceRequirements) AssignProperties_To_ResourceRequiremen
 	return nil
 }
 
+// The resource requirements.
 type ResourceRequirements_STATUS struct {
 	// Limits: The resource limits of this container instance.
 	Limits *ResourceLimits_STATUS `json:"limits,omitempty"`
@@ -8204,6 +8244,9 @@ func (requirements *ResourceRequirements_STATUS) AssignProperties_To_ResourceReq
 	return nil
 }
 
+// The list of user identities associated with the container group. The user identity dictionary key references will be ARM
+// resource ids in the form:
+// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
 type UserAssignedIdentities_STATUS struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -8277,6 +8320,7 @@ func (identities *UserAssignedIdentities_STATUS) AssignProperties_To_UserAssigne
 	return nil
 }
 
+// The properties of the volume mount.
 type VolumeMount struct {
 	// +kubebuilder:validation:Required
 	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
@@ -8404,6 +8448,7 @@ func (mount *VolumeMount) AssignProperties_To_VolumeMount(destination *v20211001
 	return nil
 }
 
+// The properties of the volume mount.
 type VolumeMount_STATUS struct {
 	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
 	MountPath *string `json:"mountPath,omitempty"`
@@ -8502,6 +8547,7 @@ func (mount *VolumeMount_STATUS) AssignProperties_To_VolumeMount_STATUS(destinat
 	return nil
 }
 
+// The container execution command, for liveness or readiness probe
 type ContainerExec struct {
 	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
@@ -8573,6 +8619,7 @@ func (exec *ContainerExec) AssignProperties_To_ContainerExec(destination *v20211
 	return nil
 }
 
+// The container execution command, for liveness or readiness probe
 type ContainerExec_STATUS struct {
 	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
@@ -8630,6 +8677,7 @@ func (exec *ContainerExec_STATUS) AssignProperties_To_ContainerExec_STATUS(desti
 	return nil
 }
 
+// The container Http Get settings, for liveness or readiness probe
 type ContainerHttpGet struct {
 	// HttpHeaders: The HTTP headers.
 	HttpHeaders []HttpHeader `json:"httpHeaders,omitempty"`
@@ -8814,6 +8862,7 @@ func (httpGet *ContainerHttpGet) AssignProperties_To_ContainerHttpGet(destinatio
 	return nil
 }
 
+// The container Http Get settings, for liveness or readiness probe
 type ContainerHttpGet_STATUS struct {
 	// HttpHeaders: The HTTP headers.
 	HttpHeaders []HttpHeader_STATUS `json:"httpHeaders,omitempty"`
@@ -8976,6 +9025,7 @@ const (
 	ContainerPort_Protocol_STATUS_UDP = ContainerPort_Protocol_STATUS("UDP")
 )
 
+// The container instance state.
 type ContainerState_STATUS struct {
 	// DetailStatus: The human-readable status of the container instance state.
 	DetailStatus *string `json:"detailStatus,omitempty"`
@@ -9124,6 +9174,7 @@ const (
 	Port_Protocol_STATUS_UDP = Port_Protocol_STATUS("UDP")
 )
 
+// The resource limits.
 type ResourceLimits struct {
 	// Cpu: The CPU limit of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
@@ -9286,6 +9337,7 @@ func (limits *ResourceLimits) AssignProperties_To_ResourceLimits(destination *v2
 	return nil
 }
 
+// The resource limits.
 type ResourceLimits_STATUS struct {
 	// Cpu: The CPU limit of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
@@ -9417,6 +9469,7 @@ func (limits *ResourceLimits_STATUS) AssignProperties_To_ResourceLimits_STATUS(d
 	return nil
 }
 
+// The resource requests.
 type ResourceRequests struct {
 	// +kubebuilder:validation:Required
 	// Cpu: The CPU request of this container instance.
@@ -9581,6 +9634,7 @@ func (requests *ResourceRequests) AssignProperties_To_ResourceRequests(destinati
 	return nil
 }
 
+// The resource requests.
 type ResourceRequests_STATUS struct {
 	// Cpu: The CPU request of this container instance.
 	Cpu *float64 `json:"cpu,omitempty"`
@@ -9727,6 +9781,7 @@ const (
 	ContainerHttpGet_Scheme_STATUS_Https = ContainerHttpGet_Scheme_STATUS("https")
 )
 
+// The GPU resource.
 type GpuResource struct {
 	// +kubebuilder:validation:Required
 	// Count: The count of the GPU resource.
@@ -9833,6 +9888,7 @@ func (resource *GpuResource) AssignProperties_To_GpuResource(destination *v20211
 	return nil
 }
 
+// The GPU resource.
 type GpuResource_STATUS struct {
 	// Count: The count of the GPU resource.
 	Count *int `json:"count,omitempty"`
@@ -9916,6 +9972,7 @@ func (resource *GpuResource_STATUS) AssignProperties_To_GpuResource_STATUS(desti
 	return nil
 }
 
+// The HTTP header.
 type HttpHeader struct {
 	// Name: The header name.
 	Name *string `json:"name,omitempty"`
@@ -10010,6 +10067,7 @@ func (header *HttpHeader) AssignProperties_To_HttpHeader(destination *v20211001s
 	return nil
 }
 
+// The HTTP header.
 type HttpHeader_STATUS struct {
 	// Name: The header name.
 	Name *string `json:"name,omitempty"`

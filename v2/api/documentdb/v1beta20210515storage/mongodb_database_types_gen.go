@@ -206,6 +206,8 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) ConvertStatusTo(destina
 }
 
 // Storage version of v1beta20210515.CreateUpdateOptions
+// CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+// "If-None-Match", "Session-Token" and "Throughput"
 type CreateUpdateOptions struct {
 	AutoscaleSettings *AutoscaleSettings     `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -222,12 +224,14 @@ type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.MongoDBDatabaseResource
+// Cosmos DB MongoDB database resource object
 type MongoDBDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.OptionsResource_STATUS
+// Cosmos DB options resource object
 type OptionsResource_STATUS struct {
 	AutoscaleSettings *AutoscaleSettings_STATUS `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`

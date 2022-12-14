@@ -129,6 +129,7 @@ This is a non-exhaustive list of common issues which may need to be fixed in our
 There is a section in the config detailing a number of these errors which have been fixed. Look for "Deal with properties that should have been marked readOnly but weren't".
 
 Here's an example, where DocumentDB missed setting the `provisioningState` property to read-only. We override it in the config:
+
 ```yaml
   - group: documentdb
     name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
@@ -136,6 +137,22 @@ Here's an example, where DocumentDB missed setting the `provisioningState` prope
     remove: true
     because: This property should have been marked readonly but wasn't.
 ```
+
+#### Types that can't be found
+
+If you get an error indicating the generator can't find a type, but you're sure it exists:
+
+```
+E1214 10:34:15.476761   95884 gen_kustomize.go:111] 
+Error during code generation:
+failed during pipeline stage 23/67 [filterTypes]: 
+Apply export filters to reduce the number of generated types: 
+group cdn: version 2021-06-01: 
+type DodgyResource not seen (did you mean ResourceReference?): 
+type DodgyResource: $exportAs: ReputableResource not consumed
+```
+
+It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try running `git submodule update --init --recursive` to update the submodule.
 
 ### Debugging
 

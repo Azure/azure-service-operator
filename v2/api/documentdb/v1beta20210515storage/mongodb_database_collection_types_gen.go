@@ -218,6 +218,7 @@ type MongoDBCollectionGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.MongoDBCollectionResource
+// Cosmos DB MongoDB collection resource object
 type MongoDBCollectionResource struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
@@ -227,6 +228,7 @@ type MongoDBCollectionResource struct {
 }
 
 // Storage version of v1beta20210515.MongoIndex
+// Cosmos DB MongoDB collection index key
 type MongoIndex struct {
 	Key         *MongoIndexKeys        `json:"key,omitempty"`
 	Options     *MongoIndexOptions     `json:"options,omitempty"`
@@ -234,6 +236,7 @@ type MongoIndex struct {
 }
 
 // Storage version of v1beta20210515.MongoIndex_STATUS
+// Cosmos DB MongoDB collection index key
 type MongoIndex_STATUS struct {
 	Key         *MongoIndexKeys_STATUS    `json:"key,omitempty"`
 	Options     *MongoIndexOptions_STATUS `json:"options,omitempty"`
@@ -241,18 +244,21 @@ type MongoIndex_STATUS struct {
 }
 
 // Storage version of v1beta20210515.MongoIndexKeys
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys struct {
 	Keys        []string               `json:"keys,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.MongoIndexKeys_STATUS
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_STATUS struct {
 	Keys        []string               `json:"keys,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.MongoIndexOptions
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions struct {
 	ExpireAfterSeconds *int                   `json:"expireAfterSeconds,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -260,6 +266,7 @@ type MongoIndexOptions struct {
 }
 
 // Storage version of v1beta20210515.MongoIndexOptions_STATUS
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions_STATUS struct {
 	ExpireAfterSeconds *int                   `json:"expireAfterSeconds,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`

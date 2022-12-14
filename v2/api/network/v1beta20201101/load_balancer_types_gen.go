@@ -1053,6 +1053,7 @@ func (balancer *LoadBalancer_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (balancer *LoadBalancer_Spec) SetAzureName(azureName string) { balancer.AzureName = azureName }
 
+// LoadBalancer resource.
 type LoadBalancer_STATUS struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendAddressPools,omitempty"`
@@ -1742,6 +1743,7 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	return nil
 }
 
+// Pool of backend IP addresses.
 type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
 	// LoadBalancerBackendAddresses: An array of backend addresses.
 	LoadBalancerBackendAddresses []LoadBalancerBackendAddress `json:"loadBalancerBackendAddresses,omitempty"`
@@ -1880,6 +1882,7 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	return nil
 }
 
+// Pool of backend IP addresses.
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// BackendIPConfigurations: An array of references to IP addresses defined in network interfaces.
 	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfigurations,omitempty"`
@@ -2261,6 +2264,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	return nil
 }
 
+// ExtendedLocation complex type.
 type ExtendedLocation struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the extended location.
@@ -2367,6 +2371,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// ExtendedLocation complex type.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -2450,6 +2455,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Frontend IP address of the load balancer.
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
 	// Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
 	// This name can be used to access the resource.
@@ -2786,6 +2792,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 	return nil
 }
 
+// Frontend IP address of the load balancer.
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -3337,6 +3344,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
+// Inbound NAT pool of the load balancer.
 type InboundNatPool struct {
 	// +kubebuilder:validation:Required
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
@@ -3666,6 +3674,7 @@ func (pool *InboundNatPool) AssignProperties_To_InboundNatPool(destination *v202
 	return nil
 }
 
+// Inbound NAT pool of the load balancer.
 type InboundNatPool_STATUS struct {
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
@@ -4001,6 +4010,7 @@ func (pool *InboundNatPool_STATUS) AssignProperties_To_InboundNatPool_STATUS(des
 	return nil
 }
 
+// Inbound NAT rule of the load balancer.
 type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
 	// BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
@@ -4302,6 +4312,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 	return nil
 }
 
+// Inbound NAT rule of the load balancer.
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
 	// frontend port of each of the frontend IP configurations is forwarded to the backend IP.
@@ -4660,6 +4671,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	return nil
 }
 
+// SKU of a load balancer.
 type LoadBalancerSku struct {
 	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name `json:"name,omitempty"`
@@ -4774,6 +4786,7 @@ func (balancerSku *LoadBalancerSku) AssignProperties_To_LoadBalancerSku(destinat
 	return nil
 }
 
+// SKU of a load balancer.
 type LoadBalancerSku_STATUS struct {
 	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
@@ -4867,6 +4880,7 @@ func (balancerSku *LoadBalancerSku_STATUS) AssignProperties_To_LoadBalancerSku_S
 	return nil
 }
 
+// A load balancing rule for a load balancer.
 type LoadBalancingRule struct {
 	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
 	// IPs.
@@ -5339,6 +5353,7 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 	return nil
 }
 
+// A load balancing rule for a load balancer.
 type LoadBalancingRule_STATUS struct {
 	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
 	// IPs.
@@ -5796,6 +5811,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 	return nil
 }
 
+// Outbound rule of the load balancer.
 type OutboundRule struct {
 	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
@@ -6101,6 +6117,7 @@ func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *v2020110
 	return nil
 }
 
+// Outbound rule of the load balancer.
 type OutboundRule_STATUS struct {
 	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
@@ -6420,6 +6437,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 	return nil
 }
 
+// A load balancer probe.
 type Probe struct {
 	// IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
 	// interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
@@ -6632,6 +6650,7 @@ func (probe *Probe) AssignProperties_To_Probe(destination *v20201101s.Probe) err
 	return nil
 }
 
+// A load balancer probe.
 type Probe_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -6923,6 +6942,7 @@ func (probe *Probe_STATUS) AssignProperties_To_Probe_STATUS(destination *v202011
 	return nil
 }
 
+// The current provisioning state.
 type ProvisioningState_STATUS string
 
 const (
@@ -6932,6 +6952,7 @@ const (
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
+// Load balancer backend addresses.
 type LoadBalancerBackendAddress struct {
 	// IpAddress: IP Address belonging to the referenced virtual network.
 	IpAddress *string `json:"ipAddress,omitempty"`
@@ -7182,6 +7203,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBacke
 	return nil
 }
 
+// Load balancer backend addresses.
 type LoadBalancerBackendAddress_STATUS struct {
 	// IpAddress: IP Address belonging to the referenced virtual network.
 	IpAddress *string `json:"ipAddress,omitempty"`
@@ -7439,6 +7461,7 @@ const (
 	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
 
+// IPConfiguration in a network interface.
 type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -7531,6 +7554,7 @@ const (
 	ProbePropertiesFormat_Protocol_STATUS_Tcp   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
 )
 
+// Public IP address resource.
 type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -7589,6 +7613,7 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignP
 	return nil
 }
 
+// Public IP address resource.
 type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -7672,6 +7697,7 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) AssignProp
 	return nil
 }
 
+// Subnet in a virtual network resource.
 type Subnet_LoadBalancer_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -7755,6 +7781,7 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignProperties_To_Sub
 	return nil
 }
 
+// Subnet in a virtual network resource.
 type Subnet_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -7813,6 +7840,7 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 	return nil
 }
 
+// The transport protocol for the endpoint.
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type TransportProtocol string
 
@@ -7822,6 +7850,7 @@ const (
 	TransportProtocol_Udp = TransportProtocol("Udp")
 )
 
+// The transport protocol for the endpoint.
 type TransportProtocol_STATUS string
 
 const (

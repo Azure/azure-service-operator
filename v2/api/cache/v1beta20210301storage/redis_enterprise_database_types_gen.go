@@ -212,6 +212,7 @@ func (database *RedisEnterprise_Database_STATUS) ConvertStatusTo(destination gen
 }
 
 // Storage version of v1beta20210301.Module
+// Specifies configuration of a redis module
 type Module struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -219,6 +220,7 @@ type Module struct {
 }
 
 // Storage version of v1beta20210301.Module_STATUS
+// Specifies configuration of a redis module
 type Module_STATUS struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -227,6 +229,7 @@ type Module_STATUS struct {
 }
 
 // Storage version of v1beta20210301.Persistence
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`
@@ -236,6 +239,7 @@ type Persistence struct {
 }
 
 // Storage version of v1beta20210301.Persistence_STATUS
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence_STATUS struct {
 	AofEnabled   *bool                  `json:"aofEnabled,omitempty"`
 	AofFrequency *string                `json:"aofFrequency,omitempty"`

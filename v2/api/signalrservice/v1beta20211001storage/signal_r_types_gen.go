@@ -242,12 +242,14 @@ func (signalR *SignalR_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 }
 
 // Storage version of v1beta20211001.ManagedIdentity
+// A class represent managed identities used for request and response
 type ManagedIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20211001.ManagedIdentity_STATUS
+// A class represent managed identities used for request and response
 type ManagedIdentity_STATUS struct {
 	PrincipalId            *string                                        `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                         `json:"$propertyBag,omitempty"`
@@ -257,24 +259,28 @@ type ManagedIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20211001.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded
+// A private endpoint connection to an azure resource
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.ResourceLogConfiguration
+// Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration struct {
 	Categories  []ResourceLogCategory  `json:"categories,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.ResourceLogConfiguration_STATUS
+// Resource log configuration of a Microsoft.SignalRService resource.
 type ResourceLogConfiguration_STATUS struct {
 	Categories  []ResourceLogCategory_STATUS `json:"categories,omitempty"`
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.ResourceSku
+// The billing information of the resource.
 type ResourceSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -283,6 +289,7 @@ type ResourceSku struct {
 }
 
 // Storage version of v1beta20211001.ResourceSku_STATUS
+// The billing information of the resource.
 type ResourceSku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -293,36 +300,42 @@ type ResourceSku_STATUS struct {
 }
 
 // Storage version of v1beta20211001.ServerlessUpstreamSettings
+// The settings for the Upstream when the service is in server-less mode.
 type ServerlessUpstreamSettings struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Templates   []UpstreamTemplate     `json:"templates,omitempty"`
 }
 
 // Storage version of v1beta20211001.ServerlessUpstreamSettings_STATUS
+// The settings for the Upstream when the service is in server-less mode.
 type ServerlessUpstreamSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	Templates   []UpstreamTemplate_STATUS `json:"templates,omitempty"`
 }
 
 // Storage version of v1beta20211001.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded
+// Describes a Shared Private Link Resource
 type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.SignalRCorsSettings
+// Cross-Origin Resource Sharing (CORS) settings.
 type SignalRCorsSettings struct {
 	AllowedOrigins []string               `json:"allowedOrigins,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.SignalRCorsSettings_STATUS
+// Cross-Origin Resource Sharing (CORS) settings.
 type SignalRCorsSettings_STATUS struct {
 	AllowedOrigins []string               `json:"allowedOrigins,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.SignalRFeature
+// Feature of a resource, which controls the runtime behavior.
 type SignalRFeature struct {
 	Flag        *string                `json:"flag,omitempty"`
 	Properties  map[string]string      `json:"properties,omitempty"`
@@ -331,6 +344,7 @@ type SignalRFeature struct {
 }
 
 // Storage version of v1beta20211001.SignalRFeature_STATUS
+// Feature of a resource, which controls the runtime behavior.
 type SignalRFeature_STATUS struct {
 	Flag        *string                `json:"flag,omitempty"`
 	Properties  map[string]string      `json:"properties,omitempty"`
@@ -339,6 +353,7 @@ type SignalRFeature_STATUS struct {
 }
 
 // Storage version of v1beta20211001.SignalRNetworkACLs
+// Network ACLs for the resource
 type SignalRNetworkACLs struct {
 	DefaultAction    *string                `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACL   `json:"privateEndpoints,omitempty"`
@@ -347,6 +362,7 @@ type SignalRNetworkACLs struct {
 }
 
 // Storage version of v1beta20211001.SignalRNetworkACLs_STATUS
+// Network ACLs for the resource
 type SignalRNetworkACLs_STATUS struct {
 	DefaultAction    *string                     `json:"defaultAction,omitempty"`
 	PrivateEndpoints []PrivateEndpointACL_STATUS `json:"privateEndpoints,omitempty"`
@@ -355,18 +371,21 @@ type SignalRNetworkACLs_STATUS struct {
 }
 
 // Storage version of v1beta20211001.SignalRTlsSettings
+// TLS settings for the resource
 type SignalRTlsSettings struct {
 	ClientCertEnabled *bool                  `json:"clientCertEnabled,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.SignalRTlsSettings_STATUS
+// TLS settings for the resource
 type SignalRTlsSettings_STATUS struct {
 	ClientCertEnabled *bool                  `json:"clientCertEnabled,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -378,6 +397,7 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20211001.NetworkACL
+// Network ACL
 type NetworkACL struct {
 	Allow       []string               `json:"allow,omitempty"`
 	Deny        []string               `json:"deny,omitempty"`
@@ -385,6 +405,7 @@ type NetworkACL struct {
 }
 
 // Storage version of v1beta20211001.NetworkACL_STATUS
+// Network ACL
 type NetworkACL_STATUS struct {
 	Allow       []string               `json:"allow,omitempty"`
 	Deny        []string               `json:"deny,omitempty"`
@@ -392,6 +413,7 @@ type NetworkACL_STATUS struct {
 }
 
 // Storage version of v1beta20211001.PrivateEndpointACL
+// ACL for a private endpoint
 type PrivateEndpointACL struct {
 	Allow       []string               `json:"allow,omitempty"`
 	Deny        []string               `json:"deny,omitempty"`
@@ -400,6 +422,7 @@ type PrivateEndpointACL struct {
 }
 
 // Storage version of v1beta20211001.PrivateEndpointACL_STATUS
+// ACL for a private endpoint
 type PrivateEndpointACL_STATUS struct {
 	Allow       []string               `json:"allow,omitempty"`
 	Deny        []string               `json:"deny,omitempty"`
@@ -408,6 +431,7 @@ type PrivateEndpointACL_STATUS struct {
 }
 
 // Storage version of v1beta20211001.ResourceLogCategory
+// Resource log category configuration of a Microsoft.SignalRService resource.
 type ResourceLogCategory struct {
 	Enabled     *string                `json:"enabled,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -415,6 +439,7 @@ type ResourceLogCategory struct {
 }
 
 // Storage version of v1beta20211001.ResourceLogCategory_STATUS
+// Resource log category configuration of a Microsoft.SignalRService resource.
 type ResourceLogCategory_STATUS struct {
 	Enabled     *string                `json:"enabled,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -422,6 +447,9 @@ type ResourceLogCategory_STATUS struct {
 }
 
 // Storage version of v1beta20211001.UpstreamTemplate
+// Upstream template item settings. It defines the Upstream URL of the incoming requests.
+// The template defines the pattern
+// of the event, the hub or the category of the incoming request that matches current URL template.
 type UpstreamTemplate struct {
 	Auth            *UpstreamAuthSettings  `json:"auth,omitempty"`
 	CategoryPattern *string                `json:"categoryPattern,omitempty"`
@@ -432,6 +460,9 @@ type UpstreamTemplate struct {
 }
 
 // Storage version of v1beta20211001.UpstreamTemplate_STATUS
+// Upstream template item settings. It defines the Upstream URL of the incoming requests.
+// The template defines the pattern
+// of the event, the hub or the category of the incoming request that matches current URL template.
 type UpstreamTemplate_STATUS struct {
 	Auth            *UpstreamAuthSettings_STATUS `json:"auth,omitempty"`
 	CategoryPattern *string                      `json:"categoryPattern,omitempty"`
@@ -442,6 +473,7 @@ type UpstreamTemplate_STATUS struct {
 }
 
 // Storage version of v1beta20211001.UserAssignedIdentityProperty_STATUS
+// Properties of user assigned identity.
 type UserAssignedIdentityProperty_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -449,6 +481,7 @@ type UserAssignedIdentityProperty_STATUS struct {
 }
 
 // Storage version of v1beta20211001.UpstreamAuthSettings
+// Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings struct {
 	ManagedIdentity *ManagedIdentitySettings `json:"managedIdentity,omitempty"`
 	PropertyBag     genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
@@ -456,6 +489,7 @@ type UpstreamAuthSettings struct {
 }
 
 // Storage version of v1beta20211001.UpstreamAuthSettings_STATUS
+// Upstream auth settings. If not set, no auth is used for upstream messages.
 type UpstreamAuthSettings_STATUS struct {
 	ManagedIdentity *ManagedIdentitySettings_STATUS `json:"managedIdentity,omitempty"`
 	PropertyBag     genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
@@ -463,12 +497,14 @@ type UpstreamAuthSettings_STATUS struct {
 }
 
 // Storage version of v1beta20211001.ManagedIdentitySettings
+// Managed identity settings for upstream.
 type ManagedIdentitySettings struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Resource    *string                `json:"resource,omitempty"`
 }
 
 // Storage version of v1beta20211001.ManagedIdentitySettings_STATUS
+// Managed identity settings for upstream.
 type ManagedIdentitySettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Resource    *string                `json:"resource,omitempty"`

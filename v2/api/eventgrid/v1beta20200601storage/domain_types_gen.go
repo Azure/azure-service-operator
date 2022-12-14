@@ -181,6 +181,7 @@ func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 }
 
 // Storage version of v1beta20200601.Domain_STATUS
+// EventGrid Domain.
 type Domain_STATUS struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
@@ -253,6 +254,7 @@ type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20200601.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -288,18 +290,31 @@ type JsonInputSchemaMapping_STATUS struct {
 }
 
 // Storage version of v1beta20200601.JsonField
+// This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
+// This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
+// input event schema.
 type JsonField struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceField *string                `json:"sourceField,omitempty"`
 }
 
 // Storage version of v1beta20200601.JsonField_STATUS
+// This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
+// This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
+// input event schema.
 type JsonField_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceField *string                `json:"sourceField,omitempty"`
 }
 
 // Storage version of v1beta20200601.JsonFieldWithDefault
+// This is used to express the source of an input schema mapping for a single target field
+// in the Event Grid Event schema.
+// This is currently used in the mappings for the 'subject',
+// 'eventtype' and 'dataversion' properties. This represents a
+// field in the input event schema
+// along with a default value to be used, and at least one of these two properties should
+// be provided.
 type JsonFieldWithDefault struct {
 	DefaultValue *string                `json:"defaultValue,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -307,6 +322,13 @@ type JsonFieldWithDefault struct {
 }
 
 // Storage version of v1beta20200601.JsonFieldWithDefault_STATUS
+// This is used to express the source of an input schema mapping for a single target field
+// in the Event Grid Event schema.
+// This is currently used in the mappings for the 'subject',
+// 'eventtype' and 'dataversion' properties. This represents a
+// field in the input event schema
+// along with a default value to be used, and at least one of these two properties should
+// be provided.
 type JsonFieldWithDefault_STATUS struct {
 	DefaultValue *string                `json:"defaultValue,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`

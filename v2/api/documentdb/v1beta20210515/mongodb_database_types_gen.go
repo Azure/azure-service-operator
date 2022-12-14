@@ -637,7 +637,9 @@ type DatabaseAccounts_MongodbDatabase_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                       `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS                       `json:"options,omitempty"`
 	Resource *MongoDBDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                             `json:"tags,omitempty"`
@@ -883,6 +885,8 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_Dat
 	return nil
 }
 
+// CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+// "If-None-Match", "Session-Token" and "Throughput"
 type CreateUpdateOptions struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings `json:"autoscaleSettings,omitempty"`
@@ -1117,6 +1121,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_T
 	return nil
 }
 
+// Cosmos DB MongoDB database resource object
 type MongoDBDatabaseResource struct {
 	// +kubebuilder:validation:Required
 	// Id: Name of the Cosmos DB MongoDB database
@@ -1191,6 +1196,7 @@ func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseReso
 	return nil
 }
 
+// Cosmos DB options resource object
 type OptionsResource_STATUS struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_STATUS `json:"autoscaleSettings,omitempty"`

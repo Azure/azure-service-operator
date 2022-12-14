@@ -32,6 +32,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
+// Properties to create and update Azure Cosmos DB MongoDB database.
 type MongoDBDatabaseCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -41,6 +42,8 @@ type MongoDBDatabaseCreateUpdateProperties_ARM struct {
 	Resource *MongoDBDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
+// CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
+// "If-None-Match", "Session-Token" and "Throughput"
 type CreateUpdateOptions_ARM struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_ARM `json:"autoscaleSettings,omitempty"`
@@ -49,6 +52,7 @@ type CreateUpdateOptions_ARM struct {
 	Throughput *int `json:"throughput,omitempty"`
 }
 
+// Cosmos DB MongoDB database resource object
 type MongoDBDatabaseResource_ARM struct {
 	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`

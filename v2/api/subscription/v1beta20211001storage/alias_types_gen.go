@@ -196,6 +196,7 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2021-10-01")
 
 // Storage version of v1beta20211001.PutAliasRequestProperties
+// Put subscription properties.
 type PutAliasRequestProperties struct {
 	AdditionalProperties *PutAliasRequestAdditionalProperties `json:"additionalProperties,omitempty"`
 	BillingScope         *string                              `json:"billingScope,omitempty"`
@@ -207,6 +208,7 @@ type PutAliasRequestProperties struct {
 }
 
 // Storage version of v1beta20211001.SubscriptionAliasResponseProperties_STATUS
+// Put subscription creation result properties.
 type SubscriptionAliasResponseProperties_STATUS struct {
 	AcceptOwnershipState *string                `json:"acceptOwnershipState,omitempty"`
 	AcceptOwnershipUrl   *string                `json:"acceptOwnershipUrl,omitempty"`
@@ -224,6 +226,7 @@ type SubscriptionAliasResponseProperties_STATUS struct {
 }
 
 // Storage version of v1beta20211001.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -235,6 +238,7 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20211001.PutAliasRequestAdditionalProperties
+// Put subscription additional properties.
 type PutAliasRequestAdditionalProperties struct {
 	ManagementGroupId    *string                `json:"managementGroupId,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`

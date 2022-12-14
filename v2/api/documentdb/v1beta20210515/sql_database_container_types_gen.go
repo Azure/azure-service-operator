@@ -637,7 +637,9 @@ type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                    `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS                    `json:"options,omitempty"`
 	Resource *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
 	Tags     map[string]string                          `json:"tags,omitempty"`
@@ -1180,6 +1182,7 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_To_S
 	return nil
 }
 
+// Cosmos DB SQL container resource object
 type SqlContainerResource struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -1490,6 +1493,7 @@ func (resource *SqlContainerResource) AssignProperties_To_SqlContainerResource(d
 	return nil
 }
 
+// The conflict resolution policy for the container.
 type ConflictResolutionPolicy struct {
 	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
@@ -1615,6 +1619,7 @@ func (policy *ConflictResolutionPolicy) AssignProperties_To_ConflictResolutionPo
 	return nil
 }
 
+// The conflict resolution policy for the container.
 type ConflictResolutionPolicy_STATUS struct {
 	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
@@ -1713,6 +1718,7 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignProperties_To_ConflictResol
 	return nil
 }
 
+// The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
@@ -1849,6 +1855,7 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 	return nil
 }
 
+// The configuration of the partition key to be used for partitioning data into multiple partitions
 type ContainerPartitionKey_STATUS struct {
 	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
 	// are supported for container create
@@ -1972,6 +1979,7 @@ func (partitionKey *ContainerPartitionKey_STATUS) AssignProperties_To_ContainerP
 	return nil
 }
 
+// Cosmos DB indexing policy
 type IndexingPolicy struct {
 	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
@@ -2346,6 +2354,7 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *v2
 	return nil
 }
 
+// Cosmos DB indexing policy
 type IndexingPolicy_STATUS struct {
 	// Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
@@ -2659,6 +2668,8 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	return nil
 }
 
+// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
+// Cosmos DB service.
 type UniqueKeyPolicy struct {
 	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
 	// Cosmos DB service.
@@ -2770,6 +2781,8 @@ func (policy *UniqueKeyPolicy) AssignProperties_To_UniqueKeyPolicy(destination *
 	return nil
 }
 
+// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
+// Cosmos DB service.
 type UniqueKeyPolicy_STATUS struct {
 	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
 	// Cosmos DB service.
@@ -3185,6 +3198,7 @@ func (path *ExcludedPath_STATUS) AssignProperties_To_ExcludedPath_STATUS(destina
 	return nil
 }
 
+// The paths that are included in indexing
 type IncludedPath struct {
 	// Indexes: List of indexes for this path
 	Indexes []Indexes `json:"indexes,omitempty"`
@@ -3317,6 +3331,7 @@ func (path *IncludedPath) AssignProperties_To_IncludedPath(destination *v2021051
 	return nil
 }
 
+// The paths that are included in indexing
 type IncludedPath_STATUS struct {
 	// Indexes: List of indexes for this path
 	Indexes []Indexes_STATUS `json:"indexes,omitempty"`
@@ -3631,6 +3646,7 @@ func (spatial *SpatialSpec_STATUS) AssignProperties_To_SpatialSpec_STATUS(destin
 	return nil
 }
 
+// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
 type UniqueKey struct {
 	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
@@ -3702,6 +3718,7 @@ func (uniqueKey *UniqueKey) AssignProperties_To_UniqueKey(destination *v20210515
 	return nil
 }
 
+// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
 type UniqueKey_STATUS struct {
 	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
@@ -3759,6 +3776,7 @@ func (uniqueKey *UniqueKey_STATUS) AssignProperties_To_UniqueKey_STATUS(destinat
 	return nil
 }
 
+// The indexes for the path.
 type Indexes struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *Indexes_DataType `json:"dataType,omitempty"`
@@ -3894,6 +3912,7 @@ func (indexes *Indexes) AssignProperties_To_Indexes(destination *v20210515s.Inde
 	return nil
 }
 
+// The indexes for the path.
 type Indexes_STATUS struct {
 	// DataType: The datatype for which the indexing behavior is applied to.
 	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`

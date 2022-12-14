@@ -1493,6 +1493,7 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_To_Netwo
 	return nil
 }
 
+// An application security group in a resource group.
 type ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1551,6 +1552,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRu
 	return nil
 }
 
+// An application security group in a resource group.
 type ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -1634,6 +1636,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 	return nil
 }
 
+// Whether network traffic is allowed or denied.
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SecurityRuleAccess string
 
@@ -1642,6 +1645,7 @@ const (
 	SecurityRuleAccess_Deny  = SecurityRuleAccess("Deny")
 )
 
+// Whether network traffic is allowed or denied.
 type SecurityRuleAccess_STATUS string
 
 const (
@@ -1649,6 +1653,7 @@ const (
 	SecurityRuleAccess_STATUS_Deny  = SecurityRuleAccess_STATUS("Deny")
 )
 
+// The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 // +kubebuilder:validation:Enum={"Inbound","Outbound"}
 type SecurityRuleDirection string
 
@@ -1657,6 +1662,7 @@ const (
 	SecurityRuleDirection_Outbound = SecurityRuleDirection("Outbound")
 )
 
+// The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 type SecurityRuleDirection_STATUS string
 
 const (

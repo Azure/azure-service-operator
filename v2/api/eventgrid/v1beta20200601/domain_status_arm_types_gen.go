@@ -5,6 +5,7 @@ package v1beta20200601
 
 import "encoding/json"
 
+// EventGrid Domain.
 type Domain_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
@@ -28,6 +29,7 @@ type Domain_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the Domain.
 type DomainProperties_STATUS_ARM struct {
 	// Endpoint: Endpoint for the domain.
 	Endpoint *string `json:"endpoint,omitempty"`
@@ -57,6 +59,7 @@ type DomainProperties_STATUS_ARM struct {
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -146,6 +149,8 @@ type JsonInputSchemaMapping_STATUS_ARM struct {
 	Properties *JsonInputSchemaMappingProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// This can be used to map properties of a source schema (or default values, for certain supported properties) to
+// properties of the EventGridEvent schema.
 type JsonInputSchemaMappingProperties_STATUS_ARM struct {
 	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
 	DataVersion *JsonFieldWithDefault_STATUS_ARM `json:"dataVersion,omitempty"`
@@ -166,11 +171,21 @@ type JsonInputSchemaMappingProperties_STATUS_ARM struct {
 	Topic *JsonField_STATUS_ARM `json:"topic,omitempty"`
 }
 
+// This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
+// This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
+// input event schema.
 type JsonField_STATUS_ARM struct {
 	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
 }
 
+// This is used to express the source of an input schema mapping for a single target field
+// in the Event Grid Event schema.
+// This is currently used in the mappings for the 'subject',
+// 'eventtype' and 'dataversion' properties. This represents a
+// field in the input event schema
+// along with a default value to be used, and at least one of these two properties should
+// be provided.
 type JsonFieldWithDefault_STATUS_ARM struct {
 	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
 	// the specified name in the published JSON event payload.

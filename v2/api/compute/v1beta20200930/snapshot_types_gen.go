@@ -360,7 +360,9 @@ type Snapshot_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Location: Resource location
-	Location            *string              `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -374,7 +376,10 @@ type Snapshot_Spec struct {
 
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
-	Sku          *SnapshotSku  `json:"sku,omitempty"`
+
+	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	Sku *SnapshotSku `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1041,6 +1046,7 @@ func (snapshot *Snapshot_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (snapshot *Snapshot_Spec) SetAzureName(azureName string) { snapshot.AzureName = azureName }
 
+// Snapshot resource.
 type Snapshot_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1089,7 +1095,9 @@ type Snapshot_STATUS struct {
 	ManagedBy *string `json:"managedBy,omitempty"`
 
 	// Name: Resource name
-	Name                *string                     `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// NetworkAccessPolicy: Policy for accessing the disk via network.
 	NetworkAccessPolicy *NetworkAccessPolicy_STATUS `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -1100,7 +1108,10 @@ type Snapshot_STATUS struct {
 
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan_STATUS `json:"purchasePlan,omitempty"`
-	Sku          *SnapshotSku_STATUS  `json:"sku,omitempty"`
+
+	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
+	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+	Sku *SnapshotSku_STATUS `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
@@ -1725,6 +1736,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 	return nil
 }
 
+// This enumerates the possible state of the disk.
 // +kubebuilder:validation:Enum={"ActiveSAS","ActiveUpload","Attached","ReadyToUpload","Reserved","Unattached"}
 type DiskState string
 
@@ -1767,6 +1779,8 @@ const (
 	SnapshotProperties_OsType_STATUS_Windows = SnapshotProperties_OsType_STATUS("Windows")
 )
 
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`
@@ -1850,6 +1864,8 @@ func (snapshotSku *SnapshotSku) AssignProperties_To_SnapshotSku(destination *v20
 	return nil
 }
 
+// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
+// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
 type SnapshotSku_STATUS struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name_STATUS `json:"name,omitempty"`

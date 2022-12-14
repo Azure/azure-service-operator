@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -26,6 +27,7 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM st
 	Type *string `json:"type,omitempty"`
 }
 
+// Network Security Group resource.
 type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	// DefaultSecurityRules: The default security rules of network security group.
 	DefaultSecurityRules []SecurityRule_STATUS_ARM `json:"defaultSecurityRules,omitempty"`
@@ -49,21 +51,25 @@ type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
 	Subnets []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"subnets,omitempty"`
 }
 
+// A flow log resource.
 type FlowLog_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// A network interface in a resource group.
 type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Network security rule.
 type SecurityRule_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Subnet in a virtual network resource.
 type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`

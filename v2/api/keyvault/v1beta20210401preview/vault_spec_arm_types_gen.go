@@ -34,6 +34,7 @@ func (vault *Vault_Spec_ARM) GetType() string {
 	return "Microsoft.KeyVault/vaults"
 }
 
+// Properties of the vault
 type VaultProperties_ARM struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
 	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
@@ -92,6 +93,8 @@ type VaultProperties_ARM struct {
 	VaultUri *string `json:"vaultUri,omitempty"`
 }
 
+// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+// vault's tenant ID.
 type AccessPolicyEntry_ARM struct {
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
 	ApplicationId *string `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
@@ -107,6 +110,7 @@ type AccessPolicyEntry_ARM struct {
 	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
+// A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet_ARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
@@ -123,6 +127,7 @@ type NetworkRuleSet_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
+// SKU details
 type Sku_ARM struct {
 	// Family: SKU family name
 	Family *Sku_Family `json:"family,omitempty"`
@@ -147,6 +152,7 @@ const (
 	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
 )
 
+// A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_ARM struct {
 	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
 	// addresses that start with 124.56.78).
@@ -169,6 +175,7 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
+// Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_ARM struct {
 	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates `json:"certificates,omitempty"`
@@ -196,6 +203,7 @@ const (
 	Sku_Name_Standard = Sku_Name("standard")
 )
 
+// A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_ARM struct {
 	Id *string `json:"id,omitempty"`
 

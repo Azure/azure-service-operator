@@ -30,6 +30,7 @@ type RedisEnterprise_STATUS_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+// Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
 type ClusterProperties_STATUS_ARM struct {
 	// HostName: DNS name of the cluster endpoint
 	HostName *string `json:"hostName,omitempty"`
@@ -50,6 +51,7 @@ type ClusterProperties_STATUS_ARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
+// SKU parameters supplied to the create RedisEnterprise operation.
 type Sku_STATUS_ARM struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
@@ -59,6 +61,7 @@ type Sku_STATUS_ARM struct {
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}

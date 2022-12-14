@@ -225,6 +225,7 @@ func (namespace *Namespace_STATUS) ConvertStatusTo(destination genruntime.Conver
 }
 
 // Storage version of v1beta20210101preview.Encryption
+// Properties to configure Encryption
 type Encryption struct {
 	KeySource                       *string                `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties   `json:"keyVaultProperties,omitempty"`
@@ -233,6 +234,7 @@ type Encryption struct {
 }
 
 // Storage version of v1beta20210101preview.Encryption_STATUS
+// Properties to configure Encryption
 type Encryption_STATUS struct {
 	KeySource                       *string                     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
@@ -241,12 +243,14 @@ type Encryption_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.Identity
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.Identity_STATUS
+// Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_STATUS struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -263,12 +267,14 @@ type NamespaceOperatorSpec struct {
 }
 
 // Storage version of v1beta20210101preview.PrivateEndpointConnection_STATUS
+// Properties of the PrivateEndpointConnection.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.SBSku
+// SKU of the namespace.
 type SBSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -277,6 +283,7 @@ type SBSku struct {
 }
 
 // Storage version of v1beta20210101preview.SBSku_STATUS
+// SKU of the namespace.
 type SBSku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -285,6 +292,7 @@ type SBSku_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -296,6 +304,7 @@ type SystemData_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.DictionaryValue_STATUS
+// Recognized Dictionary value.
 type DictionaryValue_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -303,6 +312,7 @@ type DictionaryValue_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.KeyVaultProperties
+// Properties to configure keyVault Properties
 type KeyVaultProperties struct {
 	Identity    *UserAssignedIdentityProperties `json:"identity,omitempty"`
 	KeyName     *string                         `json:"keyName,omitempty"`
@@ -312,6 +322,7 @@ type KeyVaultProperties struct {
 }
 
 // Storage version of v1beta20210101preview.KeyVaultProperties_STATUS
+// Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS struct {
 	Identity    *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
 	KeyName     *string                                `json:"keyName,omitempty"`

@@ -706,6 +706,7 @@ func (topic *Topic_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topic *Topic_Spec) SetAzureName(azureName string) { topic.AzureName = azureName }
 
+// EventGrid Topic
 type Topic_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

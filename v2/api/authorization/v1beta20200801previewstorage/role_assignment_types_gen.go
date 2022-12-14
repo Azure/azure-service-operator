@@ -185,6 +185,7 @@ func (assignment *RoleAssignment_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 // Storage version of v1beta20200801preview.RoleAssignment_STATUS
+// Role Assignments
 type RoleAssignment_STATUS struct {
 	Condition                          *string                `json:"condition,omitempty"`
 	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`

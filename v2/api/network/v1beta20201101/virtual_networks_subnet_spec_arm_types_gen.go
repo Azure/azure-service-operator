@@ -30,6 +30,7 @@ func (subnet *VirtualNetworks_Subnet_Spec_ARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
+// Properties of the subnet.
 type SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	// AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -68,10 +69,12 @@ type SubnetPropertiesFormat_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struc
 	ServiceEndpoints []ServiceEndpointPropertiesFormat_ARM `json:"serviceEndpoints,omitempty"`
 }
 
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Details the service to which the subnet is delegated.
 type Delegation_ARM struct {
 	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -80,18 +83,22 @@ type Delegation_ARM struct {
 	Properties *ServiceDelegationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Route table resource.
 type RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Service End point policy resource.
 type ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// The service endpoint properties.
 type ServiceEndpointPropertiesFormat_ARM struct {
 	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
@@ -100,6 +107,7 @@ type ServiceEndpointPropertiesFormat_ARM struct {
 	Service *string `json:"service,omitempty"`
 }
 
+// Properties of a service delegation.
 type ServiceDelegationPropertiesFormat_ARM struct {
 	// ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`

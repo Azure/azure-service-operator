@@ -198,6 +198,7 @@ func (schedule *Redis_PatchSchedule_STATUS) ConvertStatusTo(destination genrunti
 }
 
 // Storage version of v1beta20201201.ScheduleEntry
+// Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`
@@ -206,6 +207,7 @@ type ScheduleEntry struct {
 }
 
 // Storage version of v1beta20201201.ScheduleEntry_STATUS
+// Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_STATUS struct {
 	DayOfWeek         *string                `json:"dayOfWeek,omitempty"`
 	MaintenanceWindow *string                `json:"maintenanceWindow,omitempty"`

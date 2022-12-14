@@ -236,6 +236,7 @@ func (queue *Namespaces_Queue_STATUS) ConvertStatusTo(destination genruntime.Con
 }
 
 // Storage version of v1beta20210101preview.MessageCountDetails_STATUS
+// Message Count Details.
 type MessageCountDetails_STATUS struct {
 	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`

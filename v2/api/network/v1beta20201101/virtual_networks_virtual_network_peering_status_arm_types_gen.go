@@ -20,6 +20,7 @@ type VirtualNetworks_VirtualNetworkPeering_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the virtual network peering.
 type VirtualNetworkPeeringPropertiesFormat_STATUS_ARM struct {
 	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
 	// allowed/disallowed in remote virtual network.

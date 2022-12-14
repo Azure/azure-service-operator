@@ -185,6 +185,7 @@ func (address *PublicIPAddress_Spec) ConvertSpecTo(destination genruntime.Conver
 }
 
 // Storage version of v1beta20201101.PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded
+// Public IP address resource.
 type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
 	DdosSettings             *DdosSettings_STATUS                                        `json:"ddosSettings,omitempty"`
@@ -233,6 +234,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Conv
 }
 
 // Storage version of v1beta20201101.DdosSettings
+// Contains the DDoS protection settings of the public IP.
 type DdosSettings struct {
 	DdosCustomPolicy   *SubResource           `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -241,6 +243,7 @@ type DdosSettings struct {
 }
 
 // Storage version of v1beta20201101.DdosSettings_STATUS
+// Contains the DDoS protection settings of the public IP.
 type DdosSettings_STATUS struct {
 	DdosCustomPolicy   *SubResource_STATUS    `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -249,12 +252,14 @@ type DdosSettings_STATUS struct {
 }
 
 // Storage version of v1beta20201101.IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded
+// IP configuration.
 type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.IpTag
+// Contains the IpTag associated with the object.
 type IpTag struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -262,6 +267,7 @@ type IpTag struct {
 }
 
 // Storage version of v1beta20201101.IpTag_STATUS
+// Contains the IpTag associated with the object.
 type IpTag_STATUS struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -269,12 +275,14 @@ type IpTag_STATUS struct {
 }
 
 // Storage version of v1beta20201101.NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded
+// Nat Gateway resource.
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded
+// Nat Gateway resource.
 type NatGatewaySpec_PublicIPAddress_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -283,6 +291,7 @@ type NatGatewaySpec_PublicIPAddress_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.PublicIPAddressDnsSettings
+// Contains FQDN of the DNS record associated with the public IP address.
 type PublicIPAddressDnsSettings struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -291,6 +300,7 @@ type PublicIPAddressDnsSettings struct {
 }
 
 // Storage version of v1beta20201101.PublicIPAddressDnsSettings_STATUS
+// Contains FQDN of the DNS record associated with the public IP address.
 type PublicIPAddressDnsSettings_STATUS struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -299,6 +309,7 @@ type PublicIPAddressDnsSettings_STATUS struct {
 }
 
 // Storage version of v1beta20201101.PublicIPAddressSku
+// SKU of a public IP address.
 type PublicIPAddressSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -306,6 +317,7 @@ type PublicIPAddressSku struct {
 }
 
 // Storage version of v1beta20201101.PublicIPAddressSku_STATUS
+// SKU of a public IP address.
 type PublicIPAddressSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -313,6 +325,7 @@ type PublicIPAddressSku_STATUS struct {
 }
 
 // Storage version of v1beta20201101.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
+// Public IP address resource.
 type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -321,6 +334,7 @@ type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.SubResource
+// Reference to another subresource.
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 

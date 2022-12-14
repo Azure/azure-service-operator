@@ -404,8 +404,10 @@ type DatabaseAccount_Spec struct {
 	EnableFreeTier *bool `json:"enableFreeTier,omitempty"`
 
 	// EnableMultipleWriteLocations: Enables the account to write in multiple locations
-	EnableMultipleWriteLocations *bool                   `json:"enableMultipleWriteLocations,omitempty"`
-	Identity                     *ManagedServiceIdentity `json:"identity,omitempty"`
+	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
+
+	// Identity: Identity for the resource.
+	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// IpRules: List of IpRules.
 	IpRules []IpAddressOrRange `json:"ipRules,omitempty"`
@@ -1656,7 +1658,9 @@ type DatabaseAccount_STATUS struct {
 	FailoverPolicies []FailoverPolicy_STATUS `json:"failoverPolicies,omitempty"`
 
 	// Id: The unique resource identifier of the ARM resource.
-	Id       *string                        `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Identity: Identity for the resource.
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// IpRules: List of IpRules.
@@ -2867,7 +2871,9 @@ func (account *DatabaseAccount_STATUS) AssignProperties_To_DatabaseAccount_STATU
 	return nil
 }
 
+// Analytical storage specific properties.
 type AnalyticalStorageConfiguration struct {
+	// SchemaType: Describes the types of schema for analytical storage.
 	SchemaType *AnalyticalStorageSchemaType `json:"schemaType,omitempty"`
 }
 
@@ -2949,7 +2955,9 @@ func (configuration *AnalyticalStorageConfiguration) AssignProperties_To_Analyti
 	return nil
 }
 
+// Analytical storage specific properties.
 type AnalyticalStorageConfiguration_STATUS struct {
+	// SchemaType: Describes the types of schema for analytical storage.
 	SchemaType *AnalyticalStorageSchemaType_STATUS `json:"schemaType,omitempty"`
 }
 
@@ -3434,6 +3442,7 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 	return nil
 }
 
+// Cosmos DB capability object
 type Capability struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
@@ -3508,6 +3517,7 @@ func (capability *Capability) AssignProperties_To_Capability(destination *v20210
 	return nil
 }
 
+// Cosmos DB capability object
 type Capability_STATUS struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
@@ -3567,15 +3577,18 @@ func (capability *Capability_STATUS) AssignProperties_To_Capability_STATUS(desti
 	return nil
 }
 
+// The cassandra connector offer type for the Cosmos DB C* database account.
 // +kubebuilder:validation:Enum={"Small"}
 type ConnectorOffer string
 
 const ConnectorOffer_Small = ConnectorOffer("Small")
 
+// The cassandra connector offer type for the Cosmos DB C* database account.
 type ConnectorOffer_STATUS string
 
 const ConnectorOffer_STATUS_Small = ConnectorOffer_STATUS("Small")
 
+// The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy struct {
 	// +kubebuilder:validation:Required
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
@@ -3730,6 +3743,7 @@ func (policy *ConsistencyPolicy) AssignProperties_To_ConsistencyPolicy(destinati
 	return nil
 }
 
+// The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy_STATUS struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
@@ -3832,6 +3846,7 @@ func (policy *ConsistencyPolicy_STATUS) AssignProperties_To_ConsistencyPolicy_ST
 	return nil
 }
 
+// The CORS policy for the Cosmos DB database account.
 type CorsPolicy struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
@@ -4003,6 +4018,7 @@ func (policy *CorsPolicy) AssignProperties_To_CorsPolicy(destination *v20210515s
 	return nil
 }
 
+// The CORS policy for the Cosmos DB database account.
 type CorsPolicy_STATUS struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
@@ -4122,11 +4138,13 @@ func (policy *CorsPolicy_STATUS) AssignProperties_To_CorsPolicy_STATUS(destinati
 	return nil
 }
 
+// The offer type for the Cosmos DB database account.
 // +kubebuilder:validation:Enum={"Standard"}
 type DatabaseAccountOfferType string
 
 const DatabaseAccountOfferType_Standard = DatabaseAccountOfferType("Standard")
 
+// The offer type for the Cosmos DB database account.
 type DatabaseAccountOfferType_STATUS string
 
 const DatabaseAccountOfferType_STATUS_Standard = DatabaseAccountOfferType_STATUS("Standard")
@@ -4184,6 +4202,7 @@ func (operator *DatabaseAccountOperatorSpec) AssignProperties_To_DatabaseAccount
 	return nil
 }
 
+// The failover policy for a given region of a database account.
 type FailoverPolicy_STATUS struct {
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
@@ -4275,6 +4294,7 @@ func (policy *FailoverPolicy_STATUS) AssignProperties_To_FailoverPolicy_STATUS(d
 	return nil
 }
 
+// IpAddressOrRange object
 type IpAddressOrRange struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
@@ -4351,6 +4371,7 @@ func (orRange *IpAddressOrRange) AssignProperties_To_IpAddressOrRange(destinatio
 	return nil
 }
 
+// IpAddressOrRange object
 type IpAddressOrRange_STATUS struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
@@ -4412,6 +4433,7 @@ func (orRange *IpAddressOrRange_STATUS) AssignProperties_To_IpAddressOrRange_STA
 	return nil
 }
 
+// A region in which the Azure Cosmos DB database account is deployed.
 type Location struct {
 	// +kubebuilder:validation:Minimum=0
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
@@ -4550,6 +4572,7 @@ func (location *Location) AssignProperties_To_Location(destination *v20210515s.L
 	return nil
 }
 
+// A region in which the Azure Cosmos DB database account is deployed.
 type Location_STATUS struct {
 	// DocumentEndpoint: The connection endpoint for the specific region. Example:
 	// https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
@@ -4694,6 +4717,7 @@ func (location *Location_STATUS) AssignProperties_To_Location_STATUS(destination
 	return nil
 }
 
+// Identity for the resource.
 type ManagedServiceIdentity struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
@@ -4778,6 +4802,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
+// Identity for the resource.
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
 	// identity.
@@ -4933,6 +4958,7 @@ func (identity *ManagedServiceIdentity_STATUS) AssignProperties_To_ManagedServic
 	return nil
 }
 
+// Indicates what services are allowed to bypass firewall checks.
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type NetworkAclBypass string
 
@@ -4941,6 +4967,7 @@ const (
 	NetworkAclBypass_None          = NetworkAclBypass("None")
 )
 
+// Indicates what services are allowed to bypass firewall checks.
 type NetworkAclBypass_STATUS string
 
 const (
@@ -4948,6 +4975,7 @@ const (
 	NetworkAclBypass_STATUS_None          = NetworkAclBypass_STATUS("None")
 )
 
+// A private endpoint connection
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -5007,6 +5035,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Whether requests from Public Network are allowed
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccess string
 
@@ -5015,6 +5044,7 @@ const (
 	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
+// Whether requests from Public Network are allowed
 type PublicNetworkAccess_STATUS string
 
 const (
@@ -5022,6 +5052,7 @@ const (
 	PublicNetworkAccess_STATUS_Enabled  = PublicNetworkAccess_STATUS("Enabled")
 )
 
+// Virtual Network ACL Rule object
 type VirtualNetworkRule struct {
 	// IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual network has vnet service endpoint enabled.
 	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
@@ -5137,6 +5168,7 @@ func (rule *VirtualNetworkRule) AssignProperties_To_VirtualNetworkRule(destinati
 	return nil
 }
 
+// Virtual Network ACL Rule object
 type VirtualNetworkRule_STATUS struct {
 	// Id: Resource ID of a subnet, for example:
 	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
@@ -5221,6 +5253,7 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 	return nil
 }
 
+// Describes the types of schema for analytical storage.
 // +kubebuilder:validation:Enum={"FullFidelity","WellDefined"}
 type AnalyticalStorageSchemaType string
 
@@ -5229,6 +5262,7 @@ const (
 	AnalyticalStorageSchemaType_WellDefined  = AnalyticalStorageSchemaType("WellDefined")
 )
 
+// Describes the types of schema for analytical storage.
 type AnalyticalStorageSchemaType_STATUS string
 
 const (
@@ -5861,6 +5895,7 @@ type PeriodicModeBackupPolicy_Type_STATUS string
 
 const PeriodicModeBackupPolicy_Type_STATUS_Periodic = PeriodicModeBackupPolicy_Type_STATUS("Periodic")
 
+// Configuration values for periodic mode backup
 type PeriodicModeProperties struct {
 	// +kubebuilder:validation:Minimum=0
 	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
@@ -5977,6 +6012,7 @@ func (properties *PeriodicModeProperties) AssignProperties_To_PeriodicModeProper
 	return nil
 }
 
+// Configuration values for periodic mode backup
 type PeriodicModeProperties_STATUS struct {
 	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
 	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`

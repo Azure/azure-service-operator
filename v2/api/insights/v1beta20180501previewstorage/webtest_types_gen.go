@@ -233,12 +233,14 @@ func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 }
 
 // Storage version of v1beta20180501preview.WebTestGeolocation
+// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20180501preview.WebTestGeolocation_STATUS
+// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation_STATUS struct {
 	Id          *string                `json:"Id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -299,6 +301,7 @@ type WebTestProperties_ValidationRules_STATUS struct {
 }
 
 // Storage version of v1beta20180501preview.HeaderField
+// A header to add to the WebTest.
 type HeaderField struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -306,6 +309,7 @@ type HeaderField struct {
 }
 
 // Storage version of v1beta20180501preview.HeaderField_STATUS
+// A header to add to the WebTest.
 type HeaderField_STATUS struct {
 	Key         *string                `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

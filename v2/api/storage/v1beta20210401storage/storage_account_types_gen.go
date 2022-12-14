@@ -201,6 +201,7 @@ func (account *StorageAccount_Spec) ConvertSpecTo(destination genruntime.Convert
 }
 
 // Storage version of v1beta20210401.StorageAccount_STATUS
+// The storage account.
 type StorageAccount_STATUS struct {
 	AccessTier                            *string                                       `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
@@ -266,6 +267,7 @@ func (account *StorageAccount_STATUS) ConvertStatusTo(destination genruntime.Con
 }
 
 // Storage version of v1beta20210401.AzureFilesIdentityBasedAuthentication
+// Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *string                    `json:"defaultSharePermission,omitempty"`
@@ -274,6 +276,7 @@ type AzureFilesIdentityBasedAuthentication struct {
 }
 
 // Storage version of v1beta20210401.AzureFilesIdentityBasedAuthentication_STATUS
+// Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication_STATUS struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *string                           `json:"defaultSharePermission,omitempty"`
@@ -282,6 +285,7 @@ type AzureFilesIdentityBasedAuthentication_STATUS struct {
 }
 
 // Storage version of v1beta20210401.BlobRestoreStatus_STATUS
+// Blob restore status.
 type BlobRestoreStatus_STATUS struct {
 	FailureReason *string                       `json:"failureReason,omitempty"`
 	Parameters    *BlobRestoreParameters_STATUS `json:"parameters,omitempty"`
@@ -291,6 +295,7 @@ type BlobRestoreStatus_STATUS struct {
 }
 
 // Storage version of v1beta20210401.CustomDomain
+// The custom domain assigned to this storage account. This can be set via Update.
 type CustomDomain struct {
 	Name             *string                `json:"name,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -298,6 +303,7 @@ type CustomDomain struct {
 }
 
 // Storage version of v1beta20210401.CustomDomain_STATUS
+// The custom domain assigned to this storage account. This can be set via Update.
 type CustomDomain_STATUS struct {
 	Name             *string                `json:"name,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -305,6 +311,7 @@ type CustomDomain_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Encryption
+// The encryption settings on the storage account.
 type Encryption struct {
 	Identity                        *EncryptionIdentity    `json:"identity,omitempty"`
 	KeySource                       *string                `json:"keySource,omitempty"`
@@ -315,6 +322,7 @@ type Encryption struct {
 }
 
 // Storage version of v1beta20210401.Encryption_STATUS
+// The encryption settings on the storage account.
 type Encryption_STATUS struct {
 	Identity                        *EncryptionIdentity_STATUS `json:"identity,omitempty"`
 	KeySource                       *string                    `json:"keySource,omitempty"`
@@ -325,6 +333,7 @@ type Encryption_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Endpoints_STATUS
+// The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object.
 type Endpoints_STATUS struct {
 	Blob               *string                                  `json:"blob,omitempty"`
 	Dfs                *string                                  `json:"dfs,omitempty"`
@@ -338,6 +347,7 @@ type Endpoints_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ExtendedLocation
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -345,6 +355,7 @@ type ExtendedLocation struct {
 }
 
 // Storage version of v1beta20210401.ExtendedLocation_STATUS
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -352,6 +363,8 @@ type ExtendedLocation_STATUS struct {
 }
 
 // Storage version of v1beta20210401.GeoReplicationStats_STATUS
+// Statistics related to replication for storage account's Blob, Table, Queue and File services. It is only available when
+// geo-redundant replication is enabled for the storage account.
 type GeoReplicationStats_STATUS struct {
 	CanFailover  *bool                  `json:"canFailover,omitempty"`
 	LastSyncTime *string                `json:"lastSyncTime,omitempty"`
@@ -360,12 +373,14 @@ type GeoReplicationStats_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Identity
+// Identity for the resource.
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210401.Identity_STATUS
+// Identity for the resource.
 type Identity_STATUS struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -375,6 +390,7 @@ type Identity_STATUS struct {
 }
 
 // Storage version of v1beta20210401.KeyCreationTime_STATUS
+// Storage account keys creation time.
 type KeyCreationTime_STATUS struct {
 	Key1        *string                `json:"key1,omitempty"`
 	Key2        *string                `json:"key2,omitempty"`
@@ -382,18 +398,21 @@ type KeyCreationTime_STATUS struct {
 }
 
 // Storage version of v1beta20210401.KeyPolicy
+// KeyPolicy assigned to the storage account.
 type KeyPolicy struct {
 	KeyExpirationPeriodInDays *int                   `json:"keyExpirationPeriodInDays,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.KeyPolicy_STATUS
+// KeyPolicy assigned to the storage account.
 type KeyPolicy_STATUS struct {
 	KeyExpirationPeriodInDays *int                   `json:"keyExpirationPeriodInDays,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.NetworkRuleSet
+// Network rule set
 type NetworkRuleSet struct {
 	Bypass              *string                `json:"bypass,omitempty"`
 	DefaultAction       *string                `json:"defaultAction,omitempty"`
@@ -404,6 +423,7 @@ type NetworkRuleSet struct {
 }
 
 // Storage version of v1beta20210401.NetworkRuleSet_STATUS
+// Network rule set
 type NetworkRuleSet_STATUS struct {
 	Bypass              *string                     `json:"bypass,omitempty"`
 	DefaultAction       *string                     `json:"defaultAction,omitempty"`
@@ -414,12 +434,15 @@ type NetworkRuleSet_STATUS struct {
 }
 
 // Storage version of v1beta20210401.PrivateEndpointConnection_STATUS
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.RoutingPreference
+// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
+// data, the default option is microsoft routing
 type RoutingPreference struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublishInternetEndpoints  *bool                  `json:"publishInternetEndpoints,omitempty"`
@@ -428,6 +451,8 @@ type RoutingPreference struct {
 }
 
 // Storage version of v1beta20210401.RoutingPreference_STATUS
+// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
+// data, the default option is microsoft routing
 type RoutingPreference_STATUS struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublishInternetEndpoints  *bool                  `json:"publishInternetEndpoints,omitempty"`
@@ -436,6 +461,7 @@ type RoutingPreference_STATUS struct {
 }
 
 // Storage version of v1beta20210401.SasPolicy
+// SasPolicy assigned to the storage account.
 type SasPolicy struct {
 	ExpirationAction    *string                `json:"expirationAction,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -443,6 +469,7 @@ type SasPolicy struct {
 }
 
 // Storage version of v1beta20210401.SasPolicy_STATUS
+// SasPolicy assigned to the storage account.
 type SasPolicy_STATUS struct {
 	ExpirationAction    *string                `json:"expirationAction,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -450,6 +477,7 @@ type SasPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210401.Sku
+// The SKU of the storage account.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -457,6 +485,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210401.Sku_STATUS
+// The SKU of the storage account.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -471,6 +500,7 @@ type StorageAccountOperatorSpec struct {
 }
 
 // Storage version of v1beta20210401.ActiveDirectoryProperties
+// Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties struct {
 	AzureStorageSid   *string                `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string                `json:"domainGuid,omitempty"`
@@ -482,6 +512,7 @@ type ActiveDirectoryProperties struct {
 }
 
 // Storage version of v1beta20210401.ActiveDirectoryProperties_STATUS
+// Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties_STATUS struct {
 	AzureStorageSid   *string                `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string                `json:"domainGuid,omitempty"`
@@ -493,6 +524,7 @@ type ActiveDirectoryProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401.BlobRestoreParameters_STATUS
+// Blob restore parameters
 type BlobRestoreParameters_STATUS struct {
 	BlobRanges    []BlobRestoreRange_STATUS `json:"blobRanges,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -500,6 +532,7 @@ type BlobRestoreParameters_STATUS struct {
 }
 
 // Storage version of v1beta20210401.EncryptionIdentity
+// Encryption identity for the storage account.
 type EncryptionIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -509,12 +542,14 @@ type EncryptionIdentity struct {
 }
 
 // Storage version of v1beta20210401.EncryptionIdentity_STATUS
+// Encryption identity for the storage account.
 type EncryptionIdentity_STATUS struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
 }
 
 // Storage version of v1beta20210401.EncryptionServices
+// A list of services that support encryption.
 type EncryptionServices struct {
 	Blob        *EncryptionService     `json:"blob,omitempty"`
 	File        *EncryptionService     `json:"file,omitempty"`
@@ -524,6 +559,7 @@ type EncryptionServices struct {
 }
 
 // Storage version of v1beta20210401.EncryptionServices_STATUS
+// A list of services that support encryption.
 type EncryptionServices_STATUS struct {
 	Blob        *EncryptionService_STATUS `json:"blob,omitempty"`
 	File        *EncryptionService_STATUS `json:"file,omitempty"`
@@ -533,6 +569,7 @@ type EncryptionServices_STATUS struct {
 }
 
 // Storage version of v1beta20210401.IPRule
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -540,6 +577,7 @@ type IPRule struct {
 }
 
 // Storage version of v1beta20210401.IPRule_STATUS
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -547,6 +585,7 @@ type IPRule_STATUS struct {
 }
 
 // Storage version of v1beta20210401.KeyVaultProperties
+// Properties of key vault.
 type KeyVaultProperties struct {
 	Keyname     *string                `json:"keyname,omitempty"`
 	Keyvaulturi *string                `json:"keyvaulturi,omitempty"`
@@ -555,6 +594,7 @@ type KeyVaultProperties struct {
 }
 
 // Storage version of v1beta20210401.KeyVaultProperties_STATUS
+// Properties of key vault.
 type KeyVaultProperties_STATUS struct {
 	CurrentVersionedKeyIdentifier *string                `json:"currentVersionedKeyIdentifier,omitempty"`
 	Keyname                       *string                `json:"keyname,omitempty"`
@@ -565,6 +605,7 @@ type KeyVaultProperties_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ResourceAccessRule
+// Resource Access Rule.
 type ResourceAccessRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -574,6 +615,7 @@ type ResourceAccessRule struct {
 }
 
 // Storage version of v1beta20210401.ResourceAccessRule_STATUS
+// Resource Access Rule.
 type ResourceAccessRule_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"resourceId,omitempty"`
@@ -581,6 +623,7 @@ type ResourceAccessRule_STATUS struct {
 }
 
 // Storage version of v1beta20210401.StorageAccountInternetEndpoints_STATUS
+// The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
 type StorageAccountInternetEndpoints_STATUS struct {
 	Blob        *string                `json:"blob,omitempty"`
 	Dfs         *string                `json:"dfs,omitempty"`
@@ -590,6 +633,8 @@ type StorageAccountInternetEndpoints_STATUS struct {
 }
 
 // Storage version of v1beta20210401.StorageAccountMicrosoftEndpoints_STATUS
+// The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing
+// endpoint.
 type StorageAccountMicrosoftEndpoints_STATUS struct {
 	Blob        *string                `json:"blob,omitempty"`
 	Dfs         *string                `json:"dfs,omitempty"`
@@ -614,6 +659,7 @@ type StorageAccountOperatorSecrets struct {
 }
 
 // Storage version of v1beta20210401.UserAssignedIdentity_STATUS
+// UserAssignedIdentity for the resource.
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -621,6 +667,7 @@ type UserAssignedIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20210401.VirtualNetworkRule
+// Virtual Network rule.
 type VirtualNetworkRule struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -633,6 +680,7 @@ type VirtualNetworkRule struct {
 }
 
 // Storage version of v1beta20210401.VirtualNetworkRule_STATUS
+// Virtual Network rule.
 type VirtualNetworkRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -641,6 +689,7 @@ type VirtualNetworkRule_STATUS struct {
 }
 
 // Storage version of v1beta20210401.BlobRestoreRange_STATUS
+// Blob range
 type BlobRestoreRange_STATUS struct {
 	EndRange    *string                `json:"endRange,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -648,6 +697,7 @@ type BlobRestoreRange_STATUS struct {
 }
 
 // Storage version of v1beta20210401.EncryptionService
+// A service that allows server-side encryption to be used.
 type EncryptionService struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	KeyType     *string                `json:"keyType,omitempty"`
@@ -655,6 +705,7 @@ type EncryptionService struct {
 }
 
 // Storage version of v1beta20210401.EncryptionService_STATUS
+// A service that allows server-side encryption to be used.
 type EncryptionService_STATUS struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	KeyType         *string                `json:"keyType,omitempty"`

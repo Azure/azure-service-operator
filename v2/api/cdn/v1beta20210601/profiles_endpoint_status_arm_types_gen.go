@@ -13,9 +13,13 @@ type Profiles_Endpoint_STATUS_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: Resource name.
-	Name       *string                        `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: The JSON object that contains the properties required to create an endpoint.
 	Properties *EndpointProperties_STATUS_ARM `json:"properties,omitempty"`
-	SystemData *SystemData_STATUS_ARM         `json:"systemData,omitempty"`
+
+	// SystemData: Read only system data
+	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -24,6 +28,7 @@ type Profiles_Endpoint_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The JSON object that contains the properties required to create an endpoint.
 type EndpointProperties_STATUS_ARM struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
@@ -100,21 +105,31 @@ type EndpointProperties_STATUS_ARM struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
+// Custom domains created on the CDN endpoint.
 type DeepCreatedCustomDomain_STATUS_ARM struct {
 	// Name: Custom domain name.
-	Name       *string                                       `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the custom domain created on the CDN endpoint.
 	Properties *DeepCreatedCustomDomainProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin_STATUS_ARM struct {
 	// Name: Origin name which must be unique within the endpoint.
-	Name       *string                                 `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the origin created on the CDN endpoint.
 	Properties *DeepCreatedOriginProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
+// origin group based on origin health.
 type DeepCreatedOriginGroup_STATUS_ARM struct {
 	// Name: Origin group name which must be unique within the endpoint.
-	Name       *string                                      `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the origin group created on the CDN endpoint.
 	Properties *DeepCreatedOriginGroupProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
@@ -131,6 +146,7 @@ type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Rules defining user's geo access within a CDN endpoint.
 type GeoFilter_STATUS_ARM struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
 	Action *GeoFilter_Action_STATUS `json:"action,omitempty"`
@@ -142,11 +158,13 @@ type GeoFilter_STATUS_ARM struct {
 	RelativePath *string `json:"relativePath,omitempty"`
 }
 
+// Reference to another resource.
 type ResourceReference_STATUS_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Url signing key
 type UrlSigningKey_STATUS_ARM struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
@@ -156,6 +174,7 @@ type UrlSigningKey_STATUS_ARM struct {
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS_ARM `json:"keySourceParameters,omitempty"`
 }
 
+// Properties of the custom domain created on the CDN endpoint.
 type DeepCreatedCustomDomainProperties_STATUS_ARM struct {
 	// HostName: The host name of the custom domain. Must be a domain name.
 	HostName *string `json:"hostName,omitempty"`
@@ -165,6 +184,7 @@ type DeepCreatedCustomDomainProperties_STATUS_ARM struct {
 	ValidationData *string `json:"validationData,omitempty"`
 }
 
+// Properties of the origin group created on the CDN endpoint.
 type DeepCreatedOriginGroupProperties_STATUS_ARM struct {
 	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
 	HealthProbeSettings *HealthProbeParameters_STATUS_ARM `json:"healthProbeSettings,omitempty"`
@@ -182,6 +202,7 @@ type DeepCreatedOriginGroupProperties_STATUS_ARM struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
+// Properties of the origin created on the CDN endpoint.
 type DeepCreatedOriginProperties_STATUS_ARM struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -226,6 +247,7 @@ type DeepCreatedOriginProperties_STATUS_ARM struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
+// A rule that specifies a set of actions and conditions
 type DeliveryRule_STATUS_ARM struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
 	Actions []DeliveryRuleAction_STATUS_ARM `json:"actions,omitempty"`
@@ -242,6 +264,7 @@ type DeliveryRule_STATUS_ARM struct {
 	Order *int `json:"order,omitempty"`
 }
 
+// Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_STATUS_ARM struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
@@ -260,6 +283,7 @@ type KeyVaultSigningKeyParameters_STATUS_ARM struct {
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
+// An action for the delivery rule.
 type DeliveryRuleAction_STATUS_ARM struct {
 	// CacheExpiration: Mutually exclusive with all other properties
 	CacheExpiration *DeliveryRuleCacheExpirationAction_STATUS_ARM `json:"cacheExpiration,omitempty"`
@@ -370,6 +394,7 @@ func (action *DeliveryRuleAction_STATUS_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// A condition for the delivery rule.
 type DeliveryRuleCondition_STATUS_ARM struct {
 	// ClientPort: Mutually exclusive with all other properties
 	ClientPort *DeliveryRuleClientPortCondition_STATUS_ARM `json:"clientPort,omitempty"`
@@ -580,6 +605,7 @@ func (condition *DeliveryRuleCondition_STATUS_ARM) UnmarshalJSON(data []byte) er
 	return nil
 }
 
+// The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS_ARM struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
@@ -594,6 +620,7 @@ type HealthProbeParameters_STATUS_ARM struct {
 	ProbeRequestType *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
 }
 
+// The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters_STATUS_ARM struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
@@ -798,6 +825,7 @@ type DeliveryRuleUrlPathCondition_STATUS_ARM struct {
 	Parameters *UrlPathMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_STATUS_ARM struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
@@ -838,6 +866,7 @@ type UrlSigningAction_STATUS_ARM struct {
 	Parameters *UrlSigningActionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters_STATUS_ARM struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
@@ -850,6 +879,7 @@ type CacheExpirationActionParameters_STATUS_ARM struct {
 	TypeName  *CacheExpirationActionParameters_TypeName_STATUS  `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the cache-key query string action.
 type CacheKeyQueryStringActionParameters_STATUS_ARM struct {
 	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
@@ -859,6 +889,7 @@ type CacheKeyQueryStringActionParameters_STATUS_ARM struct {
 	TypeName            *CacheKeyQueryStringActionParameters_TypeName_STATUS            `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for ClientPort match conditions
 type ClientPortMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -874,6 +905,7 @@ type ClientPortMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *ClientPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for Cookies match conditions
 type CookiesMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -892,6 +924,7 @@ type CookiesMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *CookiesMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the request header action.
 type HeaderActionParameters_STATUS_ARM struct {
 	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction_STATUS `json:"headerAction,omitempty"`
@@ -904,6 +937,7 @@ type HeaderActionParameters_STATUS_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Defines the parameters for HostName match conditions
 type HostNameMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -919,6 +953,7 @@ type HostNameMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *HostNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for HttpVersion match conditions
 type HttpVersionMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -934,6 +969,7 @@ type HttpVersionMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *HttpVersionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []IsDeviceMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
@@ -949,12 +985,14 @@ type IsDeviceMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *IsDeviceMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_STATUS_ARM struct {
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference_STATUS_ARM                        `json:"originGroup,omitempty"`
 	TypeName    *OriginGroupOverrideActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for PostArgs match conditions
 type PostArgsMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -973,6 +1011,7 @@ type PostArgsMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *PostArgsMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -988,6 +1027,7 @@ type QueryStringMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *QueryStringMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
 	// them match the variable with the given operator this match condition is considered a match.
@@ -1004,6 +1044,7 @@ type RemoteAddressMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *RemoteAddressMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestBody match conditions
 type RequestBodyMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1019,6 +1060,7 @@ type RequestBodyMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *RequestBodyMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestHeader match conditions
 type RequestHeaderMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1037,6 +1079,7 @@ type RequestHeaderMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *RequestHeaderMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestMethod match conditions
 type RequestMethodMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestMethodMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
@@ -1052,6 +1095,7 @@ type RequestMethodMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *RequestMethodMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []RequestSchemeMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
@@ -1067,6 +1111,7 @@ type RequestSchemeMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *RequestSchemeMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1082,6 +1127,7 @@ type RequestUriMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *RequestUriMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the route configuration override action.
 type RouteConfigurationOverrideActionParameters_STATUS_ARM struct {
 	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
 	// cacheConfiguration object.
@@ -1093,6 +1139,7 @@ type RouteConfigurationOverrideActionParameters_STATUS_ARM struct {
 	TypeName            *RouteConfigurationOverrideActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for ServerPort match conditions
 type ServerPortMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1108,6 +1155,7 @@ type ServerPortMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *ServerPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for SocketAddress match conditions
 type SocketAddrMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1123,6 +1171,7 @@ type SocketAddrMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *SocketAddrMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []SslProtocol_STATUS `json:"matchValues,omitempty"`
@@ -1138,6 +1187,7 @@ type SslProtocolMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *SslProtocolMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1153,6 +1203,7 @@ type UrlFileExtensionMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1168,6 +1219,7 @@ type UrlFileNameMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *UrlFileNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for UrlPath match conditions
 type UrlPathMatchConditionParameters_STATUS_ARM struct {
 	// MatchValues: The match value for the condition of the delivery rule
 	MatchValues []string `json:"matchValues,omitempty"`
@@ -1183,6 +1235,7 @@ type UrlPathMatchConditionParameters_STATUS_ARM struct {
 	TypeName   *UrlPathMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters_STATUS_ARM struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
 	// the #.
@@ -1208,6 +1261,7 @@ type UrlRedirectActionParameters_STATUS_ARM struct {
 	TypeName     *UrlRedirectActionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters_STATUS_ARM struct {
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
 	Destination *string `json:"destination,omitempty"`
@@ -1221,6 +1275,7 @@ type UrlRewriteActionParameters_STATUS_ARM struct {
 	TypeName      *UrlRewriteActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Defines the parameters for the Url Signing action.
 type UrlSigningActionParameters_STATUS_ARM struct {
 	// Algorithm: Algorithm to use for URL signing
 	Algorithm *UrlSigningActionParameters_Algorithm_STATUS `json:"algorithm,omitempty"`
@@ -1230,6 +1285,7 @@ type UrlSigningActionParameters_STATUS_ARM struct {
 	TypeName              *UrlSigningActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
+// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
 type CacheConfiguration_STATUS_ARM struct {
 	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheConfiguration_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
@@ -1251,6 +1307,7 @@ type CacheConfiguration_STATUS_ARM struct {
 	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 }
 
+// Defines the parameters for the origin group override configuration.
 type OriginGroupOverride_STATUS_ARM struct {
 	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol_STATUS `json:"forwardingProtocol,omitempty"`
@@ -1259,6 +1316,7 @@ type OriginGroupOverride_STATUS_ARM struct {
 	OriginGroup *ResourceReference_STATUS_ARM `json:"originGroup,omitempty"`
 }
 
+// Defines how to identify a parameter for a specific purpose e.g. expires
 type UrlSigningParamIdentifier_STATUS_ARM struct {
 	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator_STATUS `json:"paramIndicator,omitempty"`

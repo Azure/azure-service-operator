@@ -1319,6 +1319,7 @@ const (
 	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
 )
 
+// The properties of an ImmutabilityPolicy of a blob container.
 type ImmutabilityPolicyProperties_STATUS struct {
 	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
 	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
@@ -1504,6 +1505,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_Immut
 	return nil
 }
 
+// Object level immutability properties of the container.
 type ImmutableStorageWithVersioning struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -1587,6 +1589,7 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableS
 	return nil
 }
 
+// Object level immutability properties of the container.
 type ImmutableStorageWithVersioning_STATUS struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -1695,6 +1698,7 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_To_Imm
 	return nil
 }
 
+// The LegalHold property of a blob container.
 type LegalHoldProperties_STATUS struct {
 	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
 	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
@@ -1828,6 +1832,7 @@ const (
 	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
 )
 
+// A tag of the LegalHold of a blob container.
 type TagProperty_STATUS struct {
 	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -1946,6 +1951,7 @@ func (property *TagProperty_STATUS) AssignProperties_To_TagProperty_STATUS(desti
 	return nil
 }
 
+// An update history of the ImmutabilityPolicy of a blob container.
 type UpdateHistoryProperty_STATUS struct {
 	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
 	// in days.

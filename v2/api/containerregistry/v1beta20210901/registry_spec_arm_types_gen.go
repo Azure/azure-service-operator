@@ -40,6 +40,7 @@ func (registry *Registry_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"
 }
 
+// Managed identity for the resource.
 type IdentityProperties_ARM struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -57,6 +58,7 @@ type IdentityProperties_ARM struct {
 	UserAssignedIdentities map[string]UserIdentityProperties_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// The properties of a container registry.
 type RegistryProperties_ARM struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
@@ -83,6 +85,7 @@ type RegistryProperties_ARM struct {
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
+// The SKU of a container registry.
 type Sku_ARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name `json:"name,omitempty"`
@@ -106,6 +109,7 @@ const (
 	IdentityProperties_Type_UserAssigned               = IdentityProperties_Type("UserAssigned")
 )
 
+// The network rule set for a container registry.
 type NetworkRuleSet_ARM struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
@@ -114,6 +118,7 @@ type NetworkRuleSet_ARM struct {
 	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
 }
 
+// The policies for a container registry.
 type Policies_ARM struct {
 	// ExportPolicy: The export policy for a container registry.
 	ExportPolicy *ExportPolicy_ARM `json:"exportPolicy,omitempty"`
@@ -146,11 +151,13 @@ type UserIdentityProperties_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// The export policy for a container registry.
 type ExportPolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status `json:"status,omitempty"`
 }
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_ARM struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
@@ -167,11 +174,13 @@ type KeyVaultProperties_ARM struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
+// The quarantine policy for a container registry.
 type QuarantinePolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`
 }
 
+// The retention policy for a container registry.
 type RetentionPolicy_ARM struct {
 	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
@@ -180,6 +189,7 @@ type RetentionPolicy_ARM struct {
 	Status *RetentionPolicy_Status `json:"status,omitempty"`
 }
 
+// The content trust policy for a container registry.
 type TrustPolicy_ARM struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status `json:"status,omitempty"`

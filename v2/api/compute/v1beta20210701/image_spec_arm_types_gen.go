@@ -10,8 +10,10 @@ type Image_Spec_ARM struct {
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
 
 	// Location: Resource location
-	Location   *string              `json:"location,omitempty"`
-	Name       string               `json:"name,omitempty"`
+	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+
+	// Properties: Describes the properties of an Image.
 	Properties *ImageProperties_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
@@ -35,6 +37,7 @@ func (image *Image_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/images"
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -43,6 +46,7 @@ type ExtendedLocation_ARM struct {
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
+// Describes the properties of an Image.
 type ImageProperties_ARM struct {
 	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
 	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
@@ -57,11 +61,13 @@ type ImageProperties_ARM struct {
 	StorageProfile *ImageStorageProfile_ARM `json:"storageProfile,omitempty"`
 }
 
+// The type of extendedLocation.
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
+// Describes a storage profile.
 type ImageStorageProfile_ARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -82,6 +88,7 @@ type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Describes a data disk.
 type ImageDataDisk_ARM struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`
@@ -117,6 +124,7 @@ type ImageDataDisk_ARM struct {
 	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
+// Describes an Operating System disk.
 type ImageOSDisk_ARM struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`

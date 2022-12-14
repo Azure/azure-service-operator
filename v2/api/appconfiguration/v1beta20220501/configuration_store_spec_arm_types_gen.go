@@ -43,6 +43,7 @@ func (store *ConfigurationStore_Spec_ARM) GetType() string {
 	return "Microsoft.AppConfiguration/configurationStores"
 }
 
+// The properties of a configuration store.
 type ConfigurationStoreProperties_ARM struct {
 	// CreateMode: Indicates whether the configuration store need to be recovered.
 	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
@@ -65,17 +66,20 @@ type ConfigurationStoreProperties_ARM struct {
 	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
 }
 
+// An identity that can be associated with a resource.
 type ResourceIdentity_ARM struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
+// Describes a configuration store SKU.
 type Sku_ARM struct {
 	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -96,6 +100,7 @@ type SystemData_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
+// The encryption settings for a configuration store.
 type EncryptionProperties_ARM struct {
 	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
@@ -131,6 +136,7 @@ const (
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
+// Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties_ARM struct {
 	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`

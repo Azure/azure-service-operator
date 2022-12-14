@@ -231,12 +231,14 @@ func (subnet *VirtualNetworks_Subnet_STATUS) ConvertStatusTo(destination genrunt
 }
 
 // Storage version of v1beta20201101.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -245,6 +247,7 @@ type ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedde
 }
 
 // Storage version of v1beta20201101.Delegation
+// Details the service to which the subnet is delegated.
 type Delegation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -252,6 +255,7 @@ type Delegation struct {
 }
 
 // Storage version of v1beta20201101.Delegation_STATUS
+// Details the service to which the subnet is delegated.
 type Delegation_STATUS struct {
 	Actions           []string               `json:"actions,omitempty"`
 	Etag              *string                `json:"etag,omitempty"`
@@ -264,24 +268,28 @@ type Delegation_STATUS struct {
 }
 
 // Storage version of v1beta20201101.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+// IP configuration.
 type IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.IPConfigurationProfile_STATUS
+// IP configuration profile child resource.
 type IPConfigurationProfile_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -290,24 +298,28 @@ type NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded struct 
 }
 
 // Storage version of v1beta20201101.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+// Private endpoint resource.
 type PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.ResourceNavigationLink_STATUS
+// ResourceNavigationLink resource.
 type ResourceNavigationLink_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.RouteTable_STATUS_SubResourceEmbedded
+// Route table resource.
 type RouteTable_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
+// Route table resource.
 type RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -316,18 +328,21 @@ type RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 }
 
 // Storage version of v1beta20201101.ServiceAssociationLink_STATUS
+// ServiceAssociationLink resource.
 type ServiceAssociationLink_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
+// Service End point policy resource.
 type ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
+// Service End point policy resource.
 type ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -336,6 +351,7 @@ type ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded struct
 }
 
 // Storage version of v1beta20201101.ServiceEndpointPropertiesFormat
+// The service endpoint properties.
 type ServiceEndpointPropertiesFormat struct {
 	Locations   []string               `json:"locations,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -343,6 +359,7 @@ type ServiceEndpointPropertiesFormat struct {
 }
 
 // Storage version of v1beta20201101.ServiceEndpointPropertiesFormat_STATUS
+// The service endpoint properties.
 type ServiceEndpointPropertiesFormat_STATUS struct {
 	Locations         []string               `json:"locations,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`

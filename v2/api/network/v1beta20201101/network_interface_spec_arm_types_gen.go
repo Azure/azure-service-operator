@@ -37,6 +37,7 @@ func (networkInterface *NetworkInterface_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 
+// NetworkInterface properties.
 type NetworkInterfacePropertiesFormat_ARM struct {
 	// DnsSettings: The DNS settings in network interface.
 	DnsSettings *NetworkInterfaceDnsSettings_ARM `json:"dnsSettings,omitempty"`
@@ -60,6 +61,7 @@ type NetworkInterfacePropertiesFormat_ARM struct {
 	PrivateLinkService *PrivateLinkServiceSpec_ARM `json:"privateLinkService,omitempty"`
 }
 
+// DNS settings of a network interface.
 type NetworkInterfaceDnsSettings_ARM struct {
 	// DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
 	// 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
@@ -70,6 +72,7 @@ type NetworkInterfaceDnsSettings_ARM struct {
 	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
 }
 
+// IPConfiguration in a network interface.
 type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM struct {
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -78,14 +81,17 @@ type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM st
 	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Private link service resource.
 type PrivateLinkServiceSpec_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Properties of IP configuration.
 type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
 	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
@@ -121,30 +127,37 @@ type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
 	VirtualNetworkTaps []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"virtualNetworkTaps,omitempty"`
 }
 
+// Backend Address Pool of an application gateway.
 type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// An application security group in a resource group.
 type ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Pool of backend IP addresses.
 type BackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Inbound NAT rule of the load balancer.
 type InboundNatRule_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Public IP address resource.
 type PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Subnet in a virtual network resource.
 type Subnet_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Virtual Network Tap resource.
 type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

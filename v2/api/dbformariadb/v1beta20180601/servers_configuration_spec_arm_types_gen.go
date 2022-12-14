@@ -29,6 +29,7 @@ func (configuration *Servers_Configuration_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers/configurations"
 }
 
+// The properties of a configuration.
 type ConfigurationProperties_ARM struct {
 	// Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`

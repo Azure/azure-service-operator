@@ -30,6 +30,7 @@ func (route *RouteTables_Route_Spec_ARM) GetType() string {
 	return "Microsoft.Network/routeTables/routes"
 }
 
+// Route resource.
 type RoutePropertiesFormat_ARM struct {
 	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`

@@ -18,6 +18,7 @@ type RedisEnterprise_Database_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags
 type DatabaseProperties_STATUS_ARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
@@ -45,6 +46,7 @@ type DatabaseProperties_STATUS_ARM struct {
 	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
 }
 
+// Specifies configuration of a redis module
 type Module_STATUS_ARM struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
@@ -56,6 +58,7 @@ type Module_STATUS_ARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence_STATUS_ARM struct {
 	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`

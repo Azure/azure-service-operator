@@ -26,6 +26,7 @@ filterTypes                                                  Apply export filter
 verifyNoErroredTypes                                         Verify there are no ErroredType's containing errors
 stripUnreferenced                                            Strip unreferenced types
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON
+improvePropertyDescriptions                                  Improve property descriptions by copying from the corresponding type
 transformCrossResourceReferences                  azure      Replace cross-resource references with genruntime.ResourceReference
 addSecrets                                        azure      Replace properties flagged as secret with genruntime.SecretReference
 addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.

@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
+// Public IP address resource.
 type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -35,6 +36,7 @@ type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+// Public IP address properties.
 type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettings_STATUS_ARM `json:"ddosSettings,omitempty"`
@@ -76,6 +78,7 @@ type PublicIPAddressPropertiesFormat_STATUS_ARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
+// SKU of a public IP address.
 type PublicIPAddressSku_STATUS_ARM struct {
 	// Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
@@ -84,6 +87,7 @@ type PublicIPAddressSku_STATUS_ARM struct {
 	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// Contains the DDoS protection settings of the public IP.
 type DdosSettings_STATUS_ARM struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource_STATUS_ARM `json:"ddosCustomPolicy,omitempty"`
@@ -96,11 +100,13 @@ type DdosSettings_STATUS_ARM struct {
 	ProtectionCoverage *DdosSettings_ProtectionCoverage_STATUS `json:"protectionCoverage,omitempty"`
 }
 
+// IP configuration.
 type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Contains the IpTag associated with the object.
 type IpTag_STATUS_ARM struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -109,11 +115,13 @@ type IpTag_STATUS_ARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
+// Nat Gateway resource.
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Contains FQDN of the DNS record associated with the public IP address.
 type PublicIPAddressDnsSettings_STATUS_ARM struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS

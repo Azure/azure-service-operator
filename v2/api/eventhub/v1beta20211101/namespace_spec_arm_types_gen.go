@@ -40,6 +40,7 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
@@ -70,6 +71,7 @@ type Namespace_Properties_Spec_ARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
+// SKU parameters supplied to the create namespace operation
 type Sku_ARM struct {
 	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
 	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
@@ -82,6 +84,7 @@ type Sku_ARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
+// Properties to configure Encryption
 type Encryption_ARM struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
@@ -121,6 +124,7 @@ const (
 	Sku_Tier_Standard = Sku_Tier("Standard")
 )
 
+// Properties to configure keyVault Properties
 type KeyVaultProperties_ARM struct {
 	Identity *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
 

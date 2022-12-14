@@ -21,7 +21,9 @@ type DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of an Azure Cosmos DB MongoDB collection
 type MongoDBCollectionGetProperties_STATUS_ARM struct {
+	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
@@ -49,6 +51,7 @@ type MongoDBCollectionGetProperties_Resource_STATUS_ARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
+// Cosmos DB MongoDB collection index key
 type MongoIndex_STATUS_ARM struct {
 	// Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_STATUS_ARM `json:"key,omitempty"`
@@ -57,11 +60,13 @@ type MongoIndex_STATUS_ARM struct {
 	Options *MongoIndexOptions_STATUS_ARM `json:"options,omitempty"`
 }
 
+// Cosmos DB MongoDB collection resource object
 type MongoIndexKeys_STATUS_ARM struct {
 	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
+// Cosmos DB MongoDB collection index options
 type MongoIndexOptions_STATUS_ARM struct {
 	// ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

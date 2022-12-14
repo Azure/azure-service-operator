@@ -29,6 +29,7 @@ func (queue *Namespaces_Queue_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
+// The Queue Properties definition.
 type SBQueueProperties_ARM struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
 	// is 5 minutes.

@@ -29,6 +29,7 @@ func (rule *Redis_FirewallRule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 
+// Specifies a range of IP addresses permitted to connect to the cache
 type RedisFirewallRuleProperties_ARM struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
