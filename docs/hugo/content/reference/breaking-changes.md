@@ -98,7 +98,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### ProfilesEndpoint
 
-| Property                                                            | Change                                | Reason        |
+| Property Path                                                       | Change                                | Reason        |
 | ------------------------------------------------------------------- | ------------------------------------- | ------------- |
 | DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration            | Renamed to CacheExpiration            | Discriminator |
 | DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString        | Renamed to CacheKeyQueryString        | Discriminator |
@@ -129,17 +129,17 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### VirtualMachineScaleSet
 
-| Property                                                 | Change               | Reason              |
-| -------------------------------------------------------- | -------------------- | ------------------- |
-| VirtualMachineProfile.NetworkProfile.Id                  | Renamed to Reference | Reference Detection |
-| VirtualMachineProfile.NetworkProfile.IpConfigurations.Id | Renamed to Reference | Reference Detection |
+| Property Path                                                                           | Change               | Reason              |
+| --------------------------------------------------------------------------------------- | -------------------- | ------------------- |
+| VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Id                  | Renamed to Reference | Reference Detection |
+| VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IpConfigurations.Id | Renamed to Reference | Reference Detection |
 
 
 ## Compute v2022-03-01
 
 ### VirtualMachineScaleSet
 
-| Property                                                 | Change               | Reason              |
+| Property Path                                            | Change               | Reason              |
 | -------------------------------------------------------- | -------------------- | ------------------- |
 | VirtualMachineProfile.NetworkProfile.Id                  | Renamed to Reference | Reference Detection |
 | VirtualMachineProfile.NetworkProfile.IpConfigurations.Id | Renamed to Reference | Reference Detection |
@@ -148,7 +148,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### ManagedCluster
 
-| Property                        | Change  | Reason      |
+| Property Path                   | Change  | Reason      |
 | ------------------------------- | ------- | ----------- |
 | Identity.UserAssignedIdentities | Removed | Status Only |
 
@@ -176,7 +176,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### Server
 
-| Property                                    | Change                        | Reason        |
+| Property Path                               | Change                        | Reason        |
 | :------------------------------------------ | :---------------------------- | :------------ |
 | Properties.ServerPropertiesForDefaultCreate | Renamed to Default            | Discriminator |
 | Properties.ServerPropertiesForGeoRestore    | Renamed to GeoRestore         | Discriminator |
@@ -227,7 +227,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### Domain
 
-| Property                                  | Change          | Reason        |
+| Property Path                             | Change          | Reason        |
 | ----------------------------------------- | --------------- | ------------- |
 | InputSchemaMapping.InputSchemaMappingType | Removed         | Discriminator |
 | InputSchemaMapping.Properties             | Renamed to Json | Discriminator |
@@ -241,7 +241,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### EventSubscription
 
-| Property                                | Change             | Reason  |
+| Property Path                           | Change             | Reason  |
 | :-------------------------------------- | :----------------- | :------ |
 | DeadLetterDestination.Properties        | Promoted to parent | Inlined |
 | Destination.AzureFunction.Properties    | Promoted to parent | Inlined |
@@ -294,13 +294,13 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### Workspace
 
-| Property                        | Change  | Reason      |
+| Property Path                   | Change  | Reason      |
 | ------------------------------- | ------- | ----------- |
 | Identity.UserAssignedIdentities | Removed | Status Only |
 
 ### WorkspacesCompute
 
-| Property                        | Change  | Reason      |
+| Property Path                   | Change  | Reason      |
 | ------------------------------- | ------- | ----------- |
 | Identity.UserAssignedIdentities | Removed | Status Only |
 
@@ -316,7 +316,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### LoadBalancer
 
-| Property                     | Change  | Reason |
+| Property Path                | Change  | Reason |
 | :--------------------------- | :------ | :----- |
 | BackendAddressPools.Location | Removed | Unused |
 
@@ -337,7 +337,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### Workspace
 
-| Property                     | Change     | Reason     |
+| Property Path                | Change     | Reason     |
 | :--------------------------- | :--------- | :--------- |
 | Sku.CapacityReservationLevel | Restricted | Validation |
 
@@ -374,7 +374,7 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ## SignalRService v2021-11-01
 
-| Property                        | Change  | Reason      |
+| Property Path                   | Change  | Reason      |
 | ------------------------------- | ------- | ----------- |
 | Identity.UserAssignedIdentities | Removed | Status Only |
 
@@ -420,6 +420,6 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ### Site
 
-| Property                        | Change  | Reason Only |
+| Property Path                   | Change  | Reason Only |
 | ------------------------------- | ------- | ----------- |
 | Identity.UserAssignedIdentities | Removed | Status Only |

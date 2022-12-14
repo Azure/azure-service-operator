@@ -26,6 +26,10 @@ Curious to see how it all works? Check out our [control flow diagrams](/docs/v1/
 - [Virtual Machine](/docs/v1/services/virtualmachine/virtualmachine.md)
 - [Virtual Machine Scale Set](/docs/v1/services/vmscaleset/vmscaleset.md)
 
+> **Deprecation notice**: Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server).   
+> Existing instances can be migrated to Azure Database for MySQL - Flexible Server using the Azure Database migration Service.   
+> Azure Database for MySQL - Flexible Server is [fully supported in ASO v2](https://azure.github.io/azure-service-operator/reference/#dbformysql).
+
 ## Quickstart
 
 ![Deploying ASO](/docs/v1/images/asodeploy.gif)
