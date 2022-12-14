@@ -269,12 +269,14 @@ func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.Co
 }
 
 // Storage version of v1beta20210515.AnalyticalStorageConfiguration
+// Analytical storage specific properties.
 type AnalyticalStorageConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
 
 // Storage version of v1beta20210515.AnalyticalStorageConfiguration_STATUS
+// Analytical storage specific properties.
 type AnalyticalStorageConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
@@ -307,18 +309,21 @@ type BackupPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.Capability
+// Cosmos DB capability object
 type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.Capability_STATUS
+// Cosmos DB capability object
 type Capability_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.ConsistencyPolicy
+// The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -327,6 +332,7 @@ type ConsistencyPolicy struct {
 }
 
 // Storage version of v1beta20210515.ConsistencyPolicy_STATUS
+// The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy_STATUS struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -335,6 +341,7 @@ type ConsistencyPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.CorsPolicy
+// The CORS policy for the Cosmos DB database account.
 type CorsPolicy struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -345,6 +352,7 @@ type CorsPolicy struct {
 }
 
 // Storage version of v1beta20210515.CorsPolicy_STATUS
+// The CORS policy for the Cosmos DB database account.
 type CorsPolicy_STATUS struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -362,6 +370,7 @@ type DatabaseAccountOperatorSpec struct {
 }
 
 // Storage version of v1beta20210515.FailoverPolicy_STATUS
+// The failover policy for a given region of a database account.
 type FailoverPolicy_STATUS struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	Id               *string                `json:"id,omitempty"`
@@ -370,18 +379,21 @@ type FailoverPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.IpAddressOrRange
+// IpAddressOrRange object
 type IpAddressOrRange struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.IpAddressOrRange_STATUS
+// IpAddressOrRange object
 type IpAddressOrRange_STATUS struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.Location
+// A region in which the Azure Cosmos DB database account is deployed.
 type Location struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	IsZoneRedundant  *bool                  `json:"isZoneRedundant,omitempty"`
@@ -390,6 +402,7 @@ type Location struct {
 }
 
 // Storage version of v1beta20210515.Location_STATUS
+// A region in which the Azure Cosmos DB database account is deployed.
 type Location_STATUS struct {
 	DocumentEndpoint  *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int                   `json:"failoverPriority,omitempty"`
@@ -401,12 +414,14 @@ type Location_STATUS struct {
 }
 
 // Storage version of v1beta20210515.ManagedServiceIdentity
+// Identity for the resource.
 type ManagedServiceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210515.ManagedServiceIdentity_STATUS
+// Identity for the resource.
 type ManagedServiceIdentity_STATUS struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -416,12 +431,14 @@ type ManagedServiceIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20210515.PrivateEndpointConnection_STATUS
+// A private endpoint connection
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.VirtualNetworkRule
+// Virtual Network ACL Rule object
 type VirtualNetworkRule struct {
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -432,6 +449,7 @@ type VirtualNetworkRule struct {
 }
 
 // Storage version of v1beta20210515.VirtualNetworkRule_STATUS
+// Virtual Network ACL Rule object
 type VirtualNetworkRule_STATUS struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
@@ -482,6 +500,7 @@ type PeriodicModeBackupPolicy_STATUS struct {
 }
 
 // Storage version of v1beta20210515.PeriodicModeProperties
+// Configuration values for periodic mode backup
 type PeriodicModeProperties struct {
 	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
 	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
@@ -489,6 +508,7 @@ type PeriodicModeProperties struct {
 }
 
 // Storage version of v1beta20210515.PeriodicModeProperties_STATUS
+// Configuration values for periodic mode backup
 type PeriodicModeProperties_STATUS struct {
 	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
 	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`

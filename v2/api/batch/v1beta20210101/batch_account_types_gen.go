@@ -801,11 +801,14 @@ func (account *BatchAccount_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (account *BatchAccount_Spec) SetAzureName(azureName string) { account.AzureName = azureName }
 
+// Contains information about an Azure Batch account.
 type BatchAccount_STATUS struct {
 	// AccountEndpoint: The account endpoint used to interact with the Batch service.
-	AccountEndpoint              *string                       `json:"accountEndpoint,omitempty"`
-	ActiveJobAndJobScheduleQuota *int                          `json:"activeJobAndJobScheduleQuota,omitempty"`
-	AutoStorage                  *AutoStorageProperties_STATUS `json:"autoStorage,omitempty"`
+	AccountEndpoint              *string `json:"accountEndpoint,omitempty"`
+	ActiveJobAndJobScheduleQuota *int    `json:"activeJobAndJobScheduleQuota,omitempty"`
+
+	// AutoStorage: Contains information about the auto-storage account associated with a Batch account.
+	AutoStorage *AutoStorageProperties_STATUS `json:"autoStorage,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -834,8 +837,10 @@ type BatchAccount_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the Batch account.
-	Identity          *BatchAccountIdentity_STATUS `json:"identity,omitempty"`
-	KeyVaultReference *KeyVaultReference_STATUS    `json:"keyVaultReference,omitempty"`
+	Identity *BatchAccountIdentity_STATUS `json:"identity,omitempty"`
+
+	// KeyVaultReference: Identifies the Azure key vault associated with a Batch account.
+	KeyVaultReference *KeyVaultReference_STATUS `json:"keyVaultReference,omitempty"`
 
 	// Location: The location of the resource.
 	Location *string `json:"location,omitempty"`
@@ -845,7 +850,9 @@ type BatchAccount_STATUS struct {
 	LowPriorityCoreQuota *int `json:"lowPriorityCoreQuota,omitempty"`
 
 	// Name: The name of the resource.
-	Name               *string                    `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// PoolAllocationMode: The allocation mode for creating pools in the Batch account.
 	PoolAllocationMode *PoolAllocationMode_STATUS `json:"poolAllocationMode,omitempty"`
 	PoolQuota          *int                       `json:"poolQuota,omitempty"`
 
@@ -1448,6 +1455,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 	return nil
 }
 
+// The properties related to the auto-storage account.
 type AutoStorageBaseProperties struct {
 	// +kubebuilder:validation:Required
 	// StorageAccountReference: The resource ID of the storage account to be used for auto-storage account.
@@ -1532,6 +1540,7 @@ func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBase
 	return nil
 }
 
+// Contains information about the auto-storage account associated with a Batch account.
 type AutoStorageProperties_STATUS struct {
 	// LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
 	LastKeySync *string `json:"lastKeySync,omitempty"`
@@ -1605,6 +1614,8 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageP
 	return nil
 }
 
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity struct {
 	// +kubebuilder:validation:Required
 	// Type: The type of identity used for the Batch account.
@@ -1689,6 +1700,8 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 	return nil
 }
 
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity_STATUS struct {
 	// PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -1853,6 +1866,8 @@ const (
 	BatchAccountProperties_ProvisioningState_STATUS_Succeeded = BatchAccountProperties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
@@ -1984,6 +1999,8 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource_STATUS `json:"keySource,omitempty"`
@@ -2090,6 +2107,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference struct {
 	// +kubebuilder:validation:Required
 	// Reference: The resource ID of the Azure key vault associated with the Batch account.
@@ -2196,6 +2214,7 @@ func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destin
 	return nil
 }
 
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference_STATUS struct {
 	// Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id *string `json:"id,omitempty"`
@@ -2269,6 +2288,7 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_To_KeyVaultReference
 	return nil
 }
 
+// The allocation mode for creating pools in the Batch account.
 // +kubebuilder:validation:Enum={"BatchService","UserSubscription"}
 type PoolAllocationMode string
 
@@ -2277,6 +2297,7 @@ const (
 	PoolAllocationMode_UserSubscription = PoolAllocationMode("UserSubscription")
 )
 
+// The allocation mode for creating pools in the Batch account.
 type PoolAllocationMode_STATUS string
 
 const (
@@ -2284,6 +2305,7 @@ const (
 	PoolAllocationMode_STATUS_UserSubscription = PoolAllocationMode_STATUS("UserSubscription")
 )
 
+// Contains information about a private link resource.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
@@ -2342,6 +2364,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// The network access type for operating on the resources in the Batch account.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccessType string
 
@@ -2350,6 +2373,7 @@ const (
 	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
+// The network access type for operating on the resources in the Batch account.
 type PublicNetworkAccessType_STATUS string
 
 const (
@@ -2357,6 +2381,7 @@ const (
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
+// A VM Family and its associated core quota for the Batch account.
 type VirtualMachineFamilyCoreQuota_STATUS struct {
 	// CoreQuota: The core quota for the VM family for the Batch account.
 	CoreQuota *int `json:"coreQuota,omitempty"`
@@ -2518,6 +2543,7 @@ const (
 	EncryptionProperties_KeySource_STATUS_MicrosoftKeyVault = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
 )
 
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
@@ -2596,6 +2622,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties_STATUS struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following

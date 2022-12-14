@@ -210,6 +210,8 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) ConvertStatusTo(destina
 }
 
 // Storage version of v1beta20210101preview.Action
+// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+// expression.
 type Action struct {
 	CompatibilityLevel    *int                   `json:"compatibilityLevel,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -218,6 +220,8 @@ type Action struct {
 }
 
 // Storage version of v1beta20210101preview.Action_STATUS
+// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
+// expression.
 type Action_STATUS struct {
 	CompatibilityLevel    *int                   `json:"compatibilityLevel,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -226,6 +230,7 @@ type Action_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.CorrelationFilter
+// Represents the correlation filter expression.
 type CorrelationFilter struct {
 	ContentType           *string                `json:"contentType,omitempty"`
 	CorrelationId         *string                `json:"correlationId,omitempty"`
@@ -241,6 +246,7 @@ type CorrelationFilter struct {
 }
 
 // Storage version of v1beta20210101preview.CorrelationFilter_STATUS
+// Represents the correlation filter expression.
 type CorrelationFilter_STATUS struct {
 	ContentType           *string                `json:"contentType,omitempty"`
 	CorrelationId         *string                `json:"correlationId,omitempty"`
@@ -256,6 +262,7 @@ type CorrelationFilter_STATUS struct {
 }
 
 // Storage version of v1beta20210101preview.SqlFilter
+// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter struct {
 	CompatibilityLevel    *int                   `json:"compatibilityLevel,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -264,6 +271,7 @@ type SqlFilter struct {
 }
 
 // Storage version of v1beta20210101preview.SqlFilter_STATUS
+// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
 type SqlFilter_STATUS struct {
 	CompatibilityLevel    *int                   `json:"compatibilityLevel,omitempty"`
 	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`

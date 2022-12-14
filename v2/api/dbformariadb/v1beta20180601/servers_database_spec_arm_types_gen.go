@@ -29,6 +29,7 @@ func (database *Servers_Database_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers/databases"
 }
 
+// The properties of a database.
 type DatabaseProperties_ARM struct {
 	// Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`

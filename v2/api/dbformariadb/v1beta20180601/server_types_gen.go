@@ -667,6 +667,7 @@ func (server *Server_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (server *Server_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
+// Represents a server.
 type Server_STATUS struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -1230,6 +1231,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v201
 	return nil
 }
 
+// Enforce a minimal Tls version for the server.
 type MinimalTlsVersion_STATUS string
 
 const (
@@ -1239,6 +1241,8 @@ const (
 	MinimalTlsVersion_STATUS_TLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
+// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'
 type PublicNetworkAccess_STATUS string
 
 const (
@@ -1299,6 +1303,7 @@ func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(desti
 	return nil
 }
 
+// A private endpoint connection under a server
 type ServerPrivateEndpointConnection_STATUS struct {
 	// Id: Resource Id of the private endpoint connection.
 	Id *string `json:"id,omitempty"`
@@ -1647,6 +1652,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 	return nil
 }
 
+// The version of a server.
 type ServerVersion_STATUS string
 
 const (
@@ -1654,6 +1660,7 @@ const (
 	ServerVersion_STATUS_103 = ServerVersion_STATUS("10.3")
 )
 
+// Billing information related properties of a server.
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
 	// Capacity: The scale up/out capacity, representing server's compute units.
@@ -1833,6 +1840,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20180601s.Sku) error {
 	return nil
 }
 
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
@@ -1961,6 +1969,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20180601s.Sk
 	return nil
 }
 
+// Enable ssl enforcement or not when connect to server.
 type SslEnforcement_STATUS string
 
 const (
@@ -1968,6 +1977,7 @@ const (
 	SslEnforcement_STATUS_Enabled  = SslEnforcement_STATUS("Enabled")
 )
 
+// Storage Profile properties of a server
 type StorageProfile_STATUS struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -2136,6 +2146,7 @@ func (secrets *ServerOperatorSecrets) AssignProperties_To_ServerOperatorSecrets(
 	return nil
 }
 
+// Properties of a private endpoint connection.
 type ServerPrivateEndpointConnectionProperties_STATUS struct {
 	// PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_STATUS `json:"privateEndpoint,omitempty"`
@@ -3627,6 +3638,7 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 	return nil
 }
 
+// Storage Profile properties of a server
 type StorageProfile struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`

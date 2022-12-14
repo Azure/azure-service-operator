@@ -32,6 +32,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM) GetTyp
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
+// Properties to create and update Azure Cosmos DB trigger.
 type SqlTriggerCreateUpdateProperties_ARM struct {
 	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
 	// request.
@@ -41,6 +42,7 @@ type SqlTriggerCreateUpdateProperties_ARM struct {
 	Resource *SqlTriggerResource_ARM `json:"resource,omitempty"`
 }
 
+// Cosmos DB SQL trigger resource object
 type SqlTriggerResource_ARM struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`

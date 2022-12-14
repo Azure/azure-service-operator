@@ -20,6 +20,7 @@ type Domains_Topic_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the Domain Topic.
 type DomainTopicProperties_STATUS_ARM struct {
 	// ProvisioningState: Provisioning state of the domain topic.
 	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`

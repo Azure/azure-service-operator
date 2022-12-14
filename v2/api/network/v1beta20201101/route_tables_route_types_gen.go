@@ -878,6 +878,7 @@ func (route *RouteTables_Route_STATUS) AssignProperties_To_RouteTables_Route_STA
 	return nil
 }
 
+// The type of Azure hop the packet should be sent to.
 // +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
 type RouteNextHopType string
 
@@ -889,6 +890,7 @@ const (
 	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
 )
 
+// The type of Azure hop the packet should be sent to.
 type RouteNextHopType_STATUS string
 
 const (

@@ -17,6 +17,7 @@ type DatabaseAccounts_SqlRoleAssignment_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Azure Cosmos DB SQL Role Assignment resource object.
 type SqlRoleAssignmentResource_STATUS_ARM struct {
 	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
 	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.

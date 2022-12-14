@@ -44,10 +44,13 @@ type FakeResourceParameters struct {
 	Color      *FakeResource_Color_Spec     `json:"color,omitempty"`
 
 	// +kubebuilder:validation:Required
+	// Foo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 	Foo *Foo `json:"foo,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name                      string              `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+
+	// OptionalFoo: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 	OptionalFoo               *Foo                `json:"optionalFoo,omitempty"`
 	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`

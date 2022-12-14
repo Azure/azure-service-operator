@@ -29,6 +29,7 @@ func (assignment *RoleAssignment_Spec_ARM) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 
+// Role assignment properties.
 type RoleAssignmentProperties_ARM struct {
 	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
 	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase

@@ -1112,6 +1112,7 @@ func (address *PublicIPAddress_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (address *PublicIPAddress_Spec) SetAzureName(azureName string) { address.AzureName = azureName }
 
+// Public IP address resource.
 type PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1821,6 +1822,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	return nil
 }
 
+// Contains the DDoS protection settings of the public IP.
 type DdosSettings struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource `json:"ddosCustomPolicy,omitempty"`
@@ -1984,6 +1986,7 @@ func (settings *DdosSettings) AssignProperties_To_DdosSettings(destination *v202
 	return nil
 }
 
+// Contains the DDoS protection settings of the public IP.
 type DdosSettings_STATUS struct {
 	// DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource_STATUS `json:"ddosCustomPolicy,omitempty"`
@@ -2116,6 +2119,7 @@ func (settings *DdosSettings_STATUS) AssignProperties_To_DdosSettings_STATUS(des
 	return nil
 }
 
+// IP address allocation method.
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type IPAllocationMethod string
 
@@ -2124,6 +2128,7 @@ const (
 	IPAllocationMethod_Static  = IPAllocationMethod("Static")
 )
 
+// IP address allocation method.
 type IPAllocationMethod_STATUS string
 
 const (
@@ -2131,6 +2136,7 @@ const (
 	IPAllocationMethod_STATUS_Static  = IPAllocationMethod_STATUS("Static")
 )
 
+// IP configuration.
 type IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2189,6 +2195,7 @@ func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 	return nil
 }
 
+// Contains the IpTag associated with the object.
 type IpTag struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -2283,6 +2290,7 @@ func (ipTag *IpTag) AssignProperties_To_IpTag(destination *v20201101s.IpTag) err
 	return nil
 }
 
+// Contains the IpTag associated with the object.
 type IpTag_STATUS struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -2356,6 +2364,7 @@ func (ipTag *IpTag_STATUS) AssignProperties_To_IpTag_STATUS(destination *v202011
 	return nil
 }
 
+// IP address version.
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type IPVersion string
 
@@ -2364,6 +2373,7 @@ const (
 	IPVersion_IPv6 = IPVersion("IPv6")
 )
 
+// IP address version.
 type IPVersion_STATUS string
 
 const (
@@ -2371,6 +2381,7 @@ const (
 	IPVersion_STATUS_IPv6 = IPVersion_STATUS("IPv6")
 )
 
+// Nat Gateway resource.
 type NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2429,6 +2440,7 @@ func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) AssignPro
 	return nil
 }
 
+// Nat Gateway resource.
 type NatGatewaySpec_PublicIPAddress_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2512,6 +2524,7 @@ func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) AssignProper
 	return nil
 }
 
+// Contains FQDN of the DNS record associated with the public IP address.
 type PublicIPAddressDnsSettings struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
@@ -2632,6 +2645,7 @@ func (settings *PublicIPAddressDnsSettings) AssignProperties_To_PublicIPAddressD
 	return nil
 }
 
+// Contains FQDN of the DNS record associated with the public IP address.
 type PublicIPAddressDnsSettings_STATUS struct {
 	// DomainNameLabel: The domain name label. The concatenation of the domain name label and the regionalized DNS zone make up
 	// the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS
@@ -2735,6 +2749,7 @@ const (
 	PublicIPAddressPropertiesFormat_MigrationPhase_STATUS_Prepare   = PublicIPAddressPropertiesFormat_MigrationPhase_STATUS("Prepare")
 )
 
+// SKU of a public IP address.
 type PublicIPAddressSku struct {
 	// Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
@@ -2849,6 +2864,7 @@ func (addressSku *PublicIPAddressSku) AssignProperties_To_PublicIPAddressSku(des
 	return nil
 }
 
+// SKU of a public IP address.
 type PublicIPAddressSku_STATUS struct {
 	// Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
@@ -2942,6 +2958,7 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_To_PublicIPAddress
 	return nil
 }
 
+// Public IP address resource.
 type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -3025,6 +3042,7 @@ func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) AssignP
 	return nil
 }
 
+// Reference to another subresource.
 type SubResource struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`

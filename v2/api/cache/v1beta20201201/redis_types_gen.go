@@ -1731,6 +1731,7 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 	return nil
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -2136,6 +2137,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	return nil
 }
 
+// Details of single instance of redis.
 type RedisInstanceDetails_STATUS struct {
 	// IsMaster: Specifies whether the instance is a primary node.
 	IsMaster *bool `json:"isMaster,omitempty"`
@@ -2289,6 +2291,7 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDet
 	return nil
 }
 
+// Linked server Id
 type RedisLinkedServer_STATUS struct {
 	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
@@ -2702,6 +2705,7 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 	return nil
 }
 
+// SKU parameters supplied to the create Redis operation.
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
@@ -2841,6 +2845,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20201201s.Sku) error {
 	return nil
 }
 
+// SKU parameters supplied to the create Redis operation.
 type Sku_STATUS struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).

@@ -494,6 +494,7 @@ const (
 	DatabaseProperties_Status_STATUS_Suspect                           = DatabaseProperties_Status_STATUS("Suspect")
 )
 
+// An ARM Resource SKU.
 type Sku struct {
 	// Capacity: Capacity of the particular SKU.
 	Capacity *int `json:"capacity,omitempty"`
@@ -512,6 +513,7 @@ type Sku struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// An ARM Resource SKU.
 type Sku_STATUS struct {
 	// Capacity: Capacity of the particular SKU.
 	Capacity *int `json:"capacity,omitempty"`

@@ -768,6 +768,7 @@ func (subscription *EventSubscription_Spec) SetAzureName(azureName string) {
 	subscription.AzureName = azureName
 }
 
+// Event Subscription
 type EventSubscription_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -2107,6 +2108,7 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 	return nil
 }
 
+// Filter for the Event Subscription.
 type EventSubscriptionFilter struct {
 	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilter `json:"advancedFilters,omitempty"`
@@ -2314,6 +2316,7 @@ func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilt
 	return nil
 }
 
+// Filter for the Event Subscription.
 type EventSubscriptionFilter_STATUS struct {
 	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
 	AdvancedFilters []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
@@ -2509,6 +2512,7 @@ const (
 	EventSubscriptionProperties_ProvisioningState_STATUS_Updating             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Information about the retry policy for an event subscription.
 type RetryPolicy struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
@@ -2603,6 +2607,7 @@ func (policy *RetryPolicy) AssignProperties_To_RetryPolicy(destination *v2020060
 	return nil
 }
 
+// Information about the retry policy for an event subscription.
 type RetryPolicy_STATUS struct {
 	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`

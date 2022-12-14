@@ -358,7 +358,9 @@ type Site_Spec struct {
 
 	// Enabled: <code>true</code> if the app is enabled; otherwise, <code>false</code>. Setting this value to false disables
 	// the app (takes the app offline).
-	Enabled          *bool             `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 
 	// HostNameSslStates: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
@@ -376,7 +378,9 @@ type Site_Spec struct {
 	HttpsOnly *bool `json:"httpsOnly,omitempty"`
 
 	// HyperV: Hyper-V sandbox.
-	HyperV   *bool                   `json:"hyperV,omitempty"`
+	HyperV *bool `json:"hyperV,omitempty"`
+
+	// Identity: Managed service identity.
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// IsXenon: Obsolete: Hyper-V sandbox.
@@ -1558,6 +1562,7 @@ func (site *Site_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (site *Site_Spec) SetAzureName(azureName string) { site.AzureName = azureName }
 
+// A web app, a mobile app backend, or an API app.
 type Site_STATUS struct {
 	// AvailabilityState: Management information availability state for the app.
 	AvailabilityState *Site_Properties_AvailabilityState_STATUS `json:"availabilityState,omitempty"`
@@ -1604,7 +1609,9 @@ type Site_STATUS struct {
 
 	// EnabledHostNames: Enabled hostnames for the app.Hostnames need to be assigned (see HostNames) AND enabled. Otherwise,
 	// the app is not served on those hostnames.
-	EnabledHostNames []string                 `json:"enabledHostNames,omitempty"`
+	EnabledHostNames []string `json:"enabledHostNames,omitempty"`
+
+	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
 	// HostNameSslStates: Hostname SSL states are used to manage the SSL bindings for app's hostnames.
@@ -1628,7 +1635,9 @@ type Site_STATUS struct {
 	HyperV *bool `json:"hyperV,omitempty"`
 
 	// Id: Resource Id.
-	Id       *string                        `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Identity: Managed service identity.
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// InProgressOperationId: Specifies an operation id if this site has a pending operation.
@@ -2959,6 +2968,7 @@ func (site *Site_STATUS) AssignProperties_To_Site_STATUS(destination *v20220301s
 	return nil
 }
 
+// Information needed for cloning operation.
 type CloningInfo struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -3328,6 +3338,7 @@ func (info *CloningInfo) AssignProperties_To_CloningInfo(destination *v20220301s
 	return nil
 }
 
+// Information needed for cloning operation.
 type CloningInfo_STATUS struct {
 	// AppSettingsOverrides: Application setting overrides for cloned app. If specified, these settings override the settings
 	// cloned
@@ -3588,6 +3599,7 @@ func (info *CloningInfo_STATUS) AssignProperties_To_CloningInfo_STATUS(destinati
 	return nil
 }
 
+// SSL-enabled hostname.
 type HostNameSslState struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType `json:"hostType,omitempty"`
@@ -3796,6 +3808,7 @@ func (state *HostNameSslState) AssignProperties_To_HostNameSslState(destination 
 	return nil
 }
 
+// SSL-enabled hostname.
 type HostNameSslState_STATUS struct {
 	// HostType: Indicates whether the hostname is a standard or repository hostname.
 	HostType *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
@@ -3959,6 +3972,7 @@ func (state *HostNameSslState_STATUS) AssignProperties_To_HostNameSslState_STATU
 	return nil
 }
 
+// Managed service identity.
 type ManagedServiceIdentity struct {
 	// Type: Type of managed service identity.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
@@ -4042,6 +4056,7 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
+// Managed service identity.
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: Principal Id of managed service identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4247,6 +4262,7 @@ const (
 	Site_Properties_UsageState_STATUS_Normal   = Site_Properties_UsageState_STATUS("Normal")
 )
 
+// Configuration of an App Service app.
 type SiteConfig struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -6393,6 +6409,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 	return nil
 }
 
+// Configuration of an App Service app.
 type SiteConfig_STATUS struct {
 	// AcrUseManagedIdentityCreds: Flag to use Managed Identity Creds for ACR pull
 	AcrUseManagedIdentityCreds *bool `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -8076,6 +8093,7 @@ func (config *SiteConfig_STATUS) AssignProperties_To_SiteConfig_STATUS(destinati
 	return nil
 }
 
+// The status of the last successful slot swap operation.
 type SlotSwapStatus_STATUS struct {
 	// DestinationSlotName: The destination slot of the last swap operation.
 	DestinationSlotName *string `json:"destinationSlotName,omitempty"`
@@ -8164,6 +8182,7 @@ func (status *SlotSwapStatus_STATUS) AssignProperties_To_SlotSwapStatus_STATUS(d
 	return nil
 }
 
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
@@ -8237,6 +8256,7 @@ func (info *ApiDefinitionInfo) AssignProperties_To_ApiDefinitionInfo(destination
 	return nil
 }
 
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo_STATUS struct {
 	// Url: The URL of the API definition.
 	Url *string `json:"url,omitempty"`
@@ -8295,6 +8315,7 @@ func (info *ApiDefinitionInfo_STATUS) AssignProperties_To_ApiDefinitionInfo_STAT
 	return nil
 }
 
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig struct {
 	// Reference: APIM-Api Identifier.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -8378,6 +8399,7 @@ func (config *ApiManagementConfig) AssignProperties_To_ApiManagementConfig(desti
 	return nil
 }
 
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig_STATUS struct {
 	// Id: APIM-Api Identifier.
 	Id *string `json:"id,omitempty"`
@@ -8436,6 +8458,7 @@ func (config *ApiManagementConfig_STATUS) AssignProperties_To_ApiManagementConfi
 	return nil
 }
 
+// Rules that can be defined for auto-heal.
 type AutoHealRules struct {
 	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions `json:"actions,omitempty"`
@@ -8584,6 +8607,7 @@ func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *v2022
 	return nil
 }
 
+// Rules that can be defined for auto-heal.
 type AutoHealRules_STATUS struct {
 	// Actions: Actions to be executed when a rule is triggered.
 	Actions *AutoHealActions_STATUS `json:"actions,omitempty"`
@@ -8703,6 +8727,7 @@ func (rules *AutoHealRules_STATUS) AssignProperties_To_AutoHealRules_STATUS(dest
 	return nil
 }
 
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue struct {
 	// AccessKey: Access key for the storage account.
 	AccessKey *genruntime.SecretReference `json:"accessKey,omitempty"`
@@ -8880,6 +8905,7 @@ func (value *AzureStorageInfoValue) AssignProperties_To_AzureStorageInfoValue(de
 	return nil
 }
 
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue_STATUS struct {
 	// AccountName: Name of the storage account.
 	AccountName *string `json:"accountName,omitempty"`
@@ -9018,6 +9044,7 @@ func (value *AzureStorageInfoValue_STATUS) AssignProperties_To_AzureStorageInfoV
 	return nil
 }
 
+// Database connection string information.
 type ConnStringInfo struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -9143,6 +9170,7 @@ func (info *ConnStringInfo) AssignProperties_To_ConnStringInfo(destination *v202
 	return nil
 }
 
+// Database connection string information.
 type ConnStringInfo_STATUS struct {
 	// ConnectionString: Connection string value.
 	ConnectionString *string `json:"connectionString,omitempty"`
@@ -9241,6 +9269,7 @@ func (info *ConnStringInfo_STATUS) AssignProperties_To_ConnStringInfo_STATUS(des
 	return nil
 }
 
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -9346,6 +9375,7 @@ func (settings *CorsSettings) AssignProperties_To_CorsSettings(destination *v202
 	return nil
 }
 
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings_STATUS struct {
 	// AllowedOrigins: Gets or sets the list of origins that should be allowed to make cross-origin
 	// calls (for example: http://example.com:12345). Use "*" to allow all.
@@ -9431,6 +9461,7 @@ func (settings *CorsSettings_STATUS) AssignProperties_To_CorsSettings_STATUS(des
 	return nil
 }
 
+// Routing rules in production experiments.
 type Experiments struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule `json:"rampUpRules,omitempty"`
@@ -9541,6 +9572,7 @@ func (experiments *Experiments) AssignProperties_To_Experiments(destination *v20
 	return nil
 }
 
+// Routing rules in production experiments.
 type Experiments_STATUS struct {
 	// RampUpRules: List of ramp-up rules.
 	RampUpRules []RampUpRule_STATUS `json:"rampUpRules,omitempty"`
@@ -9633,6 +9665,9 @@ func (experiments *Experiments_STATUS) AssignProperties_To_Experiments_STATUS(de
 	return nil
 }
 
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -9748,6 +9783,9 @@ func (mapping *HandlerMapping) AssignProperties_To_HandlerMapping(destination *v
 	return nil
 }
 
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping_STATUS struct {
 	// Arguments: Command-line arguments to be passed to the script processor.
 	Arguments *string `json:"arguments,omitempty"`
@@ -9868,6 +9906,7 @@ const (
 	HostNameSslState_SslState_STATUS_SniEnabled     = HostNameSslState_SslState_STATUS("SniEnabled")
 )
 
+// IP security restriction on an app.
 type IpSecurityRestriction struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -10220,6 +10259,7 @@ func (restriction *IpSecurityRestriction) AssignProperties_To_IpSecurityRestrict
 	return nil
 }
 
+// IP security restriction on an app.
 type IpSecurityRestriction_STATUS struct {
 	// Action: Allow or Deny access for this IP range.
 	Action *string `json:"action,omitempty"`
@@ -10481,6 +10521,7 @@ func (restriction *IpSecurityRestriction_STATUS) AssignProperties_To_IpSecurityR
 	return nil
 }
 
+// Name value pair.
 type NameValuePair struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -10575,6 +10616,7 @@ func (pair *NameValuePair) AssignProperties_To_NameValuePair(destination *v20220
 	return nil
 }
 
+// Name value pair.
 type NameValuePair_STATUS struct {
 	// Name: Pair name.
 	Name *string `json:"name,omitempty"`
@@ -10648,6 +10690,7 @@ func (pair *NameValuePair_STATUS) AssignProperties_To_NameValuePair_STATUS(desti
 	return nil
 }
 
+// Push settings for the App.
 type PushSettings struct {
 	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
 	// the push registration endpoint.
@@ -10834,6 +10877,7 @@ func (settings *PushSettings) AssignProperties_To_PushSettings(destination *v202
 	return nil
 }
 
+// Push settings for the App.
 type PushSettings_STATUS struct {
 	// DynamicTagsJson: Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in
 	// the push registration endpoint.
@@ -11153,6 +11197,7 @@ const (
 	SiteConfig_ScmType_STATUS_VSTSRM       = SiteConfig_ScmType_STATUS("VSTSRM")
 )
 
+// Metric limits set on an app.
 type SiteLimits struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -11278,6 +11323,7 @@ func (limits *SiteLimits) AssignProperties_To_SiteLimits(destination *v20220301s
 	return nil
 }
 
+// Metric limits set on an app.
 type SiteLimits_STATUS struct {
 	// MaxDiskSizeInMb: Maximum allowed disk size usage in MB.
 	MaxDiskSizeInMb *int `json:"maxDiskSizeInMb,omitempty"`
@@ -11376,6 +11422,7 @@ func (limits *SiteLimits_STATUS) AssignProperties_To_SiteLimits_STATUS(destinati
 	return nil
 }
 
+// MachineKey of an app.
 type SiteMachineKey_STATUS struct {
 	// Decryption: Algorithm used for decryption.
 	Decryption *string `json:"decryption,omitempty"`
@@ -11479,6 +11526,7 @@ func (machineKey *SiteMachineKey_STATUS) AssignProperties_To_SiteMachineKey_STAT
 	return nil
 }
 
+// User Assigned identity.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -11552,6 +11600,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 	return nil
 }
 
+// Virtual application in an app.
 type VirtualApplication struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -11735,6 +11784,7 @@ func (application *VirtualApplication) AssignProperties_To_VirtualApplication(de
 	return nil
 }
 
+// Virtual application in an app.
 type VirtualApplication_STATUS struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -11882,6 +11932,7 @@ func (application *VirtualApplication_STATUS) AssignProperties_To_VirtualApplica
 	return nil
 }
 
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType `json:"actionType,omitempty"`
@@ -12035,6 +12086,7 @@ func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination 
 	return nil
 }
 
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_STATUS struct {
 	// ActionType: Predefined action to be taken.
 	ActionType *AutoHealActions_ActionType_STATUS `json:"actionType,omitempty"`
@@ -12157,6 +12209,7 @@ func (actions *AutoHealActions_STATUS) AssignProperties_To_AutoHealActions_STATU
 	return nil
 }
 
+// Triggers for auto-heal.
 type AutoHealTriggers struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
@@ -12500,6 +12553,7 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 	return nil
 }
 
+// Triggers for auto-heal.
 type AutoHealTriggers_STATUS struct {
 	// PrivateBytesInKB: A rule based on private bytes.
 	PrivateBytesInKB *int `json:"privateBytesInKB,omitempty"`
@@ -12855,6 +12909,8 @@ const (
 	IpSecurityRestriction_Tag_STATUS_XffProxy   = IpSecurityRestriction_Tag_STATUS("XffProxy")
 )
 
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -13123,6 +13179,8 @@ func (rule *RampUpRule) AssignProperties_To_RampUpRule(destination *v20220301s.R
 	return nil
 }
 
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule_STATUS struct {
 	// ActionHostName: Hostname of a slot to which the traffic will be redirected if decided to. E.g.
 	// myapp-stage.azurewebsites.net.
@@ -13334,6 +13392,7 @@ func (rule *RampUpRule_STATUS) AssignProperties_To_RampUpRule_STATUS(destination
 	return nil
 }
 
+// Directory for virtual application.
 type VirtualDirectory struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -13428,6 +13487,7 @@ func (directory *VirtualDirectory) AssignProperties_To_VirtualDirectory(destinat
 	return nil
 }
 
+// Directory for virtual application.
 type VirtualDirectory_STATUS struct {
 	// PhysicalPath: Physical path.
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -13518,6 +13578,8 @@ const (
 	AutoHealActions_ActionType_STATUS_Recycle      = AutoHealActions_ActionType_STATUS("Recycle")
 )
 
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -13612,6 +13674,8 @@ func (action *AutoHealCustomAction) AssignProperties_To_AutoHealCustomAction(des
 	return nil
 }
 
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction_STATUS struct {
 	// Exe: Executable to be run.
 	Exe *string `json:"exe,omitempty"`
@@ -13685,6 +13749,7 @@ func (action *AutoHealCustomAction_STATUS) AssignProperties_To_AutoHealCustomAct
 	return nil
 }
 
+// Trigger based on total requests.
 type RequestsBasedTrigger struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -13779,6 +13844,7 @@ func (trigger *RequestsBasedTrigger) AssignProperties_To_RequestsBasedTrigger(de
 	return nil
 }
 
+// Trigger based on total requests.
 type RequestsBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -13852,6 +13918,7 @@ func (trigger *RequestsBasedTrigger_STATUS) AssignProperties_To_RequestsBasedTri
 	return nil
 }
 
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -13988,6 +14055,7 @@ func (trigger *SlowRequestsBasedTrigger) AssignProperties_To_SlowRequestsBasedTr
 	return nil
 }
 
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14091,6 +14159,7 @@ func (trigger *SlowRequestsBasedTrigger_STATUS) AssignProperties_To_SlowRequests
 	return nil
 }
 
+// Trigger based on status code.
 type StatusCodesBasedTrigger struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14269,6 +14338,7 @@ func (trigger *StatusCodesBasedTrigger) AssignProperties_To_StatusCodesBasedTrig
 	return nil
 }
 
+// Trigger based on status code.
 type StatusCodesBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int `json:"count,omitempty"`
@@ -14402,6 +14472,7 @@ func (trigger *StatusCodesBasedTrigger_STATUS) AssignProperties_To_StatusCodesBa
 	return nil
 }
 
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`
@@ -14536,6 +14607,7 @@ func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_To_StatusCodesRang
 	return nil
 }
 
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger_STATUS struct {
 	// Count: Request Count.
 	Count *int    `json:"count,omitempty"`

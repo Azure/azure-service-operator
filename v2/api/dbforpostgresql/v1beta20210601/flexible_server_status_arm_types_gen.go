@@ -30,6 +30,7 @@ type FlexibleServer_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The properties of a server.
 type ServerProperties_STATUS_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -77,6 +78,7 @@ type ServerProperties_STATUS_ARM struct {
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
+// Sku information related properties of a server.
 type Sku_STATUS_ARM struct {
 	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
 	Name *string `json:"name,omitempty"`
@@ -85,6 +87,7 @@ type Sku_STATUS_ARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -105,6 +108,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// Backup properties of a server
 type Backup_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -116,6 +120,7 @@ type Backup_STATUS_ARM struct {
 	GeoRedundantBackup *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
+// High availability properties of a server
 type HighAvailability_STATUS_ARM struct {
 	// Mode: The HA mode for the server.
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
@@ -127,6 +132,7 @@ type HighAvailability_STATUS_ARM struct {
 	State *HighAvailability_State_STATUS `json:"state,omitempty"`
 }
 
+// Maintenance window properties of a server.
 type MaintenanceWindow_STATUS_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -141,6 +147,7 @@ type MaintenanceWindow_STATUS_ARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
+// Network properties of a server
 type Network_STATUS_ARM struct {
 	// DelegatedSubnetResourceId: delegated subnet arm resource id.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -160,6 +167,7 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
+// Storage properties of a server
 type Storage_STATUS_ARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`

@@ -213,6 +213,7 @@ type ThroughputSettingsGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.ThroughputSettingsResource
+// Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both.
 type ThroughputSettingsResource struct {
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -220,6 +221,7 @@ type ThroughputSettingsResource struct {
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource struct {
 	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
@@ -227,6 +229,7 @@ type AutoscaleSettingsResource struct {
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource_STATUS
+// Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource_STATUS struct {
 	AutoUpgradePolicy   *AutoUpgradePolicyResource_STATUS `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
@@ -235,18 +238,21 @@ type AutoscaleSettingsResource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.AutoUpgradePolicyResource
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource struct {
 	PropertyBag      genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoUpgradePolicyResource_STATUS
+// Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS struct {
 	PropertyBag      genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource_STATUS `json:"throughputPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.ThroughputPolicyResource
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
@@ -254,6 +260,7 @@ type ThroughputPolicyResource struct {
 }
 
 // Storage version of v1beta20210515.ThroughputPolicyResource_STATUS
+// Cosmos DB resource throughput policy
 type ThroughputPolicyResource_STATUS struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`

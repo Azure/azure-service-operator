@@ -100,6 +100,7 @@ func (create *ServerPropertiesForCreate_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Billing information related properties of a server.
 type Sku_ARM struct {
 	// Capacity: The scale up/out capacity, representing server's compute units.
 	Capacity *int `json:"capacity,omitempty"`
@@ -229,6 +230,7 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
+// Enforce a minimal Tls version for the server.
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type MinimalTlsVersion string
 
@@ -239,6 +241,8 @@ const (
 	MinimalTlsVersion_TLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
 )
 
+// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
+// or 'Disabled'
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccess string
 
@@ -267,6 +271,7 @@ type ServerPropertiesForRestore_CreateMode string
 
 const ServerPropertiesForRestore_CreateMode_PointInTimeRestore = ServerPropertiesForRestore_CreateMode("PointInTimeRestore")
 
+// The version of a server.
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerVersion string
 
@@ -275,6 +280,7 @@ const (
 	ServerVersion_103 = ServerVersion("10.3")
 )
 
+// Enable ssl enforcement or not when connect to server.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SslEnforcement string
 
@@ -283,6 +289,7 @@ const (
 	SslEnforcement_Enabled  = SslEnforcement("Enabled")
 )
 
+// Storage Profile properties of a server
 type StorageProfile_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`

@@ -40,11 +40,13 @@ func (server *FlexibleServer_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
+// The properties of a server.
 type ServerProperties_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -90,6 +92,7 @@ type ServerProperties_ARM struct {
 	Version *ServerVersion `json:"version,omitempty"`
 }
 
+// Billing information related properties of a server.
 type Sku_ARM struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
@@ -98,6 +101,7 @@ type Sku_ARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
+// Storage Profile properties of a server
 type Backup_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -106,6 +110,7 @@ type Backup_ARM struct {
 	GeoRedundantBackup *EnableStatusEnum `json:"geoRedundantBackup,omitempty"`
 }
 
+// The date encryption for cmk.
 type DataEncryption_ARM struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI                 *string `json:"geoBackupKeyURI,omitempty"`
@@ -119,6 +124,7 @@ type DataEncryption_ARM struct {
 	Type *DataEncryption_Type `json:"type,omitempty"`
 }
 
+// Network related properties of a server
 type HighAvailability_ARM struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode `json:"mode,omitempty"`
@@ -132,6 +138,7 @@ type Identity_Type string
 
 const Identity_Type_UserAssigned = Identity_Type("UserAssigned")
 
+// Maintenance window of a server.
 type MaintenanceWindow_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -146,6 +153,7 @@ type MaintenanceWindow_ARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
+// Network related properties of a server
 type Network_ARM struct {
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
@@ -160,6 +168,7 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
+// Storage Profile properties of a server
 type Storage_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum `json:"autoGrow,omitempty"`

@@ -4,6 +4,7 @@
 package v1beta20220301
 
 type Serverfarm_STATUS_ARM struct {
+	// ExtendedLocation: Extended Location.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
 
 	// Id: Resource Id.
@@ -20,7 +21,9 @@ type Serverfarm_STATUS_ARM struct {
 
 	// Properties: AppServicePlan resource specific properties
 	Properties *Serverfarm_Properties_STATUS_ARM `json:"properties,omitempty"`
-	Sku        *SkuDescription_STATUS_ARM        `json:"sku,omitempty"`
+
+	// Sku: Description of a SKU for a scalable resource.
+	Sku *SkuDescription_STATUS_ARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -29,6 +32,7 @@ type Serverfarm_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Extended Location.
 type ExtendedLocation_STATUS_ARM struct {
 	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
@@ -111,6 +115,7 @@ type Serverfarm_Properties_STATUS_ARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
+// Description of a SKU for a scalable resource.
 type SkuDescription_STATUS_ARM struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability_STATUS_ARM `json:"capabilities,omitempty"`
@@ -137,6 +142,7 @@ type SkuDescription_STATUS_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// Describes the capabilities/features allowed for a specific SKU.
 type Capability_STATUS_ARM struct {
 	// Name: Name of the SKU capability.
 	Name *string `json:"name,omitempty"`
@@ -148,6 +154,7 @@ type Capability_STATUS_ARM struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Specification for an App Service Environment to use for this resource.
 type HostingEnvironmentProfile_STATUS_ARM struct {
 	// Id: Resource ID of the App Service Environment.
 	Id *string `json:"id,omitempty"`
@@ -159,6 +166,7 @@ type HostingEnvironmentProfile_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Specification for a Kubernetes Environment to use for this resource.
 type KubeEnvironmentProfile_STATUS_ARM struct {
 	// Id: Resource ID of the Kubernetes Environment.
 	Id *string `json:"id,omitempty"`
@@ -170,6 +178,7 @@ type KubeEnvironmentProfile_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Description of the App Service plan scale options.
 type SkuCapacity_STATUS_ARM struct {
 	// Default: Default number of workers for this App Service plan SKU.
 	Default *int `json:"default,omitempty"`

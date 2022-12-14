@@ -18,6 +18,7 @@ type Redis_LinkedServer_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of a linked server to be returned in get/put response
 type RedisLinkedServerProperties_STATUS_ARM struct {
 	// LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`

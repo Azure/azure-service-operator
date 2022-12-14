@@ -179,6 +179,7 @@ func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 }
 
 // Storage version of v1beta20210601.Profile_STATUS
+// A profile is a logical grouping of endpoints that share the same settings.
 type Profile_STATUS struct {
 	Conditions                   []conditions.Condition `json:"conditions,omitempty"`
 	FrontDoorId                  *string                `json:"frontDoorId,omitempty"`
@@ -217,18 +218,67 @@ func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 }
 
 // Storage version of v1beta20210601.Sku
+// Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+// Premium_Verizon = The SKU name for a Premium Verizon
+// CDN profile.
+// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+// Standard_Akamai = The SKU name for an
+// Akamai CDN profile.
+// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using
+// GB based billing model.
+// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+// Standard_AzureFrontDoor
+// =  The SKU name for an Azure Front Door Standard profile.
+// Premium_AzureFrontDoor = The SKU name for an Azure Front Door
+// Premium profile.
+// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download
+// scenarios using 95-5 peak bandwidth billing model.
+// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile
+// for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
+// StandardPlus_ChinaCdn = The SKU
+// name for a China CDN profile for live-streaming using GB based billing model.
+// StandardPlus_955BandWidth_ChinaCdn = The
+// SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing
+// model.
+// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average
+// peak bandwidth billing model.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.Sku_STATUS
+// Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+// Premium_Verizon = The SKU name for a Premium Verizon
+// CDN profile.
+// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+// Standard_Akamai = The SKU name for an
+// Akamai CDN profile.
+// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using
+// GB based billing model.
+// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+// Standard_AzureFrontDoor
+// =  The SKU name for an Azure Front Door Standard profile.
+// Premium_AzureFrontDoor = The SKU name for an Azure Front Door
+// Premium profile.
+// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download
+// scenarios using 95-5 peak bandwidth billing model.
+// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile
+// for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
+// StandardPlus_ChinaCdn = The SKU
+// name for a China CDN profile for live-streaming using GB based billing model.
+// StandardPlus_955BandWidth_ChinaCdn = The
+// SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing
+// model.
+// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average
+// peak bandwidth billing model.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.SystemData_STATUS
+// Read only system data
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

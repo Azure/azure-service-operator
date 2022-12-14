@@ -61,6 +61,7 @@ type StorageAccounts_BlobService_Properties_Spec_ARM struct {
 	RestorePolicy *RestorePolicyProperties_ARM `json:"restorePolicy,omitempty"`
 }
 
+// The blob service properties for change feed events.
 type ChangeFeed_ARM struct {
 	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -70,11 +71,13 @@ type ChangeFeed_ARM struct {
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
+// Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules_ARM struct {
 	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule_ARM `json:"corsRules,omitempty"`
 }
 
+// The service properties for soft delete.
 type DeleteRetentionPolicy_ARM struct {
 	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
 	// the maximum value can be 365.
@@ -84,6 +87,7 @@ type DeleteRetentionPolicy_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// The blob service properties for Last access time based tracking policy.
 type LastAccessTimeTrackingPolicy_ARM struct {
 	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
 	// read only
@@ -100,6 +104,7 @@ type LastAccessTimeTrackingPolicy_ARM struct {
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
+// The blob service properties for blob restore policy
 type RestorePolicyProperties_ARM struct {
 	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
@@ -108,6 +113,7 @@ type RestorePolicyProperties_ARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// Specifies a CORS rule for the Blob service.
 type CorsRule_ARM struct {
 	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
 	// request.

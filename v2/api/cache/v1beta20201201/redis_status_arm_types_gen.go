@@ -27,6 +27,7 @@ type Redis_STATUS_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+// Properties of the redis cache.
 type RedisProperties_STATUS_ARM struct {
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
@@ -95,12 +96,14 @@ type RedisProperties_STATUS_ARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
+// Details of single instance of redis.
 type RedisInstanceDetails_STATUS_ARM struct {
 	// IsMaster: Specifies whether the instance is a primary node.
 	IsMaster *bool `json:"isMaster,omitempty"`
@@ -121,6 +124,7 @@ type RedisInstanceDetails_STATUS_ARM struct {
 	Zone *string `json:"zone,omitempty"`
 }
 
+// Linked server Id
 type RedisLinkedServer_STATUS_ARM struct {
 	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
@@ -173,6 +177,7 @@ type RedisProperties_RedisConfiguration_STATUS_ARM struct {
 	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
 }
 
+// SKU parameters supplied to the create Redis operation.
 type Sku_STATUS_ARM struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).

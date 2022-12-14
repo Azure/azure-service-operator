@@ -43,11 +43,13 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces"
 }
 
+// Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
+// Sku of the resource
 type Sku_ARM struct {
 	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
@@ -56,6 +58,7 @@ type Sku_ARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -76,6 +79,7 @@ type SystemData_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
+// The properties of a machine learning workspace.
 type WorkspaceProperties_ARM struct {
 	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
 	AllowPublicAccessWhenBehindVnet *bool   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
@@ -172,6 +176,7 @@ type CosmosDbSettings_ARM struct {
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
+// Identity that will be used to access key vault for encryption at rest
 type IdentityForCmk_ARM struct {
 	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
@@ -188,6 +193,7 @@ type KeyVaultProperties_ARM struct {
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
+// Properties of a shared private link resource.
 type SharedPrivateLinkResourceProperty_ARM struct {
 	// GroupId: The private link resource group id.
 	GroupId               *string `json:"groupId,omitempty"`

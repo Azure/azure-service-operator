@@ -29,6 +29,7 @@ func (connection *Workspaces_Connection_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/connections"
 }
 
+// Workspace Connection specific properties.
 type WorkspaceConnectionProps_ARM struct {
 	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`

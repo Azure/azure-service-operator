@@ -29,6 +29,7 @@ func (database *RedisEnterprise_Database_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise/databases"
 }
 
+// Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags
 type DatabaseProperties_ARM struct {
 	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
 	// TLS-encrypted.
@@ -50,6 +51,7 @@ type DatabaseProperties_ARM struct {
 	Port *int `json:"port,omitempty"`
 }
 
+// Specifies configuration of a redis module
 type Module_ARM struct {
 	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
@@ -58,6 +60,7 @@ type Module_ARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// Persistence-related configuration for the RedisEnterprise database
 type Persistence_ARM struct {
 	// AofEnabled: Sets whether AOF is enabled.
 	AofEnabled *bool `json:"aofEnabled,omitempty"`

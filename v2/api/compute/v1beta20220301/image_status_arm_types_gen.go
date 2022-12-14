@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package v1beta20220301
 
+// The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual
+// machine. If SourceImage is provided, the destination virtual hard drive must not exist.
 type Image_STATUS_ARM struct {
 	// ExtendedLocation: The extended location of the Image.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
@@ -14,7 +16,9 @@ type Image_STATUS_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: Resource name
-	Name       *string                     `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes the properties of an Image.
 	Properties *ImageProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
@@ -24,6 +28,7 @@ type Image_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -32,6 +37,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
+// Describes the properties of an Image.
 type ImageProperties_STATUS_ARM struct {
 	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
 	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
@@ -49,10 +55,12 @@ type ImageProperties_STATUS_ARM struct {
 	StorageProfile *ImageStorageProfile_STATUS_ARM `json:"storageProfile,omitempty"`
 }
 
+// The type of extendedLocation.
 type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
+// Describes a storage profile.
 type ImageStorageProfile_STATUS_ARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -74,6 +82,7 @@ type SubResource_STATUS_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
+// Describes a data disk.
 type ImageDataDisk_STATUS_ARM struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`
@@ -109,6 +118,7 @@ type ImageDataDisk_STATUS_ARM struct {
 	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
 }
 
+// Describes an Operating System disk.
 type ImageOSDisk_STATUS_ARM struct {
 	// BlobUri: The Virtual Hard Disk.
 	BlobUri *string `json:"blobUri,omitempty"`

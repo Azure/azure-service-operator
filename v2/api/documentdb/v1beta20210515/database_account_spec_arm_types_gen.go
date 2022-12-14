@@ -9,14 +9,17 @@ import (
 )
 
 type DatabaseAccount_Spec_ARM struct {
+	// Identity: Identity for the resource.
 	Identity *ManagedServiceIdentity_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
 	Kind *DatabaseAccount_Kind_Spec `json:"kind,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
-	Location   *string                                    `json:"location,omitempty"`
-	Name       string                                     `json:"name,omitempty"`
+	Location *string `json:"location,omitempty"`
+	Name     string  `json:"name,omitempty"`
+
+	// Properties: Properties to create and update Azure Cosmos DB database accounts.
 	Properties *DatabaseAccountCreateUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                          `json:"tags,omitempty"`
 }
@@ -47,6 +50,7 @@ const (
 	DatabaseAccount_Kind_Spec_Parse            = DatabaseAccount_Kind_Spec("Parse")
 )
 
+// Properties to create and update Azure Cosmos DB database accounts.
 type DatabaseAccountCreateUpdateProperties_ARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_ARM `json:"analyticalStorageConfiguration,omitempty"`
@@ -122,13 +126,16 @@ type DatabaseAccountCreateUpdateProperties_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
+// Identity for the resource.
 type ManagedServiceIdentity_ARM struct {
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
 }
 
+// Analytical storage specific properties.
 type AnalyticalStorageConfiguration_ARM struct {
+	// SchemaType: Describes the types of schema for analytical storage.
 	SchemaType *AnalyticalStorageSchemaType `json:"schemaType,omitempty"`
 }
 
@@ -177,12 +184,14 @@ func (policy *BackupPolicy_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Cosmos DB capability object
 type Capability_ARM struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
+// The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel `json:"defaultConsistencyLevel,omitempty"`
@@ -198,6 +207,7 @@ type ConsistencyPolicy_ARM struct {
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
+// The CORS policy for the Cosmos DB database account.
 type CorsPolicy_ARM struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
@@ -216,6 +226,7 @@ type CorsPolicy_ARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
+// IpAddressOrRange object
 type IpAddressOrRange_ARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
@@ -224,6 +235,7 @@ type IpAddressOrRange_ARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
+// A region in which the Azure Cosmos DB database account is deployed.
 type Location_ARM struct {
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
@@ -247,6 +259,7 @@ const (
 	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
 
+// Virtual Network ACL Rule object
 type VirtualNetworkRule_ARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -264,6 +277,7 @@ type PeriodicModeBackupPolicy_ARM struct {
 	Type                   PeriodicModeBackupPolicy_Type `json:"type,omitempty"`
 }
 
+// Configuration values for periodic mode backup
 type PeriodicModeProperties_ARM struct {
 	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
 	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`

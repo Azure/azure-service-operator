@@ -189,6 +189,7 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 }
 
 // Storage version of v1beta20210601.Workspace_STATUS
+// The top level Workspace resource container.
 type Workspace_STATUS struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	CreatedDate                     *string                            `json:"createdDate,omitempty"`
@@ -233,6 +234,7 @@ func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.Conver
 }
 
 // Storage version of v1beta20210601.PrivateLinkScopedResource_STATUS
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"resourceId,omitempty"`
@@ -240,12 +242,14 @@ type PrivateLinkScopedResource_STATUS struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceCapping
+// The daily volume cap for ingestion.
 type WorkspaceCapping struct {
 	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.WorkspaceCapping_STATUS
+// The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS struct {
 	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
 	DataIngestionStatus *string                `json:"dataIngestionStatus,omitempty"`
@@ -254,6 +258,7 @@ type WorkspaceCapping_STATUS struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceFeatures
+// Workspace features.
 type WorkspaceFeatures struct {
 	// ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
@@ -265,6 +270,7 @@ type WorkspaceFeatures struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceFeatures_STATUS
+// Workspace features.
 type WorkspaceFeatures_STATUS struct {
 	ClusterResourceId                           *string                `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool                  `json:"disableLocalAuth,omitempty"`
@@ -275,6 +281,7 @@ type WorkspaceFeatures_STATUS struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceSku
+// The SKU (tier) of a workspace.
 type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
@@ -282,6 +289,7 @@ type WorkspaceSku struct {
 }
 
 // Storage version of v1beta20210601.WorkspaceSku_STATUS
+// The SKU (tier) of a workspace.
 type WorkspaceSku_STATUS struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
 	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`

@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
+// LoadBalancer resource.
 type LoadBalancer_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -32,6 +33,7 @@ type LoadBalancer_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// ExtendedLocation complex type.
 type ExtendedLocation_STATUS_ARM struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -40,6 +42,7 @@ type ExtendedLocation_STATUS_ARM struct {
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
+// Properties of the load balancer.
 type LoadBalancerPropertiesFormat_STATUS_ARM struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"backendAddressPools,omitempty"`
@@ -76,6 +79,7 @@ type LoadBalancerPropertiesFormat_STATUS_ARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
+// SKU of a load balancer.
 type LoadBalancerSku_STATUS_ARM struct {
 	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
@@ -84,6 +88,7 @@ type LoadBalancerSku_STATUS_ARM struct {
 	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// Pool of backend IP addresses.
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -102,10 +107,12 @@ type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
 type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
+// Frontend IP address of the load balancer.
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -127,6 +134,7 @@ type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct 
 	Zones []string `json:"zones,omitempty"`
 }
 
+// Inbound NAT pool of the load balancer.
 type InboundNatPool_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -145,6 +153,7 @@ type InboundNatPool_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Inbound NAT rule of the load balancer.
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -177,6 +186,7 @@ const (
 	LoadBalancerSku_Tier_STATUS_Regional = LoadBalancerSku_Tier_STATUS("Regional")
 )
 
+// A load balancing rule for a load balancer.
 type LoadBalancingRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -195,6 +205,7 @@ type LoadBalancingRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Outbound rule of the load balancer.
 type OutboundRule_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -213,6 +224,7 @@ type OutboundRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// A load balancer probe.
 type Probe_STATUS_ARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -231,6 +243,7 @@ type Probe_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties of the backend address pool.
 type BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// BackendIPConfigurations: An array of references to IP addresses defined in network interfaces.
 	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"backendIPConfigurations,omitempty"`
@@ -251,6 +264,7 @@ type BackendAddressPoolPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Properties of Frontend IP Configuration of the load balancer.
 type FrontendIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	// InboundNatPools: An array of references to inbound pools that use this frontend IP.
 	InboundNatPools []SubResource_STATUS_ARM `json:"inboundNatPools,omitempty"`
@@ -286,6 +300,7 @@ type FrontendIPConfigurationPropertiesFormat_STATUS_ARM struct {
 	Subnet *Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
 }
 
+// Properties of Inbound NAT pool.
 type InboundNatPoolPropertiesFormat_STATUS_ARM struct {
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
 	BackendPort *int `json:"backendPort,omitempty"`
@@ -321,6 +336,7 @@ type InboundNatPoolPropertiesFormat_STATUS_ARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Properties of the inbound NAT rule.
 type InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
 	// frontend port of each of the frontend IP configurations is forwarded to the backend IP.
@@ -356,6 +372,7 @@ type InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM 
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Properties of the load balancer.
 type LoadBalancingRulePropertiesFormat_STATUS_ARM struct {
 	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
 	// IPs.
@@ -402,6 +419,7 @@ type LoadBalancingRulePropertiesFormat_STATUS_ARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Outbound rule of the load balancer.
 type OutboundRulePropertiesFormat_STATUS_ARM struct {
 	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
@@ -427,6 +445,7 @@ type OutboundRulePropertiesFormat_STATUS_ARM struct {
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Load balancer probe resource.
 type ProbePropertiesFormat_STATUS_ARM struct {
 	// IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
 	// interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
@@ -457,6 +476,7 @@ type ProbePropertiesFormat_STATUS_ARM struct {
 	RequestPath *string `json:"requestPath,omitempty"`
 }
 
+// Load balancer backend addresses.
 type LoadBalancerBackendAddress_STATUS_ARM struct {
 	// Name: Name of the backend address.
 	Name *string `json:"name,omitempty"`
@@ -465,21 +485,25 @@ type LoadBalancerBackendAddress_STATUS_ARM struct {
 	Properties *LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// IPConfiguration in a network interface.
 type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Public IP address resource.
 type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Subnet in a virtual network resource.
 type Subnet_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Properties of the load balancer backend addresses.
 type LoadBalancerBackendAddressPropertiesFormat_STATUS_ARM struct {
 	// IpAddress: IP Address belonging to the referenced virtual network.
 	IpAddress *string `json:"ipAddress,omitempty"`

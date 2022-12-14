@@ -7,7 +7,9 @@ import "encoding/json"
 
 type DatabaseAccount_STATUS_ARM struct {
 	// Id: The unique resource identifier of the ARM resource.
-	Id       *string                            `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Identity: Identity for the resource.
 	Identity *ManagedServiceIdentity_STATUS_ARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
@@ -17,7 +19,9 @@ type DatabaseAccount_STATUS_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name       *string                                  `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties for the database account.
 	Properties *DatabaseAccountGetProperties_STATUS_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                        `json:"tags,omitempty"`
 
@@ -33,6 +37,7 @@ const (
 	DatabaseAccount_Kind_STATUS_Parse            = DatabaseAccount_Kind_STATUS("Parse")
 )
 
+// Properties for the database account.
 type DatabaseAccountGetProperties_STATUS_ARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_STATUS_ARM `json:"analyticalStorageConfiguration,omitempty"`
@@ -124,6 +129,7 @@ type DatabaseAccountGetProperties_STATUS_ARM struct {
 	WriteLocations []Location_STATUS_ARM `json:"writeLocations,omitempty"`
 }
 
+// Identity for the resource.
 type ManagedServiceIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
 	// identity.
@@ -143,7 +149,9 @@ type ManagedServiceIdentity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
+// Analytical storage specific properties.
 type AnalyticalStorageConfiguration_STATUS_ARM struct {
+	// SchemaType: Describes the types of schema for analytical storage.
 	SchemaType *AnalyticalStorageSchemaType_STATUS `json:"schemaType,omitempty"`
 }
 
@@ -192,12 +200,14 @@ func (policy *BackupPolicy_STATUS_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Cosmos DB capability object
 type Capability_STATUS_ARM struct {
 	// Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include
 	// "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
+// The consistency policy for the Cosmos DB database account.
 type ConsistencyPolicy_STATUS_ARM struct {
 	// DefaultConsistencyLevel: The default consistency level and configuration settings of the Cosmos DB account.
 	DefaultConsistencyLevel *ConsistencyPolicy_DefaultConsistencyLevel_STATUS `json:"defaultConsistencyLevel,omitempty"`
@@ -213,6 +223,7 @@ type ConsistencyPolicy_STATUS_ARM struct {
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
+// The CORS policy for the Cosmos DB database account.
 type CorsPolicy_STATUS_ARM struct {
 	// AllowedHeaders: The request headers that the origin domain may specify on the CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
@@ -231,6 +242,7 @@ type CorsPolicy_STATUS_ARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
+// The failover policy for a given region of a database account.
 type FailoverPolicy_STATUS_ARM struct {
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
@@ -245,6 +257,7 @@ type FailoverPolicy_STATUS_ARM struct {
 	LocationName *string `json:"locationName,omitempty"`
 }
 
+// IpAddressOrRange object
 type IpAddressOrRange_STATUS_ARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
@@ -253,6 +266,7 @@ type IpAddressOrRange_STATUS_ARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
+// A region in which the Azure Cosmos DB database account is deployed.
 type Location_STATUS_ARM struct {
 	// DocumentEndpoint: The connection endpoint for the specific region. Example:
 	// https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
@@ -291,12 +305,14 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// A private endpoint connection
 type PrivateEndpointConnection_STATUS_ARM struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
+// Virtual Network ACL Rule object
 type VirtualNetworkRule_STATUS_ARM struct {
 	// Id: Resource ID of a subnet, for example:
 	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
@@ -316,6 +332,7 @@ type PeriodicModeBackupPolicy_STATUS_ARM struct {
 	Type                   PeriodicModeBackupPolicy_Type_STATUS `json:"type,omitempty"`
 }
 
+// Configuration values for periodic mode backup
 type PeriodicModeProperties_STATUS_ARM struct {
 	// BackupIntervalInMinutes: An integer representing the interval in minutes between two backups
 	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`

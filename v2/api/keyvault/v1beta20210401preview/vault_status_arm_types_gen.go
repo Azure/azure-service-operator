@@ -3,6 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210401preview
 
+// Resource information with extended details.
 type Vault_STATUS_ARM struct {
 	// Id: Fully qualified identifier of the key vault resource.
 	Id *string `json:"id,omitempty"`
@@ -26,6 +27,7 @@ type Vault_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the key vault resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of the key vault resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -46,6 +48,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// Properties of the vault
 type VaultProperties_STATUS_ARM struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
 	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
@@ -110,6 +113,8 @@ type VaultProperties_STATUS_ARM struct {
 	VaultUri *string `json:"vaultUri,omitempty"`
 }
 
+// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
+// vault's tenant ID.
 type AccessPolicyEntry_STATUS_ARM struct {
 	// ApplicationId:  Application ID of the client making request on behalf of a principal
 	ApplicationId *string `json:"applicationId,omitempty"`
@@ -125,6 +130,7 @@ type AccessPolicyEntry_STATUS_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// The type of identity.
 type IdentityType_STATUS string
 
 const (
@@ -134,6 +140,7 @@ const (
 	IdentityType_STATUS_User            = IdentityType_STATUS("User")
 )
 
+// A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet_STATUS_ARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
 	// default is 'AzureServices'.
@@ -150,6 +157,7 @@ type NetworkRuleSet_STATUS_ARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules,omitempty"`
 }
 
+// Private endpoint connection item.
 type PrivateEndpointConnectionItem_STATUS_ARM struct {
 	// Etag: Modified whenever there is a change in the state of private endpoint connection.
 	Etag *string `json:"etag,omitempty"`
@@ -161,6 +169,7 @@ type PrivateEndpointConnectionItem_STATUS_ARM struct {
 	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// SKU details
 type Sku_STATUS_ARM struct {
 	// Family: SKU family name
 	Family *Sku_Family_STATUS `json:"family,omitempty"`
@@ -183,6 +192,7 @@ const (
 	VaultProperties_ProvisioningState_STATUS_Succeeded      = VaultProperties_ProvisioningState_STATUS("Succeeded")
 )
 
+// A rule governing the accessibility of a vault from a specific ip address or ip range.
 type IPRule_STATUS_ARM struct {
 	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
 	// addresses that start with 124.56.78).
@@ -203,6 +213,7 @@ const (
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
+// Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions_STATUS_ARM struct {
 	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates_STATUS `json:"certificates,omitempty"`
@@ -217,6 +228,7 @@ type Permissions_STATUS_ARM struct {
 	Storage []Permissions_Storage_STATUS `json:"storage,omitempty"`
 }
 
+// Properties of the private endpoint connection resource.
 type PrivateEndpointConnectionProperties_STATUS_ARM struct {
 	// PrivateEndpoint: Properties of the private endpoint object.
 	PrivateEndpoint *PrivateEndpoint_STATUS_ARM `json:"privateEndpoint,omitempty"`
@@ -239,6 +251,7 @@ const (
 	Sku_Name_STATUS_Standard = Sku_Name_STATUS("standard")
 )
 
+// A rule governing the accessibility of a vault from a specific virtual network.
 type VirtualNetworkRule_STATUS_ARM struct {
 	// Id: Full resource id of a vnet subnet, such as
 	// '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
@@ -324,11 +337,13 @@ const (
 	Permissions_Storage_STATUS_Update        = Permissions_Storage_STATUS("update")
 )
 
+// Private endpoint object properties.
 type PrivateEndpoint_STATUS_ARM struct {
 	// Id: Full identifier of the private endpoint resource.
 	Id *string `json:"id,omitempty"`
 }
 
+// An object that represents the approval state of the private link connection.
 type PrivateLinkServiceConnectionState_STATUS_ARM struct {
 	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
 	ActionsRequired *PrivateLinkServiceConnectionState_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`

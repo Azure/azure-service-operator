@@ -209,6 +209,7 @@ func (site *Site_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) err
 }
 
 // Storage version of v1beta20220301.Site_STATUS
+// A web app, a mobile app backend, or an API app.
 type Site_STATUS struct {
 	AvailabilityState           *string                           `json:"availabilityState,omitempty"`
 	ClientAffinityEnabled       *bool                             `json:"clientAffinityEnabled,omitempty"`
@@ -288,6 +289,7 @@ func (site *Site_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatu
 }
 
 // Storage version of v1beta20220301.CloningInfo
+// Information needed for cloning operation.
 type CloningInfo struct {
 	AppSettingsOverrides   map[string]string      `json:"appSettingsOverrides,omitempty"`
 	CloneCustomHostNames   *bool                  `json:"cloneCustomHostNames,omitempty"`
@@ -315,6 +317,7 @@ type CloningInfo struct {
 }
 
 // Storage version of v1beta20220301.CloningInfo_STATUS
+// Information needed for cloning operation.
 type CloningInfo_STATUS struct {
 	AppSettingsOverrides      map[string]string      `json:"appSettingsOverrides,omitempty"`
 	CloneCustomHostNames      *bool                  `json:"cloneCustomHostNames,omitempty"`
@@ -331,6 +334,7 @@ type CloningInfo_STATUS struct {
 }
 
 // Storage version of v1beta20220301.HostNameSslState
+// SSL-enabled hostname.
 type HostNameSslState struct {
 	HostType    *string                `json:"hostType,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -342,6 +346,7 @@ type HostNameSslState struct {
 }
 
 // Storage version of v1beta20220301.HostNameSslState_STATUS
+// SSL-enabled hostname.
 type HostNameSslState_STATUS struct {
 	HostType    *string                `json:"hostType,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -353,12 +358,14 @@ type HostNameSslState_STATUS struct {
 }
 
 // Storage version of v1beta20220301.ManagedServiceIdentity
+// Managed service identity.
 type ManagedServiceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20220301.ManagedServiceIdentity_STATUS
+// Managed service identity.
 type ManagedServiceIdentity_STATUS struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -368,6 +375,7 @@ type ManagedServiceIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SiteConfig
+// Configuration of an App Service app.
 type SiteConfig struct {
 	AcrUseManagedIdentityCreds             *bool                            `json:"acrUseManagedIdentityCreds,omitempty"`
 	AcrUserManagedIdentityID               *string                          `json:"acrUserManagedIdentityID,omitempty"`
@@ -439,6 +447,7 @@ type SiteConfig struct {
 }
 
 // Storage version of v1beta20220301.SiteConfig_STATUS
+// Configuration of an App Service app.
 type SiteConfig_STATUS struct {
 	AcrUseManagedIdentityCreds             *bool                                   `json:"acrUseManagedIdentityCreds,omitempty"`
 	AcrUserManagedIdentityID               *string                                 `json:"acrUserManagedIdentityID,omitempty"`
@@ -511,6 +520,7 @@ type SiteConfig_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SlotSwapStatus_STATUS
+// The status of the last successful slot swap operation.
 type SlotSwapStatus_STATUS struct {
 	DestinationSlotName *string                `json:"destinationSlotName,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -519,18 +529,21 @@ type SlotSwapStatus_STATUS struct {
 }
 
 // Storage version of v1beta20220301.ApiDefinitionInfo
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
 }
 
 // Storage version of v1beta20220301.ApiDefinitionInfo_STATUS
+// Information about the formal API definition for the app.
 type ApiDefinitionInfo_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
 }
 
 // Storage version of v1beta20220301.ApiManagementConfig
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -539,12 +552,14 @@ type ApiManagementConfig struct {
 }
 
 // Storage version of v1beta20220301.ApiManagementConfig_STATUS
+// Azure API management (APIM) configuration linked to the app.
 type ApiManagementConfig_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220301.AutoHealRules
+// Rules that can be defined for auto-heal.
 type AutoHealRules struct {
 	Actions     *AutoHealActions       `json:"actions,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -552,6 +567,7 @@ type AutoHealRules struct {
 }
 
 // Storage version of v1beta20220301.AutoHealRules_STATUS
+// Rules that can be defined for auto-heal.
 type AutoHealRules_STATUS struct {
 	Actions     *AutoHealActions_STATUS  `json:"actions,omitempty"`
 	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
@@ -559,6 +575,7 @@ type AutoHealRules_STATUS struct {
 }
 
 // Storage version of v1beta20220301.AzureStorageInfoValue
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue struct {
 	AccessKey   *genruntime.SecretReference `json:"accessKey,omitempty"`
 	AccountName *string                     `json:"accountName,omitempty"`
@@ -569,6 +586,7 @@ type AzureStorageInfoValue struct {
 }
 
 // Storage version of v1beta20220301.AzureStorageInfoValue_STATUS
+// Azure Files or Blob Storage access information value for dictionary storage.
 type AzureStorageInfoValue_STATUS struct {
 	AccountName *string                `json:"accountName,omitempty"`
 	MountPath   *string                `json:"mountPath,omitempty"`
@@ -579,6 +597,7 @@ type AzureStorageInfoValue_STATUS struct {
 }
 
 // Storage version of v1beta20220301.ConnStringInfo
+// Database connection string information.
 type ConnStringInfo struct {
 	ConnectionString *string                `json:"connectionString,omitempty"`
 	Name             *string                `json:"name,omitempty"`
@@ -587,6 +606,7 @@ type ConnStringInfo struct {
 }
 
 // Storage version of v1beta20220301.ConnStringInfo_STATUS
+// Database connection string information.
 type ConnStringInfo_STATUS struct {
 	ConnectionString *string                `json:"connectionString,omitempty"`
 	Name             *string                `json:"name,omitempty"`
@@ -595,6 +615,7 @@ type ConnStringInfo_STATUS struct {
 }
 
 // Storage version of v1beta20220301.CorsSettings
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings struct {
 	AllowedOrigins     []string               `json:"allowedOrigins,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -602,6 +623,7 @@ type CorsSettings struct {
 }
 
 // Storage version of v1beta20220301.CorsSettings_STATUS
+// Cross-Origin Resource Sharing (CORS) settings for the app.
 type CorsSettings_STATUS struct {
 	AllowedOrigins     []string               `json:"allowedOrigins,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -609,18 +631,23 @@ type CorsSettings_STATUS struct {
 }
 
 // Storage version of v1beta20220301.Experiments
+// Routing rules in production experiments.
 type Experiments struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RampUpRules []RampUpRule           `json:"rampUpRules,omitempty"`
 }
 
 // Storage version of v1beta20220301.Experiments_STATUS
+// Routing rules in production experiments.
 type Experiments_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RampUpRules []RampUpRule_STATUS    `json:"rampUpRules,omitempty"`
 }
 
 // Storage version of v1beta20220301.HandlerMapping
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping struct {
 	Arguments       *string                `json:"arguments,omitempty"`
 	Extension       *string                `json:"extension,omitempty"`
@@ -629,6 +656,9 @@ type HandlerMapping struct {
 }
 
 // Storage version of v1beta20220301.HandlerMapping_STATUS
+// The IIS handler mappings used to define which handler processes HTTP requests with certain extension.
+// For example, it
+// is used to configure php-cgi.exe process to handle all HTTP requests with *.php extension.
 type HandlerMapping_STATUS struct {
 	Arguments       *string                `json:"arguments,omitempty"`
 	Extension       *string                `json:"extension,omitempty"`
@@ -637,6 +667,7 @@ type HandlerMapping_STATUS struct {
 }
 
 // Storage version of v1beta20220301.IpSecurityRestriction
+// IP security restriction on an app.
 type IpSecurityRestriction struct {
 	Action           *string                `json:"action,omitempty"`
 	Description      *string                `json:"description,omitempty"`
@@ -655,6 +686,7 @@ type IpSecurityRestriction struct {
 }
 
 // Storage version of v1beta20220301.IpSecurityRestriction_STATUS
+// IP security restriction on an app.
 type IpSecurityRestriction_STATUS struct {
 	Action               *string                `json:"action,omitempty"`
 	Description          *string                `json:"description,omitempty"`
@@ -671,6 +703,7 @@ type IpSecurityRestriction_STATUS struct {
 }
 
 // Storage version of v1beta20220301.NameValuePair
+// Name value pair.
 type NameValuePair struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -678,6 +711,7 @@ type NameValuePair struct {
 }
 
 // Storage version of v1beta20220301.NameValuePair_STATUS
+// Name value pair.
 type NameValuePair_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -685,6 +719,7 @@ type NameValuePair_STATUS struct {
 }
 
 // Storage version of v1beta20220301.PushSettings
+// Push settings for the App.
 type PushSettings struct {
 	DynamicTagsJson   *string                `json:"dynamicTagsJson,omitempty"`
 	IsPushEnabled     *bool                  `json:"isPushEnabled,omitempty"`
@@ -695,6 +730,7 @@ type PushSettings struct {
 }
 
 // Storage version of v1beta20220301.PushSettings_STATUS
+// Push settings for the App.
 type PushSettings_STATUS struct {
 	DynamicTagsJson   *string                `json:"dynamicTagsJson,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -708,6 +744,7 @@ type PushSettings_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SiteLimits
+// Metric limits set on an app.
 type SiteLimits struct {
 	MaxDiskSizeInMb  *int                   `json:"maxDiskSizeInMb,omitempty"`
 	MaxMemoryInMb    *int                   `json:"maxMemoryInMb,omitempty"`
@@ -716,6 +753,7 @@ type SiteLimits struct {
 }
 
 // Storage version of v1beta20220301.SiteLimits_STATUS
+// Metric limits set on an app.
 type SiteLimits_STATUS struct {
 	MaxDiskSizeInMb  *int                   `json:"maxDiskSizeInMb,omitempty"`
 	MaxMemoryInMb    *int                   `json:"maxMemoryInMb,omitempty"`
@@ -724,6 +762,7 @@ type SiteLimits_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SiteMachineKey_STATUS
+// MachineKey of an app.
 type SiteMachineKey_STATUS struct {
 	Decryption    *string                `json:"decryption,omitempty"`
 	DecryptionKey *string                `json:"decryptionKey,omitempty"`
@@ -733,6 +772,7 @@ type SiteMachineKey_STATUS struct {
 }
 
 // Storage version of v1beta20220301.UserAssignedIdentity_STATUS
+// User Assigned identity.
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -740,6 +780,7 @@ type UserAssignedIdentity_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualApplication
+// Virtual application in an app.
 type VirtualApplication struct {
 	PhysicalPath       *string                `json:"physicalPath,omitempty"`
 	PreloadEnabled     *bool                  `json:"preloadEnabled,omitempty"`
@@ -749,6 +790,7 @@ type VirtualApplication struct {
 }
 
 // Storage version of v1beta20220301.VirtualApplication_STATUS
+// Virtual application in an app.
 type VirtualApplication_STATUS struct {
 	PhysicalPath       *string                   `json:"physicalPath,omitempty"`
 	PreloadEnabled     *bool                     `json:"preloadEnabled,omitempty"`
@@ -758,6 +800,7 @@ type VirtualApplication_STATUS struct {
 }
 
 // Storage version of v1beta20220301.AutoHealActions
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions struct {
 	ActionType              *string                `json:"actionType,omitempty"`
 	CustomAction            *AutoHealCustomAction  `json:"customAction,omitempty"`
@@ -766,6 +809,7 @@ type AutoHealActions struct {
 }
 
 // Storage version of v1beta20220301.AutoHealActions_STATUS
+// Actions which to take by the auto-heal module when a rule is triggered.
 type AutoHealActions_STATUS struct {
 	ActionType              *string                      `json:"actionType,omitempty"`
 	CustomAction            *AutoHealCustomAction_STATUS `json:"customAction,omitempty"`
@@ -774,6 +818,7 @@ type AutoHealActions_STATUS struct {
 }
 
 // Storage version of v1beta20220301.AutoHealTriggers
+// Triggers for auto-heal.
 type AutoHealTriggers struct {
 	PrivateBytesInKB     *int                           `json:"privateBytesInKB,omitempty"`
 	PropertyBag          genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
@@ -785,6 +830,7 @@ type AutoHealTriggers struct {
 }
 
 // Storage version of v1beta20220301.AutoHealTriggers_STATUS
+// Triggers for auto-heal.
 type AutoHealTriggers_STATUS struct {
 	PrivateBytesInKB     *int                                  `json:"privateBytesInKB,omitempty"`
 	PropertyBag          genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
@@ -796,6 +842,8 @@ type AutoHealTriggers_STATUS struct {
 }
 
 // Storage version of v1beta20220301.RampUpRule
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule struct {
 	ActionHostName            *string                `json:"actionHostName,omitempty"`
 	ChangeDecisionCallbackUrl *string                `json:"changeDecisionCallbackUrl,omitempty"`
@@ -809,6 +857,8 @@ type RampUpRule struct {
 }
 
 // Storage version of v1beta20220301.RampUpRule_STATUS
+// Routing rules for ramp up testing. This rule allows to redirect static traffic % to a slot or to gradually change
+// routing % based on performance.
 type RampUpRule_STATUS struct {
 	ActionHostName            *string                `json:"actionHostName,omitempty"`
 	ChangeDecisionCallbackUrl *string                `json:"changeDecisionCallbackUrl,omitempty"`
@@ -822,6 +872,7 @@ type RampUpRule_STATUS struct {
 }
 
 // Storage version of v1beta20220301.VirtualDirectory
+// Directory for virtual application.
 type VirtualDirectory struct {
 	PhysicalPath *string                `json:"physicalPath,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -829,6 +880,7 @@ type VirtualDirectory struct {
 }
 
 // Storage version of v1beta20220301.VirtualDirectory_STATUS
+// Directory for virtual application.
 type VirtualDirectory_STATUS struct {
 	PhysicalPath *string                `json:"physicalPath,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -836,6 +888,8 @@ type VirtualDirectory_STATUS struct {
 }
 
 // Storage version of v1beta20220301.AutoHealCustomAction
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction struct {
 	Exe         *string                `json:"exe,omitempty"`
 	Parameters  *string                `json:"parameters,omitempty"`
@@ -843,6 +897,8 @@ type AutoHealCustomAction struct {
 }
 
 // Storage version of v1beta20220301.AutoHealCustomAction_STATUS
+// Custom action to be executed
+// when an auto heal rule is triggered.
 type AutoHealCustomAction_STATUS struct {
 	Exe         *string                `json:"exe,omitempty"`
 	Parameters  *string                `json:"parameters,omitempty"`
@@ -850,6 +906,7 @@ type AutoHealCustomAction_STATUS struct {
 }
 
 // Storage version of v1beta20220301.RequestsBasedTrigger
+// Trigger based on total requests.
 type RequestsBasedTrigger struct {
 	Count        *int                   `json:"count,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -857,6 +914,7 @@ type RequestsBasedTrigger struct {
 }
 
 // Storage version of v1beta20220301.RequestsBasedTrigger_STATUS
+// Trigger based on total requests.
 type RequestsBasedTrigger_STATUS struct {
 	Count        *int                   `json:"count,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -864,6 +922,7 @@ type RequestsBasedTrigger_STATUS struct {
 }
 
 // Storage version of v1beta20220301.SlowRequestsBasedTrigger
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger struct {
 	Count        *int                   `json:"count,omitempty"`
 	Path         *string                `json:"path,omitempty"`
@@ -873,6 +932,7 @@ type SlowRequestsBasedTrigger struct {
 }
 
 // Storage version of v1beta20220301.SlowRequestsBasedTrigger_STATUS
+// Trigger based on request execution time.
 type SlowRequestsBasedTrigger_STATUS struct {
 	Count        *int                   `json:"count,omitempty"`
 	Path         *string                `json:"path,omitempty"`
@@ -882,6 +942,7 @@ type SlowRequestsBasedTrigger_STATUS struct {
 }
 
 // Storage version of v1beta20220301.StatusCodesBasedTrigger
+// Trigger based on status code.
 type StatusCodesBasedTrigger struct {
 	Count        *int                   `json:"count,omitempty"`
 	Path         *string                `json:"path,omitempty"`
@@ -893,6 +954,7 @@ type StatusCodesBasedTrigger struct {
 }
 
 // Storage version of v1beta20220301.StatusCodesBasedTrigger_STATUS
+// Trigger based on status code.
 type StatusCodesBasedTrigger_STATUS struct {
 	Count        *int                   `json:"count,omitempty"`
 	Path         *string                `json:"path,omitempty"`
@@ -904,6 +966,7 @@ type StatusCodesBasedTrigger_STATUS struct {
 }
 
 // Storage version of v1beta20220301.StatusCodesRangeBasedTrigger
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger struct {
 	Count        *int                   `json:"count,omitempty"`
 	Path         *string                `json:"path,omitempty"`
@@ -913,6 +976,7 @@ type StatusCodesRangeBasedTrigger struct {
 }
 
 // Storage version of v1beta20220301.StatusCodesRangeBasedTrigger_STATUS
+// Trigger based on range of status codes.
 type StatusCodesRangeBasedTrigger_STATUS struct {
 	Count        *int                   `json:"count,omitempty"`
 	Path         *string                `json:"path,omitempty"`

@@ -946,6 +946,7 @@ func (registry *Registry_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (registry *Registry_Spec) SetAzureName(azureName string) { registry.AzureName = azureName }
 
+// An object that represents a container registry.
 type Registry_STATUS struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
@@ -1915,6 +1916,7 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 	return nil
 }
 
+// Managed identity for the resource.
 type IdentityProperties struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2107,6 +2109,7 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 	return nil
 }
 
+// Managed identity for the resource.
 type IdentityProperties_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -2260,6 +2263,7 @@ func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityPropert
 	return nil
 }
 
+// The network rule set for a container registry.
 type NetworkRuleSet struct {
 	// +kubebuilder:validation:Required
 	// DefaultAction: The default action of allow or deny when no other rules match.
@@ -2402,6 +2406,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v
 	return nil
 }
 
+// The network rule set for a container registry.
 type NetworkRuleSet_STATUS struct {
 	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
@@ -2519,6 +2524,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	return nil
 }
 
+// The policies for a container registry.
 type Policies struct {
 	// ExportPolicy: The export policy for a container registry.
 	ExportPolicy *ExportPolicy `json:"exportPolicy,omitempty"`
@@ -2763,6 +2769,7 @@ func (policies *Policies) AssignProperties_To_Policies(destination *v20210901s.P
 	return nil
 }
 
+// The policies for a container registry.
 type Policies_STATUS struct {
 	// ExportPolicy: The export policy for a container registry.
 	ExportPolicy *ExportPolicy_STATUS `json:"exportPolicy,omitempty"`
@@ -2958,6 +2965,7 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 	return nil
 }
 
+// An object that represents a private endpoint connection for a container registry.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
@@ -3072,6 +3080,7 @@ const (
 	RegistryProperties_ZoneRedundancy_STATUS_Enabled  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
 )
 
+// The SKU of a container registry.
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Name: The SKU name of the container registry. Required for registry creation.
@@ -3156,6 +3165,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210901s.Sku) error {
 	return nil
 }
 
+// The SKU of a container registry.
 type Sku_STATUS struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
@@ -3249,6 +3259,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210901s.Sk
 	return nil
 }
 
+// The status of an Azure resource at the time the operation was called.
 type Status_STATUS struct {
 	// DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
@@ -3337,6 +3348,7 @@ func (status *Status_STATUS) AssignProperties_To_Status_STATUS(destination *v202
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -3505,6 +3517,7 @@ const (
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("enabled")
 )
 
+// The export policy for a container registry.
 type ExportPolicy struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status `json:"status,omitempty"`
@@ -3588,6 +3601,7 @@ func (policy *ExportPolicy) AssignProperties_To_ExportPolicy(destination *v20210
 	return nil
 }
 
+// The export policy for a container registry.
 type ExportPolicy_STATUS struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
@@ -3656,6 +3670,7 @@ func (policy *ExportPolicy_STATUS) AssignProperties_To_ExportPolicy_STATUS(desti
 	return nil
 }
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
@@ -3761,6 +3776,7 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *v20210901s.IPRule) e
 	return nil
 }
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
@@ -4082,6 +4098,7 @@ const (
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
+// The quarantine policy for a container registry.
 type QuarantinePolicy struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`
@@ -4165,6 +4182,7 @@ func (policy *QuarantinePolicy) AssignProperties_To_QuarantinePolicy(destination
 	return nil
 }
 
+// The quarantine policy for a container registry.
 type QuarantinePolicy_STATUS struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
@@ -4233,6 +4251,7 @@ func (policy *QuarantinePolicy_STATUS) AssignProperties_To_QuarantinePolicy_STAT
 	return nil
 }
 
+// The retention policy for a container registry.
 type RetentionPolicy struct {
 	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
@@ -4337,6 +4356,7 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 	return nil
 }
 
+// The retention policy for a container registry.
 type RetentionPolicy_STATUS struct {
 	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
@@ -4435,6 +4455,7 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS
 	return nil
 }
 
+// The content trust policy for a container registry.
 type TrustPolicy struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status `json:"status,omitempty"`
@@ -4549,6 +4570,7 @@ func (policy *TrustPolicy) AssignProperties_To_TrustPolicy(destination *v2021090
 	return nil
 }
 
+// The content trust policy for a container registry.
 type TrustPolicy_STATUS struct {
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`

@@ -246,6 +246,7 @@ func (redis *Redis_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSta
 }
 
 // Storage version of v1beta20201201.PrivateEndpointConnection_STATUS
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -308,6 +309,7 @@ type RedisCreateProperties_RedisConfiguration struct {
 }
 
 // Storage version of v1beta20201201.RedisInstanceDetails_STATUS
+// Details of single instance of redis.
 type RedisInstanceDetails_STATUS struct {
 	IsMaster    *bool                  `json:"isMaster,omitempty"`
 	IsPrimary   *bool                  `json:"isPrimary,omitempty"`
@@ -319,6 +321,7 @@ type RedisInstanceDetails_STATUS struct {
 }
 
 // Storage version of v1beta20201201.RedisLinkedServer_STATUS
+// Linked server Id
 type RedisLinkedServer_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -352,6 +355,7 @@ type RedisProperties_RedisConfiguration_STATUS struct {
 }
 
 // Storage version of v1beta20201201.Sku
+// SKU parameters supplied to the create Redis operation.
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -424,6 +428,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210301s.Sku) error {
 }
 
 // Storage version of v1beta20201201.Sku_STATUS
+// SKU parameters supplied to the create Redis operation.
 type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`

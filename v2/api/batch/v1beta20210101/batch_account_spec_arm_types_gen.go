@@ -37,6 +37,7 @@ func (account *BatchAccount_Spec_ARM) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
 }
 
+// The properties of a Batch account.
 type BatchAccountCreateProperties_ARM struct {
 	// AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties_ARM `json:"autoStorage,omitempty"`
@@ -57,11 +58,14 @@ type BatchAccountCreateProperties_ARM struct {
 	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
 }
 
+// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
+// their Batch account encryption configuration.
 type BatchAccountIdentity_ARM struct {
 	// Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
 }
 
+// The properties related to the auto-storage account.
 type AutoStorageBaseProperties_ARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
@@ -75,6 +79,8 @@ const (
 	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
 )
 
+// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
+// managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_ARM struct {
 	// KeySource: Type of the key source.
 	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
@@ -83,6 +89,7 @@ type EncryptionProperties_ARM struct {
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 }
 
+// Identifies the Azure key vault associated with a Batch account.
 type KeyVaultReference_ARM struct {
 	Id *string `json:"id,omitempty"`
 
@@ -90,6 +97,7 @@ type KeyVaultReference_ARM struct {
 	Url *string `json:"url,omitempty"`
 }
 
+// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
 type KeyVaultProperties_ARM struct {
 	// KeyIdentifier: Full path to the versioned secret. Example
 	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following

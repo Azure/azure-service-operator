@@ -734,6 +734,7 @@ func (schedule *Redis_PatchSchedule_STATUS) AssignProperties_To_Redis_PatchSched
 	return nil
 }
 
+// Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry struct {
 	// +kubebuilder:validation:Required
 	// DayOfWeek: Day of the week when a cache can be patched.
@@ -871,6 +872,7 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *v2020
 	return nil
 }
 
+// Patch schedule entry for a Premium Redis Cache.
 type ScheduleEntry_STATUS struct {
 	// DayOfWeek: Day of the week when a cache can be patched.
 	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`

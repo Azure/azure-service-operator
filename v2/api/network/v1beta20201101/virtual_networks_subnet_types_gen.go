@@ -1986,6 +1986,7 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_To_VirtualNetworks
 	return nil
 }
 
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2044,6 +2045,7 @@ func (embedded *ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_
 	return nil
 }
 
+// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
 type ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2127,6 +2129,7 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 	return nil
 }
 
+// Details the service to which the subnet is delegated.
 type Delegation struct {
 	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
@@ -2227,6 +2230,7 @@ func (delegation *Delegation) AssignProperties_To_Delegation(destination *v20201
 	return nil
 }
 
+// Details the service to which the subnet is delegated.
 type Delegation_STATUS struct {
 	// Actions: The actions permitted to the service upon delegation.
 	Actions []string `json:"actions,omitempty"`
@@ -2393,6 +2397,7 @@ func (delegation *Delegation_STATUS) AssignProperties_To_Delegation_STATUS(desti
 	return nil
 }
 
+// IP configuration.
 type IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2451,6 +2456,7 @@ func (embedded *IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 	return nil
 }
 
+// IP configuration profile child resource.
 type IPConfigurationProfile_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2509,6 +2515,7 @@ func (profile *IPConfigurationProfile_STATUS) AssignProperties_To_IPConfiguratio
 	return nil
 }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2567,6 +2574,7 @@ func (embedded *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEm
 	return nil
 }
 
+// NetworkSecurityGroup resource.
 type NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2650,6 +2658,7 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbed
 	return nil
 }
 
+// Private endpoint resource.
 type PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2708,6 +2717,7 @@ func (embedded *PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 	return nil
 }
 
+// ResourceNavigationLink resource.
 type ResourceNavigationLink_STATUS struct {
 	// Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
@@ -2766,6 +2776,7 @@ func (link *ResourceNavigationLink_STATUS) AssignProperties_To_ResourceNavigatio
 	return nil
 }
 
+// Route table resource.
 type RouteTable_STATUS_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2824,6 +2835,7 @@ func (embedded *RouteTable_STATUS_SubResourceEmbedded) AssignProperties_To_Route
 	return nil
 }
 
+// Route table resource.
 type RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -2907,6 +2919,7 @@ func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Assig
 	return nil
 }
 
+// ServiceAssociationLink resource.
 type ServiceAssociationLink_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2965,6 +2978,7 @@ func (link *ServiceAssociationLink_STATUS) AssignProperties_To_ServiceAssociatio
 	return nil
 }
 
+// Service End point policy resource.
 type ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -3023,6 +3037,7 @@ func (embedded *ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceE
 	return nil
 }
 
+// Service End point policy resource.
 type ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -3106,6 +3121,7 @@ func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbe
 	return nil
 }
 
+// The service endpoint properties.
 type ServiceEndpointPropertiesFormat struct {
 	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
@@ -3198,6 +3214,7 @@ func (format *ServiceEndpointPropertiesFormat) AssignProperties_To_ServiceEndpoi
 	return nil
 }
 
+// The service endpoint properties.
 type ServiceEndpointPropertiesFormat_STATUS struct {
 	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`

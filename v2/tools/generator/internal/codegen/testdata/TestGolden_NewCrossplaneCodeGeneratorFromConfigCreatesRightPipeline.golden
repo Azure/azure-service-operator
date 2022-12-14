@@ -25,6 +25,7 @@ filterTypes                                             Apply export filters to 
 verifyNoErroredTypes                                    Verify there are no ErroredType's containing errors
 stripUnreferenced                                       Strip unreferenced types
 replaceAnyTypeWithJSON                                  Replace properties using interface{} with arbitrary JSON
+improvePropertyDescriptions                             Improve property descriptions by copying from the corresponding type
 transformCrossResourceReferencesToString     crossplane Replace cross-resource references with string
 flattenProperties                                       Apply flattening to properties marked for flattening
 stripUnreferenced                                       Strip unreferenced types

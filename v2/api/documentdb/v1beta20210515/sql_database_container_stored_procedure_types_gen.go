@@ -972,6 +972,7 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 	return nil
 }
 
+// Cosmos DB SQL storedProcedure resource object
 type SqlStoredProcedureResource struct {
 	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`

@@ -37,6 +37,7 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 	return "Microsoft.OperationalInsights/workspaces"
 }
 
+// Workspace properties.
 type WorkspaceProperties_ARM struct {
 	// Features: Workspace features.
 	Features *WorkspaceFeatures_ARM `json:"features,omitempty"`
@@ -64,11 +65,13 @@ type WorkspaceProperties_ARM struct {
 	WorkspaceCapping *WorkspaceCapping_ARM `json:"workspaceCapping,omitempty"`
 }
 
+// The daily volume cap for ingestion.
 type WorkspaceCapping_ARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
+// Workspace features.
 type WorkspaceFeatures_ARM struct {
 	ClusterResourceId *string `json:"clusterResourceId,omitempty"`
 
@@ -85,6 +88,7 @@ type WorkspaceFeatures_ARM struct {
 	ImmediatePurgeDataOn30Days *bool `json:"immediatePurgeDataOn30Days,omitempty"`
 }
 
+// The SKU (tier) of a workspace.
 type WorkspaceSku_ARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.

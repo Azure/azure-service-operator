@@ -246,6 +246,7 @@ func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.Conv
 }
 
 // Storage version of v1beta20210501.Backup
+// Storage Profile properties of a server
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
@@ -253,6 +254,7 @@ type Backup struct {
 }
 
 // Storage version of v1beta20210501.Backup_STATUS
+// Storage Profile properties of a server
 type Backup_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -261,6 +263,7 @@ type Backup_STATUS struct {
 }
 
 // Storage version of v1beta20210501.DataEncryption
+// The date encryption for cmk.
 type DataEncryption struct {
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
 
@@ -276,6 +279,7 @@ type DataEncryption struct {
 }
 
 // Storage version of v1beta20210501.DataEncryption_STATUS
+// The date encryption for cmk.
 type DataEncryption_STATUS struct {
 	GeoBackupKeyURI                 *string                `json:"geoBackupKeyURI,omitempty"`
 	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
@@ -293,6 +297,7 @@ type FlexibleServerOperatorSpec struct {
 }
 
 // Storage version of v1beta20210501.HighAvailability
+// Network related properties of a server
 type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -300,6 +305,7 @@ type HighAvailability struct {
 }
 
 // Storage version of v1beta20210501.HighAvailability_STATUS
+// Network related properties of a server
 type HighAvailability_STATUS struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -308,12 +314,14 @@ type HighAvailability_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Identity
+// Properties to configure Identity for Bring your Own Keys
 type Identity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210501.Identity_STATUS
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS struct {
 	PrincipalId            *string                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -323,6 +331,7 @@ type Identity_STATUS struct {
 }
 
 // Storage version of v1beta20210501.MaintenanceWindow
+// Maintenance window of a server.
 type MaintenanceWindow struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -332,6 +341,7 @@ type MaintenanceWindow struct {
 }
 
 // Storage version of v1beta20210501.MaintenanceWindow_STATUS
+// Maintenance window of a server.
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -341,6 +351,7 @@ type MaintenanceWindow_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Network
+// Network related properties of a server
 type Network struct {
 	// DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
@@ -351,6 +362,7 @@ type Network struct {
 }
 
 // Storage version of v1beta20210501.Network_STATUS
+// Network related properties of a server
 type Network_STATUS struct {
 	DelegatedSubnetResourceId *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneResourceId  *string                `json:"privateDnsZoneResourceId,omitempty"`
@@ -359,6 +371,7 @@ type Network_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Sku
+// Billing information related properties of a server.
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -366,6 +379,7 @@ type Sku struct {
 }
 
 // Storage version of v1beta20210501.Sku_STATUS
+// Billing information related properties of a server.
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -373,6 +387,7 @@ type Sku_STATUS struct {
 }
 
 // Storage version of v1beta20210501.Storage
+// Storage Profile properties of a server
 type Storage struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -381,6 +396,7 @@ type Storage struct {
 }
 
 // Storage version of v1beta20210501.Storage_STATUS
+// Storage Profile properties of a server
 type Storage_STATUS struct {
 	AutoGrow      *string                `json:"autoGrow,omitempty"`
 	Iops          *int                   `json:"iops,omitempty"`
@@ -390,6 +406,7 @@ type Storage_STATUS struct {
 }
 
 // Storage version of v1beta20210501.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

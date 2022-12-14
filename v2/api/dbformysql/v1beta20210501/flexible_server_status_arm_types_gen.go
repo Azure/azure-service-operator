@@ -35,6 +35,7 @@ type FlexibleServer_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties to configure Identity for Bring your Own Keys
 type Identity_STATUS_ARM struct {
 	// PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -49,6 +50,7 @@ type Identity_STATUS_ARM struct {
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
+// The properties of a server.
 type ServerProperties_STATUS_ARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
 	// (and is required for creation).
@@ -100,6 +102,7 @@ type ServerProperties_STATUS_ARM struct {
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
 }
 
+// Billing information related properties of a server.
 type Sku_STATUS_ARM struct {
 	// Name: The name of the sku, e.g. Standard_D32s_v3.
 	Name *string `json:"name,omitempty"`
@@ -108,6 +111,7 @@ type Sku_STATUS_ARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS_ARM struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -128,6 +132,7 @@ type SystemData_STATUS_ARM struct {
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
+// Storage Profile properties of a server
 type Backup_STATUS_ARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -139,6 +144,7 @@ type Backup_STATUS_ARM struct {
 	GeoRedundantBackup *EnableStatusEnum_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
+// The date encryption for cmk.
 type DataEncryption_STATUS_ARM struct {
 	// GeoBackupKeyURI: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyURI *string `json:"geoBackupKeyURI,omitempty"`
@@ -157,6 +163,7 @@ type DataEncryption_STATUS_ARM struct {
 	Type *DataEncryption_Type_STATUS `json:"type,omitempty"`
 }
 
+// Network related properties of a server
 type HighAvailability_STATUS_ARM struct {
 	// Mode: High availability mode for a server.
 	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
@@ -172,6 +179,7 @@ type Identity_Type_STATUS string
 
 const Identity_Type_STATUS_UserAssigned = Identity_Type_STATUS("UserAssigned")
 
+// Maintenance window of a server.
 type MaintenanceWindow_STATUS_ARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -186,6 +194,7 @@ type MaintenanceWindow_STATUS_ARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
+// Network related properties of a server
 type Network_STATUS_ARM struct {
 	// DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -206,6 +215,7 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
+// Storage Profile properties of a server
 type Storage_STATUS_ARM struct {
 	// AutoGrow: Enable Storage Auto Grow or not.
 	AutoGrow *EnableStatusEnum_STATUS `json:"autoGrow,omitempty"`

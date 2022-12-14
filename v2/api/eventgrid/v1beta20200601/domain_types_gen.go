@@ -710,6 +710,7 @@ func (domain *Domain_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (domain *Domain_Spec) SetAzureName(azureName string) { domain.AzureName = azureName }
 
+// EventGrid Domain.
 type Domain_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1666,6 +1667,7 @@ func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) Ass
 	return nil
 }
 
+// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -2523,6 +2525,9 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchem
 	return nil
 }
 
+// This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
+// This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
+// input event schema.
 type JsonField struct {
 	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
@@ -2596,6 +2601,9 @@ func (field *JsonField) AssignProperties_To_JsonField(destination *v20200601s.Js
 	return nil
 }
 
+// This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
+// This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
+// input event schema.
 type JsonField_STATUS struct {
 	// SourceField: Name of a field in the input event schema that's to be used as the source of a mapping.
 	SourceField *string `json:"sourceField,omitempty"`
@@ -2654,6 +2662,13 @@ func (field *JsonField_STATUS) AssignProperties_To_JsonField_STATUS(destination 
 	return nil
 }
 
+// This is used to express the source of an input schema mapping for a single target field
+// in the Event Grid Event schema.
+// This is currently used in the mappings for the 'subject',
+// 'eventtype' and 'dataversion' properties. This represents a
+// field in the input event schema
+// along with a default value to be used, and at least one of these two properties should
+// be provided.
 type JsonFieldWithDefault struct {
 	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
 	// the specified name in the published JSON event payload.
@@ -2749,6 +2764,13 @@ func (withDefault *JsonFieldWithDefault) AssignProperties_To_JsonFieldWithDefaul
 	return nil
 }
 
+// This is used to express the source of an input schema mapping for a single target field
+// in the Event Grid Event schema.
+// This is currently used in the mappings for the 'subject',
+// 'eventtype' and 'dataversion' properties. This represents a
+// field in the input event schema
+// along with a default value to be used, and at least one of these two properties should
+// be provided.
 type JsonFieldWithDefault_STATUS struct {
 	// DefaultValue: The default value to be used for mapping when a SourceField is not provided or if there's no property with
 	// the specified name in the published JSON event payload.

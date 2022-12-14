@@ -175,6 +175,7 @@ func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime
 }
 
 // Storage version of v1beta20200601.EventSubscription_STATUS
+// Event Subscription
 type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
 	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
@@ -250,6 +251,7 @@ type EventSubscriptionDestination_STATUS struct {
 }
 
 // Storage version of v1beta20200601.EventSubscriptionFilter
+// Filter for the Event Subscription.
 type EventSubscriptionFilter struct {
 	AdvancedFilters        []AdvancedFilter       `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string               `json:"includedEventTypes,omitempty"`
@@ -260,6 +262,7 @@ type EventSubscriptionFilter struct {
 }
 
 // Storage version of v1beta20200601.EventSubscriptionFilter_STATUS
+// Filter for the Event Subscription.
 type EventSubscriptionFilter_STATUS struct {
 	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
@@ -270,6 +273,7 @@ type EventSubscriptionFilter_STATUS struct {
 }
 
 // Storage version of v1beta20200601.RetryPolicy
+// Information about the retry policy for an event subscription.
 type RetryPolicy struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
@@ -277,6 +281,7 @@ type RetryPolicy struct {
 }
 
 // Storage version of v1beta20200601.RetryPolicy_STATUS
+// Information about the retry policy for an event subscription.
 type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`

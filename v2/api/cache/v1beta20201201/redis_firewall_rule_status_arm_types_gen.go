@@ -18,6 +18,7 @@ type Redis_FirewallRule_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Specifies a range of IP addresses permitted to connect to the cache
 type RedisFirewallRuleProperties_STATUS_ARM struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`

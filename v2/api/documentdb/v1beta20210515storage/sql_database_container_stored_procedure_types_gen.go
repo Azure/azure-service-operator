@@ -215,6 +215,7 @@ type SqlStoredProcedureGetProperties_Resource_STATUS struct {
 }
 
 // Storage version of v1beta20210515.SqlStoredProcedureResource
+// Cosmos DB SQL storedProcedure resource object
 type SqlStoredProcedureResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`

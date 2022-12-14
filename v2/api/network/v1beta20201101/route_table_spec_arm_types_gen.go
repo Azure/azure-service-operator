@@ -34,6 +34,7 @@ func (table *RouteTable_Spec_ARM) GetType() string {
 	return "Microsoft.Network/routeTables"
 }
 
+// Route Table resource.
 type RouteTablePropertiesFormat_ARM struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
@@ -42,6 +43,7 @@ type RouteTablePropertiesFormat_ARM struct {
 	Routes []Route_ARM `json:"routes,omitempty"`
 }
 
+// Route resource.
 type Route_ARM struct {
 	Id *string `json:"id,omitempty"`
 

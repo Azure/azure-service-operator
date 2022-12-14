@@ -198,18 +198,23 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) ConvertStatusTo(destinati
 }
 
 // Storage version of v1beta20210401.ManagementPolicySchema
+// The Storage Account ManagementPolicies Rules. See more details in:
+// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicySchema_STATUS
+// The Storage Account ManagementPolicies Rules. See more details in:
+// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema_STATUS struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyRule
+// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule struct {
 	Definition  *ManagementPolicyDefinition `json:"definition,omitempty"`
 	Enabled     *bool                       `json:"enabled,omitempty"`
@@ -219,6 +224,7 @@ type ManagementPolicyRule struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyRule_STATUS
+// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
 type ManagementPolicyRule_STATUS struct {
 	Definition  *ManagementPolicyDefinition_STATUS `json:"definition,omitempty"`
 	Enabled     *bool                              `json:"enabled,omitempty"`
@@ -228,6 +234,7 @@ type ManagementPolicyRule_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyDefinition
+// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition struct {
 	Actions     *ManagementPolicyAction `json:"actions,omitempty"`
 	Filters     *ManagementPolicyFilter `json:"filters,omitempty"`
@@ -235,6 +242,7 @@ type ManagementPolicyDefinition struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyDefinition_STATUS
+// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
 type ManagementPolicyDefinition_STATUS struct {
 	Actions     *ManagementPolicyAction_STATUS `json:"actions,omitempty"`
 	Filters     *ManagementPolicyFilter_STATUS `json:"filters,omitempty"`
@@ -242,6 +250,7 @@ type ManagementPolicyDefinition_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyAction
+// Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction struct {
 	BaseBlob    *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -250,6 +259,7 @@ type ManagementPolicyAction struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyAction_STATUS
+// Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction_STATUS struct {
 	BaseBlob    *ManagementPolicyBaseBlob_STATUS `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
@@ -258,6 +268,8 @@ type ManagementPolicyAction_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyFilter
+// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
+// AND is performed on all filters.
 type ManagementPolicyFilter struct {
 	BlobIndexMatch []TagFilter            `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
@@ -266,6 +278,8 @@ type ManagementPolicyFilter struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyFilter_STATUS
+// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
+// AND is performed on all filters.
 type ManagementPolicyFilter_STATUS struct {
 	BlobIndexMatch []TagFilter_STATUS     `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
@@ -274,6 +288,7 @@ type ManagementPolicyFilter_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyBaseBlob
+// Management policy action for base blob.
 type ManagementPolicyBaseBlob struct {
 	Delete                      *DateAfterModification `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                  `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -283,6 +298,7 @@ type ManagementPolicyBaseBlob struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyBaseBlob_STATUS
+// Management policy action for base blob.
 type ManagementPolicyBaseBlob_STATUS struct {
 	Delete                      *DateAfterModification_STATUS `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -292,6 +308,7 @@ type ManagementPolicyBaseBlob_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicySnapShot
+// Management policy action for snapshot.
 type ManagementPolicySnapShot struct {
 	Delete        *DateAfterCreation     `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -300,6 +317,7 @@ type ManagementPolicySnapShot struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicySnapShot_STATUS
+// Management policy action for snapshot.
 type ManagementPolicySnapShot_STATUS struct {
 	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -308,6 +326,7 @@ type ManagementPolicySnapShot_STATUS struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyVersion
+// Management policy action for blob version.
 type ManagementPolicyVersion struct {
 	Delete        *DateAfterCreation     `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -316,6 +335,7 @@ type ManagementPolicyVersion struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyVersion_STATUS
+// Management policy action for blob version.
 type ManagementPolicyVersion_STATUS struct {
 	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -324,6 +344,7 @@ type ManagementPolicyVersion_STATUS struct {
 }
 
 // Storage version of v1beta20210401.TagFilter
+// Blob index tag based filtering for blob objects
 type TagFilter struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
@@ -332,6 +353,7 @@ type TagFilter struct {
 }
 
 // Storage version of v1beta20210401.TagFilter_STATUS
+// Blob index tag based filtering for blob objects
 type TagFilter_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
@@ -340,18 +362,22 @@ type TagFilter_STATUS struct {
 }
 
 // Storage version of v1beta20210401.DateAfterCreation
+// Object to define the number of days after creation.
 type DateAfterCreation struct {
 	DaysAfterCreationGreaterThan *int                   `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.DateAfterCreation_STATUS
+// Object to define the number of days after creation.
 type DateAfterCreation_STATUS struct {
 	DaysAfterCreationGreaterThan *float64               `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.DateAfterModification
+// Object to define the number of days after object last modification Or last access. Properties
+// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
 type DateAfterModification struct {
 	DaysAfterLastAccessTimeGreaterThan *int                   `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *int                   `json:"daysAfterModificationGreaterThan,omitempty"`
@@ -359,6 +385,8 @@ type DateAfterModification struct {
 }
 
 // Storage version of v1beta20210401.DateAfterModification_STATUS
+// Object to define the number of days after object last modification Or last access. Properties
+// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
 type DateAfterModification_STATUS struct {
 	DaysAfterLastAccessTimeGreaterThan *float64               `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *float64               `json:"daysAfterModificationGreaterThan,omitempty"`

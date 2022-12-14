@@ -1425,6 +1425,7 @@ func (account *StorageAccount_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (account *StorageAccount_Spec) SetAzureName(azureName string) { account.AzureName = azureName }
 
+// The storage account.
 type StorageAccount_STATUS struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
 	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
@@ -2738,6 +2739,7 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	return nil
 }
 
+// Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication struct {
 	// ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
@@ -2901,6 +2903,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication) AssignProperties_To
 	return nil
 }
 
+// Settings for Azure Files identity based authentication.
 type AzureFilesIdentityBasedAuthentication_STATUS struct {
 	// ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS `json:"activeDirectoryProperties,omitempty"`
@@ -3032,6 +3035,7 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) AssignProper
 	return nil
 }
 
+// Blob restore status.
 type BlobRestoreStatus_STATUS struct {
 	// FailureReason: Failure reason when blob restore is failed.
 	FailureReason *string `json:"failureReason,omitempty"`
@@ -3169,6 +3173,7 @@ func (status *BlobRestoreStatus_STATUS) AssignProperties_To_BlobRestoreStatus_ST
 	return nil
 }
 
+// The custom domain assigned to this storage account. This can be set via Update.
 type CustomDomain struct {
 	// +kubebuilder:validation:Required
 	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
@@ -3275,6 +3280,7 @@ func (domain *CustomDomain) AssignProperties_To_CustomDomain(destination *v20210
 	return nil
 }
 
+// The custom domain assigned to this storage account. This can be set via Update.
 type CustomDomain_STATUS struct {
 	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
 	Name *string `json:"name,omitempty"`
@@ -3359,6 +3365,7 @@ func (domain *CustomDomain_STATUS) AssignProperties_To_CustomDomain_STATUS(desti
 	return nil
 }
 
+// The encryption settings on the storage account.
 type Encryption struct {
 	// Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity `json:"identity,omitempty"`
@@ -3620,6 +3627,7 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20210
 	return nil
 }
 
+// The encryption settings on the storage account.
 type Encryption_STATUS struct {
 	// Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity_STATUS `json:"identity,omitempty"`
@@ -3829,6 +3837,7 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
+// The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object.
 type Endpoints_STATUS struct {
 	// Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -4038,6 +4047,7 @@ func (endpoints *Endpoints_STATUS) AssignProperties_To_Endpoints_STATUS(destinat
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -4142,6 +4152,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -4225,6 +4236,8 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
+// Statistics related to replication for storage account's Blob, Table, Queue and File services. It is only available when
+// geo-redundant replication is enabled for the storage account.
 type GeoReplicationStats_STATUS struct {
 	// CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.
 	CanFailover *bool `json:"canFailover,omitempty"`
@@ -4338,6 +4351,7 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_To_GeoReplicationStats
 	return nil
 }
 
+// Identity for the resource.
 type Identity struct {
 	// +kubebuilder:validation:Required
 	// Type: The identity type.
@@ -4422,6 +4436,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210401s.I
 	return nil
 }
 
+// Identity for the resource.
 type Identity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4574,6 +4589,7 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+// Storage account keys creation time.
 type KeyCreationTime_STATUS struct {
 	Key1 *string `json:"key1,omitempty"`
 	Key2 *string `json:"key2,omitempty"`
@@ -4644,6 +4660,7 @@ func (time *KeyCreationTime_STATUS) AssignProperties_To_KeyCreationTime_STATUS(d
 	return nil
 }
 
+// KeyPolicy assigned to the storage account.
 type KeyPolicy struct {
 	// +kubebuilder:validation:Required
 	// KeyExpirationPeriodInDays: The key expiration period in days.
@@ -4718,6 +4735,7 @@ func (policy *KeyPolicy) AssignProperties_To_KeyPolicy(destination *v20210401s.K
 	return nil
 }
 
+// KeyPolicy assigned to the storage account.
 type KeyPolicy_STATUS struct {
 	// KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
@@ -4776,6 +4794,7 @@ func (policy *KeyPolicy_STATUS) AssignProperties_To_KeyPolicy_STATUS(destination
 	return nil
 }
 
+// Network rule set
 type NetworkRuleSet struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
 	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
@@ -5066,6 +5085,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v
 	return nil
 }
 
+// Network rule set
 type NetworkRuleSet_STATUS struct {
 	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
 	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
@@ -5307,6 +5327,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	return nil
 }
 
+// The Private Endpoint Connection resource.
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -5366,6 +5387,8 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
+// data, the default option is microsoft routing
 type RoutingPreference struct {
 	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
 	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
@@ -5511,6 +5534,8 @@ func (preference *RoutingPreference) AssignProperties_To_RoutingPreference(desti
 	return nil
 }
 
+// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
+// data, the default option is microsoft routing
 type RoutingPreference_STATUS struct {
 	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
 	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
@@ -5629,6 +5654,7 @@ func (preference *RoutingPreference_STATUS) AssignProperties_To_RoutingPreferenc
 	return nil
 }
 
+// SasPolicy assigned to the storage account.
 type SasPolicy struct {
 	// +kubebuilder:validation:Required
 	// ExpirationAction: The SAS expiration action. Can only be Log.
@@ -5735,6 +5761,7 @@ func (policy *SasPolicy) AssignProperties_To_SasPolicy(destination *v20210401s.S
 	return nil
 }
 
+// SasPolicy assigned to the storage account.
 type SasPolicy_STATUS struct {
 	// ExpirationAction: The SAS expiration action. Can only be Log.
 	ExpirationAction *SasPolicy_ExpirationAction_STATUS `json:"expirationAction,omitempty"`
@@ -5818,10 +5845,15 @@ func (policy *SasPolicy_STATUS) AssignProperties_To_SasPolicy_STATUS(destination
 	return nil
 }
 
+// The SKU of the storage account.
 type Sku struct {
 	// +kubebuilder:validation:Required
+	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+	//  accountType.
 	Name *SkuName `json:"name,omitempty"`
-	Tier *Tier    `json:"tier,omitempty"`
+
+	// Tier: The SKU tier. This is based on the SKU name.
+	Tier *Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -5930,9 +5962,14 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210401s.Sku) error {
 	return nil
 }
 
+// The SKU of the storage account.
 type Sku_STATUS struct {
+	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
+	//  accountType.
 	Name *SkuName_STATUS `json:"name,omitempty"`
-	Tier *Tier_STATUS    `json:"tier,omitempty"`
+
+	// Tier: The SKU tier. This is based on the SKU name.
+	Tier *Tier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -6142,6 +6179,7 @@ const (
 	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_2")
 )
 
+// Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties struct {
 	// +kubebuilder:validation:Required
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
@@ -6326,6 +6364,7 @@ func (properties *ActiveDirectoryProperties) AssignProperties_To_ActiveDirectory
 	return nil
 }
 
+// Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties_STATUS struct {
 	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
 	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
@@ -6497,6 +6536,7 @@ const (
 	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None  = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("None")
 )
 
+// Blob restore parameters
 type BlobRestoreParameters_STATUS struct {
 	// BlobRanges: Blob ranges to restore.
 	BlobRanges []BlobRestoreRange_STATUS `json:"blobRanges,omitempty"`
@@ -6627,6 +6667,7 @@ const (
 	Encryption_KeySource_STATUS_MicrosoftStorage  = Encryption_KeySource_STATUS("Microsoft.Storage")
 )
 
+// Encryption identity for the storage account.
 type EncryptionIdentity struct {
 	// UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
 	// encryption on the storage account.
@@ -6711,6 +6752,7 @@ func (identity *EncryptionIdentity) AssignProperties_To_EncryptionIdentity(desti
 	return nil
 }
 
+// Encryption identity for the storage account.
 type EncryptionIdentity_STATUS struct {
 	// UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
 	// the storage account.
@@ -6770,6 +6812,7 @@ func (identity *EncryptionIdentity_STATUS) AssignProperties_To_EncryptionIdentit
 	return nil
 }
 
+// A list of services that support encryption.
 type EncryptionServices struct {
 	// Blob: The encryption function of the blob storage service.
 	Blob *EncryptionService `json:"blob,omitempty"`
@@ -7014,6 +7057,7 @@ func (services *EncryptionServices) AssignProperties_To_EncryptionServices(desti
 	return nil
 }
 
+// A list of services that support encryption.
 type EncryptionServices_STATUS struct {
 	// Blob: The encryption function of the blob storage service.
 	Blob *EncryptionService_STATUS `json:"blob,omitempty"`
@@ -7217,6 +7261,7 @@ const (
 	GeoReplicationStats_Status_STATUS_Unavailable = GeoReplicationStats_Status_STATUS("Unavailable")
 )
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
@@ -7322,6 +7367,7 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *v20210401s.IPRule) e
 	return nil
 }
 
+// IP rule with specific IP or IP range in CIDR format.
 type IPRule_STATUS struct {
 	// Action: The action of IP ACL rule.
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
@@ -7405,6 +7451,7 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *v20210
 	return nil
 }
 
+// Properties of key vault.
 type KeyVaultProperties struct {
 	// Keyname: The name of KeyVault key.
 	Keyname *string `json:"keyname,omitempty"`
@@ -7520,6 +7567,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// Properties of key vault.
 type KeyVaultProperties_STATUS struct {
 	// CurrentVersionedKeyIdentifier: The object identifier of the current versioned Key Vault Key in use.
 	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
@@ -7672,6 +7720,7 @@ const (
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
+// Resource Access Rule.
 type ResourceAccessRule struct {
 	// ResourceReference: Resource Id
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
@@ -7776,6 +7825,7 @@ func (rule *ResourceAccessRule) AssignProperties_To_ResourceAccessRule(destinati
 	return nil
 }
 
+// Resource Access Rule.
 type ResourceAccessRule_STATUS struct {
 	// ResourceId: Resource Id
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -7873,6 +7923,7 @@ type SasPolicy_ExpirationAction_STATUS string
 
 const SasPolicy_ExpirationAction_STATUS_Log = SasPolicy_ExpirationAction_STATUS("Log")
 
+// The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
 type StorageAccountInternetEndpoints_STATUS struct {
 	// Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -7976,6 +8027,8 @@ func (endpoints *StorageAccountInternetEndpoints_STATUS) AssignProperties_To_Sto
 	return nil
 }
 
+// The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing
+// endpoint.
 type StorageAccountMicrosoftEndpoints_STATUS struct {
 	// Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -8292,6 +8345,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 	return nil
 }
 
+// UserAssignedIdentity for the resource.
 type UserAssignedIdentity_STATUS struct {
 	// ClientId: The client ID of the identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -8365,6 +8419,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 	return nil
 }
 
+// Virtual Network rule.
 type VirtualNetworkRule struct {
 	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRule_Action `json:"action,omitempty"`
@@ -8512,6 +8567,7 @@ func (rule *VirtualNetworkRule) AssignProperties_To_VirtualNetworkRule(destinati
 	return nil
 }
 
+// Virtual Network rule.
 type VirtualNetworkRule_STATUS struct {
 	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRule_Action_STATUS `json:"action,omitempty"`
@@ -8621,6 +8677,7 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 	return nil
 }
 
+// Blob range
 type BlobRestoreRange_STATUS struct {
 	// EndRange: Blob end range. This is exclusive. Empty means account end.
 	EndRange *string `json:"endRange,omitempty"`
@@ -8694,6 +8751,7 @@ func (restoreRange *BlobRestoreRange_STATUS) AssignProperties_To_BlobRestoreRang
 	return nil
 }
 
+// A service that allows server-side encryption to be used.
 type EncryptionService struct {
 	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -8809,6 +8867,7 @@ func (service *EncryptionService) AssignProperties_To_EncryptionService(destinat
 	return nil
 }
 
+// A service that allows server-side encryption to be used.
 type EncryptionService_STATUS struct {
 	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
 	Enabled *bool `json:"enabled,omitempty"`

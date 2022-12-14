@@ -30,6 +30,7 @@ type Component_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Properties that define an Application Insights component resource.
 type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	// AppId: Application Insights Unique ID for your Application.
 	AppId *string `json:"AppId,omitempty"`
@@ -116,6 +117,7 @@ type ApplicationInsightsComponentProperties_STATUS_ARM struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
+// The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS_ARM struct {
 	// ResourceId: The full resource Id of the private link scope resource.
 	ResourceId *string `json:"ResourceId,omitempty"`

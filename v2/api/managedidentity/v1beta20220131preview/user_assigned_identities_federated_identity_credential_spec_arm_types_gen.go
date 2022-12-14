@@ -29,6 +29,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) G
 	return "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
 }
 
+// The properties associated with a federated identity credential.
 type FederatedIdentityCredentialProperties_ARM struct {
 	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`

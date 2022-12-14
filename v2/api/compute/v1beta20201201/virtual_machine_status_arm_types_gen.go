@@ -5,6 +5,7 @@ package v1beta20201201
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
+// Describes a Virtual Machine.
 type VirtualMachine_STATUS_ARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_STATUS_ARM `json:"extendedLocation,omitempty"`
@@ -25,7 +26,9 @@ type VirtualMachine_STATUS_ARM struct {
 	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
 	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
 	// programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan       *Plan_STATUS_ARM                     `json:"plan,omitempty"`
+	Plan *Plan_STATUS_ARM `json:"plan,omitempty"`
+
+	// Properties: Describes the properties of a Virtual Machine.
 	Properties *VirtualMachineProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Resources: The virtual machine child extension resources.
@@ -41,6 +44,7 @@ type VirtualMachine_STATUS_ARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+// Describes a Virtual Machine Extension.
 type VirtualMachineExtension_STATUS_ARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -49,7 +53,9 @@ type VirtualMachineExtension_STATUS_ARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: Resource name
-	Name       *string                                       `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Describes the properties of a Virtual Machine Extension.
 	Properties *VirtualMachineExtensionProperties_STATUS_ARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
@@ -59,6 +65,7 @@ type VirtualMachineExtension_STATUS_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Identity for the virtual machine.
 type VirtualMachineIdentity_STATUS_ARM struct {
 	// PrincipalId: The principal id of virtual machine identity. This property will only be provided for a system assigned
 	// identity.
@@ -74,6 +81,7 @@ type VirtualMachineIdentity_STATUS_ARM struct {
 	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
 }
 
+// Describes the properties of a Virtual Machine.
 type VirtualMachineProperties_STATUS_ARM struct {
 	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
 	AdditionalCapabilities *AdditionalCapabilities_STATUS_ARM `json:"additionalCapabilities,omitempty"`
@@ -186,6 +194,8 @@ type VirtualMachineProperties_STATUS_ARM struct {
 	VmId *string `json:"vmId,omitempty"`
 }
 
+// Specifies the billing related details of a Azure Spot VM or VMSS.
+// Minimum api-version: 2019-03-01.
 type BillingProfile_STATUS_ARM struct {
 	// MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars.
 	// This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time
@@ -202,6 +212,8 @@ type BillingProfile_STATUS_ARM struct {
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
 }
 
+// Specifies the boot diagnostic settings state.
+// Minimum api-version: 2015-06-15.
 type DiagnosticsProfile_STATUS_ARM struct {
 	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
 	// diagnose VM status.
@@ -210,6 +222,7 @@ type DiagnosticsProfile_STATUS_ARM struct {
 	BootDiagnostics *BootDiagnostics_STATUS_ARM `json:"bootDiagnostics,omitempty"`
 }
 
+// Specifies the hardware settings for the virtual machine.
 type HardwareProfile_STATUS_ARM struct {
 	// VmSize: Specifies the size of the virtual machine.
 	// The enum data type is currently deprecated and will be removed by December 23rd 2023.
@@ -225,11 +238,14 @@ type HardwareProfile_STATUS_ARM struct {
 	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
 }
 
+// Specifies the network interfaces of the virtual machine.
 type NetworkProfile_STATUS_ARM struct {
 	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
 	NetworkInterfaces []NetworkInterfaceReference_STATUS_ARM `json:"networkInterfaces,omitempty"`
 }
 
+// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
+// provisioned.
 type OSProfile_STATUS_ARM struct {
 	// AdminUsername: Specifies the name of the administrator account.
 	// This property cannot be updated after the VM is created.
@@ -287,6 +303,7 @@ type OSProfile_STATUS_ARM struct {
 	WindowsConfiguration *WindowsConfiguration_STATUS_ARM `json:"windowsConfiguration,omitempty"`
 }
 
+// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
 type SecurityProfile_STATUS_ARM struct {
 	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
 	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
@@ -303,6 +320,7 @@ type SecurityProfile_STATUS_ARM struct {
 	UefiSettings *UefiSettings_STATUS_ARM `json:"uefiSettings,omitempty"`
 }
 
+// Specifies the storage settings for the virtual machine disks.
 type StorageProfile_STATUS_ARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
 	// For more information about disks, see [About disks and VHDs for Azure virtual
@@ -320,6 +338,7 @@ type StorageProfile_STATUS_ARM struct {
 	OsDisk *OSDisk_STATUS_ARM `json:"osDisk,omitempty"`
 }
 
+// Describes the properties of a Virtual Machine Extension.
 type VirtualMachineExtensionProperties_STATUS_ARM struct {
 	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
 	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
@@ -365,6 +384,7 @@ const (
 	VirtualMachineIdentity_Type_STATUS_UserAssigned               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
 )
 
+// The instance view of a virtual machine.
 type VirtualMachineInstanceView_STATUS_ARM struct {
 	// AssignedHost: Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement,
 	// when the virtual machine is associated with a dedicated host group that has automatic placement enabled.
@@ -420,6 +440,10 @@ type VirtualMachineInstanceView_STATUS_ARM struct {
 	VmHealth *VirtualMachineHealthStatus_STATUS_ARM `json:"vmHealth,omitempty"`
 }
 
+// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
+// You can easily view the output of your console log.
+// Azure also enables you to see a screenshot of the
+// VM from the hypervisor.
 type BootDiagnostics_STATUS_ARM struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -429,6 +453,7 @@ type BootDiagnostics_STATUS_ARM struct {
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
+// The instance view of a virtual machine boot diagnostics.
 type BootDiagnosticsInstanceView_STATUS_ARM struct {
 	// ConsoleScreenshotBlobUri: The console screenshot blob URI.
 	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
@@ -443,6 +468,7 @@ type BootDiagnosticsInstanceView_STATUS_ARM struct {
 	Status *InstanceViewStatus_STATUS_ARM `json:"status,omitempty"`
 }
 
+// Describes a data disk.
 type DataDisk_STATUS_ARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -508,6 +534,7 @@ type DataDisk_STATUS_ARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// The instance view of the disk.
 type DiskInstanceView_STATUS_ARM struct {
 	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
 	// Minimum api-version: 2015-06-15
@@ -520,6 +547,10 @@ type DiskInstanceView_STATUS_ARM struct {
 	Statuses []InstanceViewStatus_STATUS_ARM `json:"statuses,omitempty"`
 }
 
+// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
+// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
+// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
+// when you create the scale set.
 type ImageReference_STATUS_ARM struct {
 	// ExactVersion: Specifies in decimal numbers, the version of platform image or marketplace image used to create the
 	// virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
@@ -544,6 +575,7 @@ type ImageReference_STATUS_ARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
+// Instance view status.
 type InstanceViewStatus_STATUS_ARM struct {
 	// Code: The status code.
 	Code *string `json:"code,omitempty"`
@@ -561,6 +593,12 @@ type InstanceViewStatus_STATUS_ARM struct {
 	Time *string `json:"time,omitempty"`
 }
 
+// Specifies the Linux operating system settings on the virtual machine.
+// For a list of supported Linux
+// distributions, see [Linux on Azure-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+// For running non-endorsed distributions, see [Information for Non-Endorsed
+// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
 type LinuxConfiguration_STATUS_ARM struct {
 	// DisablePasswordAuthentication: Specifies whether password authentication should be disabled.
 	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
@@ -577,6 +615,7 @@ type LinuxConfiguration_STATUS_ARM struct {
 	Ssh *SshConfiguration_STATUS_ARM `json:"ssh,omitempty"`
 }
 
+// Maintenance Operation Status.
 type MaintenanceRedeployStatus_STATUS_ARM struct {
 	// IsCustomerInitiatedMaintenanceAllowed: True, if customer is allowed to perform Maintenance.
 	IsCustomerInitiatedMaintenanceAllowed *bool `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
@@ -600,12 +639,19 @@ type MaintenanceRedeployStatus_STATUS_ARM struct {
 	PreMaintenanceWindowStartTime *string `json:"preMaintenanceWindowStartTime,omitempty"`
 }
 
+// Describes a network interface reference.
 type NetworkInterfaceReference_STATUS_ARM struct {
 	// Id: Resource Id
-	Id         *string                                         `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Properties: Describes a network interface reference properties.
 	Properties *NetworkInterfaceReferenceProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// Specifies information about the operating system disk used by the virtual machine.
+// For more information about
+// disks, see [About disks and VHDs for Azure virtual
+// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
 type OSDisk_STATUS_ARM struct {
 	// Caching: Specifies the caching requirements.
 	// Possible values are:
@@ -659,6 +705,9 @@ type OSDisk_STATUS_ARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
+// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
+// Minimum
+// api-version: 2020-12-01
 type UefiSettings_STATUS_ARM struct {
 	// SecureBootEnabled: Specifies whether secure boot should be enabled on the virtual machine.
 	// Minimum api-version: 2020-12-01
@@ -669,6 +718,7 @@ type UefiSettings_STATUS_ARM struct {
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
+// Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup_STATUS_ARM struct {
 	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
 	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
@@ -677,6 +727,7 @@ type VaultSecretGroup_STATUS_ARM struct {
 	VaultCertificates []VaultCertificate_STATUS_ARM `json:"vaultCertificates,omitempty"`
 }
 
+// The instance view of the VM Agent running on the virtual machine.
 type VirtualMachineAgentInstanceView_STATUS_ARM struct {
 	// ExtensionHandlers: The virtual machine extension handler instance view.
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS_ARM `json:"extensionHandlers,omitempty"`
@@ -688,6 +739,7 @@ type VirtualMachineAgentInstanceView_STATUS_ARM struct {
 	VmAgentVersion *string `json:"vmAgentVersion,omitempty"`
 }
 
+// The instance view of a virtual machine extension.
 type VirtualMachineExtensionInstanceView_STATUS_ARM struct {
 	// Name: The virtual machine extension name.
 	Name *string `json:"name,omitempty"`
@@ -705,11 +757,13 @@ type VirtualMachineExtensionInstanceView_STATUS_ARM struct {
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
+// The health status of the VM.
 type VirtualMachineHealthStatus_STATUS_ARM struct {
 	// Status: The health status information for the VM.
 	Status *InstanceViewStatus_STATUS_ARM `json:"status,omitempty"`
 }
 
+// The status of virtual machine patch operations.
 type VirtualMachinePatchStatus_STATUS_ARM struct {
 	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
 	AvailablePatchSummary *AvailablePatchSummary_STATUS_ARM `json:"availablePatchSummary,omitempty"`
@@ -721,6 +775,7 @@ type VirtualMachinePatchStatus_STATUS_ARM struct {
 	LastPatchInstallationSummary *LastPatchInstallationSummary_STATUS_ARM `json:"lastPatchInstallationSummary,omitempty"`
 }
 
+// Specifies Windows operating system settings on the virtual machine.
 type WindowsConfiguration_STATUS_ARM struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -750,6 +805,8 @@ type WindowsConfiguration_STATUS_ARM struct {
 	WinRM *WinRMConfiguration_STATUS_ARM `json:"winRM,omitempty"`
 }
 
+// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
+// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
 type AdditionalUnattendContent_STATUS_ARM struct {
 	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
@@ -767,6 +824,7 @@ type AdditionalUnattendContent_STATUS_ARM struct {
 	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
 }
 
+// Describes the properties of an virtual machine instance view for available patch summary.
 type AvailablePatchSummary_STATUS_ARM struct {
 	// AssessmentActivityId: The activity ID of the operation that produced this result. It is used to correlate across CRP and
 	// extension logs.
@@ -797,6 +855,9 @@ type AvailablePatchSummary_STATUS_ARM struct {
 	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
 }
 
+// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
+// NOTE: The
+// ephemeral disk settings can only be specified for managed disk.
 type DiffDiskSettings_STATUS_ARM struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption_STATUS `json:"option,omitempty"`
@@ -812,6 +873,7 @@ type DiffDiskSettings_STATUS_ARM struct {
 	Placement *DiffDiskPlacement_STATUS `json:"placement,omitempty"`
 }
 
+// Describes a Encryption Settings for a Disk
 type DiskEncryptionSettings_STATUS_ARM struct {
 	// DiskEncryptionKey: Specifies the location of the disk encryption key, which is a Key Vault Secret.
 	DiskEncryptionKey *KeyVaultSecretReference_STATUS_ARM `json:"diskEncryptionKey,omitempty"`
@@ -823,6 +885,7 @@ type DiskEncryptionSettings_STATUS_ARM struct {
 	KeyEncryptionKey *KeyVaultKeyReference_STATUS_ARM `json:"keyEncryptionKey,omitempty"`
 }
 
+// Describes the properties of the last installed patch summary.
 type LastPatchInstallationSummary_STATUS_ARM struct {
 	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
 	Error *ApiError_STATUS_ARM `json:"error,omitempty"`
@@ -863,6 +926,7 @@ type LastPatchInstallationSummary_STATUS_ARM struct {
 	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
 }
 
+// Specifies settings related to VM Guest Patching on Linux.
 type LinuxPatchSettings_STATUS_ARM struct {
 	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
 	// Possible values are:
@@ -872,6 +936,7 @@ type LinuxPatchSettings_STATUS_ARM struct {
 	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
 }
 
+// The parameters of a managed disk.
 type ManagedDiskParameters_STATUS_ARM struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
 	DiskEncryptionSet *SubResource_STATUS_ARM `json:"diskEncryptionSet,omitempty"`
@@ -885,11 +950,13 @@ type ManagedDiskParameters_STATUS_ARM struct {
 	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
 }
 
+// Describes a network interface reference properties.
 type NetworkInterfaceReferenceProperties_STATUS_ARM struct {
 	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
 	Primary *bool `json:"primary,omitempty"`
 }
 
+// Specifies settings related to VM Guest Patching on Windows.
 type PatchSettings_STATUS_ARM struct {
 	// EnableHotpatching: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the
 	// 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
@@ -907,11 +974,13 @@ type PatchSettings_STATUS_ARM struct {
 	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
 }
 
+// SSH configuration for Linux based VMs running on Azure
 type SshConfiguration_STATUS_ARM struct {
 	// PublicKeys: The list of SSH public keys used to authenticate with linux based VMs.
 	PublicKeys []SshPublicKey_STATUS_ARM `json:"publicKeys,omitempty"`
 }
 
+// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
 type VaultCertificate_STATUS_ARM struct {
 	// CertificateStore: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate
 	// should be added. The specified certificate store is implicitly in the LocalMachine account.
@@ -932,11 +1001,13 @@ type VaultCertificate_STATUS_ARM struct {
 	CertificateUrl *string `json:"certificateUrl,omitempty"`
 }
 
+// Describes the uri of a disk.
 type VirtualHardDisk_STATUS_ARM struct {
 	// Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
+// The instance view of a virtual machine extension handler.
 type VirtualMachineExtensionHandlerInstanceView_STATUS_ARM struct {
 	// Status: The extension handler status.
 	Status *InstanceViewStatus_STATUS_ARM `json:"status,omitempty"`
@@ -948,11 +1019,13 @@ type VirtualMachineExtensionHandlerInstanceView_STATUS_ARM struct {
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
+// Describes Windows Remote Management configuration of the VM
 type WinRMConfiguration_STATUS_ARM struct {
 	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_STATUS_ARM `json:"listeners,omitempty"`
 }
 
+// Api error.
 type ApiError_STATUS_ARM struct {
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
@@ -970,6 +1043,7 @@ type ApiError_STATUS_ARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
+// Describes a reference to Key Vault Key
 type KeyVaultKeyReference_STATUS_ARM struct {
 	// KeyUrl: The URL referencing a key encryption key in Key Vault.
 	KeyUrl *string `json:"keyUrl,omitempty"`
@@ -978,6 +1052,7 @@ type KeyVaultKeyReference_STATUS_ARM struct {
 	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
+// Describes a reference to Key Vault Secret
 type KeyVaultSecretReference_STATUS_ARM struct {
 	// SecretUrl: The URL referencing a secret in a Key Vault.
 	SecretUrl *string `json:"secretUrl,omitempty"`
@@ -986,6 +1061,7 @@ type KeyVaultSecretReference_STATUS_ARM struct {
 	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
+// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
 type SshPublicKey_STATUS_ARM struct {
 	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
 	// and in ssh-rsa format.
@@ -998,6 +1074,7 @@ type SshPublicKey_STATUS_ARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
+// Describes Protocol and thumbprint of Windows Remote Management listener
 type WinRMListener_STATUS_ARM struct {
 	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
 	// the Key Vault, see [Add a key or secret to the key
@@ -1017,6 +1094,7 @@ type WinRMListener_STATUS_ARM struct {
 	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
+// Api error base.
 type ApiErrorBase_STATUS_ARM struct {
 	// Code: The error code.
 	Code *string `json:"code,omitempty"`
@@ -1028,6 +1106,7 @@ type ApiErrorBase_STATUS_ARM struct {
 	Target *string `json:"target,omitempty"`
 }
 
+// Inner error details.
 type InnerError_STATUS_ARM struct {
 	// Errordetail: The internal error message or exception dump.
 	Errordetail *string `json:"errordetail,omitempty"`
