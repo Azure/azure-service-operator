@@ -8,15 +8,12 @@ package arm
 import (
 	"context"
 	"net/http"
-	"os"
 	"reflect"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -24,6 +21,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -39,8 +37,6 @@ const (
 	NamespacedSecretName        = "aso-credential"
 	PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
 	namespacedNameSeparator     = "/"
-	// #nosec
-	tokenFile = "/var/run/secrets/tokens/azure-identity"
 )
 
 // ARMClientCache is a cache for armClients to hold multiple credential clients and global credential client.
@@ -214,9 +210,9 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		errs = append(errs, err)
 	}
 
-	clientID, ok := secret.Data[config.AzureClientIDVar]
+	clientID, ok := secret.Data[config.ClientIDVar]
 	if !ok {
-		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.AzureClientIDVar))
+		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.ClientIDVar))
 		errs = append(errs, err)
 	}
 
@@ -225,7 +221,7 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		return nil, "", kerrors.NewAggregate(errs)
 	}
 
-	clientSecret, hasClientSecret := secret.Data[config.AzureClientSecretVar]
+	clientSecret, hasClientSecret := secret.Data[config.ClientSecretVar]
 
 	if hasClientSecret {
 		credential, err = azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
@@ -234,9 +230,15 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		}
 	} else {
 		// Here we check for workload identity if client secret is not provided.
-		credential, err = newWorkloadIdentityCredential(string(tenantID), string(clientID), tokenFile)
+		credential, err = identity.NewWorkloadIdentityCredential(string(tenantID), string(clientID))
 		if err != nil {
-			err = errors.Wrapf(err, "credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ", nsName.String(), config.AzureClientSecretVar, string(clientID), tokenFile)
+			err = errors.Wrapf(
+				err,
+				"credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ",
+				nsName.String(),
+				config.ClientSecretVar,
+				string(clientID),
+				identity.TokenFile)
 			return nil, "", err
 		}
 	}
@@ -260,43 +262,4 @@ func (c *ARMClientCache) getSecret(ctx context.Context, namespace string, secret
 
 func matchSecretData(old, new map[string][]byte) bool {
 	return reflect.DeepEqual(old, new)
-}
-
-// TODO: Not sure if its a right thing to put this here or create a separate package for identity/auth and put workloadIdentityCredential there?
-// The below bit is from https://github.com/Azure/azure-sdk-for-go/issues/15615#issuecomment-1211012677
-type workloadIdentityCredential struct {
-	assertion     string
-	tokenFilePath string
-	cred          *azidentity.ClientAssertionCredential
-	lastRead      time.Time
-	lock          sync.Mutex
-}
-
-func newWorkloadIdentityCredential(tenantID, clientID, file string) (*workloadIdentityCredential, error) {
-	w := &workloadIdentityCredential{tokenFilePath: file}
-	cred, err := azidentity.NewClientAssertionCredential(tenantID, clientID, w.getAssertion, nil)
-	if err != nil {
-		return nil, err
-	}
-	w.cred = cred
-	return w, nil
-}
-
-func (w *workloadIdentityCredential) GetToken(ctx context.Context, opts policy.TokenRequestOptions) (azcore.AccessToken, error) {
-	return w.cred.GetToken(ctx, opts)
-}
-
-func (w *workloadIdentityCredential) getAssertion(context.Context) (string, error) {
-	w.lock.Lock()
-	defer w.lock.Unlock()
-
-	if now := time.Now(); w.lastRead.Add(5 * time.Minute).Before(now) {
-		content, err := os.ReadFile(w.tokenFilePath)
-		if err != nil {
-			return "", err
-		}
-		w.assertion = string(content)
-		w.lastRead = now
-	}
-	return w.assertion, nil
 }
