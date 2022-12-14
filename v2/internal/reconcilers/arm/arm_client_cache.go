@@ -235,9 +235,9 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 			err = errors.Wrapf(
 				err,
 				"credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ",
-				nsName.String(), 
-				config.ClientSecretVar, 
-				string(clientID), 
+				nsName.String(),
+				config.ClientSecretVar,
+				string(clientID),
 				identity.TokenFile)
 			return nil, "", err
 		}
