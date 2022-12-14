@@ -134,7 +134,7 @@ If you installed ASO manually, you can update the existing `Secret` to use Workl
 
 Update the `aso-controller-settings` secret to have string data `USE_WORKLOAD_IDENTITY_AUTH: "true"`
 
-Ensure that the `aso-controller-settings` secret has the `USE_WORKLOAD_IDENTITY_AUTH` key set to true and restart the ASO pod. 
+Ensure that the `aso-controller-settings` secret has the key `USE_WORKLOAD_IDENTITY_AUTH` set to `true` and restart the ASO pod. 
 
 ##### New Deployment
 
