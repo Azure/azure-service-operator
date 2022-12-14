@@ -128,7 +128,7 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
 
 #### Kubectl
 
-##### Updating existing deployment
+##### Updating an existing deployment
 
 If you installed ASO manually, you can update the existing `Secret` to use Workload Identity authentication.
 
