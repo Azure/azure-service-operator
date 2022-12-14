@@ -36,6 +36,7 @@ func NewWorkloadIdentityCredential(tenantID, clientID string) (*workloadIdentity
 	if err != nil {
 		return nil, err
 	}
+	
 	w.cred = cred
 	return w, nil
 }
