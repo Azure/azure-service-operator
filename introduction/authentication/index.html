@@ -37,7 +37,7 @@ For more information about Service Principals, see creating an Azure Service Pri
  Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
 For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID.">
 
-<meta itemprop="wordCount" content="1345">
+<meta itemprop="wordCount" content="1298">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Authentication in Azure Service Operator v2"/>
 <meta name="twitter:description" content="Azure Service Operator supports three different styles of authentication today.
@@ -626,7 +626,6 @@ export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6
 <ol>
 <li>An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.</li>
 <li>The <a href="https://docs.microsoft.com/cli/azure/install-azure-cli">Azure CLI</a>.</li>
-<li>The <a href="https://github.com/Azure/azure-workload-identity">Azure Workload Identity</a> webhook installed into your cluster. See <a href="https://azure.github.io/azure-workload-identity/docs/installation.html">Azure Workload Identity installation</a>. Note that setup involves two steps, getting your clusters OIDC issuer URL and installing the <a href="https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html">Azure Workload Identity mutating webhook</a>.</li>
 </ol>
 <p>Use the following Bash script to set the environment variables required for the below commands:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.</span>
@@ -683,21 +682,11 @@ az rest --method put --url /subscriptions/<span style="color:#e6db74">${</span>A
 </span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>        --set useWorkloadIdentityAuth<span style="color:#f92672">=</span>true
 </code></pre></div><h4 id="kubectl">Kubectl</h4>
-<p>If you installed ASO manually, you can update the existing <code>ServiceAccount</code> to use Workload Identity.</p>
-<p>Update the ASO service account to use Workload Identity</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: v1
-</span><span style="color:#e6db74">kind: ServiceAccount
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  annotations:
-</span><span style="color:#e6db74">    azure.workload.identity/client-id: ${AZURE_CLIENT_ID}
-</span><span style="color:#e6db74">  labels:
-</span><span style="color:#e6db74">    azure.workload.identity/use: &#34;true&#34;
-</span><span style="color:#e6db74">  name: azureserviceoperator-default
-</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>Update the existing ASO deployment and ensure that the controller pod has the following annotation:
-<code>azure.workload.identity/inject-proxy-sidecar: &quot;true&quot;</code></p>
+<h5 id="updating-an-existing-deployment">Updating an existing deployment</h5>
+<p>If you installed ASO manually, you can update the existing <code>Secret</code> to use Workload Identity authentication.</p>
+<p>Update the <code>aso-controller-settings</code> secret to have string data <code>USE_WORKLOAD_IDENTITY_AUTH: &quot;true&quot;</code></p>
+<p>Ensure that the <code>aso-controller-settings</code> secret has the key <code>USE_WORKLOAD_IDENTITY_AUTH</code> set to <code>true</code> and restart the ASO pod.</p>
+<h5 id="new-deployment">New Deployment</h5>
 <p>Create the <code>aso-controller-settings</code> secret:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: v1
@@ -709,6 +698,7 @@ az rest --method put --url /subscriptions/<span style="color:#e6db74">${</span>A
 </span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
 </span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
 </span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> USE_WORKLOAD_IDENTITY_AUTH: &#34;true&#34;
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div><h2 id="deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</h2>
 <blockquote>
