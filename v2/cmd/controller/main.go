@@ -12,6 +12,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
@@ -24,6 +25,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	"github.com/Azure/azure-service-operator/v2/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -87,13 +89,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	creds, err := azidentity.NewDefaultAzureCredential(nil)
-	if err != nil {
-		setupLog.Error(err, "unable to get default azure credential")
-		os.Exit(1)
+	var credential azcore.TokenCredential
+	if cfg.UseWorkloadIdentityAuth {
+		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
+		if err != nil {
+			setupLog.Error(err, "unable to get workload identity credential")
+			os.Exit(1)
+		}
+	} else {
+		credential, err = azidentity.NewDefaultAzureCredential(nil)
+		if err != nil {
+			setupLog.Error(err, "unable to get default azure credential")
+			os.Exit(1)
+		}
 	}
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, armMetrics)
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
 	if err != nil {
 		setupLog.Error(err, "failed to get new genericArmClient")
 		os.Exit(1)
@@ -105,10 +116,8 @@ func main() {
 	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
 		return armClientCache.GetClient(ctx, obj)
 	}
-
 	log := ctrl.Log.WithName("controllers")
 	log.V(Status).Info("Configuration details", "config", cfg.String())
-
 	if cfg.OperatorMode.IncludesWatchers() {
 		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
