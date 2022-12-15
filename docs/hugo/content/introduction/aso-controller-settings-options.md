@@ -36,7 +36,7 @@ AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azu
 there have been no triggering changes in the Kubernetes resources.
 This sync exists to detect and correct changes that happened in Azure that Kubernetes is not aware about.
 BE VERY CAREFUL setting this value low - even a modest number of resources can cause
-subscription level throttling if they are re-synced frequently. If nil, sync period defaults to `1h`.
+subscription level throttling if they are re-synced frequently. If nil or empty (`""`), sync period defaults to `1h`.
 
 **Specified As:** `"1h"`, `"15m"`, or `"60s"`. See https://pkg.go.dev/time#ParseDuration for more details.
 
