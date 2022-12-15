@@ -42,7 +42,7 @@ subscription level throttling if they are re-synced frequently. If nil or empty 
 
 ### AZURE_OPERATOR_MODE
 
-AZURE_OPERATOR_MODE determines whether the operator should run watchers, webhooks or both(default).
+AZURE_OPERATOR_MODE determines whether the operator should run _watchers_, _webhooks_ or _both_ (default). An empty string, or any unrecognized value, means _both_.
 
 **Specified As:** `"webhooks"`, `"watchers"` or `"both"`
 
