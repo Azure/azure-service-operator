@@ -2,7 +2,23 @@ apiVersion: v1
 entries:
   azure-service-operator:
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.210137132Z"
+    created: "2022-12-15T06:53:25.934350483Z"
+    dependencies:
+    - condition: installCRDs
+      name: azure-service-operator-crds
+      repository: ""
+      version: v2.0.0-beta.4
+    description: Deploy components and dependencies of azure-service-operator
+    digest: 370a2f7825d24b79b5e0b1309bf16ef8bbe54c6c0be8ab8955f7e63301e4ef1f
+    home: https://github.com/Azure/azure-service-operator/v2
+    name: azure-service-operator
+    sources:
+    - https://github.com/Azure/azure-service-operator/v2
+    urls:
+    - azure-service-operator-v2.0.0-beta.4.tgz
+    version: v2.0.0-beta.4
+  - apiVersion: v2
+    created: "2022-12-15T06:53:25.903303583Z"
     dependencies:
     - condition: installCRDs
       name: azure-service-operator-crds
@@ -18,7 +34,7 @@ entries:
     - azure-service-operator-v2.0.0-beta.3.tgz
     version: v2.0.0-beta.3
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.176192206Z"
+    created: "2022-12-15T06:53:25.873877067Z"
     dependencies:
     - condition: installCRDs
       name: azure-service-operator-crds
@@ -34,7 +50,7 @@ entries:
     - azure-service-operator-v2.0.0-beta.2.tgz
     version: v2.0.0-beta.2
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.142737682Z"
+    created: "2022-12-15T06:53:25.846606531Z"
     dependencies:
     - condition: installCRDs
       name: azure-service-operator-crds
@@ -50,7 +66,7 @@ entries:
     - azure-service-operator-v2.0.0-beta.1.tgz
     version: v2.0.0-beta.1
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.114857578Z"
+    created: "2022-12-15T06:53:25.823618553Z"
     dependencies:
     - condition: installCRDs
       name: azure-service-operator-crds
@@ -66,7 +82,7 @@ entries:
     - azure-service-operator-v2.0.0-beta.0.tgz
     version: v2.0.0-beta.0
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.088931582Z"
+    created: "2022-12-15T06:53:25.802036562Z"
     description: Deploy components and dependencies of azure-service-operator
     digest: 644b1f9e38f7cd868963e52dc449cbb16231c10b3ee0ba303e864f1a392444fb
     home: https://github.com/Azure/azure-service-operator/v2
@@ -78,7 +94,15 @@ entries:
     version: v2.0.0-alpha.6
   azure-service-operator-crds:
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.07487763Z"
+    created: "2022-12-15T06:53:25.789080987Z"
+    description: Install Custom Resources for Azure Service Operator v2
+    digest: bcae66d9eaad090dff62b78a8f3e87385e4020b5dbc7743c157a49b7881bfd31
+    name: azure-service-operator-crds
+    urls:
+    - azure-service-operator-crds-v2.0.0-beta.4.tgz
+    version: v2.0.0-beta.4
+  - apiVersion: v2
+    created: "2022-12-15T06:53:25.758765781Z"
     description: Install Custom Resources for Azure Service Operator v2
     digest: 5feb153b1020a3636914db3e98e316b8cb29f2d7df7bba7282124e186ee323c2
     name: azure-service-operator-crds
@@ -86,7 +110,7 @@ entries:
     - azure-service-operator-crds-v2.0.0-beta.3.tgz
     version: v2.0.0-beta.3
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.038653896Z"
+    created: "2022-12-15T06:53:25.729563263Z"
     description: Install Custom Resources for Azure Service Operator v2
     digest: 8f38f08e53bae760fdf34129af116e1587396e061a1c97c54845c6fe42b1e349
     name: azure-service-operator-crds
@@ -94,7 +118,7 @@ entries:
     - azure-service-operator-crds-v2.0.0-beta.2.tgz
     version: v2.0.0-beta.2
   - apiVersion: v2
-    created: "2022-10-21T18:05:18.005672374Z"
+    created: "2022-12-15T06:53:25.701617533Z"
     description: Install Custom Resources for Azure Service Operator v2
     digest: afc2b2b4d46b92ec0f0a23aee7864fa6e7fea59c4aed3cc91528e57da5fb9374
     name: azure-service-operator-crds
@@ -102,11 +126,11 @@ entries:
     - azure-service-operator-crds-v2.0.0-beta.1.tgz
     version: v2.0.0-beta.1
   - apiVersion: v2
-    created: "2022-10-21T18:05:17.975464062Z"
+    created: "2022-12-15T06:53:25.676835473Z"
     description: Install Custom Resources for Azure Service Operator v2
     digest: 7578c1a1f32301d906ad5b09abd627b0e82ea4dde2b51d7fdf04bc21fe1e8643
     name: azure-service-operator-crds
     urls:
     - azure-service-operator-crds-v2.0.0-beta.0.tgz
     version: v2.0.0-beta.0
-generated: "2022-10-21T18:05:17.945087149Z"
+generated: "2022-12-15T06:53:25.653187202Z"
