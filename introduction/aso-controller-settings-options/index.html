@@ -18,33 +18,48 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>operationalinsights.azure.com/v1beta20210601 | Azure Service Operator</title>
-<meta name="description" content="operationalinsights.azure.com/v1beta20210601
-
-Package v1beta20210601 contains API Schema definitions for the operationalinsights v1beta20210601 API …">
-<meta property="og:title" content="operationalinsights.azure.com/v1beta20210601" />
-<meta property="og:description" content="operationalinsights.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the operationalinsights v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-06-01&#34;
-    PrivateLinkScopedResource_Status   (Appears on:Workspace_Status)      Field Description      resourceId  string    ResourceId: The full resource Id of the private link scope resource.
-    scopeId  string    ScopeId: The private link scope unique Identifier." />
+<title>ASO-Controller-Settings Options | Azure Service Operator</title>
+<meta name="description" content="AZURE_SUBSCRIPTION_ID
+Azure subscription the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000 …">
+<meta property="og:title" content="ASO-Controller-Settings Options" />
+<meta property="og:description" content="AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_TENANT_ID Azure tenantID the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_ID Azure clientID the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_SECRET The secret associated with the client to use.
+Specified As: String
+AZURE_SYNC_PERIOD AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when there have been no triggering changes in the Kubernetes resources." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/aso-controller-settings-options/" /><meta property="article:section" content="introduction" />
 
 
 
-<meta itemprop="name" content="operationalinsights.azure.com/v1beta20210601">
-<meta itemprop="description" content="operationalinsights.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the operationalinsights v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-06-01&#34;
-    PrivateLinkScopedResource_Status   (Appears on:Workspace_Status)      Field Description      resourceId  string    ResourceId: The full resource Id of the private link scope resource.
-    scopeId  string    ScopeId: The private link scope unique Identifier.">
+<meta itemprop="name" content="ASO-Controller-Settings Options">
+<meta itemprop="description" content="AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_TENANT_ID Azure tenantID the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_ID Azure clientID the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_SECRET The secret associated with the client to use.
+Specified As: String
+AZURE_SYNC_PERIOD AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when there have been no triggering changes in the Kubernetes resources.">
 
-<meta itemprop="wordCount" content="1691">
+<meta itemprop="wordCount" content="345">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="operationalinsights.azure.com/v1beta20210601"/>
-<meta name="twitter:description" content="operationalinsights.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the operationalinsights v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-06-01&#34;
-    PrivateLinkScopedResource_Status   (Appears on:Workspace_Status)      Field Description      resourceId  string    ResourceId: The full resource Id of the private link scope resource.
-    scopeId  string    ScopeId: The private link scope unique Identifier."/>
+<meta name="twitter:title" content="ASO-Controller-Settings Options"/>
+<meta name="twitter:description" content="AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_TENANT_ID Azure tenantID the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_ID Azure clientID the operator will use for ARM communication.
+Specified As: 00000000-0000-0000-0000-000000000000
+AZURE_CLIENT_SECRET The secret associated with the client to use.
+Specified As: String
+AZURE_SYNC_PERIOD AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when there have been no triggering changes in the Kubernetes resources."/>
 
 
 
@@ -78,7 +93,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/introduction/" ><span>Guide</span></a>
+				<a class="nav-link active" href="/azure-service-operator/introduction/" ><span class="active">Guide</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -90,7 +105,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
 				
 				
 				
-				<a class="nav-link active" href="/azure-service-operator/reference/" ><span class="active">Supported Resources</span></a>
+				<a class="nav-link" href="/azure-service-operator/reference/" ><span>Supported Resources</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -144,49 +159,49 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorintroduction-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorintroduction-li">
   <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionannotations-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmetrics-li">
   <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class="">ASO Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionaso-controller-settings-options-li">
-  <a href="/azure-service-operator/introduction/aso-controller-settings-options/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionaso-controller-settings-options"><span class="">ASO-Controller-Settings Options</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionaso-controller-settings-options-li">
+  <a href="/azure-service-operator/introduction/aso-controller-settings-options/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionaso-controller-settings-options"><span class="td-sidebar-nav-active-item">ASO-Controller-Settings Options</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionbreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionbreaking-changes-li">
   <a href="/azure-service-operator/introduction/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionbreaking-changes"><span class="">Breaking Changes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
   <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
   <a href="/azure-service-operator/introduction/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionfrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionsecrets-li">
   <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
   <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
   <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconfigmaps-li">
   <a href="/azure-service-operator/introduction/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
   <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconditions-li">
   <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionuninstalling-li">
   <a href="/azure-service-operator/introduction/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionuninstalling"><span class="">Uninstalling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionupgrading-li">
   <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="">Upgrading</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
@@ -195,7 +210,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
@@ -204,7 +219,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
@@ -217,14 +232,14 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
@@ -243,14 +258,14 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
@@ -259,7 +274,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
@@ -268,14 +283,14 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
@@ -286,7 +301,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
@@ -295,7 +310,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="">dbforpostgresql.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
@@ -304,7 +319,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
@@ -313,7 +328,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
@@ -322,7 +337,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
@@ -335,21 +350,21 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
@@ -358,7 +373,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/managedidentity/v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
@@ -369,16 +384,16 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601"><span class="">operationalinsights.azure.com/v1alpha1api20210601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601-li">
-  <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="td-sidebar-nav-active-item">operationalinsights.azure.com/v1beta20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
@@ -387,7 +402,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
@@ -396,7 +411,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
@@ -405,7 +420,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
@@ -414,7 +429,7 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
@@ -512,6 +527,26 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#azure_subscription_id">AZURE_SUBSCRIPTION_ID</a></li>
+        <li><a href="#azure_tenant_id">AZURE_TENANT_ID</a></li>
+        <li><a href="#azure_client_id">AZURE_CLIENT_ID</a></li>
+        <li><a href="#azure_client_secret">AZURE_CLIENT_SECRET</a></li>
+        <li><a href="#azure_sync_period">AZURE_SYNC_PERIOD</a></li>
+        <li><a href="#azure_operator_mode">AZURE_OPERATOR_MODE</a></li>
+        <li><a href="#azure_target_namespaces">AZURE_TARGET_NAMESPACES</a></li>
+        <li><a href="#use_workload_identity_auth">USE_WORKLOAD_IDENTITY_AUTH</a></li>
+        <li><a href="#azure_authority_host">AZURE_AUTHORITY_HOST</a></li>
+        <li><a href="#azure_resource_manager_endpoint">AZURE_RESOURCE_MANAGER_ENDPOINT</a></li>
+        <li><a href="#azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -542,19 +577,16 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights/">operationalinsights</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/">Guide</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/">operationalinsights.azure.com/v1beta20210601</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/aso-controller-settings-options/">ASO-Controller-Settings Options</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>operationalinsights.azure.com/v1beta20210601</h1>
+	<h1>ASO-Controller-Settings Options</h1>
 	
 	<header class="article-meta">
 		
@@ -571,2113 +603,46 @@ Package v1beta20210601 contains API Schema definitions for the operationalinsigh
 
 		
 	</header>    
-	<h2 id="operationalinsights.azure.com/v1beta20210601">operationalinsights.azure.com/v1beta20210601</h2>
-<div>
-<p>Package v1beta20210601 contains API Schema definitions for the operationalinsights v1beta20210601 API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="operationalinsights.azure.com/v1beta20210601.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2021-06-01&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.PrivateLinkScopedResource_Status">PrivateLinkScopedResource_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>resourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scopeId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ScopeId: The private link scope unique Identifier.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.PrivateLinkScopedResource_StatusARM">PrivateLinkScopedResource_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>resourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ResourceId: The full resource Id of the private link scope resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>scopeId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ScopeId: The private link scope unique Identifier.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.PublicNetworkAccessType_Status">PublicNetworkAccessType_Status
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>, <a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.Workspace">Workspace
-</h3>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">
-Workspaces_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The etag of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>features</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures">
-WorkspaceFeatures
-</a>
-</em>
-</td>
-<td>
-<p>Features: Workspace features.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forceCmkForQuery</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesProvisioningState">
-WorkspacePropertiesProvisioningState
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion">
-WorkspacePropertiesPublicNetworkAccessForIngestion
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery">
-WorkspacePropertiesPublicNetworkAccessForQuery
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku">
-WorkspaceSku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (tier) of a workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceCapping</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCapping">
-WorkspaceCapping
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">
-Workspace_Status
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceCapping">WorkspaceCapping
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dailyQuotaGb</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceCappingARM">WorkspaceCappingARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dailyQuotaGb</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceCappingStatusDataIngestionStatus">WorkspaceCappingStatusDataIngestionStatus
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCapping_Status">WorkspaceCapping_Status</a>, <a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCapping_StatusARM">WorkspaceCapping_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;ApproachingQuota&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ForceOff&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ForceOn&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;OverQuota&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;RespectQuota&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;SubscriptionSuspended&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceCapping_Status">WorkspaceCapping_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dailyQuotaGb</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataIngestionStatus</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCappingStatusDataIngestionStatus">
-WorkspaceCappingStatusDataIngestionStatus
-</a>
-</em>
-</td>
-<td>
-<p>DataIngestionStatus: The status of data ingestion for this workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>quotaNextResetTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>QuotaNextResetTime: The time when the quota will be rest.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceCapping_StatusARM">WorkspaceCapping_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>dailyQuotaGb</code><br/>
-<em>
-float64
-</em>
-</td>
-<td>
-<p>DailyQuotaGb: The workspace daily quota for ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataIngestionStatus</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCappingStatusDataIngestionStatus">
-WorkspaceCappingStatusDataIngestionStatus
-</a>
-</em>
-</td>
-<td>
-<p>DataIngestionStatus: The status of data ingestion for this workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>quotaNextResetTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>QuotaNextResetTime: The time when the quota will be rest.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures">WorkspaceFeatures
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>AdditionalProperties: Unmatched properties from the message are deserialized this collection</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clusterResourceReference</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
-genruntime.ResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableDataExport</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableLogAccessUsingOnlyResourcePermissions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>immediatePurgeDataOn30Days</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceFeaturesARM">WorkspaceFeaturesARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>additionalProperties</code><br/>
-<em>
-<a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1#JSON">
-map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
-</a>
-</em>
-</td>
-<td>
-<p>AdditionalProperties: Unmatched properties from the message are deserialized this collection</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>clusterResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableDataExport</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableLogAccessUsingOnlyResourcePermissions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>immediatePurgeDataOn30Days</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures_Status">WorkspaceFeatures_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clusterResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableDataExport</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableLogAccessUsingOnlyResourcePermissions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>immediatePurgeDataOn30Days</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures_StatusARM">WorkspaceFeatures_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>clusterResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>disableLocalAuth</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>DisableLocalAuth: Disable Non-AAD based Auth.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableDataExport</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableDataExport: Flag that indicate if data should be exported.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>enableLogAccessUsingOnlyResourcePermissions</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>EnableLogAccessUsingOnlyResourcePermissions: Flag that indicate which permission to use - resource or workspace or both.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>immediatePurgeDataOn30Days</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ImmediatePurgeDataOn30Days: Flag that describes if we want to remove the data after 30 days.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_SpecARM">Workspaces_SpecARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceProperties">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceProperties</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>features</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceFeaturesARM">
-WorkspaceFeaturesARM
-</a>
-</em>
-</td>
-<td>
-<p>Features: Workspace features.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forceCmkForQuery</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesProvisioningState">
-WorkspacePropertiesProvisioningState
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion">
-WorkspacePropertiesPublicNetworkAccessForIngestion
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery">
-WorkspacePropertiesPublicNetworkAccessForQuery
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuARM">
-WorkspaceSkuARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (tier) of a workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceCapping</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCappingARM">
-WorkspaceCappingARM
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesProvisioningState">WorkspacePropertiesProvisioningState
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>, <a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ProvisioningAccount&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion">WorkspacePropertiesPublicNetworkAccessForIngestion
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>, <a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery">WorkspacePropertiesPublicNetworkAccessForQuery
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>, <a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesStatusProvisioningState">WorkspacePropertiesStatusProvisioningState
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>, <a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Canceled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Creating&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Deleting&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Failed&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ProvisioningAccount&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Succeeded&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Updating&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace_StatusARM">Workspace_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>createdDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedDate: Workspace creation date.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CustomerId: This is a read-only property. Represents the ID associated with the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>features</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures_StatusARM">
-WorkspaceFeatures_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Features: Workspace features.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forceCmkForQuery</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>modifiedDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ModifiedDate: Workspace modification date.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkScopedResources</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.PrivateLinkScopedResource_StatusARM">
-[]PrivateLinkScopedResource_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesStatusProvisioningState">
-WorkspacePropertiesStatusProvisioningState
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.PublicNetworkAccessType_Status">
-PublicNetworkAccessType_Status
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.PublicNetworkAccessType_Status">
-PublicNetworkAccessType_Status
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku_StatusARM">
-WorkspaceSku_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceCapping</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCapping_StatusARM">
-WorkspaceCapping_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSku">WorkspaceSku
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>capacityReservationLevel</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuName">
-WorkspaceSkuName
-</a>
-</em>
-</td>
-<td>
-<p>Name: The name of the SKU.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSkuARM">WorkspaceSkuARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">WorkspacePropertiesARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>capacityReservationLevel</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuName">
-WorkspaceSkuName
-</a>
-</em>
-</td>
-<td>
-<p>Name: The name of the SKU.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSkuName">WorkspaceSkuName
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku">WorkspaceSku</a>, <a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuARM">WorkspaceSkuARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CapacityReservation&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Free&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LACluster&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PerGB2018&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PerNode&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standalone&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel">WorkspaceSkuStatusCapacityReservationLevel
-(<code>int</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku_Status">WorkspaceSku_Status</a>, <a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku_StatusARM">WorkspaceSku_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>100</p></td>
-<td></td>
-</tr><tr><td><p>1000</p></td>
-<td></td>
-</tr><tr><td><p>200</p></td>
-<td></td>
-</tr><tr><td><p>2000</p></td>
-<td></td>
-</tr><tr><td><p>300</p></td>
-<td></td>
-</tr><tr><td><p>400</p></td>
-<td></td>
-</tr><tr><td><p>500</p></td>
-<td></td>
-</tr><tr><td><p>5000</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSkuStatusName">WorkspaceSkuStatusName
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku_Status">WorkspaceSku_Status</a>, <a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku_StatusARM">WorkspaceSku_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;CapacityReservation&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Free&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;LACluster&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PerGB2018&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;PerNode&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Premium&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standalone&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSku_Status">WorkspaceSku_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>capacityReservationLevel</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel">
-WorkspaceSkuStatusCapacityReservationLevel
-</a>
-</em>
-</td>
-<td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastSkuUpdate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastSkuUpdate: The last time when the sku was updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuStatusName">
-WorkspaceSkuStatusName
-</a>
-</em>
-</td>
-<td>
-<p>Name: The name of the SKU.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.WorkspaceSku_StatusARM">WorkspaceSku_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">WorkspaceProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>capacityReservationLevel</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuStatusCapacityReservationLevel">
-WorkspaceSkuStatusCapacityReservationLevel
-</a>
-</em>
-</td>
-<td>
-<p>CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
-selected.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>lastSkuUpdate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>LastSkuUpdate: The last time when the sku was updated.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSkuStatusName">
-WorkspaceSkuStatusName
-</a>
-</em>
-</td>
-<td>
-<p>Name: The name of the SKU.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.Workspace_Status">Workspace_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace">Workspace</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createdDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CreatedDate: Workspace creation date.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>customerId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>CustomerId: This is a read-only property. Represents the ID associated with the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The etag of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>features</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures_Status">
-WorkspaceFeatures_Status
-</a>
-</em>
-</td>
-<td>
-<p>Features: Workspace features.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forceCmkForQuery</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>modifiedDate</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>ModifiedDate: Workspace modification date.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>privateLinkScopedResources</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.PrivateLinkScopedResource_Status">
-[]PrivateLinkScopedResource_Status
-</a>
-</em>
-</td>
-<td>
-<p>PrivateLinkScopedResources: List of linked private link scope resources.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesStatusProvisioningState">
-WorkspacePropertiesStatusProvisioningState
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.PublicNetworkAccessType_Status">
-PublicNetworkAccessType_Status
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.PublicNetworkAccessType_Status">
-PublicNetworkAccessType_Status
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku_Status">
-WorkspaceSku_Status
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceCapping</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCapping_Status">
-WorkspaceCapping_Status
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.Workspace_StatusARM">Workspace_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The etag of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceProperties_StatusARM">
-WorkspaceProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Workspace properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.Workspaces_Spec">Workspaces_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#operationalinsights.azure.com/v1beta20210601.Workspace">Workspace</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The etag of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>features</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceFeatures">
-WorkspaceFeatures
-</a>
-</em>
-</td>
-<td>
-<p>Features: Workspace features.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>forceCmkForQuery</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesProvisioningState">
-WorkspacePropertiesProvisioningState
-</a>
-</em>
-</td>
-<td>
-<p>ProvisioningState: The provisioning state of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForIngestion</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForIngestion">
-WorkspacePropertiesPublicNetworkAccessForIngestion
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>publicNetworkAccessForQuery</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesPublicNetworkAccessForQuery">
-WorkspacePropertiesPublicNetworkAccessForQuery
-</a>
-</em>
-</td>
-<td>
-<p>PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>retentionInDays</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>RetentionInDays: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers
-documentation for details.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceSku">
-WorkspaceSku
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (tier) of a workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>workspaceCapping</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspaceCapping">
-WorkspaceCapping
-</a>
-</em>
-</td>
-<td>
-<p>WorkspaceCapping: The daily volume cap for ingestion.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="operationalinsights.azure.com/v1beta20210601.Workspaces_SpecARM">Workspaces_SpecARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>etag</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Etag: The etag of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the workspace.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#operationalinsights.azure.com/v1beta20210601.WorkspacePropertiesARM">
-WorkspacePropertiesARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Workspace properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+	<h3 id="azure_subscription_id">AZURE_SUBSCRIPTION_ID</h3>
+<p>Azure subscription the operator will use for ARM communication.</p>
+<p><strong>Specified As:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
+<h3 id="azure_tenant_id">AZURE_TENANT_ID</h3>
+<p>Azure tenantID the operator will use for ARM communication.</p>
+<p><strong>Specified As:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
+<h3 id="azure_client_id">AZURE_CLIENT_ID</h3>
+<p>Azure clientID the operator will use for ARM communication.</p>
+<p><strong>Specified As:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
+<h3 id="azure_client_secret">AZURE_CLIENT_SECRET</h3>
+<p>The secret associated with the client to use.</p>
+<p><strong>Specified As:</strong> <code>String</code></p>
+<h3 id="azure_sync_period">AZURE_SYNC_PERIOD</h3>
+<p>AZURE_SYNC_PERIOD is the frequency at which resources are re-reconciled with Azure when
+there have been no triggering changes in the Kubernetes resources.
+This sync exists to detect and correct changes that happened in Azure that Kubernetes is not aware about.
+BE VERY CAREFUL setting this value low - even a modest number of resources can cause
+subscription level throttling if they are re-synced frequently. If nil or empty (<code>&quot;&quot;</code>), sync period defaults to <code>1h</code>.</p>
+<p><strong>Specified As:</strong> <code>&quot;1h&quot;</code>, <code>&quot;15m&quot;</code>, or <code>&quot;60s&quot;</code>. See <a href="https://pkg.go.dev/time#ParseDuration">https://pkg.go.dev/time#ParseDuration</a> for more details.</p>
+<h3 id="azure_operator_mode">AZURE_OPERATOR_MODE</h3>
+<p>AZURE_OPERATOR_MODE determines whether the operator should run <em>watchers</em>, <em>webhooks</em> or <em>both</em> (default). An empty string, or any unrecognized value, means <em>both</em>.</p>
+<p><strong>Specified As:</strong> <code>&quot;webhooks&quot;</code>, <code>&quot;watchers&quot;</code> or <code>&quot;both&quot;</code></p>
+<h3 id="azure_target_namespaces">AZURE_TARGET_NAMESPACES</h3>
+<p>AZURE_TARGET_NAMESPACES lists the namespaces the operator will watch for Azure resources (if the mode includes running watchers).
+If it&rsquo;s empty the operator will watch all namespaces.</p>
+<p><strong>Specified As:</strong> <code>Comma-separated namespace names</code></p>
+<h3 id="use_workload_identity_auth">USE_WORKLOAD_IDENTITY_AUTH</h3>
+<p>USE_WORKLOAD_IDENTITY_AUTH boolean is used to determine if we&rsquo;re using Workload Identity authentication for global credential.</p>
+<p><strong>Specified As:</strong> <code>&quot;true&quot;</code> or <code>&quot;false&quot;</code></p>
+<h3 id="azure_authority_host">AZURE_AUTHORITY_HOST</h3>
+<p>AZURE_AUTHORITY_HOST is the URL of the AAD authority. If not specified, the default is the AAD URL for the public cloud: <code>https://login.microsoftonline.com/</code>.
+See <a href="https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud">https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud</a></p>
+<h3 id="azure_resource_manager_endpoint">AZURE_RESOURCE_MANAGER_ENDPOINT</h3>
+<p>AZURE_RESOURCE_MANAGER_ENDPOINT is the Azure Resource Manager endpoint. If not specified, the default is the Public cloud resource manager endpoint.
+See <a href="https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds">https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds</a> for details about how to find available resource manager endpoints for your cloud.
+Note that the resource manager endpoint is referred to as &ldquo;resourceManager&rdquo; in the Azure CLI.</p>
+<h3 id="azure_resource_manager_audience">AZURE_RESOURCE_MANAGER_AUDIENCE</h3>
+<p>AZURE_RESOURCE_MANAGER_AUDIENCE is the Azure Resource Manager AAD audience. If not specified, the default is the Public cloud resource manager audience <code>https://management.core.windows.net/</code>.
+See <a href="https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds">https://docs.microsoft.com/cli/azure/manage-clouds-azure-cli#list-available-clouds</a> for details about how to find available resource manager audiences for your cloud.
+Note that the resource manager audience is referred to as &ldquo;activeDirectoryResourceId&rdquo; in the Azure CLI.</p>
 
 	
 	

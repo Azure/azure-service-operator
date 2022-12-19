@@ -42,6 +42,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/aso-controller-settings-options/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/</loc>
