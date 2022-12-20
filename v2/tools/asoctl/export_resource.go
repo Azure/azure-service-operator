@@ -35,7 +35,7 @@ func newExportResourceCommand() (*cobra.Command, error) {
 		Use:   "resource <ARM/ID/of/resource>",
 		Short: "exports ARM resource templates",
 		Args:  cobra.ExactArgs(1),
-		RunE:  exportResourceFunction(),
+		RunE:  exportResourceFunction(output),
 	}
 
 	output = cmd.Flags().StringP(
@@ -48,10 +48,14 @@ func newExportResourceCommand() (*cobra.Command, error) {
 }
 
 // TODO: export resource logic goes here
-func exportResourceFunction() func(cmd *cobra.Command, args []string) error {
+func exportResourceFunction(output *string) func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		armID := args[0]
 		klog.Infof("armID : %v", armID)
+
+		if output != nil && *output != "" {
+			klog.Infof("output : %v", *output)
+		}
 
 		return nil
 	}
