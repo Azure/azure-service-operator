@@ -51,10 +51,10 @@ func newExportResourceCommand() (*cobra.Command, error) {
 func exportResourceFunction(output *string) func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		armID := args[0]
-		klog.Infof("armID : %v", armID)
+		klog.Infof("armID : %s", armID)
 
 		if output != nil && *output != "" {
-			klog.Infof("output : %v", *output)
+			klog.Infof("output : %s", *output)
 		}
 
 		return nil
