@@ -28,35 +28,36 @@ func NewExportCommand() (*cobra.Command, error) {
 	return cmd, nil
 }
 
-func newExportResourceCommand() (*cobra.Command, error) {
+func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TODO: Remove this comment when the tool is actually functional
 	var output *string
 
 	cmd := &cobra.Command{
 		Use:   "resource <ARM/ID/of/resource>",
-		Short: "exports ARM resource templates",
+		Short: "exports ARM an resource CRD",
 		Args:  cobra.ExactArgs(1),
-		RunE:  exportResourceFunction(output),
+		RunE: func(cmd *cobra.Command, args []string) error { // TODO: Should consider xcobra.RunWithCtx here
+			armID := args[0]
+
+			return exportResource(armID, output)
+		},
 	}
 
 	output = cmd.Flags().StringP(
 		"output",
 		"o",
 		"",
-		"Write ARM resource template to a file")
+		"Write ARM resource CRD to a file")
 
 	return cmd, nil
 }
 
 // TODO: export resource logic goes here
-func exportResourceFunction(output *string) func(cmd *cobra.Command, args []string) error {
-	return func(cmd *cobra.Command, args []string) error {
-		armID := args[0]
-		klog.Infof("armID : %s", armID)
+func exportResource(armID string, output *string) error {
+	klog.Infof("armID : %s", armID)
 
-		if output != nil && *output != "" {
-			klog.Infof("output : %s", *output)
-		}
-
-		return nil
+	if output != nil && *output != "" {
+		klog.Infof("output : %s", *output)
 	}
+
+	return nil
 }
