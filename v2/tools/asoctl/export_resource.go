@@ -33,7 +33,7 @@ func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TO
 
 	cmd := &cobra.Command{
 		Use:   "resource <ARM/ID/of/resource>",
-		Short: "exports ARM an resource CRD",
+		Short: "exports an ARM resource CRD",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error { // TODO: Should consider xcobra.RunWithCtx here
 			armID := args[0]
