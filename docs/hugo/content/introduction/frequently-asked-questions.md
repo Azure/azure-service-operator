@@ -3,6 +3,19 @@ title: FAQ
 ---
 ## Frequently Asked Questions
 
+### What is the release cadence?
+
+We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen
+more quickly than that. If there haven't been any major changes (or there are ongoing major changes that are taking a long time) a 
+release may happen more slowly.
+
+### What is the support model?
+
+Azure Service Operator is an officially supported Microsoft OSS product. Currently, support is done via GitHub issues or
+the `azure-service-operator` channel of the [Kubernetes Slack](https://kubernetes.slack.com/). There are plans to integrate ASO into
+AKS as an addon after ASO has officially gone GA. At that point, support for ASO as an AKS addon would be accessed by raising an Azure 
+support ticket.
+
 ### Does ASO help with Disaster Recovery (DR) of resources in Azure?
 
 No. If the Azure resource supports DR then you can configure it through ASO. 
