@@ -35,7 +35,7 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 Discussions so far have identified three possible solutions - version integration, resource import job and resource import tool.
 Version Integration We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1.">
 
-<meta itemprop="wordCount" content="1116">
+<meta itemprop="wordCount" content="1107">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-11: ASO v1 Migration and Resource Import"/>
 <meta name="twitter:description" content="Context We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).
@@ -635,11 +635,11 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 <h2 id="decision">Decision</h2>
 <p>Create the new command line tool <code>asoctl</code> to house multiple functions, starting with resource import. The tool will follow the usual convention of supporting a variety of verbs, each activating a different mode (similar to the way <code>kubectl</code>, <code>git</code> and other modern command-line tools behave).</p>
 <p>To export a existing resource, we&rsquo;d use <code>export resource</code> as the verb.</p>
-<p>This would accept a single resource ID (a fully qualified URL) as a parameter and output a YAML file to stdout containing the specified resource and all related child resources. In typical use, the user would redirect the output to a file and modify it as necessary, though we may want to support a <code>--output</code> parameter to allow the user to specify the output file directly.</p>
+<p>This would accept a single resource (identified by a fully qualified URL) as a parameter and output a YAML file to stdout containing the specified resource and all related child resources. In typical use, the user would redirect the output to a file and modify it as necessary, though we may also support a <code>--output</code> parameter to allow the user to specify the output file directly.</p>
 <p>For example, to export the YAML for an existing Virtual Network, the user would run:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1
 </code></pre></div><p>The output would be a YAML file containing the Virtual Network and all child resources (e.g. subnets, route tables, etc).</p>
-<p>As an extension, in a later release we could also support pointing at an entire resource group, generating a single YAML file containing all the resources in the specified resource group. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.</p>
+<p>If given the URL for an entire resource group, we&rsquo;d export all the resources in that group that are supported by ASO. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1
 </code></pre></div><h3 id="data-flow">Data Flow</h3>
 <p>The process of generating the YAML for a given resource can be simplified to the following flow:</p>
