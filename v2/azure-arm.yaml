@@ -23,10 +23,8 @@ pipeline: azure
 supportedResourcesReport:
   # Path is relative to the module path, above
   outputPath: ../docs/hugo/content/reference/_index.md
-  introduction: |
-    These are the resources with Azure Service Operator support committed to our **main** branch
-    grouped by the originating ARM service.
-    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # Path to documentation fragments to inject into the report
+  fragmentPath: ../docs/v2/azure/supported-resources
   # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
   # the placeholders {group} {version} and {kind} are supported.
   resourceUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
