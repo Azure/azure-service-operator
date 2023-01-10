@@ -36,9 +36,12 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Definitions(), configuration)
+			report, err := NewResourceVersionsReport(state.Definitions(), configuration)
+			if err != nil {
+				return nil, err
+			}
 
-			err := report.WriteTo(configuration.SupportedResourcesReport.FullOutputPath())
+			err = report.WriteTo(configuration.SupportedResourcesReport.FullOutputPath())
 			if err != nil {
 				return nil, err
 			}
@@ -53,29 +56,71 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
-	groups                   set.Set[string]                       // A set of all our groups
-	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
-	frontMatter              string                                // Front matter to be inserted at the top of the report
-	// A separate list of resources for each package
-	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
+	frontMatter              string                                                  // Front matter to be inserted at the top of the report
+	availableFragments       map[string]string                                       // A collection of the fragments to use in the report
+	groups                   set.Set[string]                                         // A set of all our groups
+	kinds                    map[string]astmodel.TypeDefinitionSet                   // For each group, the set of all available resources
+	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
+	typoAdvisor              *config.TypoAdvisor                                     // Advisor used to troubleshoot unused fragments
 }
 
 func NewResourceVersionsReport(
 	definitions astmodel.TypeDefinitionSet,
 	cfg *config.Configuration,
-) *ResourceVersionsReport {
+) (*ResourceVersionsReport, error) {
 	result := &ResourceVersionsReport{
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
 		rootUrl:                  cfg.RootURL,
 		samplesPath:              cfg.SamplesPath,
+		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
+		typoAdvisor:              config.NewTypoAdvisor(),
+	}
+
+	err := result.loadFragments()
+	if err != nil {
+		return nil, errors.Wrapf(err, "Unable to load report fragments")
 	}
 
 	result.summarize(definitions)
-	return result
+	return result, nil
+}
+
+// loadFragments scans the files in the fragments directory and loads them into the availableFragments map
+func (report *ResourceVersionsReport) loadFragments() error {
+	fragmentsPath := report.reportConfiguration.FullFragmentPath()
+
+	files, err := ioutil.ReadDir(fragmentsPath)
+	if err != nil {
+		return errors.Wrapf(err, "Unable to read fragments from directory %q", fragmentsPath)
+	}
+
+	for _, file := range files {
+		// Skip subdirectories
+		if file.IsDir() {
+			continue
+		}
+
+		// Load the file contents
+		fileName := file.Name()
+		content, err := ioutil.ReadFile(filepath.Join(fragmentsPath, fileName))
+		if err != nil {
+			return errors.Wrapf(err, "Unable to read fragment file %q", fileName)
+		}
+
+		// Strip the extension from the filename
+		name := strings.TrimSuffix(fileName, filepath.Ext(fileName))
+
+		report.availableFragments[name] = string(content)
+	}
+
+	// We don't want our README to trigger an error
+	report.typoAdvisor.AddTerm("README")
+
+	return nil
 }
 
 // summarize collates a list of all resources, grouped by package
@@ -134,8 +179,11 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 		buffer.WriteString(report.defaultFrontMatter())
 	}
 
-	buffer.WriteString(report.reportConfiguration.Introduction)
-	buffer.WriteString("\n\n")
+	// Include file header if found
+	if fragment, ok := report.findFragment("header"); ok {
+		buffer.WriteString(fragment)
+		buffer.WriteString("\n\n")
+	}
 
 	// Sort groups into alphabetical order
 	groups := set.AsSortedSlice(report.groups)
@@ -143,6 +191,13 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
+
+		// Include a fragment for this group if we have one
+		if fragment, ok := report.findFragment(svc); ok {
+			buffer.WriteString(fragment)
+			buffer.WriteString("\n\n")
+		}
+
 		table, err := report.createTable(report.kinds[svc])
 		if err != nil {
 			errs = append(errs, err)
@@ -151,6 +206,16 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 
 		table.WriteTo(buffer)
 		buffer.WriteString("\n")
+	}
+
+	// Check to see whether all fragments were used
+	for name := range report.availableFragments {
+		if report.typoAdvisor.HasTerm(name) {
+			continue
+		}
+
+		err := report.typoAdvisor.Errorf(name, "Fragment %q was not used", name)
+		errs = append(errs, err)
 	}
 
 	return kerrors.NewAggregate(errs)
@@ -346,4 +411,12 @@ func (report *ResourceVersionsReport) defaultFrontMatter() string {
 	buffer.WriteString("title: Supported Resources\n")
 	buffer.WriteString("---\n\n")
 	return buffer.String()
+}
+
+// findFragment will find the named fragment and return it if it exists.
+func (report *ResourceVersionsReport) findFragment(name string) (string, bool) {
+	report.typoAdvisor.AddTerm(name)
+
+	fragment, ok := report.availableFragments[name]
+	return fragment, ok
 }

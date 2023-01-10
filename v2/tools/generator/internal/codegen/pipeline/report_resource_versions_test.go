@@ -87,7 +87,8 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	srr := cfg.SupportedResourcesReport
 	srr.Introduction = "These are the resources with Azure Service Operator support."
 
-	report := NewResourceVersionsReport(defs, cfg)
+	report, err := NewResourceVersionsReport(defs, cfg)
+	g.Expect(err).ToNot(HaveOccurred())
 
 	var buffer strings.Builder
 	g.Expect(report.WriteToBuffer(

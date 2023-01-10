@@ -40,6 +40,13 @@ func (advisor *TypoAdvisor) HasTerms() bool {
 	return len(advisor.terms) > 0
 }
 
+// HasTerm returns true if the specified term is known to the advisor
+func (advisor *TypoAdvisor) HasTerm(term string) bool {
+	advisor.lock.RLock()
+	defer advisor.lock.RUnlock()
+	return advisor.terms.Contains(term)
+}
+
 // ClearTerms removes all the terms from ths advisor
 func (advisor *TypoAdvisor) ClearTerms() {
 	advisor.terms.Clear()
