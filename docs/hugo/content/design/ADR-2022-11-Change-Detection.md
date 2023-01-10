@@ -48,7 +48,7 @@ Potential mitigations:
 
 Some resources have arrays of items. These arrays may not be guaranteed to be returned in the same order as they were specified. 
 
-Potential mitigation: In the common case where the items in an array have a known identifier, use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index.
+Potential mitigation: In the common case where the items in an array have a known identifier (e.g., when they are sub-resources with an `id` field), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index.
 
 ### Changes to test recordings
 
