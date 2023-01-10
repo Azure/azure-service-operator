@@ -1,0 +1,3 @@
+This folder contains documentation fragments for injection into the report listing the versions of supported resources.
+
+Each file should be named for the *group* of the resources, and will be injected after the heading for the group, and before the list of resources.
