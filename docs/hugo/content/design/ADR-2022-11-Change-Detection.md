@@ -56,7 +56,7 @@ When a resource changes from PUT only to GET+PUT, we'll need to re-record the te
 
 Potential mitigation: We could have a configuration flag that allows us to switch between the two approaches for a specific resource. We'd make GET+PUT the default, explicitly configure all our existing resources as PUT-only, and migrate in a controlled fashion, prioritizing those resources where we know we have the most issues with the PUT-only approach.
 
-This will also allow us to leave problematic resources a PUT only if we find that it's difficult or cumbersome to use GET+PUT because of issues doing the comparison.
+This will also allow us to leave problematic resources using only PUT if we find that it's difficult or cumbersome to use GET+PUT because of issues doing the comparison.
 
 ### Violation of the DRY principle
 
