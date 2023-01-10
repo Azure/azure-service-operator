@@ -23,7 +23,7 @@
 In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the …">
 <meta property="og:title" content="2022-11: Change Detection" />
 <meta property="og:description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests for a given endpoint connection to just 1200 per hour per subscription." />
+While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-11-change-detection/" /><meta property="article:section" content="design" />
 
@@ -31,13 +31,13 @@ While this works, customers are already running up against ARM throttling with m
 
 <meta itemprop="name" content="2022-11: Change Detection">
 <meta itemprop="description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests for a given endpoint connection to just 1200 per hour per subscription.">
+While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription.">
 
-<meta itemprop="wordCount" content="1020">
+<meta itemprop="wordCount" content="1140">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-11: Change Detection"/>
 <meta name="twitter:description" content="Context In ASO v2 up to at least the beta.4 release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.
-While this works, customers are already running up against ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests for a given endpoint connection to just 1200 per hour per subscription."/>
+While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription."/>
 
 
 
@@ -584,9 +584,10 @@ While this works, customers are already running up against ARM throttling with m
 	</header>    
 	<h2 id="context">Context</h2>
 <p>In ASO v2 up to at least the <code>beta.4</code> release, we reconcile each resource by doing a PUT, relying on the Azure Resource Manager (ARM) to do the goal state comparison and only update the resource if it has changed.</p>
-<p>While this works, customers are already running up against ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests for a given endpoint connection to just 1200 per hour per subscription. With a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.</p>
-<p>In the <code>beta.4</code> release, we&rsquo;re lifting the default to 1 hour, but this is a compromise. It means we will detect and correct resource drift more slowly, and it&rsquo;s still not going to be enough to prevent throttling for larger deployments. The change only impacts on steady state as well; we&rsquo;ll still hit throttling during initial deployments and when errors occur.</p>
+<p>While this works, customers are already running up against severe ARM throttling with moderate numbers of resources. Typically, ARM throttles PUT requests handled by a given ARM endpoint to just 1200 per hour per subscription. With our current use of a single active HTTP connection and a reconcile period of 15m, ASO users are hitting this limit with just 300 active resources.</p>
+<p>In the <code>beta.4</code> release, we&rsquo;re lifting the default to 1 hour, but this is a compromise. It means we will detect and correct resource drift more slowly, and it&rsquo;s still not going to be enough to prevent throttling for larger deployments. The change only impacts on steady state as well; we&rsquo;ll still hit throttling during initial deployments and when errors occur. Issue <a href="https://github.com/Azure/azure-service-operator/issues/2672">#2672</a> tracks other changes we are investigating to mitigate throttling.</p>
 <p>It&rsquo;s been previously suggested (see <a href="https://github.com/Azure/azure-service-operator/issues/1491">#1491</a>) that we should do our own goal state comparison and only do a PUT if the resource has changed. This would allow us to reconcile more frequently, as GET requests have a significantly higher throttle limit.</p>
+<p>Doing a GET followed by a PUT will also better align with user expectations - we&rsquo;ve had multiple issues raised where users have been surprised that we do a PUT for every reconciliation.</p>
 <p>While it sounds straightforward to compare a <em>Status</em> retrieved from Azure with the <em>Spec</em> held by ASO, there are a few complicating factors. (Credit to @matthchr for much of the wording in these descriptions, lifted from earlier discussions.)</p>
 <h3 id="readonly-fields">Readonly fields</h3>
 <p>Some fields are set by Azure and cannot be changed by the user. These fields <em>should</em> be marked as read-only in the Swagger, resulting in their omission from our generated Spec types. However, not all such fields are properly marked.</p>
@@ -594,15 +595,26 @@ While this works, customers are already running up against ARM throttling with m
 <h3 id="default-values">Default values</h3>
 <p>Some fields are optional in the Swagger, but are required by Azure. In these cases, Azure will set a default value if the user does not provide one. In a naive implementation, we&rsquo;ll see these fields as differences between the <em>Spec</em> we have and the <em>Status</em> we retrieve from Azure. Complicating this, some resources may use a different default value depending on other fields. (We know this is the case for AKS, for example.)</p>
 <p>While we can tell the different in a Spec between a field that was never set by the user, and a field that we set to an explicit value (because all our Spec properties are pointers), this doesn&rsquo;t mean we can assume any explicit value in a Status is a default. For example, if a third party makes a change via the Azure portal, we want to detect this as a change and and revert it.</p>
+<p>A variation of value defaulting may occur with arrays and maps, where some services will add a default value to the collection if the user does not specify it. Conceptually, you can write <code>[&quot;a&quot;]</code> and get back <code>[&quot;default&quot;, &quot;a&quot;]</code> when you read it back.</p>
 <h3 id="read-after-write-consistency">Read-After-Write Consistency</h3>
-<p>Azure is not guaranteed to return the exact same resource that was PUT. For example, the <code>etag</code> field may change, or the <code>id</code> field may be returned with a different casing. Some resource providers also <em>normalize</em> field values, for example the CosmosDB API will return <code>West US</code> when the resource specified <code>westus</code>.</p>
-<p>Potential mitigation: Generally speaking, Azure is expected to be &ldquo;case-preserving, case-insensitive&rdquo;, so we should compare all string fields in a case insensitive manner. Region names and virtual machines SKUS are two known special cases where we may need to do some special case handling. For example, regions specified as <code>eastus</code> may be returned as <code>East US</code>.</p>
+<p>Azure is not guaranteed to return the exact same resource that was PUT.</p>
+<ul>
+<li>Some services normalize identifier fields (converting them to all lowercase)</li>
+<li>Some fields accept a wider range of values than they return.</li>
+</ul>
+<p>For example the CosmosDB API will return the region <code>West US</code> when the resource specified <code>westus</code>.</p>
+<p>Potential mitigations:</p>
+<ul>
+<li>Generally speaking, Azure identifiers are expected to be &ldquo;case-preserving, case-insensitive&rdquo;, so we should compare those string fields in a case insensitive manner.</li>
+<li>Region names and virtual machines SKUS are two known special cases where we may need to do some special case handling.</li>
+</ul>
 <h3 id="array-ordering">Array ordering</h3>
-<p>Some resources have arrays of sub-resources. These arrays may not be guaranteed to be returned in the same order as they were specified.</p>
-<p>Potential mitigation: Where the items in an array have a known identifier (easy for nested resources), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index. We may find need for</p>
+<p>Some resources have arrays of items. These arrays may not be guaranteed to be returned in the same order as they were specified.</p>
+<p>Potential mitigation: In the common case where the items in an array have a known identifier (e.g., when they are sub-resources with an <code>id</code> field), use that identifier to match them up. Where the items in an array do not have a known identifier, compare them by index.</p>
 <h3 id="changes-to-test-recordings">Changes to test recordings</h3>
 <p>When a resource changes from PUT only to GET+PUT, we&rsquo;ll need to re-record the test results for that resource. To avoid having to re-record all the tests in one go, we probably want to have some way to migrate to the new approach in a controlled fashion.</p>
 <p>Potential mitigation: We could have a configuration flag that allows us to switch between the two approaches for a specific resource. We&rsquo;d make GET+PUT the default, explicitly configure all our existing resources as PUT-only, and migrate in a controlled fashion, prioritizing those resources where we know we have the most issues with the PUT-only approach.</p>
+<p>This will also allow us to leave problematic resources using only PUT if we find that it&rsquo;s difficult or cumbersome to use GET+PUT because of issues doing the comparison.</p>
 <h3 id="violation-of-the-dry-principle">Violation of the DRY principle</h3>
 <p>The really unfortunate thing, and the reason we actually like just the approach of always PUT-ing (with the obvious caveat that it causes throttling if you do it a lot) is that all of the logic to determine if there has been a change (what fields have what defaults, whether the field is stable or not, etc) all of that exists in the Resource Provider PUT path.</p>
 <h3 id="risk-of-bad-change-detection">Risk of bad change detection</h3>
