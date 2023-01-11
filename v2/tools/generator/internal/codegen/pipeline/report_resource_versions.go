@@ -97,29 +97,29 @@ func (report *ResourceVersionsReport) loadFragments() error {
 	}
 
 	fragmentsPath := report.reportConfiguration.FullFragmentPath()
+	err := filepath.WalkDir(
+		fragmentsPath,
+		func(path string, info fs.DirEntry, err error) error {
+			// Skip subdirectories
+			if info.IsDir() {
+				return nil
+			}
 
-	files, err := ioutil.ReadDir(fragmentsPath)
+			// Load the file contents
+			content, err := ioutil.ReadFile(path)
+			if err != nil {
+				return errors.Wrapf(err, "Unable to read fragment file %q", info.Name())
+			}
+
+			// Strip the extension from the filename
+			name := strings.TrimSuffix(info.Name(), filepath.Ext(info.Name()))
+
+			report.availableFragments[name] = string(content)
+			return nil
+		})
+
 	if err != nil {
-		return errors.Wrapf(err, "Unable to read fragments from directory %q", fragmentsPath)
-	}
-
-	for _, file := range files {
-		// Skip subdirectories
-		if file.IsDir() {
-			continue
-		}
-
-		// Load the file contents
-		fileName := file.Name()
-		content, err := ioutil.ReadFile(filepath.Join(fragmentsPath, fileName))
-		if err != nil {
-			return errors.Wrapf(err, "Unable to read fragment file %q", fileName)
-		}
-
-		// Strip the extension from the filename
-		name := strings.TrimSuffix(fileName, filepath.Ext(fileName))
-
-		report.availableFragments[name] = string(content)
+		return errors.Wrapf(err, "Unable to load fragments from %q", fragmentsPath)
 	}
 
 	// We don't want our README to trigger an error
