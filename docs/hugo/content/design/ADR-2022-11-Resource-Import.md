@@ -62,7 +62,7 @@ Create the new command line tool `asoctl` to house multiple functions, starting 
 
 To export a existing resource, we'd use `export resource` as the verb. 
 
-This would accept a single resource ID (a fully qualified URL) as a parameter and output a YAML file to stdout containing the specified resource and all related child resources. In typical use, the user would redirect the output to a file and modify it as necessary, though we may want to support a `--output` parameter to allow the user to specify the output file directly.
+This would accept a single resource (identified by a fully qualified URL) as a parameter and output a YAML file to stdout containing the specified resource and all related child resources. In typical use, the user would redirect the output to a file and modify it as necessary, though we may also support a `--output` parameter to allow the user to specify the output file directly.
 
 For example, to export the YAML for an existing Virtual Network, the user would run:
 
@@ -72,7 +72,7 @@ $ asoctl export resource http://management.azure.com/subscriptions/00000000-0000
 
 The output would be a YAML file containing the Virtual Network and all child resources (e.g. subnets, route tables, etc).
 
-As an extension, in a later release we could also support pointing at an entire resource group, generating a single YAML file containing all the resources in the specified resource group. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.
+If given the URL for an entire resource group, we'd export all the resources in that group that are supported by ASO. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.
 
 ``` bash
 $ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1
