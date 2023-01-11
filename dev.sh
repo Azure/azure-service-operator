@@ -14,7 +14,8 @@ if ! ENVTEST=$("$TOOL_DEST/setup-envtest" use --print env 1.23.5) ; then
     echo "Failed to setup envtest"
     exit 1
 fi
-$ENVTEST
+
+echo "$ENVTEST" > source
 
 export PATH="$KUBEBUILDER_ASSETS:$TOOL_DEST:$PATH"
 

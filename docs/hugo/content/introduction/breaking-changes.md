@@ -1,12 +1,17 @@
-# Breaking Changes in beta.4
+---
+title: "Breaking Changes"
+linkTitle: "Breaking Changes"
+---
 
-In the 'beta.4' release of Azure Service Operator (ASO) we are pivoting to using the Azure Swagger API Specifications as our sole source of truth for our code generator.
+We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
 
-This change brings with in a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
+## December 2022 - beta.4
 
-Unfortunately, this change brings with it a few breaking changes, listed in this document. 
+In the `beta.4` release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 
-We expect that most users will find their resources are unaffected by these changes. However, if you are using a resource that is affected, you will need to take action to migrate your resources to the new format.
+Unfortunately, this change also brings with it a number of breaking changes.
+
+We expect that most users will find their resources are unaffected by these changes. However, if you are using a resource that is affected, you will need to take action to migrate your resources to the new format. 
 
 The impact of these breaking changes falls into two categories, *immediate migration required* and *upgrade when modified*, distinguished by when you need to take remedial action.
 
@@ -32,11 +37,13 @@ You can upgrade ASO in your cluster and the resource will continue to operate no
 
 ## Types of breaking changes
 
+We've identified a number of different cases where breaking changes have occurred. The following table describes the different types of breaking changes and how they affect you.
+
 | Type                | Description                                                                                                                                                                                                                                                                                                                                                            | Impact                                           |
 | :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------- |
 | Discriminator       | The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option. Previously we were synthesizing a name based on other factors, resulting in longer property names that did not appear in the ARM/Bicep documentation.<br/><br/>*Example*:<br/>`DeliveryRuleCacheExpiration` renamed to `CacheExpiration` | Immediate migration                              |
 | Enumeration         | Properties that previously had a base type but no enumeration values have been updated to include the enumeration values.<br/><br/>*Example*:<br/>`KubernetesCluster.KubernetesVersion`.                                                                                                                                                                               | Immediate migration for malformed resources only |
-| Inlined             | Objects that were incorrectly generated as nested properties have been inlined.<br/><br/>*Example:<br/>Properties found in `DeadLetterDestination.Properties` have been promoted to `DeadLetterDestination`.                                                                                                                                                           | Immediate migration                              |
+| Inlined             | Objects that were incorrectly generated as nested properties have been inlined.<br/><br/>*Example:*<br/>Properties found in `DeadLetterDestination.Properties` have been promoted to `DeadLetterDestination`.                                                                                                                                                          | Immediate migration                              |
 | Reference Detection | Id fields now correctly identified as references which now allow for linking to a resource in Kubernetes instead of only in Azure.<br/><br/>*Example:*<br/>Property `VirtualMachineProfile.NetworkProfile.Id` has been changed to `VirtualMachineProfile.NetworkProfile.Reference`.                                                                                    | Immediate migration                              |
 | Status Only         | Status properties that cannot be set by the end user on a Spec that were included in the Spec in error.<br/><br/>*Example*:<br/>`Identity.UserAssignedIdentities`                                                                                                                                                                                                      | Upgrade when modified                            |
 | Subresource         | Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.<br/><br/>*Example*:<br/>`VirtualNetworkGateway.VirtualNetworkExtendedLocation`                                                                                                                                                                            | Immediate migration                              |

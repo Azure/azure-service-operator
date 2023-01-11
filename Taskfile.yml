@@ -9,6 +9,9 @@ vars:
   GENERATOR_APP: aso-gen
   GENERATOR_ROOT: v2/tools/generator/
 
+  ASOCTL_APP: asoctl
+  ASOCTL_ROOT: v2/tools/asoctl/
+
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/
   CONTROLLER_OUTPUT:
@@ -47,12 +50,14 @@ vars:
   LIVE_TEST_TIMEOUT: 3h
 
   ASO_NAMESPACE: azureserviceoperator-system
+
 tasks:
   default:
     desc: Perform all fast local pre-commit tasks.
     deps:
     - generator:quick-checks
     - controller:quick-checks
+    - asoctl:quick-checks
     - crossplane:generate-crds
     - crossplane:quick-checks
     - format-code
@@ -62,6 +67,7 @@ tasks:
     deps: 
     - generator:ci
     - controller:ci
+    - asoctl:ci
     - crossplane:ci
     cmds:
     - task: verify-no-changes
@@ -100,9 +106,53 @@ tasks:
       NODE_PATH:
         sh: npm root -g
 
-  ############### Generator targets ###############
   basic-checks:
     deps: [header-check, specifier-check]
+
+  ############### Asoctl targets ###############
+
+  asoctl:quick-checks:
+    cmds:
+      - task: asoctl:unit-tests
+      - task: basic-checks
+      - task: asoctl:lint
+
+  asoctl:ci:
+    cmds:
+      - task: asoctl:unit-tests-cover
+      - task: basic-checks
+      - task: asoctl:lint
+
+  asoctl:unit-tests:
+    desc: Run {{.ASOCTL_APP}} unit tests.
+    dir: '{{.ASOCTL_ROOT}}'
+    cmds:
+      - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
+
+  asoctl:unit-tests-cover:
+    desc: Run {{.ASOCTL_APP}} unit tests and output coverage.
+    dir: '{{.ASOCTL_ROOT}}'
+    cmds:
+      - defer: # want to run even on failure
+          task: produce-markdown-summary
+          vars:
+            INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
+            OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
+      - go test ./... -tags=noexit -race -covermode atomic -coverprofile=asoctl-coverage.out -json -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}' > '{{.TEST_OUT}}/asoctl-unit-tests.json'
+
+  asoctl:lint:
+    desc: Run {{.ASOCTL_APP}} fast lint checks.
+    dir: '{{.ASOCTL_ROOT}}'
+    cmds:
+      - golangci-lint run --verbose --fast=false
+
+  asoctl:build:
+    desc: Generate the {{.ASOCTL_APP}} binary.
+    dir: '{{.ASOCTL_ROOT}}'
+    cmds:
+      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} .
+
+  ############### Generator targets ###############
 
   generator:quick-checks:
     cmds:
@@ -114,7 +164,7 @@ tasks:
     cmds:
     - task: generator:unit-tests-cover
     - task: basic-checks
-    - task: generator:lint-full
+    - task: generator:lint
 
   generator:unit-tests:
     desc: Run {{.GENERATOR_APP}} unit tests.
@@ -141,12 +191,6 @@ tasks:
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
-    dir: '{{.GENERATOR_ROOT}}'
-    cmds:
-    - golangci-lint run --verbose
-
-  generator:lint-full:
-    desc: Run {{.GENERATOR_APP}} all lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
     - golangci-lint run --verbose --fast=false
@@ -183,7 +227,7 @@ tasks:
     # checks must be after test as that will generate code
     - task: basic-checks
     # lint must be at end after code is formatted
-    - task: controller:lint-full
+    - task: controller:lint
 
   controller:ci-integration-tests:
     cmds:
@@ -195,22 +239,15 @@ tasks:
     cmds:
     - task: controller:test-integration-ci-live
     - task: basic-checks
-    - task: controller:lint-full
+    - task: controller:lint
 
   controller:lint:
     desc: Run fast lint checks.
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
-    cmds: 
-    - golangci-lint run --verbose ./...
-
-  controller:lint-full:
-    desc: Run all lint checks.
-    deps: [controller:generate-crds]
-    dir: "{{.CONTROLLER_ROOT}}"
-    cmds: 
-    # Setting GOGC to increase how much debris is tolerated before running GC
-    - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m ./...
+    cmds:
+      # Setting GOGC to increase how much debris is tolerated before running GC
+      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource

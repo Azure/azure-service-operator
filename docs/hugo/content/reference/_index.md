@@ -10,7 +10,7 @@ cascade:
 - type: docs
 - render: always
 ---
-These are the resources with Azure Service Operator support committed to our **main** branch
+These are the resources with Azure Service Operator support committed to our **main** branch,
 grouped by the originating ARM service.
 (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 
@@ -108,6 +108,10 @@ grouped by the originating ARM service.
 | [Server](https://azure.github.io/azure-service-operator/reference/dbformariadb/v1beta20180601/#dbformariadb.azure.com/v1beta20180601.Server)               | 2018-06-01  | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1beta/v1beta20180601_server.yaml)        |
 
 ## Dbformysql
+
+Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server). We will not be supporting it in ASO v2.
+
+Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                   |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
