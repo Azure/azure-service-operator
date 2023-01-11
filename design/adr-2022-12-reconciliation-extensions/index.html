@@ -18,26 +18,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Upgrading | Azure Service Operator</title>
-<meta name="description" content="Before you upgrade
-Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading …">
-<meta property="og:title" content="Upgrading" />
-<meta property="og:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features." />
+<title>2022-12: Reconciliation Extensions | Azure Service Operator</title>
+<meta name="description" content="Context
+The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is …">
+<meta property="og:title" content="2022-12: Reconciliation Extensions" />
+<meta property="og:description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
+For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/upgrading/" /><meta property="article:section" content="introduction" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="Upgrading">
-<meta itemprop="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.">
+<meta itemprop="name" content="2022-12: Reconciliation Extensions">
+<meta itemprop="description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
+For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms.">
 
-<meta itemprop="wordCount" content="272">
+<meta itemprop="wordCount" content="475">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Upgrading"/>
-<meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features."/>
+<meta name="twitter:title" content="2022-12: Reconciliation Extensions"/>
+<meta name="twitter:description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
+For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms."/>
 
 
 
@@ -71,7 +71,7 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 				
 				
 				
-				<a class="nav-link active" href="/azure-service-operator/introduction/" ><span class="active">Guide</span></a>
+				<a class="nav-link" href="/azure-service-operator/introduction/" ><span>Guide</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -107,7 +107,7 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/design/" ><span>Design</span></a>
+				<a class="nav-link active" href="/azure-service-operator/design/" ><span class="active">Design</span></a>
 			</li>
 			
 			
@@ -137,43 +137,43 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
       <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operator-li">
   <a href="/azure-service-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-azure-service-operator"><span class="">Azure Service Operator v2</span></a>
   <ul class="ul-1">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorintroduction-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorintroduction-li">
   <a href="/azure-service-operator/introduction/" title="User’s Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorintroduction"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmetrics-li">
   <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class="">ASO Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionaso-controller-settings-options-li">
   <a href="/azure-service-operator/introduction/aso-controller-settings-options/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionaso-controller-settings-options"><span class="">ASO-Controller-Settings Options</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionauthentication-li">
   <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionbreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionbreaking-changes-li">
   <a href="/azure-service-operator/introduction/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionbreaking-changes"><span class="">Breaking Changes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
   <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionfrequently-asked-questions-li">
   <a href="/azure-service-operator/introduction/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionfrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionsecrets-li">
   <a href="/azure-service-operator/introduction/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionsecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductioninstalling-from-yaml-li">
   <a href="/azure-service-operator/introduction/installing-from-yaml/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductioninstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionmultitenant-deployment-li">
   <a href="/azure-service-operator/introduction/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmultitenant-deployment"><span class="">Multitenancy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconfigmaps-li">
   <a href="/azure-service-operator/introduction/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb"><span class="">Tutorial: CosmosDB to-do List</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity-li">
   <a href="/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-cosmosdb-managed-identity"><span class="">Tutorial: CosmosDB to-do List with Managed Identity</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductiontutorial-postgresql-li">
   <a href="/azure-service-operator/introduction/tutorial-postgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiontutorial-postgresql"><span class="">Tutorial: PostgreSQL Votes</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionconditions-li">
   <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionuninstalling-li">
   <a href="/azure-service-operator/introduction/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionuninstalling"><span class="">Uninstalling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionupgrading-li">
-  <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="td-sidebar-nav-active-item">Upgrading</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorintroductionupgrading-li">
+  <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="">Upgrading</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
@@ -427,50 +427,50 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
-  <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+  <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="td-sidebar-nav-active-item">2022-12: Reconciliation Extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -486,7 +486,7 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -509,15 +509,12 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#before-you-upgrade">Before you upgrade</a></li>
-    <li><a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a></li>
-    <li><a href="#upgrading">Upgrading</a>
-      <ul>
-        <li><a href="#kubectl-apply">kubectl apply</a></li>
-        <li><a href="#helm">Helm</a></li>
-      </ul>
-    </li>
-    <li><a href="#supported-versions">Supported Versions</a></li>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav></div>
 
@@ -551,16 +548,16 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/introduction/">Guide</a>
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/introduction/upgrading/">Upgrading</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2022-12-reconciliation-extensions/">2022-12: Reconciliation Extensions</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Upgrading</h1>
+	<h1>2022-12: Reconciliation Extensions</h1>
 	
 	<header class="article-meta">
 		
@@ -577,55 +574,45 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 
 		
 	</header>    
-	<h2 id="before-you-upgrade">Before you upgrade</h2>
-<p>Ensure that you have carefully reviewed the upgrade instructions included in the <a href="https://github.com/Azure/azure-service-operator/releases">release notes</a> for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.</p>
-<h2 id="recommended-upgrade-pattern">Recommended upgrade pattern</h2>
-<p>We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.</p>
-<table>
-<thead>
-<tr>
-<th>Old version</th>
-<th>New version</th>
-<th style="text-align:center">Recommended</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>v2.0.0-beta.0</code></td>
-<td><code>v2.0.0-beta.1</code></td>
-<td style="text-align:center">✔</td>
-</tr>
-<tr>
-<td><code>v2.0.0-alpha.6</code></td>
-<td><code>v2.0.0-beta.1</code></td>
-<td style="text-align:center">❌</td>
-</tr>
-</tbody>
-</table>
-<p>If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time, giving your cluster time to stabilize between upgrades.</p>
-<p>For example <code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.1</code> should be accomplished with two upgrades:</p>
+	<h2 id="context">Context</h2>
+<p>The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.</p>
+<p>For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms.</p>
+<p>Examples of this include:</p>
 <ul>
-<li><code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.0</code></li>
-<li><code>v2.0.0-beta.0</code> to <code>v2.0.0-beta.1</code></li>
+<li>An <a href="https://learn.microsoft.com/en-us/rest/api/aks/managed-clusters/get?tabs=HTTP">AKS Managed Cluster</a> with <code>provisioningState</code> of <code>Updating</code>.</li>
+<li>An <a href="https://learn.microsoft.com/en-us/rest/api/aks/agent-pools/get?tabs=HTTP">AKS Agent Pool</a> with <code>provisioningState</code> of <code>Updating</code>.</li>
+<li>A <a href="https://learn.microsoft.com/en-us/rest/api/postgresql/flexibleserver/servers/get?tabs=HTTP">PostgreSQL Flexible Server</a> with a <code>state</code> of <code>Starting</code>, <code>Stopping</code> or <code>Updating</code>.</li>
 </ul>
-<h2 id="upgrading">Upgrading</h2>
-<p>We recommend that you upgrade ASO using the same tool you installed it with.</p>
-<p><strong>Note:</strong> The instructions below all assume you&rsquo;re upgrading from the previous version to the latest version. Please follow
-the <a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a> for upgrading multiple versions.</p>
-<h3 id="kubectl-apply">kubectl apply</h3>
-<p>The operator can be upgraded simply by running the same command you used to install it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml
-</code></pre></div><h3 id="helm">Helm</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-helm repo update
-helm upgrade --devel --version v2.0.0-beta.3 aso2 aso2/azure-service-operator <span style="color:#ae81ff">\ </span>
-        --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>        --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET
-</code></pre></div><h2 id="supported-versions">Supported Versions</h2>
-<p>We provide best effort support via GitHub for ASO, focusing on the latest version and the previous version. If you&rsquo;re running an older version, we may ask you to upgrade to the latest release before we can help you.</p>
+<p>This list not exhaustive.</p>
+<p>We need a way to allow the operator to handle these cases gracefully, by introducing an extension point where we can tweak the reconciliation flow and skip the PUT if the resource is in a state that we know will cause the PUT to fail.</p>
+<p>Complicating matters, we are also looking switch from using a unilateral PUT to a more discerning workflow where we do a GET first and only issue a PUT if the resource has changed (See <a href="https://github.com/Azure/azure-service-operator/pull/2600">#2600</a> for the design). Ideally, our design for this extension point will be compatible with both the current PUT-only reconciliation flow and the new GET-PUT reconciliation flow.</p>
+<p>In the most common scenario, this extension point will be used to skip reconciliation based on the current status of the resource. However, we also want to allow implementers to use this extension point to perform other actions, such as issuing a GET to check on the status of other Azure resources.</p>
+<p>As with other extension points, we want to give implementers the option of acting either before or after the standard action.</p>
+<h2 id="decision">Decision</h2>
+<p>We&rsquo;ll define a new extension point called <code>ReconcileActionSelector</code> in a style similar to our already existing extension points.</p>
+<p>The extension point will receive the following parameters:</p>
+<ul>
+<li>The current resource, with a status freshly updated from Azure.</li>
+<li>A client allowing for ARM operations.</li>
+<li>A logger to allow for tracing of what the extension did.</li>
+<li>A context to allow cancellation of long running operations.</li>
+<li>A function that will return the next action to take.</li>
+</ul>
+<p>It will return <code>Reconcile</code> if the resource should be reconciled, <code>Skip</code> if reconciliation should be skipped, or an <code>error</code> if something went wrong.</p>
+<p>For the initial implementation, we&rsquo;ll only do the GET if the extension exists, and the default <code>next</code> action will be hard coded to request a reconciliation.</p>
+<p><img src="images/adr-2022-12-reconciliation-initial-flow.png" alt="Initial Sequence"></p>
+<p>Down the track when we switch to a GET/PUT workflow, we&rsquo;ll always do the GET, and the default &lsquo;next` action will do the comparison to see if the resource has changed.</p>
+<p><img src="images/adr-2022-12-reconciliation-diffing-flow.png" alt="GET/PUT Sequence"></p>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<p>TBC.</p>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/2600">#2600 - High Level design for using GET+PUT to reconcile</a></li>
+</ul>
 
 	
 	
