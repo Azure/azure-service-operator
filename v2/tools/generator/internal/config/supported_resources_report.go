@@ -12,9 +12,10 @@ import (
 // SupportedResourcesReport is configuration for the report that lists all the supported resources.
 type SupportedResourcesReport struct {
 	cfg *Configuration // Back reference to global configuration
-
-	OutputPath   string `yaml:"outputPath,omitempty"`   // Destination filepath for the report, relative to DestinationGoModuleFile
-	Introduction string `yaml:"introduction,omitempty"` // Introduction to the report
+	// OutputPath is the destination filepath for the report, relative to DestinationGoModuleFile
+	OutputPath string `yaml:"outputPath,omitempty"`
+	// FragmentPath is a folder path for markdown fragments to inject into the file
+	FragmentPath string `yaml:"fragmentPath,omitempty"`
 	// ResourceUrlTemplate is a template for URL to the API docs for a resource
 	// It may use the placeholders {group} {version} and {kind}
 	ResourceUrlTemplate string `yaml:"resourceUrlTemplate"`
@@ -35,4 +36,11 @@ func (srr *SupportedResourcesReport) FullOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(srr.cfg.DestinationGoModuleFile),
 		srr.OutputPath)
+}
+
+// FullFragmentFolderPath returns the fully qualified path to our fragment folder
+func (srr *SupportedResourcesReport) FullFragmentPath() string {
+	return filepath.Join(
+		filepath.Dir(srr.cfg.DestinationGoModuleFile),
+		srr.FragmentPath)
 }

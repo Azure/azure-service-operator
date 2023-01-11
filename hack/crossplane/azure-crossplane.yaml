@@ -6,9 +6,8 @@ typesOutputPath: apis
 supportedResourcesReport:
   # Path is relative to the module path, above
   outputPath: apis/resources.md
-  introduction: |
-    These are the Crossplane resources committed to our **main** branch, grouped by the originating ARM service.
-    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # Path to documentation fragments to inject into the report
+  fragmentPath: ../../docs/v2/crossplane/supported-resources
 
 pipeline: crossplane
 typeFilters:
