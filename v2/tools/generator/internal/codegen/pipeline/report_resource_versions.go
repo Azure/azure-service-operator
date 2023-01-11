@@ -193,7 +193,7 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	// Sort groups into alphabetical order
 	groups := set.AsSortedSlice(report.groups)
 
-	var errs []error
+	errs := make([]error, 4) // Preallocate a small size, as errors will be rare
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
 
