@@ -84,9 +84,6 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	g.Expect(omc.ModifyType(address2021.Name(), supportedFrom("beta.2"))).To(Succeed())
 	g.Expect(omc.ModifyType(batch2021.Name(), supportedFrom("beta.2"))).To(Succeed())
 
-	srr := cfg.SupportedResourcesReport
-	srr.Introduction = "These are the resources with Azure Service Operator support."
-
 	report, err := NewResourceVersionsReport(defs, cfg)
 	g.Expect(err).ToNot(HaveOccurred())
 

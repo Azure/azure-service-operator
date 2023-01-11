@@ -91,6 +91,11 @@ func NewResourceVersionsReport(
 
 // loadFragments scans the files in the fragments directory and loads them into the availableFragments map
 func (report *ResourceVersionsReport) loadFragments() error {
+	if report.reportConfiguration.FragmentPath == "" {
+		// No fragments to load
+		return nil
+	}
+
 	fragmentsPath := report.reportConfiguration.FullFragmentPath()
 
 	files, err := ioutil.ReadDir(fragmentsPath)
