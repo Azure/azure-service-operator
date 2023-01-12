@@ -3,30 +3,12 @@
  * Licensed under the MIT license.
  */
 
-package main
+package export
 
 import (
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
-
-// NewExportCommand creates a new cobra Command when invoked from the command line
-func NewExportCommand() (*cobra.Command, error) {
-
-	cmd := &cobra.Command{
-		Use:   "export",
-		Short: "exports ARM templates",
-		Args:  cobra.ExactArgs(1),
-	}
-
-	exportResourceCommand, err := newExportResourceCommand()
-	if err != nil {
-		return nil, err
-	}
-	cmd.AddCommand(exportResourceCommand)
-
-	return cmd, nil
-}
 
 func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TODO: Remove this comment when the tool is actually functional
 	var output *string

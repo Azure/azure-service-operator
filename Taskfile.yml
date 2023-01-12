@@ -150,7 +150,7 @@ tasks:
     desc: Generate the {{.ASOCTL_APP}} binary.
     dir: '{{.ASOCTL_ROOT}}'
     cmds:
-      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} .
+      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} ./cmd/
 
   ############### Generator targets ###############
 
