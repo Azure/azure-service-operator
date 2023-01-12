@@ -20,25 +20,25 @@
 
 <title>FAQ | Azure Service Operator</title>
 <meta name="description" content="Frequently Asked Questions
-Does ASO help with Disaster Recovery (DR) of resources in Azure?
-No. If the Azure resource supports DR then you can …">
+What is the release cadence?
+We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are …">
 <meta property="og:title" content="FAQ" />
-<meta property="og:description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
-How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure." />
+<meta property="og:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
+What is the support model? Azure Service Operator is an officially supported Microsoft OSS product." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/frequently-asked-questions/" /><meta property="article:section" content="introduction" />
 
 
 
 <meta itemprop="name" content="FAQ">
-<meta itemprop="description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
-How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure.">
+<meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
+What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
 
-<meta itemprop="wordCount" content="964">
+<meta itemprop="wordCount" content="1088">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
-<meta name="twitter:description" content="Frequently Asked Questions Does ASO help with Disaster Recovery (DR) of resources in Azure? No. If the Azure resource supports DR then you can configure it through ASO. If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.
-How can I protect against accidentally deleting an important resource?  You can set serviceoperator.azure.com/reconcile-policy: detach-on-delete. This will allow the resource to be deleted in k8s but not delete the underlying resource in Azure."/>
+<meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
+What is the support model? Azure Service Operator is an officially supported Microsoft OSS product."/>
 
 
 
@@ -512,6 +512,8 @@ How can I protect against accidentally deleting an important resource?  You can 
   <ul>
     <li><a href="#frequently-asked-questions">Frequently Asked Questions</a>
       <ul>
+        <li><a href="#what-is-the-release-cadence">What is the release cadence?</a></li>
+        <li><a href="#what-is-the-support-model">What is the support model?</a></li>
         <li><a href="#does-aso-help-with-disaster-recovery-dr-of-resources-in-azure">Does ASO help with Disaster Recovery (DR) of resources in Azure?</a></li>
         <li><a href="#how-can-i-protect-against-accidentally-deleting-an-important-resource">How can I protect against accidentally deleting an important resource?</a></li>
         <li><a href="#what-is-the-best-practice-for-transferring-aso-resources-from-one-cluster-to-another">What is the best practice for transferring ASO resources from one cluster to another?</a></li>
@@ -583,6 +585,15 @@ How can I protect against accidentally deleting an important resource?  You can 
 		
 	</header>    
 	<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<h3 id="what-is-the-release-cadence">What is the release cadence?</h3>
+<p>We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen
+more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a
+release may happen more slowly.</p>
+<h3 id="what-is-the-support-model">What is the support model?</h3>
+<p>Azure Service Operator is an officially supported Microsoft OSS product. Currently, support is done via GitHub issues or
+the <code>azure-service-operator</code> channel of the <a href="https://kubernetes.slack.com/">Kubernetes Slack</a>. There are plans to integrate ASO into
+AKS as an addon after ASO has officially gone GA. At that point, support for ASO as an AKS addon would be accessed by raising an Azure
+support ticket.</p>
 <h3 id="does-aso-help-with-disaster-recovery-dr-of-resources-in-azure">Does ASO help with Disaster Recovery (DR) of resources in Azure?</h3>
 <p>No. If the Azure resource supports DR then you can configure it through ASO.
 If the underlying Azure Resource doesn&rsquo;t support DR (or the story is more complicated/manual), then you cannot currently configure it through ASO.</p>
