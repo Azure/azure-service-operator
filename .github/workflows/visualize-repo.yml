@@ -12,19 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.3.0
         with:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43 # Pinned to v2.0.1
+        uses: peterjgrainger/action-create-branch@64aa569aea81305305c6e92bd236d8c427debff8 # Pinned to v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
           branch: 'bot/update-diagrams'
 
       - name: Checkout code
-        uses: actions/checkout@master
+        uses: actions/checkout@v3.3.0
         with:
             ref: bot/update-diagrams
 
@@ -65,7 +65,7 @@ jobs:
           should_push: false
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@7380612b49221684fefa025244f2ef4008ae50ad # v3.10.1
+        uses: peter-evans/create-pull-request@2b011faafdcbc9ceb11414d64d0573f37c774b04 # v4.2.3
         with:
           token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
