@@ -46,12 +46,21 @@ jobs:
           commit_message: "Updating visualization for ASO v2"
           should_push: false
 
-      - name: Update ASO Codegen diagram
+      - name: Update asoctl diagram
+        uses: githubocto/repo-visualizer@main
+        with:
+          excluded_paths: "ignore,.github"
+          output_file: "docs/hugo/content/contributing/asoctl-structure.svg"
+          root_path: "v2/tools/asoctl"
+          commit_message: "Updating visualization for asoctl"
+          should_push: false
+
+      - name: Update ASO Code Generator diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github"
           output_file: "docs/hugo/content/contributing/aso-codegen-structure.svg"
-          root_path: "v2/tools"
+          root_path: "v2/tools/generator"
           commit_message: "Updating visualization for the code generator"
           should_push: false
 
