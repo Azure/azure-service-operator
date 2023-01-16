@@ -45,11 +45,11 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensionsV1.CustomRe
 		if found {
 			crd.Status.StoredVersions = newStoredVersions
 			crd, err = cl.UpdateStatus(ctx, crd, v1.UpdateOptions{})
-			updated = true
 			if err != nil {
 				return err
 			}
 
+			updated = true
 			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crdName, crd.Status.StoredVersions)
 		}
 	}
@@ -70,7 +70,9 @@ func getNewVersionSet(oldStoredVersions []string, versionRegexp *regexp.Regexp) 
 			found = true
 			continue
 		}
+
 		newStoredVersions = append(newStoredVersions, version)
 	}
+
 	return found, newStoredVersions
 }
