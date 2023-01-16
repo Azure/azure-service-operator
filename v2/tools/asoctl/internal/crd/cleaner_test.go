@@ -19,6 +19,8 @@ import (
 var fakeClientSet = fake.NewSimpleClientset().ApiextensionsV1()
 
 func Test_CleanDeprecatedCRDVersions_CleansAlphaVersion_IfExists(t *testing.T) {
+	t.Parallel()
+
 	asserter := NewGomegaWithT(t)
 	crdName := "foo.bar.azure.com"
 	alphaVersion := "v1alpha1api20230101storage"
@@ -44,6 +46,8 @@ func Test_CleanDeprecatedCRDVersions_CleansAlphaVersion_IfExists(t *testing.T) {
 }
 
 func Test_CleanDeprecatedCRDVersions_DoesNothing_IfAlphaVersionDoesNotExist(t *testing.T) {
+	t.Parallel()
+
 	asserter := NewGomegaWithT(t)
 	crdName := "foo.bar.azure.com"
 	betaVersion := "v1beta20230101storage"

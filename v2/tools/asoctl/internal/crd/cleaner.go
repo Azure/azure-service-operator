@@ -62,7 +62,7 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensionsV1.CustomRe
 }
 
 func getNewVersionSet(oldStoredVersions []string, versionRegexp *regexp.Regexp) (bool, []string) {
-	var newStoredVersions []string
+	newStoredVersions := make([]string, 0, len(oldStoredVersions))
 	var found bool
 
 	for _, version := range oldStoredVersions {
