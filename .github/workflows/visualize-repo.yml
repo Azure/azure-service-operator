@@ -4,9 +4,9 @@ on:
     # no content, allows manual triggering
 
   schedule:
-    # 5:30 pm every Sunday (UTC)
+    # 5:35 pm every Sunday (UTC)
     # to ensure the images are never too stale
-    - cron: '30 17 * * 0'
+    - cron: '35 17 * * 0'
 jobs:
   render:
     runs-on: ubuntu-latest
