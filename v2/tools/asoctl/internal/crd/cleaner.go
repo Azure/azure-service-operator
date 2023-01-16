@@ -10,18 +10,15 @@ import (
 	"fmt"
 	"regexp"
 
+	apiextensionsV1 "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/client"
 )
 
-func CleanDeprecatedCRDVersions(ctx context.Context) error {
-	cl, err := client.NewClient()
-	if err != nil {
-		return err
-	}
+func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensionsV1.CustomResourceDefinitionInterface) error {
+	var crdRegexp = regexp.MustCompile(".*\\.azure\\.com")
+	var deprecatedVersionRegexp = regexp.MustCompile("v1alpha1api.{8}.*")
 
-	list, err := cl.CustomResourceDefinitions().List(ctx, v1.ListOptions{})
+	list, err := cl.List(ctx, v1.ListOptions{})
 	if err != nil {
 		return err
 	}
@@ -33,14 +30,12 @@ func CleanDeprecatedCRDVersions(ctx context.Context) error {
 	var updated bool
 	for _, item := range list.Items {
 		crdName := item.Name
-		crdRegexp := regexp.MustCompile(".*\\.azure\\.com")
-		deprecatedVersionRegexp := regexp.MustCompile("v1alpha1api.{8}.*")
 
 		if !crdRegexp.MatchString(crdName) {
 			continue
 		}
 
-		crd, err := cl.CustomResourceDefinitions().Get(ctx, crdName, v1.GetOptions{})
+		crd, err := cl.Get(ctx, crdName, v1.GetOptions{})
 		if err != nil {
 			return err
 		}
@@ -49,13 +44,13 @@ func CleanDeprecatedCRDVersions(ctx context.Context) error {
 
 		if found {
 			crd.Status.StoredVersions = newStoredVersions
-			crd, err = cl.CustomResourceDefinitions().UpdateStatus(ctx, crd, v1.UpdateOptions{})
+			crd, err = cl.UpdateStatus(ctx, crd, v1.UpdateOptions{})
 			updated = true
 			if err != nil {
 				return err
 			}
 
-			fmt.Printf("updated '%v' CRD status storedVersions to : %v\n", crdName, crd.Status.StoredVersions)
+			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crdName, crd.Status.StoredVersions)
 		}
 	}
 

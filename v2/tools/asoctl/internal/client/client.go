@@ -7,7 +7,6 @@ import (
 )
 
 func NewClient() (*v1.ApiextensionsV1Client, error) {
-
 	cfg := config.GetConfigOrDie()
 	client, err := v1.NewForConfig(cfg)
 	if err != nil {
