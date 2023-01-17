@@ -9,8 +9,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"time"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
@@ -193,7 +194,10 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction(
 	checker, refreshRequired := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
 	if refreshRequired {
 		r.Log.V(Verbose).Info("Refreshing Status of resource")
-		r.updateStatus(ctx)
+		err := r.updateStatus(ctx)
+		if err != nil {
+			return CreateOrUpdateActionNoAction, NoAction, errors.Wrapf(err, "error refreshing status of resource for pre-reconciliation check")
+		}
 	}
 
 	check, err := checker(ctx, r.Obj, r.KubeClient, r.ARMClient, r.Log)
