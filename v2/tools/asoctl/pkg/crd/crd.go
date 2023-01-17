@@ -7,8 +7,8 @@ package crd
 
 import "github.com/spf13/cobra"
 
-// NewCRDCommand creates a new cobra to clean deprecated crd versions
-func NewCRDCommand() (*cobra.Command, error) {
+// NewCommand creates a new cobra to clean deprecated crd versions
+func NewCommand() (*cobra.Command, error) {
 
 	cmd := &cobra.Command{
 		Use:   "crd",
@@ -16,10 +16,7 @@ func NewCRDCommand() (*cobra.Command, error) {
 		Args:  cobra.ExactArgs(1),
 	}
 
-	crdCleanCommand, err := newCRDCleanCommand()
-	if err != nil {
-		return nil, err
-	}
+	crdCleanCommand := newCRDCleanCommand()
 	cmd.AddCommand(crdCleanCommand)
 
 	return cmd, nil

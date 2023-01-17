@@ -7,8 +7,8 @@ package export
 
 import "github.com/spf13/cobra"
 
-// NewExportCommand creates a new cobra Command when invoked from the command line
-func NewExportCommand() (*cobra.Command, error) {
+// NewCommand creates a new cobra Command when invoked from the command line
+func NewCommand() (*cobra.Command, error) {
 
 	cmd := &cobra.Command{
 		Use:   "export",
@@ -16,10 +16,7 @@ func NewExportCommand() (*cobra.Command, error) {
 		Args:  cobra.ExactArgs(1),
 	}
 
-	exportResourceCommand, err := newExportResourceCommand()
-	if err != nil {
-		return nil, err
-	}
+	exportResourceCommand := newExportResourceCommand()
 	cmd.AddCommand(exportResourceCommand)
 
 	return cmd, nil

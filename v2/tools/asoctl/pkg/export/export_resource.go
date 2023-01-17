@@ -10,7 +10,7 @@ import (
 	"k8s.io/klog/v2"
 )
 
-func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TODO: Remove this comment when the tool is actually functional
+func newExportResourceCommand() *cobra.Command {
 	var output *string
 
 	cmd := &cobra.Command{
@@ -19,7 +19,6 @@ func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TO
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error { // TODO: Should consider xcobra.RunWithCtx here
 			armID := args[0]
-
 			return exportResource(armID, output)
 		},
 	}
@@ -30,7 +29,7 @@ func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TO
 		"",
 		"Write ARM resource CRD to a file")
 
-	return cmd, nil
+	return cmd
 }
 
 // TODO: export resource logic goes here

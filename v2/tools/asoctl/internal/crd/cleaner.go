@@ -10,24 +10,24 @@ import (
 	"fmt"
 	"regexp"
 
-	apiextensionsV1 "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	apiextensions "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensionsV1.CustomResourceDefinitionInterface) error {
-	var crdRegexp = regexp.MustCompile(".*\\.azure\\.com")
-	var deprecatedVersionRegexp = regexp.MustCompile("v1alpha1api.{8}.*")
+func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensions.CustomResourceDefinitionInterface) error {
+	var crdRegexp = regexp.MustCompile(`.*\.azure\.com`)
+	var deprecatedVersionRegexp = regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
 
 	list, err := cl.List(ctx, v1.ListOptions{})
 	if err != nil {
 		return err
 	}
 
-	if list.Items == nil || len(list.Items) == 0 {
+	if list == nil || len(list.Items) == 0 {
 		fmt.Println("found 0 results, make sure you have ASO CRDs installed")
 	}
 
-	var updated bool
+	var updated int
 	for _, item := range list.Items {
 		crdName := item.Name
 
@@ -35,44 +35,39 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensionsV1.CustomRe
 			continue
 		}
 
-		crd, err := cl.Get(ctx, crdName, v1.GetOptions{})
-		if err != nil {
-			return err
-		}
+		newStoredVersions := removeMatchingStoredVersions(item.Status.StoredVersions, deprecatedVersionRegexp)
 
-		found, newStoredVersions := getNewVersionSet(crd.Status.StoredVersions, deprecatedVersionRegexp)
-
-		if found {
-			crd.Status.StoredVersions = newStoredVersions
-			crd, err = cl.UpdateStatus(ctx, crd, v1.UpdateOptions{})
+		//
+		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(item.Status.StoredVersions) {
+			item.Status.StoredVersions = newStoredVersions
+			// It's fine to update the storedVersions and remove the deprecated versions this way.
+			// Users can still use the existing old v1alpha1api versioned resources and would not require to migrate
+			// due to the conversion webhook implemented.
+			updatedCrd, err := cl.UpdateStatus(ctx, &item, v1.UpdateOptions{})
 			if err != nil {
 				return err
 			}
 
-			updated = true
-			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crdName, crd.Status.StoredVersions)
+			updated++
+			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crdName, updatedCrd.Status.StoredVersions)
 		}
 	}
 
-	if !updated {
-		fmt.Println("updated 0 CRDs, no deprecated versions found")
-	}
+	fmt.Printf("updated %d CRD(s), no deprecated versions found\n", updated)
 
 	return nil
 }
 
-func getNewVersionSet(oldStoredVersions []string, versionRegexp *regexp.Regexp) (bool, []string) {
+func removeMatchingStoredVersions(oldStoredVersions []string, versionRegexp *regexp.Regexp) []string {
 	newStoredVersions := make([]string, 0, len(oldStoredVersions))
-	var found bool
 
 	for _, version := range oldStoredVersions {
 		if versionRegexp.MatchString(version) {
-			found = true
 			continue
 		}
 
 		newStoredVersions = append(newStoredVersions, version)
 	}
 
-	return found, newStoredVersions
+	return newStoredVersions
 }

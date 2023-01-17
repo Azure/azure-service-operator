@@ -35,8 +35,8 @@ func newRootCommand() (*cobra.Command, error) {
 	rootCmd.Flags().SortFlags = false
 
 	cmdFuncs := []func() (*cobra.Command, error){
-		export.NewExportCommand,
-		crd.NewCRDCommand,
+		export.NewCommand,
+		crd.NewCommand,
 	}
 
 	for _, f := range cmdFuncs {
