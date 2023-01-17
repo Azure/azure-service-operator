@@ -35,7 +35,8 @@ func CreateErrorClassifier(
 	host genruntime.ResourceExtension,
 	classifier ErrorClassifierFunc,
 	apiVersion string,
-	log logr.Logger) ErrorClassifierFunc {
+	log logr.Logger,
+) ErrorClassifierFunc {
 	impl, ok := host.(ErrorClassifier)
 	if !ok {
 		return classifier
