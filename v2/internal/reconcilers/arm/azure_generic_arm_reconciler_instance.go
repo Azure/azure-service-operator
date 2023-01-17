@@ -9,6 +9,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -60,7 +61,7 @@ func newAzureDeploymentReconcilerInstance(
 }
 
 func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
-	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
+	action, actionFunc, err := r.DetermineCreateOrUpdateAction(ctx)
 	if err != nil {
 		r.Log.Error(err, "error determining create or update action")
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "DetermineCreateOrUpdateActionError", err.Error())
@@ -175,7 +176,9 @@ func (r *azureDeploymentReconcilerInstance) DetermineDeleteAction() (DeleteActio
 	return DeleteActionBeginDelete, r.StartDeleteOfResource, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
+func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction(
+	ctx context.Context,
+) (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
 	ready := genruntime.GetReadyCondition(r.Obj)
 	_, _, hasPollerResumeToken := GetPollerResumeToken(r.Obj)
 
@@ -187,7 +190,34 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (Cre
 		return CreateOrUpdateActionMonitorCreation, r.MonitorResourceCreation, nil
 	}
 
+	checker, refreshRequired := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
+	if refreshRequired {
+		r.Log.V(Verbose).Info("Refreshing Status of resource")
+		r.updateStatus(ctx)
+	}
+
+	check, err := checker(ctx, r.Obj, r.KubeClient, r.ARMClient, r.Log)
+	if err != nil {
+		return CreateOrUpdateActionNoAction, NoAction, errors.Wrapf(err, "error during pre-reconciliation check")
+	}
+
+	if !check.ShouldReconcile() {
+		//!! Is this correct? Will this correctly display the reason why the resource is not being reconciled to the user?
+		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf(check.Reason())
+	}
+
 	return CreateOrUpdateActionBeginCreation, r.BeginCreateOrUpdateResource, nil
+}
+
+// alwaysReconcile is a PreReconciliationChecker that always indicates a reconcilation is required.
+func (r *azureDeploymentReconcilerInstance) alwaysReconcile(
+	_ context.Context,
+	_ genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger,
+) (extensions.PreReconcileCheckResult, error) {
+	return extensions.ProceedWithReconcile(), nil
 }
 
 //////////////////////////////////////////
