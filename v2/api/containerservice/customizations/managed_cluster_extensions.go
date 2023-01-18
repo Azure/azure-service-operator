@@ -7,8 +7,11 @@ package customizations
 
 import (
 	"context"
-
+	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
@@ -119,4 +122,55 @@ func secretsToWrite(obj *containerservice.ManagedCluster, adminCreds string, use
 	collector.AddValue(operatorSpecSecrets.UserCredentials, userCreds)
 
 	return collector.Values()
+}
+
+var _ extensions.PreReconciliationChecker = &ManagedClusterExtension{}
+
+var blockingManagedClusterProvisioningStates = set.Make(
+	"Creating",
+	"Updating",
+	"Scaling",
+	"Deleting",
+	"Migrating",
+	"Upgrading",
+	"Stopping",
+	"Starting",
+	"RotatingClusterCertificates",
+	"ReconcilingClusterCertificates",
+	"RotatingClusterStaticTokens",
+	"ReconcilingClusterETCDCertificates",
+	"RotatingServiceAccountSigningKeysInternal",
+	"RotatingServiceAccountSigningKeysExternal",
+	"Canceling",
+)
+
+func (ext *ManagedClusterExtension) PreReconcileCheck(
+	_ context.Context,
+	obj genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger,
+	_ extensions.PreReconcileCheckFunc,
+) (extensions.PreReconcileCheckResult, error) {
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
+	managedCluster, ok := obj.(*containerservice.ManagedCluster)
+	if !ok {
+		return extensions.SkipReconcile("Expected Managed Cluster"),
+			errors.Errorf("cannot run on unknown resource type %T, expected *containerservice.ManagedCluster", obj)
+	}
+
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
+	var _ conversion.Hub = managedCluster
+
+	if provisioningState := managedCluster.Status.ProvisioningState; provisioningState != nil {
+		if blockingManagedClusterProvisioningStates.Contains(*provisioningState) {
+			return extensions.SkipReconcile(
+					fmt.Sprintf("Managed cluster is in provisioning state %q", provisioningState)),
+				nil
+		}
+	}
+
+	return extensions.ProceedWithReconcile(), nil
 }
