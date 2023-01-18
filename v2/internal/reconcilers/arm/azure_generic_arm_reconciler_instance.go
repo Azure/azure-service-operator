@@ -9,6 +9,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"net/http"
 	"time"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -460,7 +462,10 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 	// Get the resource
 	retryAfter, err := r.ARMClient.GetByID(ctx, id, apiVersion, armStatus)
 	if err != nil {
-		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
+		// If our error is anything other than a 404, we should return it
+		if !IsNotFoundError(err) {
+			return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
+		}
 	}
 
 	if r.Log.V(Debug).Enabled() {
@@ -750,4 +755,13 @@ func deleteResource(
 
 	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
+}
+
+func IsNotFoundError(err error) bool {
+	var responseError azcore.ResponseError
+	if errors.As(err, &responseError) {
+		return responseError.RawResponse.StatusCode == http.StatusNotFound
+	}
+
+	return false
 }
