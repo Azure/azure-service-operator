@@ -92,15 +92,15 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 		httpTransport := &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 			DialContext: (&net.Dialer{
-				Timeout:   30 * time.Second, // the same as default transport
-				KeepAlive: 30 * time.Second, // the same as default transport
+				Timeout:   30 * time.Second, // default transport value
+				KeepAlive: 30 * time.Second, // default transport value
 			}).DialContext,
-			ForceAttemptHTTP2:     false,
-			MaxIdleConns:          100,
-			MaxIdleConnsPerHost:   10,
-			IdleConnTimeout:       90 * time.Second,
-			TLSHandshakeTimeout:   10 * time.Second,
-			ExpectContinueTimeout: 1 * time.Second,
+			ForceAttemptHTTP2:     false,            // default is true; since HTTP/2 multiplexes a single TCP connection. we'd want to use HTTP/1, which would use multiple TCP connections.
+			MaxIdleConns:          100,              // default transport value
+			MaxIdleConnsPerHost:   10,               // default is 2, so we want to increase the number to use establish more connections.
+			IdleConnTimeout:       90 * time.Second, // default transport value
+			TLSHandshakeTimeout:   10 * time.Second, // default transport value
+			ExpectContinueTimeout: 1 * time.Second,  // default transport value
 		}
 
 		opts.Transport = &http.Client{
