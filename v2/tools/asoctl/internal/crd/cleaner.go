@@ -29,6 +29,7 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensions.CustomReso
 
 	var updated int
 	for _, item := range list.Items {
+		item := item
 		crdName := item.Name
 
 		if !crdRegexp.MatchString(crdName) {
