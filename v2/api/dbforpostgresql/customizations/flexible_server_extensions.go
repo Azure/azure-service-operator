@@ -7,6 +7,11 @@ package customizations
 
 import (
 	"context"
+	"fmt"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+	"strings"
 
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
@@ -78,4 +83,43 @@ func secretsToWrite(obj *postgresql.FlexibleServer) ([]*v1.Secret, error) {
 	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.String(obj.Status.FullyQualifiedDomainName))
 
 	return collector.Values()
+}
+
+var _ extensions.PreReconciliationChecker = &FlexibleServerExtension{}
+
+var blockingFlexibleServerStates = set.Make(
+	"starting",
+	"stopping",
+	"updating",
+)
+
+func (ext *FlexibleServerExtension) PreReconcileCheck(
+	_ context.Context,
+	obj genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger,
+	_ extensions.PreReconcileCheckFunc,
+) (extensions.PreReconcileCheckResult, error) {
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
+	flexibleServer, ok := obj.(*postgresql.FlexibleServer)
+	if !ok {
+		return extensions.SkipReconcile("Expected Flexible Server"),
+			errors.Errorf("cannot run on unknown resource type %T, expected *postgresql.FlexibleServer", obj)
+	}
+
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
+	var _ conversion.Hub = flexibleServer
+
+	if state := flexibleServer.Status.State; state != nil {
+		if blockingFlexibleServerStates.Contains(strings.ToLower(*state)) {
+			return extensions.SkipReconcile(
+					fmt.Sprintf("Flexible Server is in provisioning state %q", *state)),
+				nil
+		}
+	}
+
+	return extensions.ProceedWithReconcile(), nil
 }
