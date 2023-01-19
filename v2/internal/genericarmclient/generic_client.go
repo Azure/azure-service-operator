@@ -84,6 +84,16 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 	// the value IN the interface IS nil).
 	if httpClient != nil {
 		opts.Transport = httpClient
+	} else {
+		// If httpClient is not provided, we use a HTTPClient with default Transport + settings
+		// to establish multiple TCP ARMClient connections to avoid throttling.
+		// TODO: Use https://github.com/Azure/go-armbalancer here once its prod ready.
+		httpTransport := http.DefaultTransport.(*http.Transport)
+		httpTransport.ForceAttemptHTTP2 = false
+		httpTransport.MaxIdleConnsPerHost = 10
+		opts.Transport = &http.Client{
+			Transport: httpTransport,
+		}
 	}
 
 	opts.PerCallPolicies = append([]policy.Policy{rpRegistrationPolicy}, opts.PerCallPolicies...)
