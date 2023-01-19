@@ -57,7 +57,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	if provisioningState := agentPool.Status.ProvisioningState; provisioningState != nil {
 		if blockingManagedClustersAgentPoolProvisioningStates.Contains(*provisioningState) {
 			return extensions.SkipReconcile(
-					fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", provisioningState)),
+					fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", *provisioningState)),
 				nil
 		}
 	}

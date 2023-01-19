@@ -167,7 +167,7 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	if provisioningState := managedCluster.Status.ProvisioningState; provisioningState != nil {
 		if blockingManagedClusterProvisioningStates.Contains(*provisioningState) {
 			return extensions.SkipReconcile(
-					fmt.Sprintf("Managed cluster is in provisioning state %q", provisioningState)),
+					fmt.Sprintf("Managed cluster is in provisioning state %q", *provisioningState)),
 				nil
 		}
 	}
