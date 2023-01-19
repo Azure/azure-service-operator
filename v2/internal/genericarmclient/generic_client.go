@@ -7,6 +7,7 @@ package genericarmclient
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -88,9 +89,20 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 		// If httpClient is not provided, we use a HTTPClient with default Transport + settings
 		// to establish multiple TCP ARMClient connections to avoid throttling.
 		// TODO: Use https://github.com/Azure/go-armbalancer here once its prod ready.
-		httpTransport := http.DefaultTransport.(*http.Transport)
-		httpTransport.ForceAttemptHTTP2 = false
-		httpTransport.MaxIdleConnsPerHost = 10
+		httpTransport := &http.Transport{
+			Proxy: http.ProxyFromEnvironment,
+			DialContext: (&net.Dialer{
+				Timeout:   30 * time.Second, // the same as default transport
+				KeepAlive: 30 * time.Second, // the same as default transport
+			}).DialContext,
+			ForceAttemptHTTP2:     false,
+			MaxIdleConns:          100,
+			MaxIdleConnsPerHost:   10,
+			IdleConnTimeout:       90 * time.Second,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+		}
+
 		opts.Transport = &http.Client{
 			Transport: httpTransport,
 		}
