@@ -30,9 +30,9 @@ import (
 var _ genruntime.KubernetesExporter = &FlexibleServerExtension{}
 
 func (ext *FlexibleServerExtension) ExportKubernetesResources(
-	ctx context.Context,
+	_ context.Context,
 	obj genruntime.MetaObject,
-	armClient *genericarmclient.GenericClient,
+	_ *genericarmclient.GenericClient,
 	log logr.Logger) ([]client.Object, error) {
 
 	// This has to be the current hub storage version. It will need to be updated
@@ -65,8 +65,8 @@ func secretsSpecified(obj *postgresql.FlexibleServer) bool {
 		return false
 	}
 
-	secrets := obj.Spec.OperatorSpec.Secrets
-	if secrets.FullyQualifiedDomainName != nil {
+	operatorSecrets := obj.Spec.OperatorSpec.Secrets
+	if operatorSecrets.FullyQualifiedDomainName != nil {
 		return true
 	}
 
