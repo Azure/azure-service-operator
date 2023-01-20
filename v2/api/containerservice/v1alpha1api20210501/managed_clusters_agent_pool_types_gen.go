@@ -366,7 +366,7 @@ type ManagedClusters_AgentPool_Spec struct {
 	// reference to a containerservice.azure.com/ManagedCluster resource
 	Owner                     *genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
 	PodSubnetIDReference      *genruntime.ResourceReference      `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	ProximityPlacementGroupID *ProximityPlacementGroupID         `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID *string                            `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy            `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority                  `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                           `json:"spotMaxPrice,omitempty"`
@@ -1126,12 +1126,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 	}
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := ProximityPlacementGroupID(*source.ProximityPlacementGroupID)
-		pool.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		pool.ProximityPlacementGroupID = nil
-	}
+	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -1375,12 +1370,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 	}
 
 	// ProximityPlacementGroupID
-	if pool.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := string(*pool.ProximityPlacementGroupID)
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if pool.ScaleSetEvictionPolicy != nil {
@@ -3463,9 +3453,6 @@ const (
 	OSType_STATUS_Linux   = OSType_STATUS("Linux")
 	OSType_STATUS_Windows = OSType_STATUS("Windows")
 )
-
-// Deprecated version of ProximityPlacementGroupID. Use v1beta20210501.ProximityPlacementGroupID instead
-type ProximityPlacementGroupID string
 
 // Deprecated version of ScaleSetEvictionPolicy. Use v1beta20210501.ScaleSetEvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}

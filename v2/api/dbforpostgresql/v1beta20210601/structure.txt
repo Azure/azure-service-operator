@@ -36,7 +36,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601
 │   │   │   └── Secrets: *Object (1 property)
 │   │   │       └── FullyQualifiedDomainName: *genruntime.SecretDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PointInTimeUTC: Validated<*string> (0 rules)
+│   │   ├── PointInTimeUTC: *string
 │   │   ├── Sku: *Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *Enum (3 values)

@@ -3327,12 +3327,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_From_ServerPropertie
 	}
 
 	// RestorePointInTime
-	if source.RestorePointInTime != nil {
-		restorePointInTime := *source.RestorePointInTime
-		restore.RestorePointInTime = &restorePointInTime
-	} else {
-		restore.RestorePointInTime = nil
-	}
+	restore.RestorePointInTime = genruntime.ClonePointerToString(source.RestorePointInTime)
 
 	// SourceServerId
 	restore.SourceServerId = genruntime.ClonePointerToString(source.SourceServerId)
@@ -3399,12 +3394,7 @@ func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesF
 	}
 
 	// RestorePointInTime
-	if restore.RestorePointInTime != nil {
-		restorePointInTime := *restore.RestorePointInTime
-		destination.RestorePointInTime = &restorePointInTime
-	} else {
-		destination.RestorePointInTime = nil
-	}
+	destination.RestorePointInTime = genruntime.ClonePointerToString(restore.RestorePointInTime)
 
 	// SourceServerId
 	destination.SourceServerId = genruntime.ClonePointerToString(restore.SourceServerId)

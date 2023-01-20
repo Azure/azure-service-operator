@@ -197,18 +197,18 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── NamespacesQueue: Resource
 │   ├── Owner: Namespace
 │   ├── Spec: Object (16 properties)
-│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (1 rule)
 │   │   │   └── Rule 0: MinLength: 1
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
-│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── LockDuration: Validated<*string> (0 rules)
+│   │   ├── LockDuration: *string
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── MaxSizeInMegabytes: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
@@ -272,11 +272,11 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── NamespacesTopic: Resource
 │   ├── Owner: Namespace
 │   ├── Spec: Object (11 properties)
-│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (1 rule)
 │   │   │   └── Rule 0: MinLength: 1
-│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
-│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── EnableExpress: *bool
 │   │   ├── EnablePartitioning: *bool
@@ -337,18 +337,18 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── NamespacesTopicsSubscription: Resource
 │   ├── Owner: NamespacesTopic
 │   ├── Spec: Object (13 properties)
-│   │   ├── AutoDeleteOnIdle: Validated<*string> (0 rules)
+│   │   ├── AutoDeleteOnIdle: *string
 │   │   ├── AzureName: Validated<string> (2 rules)
 │   │   │   ├── Rule 0: MaxLength: 50
 │   │   │   └── Rule 1: MinLength: 1
 │   │   ├── DeadLetteringOnFilterEvaluationExceptions: *bool
 │   │   ├── DeadLetteringOnMessageExpiration: *bool
-│   │   ├── DefaultMessageTimeToLive: Validated<*string> (0 rules)
-│   │   ├── DuplicateDetectionHistoryTimeWindow: Validated<*string> (0 rules)
+│   │   ├── DefaultMessageTimeToLive: *string
+│   │   ├── DuplicateDetectionHistoryTimeWindow: *string
 │   │   ├── EnableBatchedOperations: *bool
 │   │   ├── ForwardDeadLetteredMessagesTo: *string
 │   │   ├── ForwardTo: *string
-│   │   ├── LockDuration: Validated<*string> (0 rules)
+│   │   ├── LockDuration: *string
 │   │   ├── MaxDeliveryCount: *int
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   └── RequiresSession: *bool

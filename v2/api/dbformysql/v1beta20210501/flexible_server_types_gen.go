@@ -958,12 +958,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	}
 
 	// RestorePointInTime
-	if source.RestorePointInTime != nil {
-		restorePointInTime := *source.RestorePointInTime
-		server.RestorePointInTime = &restorePointInTime
-	} else {
-		server.RestorePointInTime = nil
-	}
+	server.RestorePointInTime = genruntime.ClonePointerToString(source.RestorePointInTime)
 
 	// Sku
 	if source.Sku != nil {
@@ -1144,12 +1139,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	}
 
 	// RestorePointInTime
-	if server.RestorePointInTime != nil {
-		restorePointInTime := *server.RestorePointInTime
-		destination.RestorePointInTime = &restorePointInTime
-	} else {
-		destination.RestorePointInTime = nil
-	}
+	destination.RestorePointInTime = genruntime.ClonePointerToString(server.RestorePointInTime)
 
 	// Sku
 	if server.Sku != nil {
