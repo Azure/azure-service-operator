@@ -7,6 +7,7 @@ package genericarmclient
 
 import (
 	"context"
+	"crypto/tls"
 	"net"
 	"net/http"
 	"strings"
@@ -101,6 +102,9 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 			IdleConnTimeout:       90 * time.Second, // default transport value
 			TLSHandshakeTimeout:   10 * time.Second, // default transport value
 			ExpectContinueTimeout: 1 * time.Second,  // default transport value
+			TLSClientConfig: &tls.Config{
+				MinVersion: tls.VersionTLS12, // default tls version
+			},
 		}
 
 		opts.Transport = &http.Client{
@@ -123,6 +127,7 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 		opts:           opts,
 		metrics:        metrics,
 	}, nil
+
 }
 
 // SubscriptionID returns the subscription the client is configured for
