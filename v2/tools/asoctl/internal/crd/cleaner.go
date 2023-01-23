@@ -28,33 +28,31 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensions.CustomReso
 	}
 
 	var updated int
-	for _, item := range list.Items {
-		item := item
-		crdName := item.Name
+	for _, crd := range list.Items {
+		crd := crd
 
-		if !crdRegexp.MatchString(crdName) {
+		if !crdRegexp.MatchString(crd.Name) {
 			continue
 		}
 
-		newStoredVersions := removeMatchingStoredVersions(item.Status.StoredVersions, deprecatedVersionRegexp)
+		newStoredVersions := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
-		//
-		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(item.Status.StoredVersions) {
-			item.Status.StoredVersions = newStoredVersions
+		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(crd.Status.StoredVersions) {
+			crd.Status.StoredVersions = newStoredVersions
 			// It's fine to update the storedVersions and remove the deprecated versions this way.
 			// Users can still use the existing old v1alpha1api versioned resources and would not require to migrate
 			// due to the conversion webhook implemented.
-			updatedCrd, err := cl.UpdateStatus(ctx, &item, v1.UpdateOptions{})
+			updatedCrd, err := cl.UpdateStatus(ctx, &crd, v1.UpdateOptions{})
 			if err != nil {
 				return err
 			}
 
 			updated++
-			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crdName, updatedCrd.Status.StoredVersions)
+			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
 		}
 	}
 
-	fmt.Printf("updated %d CRD(s), no deprecated versions found\n", updated)
+	fmt.Printf("updated %d CRD(s)\n", updated)
 
 	return nil
 }

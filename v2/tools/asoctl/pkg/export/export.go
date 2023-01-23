@@ -9,7 +9,6 @@ import "github.com/spf13/cobra"
 
 // NewCommand creates a new cobra Command when invoked from the command line
 func NewCommand() (*cobra.Command, error) {
-
 	cmd := &cobra.Command{
 		Use:   "export",
 		Short: "exports ARM resources as YAML resource definitions",
