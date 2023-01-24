@@ -22,6 +22,9 @@ import (
 
 var _ extensions.PreReconciliationChecker = &ManagedClustersAgentPoolExtension{}
 
+// If an agent pool has a provisioningState in this set, it will reject any attempt to PUT a new state out of hand;
+// so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state of the
+// cluster.
 var blockingManagedClustersAgentPoolProvisioningStates = set.Make(
 	"Creating",
 	"Updating",
@@ -54,6 +57,10 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = agentPool
 
+	// If the agent pool is in a state that will reject any PUT, then we should skip reconciliation
+	// as there's no point in even trying.
+	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
+	// already know those attempts will fail.
 	if provisioningState := agentPool.Status.ProvisioningState; provisioningState != nil {
 		if blockingManagedClustersAgentPoolProvisioningStates.Contains(*provisioningState) {
 			return extensions.SkipReconcile(
