@@ -125,7 +125,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
 
-		// Collapse cross group references
 		pipeline.CollapseCrossGroupReferences(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
@@ -133,6 +132,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AssertTypesCollectionValid(),
 
 		pipeline.RemoveEmbeddedResources(configuration).UsedFor(pipeline.ARMTarget),
+
+		// This is currently also run as part of RemoveEmbeddedResources and so is technically not needed here,
+		// but we include it to hedge against future changes
+		pipeline.RemoveEmptyObjects(),
 
 		// Apply export filters before generating
 		// ARM types for resources etc:
