@@ -37,6 +37,14 @@ func (set Set[T]) Add(x T) {
 	set[x] = struct{}{}
 }
 
+// AddAll adds the provided set into the existing set.
+// Nothing happens for values which are already present
+func (set Set[T]) AddAll(x Set[T]) {
+	for _, val := range x.Values() {
+		set.Add(val)
+	}
+}
+
 // Remove deletes the provided value from the set
 // Nothing happens if the value is not present
 func (set Set[T]) Remove(x T) {
