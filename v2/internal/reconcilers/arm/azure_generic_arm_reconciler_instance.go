@@ -9,10 +9,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
-	"time"
-
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/go-logr/logr"
@@ -192,38 +190,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction(
 		return CreateOrUpdateActionMonitorCreation, r.MonitorResourceCreation, nil
 	}
 
-	checker, refreshRequired := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
-	if refreshRequired {
-		r.Log.V(Verbose).Info("Refreshing Status of resource")
-		err := r.updateStatus(ctx)
-		if err != nil && !genericarmclient.IsNotFoundError(err) {
-			// We have an error and it's not because the resource doesn't exist yet
-			return CreateOrUpdateActionNoAction, NoAction, errors.Wrapf(err, "error refreshing status of resource for pre-reconciliation check")
-		}
-	}
-
-	check, err := checker(ctx, r.Obj, r.KubeClient, r.ARMClient, r.Log)
-	if err != nil {
-		return CreateOrUpdateActionNoAction, NoAction, errors.Wrapf(err, "error during pre-reconciliation check")
-	}
-
-	if !check.ShouldReconcile() {
-		//!! Is this correct? Will this correctly display the reason why the resource is not being reconciled to the user?
-		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf(check.Reason())
-	}
-
 	return CreateOrUpdateActionBeginCreation, r.BeginCreateOrUpdateResource, nil
-}
-
-// alwaysReconcile is a PreReconciliationChecker that always indicates a reconcilation is required.
-func (r *azureDeploymentReconcilerInstance) alwaysReconcile(
-	_ context.Context,
-	_ genruntime.MetaObject,
-	_ kubeclient.Client,
-	_ *genericarmclient.GenericClient,
-	_ logr.Logger,
-) (extensions.PreReconcileCheckResult, error) {
-	return extensions.ProceedWithReconcile(), nil
 }
 
 //////////////////////////////////////////
@@ -284,10 +251,59 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
+func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
+	ctx context.Context,
+) (ctrl.Result, error) {
 	if r.Obj.AzureName() == "" {
 		err := errors.New("AzureName was not set. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?")
-		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+		return ctrl.Result{},
+			conditions.NewReadyConditionImpactingError(
+				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+	}
+
+	// Create a checker for access to the extension point, if required
+	// (We always get a checker back, even if it does nothing, so we don't need to check for nil)
+	checker, refreshRequired := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
+	if refreshRequired {
+		// Checker requires our resource to have an up-to-date status
+		r.Log.V(Verbose).Info("Refreshing Status of resource")
+		err := r.updateStatus(ctx)
+		if err != nil && !genericarmclient.IsNotFoundError(err) {
+			// We have an error, and it's not because the resource doesn't exist yet
+			// We assume the error isn't fatal, and we'll try again later
+			return ctrl.Result{},
+				conditions.NewReadyConditionImpactingError(
+					err, conditions.ConditionSeverityWarning, conditions.ReasonFailed)
+		}
+	}
+
+	// Run our pre-reconcilation checker
+	check, err := checker(ctx, r.Obj, r.KubeClient, r.ARMClient, r.Log)
+	if err != nil {
+		// Something went wrong running the check. We assume it's not fatal, and we'll try again later
+		// Make sure we return a ReadyConditionImpactingError so that the Ready condition is updated for the user
+		// Ideally any implementation of the checker should return a ReadyConditionImpactingError, but we can't
+		// guarantee that, so we wrap as required
+		impactingError, ok := conditions.AsReadyConditionImpactingError(err)
+		if !ok {
+			impactingError = conditions.NewReadyConditionImpactingError(
+				err,
+				conditions.ConditionSeverityWarning,
+				conditions.ReasonAzureResourceNotReady)
+		}
+
+		return ctrl.Result{}, impactingError
+	}
+
+	// If the check says we don't need to reconcile, we're done
+	// We use a ReadyConditionImpactingError here to ensure the Ready condition is updated so the user can see why
+	// we're not reconciling right now. We'll try again later.
+	if !check.ShouldReconcile() {
+		return ctrl.Result{},
+			conditions.NewReadyConditionImpactingError(
+				errors.New(check.Reason()),
+				conditions.ConditionSeverityWarning,
+				conditions.ReasonAzureResourceNotReady)
 	}
 
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
@@ -327,11 +343,23 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 
 	resumeToken, err := pollerResp.Poller.ResumeToken()
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "couldn't create PUT resume token for resource %q", armResource.GetID())
+		return ctrl.Result{},
+			errors.Wrapf(err, "couldn't create PUT resume token for resource %q", armResource.GetID())
 	}
 
 	SetPollerResumeToken(r.Obj, pollerResp.ID, resumeToken)
 	return ctrl.Result{Requeue: true}, nil
+}
+
+// alwaysReconcile is a PreReconciliationChecker that always indicates a reconciliation is required.
+func (r *azureDeploymentReconcilerInstance) alwaysReconcile(
+	_ context.Context,
+	_ genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger,
+) (extensions.PreReconcileCheckResult, error) {
+	return extensions.ProceedWithReconcile(), nil
 }
 
 func checkSubscription(resourceID string, clientSubID string) error {

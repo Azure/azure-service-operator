@@ -36,6 +36,7 @@ var ReasonAdditionalKubernetesObjWriteFailure = Reason{Name: "FailedWritingAddit
 var ReasonReconciling = Reason{Name: "Reconciling", RetryClassification: RetryFast}
 var ReasonDeleting = Reason{Name: "Deleting", RetryClassification: RetryFast}
 var ReasonReconciliationFailedPermanently = Reason{Name: "ReconciliationFailedPermanently", RetryClassification: RetryNone}
+var ReasonAzureResourceNotReady = Reason{Name: "AzureResourceNotReady", RetryClassification: RetrySlow}
 
 // ReasonFailed is a catch-all error code for when we don't have a more specific error classification
 var ReasonFailed = Reason{Name: "Failed", RetryClassification: RetrySlow}
