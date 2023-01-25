@@ -104,6 +104,10 @@ typeFilters:
     because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
 
   - action: prune
+    group: azurestackhci
+    because: There are some types in here (Step) that are defined recursively.
+
+  - action: prune
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 

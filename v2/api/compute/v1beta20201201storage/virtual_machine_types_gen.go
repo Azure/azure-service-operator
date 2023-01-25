@@ -3719,8 +3719,8 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_From_VirtualMa
 	}
 
 	// ProtectedSettingsFromKeyVault
-	if len(source.ProtectedSettingsFromKeyVault) > 0 {
-		propertyBag.Add("ProtectedSettingsFromKeyVault", source.ProtectedSettingsFromKeyVault)
+	if source.ProtectedSettingsFromKeyVault != nil {
+		propertyBag.Add("ProtectedSettingsFromKeyVault", *source.ProtectedSettingsFromKeyVault)
 	} else {
 		propertyBag.Remove("ProtectedSettingsFromKeyVault")
 	}
@@ -3834,13 +3834,13 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 
 	// ProtectedSettingsFromKeyVault
 	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
-		var protectedSettingsFromKeyVault map[string]v1.JSON
+		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference_STATUS
 		err := propertyBag.Pull("ProtectedSettingsFromKeyVault", &protectedSettingsFromKeyVault)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'ProtectedSettingsFromKeyVault' from propertyBag")
 		}
 
-		destination.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVault
+		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		destination.ProtectedSettingsFromKeyVault = nil
 	}
