@@ -128,8 +128,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -185,7 +185,7 @@ interactions:
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -195,7 +195,7 @@ interactions:
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -221,12 +221,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -256,12 +256,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -291,12 +291,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -326,12 +326,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -361,12 +361,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -396,12 +396,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -431,12 +431,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -466,12 +466,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -501,12 +501,47 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4fd8b977-a0ee-4f31-abd1-b9bd3f2b0624?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "77b9d84f-eea0-314f-abd1-b9bd3f2b0624",
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/bbb3edbb-a03f-4ac8-8bf5-f8bc31de916c?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "bbedb3bb-3fa0-c84a-8bf5-f8bc31de916c",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -553,8 +588,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -601,7 +636,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -615,14 +650,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -674,8 +709,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -722,7 +757,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -736,14 +771,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -795,8 +830,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -843,7 +878,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -857,14 +892,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -921,8 +956,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -969,7 +1004,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -983,14 +1018,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -1000,7 +1035,7 @@ interactions:
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Type:
@@ -1026,12 +1061,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1061,12 +1096,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1096,12 +1131,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1131,12 +1166,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1166,12 +1201,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1201,12 +1236,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1236,12 +1271,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1271,12 +1306,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1d730065-30a8-4aa0-8fc8-081d05eee8b2?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/6222abd4-f07f-4662-b1a5-5ce5c3efc81c?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "6500731d-a830-a04a-8fc8-081d05eee8b2",
+        "name": "d4ab2262-7ff0-6246-b1a5-5ce5c3efc81c",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -1323,8 +1358,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -1371,7 +1406,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -1385,14 +1420,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -1444,8 +1479,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -1492,7 +1527,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -1506,14 +1541,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -1565,8 +1600,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -1613,7 +1648,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -1627,14 +1662,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -1691,8 +1726,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -1739,7 +1774,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -1753,14 +1788,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -1770,7 +1805,7 @@ interactions:
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Type:
@@ -1796,12 +1831,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1831,12 +1866,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1866,12 +1901,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1901,12 +1936,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1936,12 +1971,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -1971,12 +2006,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2006,12 +2041,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/1e63eb39-67c1-490a-b41d-b828922a532e?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/d868e856-b869-4164-9a33-973e4e9b0c73?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "39eb631e-c167-0a49-b41d-b828922a532e",
+        "name": "56e868d8-69b8-6441-9a33-973e4e9b0c73",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -2058,8 +2093,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -2106,7 +2141,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -2120,14 +2155,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -2179,8 +2214,8 @@ interactions:
          },
          "kubernetesVersion": "1.24.6",
          "dnsPrefix": "aso",
-         "fqdn": "aso-591ebc53.hcp.westus3.azmk8s.io",
-         "azurePortalFQDN": "aso-591ebc53.portal.hcp.westus3.azmk8s.io",
+         "fqdn": "aso-4034333b.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-4034333b.portal.hcp.westus3.azmk8s.io",
          "agentPoolProfiles": [
           {
            "name": "ap1",
@@ -2227,7 +2262,7 @@ interactions:
            },
            "effectiveOutboundIPs": [
             {
-             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/ae4edd15-b3ed-43f5-85eb-09bfcce55177"
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.Network/publicIPAddresses/f8a3ca38-f555-46da-a05a-76525fee6e1d"
             }
            ]
           },
@@ -2241,14 +2276,14 @@ interactions:
          "identityProfile": {
           "kubeletidentity": {
            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-kxcndt_asotest-mc-dlzkpe_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mc-dlzkpe-agentpool",
-           "clientId": "a19aef49-839d-4122-b43f-624ab0a494f3",
-           "objectId": "cd66a4af-3263-4608-926a-372955cad458"
+           "clientId": "50f70507-d53f-4d8f-83a7-fb97086c2da8",
+           "objectId": "369cec5d-2a7e-4bbb-89db-8b145d28c92d"
           }
          }
         },
         "identity": {
          "type": "SystemAssigned",
-         "principalId": "83406a23-da2c-4817-9878-2a6a9f92d521",
+         "principalId": "c90c4ffd-29cc-4aea-8fb3-3020a46d58ab",
          "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "sku": {
@@ -2435,7 +2470,7 @@ interactions:
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -2461,12 +2496,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2496,12 +2531,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2531,12 +2566,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2566,12 +2601,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2601,12 +2636,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2636,12 +2671,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2671,12 +2706,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -2706,12 +2741,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/0f703c2c-db5f-4507-a8cb-c13f1d3d6dfb?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/e2c8ca9a-d3a3-4d96-bac7-61608969d820?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "2c3c700f-5fdb-0745-a8cb-c13f1d3d6dfb",
+        "name": "9acac8e2-a3d3-964d-bac7-61608969d820",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -2947,7 +2982,7 @@ interactions:
        }
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/944f5412-4fac-4009-abcd-005e1dd6391a?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4eccf8bc-6348-481b-8121-2a61261a9afb?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Type:
@@ -2973,12 +3008,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/944f5412-4fac-4009-abcd-005e1dd6391a?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4eccf8bc-6348-481b-8121-2a61261a9afb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "12544f94-ac4f-0940-abcd-005e1dd6391a",
+        "name": "bcf8cc4e-4863-1b48-8121-2a61261a9afb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3008,12 +3043,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/944f5412-4fac-4009-abcd-005e1dd6391a?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4eccf8bc-6348-481b-8121-2a61261a9afb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "12544f94-ac4f-0940-abcd-005e1dd6391a",
+        "name": "bcf8cc4e-4863-1b48-8121-2a61261a9afb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3043,12 +3078,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/944f5412-4fac-4009-abcd-005e1dd6391a?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4eccf8bc-6348-481b-8121-2a61261a9afb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "12544f94-ac4f-0940-abcd-005e1dd6391a",
+        "name": "bcf8cc4e-4863-1b48-8121-2a61261a9afb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3078,12 +3113,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/944f5412-4fac-4009-abcd-005e1dd6391a?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4eccf8bc-6348-481b-8121-2a61261a9afb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "12544f94-ac4f-0940-abcd-005e1dd6391a",
+        "name": "bcf8cc4e-4863-1b48-8121-2a61261a9afb",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -3238,7 +3273,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -3246,7 +3281,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operationresults/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operationresults/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
       Pragma:
       - no-cache
       Server:
@@ -3264,12 +3299,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "d239d0ee-3731-4f49-bb35-3c545a9f0019",
+        "name": "4680bc4d-90c6-c647-845d-f00a265d3603",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3299,12 +3334,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "d239d0ee-3731-4f49-bb35-3c545a9f0019",
+        "name": "4680bc4d-90c6-c647-845d-f00a265d3603",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3334,12 +3369,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "d239d0ee-3731-4f49-bb35-3c545a9f0019",
+        "name": "4680bc4d-90c6-c647-845d-f00a265d3603",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3369,12 +3404,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "d239d0ee-3731-4f49-bb35-3c545a9f0019",
+        "name": "4680bc4d-90c6-c647-845d-f00a265d3603",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3404,12 +3439,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "d239d0ee-3731-4f49-bb35-3c545a9f0019",
+        "name": "4680bc4d-90c6-c647-845d-f00a265d3603",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3439,12 +3474,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/eed039d2-3137-494f-bb35-3c545a9f0019?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/4dbc8046-c690-47c6-845d-f00a265d3603?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "d239d0ee-3731-4f49-bb35-3c545a9f0019",
+        "name": "4680bc4d-90c6-c647-845d-f00a265d3603",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -3483,7 +3518,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -3491,7 +3526,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operationresults/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operationresults/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
       Pragma:
       - no-cache
       Server:
@@ -3509,12 +3544,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3544,12 +3579,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3579,12 +3614,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3614,12 +3649,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3649,12 +3684,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3684,12 +3719,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3719,12 +3754,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3754,12 +3789,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "InProgress",
         "startTime": "2001-02-03T04:05:06Z"
        }
@@ -3789,82 +3824,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/36c5a569-c584-479e-a935-ef078a6d09fb?api-version=2016-03-30
     method: GET
   response:
     body: |-
       {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
-        "status": "InProgress",
-        "startTime": "2001-02-03T04:05:06Z"
-       }
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
-    method: GET
-  response:
-    body: |-
-      {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
-        "status": "InProgress",
-        "startTime": "2001-02-03T04:05:06Z"
-       }
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - nginx
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/da8e5026-8ffc-4380-b37a-c4392e8048c5?api-version=2016-03-30
-    method: GET
-  response:
-    body: |-
-      {
-        "name": "26508eda-fc8f-8043-b37a-c4392e8048c5",
+        "name": "69a5c536-84c5-9e47-a935-ef078a6d09fb",
         "status": "Succeeded",
         "startTime": "2001-02-03T04:05:06Z",
         "endTime": "2001-02-03T04:05:06Z"
@@ -4051,6 +4016,36 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRLWENORFQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRLWENORFQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRLWENORFQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
