@@ -46,14 +46,14 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501
 │   │   │   └── Name: *string
 │   │   ├── SoftDeleteRetentionInDays: *int
 │   │   ├── SystemData: *Object (6 properties)
-│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
+│   │   │   ├── CreatedAt: *string
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
+│   │   │   ├── LastModifiedAt: *string
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   └── LastModifiedByType: *Enum (4 values)
 │   │   │       ├── "Application"

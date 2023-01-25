@@ -649,12 +649,7 @@ func (queue *Namespaces_Queue_Spec) ConvertSpecTo(destination genruntime.Convert
 func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(source *alpha20210101ps.Namespaces_Queue_Spec) error {
 
 	// AutoDeleteOnIdle
-	if source.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *source.AutoDeleteOnIdle
-		queue.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		queue.AutoDeleteOnIdle = nil
-	}
+	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// AzureName
 	queue.AzureName = source.AzureName
@@ -668,20 +663,10 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 	}
 
 	// DefaultMessageTimeToLive
-	if source.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
-		queue.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		queue.DefaultMessageTimeToLive = nil
-	}
+	queue.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if source.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
-		queue.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		queue.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	queue.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
@@ -714,12 +699,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
 
 	// LockDuration
-	if source.LockDuration != nil {
-		lockDuration := *source.LockDuration
-		queue.LockDuration = &lockDuration
-	} else {
-		queue.LockDuration = nil
-	}
+	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
 
 	// MaxDeliveryCount
 	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
@@ -761,12 +741,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoDeleteOnIdle
-	if queue.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *queue.AutoDeleteOnIdle
-		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		destination.AutoDeleteOnIdle = nil
-	}
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(queue.AutoDeleteOnIdle)
 
 	// AzureName
 	destination.AzureName = queue.AzureName
@@ -780,20 +755,10 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 	}
 
 	// DefaultMessageTimeToLive
-	if queue.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *queue.DefaultMessageTimeToLive
-		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		destination.DefaultMessageTimeToLive = nil
-	}
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(queue.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if queue.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *queue.DuplicateDetectionHistoryTimeWindow
-		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		destination.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(queue.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if queue.EnableBatchedOperations != nil {
@@ -826,12 +791,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 	destination.ForwardTo = genruntime.ClonePointerToString(queue.ForwardTo)
 
 	// LockDuration
-	if queue.LockDuration != nil {
-		lockDuration := *queue.LockDuration
-		destination.LockDuration = &lockDuration
-	} else {
-		destination.LockDuration = nil
-	}
+	destination.LockDuration = genruntime.ClonePointerToString(queue.LockDuration)
 
 	// MaxDeliveryCount
 	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(queue.MaxDeliveryCount)

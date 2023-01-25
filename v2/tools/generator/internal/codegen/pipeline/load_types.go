@@ -533,6 +533,8 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 			SpecType:   newSpecType,
 			StatusType: newStatusType,
 			SourceFile: rt.SourceFile,
+			ARMURI:     rt.ARMURI,
+			ARMType:    rt.ARMType,
 		}
 	}
 
