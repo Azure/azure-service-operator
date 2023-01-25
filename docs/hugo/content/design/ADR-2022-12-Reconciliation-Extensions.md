@@ -36,7 +36,7 @@ The extension point will receive the following parameters:
 * An ARM client allowing for ARM operations.
 * A logger to allow for tracing of what the extension did.
 * A context to allow cancellation of long running operations.
-* A function that representing the next action to take. 
+* A function that represents the next action to take. 
 
 The return will be one of three possibilities:
 
