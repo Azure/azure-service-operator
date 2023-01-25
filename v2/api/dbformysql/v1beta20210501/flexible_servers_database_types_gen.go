@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/mysql.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2021-05-01/mysql.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/databases/{databaseName}
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -324,7 +324,7 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/mysql.json
+// - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/legacy/stable/2021-05-01/mysql.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/databases/{databaseName}
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`

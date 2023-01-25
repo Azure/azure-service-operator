@@ -11,16 +11,17 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+
+	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

@@ -4,7 +4,6 @@
 package v1alpha1api20210501storage
 
 import (
-	"fmt"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &ManagedCluster{}
 
 // ConvertFrom populates our ManagedCluster from the provided hub ManagedCluster
 func (cluster *ManagedCluster) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210501s.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1beta20210501storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210501s.ManagedCluster
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return cluster.AssignProperties_From_ManagedCluster(source)
+	err = cluster.AssignProperties_From_ManagedCluster(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to cluster")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedCluster from our ManagedCluster
 func (cluster *ManagedCluster) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210501s.ManagedCluster)
-	if !ok {
-		return fmt.Errorf("expected containerservice/v1beta20210501storage/ManagedCluster but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210501s.ManagedCluster
+	err := cluster.AssignProperties_To_ManagedCluster(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from cluster")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return cluster.AssignProperties_To_ManagedCluster(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &ManagedCluster{}
