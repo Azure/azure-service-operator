@@ -17,6 +17,7 @@ import (
 	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
+	"strings"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -129,27 +130,29 @@ var _ extensions.PreReconciliationChecker = &ManagedClusterExtension{}
 // If a managed cluster has a provisioningState in this set, it will reject any attempt to PUT a new state out of hand;
 // so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state of the
 // cluster.
+// These are all listed lowercase, so we can do a case-insensitive match.
 var blockingManagedClusterProvisioningStates = set.Make(
-	"Creating",
-	"Updating",
-	"Scaling",
-	"Deleting",
-	"Migrating",
-	"Upgrading",
-	"Stopping",
-	"Starting",
-	"RotatingClusterCertificates",
-	"ReconcilingClusterCertificates",
-	"RotatingClusterStaticTokens",
-	"ReconcilingClusterETCDCertificates",
-	"RotatingServiceAccountSigningKeysInternal",
-	"RotatingServiceAccountSigningKeysExternal",
-	"Canceling",
+	"creating",
+	"updating",
+	"scaling",
+	"deleting",
+	"migrating",
+	"upgrading",
+	"stopping",
+	"starting",
+	"rotatingclustercertificates",
+	"reconcilingclustercertificates",
+	"rotatingclusterstatictokens",
+	"reconcilingclusteretcdcertificates",
+	"rotatingserviceaccountsigningkeysinternal",
+	"rotatingserviceaccountsigningkeysexternal",
+	"canceling",
 )
 
 func (ext *ManagedClusterExtension) PreReconcileCheck(
 	_ context.Context,
 	obj genruntime.MetaObject,
+	_ genruntime.MetaObject,
 	_ kubeclient.Client,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
@@ -171,13 +174,19 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	// as there's no point in even trying.
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
 	// already know those attempts will fail.
-	if provisioningState := managedCluster.Status.ProvisioningState; provisioningState != nil {
-		if blockingManagedClusterProvisioningStates.Contains(*provisioningState) {
-			return extensions.SkipReconcile(
-					fmt.Sprintf("Managed cluster is in provisioning state %q", *provisioningState)),
-				nil
-		}
+	if provisioningState := managedCluster.Status.ProvisioningState; clusterProvisioningStateBlocksReconciliation(provisioningState) {
+		return extensions.SkipReconcile(
+				fmt.Sprintf("Managed cluster is in provisioning state %q", *provisioningState)),
+			nil
 	}
 
 	return extensions.ProceedWithReconcile(), nil
+}
+
+func clusterProvisioningStateBlocksReconciliation(provisioningState *string) bool {
+	if provisioningState == nil {
+		return false
+	}
+
+	return blockingManagedClusterProvisioningStates.Contains(strings.ToLower(*provisioningState))
 }
