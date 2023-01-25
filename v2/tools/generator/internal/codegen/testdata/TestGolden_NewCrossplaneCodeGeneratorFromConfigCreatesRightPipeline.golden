@@ -21,6 +21,7 @@ removeAliases                                           Remove type aliases
 collapseCrossGroupReferences                            Find and remove cross group references
 stripUnreferenced                                       Strip unreferenced types
 assertTypesStructureValid                               Verify that all local TypeNames refer to a type
+removeEmptyObjects                                      Remove empty Objects
 filterTypes                                             Apply export filters to reduce the number of generated types
 verifyNoErroredTypes                                    Verify there are no ErroredType's containing errors
 stripUnreferenced                                       Strip unreferenced types

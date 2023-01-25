@@ -22,6 +22,7 @@ collapseCrossGroupReferences                                 Find and remove cro
 stripUnreferenced                                            Strip unreferenced types
 assertTypesStructureValid                                    Verify that all local TypeNames refer to a type
 removeEmbeddedResources                           azure      Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
+removeEmptyObjects                                           Remove empty Objects
 filterTypes                                                  Apply export filters to reduce the number of generated types
 verifyNoErroredTypes                                         Verify there are no ErroredType's containing errors
 stripUnreferenced                                            Strip unreferenced types
