@@ -146,7 +146,7 @@ type ManagedClusterAgentPoolProfile_ARM struct {
 	OsSKU                     *OSSKU                        `json:"osSKU,omitempty"`
 	OsType                    *OSType                       `json:"osType,omitempty"`
 	PodSubnetID               *string                       `json:"podSubnetID,omitempty"`
-	ProximityPlacementGroupID *ProximityPlacementGroupID    `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority             `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                      `json:"spotMaxPrice,omitempty"`

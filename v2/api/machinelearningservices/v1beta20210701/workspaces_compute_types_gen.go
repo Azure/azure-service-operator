@@ -13841,12 +13841,7 @@ func (settings *ScaleSettings) AssignProperties_From_ScaleSettings(source *v2021
 	settings.MinNodeCount = genruntime.ClonePointerToInt(source.MinNodeCount)
 
 	// NodeIdleTimeBeforeScaleDown
-	if source.NodeIdleTimeBeforeScaleDown != nil {
-		nodeIdleTimeBeforeScaleDown := *source.NodeIdleTimeBeforeScaleDown
-		settings.NodeIdleTimeBeforeScaleDown = &nodeIdleTimeBeforeScaleDown
-	} else {
-		settings.NodeIdleTimeBeforeScaleDown = nil
-	}
+	settings.NodeIdleTimeBeforeScaleDown = genruntime.ClonePointerToString(source.NodeIdleTimeBeforeScaleDown)
 
 	// No error
 	return nil
@@ -13864,12 +13859,7 @@ func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v2
 	destination.MinNodeCount = genruntime.ClonePointerToInt(settings.MinNodeCount)
 
 	// NodeIdleTimeBeforeScaleDown
-	if settings.NodeIdleTimeBeforeScaleDown != nil {
-		nodeIdleTimeBeforeScaleDown := *settings.NodeIdleTimeBeforeScaleDown
-		destination.NodeIdleTimeBeforeScaleDown = &nodeIdleTimeBeforeScaleDown
-	} else {
-		destination.NodeIdleTimeBeforeScaleDown = nil
-	}
+	destination.NodeIdleTimeBeforeScaleDown = genruntime.ClonePointerToString(settings.NodeIdleTimeBeforeScaleDown)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

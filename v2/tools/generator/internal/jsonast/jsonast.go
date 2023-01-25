@@ -239,6 +239,12 @@ func stringHandler(_ context.Context, _ *SchemaScanner, schema Schema) (astmodel
 			t = astmodel.ARMIDType
 		}
 
+		// If there are no validations except format, and that format didn't result in any patterns,
+		// then there's no need for a validated type so just return t
+		if len(patterns) == 0 && maxLength == nil && minLength == nil {
+			return t, nil
+		}
+
 		validations := astmodel.StringValidations{
 			MaxLength: maxLength,
 			MinLength: minLength,

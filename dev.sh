@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -eu
 
@@ -15,7 +15,7 @@ if ! ENVTEST=$("$TOOL_DEST/setup-envtest" use --print env 1.23.5) ; then
     exit 1
 fi
 
-echo "$ENVTEST" > source
+source <(echo $ENVTEST)
 
 export PATH="$KUBEBUILDER_ASSETS:$TOOL_DEST:$PATH"
 

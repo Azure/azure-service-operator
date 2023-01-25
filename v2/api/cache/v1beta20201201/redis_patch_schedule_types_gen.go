@@ -823,12 +823,7 @@ func (entry *ScheduleEntry) AssignProperties_From_ScheduleEntry(source *v2020120
 	}
 
 	// MaintenanceWindow
-	if source.MaintenanceWindow != nil {
-		maintenanceWindow := *source.MaintenanceWindow
-		entry.MaintenanceWindow = &maintenanceWindow
-	} else {
-		entry.MaintenanceWindow = nil
-	}
+	entry.MaintenanceWindow = genruntime.ClonePointerToString(source.MaintenanceWindow)
 
 	// StartHourUtc
 	entry.StartHourUtc = genruntime.ClonePointerToInt(source.StartHourUtc)
@@ -851,12 +846,7 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *v2020
 	}
 
 	// MaintenanceWindow
-	if entry.MaintenanceWindow != nil {
-		maintenanceWindow := *entry.MaintenanceWindow
-		destination.MaintenanceWindow = &maintenanceWindow
-	} else {
-		destination.MaintenanceWindow = nil
-	}
+	destination.MaintenanceWindow = genruntime.ClonePointerToString(entry.MaintenanceWindow)
 
 	// StartHourUtc
 	destination.StartHourUtc = genruntime.ClonePointerToInt(entry.StartHourUtc)

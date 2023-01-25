@@ -180,7 +180,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201
 │   │       │   ├── "Tuesday"
 │   │       │   ├── "Wednesday"
 │   │       │   └── "Weekend"
-│   │       ├── MaintenanceWindow: Validated<*string> (0 rules)
+│   │       ├── MaintenanceWindow: *string
 │   │       └── StartHourUtc: *int
 │   └── Status: Object (6 properties)
 │       ├── Conditions: conditions.Condition[]

@@ -36,7 +36,7 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
 				// First check if we know that this property is an ARMID already
 				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
-				if primitive, ok := astmodel.AsPrimitiveType(prop.PropertyType()); ok {
+				if primitive, ok := extractPrimitiveType(prop.PropertyType()); ok {
 					if primitive == astmodel.ARMIDType {
 						if err == nil {
 							if !isReference {
@@ -262,4 +262,22 @@ func stripARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDe
 	}
 
 	return result, nil
+}
+
+// ExtractPrimitiveType extracts a PrimitiveType from the specified type if possible. This includes unwrapping
+// MetaType's like ValidatedType as well as checking the element type of types such as ArrayType and MapType.
+func extractPrimitiveType(aType astmodel.Type) (*astmodel.PrimitiveType, bool) {
+	if primitiveType, ok := astmodel.AsPrimitiveType(aType); ok {
+		return primitiveType, ok
+	}
+
+	if arrayType, ok := astmodel.AsArrayType(aType); ok {
+		return extractPrimitiveType(arrayType.Element())
+	}
+
+	if mapType, ok := astmodel.AsMapType(aType); ok {
+		return extractPrimitiveType(mapType.ValueType())
+	}
+
+	return nil, false
 }

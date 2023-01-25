@@ -490,12 +490,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 	credential.AzureName = source.AzureName
 
 	// Issuer
-	if source.Issuer != nil {
-		issuer := *source.Issuer
-		credential.Issuer = &issuer
-	} else {
-		credential.Issuer = nil
-	}
+	credential.Issuer = genruntime.ClonePointerToString(source.Issuer)
 
 	// Owner
 	if source.Owner != nil {
@@ -524,12 +519,7 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 	destination.AzureName = credential.AzureName
 
 	// Issuer
-	if credential.Issuer != nil {
-		issuer := *credential.Issuer
-		destination.Issuer = &issuer
-	} else {
-		destination.Issuer = nil
-	}
+	destination.Issuer = genruntime.ClonePointerToString(credential.Issuer)
 
 	// OriginalVersion
 	destination.OriginalVersion = credential.OriginalVersion()

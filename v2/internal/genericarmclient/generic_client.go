@@ -84,6 +84,8 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 	// the value IN the interface IS nil).
 	if httpClient != nil {
 		opts.Transport = httpClient
+	} else {
+		opts.Transport = defaultHttpClient
 	}
 
 	opts.PerCallPolicies = append([]policy.Policy{rpRegistrationPolicy}, opts.PerCallPolicies...)
@@ -101,6 +103,7 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 		opts:           opts,
 		metrics:        metrics,
 	}, nil
+
 }
 
 // SubscriptionID returns the subscription the client is configured for

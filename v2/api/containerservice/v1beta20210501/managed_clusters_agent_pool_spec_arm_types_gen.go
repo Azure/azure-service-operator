@@ -115,7 +115,7 @@ type ManagedClusterAgentPoolProfileProperties_ARM struct {
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
-	ProximityPlacementGroupID *ProximityPlacementGroupID `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.

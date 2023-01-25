@@ -3685,12 +3685,7 @@ func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 func (data *SystemData) AssignProperties_From_SystemData(source *v20210701s.SystemData) error {
 
 	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		data.CreatedAt = &createdAt
-	} else {
-		data.CreatedAt = nil
-	}
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
 	// CreatedBy
 	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
@@ -3704,12 +3699,7 @@ func (data *SystemData) AssignProperties_From_SystemData(source *v20210701s.Syst
 	}
 
 	// LastModifiedAt
-	if source.LastModifiedAt != nil {
-		lastModifiedAt := *source.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	} else {
-		data.LastModifiedAt = nil
-	}
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
 
 	// LastModifiedBy
 	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
@@ -3732,12 +3722,7 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *v20210701s.S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreatedAt
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
 
 	// CreatedBy
 	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
@@ -3751,12 +3736,7 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *v20210701s.S
 	}
 
 	// LastModifiedAt
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		destination.LastModifiedAt = &lastModifiedAt
-	} else {
-		destination.LastModifiedAt = nil
-	}
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
 
 	// LastModifiedBy
 	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
