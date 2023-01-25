@@ -30,6 +30,7 @@ type PreReconciliationChecker interface {
 	PreReconcileCheck(
 		ctx context.Context,
 		obj genruntime.MetaObject,
+		owner genruntime.MetaObject,
 		kubeClient kubeclient.Client,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
@@ -40,6 +41,7 @@ type PreReconciliationChecker interface {
 type PreReconcileCheckFunc func(
 	ctx context.Context,
 	obj genruntime.MetaObject,
+	owner genruntime.MetaObject,
 	kubeClient kubeclient.Client,
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger,
@@ -88,6 +90,8 @@ const (
 // If the resource in question has not implemented the PreReconciliationChecker interface, the provided default checker
 // is returned directly.
 // We also return a bool indicating whether the resource extension implements the PreReconciliationChecker interface.
+// host is a resource extension that may implement the PreReconciliationChecker interface.
+// checker is the nested checker to use if the resource extension does not implement the PreReconciliationChecker interface.
 func CreatePreReconciliationChecker(
 	host genruntime.ResourceExtension,
 	checker PreReconcileCheckFunc,
@@ -100,13 +104,14 @@ func CreatePreReconciliationChecker(
 	return func(
 		ctx context.Context,
 		obj genruntime.MetaObject,
+		owner genruntime.MetaObject,
 		kubeClient kubeclient.Client,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
 	) (PreReconcileCheckResult, error) {
 		log.V(Status).Info("Extension pre-reconcile check running")
 
-		result, err := impl.PreReconcileCheck(ctx, obj, kubeClient, armClient, log, checker)
+		result, err := impl.PreReconcileCheck(ctx, obj, owner, kubeClient, armClient, log, checker)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension pre-reconcile check failed",
