@@ -423,7 +423,7 @@ type ManagedClusters_AgentPool_Spec struct {
 	PodSubnetIDReference *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
-	ProximityPlacementGroupID *ProximityPlacementGroupID `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
 	// ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is
 	// 'Delete'.
@@ -1206,12 +1206,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 	}
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := ProximityPlacementGroupID(*source.ProximityPlacementGroupID)
-		pool.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		pool.ProximityPlacementGroupID = nil
-	}
+	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -1455,12 +1450,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 	}
 
 	// ProximityPlacementGroupID
-	if pool.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := string(*pool.ProximityPlacementGroupID)
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if pool.ScaleSetEvictionPolicy != nil {
@@ -3732,8 +3722,6 @@ const (
 	OSType_STATUS_Linux   = OSType_STATUS("Linux")
 	OSType_STATUS_Windows = OSType_STATUS("Windows")
 )
-
-type ProximityPlacementGroupID string
 
 // The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information
 // about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms)

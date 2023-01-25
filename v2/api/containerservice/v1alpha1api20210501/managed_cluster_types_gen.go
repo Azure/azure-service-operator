@@ -4455,7 +4455,7 @@ type ManagedClusterAgentPoolProfile struct {
 	OsSKU                         *OSSKU                        `json:"osSKU,omitempty"`
 	OsType                        *OSType                       `json:"osType,omitempty"`
 	PodSubnetIDReference          *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	ProximityPlacementGroupID     *ProximityPlacementGroupID    `json:"proximityPlacementGroupID,omitempty"`
+	ProximityPlacementGroupID     *string                       `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy        *ScaleSetEvictionPolicy       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority              *ScaleSetPriority             `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice                  *float64                      `json:"spotMaxPrice,omitempty"`
@@ -5104,12 +5104,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 	}
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := ProximityPlacementGroupID(*source.ProximityPlacementGroupID)
-		profile.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		profile.ProximityPlacementGroupID = nil
-	}
+	profile.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -5347,12 +5342,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 	}
 
 	// ProximityPlacementGroupID
-	if profile.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := string(*profile.ProximityPlacementGroupID)
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(profile.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if profile.ScaleSetEvictionPolicy != nil {

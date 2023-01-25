@@ -829,12 +829,7 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source 
 	}
 
 	// FreeOfferExpirationTime
-	if source.FreeOfferExpirationTime != nil {
-		freeOfferExpirationTime := *source.FreeOfferExpirationTime
-		serverfarm.FreeOfferExpirationTime = &freeOfferExpirationTime
-	} else {
-		serverfarm.FreeOfferExpirationTime = nil
-	}
+	serverfarm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
 
 	// HostingEnvironmentProfile
 	if source.HostingEnvironmentProfile != nil {
@@ -930,12 +925,7 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_From_Serverfarm_Spec(source 
 	}
 
 	// SpotExpirationTime
-	if source.SpotExpirationTime != nil {
-		spotExpirationTime := *source.SpotExpirationTime
-		serverfarm.SpotExpirationTime = &spotExpirationTime
-	} else {
-		serverfarm.SpotExpirationTime = nil
-	}
+	serverfarm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
 
 	// Tags
 	serverfarm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -990,12 +980,7 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	}
 
 	// FreeOfferExpirationTime
-	if serverfarm.FreeOfferExpirationTime != nil {
-		freeOfferExpirationTime := *serverfarm.FreeOfferExpirationTime
-		destination.FreeOfferExpirationTime = &freeOfferExpirationTime
-	} else {
-		destination.FreeOfferExpirationTime = nil
-	}
+	destination.FreeOfferExpirationTime = genruntime.ClonePointerToString(serverfarm.FreeOfferExpirationTime)
 
 	// HostingEnvironmentProfile
 	if serverfarm.HostingEnvironmentProfile != nil {
@@ -1094,12 +1079,7 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	}
 
 	// SpotExpirationTime
-	if serverfarm.SpotExpirationTime != nil {
-		spotExpirationTime := *serverfarm.SpotExpirationTime
-		destination.SpotExpirationTime = &spotExpirationTime
-	} else {
-		destination.SpotExpirationTime = nil
-	}
+	destination.SpotExpirationTime = genruntime.ClonePointerToString(serverfarm.SpotExpirationTime)
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(serverfarm.Tags)

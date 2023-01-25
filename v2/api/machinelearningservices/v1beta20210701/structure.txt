@@ -64,14 +64,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   └── Tier: *string
 │   │   ├── StorageAccountReference: *genruntime.ResourceReference
 │   │   ├── SystemData: *Object (6 properties)
-│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
+│   │   │   ├── CreatedAt: *string
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
+│   │   │   ├── LastModifiedAt: *string
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   └── LastModifiedByType: *Enum (4 values)
 │   │   │       ├── "Application"
@@ -412,7 +412,7 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   │   │   ├── ScaleSettings: *Object (3 properties)
 │   │   │   │   │   │   ├── MaxNodeCount: *int
 │   │   │   │   │   │   ├── MinNodeCount: *int
-│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: Validated<*string> (0 rules)
+│   │   │   │   │   │   └── NodeIdleTimeBeforeScaleDown: *string
 │   │   │   │   │   ├── Subnet: *Object (1 property)
 │   │   │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── UserAccountCredentials: *Object (3 properties)
@@ -568,14 +568,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta202
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *string
 │   │   ├── SystemData: *Object (6 properties)
-│   │   │   ├── CreatedAt: Validated<*string> (0 rules)
+│   │   │   ├── CreatedAt: *string
 │   │   │   ├── CreatedBy: *string
 │   │   │   ├── CreatedByType: *Enum (4 values)
 │   │   │   │   ├── "Application"
 │   │   │   │   ├── "Key"
 │   │   │   │   ├── "ManagedIdentity"
 │   │   │   │   └── "User"
-│   │   │   ├── LastModifiedAt: Validated<*string> (0 rules)
+│   │   │   ├── LastModifiedAt: *string
 │   │   │   ├── LastModifiedBy: *string
 │   │   │   └── LastModifiedByType: *Enum (4 values)
 │   │   │       ├── "Application"

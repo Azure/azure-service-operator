@@ -5794,12 +5794,7 @@ func (config *SiteConfig) AssignProperties_From_SiteConfig(source *v20220301s.Si
 	}
 
 	// RequestTracingExpirationTime
-	if source.RequestTracingExpirationTime != nil {
-		requestTracingExpirationTime := *source.RequestTracingExpirationTime
-		config.RequestTracingExpirationTime = &requestTracingExpirationTime
-	} else {
-		config.RequestTracingExpirationTime = nil
-	}
+	config.RequestTracingExpirationTime = genruntime.ClonePointerToString(source.RequestTracingExpirationTime)
 
 	// ScmIpSecurityRestrictions
 	if source.ScmIpSecurityRestrictions != nil {
@@ -6289,12 +6284,7 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 	}
 
 	// RequestTracingExpirationTime
-	if config.RequestTracingExpirationTime != nil {
-		requestTracingExpirationTime := *config.RequestTracingExpirationTime
-		destination.RequestTracingExpirationTime = &requestTracingExpirationTime
-	} else {
-		destination.RequestTracingExpirationTime = nil
-	}
+	destination.RequestTracingExpirationTime = genruntime.ClonePointerToString(config.RequestTracingExpirationTime)
 
 	// ScmIpSecurityRestrictions
 	if config.ScmIpSecurityRestrictions != nil {

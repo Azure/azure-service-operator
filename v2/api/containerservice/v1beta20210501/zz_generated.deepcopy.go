@@ -1761,7 +1761,7 @@ func (in *ManagedClusterAgentPoolProfile) DeepCopyInto(out *ManagedClusterAgentP
 	}
 	if in.ProximityPlacementGroupID != nil {
 		in, out := &in.ProximityPlacementGroupID, &out.ProximityPlacementGroupID
-		*out = new(ProximityPlacementGroupID)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetEvictionPolicy != nil {
@@ -1945,7 +1945,7 @@ func (in *ManagedClusterAgentPoolProfileProperties_ARM) DeepCopyInto(out *Manage
 	}
 	if in.ProximityPlacementGroupID != nil {
 		in, out := &in.ProximityPlacementGroupID, &out.ProximityPlacementGroupID
-		*out = new(ProximityPlacementGroupID)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetEvictionPolicy != nil {
@@ -2333,7 +2333,7 @@ func (in *ManagedClusterAgentPoolProfile_ARM) DeepCopyInto(out *ManagedClusterAg
 	}
 	if in.ProximityPlacementGroupID != nil {
 		in, out := &in.ProximityPlacementGroupID, &out.ProximityPlacementGroupID
-		*out = new(ProximityPlacementGroupID)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetEvictionPolicy != nil {
@@ -6335,7 +6335,7 @@ func (in *ManagedClusters_AgentPool_Spec) DeepCopyInto(out *ManagedClusters_Agen
 	}
 	if in.ProximityPlacementGroupID != nil {
 		in, out := &in.ProximityPlacementGroupID, &out.ProximityPlacementGroupID
-		*out = new(ProximityPlacementGroupID)
+		*out = new(string)
 		**out = **in
 	}
 	if in.ScaleSetEvictionPolicy != nil {

@@ -574,31 +574,16 @@ func (topic *Namespaces_Topic_Spec) ConvertSpecTo(destination genruntime.Convert
 func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(source *alpha20210101ps.Namespaces_Topic_Spec) error {
 
 	// AutoDeleteOnIdle
-	if source.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *source.AutoDeleteOnIdle
-		topic.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		topic.AutoDeleteOnIdle = nil
-	}
+	topic.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// AzureName
 	topic.AzureName = source.AzureName
 
 	// DefaultMessageTimeToLive
-	if source.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
-		topic.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		topic.DefaultMessageTimeToLive = nil
-	}
+	topic.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if source.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
-		topic.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		topic.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	topic.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
@@ -661,31 +646,16 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoDeleteOnIdle
-	if topic.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *topic.AutoDeleteOnIdle
-		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		destination.AutoDeleteOnIdle = nil
-	}
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(topic.AutoDeleteOnIdle)
 
 	// AzureName
 	destination.AzureName = topic.AzureName
 
 	// DefaultMessageTimeToLive
-	if topic.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *topic.DefaultMessageTimeToLive
-		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		destination.DefaultMessageTimeToLive = nil
-	}
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(topic.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if topic.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *topic.DuplicateDetectionHistoryTimeWindow
-		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		destination.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(topic.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if topic.EnableBatchedOperations != nil {

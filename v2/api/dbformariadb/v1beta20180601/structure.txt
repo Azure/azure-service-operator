@@ -109,7 +109,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601
 │   │   │   │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
 │   │   │   │   │   └── "Enabled"
-│   │   │   │   ├── RestorePointInTime: Validated<*string> (0 rules)
+│   │   │   │   ├── RestorePointInTime: *string
 │   │   │   │   ├── SourceServerId: *string
 │   │   │   │   ├── SslEnforcement: *Enum (2 values)
 │   │   │   │   │   ├── "Disabled"
