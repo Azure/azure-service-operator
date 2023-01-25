@@ -61,7 +61,7 @@ func newAzureDeploymentReconcilerInstance(
 }
 
 func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
-	action, actionFunc, err := r.DetermineCreateOrUpdateAction(ctx)
+	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
 		r.Log.Error(err, "error determining create or update action")
 		r.Recorder.Event(r.Obj, v1.EventTypeWarning, "DetermineCreateOrUpdateActionError", err.Error())
@@ -176,9 +176,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineDeleteAction() (DeleteActio
 	return DeleteActionBeginDelete, r.StartDeleteOfResource, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction(
-	ctx context.Context,
-) (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
+func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
 	ready := genruntime.GetReadyCondition(r.Obj)
 	_, _, hasPollerResumeToken := GetPollerResumeToken(r.Obj)
 
@@ -261,24 +259,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
 
-	// Create a checker for access to the extension point, if required
-	// (We always get a checker back, even if it does nothing, so we don't need to check for nil)
-	checker, refreshRequired := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
-	if refreshRequired {
-		// Checker requires our resource to have an up-to-date status
-		r.Log.V(Verbose).Info("Refreshing Status of resource")
-		err := r.updateStatus(ctx)
-		if err != nil && !genericarmclient.IsNotFoundError(err) {
-			// We have an error, and it's not because the resource doesn't exist yet
-			// We assume the error isn't fatal, and we'll try again later
-			return ctrl.Result{},
-				conditions.NewReadyConditionImpactingError(
-					err, conditions.ConditionSeverityWarning, conditions.ReasonFailed)
-		}
-	}
-
-	// Run our pre-reconcilation checker
-	check, err := checker(ctx, r.Obj, r.KubeClient, r.ARMClient, r.Log)
+	check, err := r.prereconciliationCheck(ctx)
 	if err != nil {
 		// Something went wrong running the check. We assume it's not fatal, and we'll try again later
 		// Make sure we return a ReadyConditionImpactingError so that the Ready condition is updated for the user
@@ -289,7 +270,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 			impactingError = conditions.NewReadyConditionImpactingError(
 				err,
 				conditions.ConditionSeverityWarning,
-				conditions.ReasonAzureResourceNotReady)
+				conditions.ReasonFailed)
 		}
 
 		return ctrl.Result{}, impactingError
@@ -351,9 +332,44 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	return ctrl.Result{Requeue: true}, nil
 }
 
+func (r *azureDeploymentReconcilerInstance) prereconciliationCheck(ctx context.Context) (extensions.PreReconcileCheckResult, error) {
+	// Create a checker for access to the extension point, if required
+	// (We always get a checker back, even if it does nothing, so we don't need to check for nil)
+	checker, extensionFound := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
+	if !extensionFound {
+		// No extension found, nothing to do
+		return extensions.ProceedWithReconcile(), nil
+	}
+
+	// Having a checker requires our resource to have an up-to-date status
+	r.Log.V(Verbose).Info("Refreshing Status of resource")
+	statusErr := r.updateStatus(ctx)
+	if statusErr != nil && !genericarmclient.IsNotFoundError(statusErr) {
+		// We have an error, and it's not because the resource doesn't exist yet
+		return extensions.PreReconcileCheckResult{}, statusErr
+	}
+
+	// We also need to have our owner, it too with an up-to-date status
+	owner, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
+	if ownerErr != nil {
+		// We can't obtain the owner, so we can't run the extension
+		return extensions.PreReconcileCheckResult{}, ownerErr
+	}
+
+	// Run our pre-reconcilation checker
+	prereconciliationCheck, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClient, r.Log)
+	if checkErr != nil {
+		// Something went wrong running the check.
+		return extensions.PreReconcileCheckResult{}, checkErr
+	}
+
+	return prereconciliationCheck, nil
+}
+
 // alwaysReconcile is a PreReconciliationChecker that always indicates a reconciliation is required.
 func (r *azureDeploymentReconcilerInstance) alwaysReconcile(
 	_ context.Context,
+	_ genruntime.MetaObject,
 	_ genruntime.MetaObject,
 	_ kubeclient.Client,
 	_ *genericarmclient.GenericClient,
