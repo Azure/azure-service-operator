@@ -52,7 +52,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// if the hub storage version changes.
 	agentPool, ok := obj.(*containerservice.ManagedClustersAgentPool)
 	if !ok {
-		return extensions.SkipReconcile("Expected Managed Cluster Agent Pool"),
+		return extensions.PreReconcileCheckResult{},
 			errors.Errorf("cannot run on unknown resource type %T, expected *containerservice.ManagedCluster", obj)
 	}
 
@@ -64,7 +64,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	if owner != nil {
 		if managedCluster, ok := owner.(*containerservice.ManagedCluster); ok {
 			if provisioningState := managedCluster.Status.ProvisioningState; clusterProvisioningStateBlocksReconciliation(provisioningState) {
-				return extensions.SkipReconcile(
+				return extensions.BlockReconcile(
 						fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *provisioningState)),
 					nil
 			}
@@ -77,7 +77,7 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
 	// already know those attempts will fail.
 	if provisioningState := agentPool.Status.ProvisioningState; agentPoolProvisioningStateBlocksReconciliation(provisioningState) {
-		return extensions.SkipReconcile(
+		return extensions.BlockReconcile(
 				fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", *provisioningState)),
 			nil
 	}

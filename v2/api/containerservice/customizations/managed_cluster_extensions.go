@@ -162,7 +162,7 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	// if the hub storage version changes.
 	managedCluster, ok := obj.(*containerservice.ManagedCluster)
 	if !ok {
-		return extensions.SkipReconcile("Expected Managed Cluster"),
+		return extensions.PreReconcileCheckResult{},
 			errors.Errorf("cannot run on unknown resource type %T, expected *containerservice.ManagedCluster", obj)
 	}
 
@@ -175,7 +175,7 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
 	// already know those attempts will fail.
 	if provisioningState := managedCluster.Status.ProvisioningState; clusterProvisioningStateBlocksReconciliation(provisioningState) {
-		return extensions.SkipReconcile(
+		return extensions.BlockReconcile(
 				fmt.Sprintf("Managed cluster is in provisioning state %q", *provisioningState)),
 			nil
 	}
