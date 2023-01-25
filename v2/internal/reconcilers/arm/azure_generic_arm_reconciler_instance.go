@@ -9,7 +9,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -259,9 +258,9 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
 
-	check, err := r.prereconciliationCheck(ctx)
+	check, err := r.preReconciliationCheck(ctx)
 	if err != nil {
-		// Failed to do the prereconciliation check, this is a serious but non-fatal error
+		// Failed to do the pre-reconciliation check, this is a serious but non-fatal error
 		// Make sure we return a ReadyConditionImpactingError so that the Ready condition is updated for the user
 		// Ideally any implementation of the checker should return a ReadyConditionImpactingError, but we can't
 		// guarantee that, so we wrap as required
@@ -280,11 +279,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	// We use a ReadyConditionImpactingError here to ensure the Ready condition is updated so the user can see why
 	// we're not reconciling right now. We'll try again later.
 	if !check.ShouldReconcile() {
-		return ctrl.Result{},
-			conditions.NewReadyConditionImpactingError(
-				errors.New(check.Reason()),
-				conditions.ConditionSeverityWarning,
-				conditions.ReasonAzureResourceNotReady)
+		return ctrl.Result{}, check.CreateConditionError()
 	}
 
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
@@ -332,10 +327,9 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	return ctrl.Result{Requeue: true}, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) prereconciliationCheck(ctx context.Context) (extensions.PreReconcileCheckResult, error) {
+func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.Context) (extensions.PreReconcileCheckResult, error) {
 	// Create a checker for access to the extension point, if required
-	// (We always get a checker back, even if it does nothing, so we don't need to check for nil)
-	checker, extensionFound := extensions.CreatePreReconciliationChecker(r.Extension, r.alwaysReconcile)
+	checker, extensionFound := extensions.CreatePreReconciliationChecker(r.Extension)
 	if !extensionFound {
 		// No extension found, nothing to do
 		return extensions.ProceedWithReconcile(), nil
@@ -356,26 +350,14 @@ func (r *azureDeploymentReconcilerInstance) prereconciliationCheck(ctx context.C
 		return extensions.PreReconcileCheckResult{}, ownerErr
 	}
 
-	// Run our pre-reconcilation checker
-	prereconciliationCheck, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClient, r.Log)
+	// Run our pre-reconciliation checker
+	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClient, r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PreReconcileCheckResult{}, checkErr
 	}
 
-	return prereconciliationCheck, nil
-}
-
-// alwaysReconcile is a PreReconciliationChecker that always indicates a reconciliation is required.
-func (r *azureDeploymentReconcilerInstance) alwaysReconcile(
-	_ context.Context,
-	_ genruntime.MetaObject,
-	_ genruntime.MetaObject,
-	_ kubeclient.Client,
-	_ *genericarmclient.GenericClient,
-	_ logr.Logger,
-) (extensions.PreReconcileCheckResult, error) {
-	return extensions.ProceedWithReconcile(), nil
+	return check, nil
 }
 
 func checkSubscription(resourceID string, clientSubID string) error {
