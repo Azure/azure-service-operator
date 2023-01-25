@@ -199,7 +199,7 @@ func NoAction(_ context.Context) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-// StartDeleteOfResource will begin the delete of a resource by telling Azure to start deleting it. The resource will be
+// StartDeleteOfResource will begin deletion of a resource by telling Azure to start deleting it. The resource will be
 // marked with the provisioning state of "Deleting".
 func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Context) (ctrl.Result, error) {
 	msg := "Starting delete of resource"
@@ -261,7 +261,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	check, err := r.prereconciliationCheck(ctx)
 	if err != nil {
-		// Something went wrong running the check. We assume it's not fatal, and we'll try again later
+		// Failed to do the prereconciliation check, this is a serious but non-fatal error
 		// Make sure we return a ReadyConditionImpactingError so that the Ready condition is updated for the user
 		// Ideally any implementation of the checker should return a ReadyConditionImpactingError, but we can't
 		// guarantee that, so we wrap as required
@@ -317,7 +317,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	r.Recorder.Eventf(r.Obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginCreation), "Successfully sent resource to Azure with ID %q", armResource.GetID())
 
 	// If we are done here it means the deployment succeeded immediately. It can't have failed because if it did
-	// we would have taken the err path above.
+	// we would have taken the error path above.
 	if pollerResp.Poller.Done() {
 		return r.handleCreatePollerSuccess(ctx)
 	}
@@ -782,7 +782,7 @@ func deleteResource(
 	log.V(Info).Info("Successfully issued DELETE to Azure")
 
 	// If we are done here it means delete succeeded immediately. It can't have failed because if it did
-	// we would have taken the err path above.
+	// we would have taken the error path, above.
 	if pollerResp.Poller.Done() {
 		return ctrl.Result{}, nil
 	}
