@@ -284,7 +284,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
 	if resourceID != "" {
-		err := checkSubscription(resourceID, r.ARMClient.SubscriptionID())
+		err = checkSubscription(resourceID, r.ARMClient.SubscriptionID())
 		if err != nil {
 			return ctrl.Result{}, err
 		}
