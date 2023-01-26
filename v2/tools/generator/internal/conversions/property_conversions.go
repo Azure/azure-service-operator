@@ -852,6 +852,30 @@ func assignHandcraftedImplementations(
 	return nil, nil
 }
 
+// TODO: Move this?
+func asArray(defs astmodel.TypeDefinitionSet, t astmodel.Type) (*astmodel.ArrayType, *astmodel.TypeName, bool) {
+	if at, ok := astmodel.AsArrayType(t); ok {
+		return at, nil, true
+	}
+
+	tn, ok := astmodel.AsTypeName(t)
+	if !ok {
+		return nil, nil, false
+	}
+
+	// Resolve the type
+	resolved, err := defs.FullyResolve(t)
+	if err != nil {
+		return nil, nil, false // TODO: kinda ignoring error here
+	}
+
+	if at, ok := astmodel.AsArrayType(resolved); ok {
+		return at, &tn, true
+	}
+
+	return nil, nil, false
+}
+
 // assignArrayFromArray will generate a code fragment to populate an array, assuming the
 // underlying definitions of the two arrays are compatible
 //
@@ -874,14 +898,14 @@ func assignArrayFromArray(
 		return nil, nil
 	}
 
-	// Require source to be an array type
-	sourceArray, sourceIsArray := astmodel.AsArrayType(sourceEndpoint.Type())
+	// Require source to be an array type or an alias to an array
+	sourceArray, _, sourceIsArray := asArray(conversionContext.definitions, sourceEndpoint.Type())
 	if !sourceIsArray {
 		return nil, nil
 	}
 
-	// Require destination to be an array type
-	destinationArray, destinationIsArray := astmodel.AsArrayType(destinationEndpoint.Type())
+	// Require destination to be an array type or an alias to an array
+	destinationArray, destinationAlias, destinationIsArray := asArray(conversionContext.definitions, destinationEndpoint.Type())
 	if !destinationIsArray {
 		return nil, nil
 	}
@@ -938,9 +962,15 @@ func assignArrayFromArray(
 		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
 		indexId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
+		var destTypeExpr dst.Expr
+		if destinationAlias != nil {
+			destTypeExpr = destinationAlias.AsType(generationContext)
+		} else {
+			destTypeExpr = destinationArray.AsType(generationContext)
+		}
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeSlice(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", actualReader)))
+			astbuilder.MakeSlice(destTypeExpr, astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{

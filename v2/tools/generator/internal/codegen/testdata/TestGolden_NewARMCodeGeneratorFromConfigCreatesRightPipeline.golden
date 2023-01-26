@@ -28,6 +28,7 @@ verifyNoErroredTypes                                         Verify there are no
 stripUnreferenced                                            Strip unreferenced types
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON
 improvePropertyDescriptions                                  Improve property descriptions by copying from the corresponding type
+fixOptionalCollectionAliases                                 Replace types which are optional aliases to collections with just the collection alias
 transformCrossResourceReferences                  azure      Replace cross-resource references with genruntime.ResourceReference
 addSecrets                                        azure      Replace properties flagged as secret with genruntime.SecretReference
 addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
