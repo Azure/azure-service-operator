@@ -101,7 +101,13 @@ You can estimate the maximum number of resources ASO can support based on the co
 1200 / hr.
 
 | azureSyncPeriod | Maximum possible resources |
-|-----------------|----------------------------|
+| --------------- | -------------------------- |
 | 15m             | 300                        |
 | 1h              | 1200                       |
 | 24h             | ~28000                     |
+
+### Should I use user-assigned or system-assigned identity?
+
+We don't take a position on whether it's universally better to deploy ASO using a user-assigned or system-assigned managed identity because the correct choice for you depends on your own context.
+
+If you haven't already read it, Azure has a good [best practices for managed identity guide](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/managed-identity-best-practice-recommendations) that may be useful.
