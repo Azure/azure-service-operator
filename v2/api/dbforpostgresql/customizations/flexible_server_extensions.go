@@ -8,15 +8,16 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-	"strings"
 
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -87,6 +88,10 @@ func secretsToWrite(obj *postgresql.FlexibleServer) ([]*v1.Secret, error) {
 
 var _ extensions.PreReconciliationChecker = &FlexibleServerExtension{}
 
+// If a flexible has a provisioningState in this set, it will reject any attempt to PUT a new state out of hand;
+// so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state of the
+// cluster.
+// These are all listed lowercase, so we can do a case-insensitive match.
 var blockingFlexibleServerStates = set.Make(
 	"starting",
 	"stopping",
@@ -96,6 +101,7 @@ var blockingFlexibleServerStates = set.Make(
 func (ext *FlexibleServerExtension) PreReconcileCheck(
 	_ context.Context,
 	obj genruntime.MetaObject,
+	owner genruntime.MetaObject,
 	_ kubeclient.Client,
 	_ *genericarmclient.GenericClient,
 	_ logr.Logger,
@@ -103,23 +109,31 @@ func (ext *FlexibleServerExtension) PreReconcileCheck(
 ) (extensions.PreReconcileCheckResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
-	flexibleServer, ok := obj.(*postgresql.FlexibleServer)
+	server, ok := obj.(*postgresql.FlexibleServer)
 	if !ok {
-		return extensions.SkipReconcile("Expected Flexible Server"),
+		return extensions.PreReconcileCheckResult{},
 			errors.Errorf("cannot run on unknown resource type %T, expected *postgresql.FlexibleServer", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
-	// the hub type has been changed but this extension has not
-	var _ conversion.Hub = flexibleServer
+	// the hub type has been changed but this extension has not been updated
+	var _ conversion.Hub = server
 
-	if state := flexibleServer.Status.State; state != nil {
-		if blockingFlexibleServerStates.Contains(strings.ToLower(*state)) {
-			return extensions.SkipReconcile(
-					fmt.Sprintf("Flexible Server is in provisioning state %q", *state)),
-				nil
-		}
+	if flexibleServerStateBlocksReconciliation(server) {
+		return extensions.BlockReconcile(
+			fmt.Sprintf(
+				"Flexible Server is in provisioning state %q",
+				*server.Status.State)), nil
 	}
 
 	return extensions.ProceedWithReconcile(), nil
+}
+
+func flexibleServerStateBlocksReconciliation(server *postgresql.FlexibleServer) bool {
+	state := server.Status.State
+	if state == nil {
+		return false
+	}
+
+	return blockingFlexibleServerStates.Contains(strings.ToLower(*state))
 }
