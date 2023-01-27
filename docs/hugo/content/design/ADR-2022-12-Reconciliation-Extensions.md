@@ -27,17 +27,22 @@ As with other extension points, we want to give implementers the option of actin
 
 ## Decision
 
-We'll define a new extension point called `ReconcileActionSelector` in a style similar to our already existing extension points.
+We'll define a new extension point called `PreReconciliationChecker` in a style similar to our already existing extension points.
 
 The extension point will receive the following parameters:
 
 * The current resource, with a status freshly updated from Azure.
-* A client allowing for ARM operations.
+* A Kubernetes client allowing for Cluster operations.
+* An ARM client allowing for ARM operations.
 * A logger to allow for tracing of what the extension did.
 * A context to allow cancellation of long running operations.
-* A function that will return the next action to take. 
+* A function that represents the next action to take. 
 
-It will return `Reconcile` if the resource should be reconciled, `Skip` if reconciliation should be skipped, or an `error` if something went wrong.
+The return will be one of three possibilities:
+
+* `Proceed` if the resource should be reconciled
+* `Skip` and a human readable reason if reconciliation should be skipped
+* `error` if something went wrong.
 
 For the initial implementation, we'll only do the GET if the extension exists, and the default `next` action will be hard coded to request a reconciliation.
 
@@ -49,7 +54,11 @@ Down the track when we switch to a GET/PUT workflow, we'll always do the GET, an
 
 ## Status
 
-Proposed.
+Accepted.
+
+* Extension point created in [PR #2683](https://github.com/Azure/azure-service-operator/pull/2683).
+* Implementation for Managed Cluster and Agent Pool added in [PR #2686](https://github.com/Azure/azure-service-operator/pull/2686).
+* Implementation for PostgreSQL Flexible Server added in [PR #2688](https://github.com/Azure/azure-service-operator/pull/2688).
 
 ## Consequences
 
