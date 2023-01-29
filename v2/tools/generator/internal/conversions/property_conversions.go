@@ -90,8 +90,8 @@ func init() {
 		assignFromOptional,
 		assignToOptional,
 		assignToEnumeration,
-		assignFromAliasedPrimitive,
-		assignToAliasedPrimitive,
+		assignFromAliasedType,
+		assignToAliasedType,
 	}
 }
 
@@ -674,9 +674,9 @@ func assignAliasedPrimitiveFromAliasedPrimitive(
 	}, nil
 }
 
-// assignFromAliasedPrimitive will convert an alias of a primitive type into that primitive
-// type as long as it is not optional and we can find a conversion to consume that primitive value
-func assignFromAliasedPrimitive(
+// assignFromAliasedType will convert an alias of a type into that type
+// type as long as it is not optional and is not an alias to an object type.
+func assignFromAliasedType(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
@@ -691,19 +691,22 @@ func assignFromAliasedPrimitive(
 		return nil, nil
 	}
 
-	// Require source to be a name that resolves to a primitive type
+	// Require source to be a name that resolves to a non-object type
 	_, sourceType, ok := conversionContext.ResolveType(sourceEndpoint.Type())
 	if !ok {
 		return nil, nil
 	}
-	sourcePrimitive, sourceIsPrimitive := astmodel.AsPrimitiveType(sourceType)
-	if !sourceIsPrimitive {
+	if _, ok = astmodel.AsObjectType(sourceType); ok {
+		// Don't match objects, only other aliases - no objects aliases exist because they are removed by
+		// the RemoveTypeAliases pipeline stage, so if ResolveType results in an object then we have a normal
+		// TypeName -> Object, which is not an alias at all.
 		return nil, nil
 	}
 
 	// Require a conversion for the underlying type
-	primitiveEndpoint := sourceEndpoint.WithType(sourcePrimitive)
-	conversion, err := CreateTypeConversion(primitiveEndpoint, destinationEndpoint, conversionContext)
+	sourceType = astmodel.Unwrap(sourceType) // Unwrap to avoid any validations
+	updatedSourceEndpoint := sourceEndpoint.WithType(sourceType)
+	conversion, err := CreateTypeConversion(updatedSourceEndpoint, destinationEndpoint, conversionContext)
 	if err != nil {
 		return nil, err
 	}
@@ -713,7 +716,7 @@ func assignFromAliasedPrimitive(
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		actualReader := &dst.CallExpr{
-			Fun:  sourcePrimitive.AsType(generationContext),
+			Fun:  sourceType.AsType(generationContext),
 			Args: []dst.Expr{reader},
 		}
 
@@ -721,11 +724,11 @@ func assignFromAliasedPrimitive(
 	}, nil
 }
 
-// assignToAliasedPrimitive will convert a primitive value into the aliased type as long as it
-// is not optional and we can find a conversion to give us the primitive type.
+// assignToAliasedType will convert a value into the aliased type as long as it
+// is not optional and the alias is not to an object type.
 //
 // <destination> = <cast>(<source>)
-func assignToAliasedPrimitive(
+func assignToAliasedType(
 	sourceEndpoint *TypedConversionEndpoint,
 	destinationEndpoint *TypedConversionEndpoint,
 	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
@@ -740,19 +743,22 @@ func assignToAliasedPrimitive(
 		return nil, nil
 	}
 
-	// Require destination to be a name the resolves to a primitive type
+	// Require destination to be a name the resolves to a non-object type
 	destinationName, destinationType, ok := conversionContext.ResolveType(destinationEndpoint.Type())
 	if !ok {
 		return nil, nil
 	}
-	destinationPrimitive, destinationIsPrimitive := astmodel.AsPrimitiveType(destinationType)
-	if !destinationIsPrimitive {
+	if _, ok = astmodel.AsObjectType(destinationType); ok {
+		// Don't match objects, only other aliases - no objects aliases exist because they are removed by
+		// the RemoveTypeAliases pipeline stage, so if ResolveType results in an object then we have a normal
+		// TypeName -> Object, which is not an alias at all.
 		return nil, nil
 	}
 
 	// Require a conversion for the underlying type
-	primitiveEndpoint := sourceEndpoint.WithType(destinationPrimitive)
-	conversion, err := CreateTypeConversion(sourceEndpoint, primitiveEndpoint, conversionContext)
+	destinationType = astmodel.Unwrap(destinationType) // Unwrap to avoid any validations
+	updatedDestinationEndpoint := destinationEndpoint.WithType(destinationType)
+	conversion, err := CreateTypeConversion(sourceEndpoint, updatedDestinationEndpoint, conversionContext)
 	if err != nil {
 		return nil, err
 	}
