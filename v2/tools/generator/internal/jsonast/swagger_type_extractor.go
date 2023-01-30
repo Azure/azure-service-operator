@@ -106,6 +106,11 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 }
 
 func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context, scanner *SchemaScanner, result SwaggerTypes) error {
+	if extractor.swagger.Paths == nil {
+		// No paths, nothing to extract
+		return nil
+	}
+
 	for rawOperationPath, op := range extractor.swagger.Paths.Paths {
 		// a resource must have both PUT and GET
 		if op.Put == nil || op.Get == nil {

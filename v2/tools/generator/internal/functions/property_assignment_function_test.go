@@ -43,6 +43,12 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	currentAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Age"), astmodel.IntType)
 	nextAge := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Age"), astmodel.IntType)
 
+	// Aliases of collection types
+	currentPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
+	nextPhoneNumbers := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "PhoneNumbers"), astmodel.NewValidatedType(astmodel.NewArrayType(astmodel.StringType), astmodel.ArrayValidations{}))
+	currentAddresses := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vCurrent, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
+	nextAddresses := astmodel.MakeTypeDefinition(astmodel.MakeTypeName(vNext, "Addresses"), astmodel.NewValidatedType(astmodel.NewMapType(astmodel.StringType, astmodel.StringType), nil))
+
 	requiredStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType)
 	optionalStringProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
 	requiredIntProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.IntType)
@@ -79,6 +85,13 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	requiredNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", nextAge.Name())
 	optionalCurrentAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(currentAge.Name()))
 	optionalNextAgeProperty := astmodel.NewPropertyDefinition("Age", "age", astmodel.NewOptionalType(nextAge.Name()))
+
+	requiredCurrentPhoneNumbersProperty := astmodel.NewPropertyDefinition("PhoneNumbers", "phoneNumbers", currentPhoneNumbers.Name())
+	requiredNextPhoneNumbersProperty := astmodel.NewPropertyDefinition("PhoneNumbers", "phoneNumbers", nextPhoneNumbers.Name())
+	requiredCurrentPhoneNumbersBaseTypeProperty := astmodel.NewPropertyDefinition("PhoneNumbers", "phoneNumbers", astmodel.NewArrayType(astmodel.StringType))
+	requiredCurrentAddressesProperty := astmodel.NewPropertyDefinition("Addresses", "addresses", currentAddresses.Name())
+	requiredNextAddressesProperty := astmodel.NewPropertyDefinition("Addresses", "addresses", nextAddresses.Name())
+	requiredCurrentAddressesBaseTypeProperty := astmodel.NewPropertyDefinition("Addresses", "addresses", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
 
 	referenceProperty := astmodel.NewPropertyDefinition("Reference", "reference", astmodel.ResourceReferenceType)
 	knownReferenceProperty := astmodel.NewPropertyDefinition("KnownReference", "known-reference", astmodel.KnownResourceReferenceType)
@@ -221,6 +234,13 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		createPropertyAssignmentTest("ConvertBetweenAliasAndBaseType", requiredCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge, nextAge),
 		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndBaseType", optionalCurrentAgeProperty, requiredPrimitiveAgeProperty, currentAge),
 		createPropertyAssignmentTest("ConvertBetweenOptionalAliasAndOptionalBaseType", optionalCurrentAgeProperty, optionalPrimitiveAgeProperty, currentAge),
+
+		createPropertyAssignmentTest("ConvertBetweenArrayAliasAndArrayAlias", requiredCurrentPhoneNumbersProperty, requiredNextPhoneNumbersProperty, currentPhoneNumbers, nextPhoneNumbers),
+		createPropertyAssignmentTest("ConvertBetweenArrayAliasAndBaseType", requiredCurrentPhoneNumbersBaseTypeProperty, requiredNextPhoneNumbersProperty, nextPhoneNumbers),
+		createPropertyAssignmentTest("ConvertBetweenMapAliasAndMapAlias", requiredCurrentAddressesProperty, requiredNextAddressesProperty, currentAddresses, nextAddresses),
+		createPropertyAssignmentTest("ConvertBetweenMapAliasAndBaseType", requiredCurrentAddressesBaseTypeProperty, requiredNextAddressesProperty, nextAddresses),
+		// We don't handle/test Object Aliases here because they are always removed by the RemoveTypeAliases pipeline stage
+		// We don't handle/test optional array/map aliases because they are always made non-optional by the FixOptionalCollectionAliases stage
 
 		createFunctionAssignmentTest("ReadFromFunctionIntoProperty", requiredIntProperty, ageFunction),
 		createFunctionAssignmentTest("ReadFromFunctionIntoOptionalProperty", optionalIntProperty, ageFunction),

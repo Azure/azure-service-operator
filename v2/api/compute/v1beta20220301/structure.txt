@@ -1327,7 +1327,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │       │   ├── Name: *string
 │       │   ├── PropertiesType: *string
 │       │   ├── ProtectedSettings: map[string]v1.JSON
-│       │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│       │   ├── ProtectedSettingsFromKeyVault: *Object (2 properties)
+│       │   │   ├── SecretUrl: *string
+│       │   │   └── SourceVault: *Object (1 property)
+│       │   │       └── Id: *string
 │       │   ├── ProvisioningState: *string
 │       │   ├── Publisher: *string
 │       │   ├── Settings: map[string]v1.JSON
@@ -1570,7 +1573,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   ├── Name: *string
 │   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-│   │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │   ├── ProtectedSettingsFromKeyVault: *Object (2 properties)
+│   │   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   │   └── SourceVault: *Object (1 property)
+│   │   │   │   │   │       └── Reference: *genruntime.ResourceReference
 │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │   ├── Publisher: *string
 │   │   │   │   │   ├── Settings: map[string]v1.JSON
@@ -1922,7 +1928,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │       │   │   │   ├── Name: *string
 │       │   │   │   ├── PropertiesType: *string
 │       │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-│       │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│       │   │   │   ├── ProtectedSettingsFromKeyVault: *Object (2 properties)
+│       │   │   │   │   ├── SecretUrl: *string
+│       │   │   │   │   └── SourceVault: *Object (1 property)
+│       │   │   │   │       └── Id: *string
 │       │   │   │   ├── ProvisionAfterExtensions: string[]
 │       │   │   │   ├── ProvisioningState: *string
 │       │   │   │   ├── Publisher: *string
@@ -2269,7 +2278,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │   │   │   ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │   │   ├── ForceUpdateTag: *string
 │   │   │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-│   │   │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │   │   ├── ProtectedSettingsFromKeyVault: *Object (2 properties)
+│   │   │   │   │   │   │   ├── SecretUrl: *string
+│   │   │   │   │   │   │   └── SourceVault: *Object (1 property)
+│   │   │   │   │   │   │       └── Id: *string
 │   │   │   │   │   │   ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │   │   ├── ProvisioningState: *string
 │   │   │   │   │   │   ├── Publisher: *string
@@ -2619,7 +2631,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │   │       ├── EnableAutomaticUpgrade: *bool
 │   │   │   │   │       ├── ForceUpdateTag: *string
 │   │   │   │   │       ├── ProtectedSettings: map[string]v1.JSON
-│   │   │   │   │       ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   │   │       ├── ProtectedSettingsFromKeyVault: *Object (2 properties)
+│   │   │   │   │       │   ├── SecretUrl: *string
+│   │   │   │   │       │   └── SourceVault: *Object (1 property)
+│   │   │   │   │       │       └── Id: *string
 │   │   │   │   │       ├── ProvisionAfterExtensions: string[]
 │   │   │   │   │       ├── Publisher: *string
 │   │   │   │   │       ├── Settings: map[string]v1.JSON
@@ -3576,7 +3591,10 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301
 │   │   │   │   ├── Type: *string
 │   │   │   │   └── TypeHandlerVersion: *string
 │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-│   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│   │   │   ├── ProtectedSettingsFromKeyVault: *Object (2 properties)
+│   │   │   │   ├── SecretUrl: *string
+│   │   │   │   └── SourceVault: *Object (1 property)
+│   │   │   │       └── Id: *string
 │   │   │   ├── ProvisioningState: *string
 │   │   │   ├── Publisher: *string
 │   │   │   ├── Settings: map[string]v1.JSON

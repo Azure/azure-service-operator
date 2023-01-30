@@ -112,7 +112,6 @@
 | PowerState_STATUS                                              | v1alpha1api20210501 | v1beta20210501 |
 | PrivateLinkResource                                            | v1alpha1api20210501 | v1beta20210501 |
 | PrivateLinkResource_STATUS                                     | v1alpha1api20210501 | v1beta20210501 |
-| ProximityPlacementGroupID                                      | v1alpha1api20210501 | v1beta20210501 |
 | ResourceReference                                              | v1alpha1api20210501 | v1beta20210501 |
 | ResourceReference_STATUS                                       | v1alpha1api20210501 | v1beta20210501 |
 | ScaleSetEvictionPolicy                                         | v1alpha1api20210501 | v1beta20210501 |

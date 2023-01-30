@@ -8280,7 +8280,7 @@ type VirtualMachineScaleSetExtension struct {
 
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference `json:"protectedSettingsFromKeyVault,omitempty"`
 
 	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
@@ -8350,10 +8350,12 @@ func (extension *VirtualMachineScaleSetExtension) ConvertToARM(resolved genrunti
 		}
 	}
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		result.Properties.ProtectedSettingsFromKeyVault = make(map[string]v1.JSON, len(extension.ProtectedSettingsFromKeyVault))
-		for key, value := range extension.ProtectedSettingsFromKeyVault {
-			result.Properties.ProtectedSettingsFromKeyVault[key] = *value.DeepCopy()
+		protectedSettingsFromKeyVault_ARM, err := (*extension.ProtectedSettingsFromKeyVault).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
 		}
+		protectedSettingsFromKeyVault := *protectedSettingsFromKeyVault_ARM.(*KeyVaultSecretReference_ARM)
+		result.Properties.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	}
 	for _, item := range extension.ProvisionAfterExtensions {
 		result.Properties.ProvisionAfterExtensions = append(result.Properties.ProvisionAfterExtensions, item)
@@ -8443,10 +8445,13 @@ func (extension *VirtualMachineScaleSetExtension) PopulateFromARM(owner genrunti
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtectedSettingsFromKeyVault != nil {
-			extension.ProtectedSettingsFromKeyVault = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettingsFromKeyVault))
-			for key, value := range typedInput.Properties.ProtectedSettingsFromKeyVault {
-				extension.ProtectedSettingsFromKeyVault[key] = *value.DeepCopy()
+			var protectedSettingsFromKeyVault1 KeyVaultSecretReference
+			err := protectedSettingsFromKeyVault1.PopulateFromARM(owner, *typedInput.Properties.ProtectedSettingsFromKeyVault)
+			if err != nil {
+				return err
 			}
+			protectedSettingsFromKeyVault := protectedSettingsFromKeyVault1
+			extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 		}
 	}
 
@@ -8549,13 +8554,12 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_From_VirtualM
 
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVaultMap := make(map[string]v1.JSON, len(source.ProtectedSettingsFromKeyVault))
-		for protectedSettingsFromKeyVaultKey, protectedSettingsFromKeyVaultValue := range source.ProtectedSettingsFromKeyVault {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingsFromKeyVaultValue := protectedSettingsFromKeyVaultValue
-			protectedSettingsFromKeyVaultMap[protectedSettingsFromKeyVaultKey] = *protectedSettingsFromKeyVaultValue.DeepCopy()
+		var protectedSettingsFromKeyVault KeyVaultSecretReference
+		err := protectedSettingsFromKeyVault.AssignProperties_From_KeyVaultSecretReference(source.ProtectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSecretReference() to populate field ProtectedSettingsFromKeyVault")
 		}
-		extension.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVaultMap
+		extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		extension.ProtectedSettingsFromKeyVault = nil
 	}
@@ -8639,13 +8643,12 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMac
 
 	// ProtectedSettingsFromKeyVault
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVaultMap := make(map[string]v1.JSON, len(extension.ProtectedSettingsFromKeyVault))
-		for protectedSettingsFromKeyVaultKey, protectedSettingsFromKeyVaultValue := range extension.ProtectedSettingsFromKeyVault {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingsFromKeyVaultValue := protectedSettingsFromKeyVaultValue
-			protectedSettingsFromKeyVaultMap[protectedSettingsFromKeyVaultKey] = *protectedSettingsFromKeyVaultValue.DeepCopy()
+		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference
+		err := extension.ProtectedSettingsFromKeyVault.AssignProperties_To_KeyVaultSecretReference(&protectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference() to populate field ProtectedSettingsFromKeyVault")
 		}
-		destination.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVaultMap
+		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		destination.ProtectedSettingsFromKeyVault = nil
 	}
@@ -8724,7 +8727,7 @@ type VirtualMachineScaleSetExtension_STATUS struct {
 
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS `json:"protectedSettingsFromKeyVault,omitempty"`
 
 	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
@@ -8826,10 +8829,13 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtectedSettingsFromKeyVault != nil {
-			extension.ProtectedSettingsFromKeyVault = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettingsFromKeyVault))
-			for key, value := range typedInput.Properties.ProtectedSettingsFromKeyVault {
-				extension.ProtectedSettingsFromKeyVault[key] = *value.DeepCopy()
+			var protectedSettingsFromKeyVault1 KeyVaultSecretReference_STATUS
+			err := protectedSettingsFromKeyVault1.PopulateFromARM(owner, *typedInput.Properties.ProtectedSettingsFromKeyVault)
+			if err != nil {
+				return err
 			}
+			protectedSettingsFromKeyVault := protectedSettingsFromKeyVault1
+			extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 		}
 	}
 
@@ -8944,13 +8950,12 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_From_V
 
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVaultMap := make(map[string]v1.JSON, len(source.ProtectedSettingsFromKeyVault))
-		for protectedSettingsFromKeyVaultKey, protectedSettingsFromKeyVaultValue := range source.ProtectedSettingsFromKeyVault {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingsFromKeyVaultValue := protectedSettingsFromKeyVaultValue
-			protectedSettingsFromKeyVaultMap[protectedSettingsFromKeyVaultKey] = *protectedSettingsFromKeyVaultValue.DeepCopy()
+		var protectedSettingsFromKeyVault KeyVaultSecretReference_STATUS
+		err := protectedSettingsFromKeyVault.AssignProperties_From_KeyVaultSecretReference_STATUS(source.ProtectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
 		}
-		extension.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVaultMap
+		extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		extension.ProtectedSettingsFromKeyVault = nil
 	}
@@ -9043,13 +9048,12 @@ func (extension *VirtualMachineScaleSetExtension_STATUS) AssignProperties_To_Vir
 
 	// ProtectedSettingsFromKeyVault
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVaultMap := make(map[string]v1.JSON, len(extension.ProtectedSettingsFromKeyVault))
-		for protectedSettingsFromKeyVaultKey, protectedSettingsFromKeyVaultValue := range extension.ProtectedSettingsFromKeyVault {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingsFromKeyVaultValue := protectedSettingsFromKeyVaultValue
-			protectedSettingsFromKeyVaultMap[protectedSettingsFromKeyVaultKey] = *protectedSettingsFromKeyVaultValue.DeepCopy()
+		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference_STATUS
+		err := extension.ProtectedSettingsFromKeyVault.AssignProperties_To_KeyVaultSecretReference_STATUS(&protectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
 		}
-		destination.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVaultMap
+		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		destination.ProtectedSettingsFromKeyVault = nil
 	}

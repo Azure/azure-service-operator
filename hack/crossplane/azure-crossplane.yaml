@@ -150,6 +150,10 @@ typeFilters:
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 
   - action: prune
+    group: azurestackhci
+    because: There are some types in here (Step) that are defined recursively.
+
+  - action: prune
     group: securityinsights
     name: Workspaces_Providers*
     because: Resource ownership is malformed

@@ -1705,6 +1705,9 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProperties_STATUS
 var virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator gopter.Gen
 
 // VirtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator returns a generator of VirtualMachineScaleSetExtensionProperties_STATUS_ARM instances for property testing.
+// We first initialize virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator() gopter.Gen {
 	if virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator != nil {
 		return virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator
@@ -1712,6 +1715,12 @@ func VirtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator() gopter.Gen 
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_STATUS_ARM(generators)
+	virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProperties_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_STATUS_ARM(generators)
 	virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProperties_STATUS_ARM{}), generators)
 
 	return virtualMachineScaleSetExtensionProperties_STATUS_ARMGenerator
@@ -1728,6 +1737,11 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionPropertie
 	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReference_STATUS_ARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetManagedDiskParameters_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -610,12 +610,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 	}
 
 	// ExpirationTimeUtc
-	if source.ExpirationTimeUtc != nil {
-		expirationTimeUtc := *source.ExpirationTimeUtc
-		subscription.ExpirationTimeUtc = &expirationTimeUtc
-	} else {
-		subscription.ExpirationTimeUtc = nil
-	}
+	subscription.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
 
 	// Filter
 	if source.Filter != nil {
@@ -697,12 +692,7 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 	}
 
 	// ExpirationTimeUtc
-	if subscription.ExpirationTimeUtc != nil {
-		expirationTimeUtc := *subscription.ExpirationTimeUtc
-		destination.ExpirationTimeUtc = &expirationTimeUtc
-	} else {
-		destination.ExpirationTimeUtc = nil
-	}
+	destination.ExpirationTimeUtc = genruntime.ClonePointerToString(subscription.ExpirationTimeUtc)
 
 	// Filter
 	if subscription.Filter != nil {

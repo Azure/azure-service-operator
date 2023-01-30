@@ -622,12 +622,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) ConvertSpecTo(destinati
 func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_Namespaces_Topics_Subscription_Spec(source *v20210101ps.Namespaces_Topics_Subscription_Spec) error {
 
 	// AutoDeleteOnIdle
-	if source.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *source.AutoDeleteOnIdle
-		subscription.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		subscription.AutoDeleteOnIdle = nil
-	}
+	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// AzureName
 	subscription.AzureName = source.AzureName
@@ -649,20 +644,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	}
 
 	// DefaultMessageTimeToLive
-	if source.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
-		subscription.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		subscription.DefaultMessageTimeToLive = nil
-	}
+	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if source.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
-		subscription.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		subscription.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
@@ -679,12 +664,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_From_N
 	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
 
 	// LockDuration
-	if source.LockDuration != nil {
-		lockDuration := *source.LockDuration
-		subscription.LockDuration = &lockDuration
-	} else {
-		subscription.LockDuration = nil
-	}
+	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
 
 	// MaxDeliveryCount
 	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
@@ -715,12 +695,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoDeleteOnIdle
-	if subscription.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *subscription.AutoDeleteOnIdle
-		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		destination.AutoDeleteOnIdle = nil
-	}
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(subscription.AutoDeleteOnIdle)
 
 	// AzureName
 	destination.AzureName = subscription.AzureName
@@ -742,20 +717,10 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	}
 
 	// DefaultMessageTimeToLive
-	if subscription.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *subscription.DefaultMessageTimeToLive
-		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		destination.DefaultMessageTimeToLive = nil
-	}
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(subscription.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if subscription.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *subscription.DuplicateDetectionHistoryTimeWindow
-		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		destination.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(subscription.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if subscription.EnableBatchedOperations != nil {
@@ -772,12 +737,7 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 	destination.ForwardTo = genruntime.ClonePointerToString(subscription.ForwardTo)
 
 	// LockDuration
-	if subscription.LockDuration != nil {
-		lockDuration := *subscription.LockDuration
-		destination.LockDuration = &lockDuration
-	} else {
-		destination.LockDuration = nil
-	}
+	destination.LockDuration = genruntime.ClonePointerToString(subscription.LockDuration)
 
 	// MaxDeliveryCount
 	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(subscription.MaxDeliveryCount)

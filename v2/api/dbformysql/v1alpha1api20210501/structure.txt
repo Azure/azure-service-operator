@@ -52,7 +52,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501
 │   │   │   ├── "None"
 │   │   │   ├── "Replica"
 │   │   │   └── "Source"
-│   │   ├── RestorePointInTime: Validated<*string> (0 rules)
+│   │   ├── RestorePointInTime: *string
 │   │   ├── Sku: *Object (2 properties)
 │   │   │   ├── Name: *string
 │   │   │   └── Tier: *Enum (3 values)
