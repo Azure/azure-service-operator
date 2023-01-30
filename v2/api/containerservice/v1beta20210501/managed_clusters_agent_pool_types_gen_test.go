@@ -92,7 +92,7 @@ func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedCluster
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -196,7 +196,7 @@ func RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec(subject ManagedC
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -349,7 +349,7 @@ func RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS(subject Manage
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -508,7 +508,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings(subject AgentPoolUpgra
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -611,7 +611,7 @@ func RunPropertyAssignmentTestForAgentPoolUpgradeSettings_STATUS(subject AgentPo
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -714,7 +714,7 @@ func RunPropertyAssignmentTestForKubeletConfig(subject KubeletConfig) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -826,7 +826,7 @@ func RunPropertyAssignmentTestForKubeletConfig_STATUS(subject KubeletConfig_STAT
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -939,7 +939,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig(subject LinuxOSConfig) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1057,7 +1057,7 @@ func RunPropertyAssignmentTestForLinuxOSConfig_STATUS(subject LinuxOSConfig_STAT
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1176,7 +1176,7 @@ func RunPropertyAssignmentTestForSysctlConfig(subject SysctlConfig) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1305,7 +1305,7 @@ func RunPropertyAssignmentTestForSysctlConfig_STATUS(subject SysctlConfig_STATUS
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

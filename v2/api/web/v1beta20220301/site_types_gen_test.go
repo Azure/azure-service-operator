@@ -92,7 +92,7 @@ func RunPropertyAssignmentTestForSite(subject Site) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -195,7 +195,7 @@ func RunPropertyAssignmentTestForSite_Spec(subject Site_Spec) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -345,7 +345,7 @@ func RunPropertyAssignmentTestForSite_STATUS(subject Site_STATUS) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -453,7 +453,7 @@ func RunPropertyAssignmentTestForCloningInfo(subject CloningInfo) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -563,7 +563,7 @@ func RunPropertyAssignmentTestForCloningInfo_STATUS(subject CloningInfo_STATUS) 
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -675,7 +675,7 @@ func RunPropertyAssignmentTestForHostNameSslState(subject HostNameSslState) stri
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -782,7 +782,7 @@ func RunPropertyAssignmentTestForHostNameSslState_STATUS(subject HostNameSslStat
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -890,7 +890,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceId
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -997,7 +997,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedSe
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1120,7 +1120,7 @@ func RunPropertyAssignmentTestForSiteConfig(subject SiteConfig) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1235,7 +1235,7 @@ func RunPropertyAssignmentTestForSiteConfig_STATUS(subject SiteConfig_STATUS) st
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1351,7 +1351,7 @@ func RunPropertyAssignmentTestForSlotSwapStatus_STATUS(subject SlotSwapStatus_ST
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1456,7 +1456,7 @@ func RunPropertyAssignmentTestForApiDefinitionInfo(subject ApiDefinitionInfo) st
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1558,7 +1558,7 @@ func RunPropertyAssignmentTestForApiDefinitionInfo_STATUS(subject ApiDefinitionI
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1661,7 +1661,7 @@ func RunPropertyAssignmentTestForApiManagementConfig(subject ApiManagementConfig
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1758,7 +1758,7 @@ func RunPropertyAssignmentTestForApiManagementConfig_STATUS(subject ApiManagemen
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1861,7 +1861,7 @@ func RunPropertyAssignmentTestForAutoHealRules(subject AutoHealRules) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1964,7 +1964,7 @@ func RunPropertyAssignmentTestForAutoHealRules_STATUS(subject AutoHealRules_STAT
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2068,7 +2068,7 @@ func RunPropertyAssignmentTestForAzureStorageInfoValue(subject AzureStorageInfoV
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2174,7 +2174,7 @@ func RunPropertyAssignmentTestForAzureStorageInfoValue_STATUS(subject AzureStora
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2285,7 +2285,7 @@ func RunPropertyAssignmentTestForConnStringInfo(subject ConnStringInfo) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2400,7 +2400,7 @@ func RunPropertyAssignmentTestForConnStringInfo_STATUS(subject ConnStringInfo_ST
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2516,7 +2516,7 @@ func RunPropertyAssignmentTestForCorsSettings(subject CorsSettings) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2619,7 +2619,7 @@ func RunPropertyAssignmentTestForCorsSettings_STATUS(subject CorsSettings_STATUS
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2723,7 +2723,7 @@ func RunPropertyAssignmentTestForExperiments(subject Experiments) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2825,7 +2825,7 @@ func RunPropertyAssignmentTestForExperiments_STATUS(subject Experiments_STATUS) 
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2927,7 +2927,7 @@ func RunPropertyAssignmentTestForHandlerMapping(subject HandlerMapping) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3031,7 +3031,7 @@ func RunPropertyAssignmentTestForHandlerMapping_STATUS(subject HandlerMapping_ST
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3136,7 +3136,7 @@ func RunPropertyAssignmentTestForIpSecurityRestriction(subject IpSecurityRestric
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3248,7 +3248,7 @@ func RunPropertyAssignmentTestForIpSecurityRestriction_STATUS(subject IpSecurity
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3361,7 +3361,7 @@ func RunPropertyAssignmentTestForNameValuePair(subject NameValuePair) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3464,7 +3464,7 @@ func RunPropertyAssignmentTestForNameValuePair_STATUS(subject NameValuePair_STAT
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3568,7 +3568,7 @@ func RunPropertyAssignmentTestForPushSettings(subject PushSettings) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3674,7 +3674,7 @@ func RunPropertyAssignmentTestForPushSettings_STATUS(subject PushSettings_STATUS
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3784,7 +3784,7 @@ func RunPropertyAssignmentTestForSiteLimits(subject SiteLimits) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3888,7 +3888,7 @@ func RunPropertyAssignmentTestForSiteLimits_STATUS(subject SiteLimits_STATUS) st
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -3992,7 +3992,7 @@ func RunPropertyAssignmentTestForSiteMachineKey_STATUS(subject SiteMachineKey_ST
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4098,7 +4098,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4202,7 +4202,7 @@ func RunPropertyAssignmentTestForVirtualApplication(subject VirtualApplication) 
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4320,7 +4320,7 @@ func RunPropertyAssignmentTestForVirtualApplication_STATUS(subject VirtualApplic
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4439,7 +4439,7 @@ func RunPropertyAssignmentTestForAutoHealActions(subject AutoHealActions) string
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4556,7 +4556,7 @@ func RunPropertyAssignmentTestForAutoHealActions_STATUS(subject AutoHealActions_
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4674,7 +4674,7 @@ func RunPropertyAssignmentTestForAutoHealTriggers(subject AutoHealTriggers) stri
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4794,7 +4794,7 @@ func RunPropertyAssignmentTestForAutoHealTriggers_STATUS(subject AutoHealTrigger
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -4915,7 +4915,7 @@ func RunPropertyAssignmentTestForRampUpRule(subject RampUpRule) string {
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5024,7 +5024,7 @@ func RunPropertyAssignmentTestForRampUpRule_STATUS(subject RampUpRule_STATUS) st
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5133,7 +5133,7 @@ func RunPropertyAssignmentTestForVirtualDirectory(subject VirtualDirectory) stri
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5236,7 +5236,7 @@ func RunPropertyAssignmentTestForVirtualDirectory_STATUS(subject VirtualDirector
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5340,7 +5340,7 @@ func RunPropertyAssignmentTestForAutoHealCustomAction(subject AutoHealCustomActi
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5444,7 +5444,7 @@ func RunPropertyAssignmentTestForAutoHealCustomAction_STATUS(subject AutoHealCus
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5548,7 +5548,7 @@ func RunPropertyAssignmentTestForRequestsBasedTrigger(subject RequestsBasedTrigg
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5652,7 +5652,7 @@ func RunPropertyAssignmentTestForRequestsBasedTrigger_STATUS(subject RequestsBas
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5756,7 +5756,7 @@ func RunPropertyAssignmentTestForSlowRequestsBasedTrigger(subject SlowRequestsBa
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5862,7 +5862,7 @@ func RunPropertyAssignmentTestForSlowRequestsBasedTrigger_STATUS(subject SlowReq
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -5968,7 +5968,7 @@ func RunPropertyAssignmentTestForStatusCodesBasedTrigger(subject StatusCodesBase
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -6076,7 +6076,7 @@ func RunPropertyAssignmentTestForStatusCodesBasedTrigger_STATUS(subject StatusCo
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -6184,7 +6184,7 @@ func RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger(subject StatusCode
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -6290,7 +6290,7 @@ func RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger_STATUS(subject Sta
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

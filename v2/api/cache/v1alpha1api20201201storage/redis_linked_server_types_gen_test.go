@@ -92,7 +92,7 @@ func RunPropertyAssignmentTestForRedisLinkedServer(subject RedisLinkedServer) st
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -195,7 +195,7 @@ func RunPropertyAssignmentTestForRedis_LinkedServer_Spec(subject Redis_LinkedSer
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -301,7 +301,7 @@ func RunPropertyAssignmentTestForRedis_LinkedServer_STATUS(subject Redis_LinkedS
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

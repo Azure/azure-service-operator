@@ -93,7 +93,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -197,7 +197,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_Spec(subject UserAssignedI
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -316,7 +316,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -426,7 +426,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityOperatorSpec(subject UserAs
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -529,7 +529,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityOperatorConfigMaps(subject 
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

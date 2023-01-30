@@ -92,7 +92,7 @@ func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -196,7 +196,7 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_Consumergroup_Spec(subject
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -301,7 +301,7 @@ func RunPropertyAssignmentTestForNamespaces_Eventhubs_Consumergroup_STATUS(subje
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

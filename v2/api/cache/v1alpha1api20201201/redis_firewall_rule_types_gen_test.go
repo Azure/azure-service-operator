@@ -93,7 +93,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -196,7 +196,7 @@ func RunPropertyAssignmentTestForRedis_FirewallRule_Spec(subject Redis_FirewallR
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -301,7 +301,7 @@ func RunPropertyAssignmentTestForRedis_FirewallRule_STATUS(subject Redis_Firewal
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

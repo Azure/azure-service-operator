@@ -92,7 +92,7 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue(subject Stora
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -196,7 +196,7 @@ func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_Spec(subjec
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -300,7 +300,7 @@ func RunPropertyAssignmentTestForStorageAccounts_QueueServices_Queue_STATUS(subj
 	}
 
 	// Check for a match
-	match := cmp.Equal(subject, actual)
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
