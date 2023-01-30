@@ -31,9 +31,9 @@ import (
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
@@ -48,7 +48,7 @@ func GetKnownStorageTypes(
 	armClientFactory arm.ARMClientFactory,
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options controllers.Options) ([]*registration.StorageType, error) {
+	options generic.Options) ([]*registration.StorageType, error) {
 
 	resourceResolver := resolver.NewResolver(kubeClient)
 	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armClientFactory, kubeClient, resourceResolver, positiveConditions, options)
@@ -95,7 +95,7 @@ func getGeneratedStorageTypes(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options controllers.Options) ([]*registration.StorageType, error) {
+	options generic.Options) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
 
 	knownStorageTypes = append(
@@ -159,7 +159,7 @@ func augmentWithARMReconciler(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	options controllers.Options,
+	options generic.Options,
 	extension genruntime.ResourceExtension,
 	t *registration.StorageType) {
 	t.Reconciler = arm.NewAzureDeploymentReconciler(

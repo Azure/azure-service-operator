@@ -365,7 +365,7 @@ tasks:
     cmds:
     # -race fails at the moment in controller-runtime
     # We run these in sequence right now because it doesn't gain us much speed to go in parallel
-    - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+    - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/controllers
     - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/genruntime/test
     - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/genericarmclient
     vars:
@@ -379,7 +379,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:run-kustomize-for-envtest]
     cmds:
-       - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -args -live
+       - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./pkg/controllers -args -live
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
@@ -406,7 +406,7 @@ tasks:
           INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
           OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/controllers > '{{.TEST_OUT}}/controller-integration-tests.json'
     - go test -covermode atomic -coverprofile=coverage-integration-genruntime-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./pkg/genruntime/test > '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
     - go test -covermode atomic -coverprofile=coverage-integration-genericarmclient-envtest.out -coverpkg="./..." -json -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/genericarmclient > '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
 
@@ -416,7 +416,7 @@ tasks:
     deps: [controller:run-kustomize-for-envtest, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers -args -live
+    - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./pkg/controllers -args -live
     env:
       RECORD_REPLAY: 0
 
