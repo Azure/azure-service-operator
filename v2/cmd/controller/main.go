@@ -27,7 +27,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	genericcontroller "github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -36,6 +36,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/controllers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -134,7 +135,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		err = controllers.RegisterAll(
+		err = genericcontroller.RegisterAll(
 			mgr,
 			mgr.GetFieldIndexer(),
 			kubeClient,
@@ -148,7 +149,7 @@ func main() {
 	}
 
 	if cfg.OperatorMode.IncludesWebhooks() {
-		if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
+		if errs := genericcontroller.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
@@ -168,8 +169,8 @@ func main() {
 	}
 }
 
-func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Options {
-	return controllers.Options{
+func makeControllerOptions(log logr.Logger, cfg config.Values) genericcontroller.Options {
+	return genericcontroller.Options{
 		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
@@ -182,7 +183,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Optio
 				return log.WithValues("namespace", req.Namespace, "name", req.Name)
 			},
 			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
-			RateLimiter: controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
+			RateLimiter: genericcontroller.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 		RequeueIntervalCalculator: interval.NewCalculator(
 			// These rate limits are primarily for ReadyConditionImpactingError's

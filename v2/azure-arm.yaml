@@ -7,7 +7,7 @@ typesOutputPath: api
 
 # typeRegistrationOutputFile specifies the output file name for registration code, relative to the directory 
 # containing the mod file above.
-typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
+typeRegistrationOutputFile: pkg/controllers/controller_resources_gen.go
 
 # rootUrl is the root URL for ASOv2 repo
 rootUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/
