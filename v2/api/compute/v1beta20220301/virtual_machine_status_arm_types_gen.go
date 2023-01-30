@@ -409,7 +409,7 @@ type VirtualMachineExtensionProperties_STATUS_ARM struct {
 
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS_ARM `json:"protectedSettingsFromKeyVault,omitempty"`
 
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -666,6 +666,15 @@ type InstanceViewStatus_STATUS_ARM struct {
 
 	// Time: The time of the status.
 	Time *string `json:"time,omitempty"`
+}
+
+// Describes a reference to Key Vault Secret
+type KeyVaultSecretReference_STATUS_ARM struct {
+	// SecretUrl: The URL referencing a secret in a Key Vault.
+	SecretUrl *string `json:"secretUrl,omitempty"`
+
+	// SourceVault: The relative URL of the Key Vault containing the secret.
+	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 
 // Specifies the Linux operating system settings on the virtual machine.
@@ -1247,15 +1256,6 @@ type KeyVaultKeyReference_STATUS_ARM struct {
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	// SourceVault: The relative URL of the Key Vault containing the key.
-	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
-}
-
-// Describes a reference to Key Vault Secret
-type KeyVaultSecretReference_STATUS_ARM struct {
-	// SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl *string `json:"secretUrl,omitempty"`
-
-	// SourceVault: The relative URL of the Key Vault containing the secret.
 	SourceVault *SubResource_STATUS_ARM `json:"sourceVault,omitempty"`
 }
 

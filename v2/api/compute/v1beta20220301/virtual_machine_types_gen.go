@@ -6496,7 +6496,7 @@ type VirtualMachineExtension_STATUS struct {
 
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS `json:"protectedSettingsFromKeyVault,omitempty"`
 
 	// ProvisioningState: The provisioning state, which only appears in the response.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
@@ -6618,10 +6618,13 @@ func (extension *VirtualMachineExtension_STATUS) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtectedSettingsFromKeyVault != nil {
-			extension.ProtectedSettingsFromKeyVault = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettingsFromKeyVault))
-			for key, value := range typedInput.Properties.ProtectedSettingsFromKeyVault {
-				extension.ProtectedSettingsFromKeyVault[key] = *value.DeepCopy()
+			var protectedSettingsFromKeyVault1 KeyVaultSecretReference_STATUS
+			err := protectedSettingsFromKeyVault1.PopulateFromARM(owner, *typedInput.Properties.ProtectedSettingsFromKeyVault)
+			if err != nil {
+				return err
 			}
+			protectedSettingsFromKeyVault := protectedSettingsFromKeyVault1
+			extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 		}
 	}
 
@@ -6751,13 +6754,12 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_From_VirtualMa
 
 	// ProtectedSettingsFromKeyVault
 	if source.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVaultMap := make(map[string]v1.JSON, len(source.ProtectedSettingsFromKeyVault))
-		for protectedSettingsFromKeyVaultKey, protectedSettingsFromKeyVaultValue := range source.ProtectedSettingsFromKeyVault {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingsFromKeyVaultValue := protectedSettingsFromKeyVaultValue
-			protectedSettingsFromKeyVaultMap[protectedSettingsFromKeyVaultKey] = *protectedSettingsFromKeyVaultValue.DeepCopy()
+		var protectedSettingsFromKeyVault KeyVaultSecretReference_STATUS
+		err := protectedSettingsFromKeyVault.AssignProperties_From_KeyVaultSecretReference_STATUS(source.ProtectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
 		}
-		extension.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVaultMap
+		extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		extension.ProtectedSettingsFromKeyVault = nil
 	}
@@ -6865,13 +6867,12 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 
 	// ProtectedSettingsFromKeyVault
 	if extension.ProtectedSettingsFromKeyVault != nil {
-		protectedSettingsFromKeyVaultMap := make(map[string]v1.JSON, len(extension.ProtectedSettingsFromKeyVault))
-		for protectedSettingsFromKeyVaultKey, protectedSettingsFromKeyVaultValue := range extension.ProtectedSettingsFromKeyVault {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingsFromKeyVaultValue := protectedSettingsFromKeyVaultValue
-			protectedSettingsFromKeyVaultMap[protectedSettingsFromKeyVaultKey] = *protectedSettingsFromKeyVaultValue.DeepCopy()
+		var protectedSettingsFromKeyVault v20220301s.KeyVaultSecretReference_STATUS
+		err := extension.ProtectedSettingsFromKeyVault.AssignProperties_To_KeyVaultSecretReference_STATUS(&protectedSettingsFromKeyVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
 		}
-		destination.ProtectedSettingsFromKeyVault = protectedSettingsFromKeyVaultMap
+		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
 	} else {
 		destination.ProtectedSettingsFromKeyVault = nil
 	}
@@ -9841,6 +9842,103 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_
 
 	// Time
 	destination.Time = genruntime.ClonePointerToString(status.Time)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Describes a reference to Key Vault Secret
+type KeyVaultSecretReference_STATUS struct {
+	// SecretUrl: The URL referencing a secret in a Key Vault.
+	SecretUrl *string `json:"secretUrl,omitempty"`
+
+	// SourceVault: The relative URL of the Key Vault containing the secret.
+	SourceVault *SubResource_STATUS `json:"sourceVault,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &KeyVaultSecretReference_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (reference *KeyVaultSecretReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultSecretReference_STATUS_ARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (reference *KeyVaultSecretReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(KeyVaultSecretReference_STATUS_ARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_STATUS_ARM, got %T", armInput)
+	}
+
+	// Set property ‘SecretUrl’:
+	if typedInput.SecretUrl != nil {
+		secretUrl := *typedInput.SecretUrl
+		reference.SecretUrl = &secretUrl
+	}
+
+	// Set property ‘SourceVault’:
+	if typedInput.SourceVault != nil {
+		var sourceVault1 SubResource_STATUS
+		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
+		if err != nil {
+			return err
+		}
+		sourceVault := sourceVault1
+		reference.SourceVault = &sourceVault
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_KeyVaultSecretReference_STATUS populates our KeyVaultSecretReference_STATUS from the provided source KeyVaultSecretReference_STATUS
+func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultSecretReference_STATUS(source *v20220301s.KeyVaultSecretReference_STATUS) error {
+
+	// SecretUrl
+	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
+
+	// SourceVault
+	if source.SourceVault != nil {
+		var sourceVault SubResource_STATUS
+		err := sourceVault.AssignProperties_From_SubResource_STATUS(source.SourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault")
+		}
+		reference.SourceVault = &sourceVault
+	} else {
+		reference.SourceVault = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KeyVaultSecretReference_STATUS populates the provided destination KeyVaultSecretReference_STATUS from our KeyVaultSecretReference_STATUS
+func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSecretReference_STATUS(destination *v20220301s.KeyVaultSecretReference_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// SecretUrl
+	destination.SecretUrl = genruntime.ClonePointerToString(reference.SecretUrl)
+
+	// SourceVault
+	if reference.SourceVault != nil {
+		var sourceVault v20220301s.SubResource_STATUS
+		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&sourceVault)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault")
+		}
+		destination.SourceVault = &sourceVault
+	} else {
+		destination.SourceVault = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -19782,103 +19880,6 @@ func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretRefe
 		err := reference.SourceVault.AssignProperties_To_SubResource(&sourceVault)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SourceVault")
-		}
-		destination.SourceVault = &sourceVault
-	} else {
-		destination.SourceVault = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Describes a reference to Key Vault Secret
-type KeyVaultSecretReference_STATUS struct {
-	// SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl *string `json:"secretUrl,omitempty"`
-
-	// SourceVault: The relative URL of the Key Vault containing the secret.
-	SourceVault *SubResource_STATUS `json:"sourceVault,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &KeyVaultSecretReference_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (reference *KeyVaultSecretReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSecretReference_STATUS_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (reference *KeyVaultSecretReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSecretReference_STATUS_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSecretReference_STATUS_ARM, got %T", armInput)
-	}
-
-	// Set property ‘SecretUrl’:
-	if typedInput.SecretUrl != nil {
-		secretUrl := *typedInput.SecretUrl
-		reference.SecretUrl = &secretUrl
-	}
-
-	// Set property ‘SourceVault’:
-	if typedInput.SourceVault != nil {
-		var sourceVault1 SubResource_STATUS
-		err := sourceVault1.PopulateFromARM(owner, *typedInput.SourceVault)
-		if err != nil {
-			return err
-		}
-		sourceVault := sourceVault1
-		reference.SourceVault = &sourceVault
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_KeyVaultSecretReference_STATUS populates our KeyVaultSecretReference_STATUS from the provided source KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference_STATUS) AssignProperties_From_KeyVaultSecretReference_STATUS(source *v20220301s.KeyVaultSecretReference_STATUS) error {
-
-	// SecretUrl
-	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SubResource_STATUS
-		err := sourceVault.AssignProperties_From_SubResource_STATUS(source.SourceVault)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SourceVault")
-		}
-		reference.SourceVault = &sourceVault
-	} else {
-		reference.SourceVault = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_KeyVaultSecretReference_STATUS populates the provided destination KeyVaultSecretReference_STATUS from our KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSecretReference_STATUS(destination *v20220301s.KeyVaultSecretReference_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// SecretUrl
-	destination.SecretUrl = genruntime.ClonePointerToString(reference.SecretUrl)
-
-	// SourceVault
-	if reference.SourceVault != nil {
-		var sourceVault v20220301s.SubResource_STATUS
-		err := reference.SourceVault.AssignProperties_To_SubResource_STATUS(&sourceVault)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SourceVault")
 		}
 		destination.SourceVault = &sourceVault
 	} else {

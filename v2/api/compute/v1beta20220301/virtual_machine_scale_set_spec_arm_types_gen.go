@@ -621,7 +621,7 @@ type VirtualMachineScaleSetExtensionProperties_ARM struct {
 
 	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
 	// vault
-	ProtectedSettingsFromKeyVault map[string]v1.JSON `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_ARM `json:"protectedSettingsFromKeyVault,omitempty"`
 
 	// ProvisionAfterExtensions: Collection of extension names after which this extension needs to be provisioned.
 	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`

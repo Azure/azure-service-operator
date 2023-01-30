@@ -803,7 +803,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │       │   ├── PropertiesType: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── ProtectedSettings: map[string]v1.JSON
-│       │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+│       │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── SecretUrl: *string
+│       │   │   └── SourceVault: *Object (2 properties)
+│       │   │       ├── Id: *string
+│       │   │       └── PropertyBag: genruntime.PropertyBag
 │       │   ├── ProvisioningState: *string
 │       │   ├── Publisher: *string
 │       │   ├── Settings: map[string]v1.JSON
@@ -1030,7 +1035,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
     │   │   │   │   ├── Name: *string
     │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-    │   │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+    │   │   │   │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+    │   │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │   ├── SecretUrl: *string
+    │   │   │   │   │   └── SourceVault: *Object (2 properties)
+    │   │   │   │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   │   │       └── Reference: *genruntime.ResourceReference
     │   │   │   │   ├── ProvisionAfterExtensions: string[]
     │   │   │   │   ├── Publisher: *string
     │   │   │   │   ├── Settings: map[string]v1.JSON
@@ -1359,7 +1369,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
         │   │   │   ├── PropertiesType: *string
         │   │   │   ├── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── ProtectedSettings: map[string]v1.JSON
-        │   │   │   ├── ProtectedSettingsFromKeyVault: map[string]v1.JSON
+        │   │   │   ├── ProtectedSettingsFromKeyVault: *Object (3 properties)
+        │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+        │   │   │   │   ├── SecretUrl: *string
+        │   │   │   │   └── SourceVault: *Object (2 properties)
+        │   │   │   │       ├── Id: *string
+        │   │   │   │       └── PropertyBag: genruntime.PropertyBag
         │   │   │   ├── ProvisionAfterExtensions: string[]
         │   │   │   ├── ProvisioningState: *string
         │   │   │   ├── Publisher: *string

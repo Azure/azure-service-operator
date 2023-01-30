@@ -1695,6 +1695,9 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProperties_ARM(su
 var virtualMachineScaleSetExtensionProperties_ARMGenerator gopter.Gen
 
 // VirtualMachineScaleSetExtensionProperties_ARMGenerator returns a generator of VirtualMachineScaleSetExtensionProperties_ARM instances for property testing.
+// We first initialize virtualMachineScaleSetExtensionProperties_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineScaleSetExtensionProperties_ARMGenerator() gopter.Gen {
 	if virtualMachineScaleSetExtensionProperties_ARMGenerator != nil {
 		return virtualMachineScaleSetExtensionProperties_ARMGenerator
@@ -1702,6 +1705,12 @@ func VirtualMachineScaleSetExtensionProperties_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_ARM(generators)
+	virtualMachineScaleSetExtensionProperties_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProperties_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_ARM(generators)
 	virtualMachineScaleSetExtensionProperties_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProperties_ARM{}), generators)
 
 	return virtualMachineScaleSetExtensionProperties_ARMGenerator
@@ -1717,6 +1726,11 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionPropertie
 	gens["SuppressFailures"] = gen.PtrOf(gen.Bool())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProperties_ARM(gens map[string]gopter.Gen) {
+	gens["ProtectedSettingsFromKeyVault"] = gen.PtrOf(KeyVaultSecretReference_ARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetManagedDiskParameters_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

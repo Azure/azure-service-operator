@@ -10693,7 +10693,7 @@ type PushSettings struct {
 	// Kind: Kind of resource.
 	Kind *string `json:"kind,omitempty"`
 
-	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
+	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are in the allowed list for use by the push
 	// registration endpoint.
 	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
 
@@ -10885,7 +10885,7 @@ type PushSettings_STATUS struct {
 	// Name: Resource Name.
 	Name *string `json:"name,omitempty"`
 
-	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
+	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are in the allowed list for use by the push
 	// registration endpoint.
 	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
 
