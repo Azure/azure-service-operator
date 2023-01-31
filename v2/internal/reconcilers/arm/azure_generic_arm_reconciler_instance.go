@@ -275,10 +275,14 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 		return ctrl.Result{}, impactingError
 	}
 
-	// If the check says we don't need to reconcile, we're done
-	// We use a ReadyConditionImpactingError here to ensure the Ready condition is updated so the user can see why
-	// we're not reconciling right now. We'll try again later.
-	if !check.ShouldReconcile() {
+	// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
+	if check.PostponeReconciliation() {
+		return ctrl.Result{}, nil
+	}
+
+	// If the check says we're blocking reconcile, we return ReadyConditionImpactingError here to update the Ready
+	// condition is updated so the user can see why we're not reconciling right now, and to trigger a retry in a bit.
+	if check.BlockReconciliation() {
 		return ctrl.Result{}, check.CreateConditionError()
 	}
 

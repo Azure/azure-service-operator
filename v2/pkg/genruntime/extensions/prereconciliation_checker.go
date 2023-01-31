@@ -78,19 +78,20 @@ func BlockReconcile(reason string) PreReconcileCheckResult {
 
 // PostponeReconcile indicates reconciliation of a resource is not currently required by returning a
 // PreReconcileCheckResult with action `Postpone`.
-// reason is an explanatory reason to show to the user via an info condition on the resource.
-func PostponeReconcile(reason string) PreReconcileCheckResult {
+func PostponeReconcile() PreReconcileCheckResult {
 	return PreReconcileCheckResult{
 		action:   preReconcileCheckResultTypePostpone,
 		severity: conditions.ConditionSeverityInfo,
 		reason:   conditions.ReasonReconcilePostponed,
-		message:  reason,
 	}
 }
 
-// ShouldReconcile returns true if the provided PreReconcileCheckResult indicates that the resource should be reconciled.
-func (r PreReconcileCheckResult) ShouldReconcile() bool {
-	return r.action == preReconcileCheckResultTypeProceed
+func (r PreReconcileCheckResult) PostponeReconciliation() bool {
+	return r.action == preReconcileCheckResultTypePostpone
+}
+
+func (r PreReconcileCheckResult) BlockReconciliation() bool {
+	return r.action == preReconcileCheckResultTypeBlock
 }
 
 // CreateConditionError returns an error that can be used to set a condition on the resource.
