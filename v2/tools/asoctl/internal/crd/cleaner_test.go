@@ -16,26 +16,34 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/fake"
+	apiextensions "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	fake2 "sigs.k8s.io/controller-runtime/pkg/client/fake"
 )
 
-var fakeApiExtClient = fake.NewSimpleClientset().ApiextensionsV1()
-var fakeClient = fake2.NewClientBuilder().WithScheme(controllers.CreateScheme()).Build()
-
-var cleaner = NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, false)
+// TODO: Currently we need to create clientsets for each test as they run in parallel and we run into `resource already exists` error.
+// TODO: We may require a testing suite re-use the clientsets efficiently.
+func getClientSets() (apiextensions.ApiextensionsV1Interface, client.WithWatch, *Cleaner) {
+	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
+	fakeClient := fake2.NewClientBuilder().WithScheme(controllers.CreateScheme()).Build()
+	cleaner := NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, false)
+	return fakeApiExtClient, fakeClient, cleaner
+}
 
 func Test_CleanDeprecatedCRDVersions_CleansAlphaVersion_IfExists(t *testing.T) {
 	t.Parallel()
+
+	fakeApiExtClient, _, cleaner := getClientSets()
+
 	asserter := NewGomegaWithT(t)
 
-	crdName := "resourcegroups.resources.azure.com"
 	alphaVersion := "v1alpha1api20200601"
 	betaVersion := "v1beta20200601"
 
-	definition := crdWithStoredVersions(crdName, alphaVersion, betaVersion)
+	definition := newCRDWithStoredVersions("v1alpha1api20200601", "v1beta20200601")
 
 	_, err := fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	asserter.Expect(err).To(BeNil())
@@ -43,11 +51,11 @@ func Test_CleanDeprecatedCRDVersions_CleansAlphaVersion_IfExists(t *testing.T) {
 	err = cleaner.Run(context.TODO())
 	asserter.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), crdName, metav1.GetOptions{})
+	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	asserter.Expect(err).To(BeNil())
 
 	asserter.Expect(crd.Status.StoredVersions).ToNot(BeNil())
-	asserter.Expect(crd.Status.StoredVersions).ToNot(HaveLen(2))
+	asserter.Expect(crd.Status.StoredVersions).ToNot(BeEquivalentTo(definition.Status.StoredVersions))
 	asserter.Expect(crd.Status.StoredVersions).ToNot(ContainElement(alphaVersion))
 	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(betaVersion))
 }
@@ -56,12 +64,13 @@ func Test_MigrateDeprecatedCRDResources_MigrateAlphaVersion_IfStorage(t *testing
 	t.Parallel()
 	asserter := NewGomegaWithT(t)
 
-	crdName := "resourcegroups.resources.azure.com"
+	fakeApiExtClient, fakeClient, cleaner := getClientSets()
+
 	alphaVersion := "v1alpha1api20200601"
 	betaVersion := "v1beta20200601"
 
 	// create CRD
-	definition := crdWithStoredVersions(crdName, alphaVersion, betaVersion)
+	definition := newCRDWithStoredVersions(alphaVersion, betaVersion)
 	definition.Spec.Versions = []v1.CustomResourceDefinitionVersion{
 		{
 			Name:    alphaVersion,
@@ -89,7 +98,7 @@ func Test_MigrateDeprecatedCRDResources_MigrateAlphaVersion_IfStorage(t *testing
 	err = cleaner.Run(context.TODO())
 	asserter.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), crdName, metav1.GetOptions{})
+	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	asserter.Expect(err).To(BeNil())
 
 	var updatedRG resources.ResourceGroup
@@ -97,10 +106,8 @@ func Test_MigrateDeprecatedCRDResources_MigrateAlphaVersion_IfStorage(t *testing
 	asserter.Expect(err).To(BeNil())
 	asserter.Expect(updatedRG.ResourceVersion).ToNot(BeEquivalentTo(rg.ResourceVersion))
 
-	println(updatedRG.APIVersion)
-
 	asserter.Expect(crd.Status.StoredVersions).ToNot(BeNil())
-	asserter.Expect(crd.Status.StoredVersions).ToNot(HaveLen(2))
+	asserter.Expect(crd.Status.StoredVersions).ToNot(BeEquivalentTo(definition.Status.StoredVersions))
 	asserter.Expect(crd.Status.StoredVersions).ToNot(ContainElement(alphaVersion))
 	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(betaVersion))
 }
@@ -109,12 +116,13 @@ func Test_MigrateDeprecatedCRDResources_NoMigration_IfNotStorage(t *testing.T) {
 	t.Parallel()
 	asserter := NewGomegaWithT(t)
 
-	crdName := "resourcegroups.resources.azure.com"
+	fakeApiExtClient, fakeClient, cleaner := getClientSets()
+
 	alphaVersion := "v1alpha1api20200601"
 	betaVersion := "v1beta20200601"
 
 	// create CRD
-	definition := crdWithStoredVersions(crdName, alphaVersion, betaVersion)
+	definition := newCRDWithStoredVersions(alphaVersion, betaVersion)
 	definition.Spec.Versions = []v1.CustomResourceDefinitionVersion{
 		{
 			Name: alphaVersion,
@@ -132,7 +140,6 @@ func Test_MigrateDeprecatedCRDResources_NoMigration_IfNotStorage(t *testing.T) {
 
 	// create Namespace
 	err = fakeClient.Create(context.TODO(), ns)
-	asserter.Expect(err).To(BeNil())
 
 	// create ResourceGroup
 	rg := newResourceGroup("test-rg", ns.Name)
@@ -142,7 +149,7 @@ func Test_MigrateDeprecatedCRDResources_NoMigration_IfNotStorage(t *testing.T) {
 	err = cleaner.Run(context.TODO())
 	asserter.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), crdName, metav1.GetOptions{})
+	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	asserter.Expect(err).To(BeNil())
 
 	var updatedRG resources.ResourceGroup
@@ -151,54 +158,56 @@ func Test_MigrateDeprecatedCRDResources_NoMigration_IfNotStorage(t *testing.T) {
 	asserter.Expect(updatedRG.ResourceVersion).To(BeEquivalentTo(rg.ResourceVersion))
 
 	asserter.Expect(crd.Status.StoredVersions).ToNot(BeNil())
-	asserter.Expect(crd.Status.StoredVersions).ToNot(HaveLen(2))
+	asserter.Expect(crd.Status.StoredVersions).ToNot(BeEquivalentTo(definition.Status.StoredVersions))
 	asserter.Expect(crd.Status.StoredVersions).ToNot(ContainElement(alphaVersion))
 	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(betaVersion))
 }
 
 func Test_CleanDeprecatedCRDVersions_DoesNothing_IfAlphaVersionDoesNotExist(t *testing.T) {
 	t.Parallel()
-
 	asserter := NewGomegaWithT(t)
-	crdName := "foo.bar.azure.com"
+
+	fakeApiExtClient, _, cleaner := getClientSets()
+
 	betaVersion := "v1beta20230101storage"
 
-	definition := crdWithStoredVersions(crdName, betaVersion)
+	definition := newCRDWithStoredVersions(betaVersion)
 
-	_, err2 := fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
-	if err2 != nil {
+	_, err := fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	if err != nil {
 		return
 	}
 
-	err := cleaner.Run(context.TODO())
+	err = cleaner.Run(context.TODO())
 	asserter.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), crdName, metav1.GetOptions{})
+	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	asserter.Expect(err).To(BeNil())
 
 	asserter.Expect(crd.Status.StoredVersions).ToNot(BeNil())
-	asserter.Expect(crd.Status.StoredVersions).To(HaveLen(1))
+	asserter.Expect(crd.Status.StoredVersions).To(BeEquivalentTo(definition.Status.StoredVersions))
 	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(betaVersion))
 }
 
 func Test_CleanDeprecatedCRDVersions_DoesNothing_BetaVersionDoesNotExist(t *testing.T) {
 	t.Parallel()
-
 	asserter := NewGomegaWithT(t)
-	crdName := "foo.bar.azure.com"
+
+	fakeApiExtClient, _, cleaner := getClientSets()
+
 	alphaVersion := "v1alpha1api20230101storage"
 
-	definition := crdWithStoredVersions(crdName, alphaVersion)
+	definition := newCRDWithStoredVersions(alphaVersion)
 
-	_, err2 := fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
-	if err2 != nil {
+	_, err := fakeApiExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
+	if err != nil {
 		return
 	}
 
-	err := cleaner.Run(context.TODO())
+	err = cleaner.Run(context.TODO())
 	asserter.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), crdName, metav1.GetOptions{})
+	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	asserter.Expect(err).To(BeNil())
 
 	asserter.Expect(crd.Status.StoredVersions).ToNot(BeNil())
@@ -206,37 +215,19 @@ func Test_CleanDeprecatedCRDVersions_DoesNothing_BetaVersionDoesNotExist(t *test
 	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(alphaVersion))
 }
 
-func crdWithStoredVersions(crdName string, versions ...string) *v1.CustomResourceDefinition {
-	definition := &v1.CustomResourceDefinition{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: crdName,
-		},
-		Spec: v1.CustomResourceDefinitionSpec{
-			Group: "resources.azure.com",
-			Names: v1.CustomResourceDefinitionNames{
-				ListKind: "ResourceGroup",
-			},
-		},
-
-		Status: v1.CustomResourceDefinitionStatus{
-			StoredVersions: versions,
-		},
-	}
-	return definition
-}
-
 func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 	t.Parallel()
 	asserter := NewGomegaWithT(t)
 
+	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
+	fakeClient := fake2.NewClientBuilder().WithScheme(controllers.CreateScheme()).Build()
 	cleanerDryRun := NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, true)
 
-	crdName := "resourcegroups.resources.azure.com"
 	alphaVersion := "v1alpha1api20200601"
 	betaVersion := "v1beta20200601"
 
 	// create CRD
-	definition := crdWithStoredVersions(crdName, alphaVersion, betaVersion)
+	definition := newCRDWithStoredVersions(alphaVersion, betaVersion)
 	definition.Spec.Versions = []v1.CustomResourceDefinitionVersion{
 		{
 			Name:    alphaVersion,
@@ -264,7 +255,7 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 	err = cleanerDryRun.Run(context.TODO())
 	asserter.Expect(err).To(BeNil())
 
-	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), crdName, metav1.GetOptions{})
+	crd, err := fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	asserter.Expect(err).To(BeNil())
 
 	var updatedRG resources.ResourceGroup
@@ -272,10 +263,10 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 	asserter.Expect(err).To(BeNil())
 	asserter.Expect(updatedRG.ResourceVersion).To(BeEquivalentTo(rg.ResourceVersion))
 
-	println(updatedRG.APIVersion)
-
 	asserter.Expect(crd.Status.StoredVersions).ToNot(BeNil())
 	asserter.Expect(definition.Status.StoredVersions).To(BeEquivalentTo(crd.Status.StoredVersions))
+	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(alphaVersion))
+	asserter.Expect(crd.Status.StoredVersions).To(ContainElement(betaVersion))
 }
 
 func newNamespace(name string) *corev1.Namespace {
@@ -297,4 +288,23 @@ func newResourceGroup(name, namespace string) *resources.ResourceGroup {
 			Location: to.StringPtr("westus2"),
 		},
 	}
+}
+
+func newCRDWithStoredVersions(versions ...string) *v1.CustomResourceDefinition {
+	definition := &v1.CustomResourceDefinition{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "resourcegroups.resources.azure.com",
+		},
+		Spec: v1.CustomResourceDefinitionSpec{
+			Group: "resources.azure.com",
+			Names: v1.CustomResourceDefinitionNames{
+				ListKind: "ResourceGroup",
+			},
+		},
+
+		Status: v1.CustomResourceDefinitionStatus{
+			StoredVersions: versions,
+		},
+	}
+	return definition
 }

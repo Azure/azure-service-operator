@@ -30,6 +30,7 @@ func newCRDCleanCommand() *cobra.Command {
 			if err != nil {
 				return errors.Wrap(err, "unable to create kubernetes client")
 			}
+
 			cl, err := client.New(cfg, client.Options{Scheme: controllers.CreateScheme()})
 			if err != nil {
 				return err
