@@ -36,6 +36,8 @@ func getClientSets() (apiextensions.ApiextensionsV1Interface, client.WithWatch, 
 func Test_CleanDeprecatedCRDVersions_CleansAlphaVersion_IfExists(t *testing.T) {
 	t.Parallel()
 
+	ctx := context.TODO()
+
 	fakeApiExtClient, _, cleaner := getClientSets()
 
 	asserter := NewGomegaWithT(t)
@@ -140,6 +142,7 @@ func Test_MigrateDeprecatedCRDResources_NoMigration_IfNotStorage(t *testing.T) {
 
 	// create Namespace
 	err = fakeClient.Create(context.TODO(), ns)
+	asserter.Expect(err).To(BeNil())
 
 	// create ResourceGroup
 	rg := newResourceGroup("test-rg", ns.Name)
