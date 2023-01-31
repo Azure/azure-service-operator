@@ -432,7 +432,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bboeaw/providers/Microsoft.Compute/images/asotest-image-cbmasr?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-bboeaw/providers/Microsoft.Compute/images/asotest-image-cbmasr?api-version=2021-07-01
     method: DELETE
   response:
     body: ""
@@ -440,7 +440,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/a3695a5a-edcd-42c6-9052-a2d722bf2f39?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2022-03-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/a3695a5a-edcd-42c6-9052-a2d722bf2f39?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2021-07-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -448,7 +448,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/a3695a5a-edcd-42c6-9052-a2d722bf2f39?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&monitor=true&api-version=2022-03-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/a3695a5a-edcd-42c6-9052-a2d722bf2f39?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&monitor=true&api-version=2021-07-01
       Pragma:
       - no-cache
       Server:
@@ -469,7 +469,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/a3695a5a-edcd-42c6-9052-a2d722bf2f39?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/a3695a5a-edcd-42c6-9052-a2d722bf2f39?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2021-07-01
     method: GET
   response:
     body: "{\r\n  \"startTime\": \"2022-10-17T16:40:32.289173+00:00\",\r\n  \"endTime\":

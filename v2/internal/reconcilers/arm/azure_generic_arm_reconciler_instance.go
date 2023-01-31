@@ -663,7 +663,7 @@ func (r *azureDeploymentReconcilerInstance) GetAPIVersion() (string, error) {
 func deleteResource(
 	ctx context.Context,
 	log logr.Logger,
-	_ *resolver.Resolver,
+	resolver *resolver.Resolver,
 	armClient *genericarmclient.GenericClient,
 	obj genruntime.ARMMetaObject) (ctrl.Result, error) {
 
@@ -687,7 +687,11 @@ func deleteResource(
 	// Generally speaking the safest thing we can do is just issue the DELETE to Azure.
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	pollerResp, err := armClient.BeginDeleteByID(ctx, resourceID, obj.GetAPIVersion())
+	originalAPIVersion, err := genruntime.GetAPIVersion(obj, resolver.Scheme())
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	pollerResp, err := armClient.BeginDeleteByID(ctx, resourceID, originalAPIVersion)
 	if err != nil {
 		if genericarmclient.IsNotFoundError(err) {
 			log.V(Info).Info("Successfully issued DELETE to Azure - resource was already gone")
