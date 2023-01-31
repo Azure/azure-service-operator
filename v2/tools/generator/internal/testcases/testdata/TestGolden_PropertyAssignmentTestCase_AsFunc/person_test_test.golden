@@ -6,6 +6,7 @@
 +import (
 +	v20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/google/go-cmp/cmp"
++	"github.com/google/go-cmp/cmp/cmpopts"
 +	"github.com/kr/pretty"
 +	"github.com/kylelemons/godebug/diff"
 +	"github.com/leanovate/gopter"
@@ -45,7 +46,7 @@
 +	}
 +
 +	// Check for a match
-+	match := cmp.Equal(subject, actual)
++	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 +	if !match {
 +		actualFmt := pretty.Sprint(actual)
 +		subjectFmt := pretty.Sprint(subject)
