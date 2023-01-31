@@ -9,16 +9,42 @@ import (
 	"context"
 	"fmt"
 	"regexp"
+	"time"
 
+	apiextensionsapi "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/client-go/util/retry"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensions.CustomResourceDefinitionInterface) error {
-	var crdRegexp = regexp.MustCompile(`.*\.azure\.com`)
-	var deprecatedVersionRegexp = regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
+type Cleaner struct {
+	apiExtensionsClient apiextensions.CustomResourceDefinitionInterface
+	client              client.Client
+	migrationBackoff    wait.Backoff
+	dryRun              bool
+	updated             int
+}
 
-	list, err := cl.List(ctx, v1.ListOptions{})
+func NewCleaner(apiExtensionsClient apiextensions.CustomResourceDefinitionInterface, client client.Client, dryRun bool) *Cleaner {
+	migrationBackoff := wait.Backoff{ // TODO: Still need to see if we want exponential backoff or linear is fine
+		Duration: 2 * time.Second, // wait 2s between attempts, this will help us in a state of conflict.
+		Steps:    3,               // 3 retry on error attempts per object
+	}
+	return &Cleaner{
+		apiExtensionsClient: apiExtensionsClient,
+		client:              client,
+		migrationBackoff:    migrationBackoff,
+		dryRun:              dryRun,
+	}
+}
+
+func (c *Cleaner) Run(ctx context.Context) error {
+	list, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{})
 	if err != nil {
 		return err
 	}
@@ -27,7 +53,8 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensions.CustomReso
 		fmt.Println("found 0 results, make sure you have ASO CRDs installed")
 	}
 
-	var updated int
+	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
+	deprecatedVersionRegexp := regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
 	for _, crd := range list.Items {
 		crd := crd
 
@@ -36,25 +63,112 @@ func CleanDeprecatedCRDVersions(ctx context.Context, cl apiextensions.CustomReso
 		}
 
 		newStoredVersions := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
+		objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, deprecatedVersionRegexp)
+		if err != nil {
+			return err
+		}
 
 		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(crd.Status.StoredVersions) {
-			crd.Status.StoredVersions = newStoredVersions
-			// It's fine to update the storedVersions and remove the deprecated versions this way.
-			// Users can still use the existing old v1alpha1api versioned resources and would not require to migrate
-			// due to the conversion webhook implemented.
-			updatedCrd, err := cl.UpdateStatus(ctx, &crd, v1.UpdateOptions{})
+
+			err = c.migrateObjects(ctx, objectsToMigrate)
 			if err != nil {
 				return err
 			}
 
-			updated++
-			fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
+			err = c.updateStorageVersions(ctx, crd, newStoredVersions)
+			if err != nil {
+				return err
+			}
+
+			c.updated++
+		} else {
+			fmt.Printf("nothing to update for '%s'\n", crd.Name)
 		}
 	}
 
-	fmt.Printf("updated %d CRD(s)\n", updated)
+	if !c.dryRun {
+		fmt.Printf("updated %d CRD(s)\n", c.updated)
+
+	}
 
 	return nil
+}
+
+func (c *Cleaner) updateStorageVersions(
+	ctx context.Context,
+	crd apiextensionsapi.CustomResourceDefinition,
+	newStoredVersions []string) error {
+
+	if c.dryRun {
+		fmt.Printf("new storeVersions for '%s' CRD status storedVersions: %s\n", crd.Name, newStoredVersions)
+	} else {
+		crd.Status.StoredVersions = newStoredVersions
+		updatedCrd, err := c.apiExtensionsClient.UpdateStatus(ctx, &crd, v1.UpdateOptions{})
+		if err != nil {
+			return err
+		}
+		fmt.Printf("updated '%s' CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
+	}
+
+	return nil
+}
+
+func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstructured.UnstructuredList) error {
+	for _, obj := range objectsToMigrate.Items {
+		if c.dryRun {
+			fmt.Printf("resource '%s' to migrate for kind '%s'", obj.GetName(), obj.GroupVersionKind().Kind)
+		} else {
+			err := retry.OnError(c.migrationBackoff, isValidError, func() error { return c.client.Update(ctx, &obj) })
+			if isValidError(err) {
+				return err
+			}
+			fmt.Printf("migrated '%s' for %s\n", obj.GetName(), obj.GroupVersionKind().Kind)
+		}
+	}
+
+	return nil
+}
+
+func isValidError(err error) bool {
+	if err != nil {
+		if apierrors.IsGone(err) { // If resource no longer exists, we don't want to retry
+			return false
+		} else if apierrors.IsConflict(err) { // If resource is already in the state of update, we don't want to retry either
+			return false
+		} else {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensionsapi.CustomResourceDefinition, versionRegexp *regexp.Regexp) (*unstructured.UnstructuredList, error) {
+	list := &unstructured.UnstructuredList{}
+
+	if ok, version := requireMigrate(crd, versionRegexp); ok {
+		list.SetGroupVersionKind(schema.GroupVersionKind{
+			Group:   crd.Spec.Group,
+			Version: version,
+			Kind:    crd.Spec.Names.ListKind,
+		})
+
+		if err := c.client.List(ctx, list); err != nil {
+			return nil, err
+		}
+	}
+
+	return list, nil
+}
+
+// requireMigrate checks if resources under CRD need migration. Requirement for migration would depend on if the deprecated version is the storage version.
+func requireMigrate(crd apiextensionsapi.CustomResourceDefinition, versionRegexp *regexp.Regexp) (bool, string) {
+	for _, version := range crd.Spec.Versions {
+		if version.Storage && versionRegexp.MatchString(version.Name) {
+			return true, version.Name
+		}
+	}
+	return false, ""
 }
 
 func removeMatchingStoredVersions(oldStoredVersions []string, versionRegexp *regexp.Regexp) []string {
