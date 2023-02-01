@@ -198,7 +198,7 @@ func NoAction(_ context.Context) (ctrl.Result, error) {
 	return ctrl.Result{}, nil
 }
 
-// StartDeleteOfResource will begin the delete of a resource by telling Azure to start deleting it. The resource will be
+// StartDeleteOfResource will begin deletion of a resource by telling Azure to start deleting it. The resource will be
 // marked with the provisioning state of "Deleting".
 func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Context) (ctrl.Result, error) {
 	msg := "Starting delete of resource"
@@ -248,15 +248,49 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
+func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
+	ctx context.Context,
+) (ctrl.Result, error) {
 	if r.Obj.AzureName() == "" {
 		err := errors.New("AzureName was not set. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?")
-		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+		return ctrl.Result{},
+			conditions.NewReadyConditionImpactingError(
+				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+	}
+
+	check, err := r.preReconciliationCheck(ctx)
+	if err != nil {
+		// Failed to do the pre-reconciliation check, this is a serious but non-fatal error
+		// Make sure we return a ReadyConditionImpactingError so that the Ready condition is updated for the user
+		// Ideally any implementation of the checker should return a ReadyConditionImpactingError, but we can't
+		// guarantee that, so we wrap as required
+		impactingError, ok := conditions.AsReadyConditionImpactingError(err)
+		if !ok {
+			impactingError = conditions.NewReadyConditionImpactingError(
+				err,
+				conditions.ConditionSeverityWarning,
+				conditions.ReasonFailed)
+		}
+
+		return ctrl.Result{}, impactingError
+	}
+
+	// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
+	if check.PostponeReconciliation() {
+		r.Log.V(Status).Info("Extension recommended postponing reconciliation")
+		return ctrl.Result{}, nil
+	}
+
+	// If the check says we're blocking reconcile, we return ReadyConditionImpactingError here to update the Ready
+	// condition is updated so the user can see why we're not reconciling right now, and to trigger a retry in a bit.
+	if check.BlockReconciliation() {
+		r.Log.V(Status).Info("Extension recommended blocking reconciliation", "message", check.Message())
+		return ctrl.Result{}, check.CreateConditionError()
 	}
 
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
 	if resourceID != "" {
-		err := checkSubscription(resourceID, r.ARMClient.SubscriptionID())
+		err = checkSubscription(resourceID, r.ARMClient.SubscriptionID())
 		if err != nil {
 			return ctrl.Result{}, err
 		}
@@ -284,18 +318,52 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	r.Recorder.Eventf(r.Obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginCreation), "Successfully sent resource to Azure with ID %q", armResource.GetID())
 
 	// If we are done here it means the deployment succeeded immediately. It can't have failed because if it did
-	// we would have taken the err path above.
+	// we would have taken the error path above.
 	if pollerResp.Poller.Done() {
 		return r.handleCreatePollerSuccess(ctx)
 	}
 
 	resumeToken, err := pollerResp.Poller.ResumeToken()
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "couldn't create PUT resume token for resource %q", armResource.GetID())
+		return ctrl.Result{},
+			errors.Wrapf(err, "couldn't create PUT resume token for resource %q", armResource.GetID())
 	}
 
 	SetPollerResumeToken(r.Obj, pollerResp.ID, resumeToken)
 	return ctrl.Result{Requeue: true}, nil
+}
+
+func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.Context) (extensions.PreReconcileCheckResult, error) {
+	// Create a checker for access to the extension point, if required
+	checker, extensionFound := extensions.CreatePreReconciliationChecker(r.Extension)
+	if !extensionFound {
+		// No extension found, nothing to do
+		return extensions.ProceedWithReconcile(), nil
+	}
+
+	// Having a checker requires our resource to have an up-to-date status
+	r.Log.V(Verbose).Info("Refreshing Status of resource")
+	statusErr := r.updateStatus(ctx)
+	if statusErr != nil && !genericarmclient.IsNotFoundError(statusErr) {
+		// We have an error, and it's not because the resource doesn't exist yet
+		return extensions.PreReconcileCheckResult{}, statusErr
+	}
+
+	// We also need to have our owner, it too with an up-to-date status
+	owner, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
+	if ownerErr != nil {
+		// We can't obtain the owner, so we can't run the extension
+		return extensions.PreReconcileCheckResult{}, ownerErr
+	}
+
+	// Run our pre-reconciliation checker
+	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClient, r.Log)
+	if checkErr != nil {
+		// Something went wrong running the check.
+		return extensions.PreReconcileCheckResult{}, checkErr
+	}
+
+	return check, nil
 }
 
 func checkSubscription(resourceID string, clientSubID string) error {
@@ -702,7 +770,7 @@ func deleteResource(
 	log.V(Info).Info("Successfully issued DELETE to Azure")
 
 	// If we are done here it means delete succeeded immediately. It can't have failed because if it did
-	// we would have taken the err path above.
+	// we would have taken the error path, above.
 	if pollerResp.Poller.Done() {
 		return ctrl.Result{}, nil
 	}

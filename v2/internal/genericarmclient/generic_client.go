@@ -349,7 +349,7 @@ func (client *GenericClient) HeadByID(ctx context.Context, resourceID string, ap
 func IsNotFoundError(err error) bool {
 	var typedError *azcore.ResponseError
 	if errors.As(err, &typedError) {
-		if typedError.StatusCode == 404 {
+		if typedError.StatusCode == http.StatusNotFound {
 			return true
 		}
 	}
