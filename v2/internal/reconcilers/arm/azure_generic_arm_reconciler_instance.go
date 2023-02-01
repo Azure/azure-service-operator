@@ -277,12 +277,14 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
 	if check.PostponeReconciliation() {
+		r.Log.V(Status).Info("Extension recommended postponing reconciliation")
 		return ctrl.Result{}, nil
 	}
 
 	// If the check says we're blocking reconcile, we return ReadyConditionImpactingError here to update the Ready
 	// condition is updated so the user can see why we're not reconciling right now, and to trigger a retry in a bit.
 	if check.BlockReconciliation() {
+		r.Log.V(Status).Info("Extension recommended blocking reconciliation", "message", check.Message())
 		return ctrl.Result{}, check.CreateConditionError()
 	}
 

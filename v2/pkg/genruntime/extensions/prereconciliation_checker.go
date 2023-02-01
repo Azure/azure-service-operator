@@ -94,6 +94,10 @@ func (r PreReconcileCheckResult) BlockReconciliation() bool {
 	return r.action == preReconcileCheckResultTypeBlock
 }
 
+func (r PreReconcileCheckResult) Message() string {
+	return r.message
+}
+
 // CreateConditionError returns an error that can be used to set a condition on the resource.
 func (r PreReconcileCheckResult) CreateConditionError() error {
 	return conditions.NewReadyConditionImpactingError(
