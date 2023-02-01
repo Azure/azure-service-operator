@@ -36,8 +36,6 @@ func getClientSets() (apiextensions.ApiextensionsV1Interface, client.WithWatch, 
 func Test_CleanDeprecatedCRDVersions_CleansAlphaVersion_IfExists(t *testing.T) {
 	t.Parallel()
 
-	ctx := context.TODO()
-
 	fakeApiExtClient, _, cleaner := getClientSets()
 
 	asserter := NewGomegaWithT(t)
