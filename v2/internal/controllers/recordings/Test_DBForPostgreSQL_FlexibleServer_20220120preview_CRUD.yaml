@@ -1132,13 +1132,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza/firewallRules/asotest-fwrule-vqfpjt?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza/firewallRules/asotest-fwrule-vqfpjt?api-version=2022-01-20-preview
     method: DELETE
   response:
     body: '{"operation":"DropServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/db944a5d-e23f-43f6-b545-2595cfc5bf4f?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/db944a5d-e23f-43f6-b545-2595cfc5bf4f?api-version=2022-01-20-preview
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1148,7 +1148,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/operationResults/db944a5d-e23f-43f6-b545-2595cfc5bf4f?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/operationResults/db944a5d-e23f-43f6-b545-2595cfc5bf4f?api-version=2022-01-20-preview
       Pragma:
       - no-cache
       Retry-After:
@@ -1170,13 +1170,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza/databases/asotest-db-zuoeiy?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza/databases/asotest-db-zuoeiy?api-version=2022-01-20-preview
     method: DELETE
   response:
     body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/25382619-8833-4737-8185-54dd6d2c5fde?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/25382619-8833-4737-8185-54dd6d2c5fde?api-version=2022-01-20-preview
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1186,7 +1186,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/operationResults/25382619-8833-4737-8185-54dd6d2c5fde?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/operationResults/25382619-8833-4737-8185-54dd6d2c5fde?api-version=2022-01-20-preview
       Pragma:
       - no-cache
       Retry-After:
@@ -1206,7 +1206,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/25382619-8833-4737-8185-54dd6d2c5fde?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/25382619-8833-4737-8185-54dd6d2c5fde?api-version=2022-01-20-preview
     method: GET
   response:
     body: '{"name":"25382619-8833-4737-8185-54dd6d2c5fde","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -1238,7 +1238,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/db944a5d-e23f-43f6-b545-2595cfc5bf4f?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/eastus/azureAsyncOperation/db944a5d-e23f-43f6-b545-2595cfc5bf4f?api-version=2022-01-20-preview
     method: GET
   response:
     body: '{"name":"db944a5d-e23f-43f6-b545-2595cfc5bf4f","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -1272,13 +1272,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza?api-version=2022-01-20-preview
     method: DELETE
   response:
     body: '{"operation":"DropServerManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2022-01-20-preview
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1288,7 +1288,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/operationResults/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/operationResults/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2022-01-20-preview
       Pragma:
       - no-cache
       Retry-After:
@@ -1308,7 +1308,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2022-01-20-preview
     method: GET
   response:
     body: '{"name":"04f8ebb0-d769-428a-be7f-6cc846270959","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1340,7 +1340,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2022-01-20-preview
     method: GET
   response:
     body: '{"name":"04f8ebb0-d769-428a-be7f-6cc846270959","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
@@ -1372,7 +1372,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/East%20US/azureAsyncOperation/04f8ebb0-d769-428a-be7f-6cc846270959?api-version=2022-01-20-preview
     method: GET
   response:
     body: '{"name":"04f8ebb0-d769-428a-be7f-6cc846270959","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
@@ -1618,7 +1618,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza/configurations/pgaudit.log?api-version=2021-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ljqsjm/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza/configurations/pgaudit.log?api-version=2022-01-20-preview
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-tvxiza''
