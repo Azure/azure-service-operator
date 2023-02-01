@@ -149,6 +149,8 @@ func (tcr *TypeCatalogReport) writeType(
 	switch t := t.(type) {
 	case *astmodel.ObjectType:
 		tcr.writeObjectType(rpt, t, currentPackage, parentTypes)
+	case *astmodel.InterfaceType:
+		tcr.writeInterfaceType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.ResourceType:
 		tcr.writeResourceType(rpt, t, currentPackage, parentTypes)
 	case *astmodel.EnumType:
@@ -246,6 +248,24 @@ func (tcr *TypeCatalogReport) writeProperty(
 	tcr.writeType(sub, prop.PropertyType(), currentPackage, parentTypes)
 }
 
+// writeInterfaceType writes the interface to the debug report.
+// rpt is the debug report to write to.
+// i is the interface to write.
+// currentPackage is the package that the interface is defined in (used to simplify type descriptions).
+// parentTypes is the set of types that have already been written (used to avoid infinite recursion).
+func (tcr *TypeCatalogReport) writeInterfaceType(
+	rpt *StructureReport,
+	i *astmodel.InterfaceType,
+	_ astmodel.PackageReference,
+	_ astmodel.TypeNameSet,
+) {
+	if tcr.optionIncludeFunctions {
+		for _, fn := range i.Functions() {
+			tcr.writeFunction(rpt, fn)
+		}
+	}
+}
+
 func (tcr *TypeCatalogReport) writeComplexType(
 	rpt *StructureReport,
 	propertyType astmodel.Type,
@@ -255,6 +275,7 @@ func (tcr *TypeCatalogReport) writeComplexType(
 	// If we have a complex type, we may need to write it out in detail
 	switch t := propertyType.(type) {
 	case *astmodel.ObjectType,
+		*astmodel.InterfaceType,
 		*astmodel.ResourceType,
 		*astmodel.EnumType,
 		*astmodel.OneOfType,

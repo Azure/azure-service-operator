@@ -31,6 +31,7 @@ type TypeVisitor struct {
 	visitFlaggedType   func(this *TypeVisitor, it *FlaggedType, ctx interface{}) (Type, error)
 	visitValidatedType func(this *TypeVisitor, it *ValidatedType, ctx interface{}) (Type, error)
 	visitErroredType   func(this *TypeVisitor, it *ErroredType, ctx interface{}) (Type, error)
+	visitInterfaceType func(this *TypeVisitor, it *InterfaceType, ctx interface{}) (Type, error)
 }
 
 // Visit invokes the appropriate VisitX on TypeVisitor
@@ -71,6 +72,8 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 		return tv.visitValidatedType(tv, it, ctx)
 	case *ErroredType:
 		return tv.visitErroredType(tv, it, ctx)
+	case *InterfaceType:
+		return tv.visitInterfaceType(tv, it, ctx)
 	}
 
 	panic(fmt.Sprintf("unhandled type: (%T) %s", t, t))
@@ -415,6 +418,11 @@ func IdentityVisitOfAllOfType(this *TypeVisitor, it *AllOfType, ctx interface{})
 	}
 
 	return BuildAllOfType(newTypes...), nil
+}
+
+func IdentityVisitOfInterfaceType(_ *TypeVisitor, it *InterfaceType, _ interface{}) (Type, error) {
+	// We don't visit the functions here to match ObjectType visit behavior
+	return it, nil
 }
 
 // just checks reference equality of types
