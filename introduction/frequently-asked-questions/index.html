@@ -34,7 +34,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
 <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
 What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
 
-<meta itemprop="wordCount" content="1088">
+<meta itemprop="wordCount" content="1146">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
@@ -457,6 +457,8 @@ What is the support model? Azure Service Operator is an officially supported Mic
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+  <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
@@ -523,6 +525,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
         <li><a href="#whats-the-difference-between-aso-and-crossplaneio">What&rsquo;s the difference between ASO and Crossplane.io?</a></li>
         <li><a href="#can-i-configure-how-often-aso-re-syncs-to-azure-when-there-have-been-no-changes">Can I configure how often ASO re-syncs to Azure when there have been no changes?</a></li>
         <li><a href="#im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</a></li>
+        <li><a href="#should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</a></li>
       </ul>
     </li>
   </ul>
@@ -678,6 +681,9 @@ see <a href="https://github.com/Azure/azure-service-operator/issues/1491">#1491<
 </tr>
 </tbody>
 </table>
+<h3 id="should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</h3>
+<p>We don&rsquo;t take a position on whether it&rsquo;s universally better to deploy ASO using a user-assigned or system-assigned managed identity because the correct choice for you depends on your own context.</p>
+<p>If you haven&rsquo;t already read it, Azure has a good <a href="https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/managed-identity-best-practice-recommendations">best practices for managed identity guide</a> that may be useful.</p>
 
 	
 	

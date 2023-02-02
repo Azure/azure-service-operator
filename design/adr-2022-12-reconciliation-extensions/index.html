@@ -33,7 +33,7 @@ For some resources this doesn&rsquo;t work particularly well because the resourc
 <meta itemprop="description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
 For some resources this doesn&rsquo;t work particularly well because the resources can be in a transient state that precludes the PUT from succeeding. The resulting error message pushes ASO into retrying the operation over and over again when it can&rsquo;t possibly succeed. Not only does this cause needless load on both the cluster and Azure, it can trigger rate limiting and other throttling mechanisms.">
 
-<meta itemprop="wordCount" content="475">
+<meta itemprop="wordCount" content="516">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-12: Reconciliation Extensions"/>
 <meta name="twitter:description" content="Context The current behaviour of Azure Service Operator (ASO) is to unilaterally issue a PUT to Azure each time reconciliation of a resource is triggered.
@@ -456,6 +456,8 @@ For some resources this doesn&rsquo;t work particularly well because the resourc
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+  <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="td-sidebar-nav-active-item">2022-12: Reconciliation Extensions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
@@ -589,22 +591,33 @@ For some resources this doesn&rsquo;t work particularly well because the resourc
 <p>In the most common scenario, this extension point will be used to skip reconciliation based on the current status of the resource. However, we also want to allow implementers to use this extension point to perform other actions, such as issuing a GET to check on the status of other Azure resources.</p>
 <p>As with other extension points, we want to give implementers the option of acting either before or after the standard action.</p>
 <h2 id="decision">Decision</h2>
-<p>We&rsquo;ll define a new extension point called <code>ReconcileActionSelector</code> in a style similar to our already existing extension points.</p>
+<p>We&rsquo;ll define a new extension point called <code>PreReconciliationChecker</code> in a style similar to our already existing extension points.</p>
 <p>The extension point will receive the following parameters:</p>
 <ul>
 <li>The current resource, with a status freshly updated from Azure.</li>
-<li>A client allowing for ARM operations.</li>
+<li>A Kubernetes client allowing for Cluster operations.</li>
+<li>An ARM client allowing for ARM operations.</li>
 <li>A logger to allow for tracing of what the extension did.</li>
 <li>A context to allow cancellation of long running operations.</li>
-<li>A function that will return the next action to take.</li>
+<li>A function that represents the next action to take.</li>
 </ul>
-<p>It will return <code>Reconcile</code> if the resource should be reconciled, <code>Skip</code> if reconciliation should be skipped, or an <code>error</code> if something went wrong.</p>
+<p>The return will be one of three possibilities:</p>
+<ul>
+<li><code>Proceed</code> if the resource should be reconciled</li>
+<li><code>Skip</code> and a human readable reason if reconciliation should be skipped</li>
+<li><code>error</code> if something went wrong.</li>
+</ul>
 <p>For the initial implementation, we&rsquo;ll only do the GET if the extension exists, and the default <code>next</code> action will be hard coded to request a reconciliation.</p>
 <p><img src="images/adr-2022-12-reconciliation-initial-flow.png" alt="Initial Sequence"></p>
 <p>Down the track when we switch to a GET/PUT workflow, we&rsquo;ll always do the GET, and the default &lsquo;next` action will do the comparison to see if the resource has changed.</p>
 <p><img src="images/adr-2022-12-reconciliation-diffing-flow.png" alt="GET/PUT Sequence"></p>
 <h2 id="status">Status</h2>
-<p>Proposed.</p>
+<p>Accepted.</p>
+<ul>
+<li>Extension point created in <a href="https://github.com/Azure/azure-service-operator/pull/2683">PR #2683</a>.</li>
+<li>Implementation for Managed Cluster and Agent Pool added in <a href="https://github.com/Azure/azure-service-operator/pull/2686">PR #2686</a>.</li>
+<li>Implementation for PostgreSQL Flexible Server added in <a href="https://github.com/Azure/azure-service-operator/pull/2688">PR #2688</a>.</li>
+</ul>
 <h2 id="consequences">Consequences</h2>
 <p>TBC.</p>
 <h2 id="experience-report">Experience Report</h2>

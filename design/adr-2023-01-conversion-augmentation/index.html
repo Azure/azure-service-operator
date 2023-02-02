@@ -18,29 +18,28 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2022-11: ASO v1 Migration and Resource Import | Azure Service Operator</title>
+<title>2022-12: Conversion Augmentation | Azure Service Operator</title>
 <meta name="description" content="Context
-We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so …">
-<meta property="og:title" content="2022-11: ASO v1 Migration and Resource Import" />
-<meta property="og:description" content="Context We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).
-Discussions so far have identified three possible solutions - version integration, resource import job and resource import tool.
-Version Integration We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1." />
+The Kubernetes ecosystem has strong requirements around backward and forward compatibility of resource versions:
+
+In Kubernetes, all versions …">
+<meta property="og:title" content="2022-12: Conversion Augmentation" />
+<meta property="og:description" content="Context The Kubernetes ecosystem has strong requirements around backward and forward compatibility of resource versions:
+ In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-11-resource-import/" /><meta property="article:section" content="design" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-01-conversion-augmentation/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="2022-11: ASO v1 Migration and Resource Import">
-<meta itemprop="description" content="Context We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).
-Discussions so far have identified three possible solutions - version integration, resource import job and resource import tool.
-Version Integration We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1.">
+<meta itemprop="name" content="2022-12: Conversion Augmentation">
+<meta itemprop="description" content="Context The Kubernetes ecosystem has strong requirements around backward and forward compatibility of resource versions:
+ In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.">
 
-<meta itemprop="wordCount" content="1107">
+<meta itemprop="wordCount" content="1191">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2022-11: ASO v1 Migration and Resource Import"/>
-<meta name="twitter:description" content="Context We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).
-Discussions so far have identified three possible solutions - version integration, resource import job and resource import tool.
-Version Integration We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1."/>
+<meta name="twitter:title" content="2022-12: Conversion Augmentation"/>
+<meta name="twitter:description" content="Context The Kubernetes ecosystem has strong requirements around backward and forward compatibility of resource versions:
+ In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1."/>
 
 
 
@@ -455,12 +454,12 @@ Version Integration We would add new hand-written resources into ASO v2 with the
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
-  <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="td-sidebar-nav-active-item">2022-11: ASO v1 Migration and Resource Import</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+  <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
-  <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+  <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="td-sidebar-nav-active-item">2022-12: Conversion Augmentation</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
@@ -516,19 +515,22 @@ Version Integration We would add new hand-written resources into ASO v2 with the
   <ul>
     <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#version-integration">Version Integration</a></li>
-        <li><a href="#resource-import-job">Resource Import Job</a></li>
-        <li><a href="#resource-import-tool">Resource Import Tool</a></li>
+        <li><a href="#generic-interface-implementation">Generic interface implementation</a></li>
+        <li><a href="#code-gen-interface-implementation">Code-gen interface implementation</a></li>
+        <li><a href="#configuration-implementation">Configuration implementation</a></li>
+        <li><a href="#all-resources-scope">All Resources Scope</a></li>
+        <li><a href="#all-resources-and-objects">All resources and objects</a></li>
       </ul>
     </li>
-    <li><a href="#decision">Decision</a>
-      <ul>
-        <li><a href="#data-flow">Data Flow</a></li>
-      </ul>
-    </li>
+    <li><a href="#decision">Decision</a></li>
     <li><a href="#status">Status</a></li>
     <li><a href="#consequences">Consequences</a></li>
-    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#experience-report">Experience Report</a>
+      <ul>
+        <li><a href="#placement">Placement</a></li>
+        <li><a href="#property-bags">Property Bags</a></li>
+      </ul>
+    </li>
     <li><a href="#references">References</a></li>
   </ul>
 </nav></div>
@@ -566,13 +568,13 @@ Version Integration We would add new hand-written resources into ASO v2 with the
     <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/design/adr-2022-11-resource-import/">2022-11: ASO v1 Migration and Resource Import</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2023-01-conversion-augmentation/">2022-12: Conversion Augmentation</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>2022-11: ASO v1 Migration and Resource Import</h1>
+	<h1>2022-12: Conversion Augmentation</h1>
 	
 	<header class="article-meta">
 		
@@ -590,79 +592,106 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 		
 	</header>    
 	<h2 id="context">Context</h2>
-<p>We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).</p>
-<p>Discussions so far have identified three possible solutions - <em>version integration</em>, <em>resource import job</em> and <em>resource import tool</em>.</p>
-<h3 id="version-integration">Version Integration</h3>
-<p>We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1. Users would be able to migrate to ASO v2 simply by removing ASO v1 from their cluster and installing ASO v2 in its place.</p>
-<p>Since many of these resources are already supported by ASO v2, albeit with shapes much more closely aligned with the ARM originals, we would need to implement forward and backward conversions between the two shapes, preserving the Kubernetes version compatibility guarantees we have today.</p>
+<p>The Kubernetes ecosystem has <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">strong requirements</a> around backward and forward compatibility of resource versions:</p>
+<blockquote>
+<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
+</blockquote>
+<p>To achieve this, we are <a href="https://azure.github.io/azure-service-operator/design/versioning/">code generating conversions</a> between versions of our resources.</p>
+<p>However, we&rsquo;ve always known that we&rsquo;d need the capability to augment these conversions with some hand-written code, if only because we would quickly hit a point of diminishing returns if we try to handle everything with the generator.</p>
+<p>To minimize the amount of work needed to augment the conversions, we will trigger the extension point after the code generator has done its work. This means that the user will only need to write the code to handle the differences between the two versions, and not the common properties that are handled by the code generator.</p>
+<p>Thus, the extension point allows <em>augmentation</em> or <em>modification</em> of the conversions already performed; it doesn&rsquo;t provide <em>replacement</em> of the conversion.</p>
+<p>There are three different approaches we can take to writing the code for the extension:</p>
 <ul>
-<li>Pro: Very simple migration for our customers.</li>
-<li>Con: Some of the resources are in a different <em>group</em>, which makes automatic update impossible.</li>
-<li>Con: Would require a lot of work to implement and test the conversions.</li>
-<li>Con: Any resource features that don&rsquo;t map exactly to a property in the ARM shape would be difficult to retain.</li>
-<li>Con: The investment would benefit only a small number of customers.</li>
-<li>Con: The conversions would need to be maintained, potentially indefinitely.</li>
-<li>Con: It&rsquo;s unlikely we&rsquo;d achieve 100% fidelity, requiring customers to change their YAML files anyway.</li>
+<li>Generic interfaces</li>
+<li>Code-gen interfaces</li>
+<li>Configuration</li>
 </ul>
-<h3 id="resource-import-job">Resource Import Job</h3>
-<p>Hand craft a new <em>job</em> CRD that allows specification of an existing Azure Resource that requires import. ASO would reconcile that CRD by downloading the resource from Azure and creating the corresponding Kubernetes resource directly in the cluster.</p>
+<p>and there are two different scopes we can apply the augmentation to:</p>
 <ul>
-<li>Pro: ASO already has the credentials necessary to download the resource from Azure.</li>
-<li>Pro: You don&rsquo;t need to use a separate tool like <code>asoctl</code>, which means you can import/export using just <code>kubectl</code>.</li>
-<li>Con: Awkward to model a run-once action as a CRD as there is no reconcile to be done after the first pass, though there are examples of such resources in core k8s API such as <code>Job</code> and a pattern we could follow.</li>
-<li>Con: Reconciliation of this job would be entirely unlike any existing ASO resource.</li>
-<li>Con: It&rsquo;s highly unlikely that the resource would be ready for use, as it wouldn&rsquo;t have any ASO specific configuration, requiring users to awkwardly download the YAML, make any required changes, and then reapply it to the cluster.</li>
-<li>Con: Unless we immediately annotated the resource as <code>skip-reconcile</code> for safety, ASO would immediately pick up the resource and start reconciling it. In most cases this would be benign, but there is potential for <em>bad things</em> to happen. This is the opposite of the usually desired <em>pit of success</em>.</li>
-<li>Con: If we do mark the resource as <code>skip-reconcile</code>, users will need to manually remove the annotation before things work.</li>
-<li>Con: The job would need to be cleaned up manually afterwards</li>
+<li>Resources only</li>
+<li>Resources and objects</li>
 </ul>
-<h4 id="see-also">See also</h4>
-<ul>
-<li>AWS uses this technique, with an <a href="https://aws-controllers-k8s.github.io/community/docs/user-docs/adopted-resource/"><code>AdoptedResource</code></a> CRD.</li>
-</ul>
-<h3 id="resource-import-tool">Resource Import Tool</h3>
-<p>Create a tool that allows any supported Azure resource to be to be exported as a YAML file in the shape expected by ASO v2. Users would then be able to modify the YAML file as necessary and apply it to their cluster.</p>
-<p>The most likely form of this tool would be as a command-line utility for users to run locally. Idiomatically for the Kubernetes ecosystem, we&rsquo;d call this <code>asoctl</code>.</p>
-<ul>
-<li>Pro: Straightforward migration for ASO v1 customers (though, not zero touch).</li>
-<li>Pro: Would benefit all customers wanting to migrate existing Azure resources, not just those using ASO v1.</li>
-<li>Pro: Could also be used to snapshot existing resources (e.g. to capture a hand configured resource set up by a developer as YAML for reuse in a staging environment).</li>
-<li>Pro: The resource can be customized before being applied to the cluster (e.g. specifying links to secrets for credentials, to config maps for configuration, and so on).</li>
-<li>Pro: The user can choose to apply the resource to the cluster immediately, save it for later, or apply it to a different cluster.</li>
-<li>Pro: Users have an opportunity to review the YAML for correctness (or to assess security considerations) before applying it to the cluster.</li>
-<li>Con: We&rsquo;d need to extend the code generator to provide the required support (but much of what we need already exists).</li>
-</ul>
-<h4 id="see-also-1">See Also</h4>
-<ul>
-<li>Google Cloud uses a commandline tool <a href="https://cloud.google.com/config-connector/docs/how-to/import-export/export"><code>config-connector</code></a>.</li>
-</ul>
+<h3 id="generic-interface-implementation">Generic interface implementation</h3>
+<p>In our <code>genruntime</code> package, we&rsquo;ll define a new generic interface to capture the semantics of conversion augmentation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Assignable</span>[<span style="color:#a6e22e">T</span> <span style="color:#a6e22e">any</span>] <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">AssignPropertiesTo</span>(<span style="color:#a6e22e">dst</span> <span style="color:#a6e22e">T</span>) <span style="color:#66d9ef">error</span>
+	<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">src</span> <span style="color:#a6e22e">T</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>Conversions always need to be bi-directional, so we force both <code>AssignPropertiesTo</code> and <code>AssignPropertiesFrom</code> to be implemented together. (We can&rsquo;t implement the conversions by implementing <code>AssignPropertiesTo()</code> on both sides of the link because the types are declared in different packages, for different API versions, and we need to avoid a circular package dependency.)</p>
+<p>We then update the code generation for the already generated <code>AssignProperties_To_*</code> and <code>AssignProperties_From_*</code> methods to look for this interface and call it if it&rsquo;s present. The type used for the type parameter will be the &ldquo;upstream&rdquo; type in our conversion chain.</p>
+<p>For example, for the <code>v1beta20210101</code> version of <code>BatchAccount</code>, the existing method <code>AssignProperties_From_BatchAccount</code> will updated with the following additional code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sourceAsAny</span> <span style="color:#a6e22e">any</span> = <span style="color:#a6e22e">source</span>
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sourceAsAny</span>.(<span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">Assignable</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">v20210101s</span>.<span style="color:#a6e22e">BatchAccount</span>]); <span style="color:#a6e22e">ok</span> {
+    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">source</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(
+            <span style="color:#a6e22e">err</span>, 
+            <span style="color:#e6db74">&#34;calling custom AssignFrom() for conversion from v20210101s.BatchAccount&#34;</span>)
+    }
+}
+</code></pre></div><p><strong>Pro</strong>: Minimizes the amount of code we need to generate because we only need an extra clause in the existing conversion methods to invoke the implementation when it&rsquo;s present.</p>
+<p><strong>Con</strong>: Requires the user to correctly provide the right type parameter when implementing the interface to augment the property conversions. For example, in this above situation, only an implementation of <code>genruntime.Assignable[*v20210101s.BatchAccount]</code> will be invoked; if the user instead implemented <code>genruntime.Assignable[*v20210101.BatchAccount]</code> the code would compile, but be silently ignored. (BTW: The difference between those two is a single <code>s</code> character.)</p>
+<p><strong>Con</strong>: Go prohibits doing a type cast on a concrete type, so we need to stash <code>source</code> in an intermediate variable first.</p>
+<h3 id="code-gen-interface-implementation">Code-gen interface implementation</h3>
+<p>Instead of using a generic interface, we can define a new interface for each version of each resource that&rsquo;s not visible outside of the package. This interface will be implemented by the user and will be called by the code generator.</p>
+<p>For example, in the <code>v1beta20210101</code> package, we&rsquo;ll generate an interface for the conversion hook:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">assignableBatchAccount</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">AssignPropertiesTo</span>(<span style="color:#a6e22e">dst</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v20210101s</span>.<span style="color:#a6e22e">BatchAccount</span>) <span style="color:#66d9ef">error</span>
+	<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">src</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">v20210101s</span>.<span style="color:#a6e22e">BatchAccount</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>This interface would then be detected and used if present:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sourceAsAny</span> <span style="color:#a6e22e">any</span> = <span style="color:#a6e22e">source</span>
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">src</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sourceAsAny</span>.(<span style="color:#a6e22e">assignableBatchAccount</span>); <span style="color:#a6e22e">ok</span> {
+    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">src</span>.<span style="color:#a6e22e">AssignPropertiesFrom</span>(<span style="color:#a6e22e">source</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(
+            <span style="color:#a6e22e">err</span>, 
+            <span style="color:#e6db74">&#34;calling custom AssignPropertiesFrom() for conversion from v20210101s.BatchAccount&#34;</span>)
+    }
+}
+</code></pre></div><p><strong>Pro</strong>: The interface is only accessible (visible) within the package and has the correct parameter types specified. It&rsquo;s therefore not possible for the user to <em>think</em> they&rsquo;ve implemented the hook point and have it silently ignored. Either the compiler will complain, or the code will work.</p>
+<p><strong>Con</strong>: We don&rsquo;t have any other interfaces being defined by the code generator, so this is a new pattern. (We do have interface <em>implementations</em>).</p>
+<p><strong>Con</strong>: Go prohibits doing a type cast on a concrete type, so we once again need to stash <code>source</code> in an intermediate variable first.</p>
+<h3 id="configuration-implementation">Configuration implementation</h3>
+<p>Add new configuration where we can specify that a particular resource needs tweaking. For the Batch account, above, this might look like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">objectModelConfiguration</span>:
+  <span style="color:#f92672">batch</span>:
+    <span style="color:#f92672">2021-01-01</span>:
+      <span style="color:#f92672">BatchAccount</span>:
+        <span style="color:#f92672">$customConversion</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>When found, we&rsquo;d directly generate a call to the conversion functions were needed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">AssignPropertiesFromBatchAccount</span>(<span style="color:#a6e22e">source</span>)
+<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">Wrap</span>(
+        <span style="color:#a6e22e">err</span>, 
+        <span style="color:#e6db74">&#34;calling custom AssignFrom() for conversionfrom v20210101s.BatchAccount&#34;</span>)
+}
+</code></pre></div><p><strong>Pro</strong>: The configuration is very explicit and easy to understand.</p>
+<p><strong>Con</strong>: We need to add a new configuration option and the code to process it.</p>
+<p><strong>Con</strong>: The generator project won&rsquo;t even build until the new extension point has been implemented, and this may not be obvious to the user.</p>
+<p><strong>Con</strong>: This is inconsistent with other extension points we have, which don&rsquo;t use configuration and are automatically detected once implemented.</p>
+<h3 id="all-resources-scope">All Resources Scope</h3>
+<p>We could make the extension point available only to the root resource types. Theoretically this is sufficient as it gives access to intercept all conversions.</p>
+<p><strong>Pro</strong>: Minimizes the impact on our codebase</p>
+<p><strong>Con</strong>: Intercepting conversions for objects that are not root resources requires the user to walk both copies of the object tree themselves, correctly navigating optional fields. This gets even more complex when slices and or maps are involved.</p>
+<h3 id="all-resources-and-objects">All resources and objects</h3>
+<p>Our other option is to make the extension point available to all resources and and all objects.</p>
+<p><strong>Pro:</strong> This would allow the user to intercept conversions for any object in the object graph without needing to (re)implement any logic to walk the object graph.
+<strong>Pro:</strong> Matching up items in slices and maps will be taken care of by the generated code we already have.</p>
 <h2 id="decision">Decision</h2>
-<p>Create the new command line tool <code>asoctl</code> to house multiple functions, starting with resource import. The tool will follow the usual convention of supporting a variety of verbs, each activating a different mode (similar to the way <code>kubectl</code>, <code>git</code> and other modern command-line tools behave).</p>
-<p>To export a existing resource, we&rsquo;d use <code>export resource</code> as the verb.</p>
-<p>This would accept a single resource (identified by a fully qualified URL) as a parameter and output a YAML file to stdout containing the specified resource and all related child resources. In typical use, the user would redirect the output to a file and modify it as necessary, though we may also support a <code>--output</code> parameter to allow the user to specify the output file directly.</p>
-<p>For example, to export the YAML for an existing Virtual Network, the user would run:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1
-</code></pre></div><p>The output would be a YAML file containing the Virtual Network and all child resources (e.g. subnets, route tables, etc).</p>
-<p>If given the URL for an entire resource group, we&rsquo;d export all the resources in that group that are supported by ASO. This would be useful for users who want to snapshot an existing resource group as YAML for reuse.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1
-</code></pre></div><h3 id="data-flow">Data Flow</h3>
-<p>The process of generating the YAML for a given resource can be simplified to the following flow:</p>
-<p><img src="./images/adr-2022-11-import-flow.png" alt="Data Flow"></p>
-<ol>
-<li>The user specified URL is used to <em><strong>GET</strong></em> the resource from Azure in its native ARM format.</li>
-<li>We apply a <em><strong>conversion</strong></em> to obtain a Status object for the relevant custom resource.</li>
-<li>We then <em><strong>populate</strong></em> a blank Spec to give us a custom resource ready for export (this has the shape we want).</li>
-<li>The spec is <em><strong>exported</strong></em> as YAML.</li>
-</ol>
-<p>Only the <em><strong>populate</strong></em> step, converting from <em>Status</em> to <em>Spec</em> is missing from our existing code generation pipeline, and we believe the existing property assignment code can be largely reused.</p>
-<p>That said, we&rsquo;re aware of some challenges.</p>
-<p><strong>Defaulting</strong>: Some services will fill in missing values, so the YAML we emit will be more explicit than a handwritten resource. Sometimes defaults are documented in Swagger but more often they&rsquo;re not, and sometimes they&rsquo;re dynamic (like in AKS)</p>
+<p>We&rsquo;ve previously placed a high value on making things as simple as possible for future developers. Internal consistency within the code generator and making it difficult to do things the wrong way are both important, so we&rsquo;ll adopt the <strong>code-gen interface</strong> approach, and we&rsquo;ll provide the extension point to all resources and objects.</p>
 <h2 id="status">Status</h2>
 <p>Proposed.</p>
 <h2 id="consequences">Consequences</h2>
 <p>TBC.</p>
 <h2 id="experience-report">Experience Report</h2>
-<p>TBC.</p>
+<h3 id="placement">Placement</h3>
+<p>Our object conversion graph is shaped a bit like a comb:</p>
+<p><img src="https://azure.github.io/azure-service-operator/design/versioning/conversions.png" alt="Sample Conversion Graph"></p>
+<p>The API versions of resources inter-convert with Storage versions of those same resources (shown as vertical links, above). These types have (by design) identical shapes, so there&rsquo;s no need for any custom conversion logic.
+Conversions between different versions of a resource are handled by conversions between storage versions (shown as horizontal links), so those are the only versions that need to implement the conversion hook.</p>
+<h3 id="property-bags">Property Bags</h3>
+<p>Storage types contain property bags, allowing values to be stashed when a destination property can&rsquo;t be identified for a conversion. Hand written conversions will need to be aware of these property bags, and will need to remove items that shouldn&rsquo;t be stored.</p>
 <h2 id="references">References</h2>
 <p>TBC.</p>
 
