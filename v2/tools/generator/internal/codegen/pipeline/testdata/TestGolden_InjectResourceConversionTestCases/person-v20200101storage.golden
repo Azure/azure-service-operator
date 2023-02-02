@@ -66,6 +66,14 @@ func (person *Person) AssignProperties_From_Person(source *v20211231s.Person) er
 	}
 	person.Status = status
 
+	var personAsAny any = person
+	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
+		err := augmentedPerson.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -92,6 +100,14 @@ func (person *Person) AssignProperties_To_Person(destination *v20211231s.Person)
 	}
 	destination.Status = status
 
+	var personAsAny any = person
+	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
+		err := augmentedPerson.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -102,6 +118,11 @@ type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Person `json:"items"`
+}
+
+type augmentConversionForPerson interface {
+	AssignPropertiesFrom(src *v20211231s.Person) error
+	AssignPropertiesTo(dst *v20211231s.Person) error
 }
 
 // Storage version of v20200101.Person_Spec
@@ -145,6 +166,14 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.
 		person.PropertyBag = propertyBag
 	} else {
 		person.PropertyBag = nil
+	}
+
+	var personAsAny any = person
+	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
+		err := augmentedPerson.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
 	}
 
 	// No error
@@ -198,6 +227,14 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2021123
 		destination.PropertyBag = nil
 	}
 
+	var personAsAny any = person
+	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
+		err := augmentedPerson.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -223,6 +260,14 @@ func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v202112
 		person.PropertyBag = nil
 	}
 
+	var personAsAny any = person
+	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
+		err := augmentedPerson.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -242,8 +287,26 @@ func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	var personAsAny any = person
+	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
+		err := augmentedPerson.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForPerson_Spec interface {
+	AssignPropertiesFrom(src *v20211231s.Person_Spec) error
+	AssignPropertiesTo(dst *v20211231s.Person_Spec) error
+}
+
+type augmentConversionForPerson_STATUS interface {
+	AssignPropertiesFrom(src *v20211231s.Person_STATUS) error
+	AssignPropertiesTo(dst *v20211231s.Person_STATUS) error
 }
 
 func init() {

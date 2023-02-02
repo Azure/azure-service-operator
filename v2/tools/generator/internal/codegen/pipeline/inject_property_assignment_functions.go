@@ -8,9 +8,11 @@ package pipeline
 import (
 	"context"
 
+	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -63,7 +65,34 @@ func InjectPropertyAssignmentFunctions(
 					continue
 				}
 
-				modified, err := factory.injectBetween(def, nextDef)
+				var augmentationInterface *astmodel.TypeName
+				if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+					ifaceType := astmodel.NewInterfaceType()
+
+					assignPropertiesToFunc := functions.NewObjectFunction(
+						"AssignPropertiesTo",
+						idFactory,
+						createAssignPropertiesOverrideStub("dst", astmodel.NewOptionalType(nextDef.Name())))
+					assignPropertiesToFunc.AddPackageReference(nextDef.Name().PackageReference)
+
+					assignPropertiesFromFunc := functions.NewObjectFunction(
+						"AssignPropertiesFrom",
+						idFactory,
+						createAssignPropertiesOverrideStub("src", astmodel.NewOptionalType(nextDef.Name())))
+					assignPropertiesFromFunc.AddPackageReference(nextDef.Name().PackageReference)
+
+					ifaceType = ifaceType.WithFunction(assignPropertiesToFunc).WithFunction(assignPropertiesFromFunc)
+
+					augmentationInterfaceName := "augmentConversionFor" + idFactory.CreateIdentifier(def.Name().Name(), astmodel.Exported)
+					augmentationInterfaceTypeName := def.Name().WithName(augmentationInterfaceName)
+					augmentationInterface = &augmentationInterfaceTypeName
+					ifaceDef := astmodel.MakeTypeDefinition(
+						augmentationInterfaceTypeName,
+						ifaceType)
+					result.Add(ifaceDef)
+				}
+
+				modified, err := factory.injectBetween(def, nextDef, augmentationInterface)
 				if err != nil {
 					return nil, errors.Wrapf(err, "injecting property assignment functions into %s", name)
 				}
@@ -106,7 +135,8 @@ func NewPropertyAssignmentFunctionsFactory(
 // downstreamDef is the definition closer to our hub type in our directed conversion graph
 func (f propertyAssignmentFunctionsFactory) injectBetween(
 	upstreamDef astmodel.TypeDefinition,
-	downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	downstreamDef astmodel.TypeDefinition,
+	augmentationInterface *astmodel.TypeName) (astmodel.TypeDefinition, error) {
 
 	assignmentContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory).
 		WithConfiguration(f.configuration.ObjectModelConfiguration).
@@ -119,11 +149,17 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
+	if augmentationInterface != nil {
+		assignFromFn = assignFromFn.WithAugmentationInterface(*augmentationInterface)
+	}
 
 	assignToFn, err := functions.NewPropertyAssignmentFunction(
 		upstreamDef, downstreamDef, assignmentContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
+	}
+	if augmentationInterface != nil {
+		assignToFn = assignToFn.WithAugmentationInterface(*augmentationInterface)
 	}
 
 	updatedDefinition, err := f.functionInjector.Inject(upstreamDef, assignFromFn)
@@ -137,4 +173,18 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	}
 
 	return updatedDefinition, nil
+}
+
+func createAssignPropertiesOverrideStub(
+	paramName string,
+	paramType astmodel.Type) func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+		funcDetails := &astbuilder.FuncDetails{
+			Name: methodName,
+		}
+		funcDetails.AddParameter(paramName, paramType.AsType(codeGenerationContext))
+		funcDetails.AddReturn(dst.NewIdent("error"))
+
+		return funcDetails.DefineFuncHeader()
+	}
 }

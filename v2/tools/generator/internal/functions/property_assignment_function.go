@@ -44,8 +44,13 @@ type PropertyAssignmentFunction struct {
 	readsFromPropertyBag bool
 	// writesToPropertyBag keeps track of whether we will be writing property values into a property bag
 	writesToPropertyBag bool
+	// augmentationInterface is the conversion augmentation interface associated with this conversion.
+	// If this is nil, there is no augmented conversion associated with this conversion
+	augmentationInterface *astmodel.TypeName
 	// packageReferences is our set of referenced packages
 	packageReferences *astmodel.PackageReferenceSet
+	// knownLocals is the set of local variables in the function
+	knownLocals *astmodel.KnownLocalsSet
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -95,14 +100,14 @@ func NewPropertyAssignmentFunction(
 			astmodel.GitHubErrorsReference,
 			astmodel.GenRuntimeReference,
 			otherDefinition.Name().PackageReference),
+		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
 	}
 
 	// Flag receiver and parameter names as used
-	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
-	knownLocals.Add(result.receiverName, result.parameterName)
+	result.knownLocals.Add(result.receiverName, result.parameterName)
 
 	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
-	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
+	propertyBagName := result.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
 
 	// Create Endpoints for property conversion
 	sourceEndpoints, readsFromPropertyBag := result.createReadingEndpoints()
@@ -125,6 +130,12 @@ func NewPropertyAssignmentFunction(
 	return result, nil
 }
 
+// WithAugmentationInterface returns the property assignment function with a conversion augmentation interface set
+func (fn *PropertyAssignmentFunction) WithAugmentationInterface(augmentation astmodel.TypeName) *PropertyAssignmentFunction {
+	fn.augmentationInterface = &augmentation
+	return fn
+}
+
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
 	return conversions.NameOfPropertyAssignmentFunction(fn.ParameterType(), fn.direction, fn.idFactory)
@@ -137,7 +148,12 @@ func (fn *PropertyAssignmentFunction) RequiredPackageReferences() *astmodel.Pack
 
 // References returns the set of types referenced by this function
 func (fn *PropertyAssignmentFunction) References() astmodel.TypeNameSet {
-	return astmodel.NewTypeNameSet(fn.ParameterType())
+	result := astmodel.NewTypeNameSet(fn.ParameterType())
+	if fn.augmentationInterface != nil {
+		result.Add(*fn.augmentationInterface)
+	}
+
+	return result
 }
 
 // Equals checks to see if the supplied function is the same as this one
@@ -187,12 +203,10 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 		Body:          fn.generateBody(fn.receiverName, fn.parameterName, generationContext),
 	}
 
-	parameterPackage := generationContext.MustGetImportedPackageName(fn.ParameterType().PackageReference)
-
 	funcDetails.AddParameter(
 		fn.parameterName,
 		&dst.StarExpr{
-			X: astbuilder.Selector(dst.NewIdent(parameterPackage), fn.ParameterType().Name()),
+			X: fn.ParameterType().AsType(generationContext),
 		})
 
 	funcDetails.AddReturns("error")
@@ -220,14 +234,18 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	// destination is the identifier onto which we write values
 	destination := fn.direction.SelectString(receiver, parameter)
 
+	knownLocals := fn.knownLocals.Clone()
+
 	bagPrologue := fn.createPropertyBagPrologue(source, generationContext)
-	assignments := fn.generateAssignments(receiver, parameter, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	assignments := fn.generateAssignments(knownLocals, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 	bagEpilogue := fn.propertyBagEpilogue(destination)
+	handleOverrideInterface := fn.handleAugmentationInterface(receiver, parameter, knownLocals, generationContext)
 
 	return astbuilder.Statements(
 		bagPrologue,
 		assignments,
 		bagEpilogue,
+		handleOverrideInterface,
 		astbuilder.ReturnNoError())
 }
 
@@ -322,10 +340,63 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	return nil
 }
 
-// generateAssignments generates a sequence of statements to copy information between the two types
-func (fn *PropertyAssignmentFunction) generateAssignments(
+// handleAugmentationInterface handles dealing with the override interface if there is one
+// Generates code that looks like:
+//
+//	var accountAsAny any = account
+//	if augmented, ok := accountAsAny.(augmentConversionForBatchAccount); ok {
+//	   err := augmentedAccount.AssignPropertiesFrom(source)
+//	   if err != nil {
+//	       return errors.Wrap(
+//	           err,
+//	           "calling augmented AssignPropertiesFrom() for conversion from v20210101s.BatchAccount")
+//	   }
+//	}
+func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 	receiver string,
 	parameter string,
+	knownLocals *astmodel.KnownLocalsSet,
+	generationContext *astmodel.CodeGenerationContext,
+) []dst.Stmt {
+	if fn.augmentationInterface == nil {
+		return nil
+	}
+
+	overrideInterface := fn.augmentationInterface.AsType(generationContext)
+	receiverAsAnyIdent := knownLocals.CreateLocal(receiver + "AsAny")
+
+	sourceAsAny := astbuilder.NewVariableAssignmentWithType(receiverAsAnyIdent, dst.NewIdent("any"), dst.NewIdent(receiver))
+
+	// Clone locals at this point as we're entering an if block
+	knownLocals = knownLocals.Clone()
+
+	augmentedReceiverIdent := knownLocals.CreateLocal("augmented" + fn.idFactory.CreateIdentifier(receiver, astmodel.Exported))
+	conversionFuncName := fn.Direction().SelectString("AssignPropertiesFrom", "AssignPropertiesTo")
+	callAssignOverride := astbuilder.ShortDeclaration(
+		"err",
+		astbuilder.CallQualifiedFunc(augmentedReceiverIdent, conversionFuncName, dst.NewIdent(parameter)))
+	returnIfNotNil := astbuilder.ReturnIfNotNil(
+		dst.NewIdent("err"),
+		astbuilder.WrappedError(
+			generationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference),
+			fmt.Sprintf("calling augmented %s() for conversion", conversionFuncName)))
+
+	ifStmt := astbuilder.IfType(
+		dst.NewIdent(receiverAsAnyIdent),
+		overrideInterface,
+		augmentedReceiverIdent,
+		callAssignOverride,
+		returnIfNotNil)
+	sourceAsAny.Decorations().Before = dst.EmptyLine
+
+	return astbuilder.Statements(
+		sourceAsAny,
+		ifStmt)
+}
+
+// generateAssignments generates a sequence of statements to copy information between the two types
+func (fn *PropertyAssignmentFunction) generateAssignments(
+	knownLocals *astmodel.KnownLocalsSet,
 	source dst.Expr,
 	destination dst.Expr,
 	generationContext *astmodel.CodeGenerationContext,
@@ -339,9 +410,6 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	sort.Strings(properties)
 
 	// Accumulate all the statements required for conversions, in alphabetical order
-	knownLocals := astmodel.NewKnownLocalsSet(fn.idFactory)
-	knownLocals.Add(receiver, parameter)
-
 	for _, prop := range properties {
 		conversion := fn.conversions[prop]
 		block := conversion(source, destination, knownLocals, generationContext)

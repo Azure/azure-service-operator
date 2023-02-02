@@ -57,7 +57,18 @@ func NewTestFuncDetails(testingPackage string, testName string, body ...dst.Stmt
 //		<body...>
 //	}
 func (fn *FuncDetails) DefineFunc() *dst.FuncDecl {
+	return fn.defineFunc(false)
+}
 
+// DefineFuncHeader defines a function header like:
+//
+//	<comment>
+//	func (<receiverIdent> <receiverType>) <name>(<params...>) (<returns...>)
+func (fn *FuncDetails) DefineFuncHeader() *dst.FuncDecl {
+	return fn.defineFunc(true)
+}
+
+func (fn *FuncDetails) defineFunc(noBody bool) *dst.FuncDecl {
 	// Safety check that we are making something valid
 	if (fn.ReceiverIdent == "") != (fn.ReceiverType == nil) {
 		reason := fmt.Sprintf(
@@ -82,6 +93,17 @@ func (fn *FuncDetails) DefineFunc() *dst.FuncDecl {
 		AddComments(&comment, fn.Comments)
 	}
 
+	var bodyBlock *dst.BlockStmt
+	if noBody {
+		if len(body) > 0 {
+			panic(fmt.Sprintf("cannot generate fuction header for function that also has body"))
+		}
+	} else {
+		bodyBlock = &dst.BlockStmt{
+			List: body,
+		}
+	}
+
 	result := &dst.FuncDecl{
 		Name: dst.NewIdent(fn.Name),
 		Decs: dst.FuncDeclDecorations{
@@ -99,9 +121,7 @@ func (fn *FuncDetails) DefineFunc() *dst.FuncDecl {
 				List: fn.Returns,
 			},
 		},
-		Body: &dst.BlockStmt{
-			List: body,
-		},
+		Body: bodyBlock,
 	}
 
 	if fn.ReceiverIdent != "" {

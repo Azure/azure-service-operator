@@ -136,6 +136,25 @@ func NewVariableWithType(varName string, varType dst.Expr) dst.Stmt {
 	}
 }
 
+// NewVariableAssignmentWithType creates a new statement with a variable is declared:
+// var <varName> <varType> = <varValue>
+func NewVariableAssignmentWithType(varName string, varType dst.Expr, value dst.Expr) dst.Stmt {
+	return &dst.DeclStmt{
+		Decl: &dst.GenDecl{
+			Tok: token.VAR,
+			Specs: []dst.Spec{
+				&dst.ValueSpec{
+					Names: []*dst.Ident{dst.NewIdent(varName)},
+					Type:  varType,
+					Values: []dst.Expr{
+						value,
+					},
+				},
+			},
+		},
+	}
+}
+
 // LocalVariableDeclaration performs a local variable declaration for use within a method
 //
 //	var <ident> <typ>
@@ -337,6 +356,19 @@ func WrappedErrorf(errorsPackage string, template string, args ...interface{}) d
 		"Wrap",
 		dst.NewIdent("err"),
 		StringLiteralf(template, args...))
+}
+
+// WrappedError returns the err local, wrapped with additional information
+//
+// errors.Wrap(err, <message>)
+//
+// (actual package name will be used, which will usually be 'errors')
+func WrappedError(errorsPackage string, str string) dst.Expr {
+	return CallQualifiedFunc(
+		errorsPackage,
+		"Wrap",
+		dst.NewIdent("err"),
+		StringLiteral(str))
 }
 
 // QualifiedTypeName generates a reference to a type within an imported package
