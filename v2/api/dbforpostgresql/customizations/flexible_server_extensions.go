@@ -88,14 +88,14 @@ func secretsToWrite(obj *postgresql.FlexibleServer) ([]*v1.Secret, error) {
 
 var _ extensions.PreReconciliationChecker = &FlexibleServerExtension{}
 
-// If a flexible has a provisioningState in this set, it will reject any attempt to PUT a new state out of hand;
-// so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state of the
-// cluster.
+// If a flexible server does not have a provisioningState in this set, it will reject any attempt to PUT a new state
+// out of hand; so there's no point in even trying. This is true even if the PUT we're doing will have no effect on
+// the state of the cluster.
 // These are all listed lowercase, so we can do a case-insensitive match.
-var blockingFlexibleServerStates = set.Make(
-	"starting",
-	"stopping",
-	"updating",
+var nonBlockingFlexibleServerStates = set.Make(
+	"succeeded",
+	"failed",
+	"canceled",
 )
 
 func (ext *FlexibleServerExtension) PreReconcileCheck(
@@ -135,5 +135,5 @@ func flexibleServerStateBlocksReconciliation(server *postgresql.FlexibleServer) 
 		return false
 	}
 
-	return blockingFlexibleServerStates.Contains(strings.ToLower(*state))
+	return !nonBlockingFlexibleServerStates.Contains(strings.ToLower(*state))
 }
