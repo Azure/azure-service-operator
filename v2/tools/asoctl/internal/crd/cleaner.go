@@ -66,13 +66,13 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		}
 
 		newStoredVersions := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
-		if err != nil {
-			return err
-		}
 
 		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(crd.Status.StoredVersions) {
 			klog.Infof("starting cleanup for '%s'", crd.Name)
 			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, deprecatedVersionRegexp)
+			if err != nil {
+				return err
+			}
 
 			err = c.migrateObjects(ctx, objectsToMigrate)
 			if err != nil {
